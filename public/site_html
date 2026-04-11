@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文化祭2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<!-- particles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans JP',sans-serif}
+body{background:#020617;color:#fff;overflow-x:hidden}
+
+#particles-js{position:fixed;width:100%;height:100%;z-index:-1}
+
+/* ローディング */
+#loader{position:fixed;width:100%;height:100%;background:#020617;display:flex;align-items:center;justify-content:center;z-index:9999}
+.loader-text{font-size:24px;letter-spacing:8px}
+
+header{position:fixed;width:100%;display:flex;justify-content:space-between;padding:20px 40px;background:rgba(0,0,0,0.4);backdrop-filter:blur(10px);z-index:1000}
+
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero h1{font-size:64px;letter-spacing:5px}
+
+section{padding:140px 20px;max-width:1100px;margin:auto}
+
+h2{font-size:36px;margin-bottom:20px;border-left:5px solid #38bdf8;padding-left:10px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:#1e293b;border-radius:20px;overflow:hidden}
+.card img{width:100%;height:160px;object-fit:cover}
+.card div{padding:15px}
+
+footer{text-align:center;padding:40px}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div id="loader"><div class="loader-text">LOADING...</div></div>
+
+<header>
+<h1>文化祭2026</h1>
+</header>
+
+<div class="hero">
+<h1 id="title">文化祭へようこそ</h1>
+</div>
+
+<section id="about">
+<h2>文化祭について</h2>
+<p>ここに説明を書く</p>
+</section>
+
+<section id="events">
+<h2>企画一覧</h2>
+<div class="cards">
+<div class="card"><img src="event1.jpg"><div><h3>企画①</h3></div></div>
+<div class="card"><img src="event2.jpg"><div><h3>企画②</h3></div></div>
+<div class="card"><img src="event3.jpg"><div><h3>企画③</h3></div></div>
+</div>
+</section>
+
+<section id="access">
+<h2>アクセス</h2>
+<p>住所を書く</p>
+</section>
+
+<footer>
+<p>© 文化祭</p>
+</footer>
+
+<script>
+
+// ローディング
+window.onload=()=>{document.getElementById("loader").style.display="none"}
+
+// particles
+particlesJS("particles-js",{
+ particles:{number:{value:70},size:{value:3},move:{speed:1},line_linked:{enable:true}}
+});
+
+// GSAP初期化
+gsap.registerPlugin(ScrollTrigger);
+
+// タイトル1文字アニメーション
+const text=document.getElementById("title");
+const chars=text.innerText.split("");
+text.innerHTML="";
+chars.forEach(c=>{
+ const span=document.createElement("span");
+ span.innerText=c;
+ span.style.opacity=0;
+ text.appendChild(span);
+});
+
+gsap.to("#title span",{
+ opacity:1,
+ y:0,
+ stagger:0.05,
+ duration:0.8
+});
+
+// スクロールアニメーション
+
+// about
+gsap.from("#about",{
+ scrollTrigger:"#about",
+ y:100,
+ opacity:0,
+ duration:1
+});
+
+// events 横スライド
+gsap.from(".card",{
+ scrollTrigger:"#events",
+ x:200,
+ opacity:0,
+ stagger:0.2
+});
+
+// access 下から
+gsap.from("#access",{
+ scrollTrigger:"#access",
+ y:150,
+ opacity:0
+});
+
+// ヒーローズーム
+
+gsap.to(".hero",{
+ scale:1.2,
+ scrollTrigger:{
+  trigger:".hero",
+  start:"top top",
+  end:"bottom top",
+  scrub:true
+ }
+});
+
+</script>
+
+</body>
+</html>
