@@ -176,6 +176,37 @@ footer{
  padding:40px;
  background:#fff;
 }
+
+/* 黒いライン＋流れる文字 */
+.ticker{
+ position:absolute;
+ bottom:0;
+ width:100%;
+ height:50px;
+ background:rgba(0,0,0,0.85);
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+}
+
+.ticker-track{
+ white-space:nowrap;
+ animation:scrollText 15s linear infinite;
+}
+
+.ticker span{
+ color:#fff;
+ font-size:18px;
+ padding-left:100%;
+ letter-spacing:2px;
+}
+
+/* アニメーション */
+@keyframes scrollText{
+ 0%{transform:translateX(0)}
+ 100%{transform:translateX(-100%)}
+}
+
 </style>
 </head>
 
