@@ -43,12 +43,20 @@ header{
  width:100%;
  display:flex;
  justify-content:space-between;
- padding:15px 25px;
+ align-items:center;
+
+ padding:8px 15px;  /* ← 小さくした */
  background:rgba(255,255,255,0.8);
  backdrop-filter:blur(10px);
  z-index:1000;
 }
 
+header h1{
+ font-size:16px;
+ color:#ff4d6d;
+ margin:0;
+}
+  
 /* ハンバーガー */
 .menu-btn{
  width:30px;
@@ -90,7 +98,8 @@ header{
 
 /* ヒーロー */
 .hero{
- height:70vh;
+ height:80vh;
+ margin-top:60px;
  display:flex;
  align-items:center;
  justify-content:center;
