@@ -184,21 +184,21 @@ footer{
 }
 
 .ticker-track{
+ display:flex;
  white-space:nowrap;
- animation:scrollText 15s linear infinite;
+ animation:scrollLoop 20s linear infinite;
 }
 
 .ticker span{
  color:#fff;
  font-size:18px;
- padding-left:100%;
- letter-spacing:2px;
+ padding-right:100px;
 }
 
-/* アニメーション */
-@keyframes scrollText{
+/* アニメーション */  
+@keyframes scrollLoop{
  0%{transform:translateX(0)}
- 100%{transform:translateX(-100%)}
+ 100%{transform:translateX(-50%)}
 }
 
 </style>
@@ -235,7 +235,12 @@ footer{
 <!-- 流れるテキストバー -->
 <div class="ticker">
   <div class="ticker-track">
-    <span>長高祭2026 開催！・一般公開あり・ぜひご来場ください！・長高祭2026 開催！・一般公開あり・ぜひご来場ください！</span>
+    <span>
+      長高祭2026 今年は9月◯日開催！ぜひご来場ください！・長高祭2026 今年は9月◯日開催！ぜひご来場ください！
+    </span>
+    <span>
+      長高祭2026 今年は9月◯日開催！ぜひご来場ください！・長高祭2026 今年は9月◯日開催！ぜひご来場ください！
+    </span>
   </div>
 </div>
   
