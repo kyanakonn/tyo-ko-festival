@@ -226,14 +226,21 @@ footer p{
  margin:auto;
 }
 
+/* ★追加：無限横スクロール */
 .slides{
  display:flex;
- transition:0.5s;
+ width:max-content;
+ animation:infiniteScroll 20s linear infinite;
  align-items:center;
+}
+
+@keyframes infiniteScroll{
+ 0%{transform:translateX(0)}
+ 100%{transform:translateX(-50%)}
 }
   
 .card{
- min-width:35%; /* ←これで左右チラ見え */
+ min-width:35%;
  max-width:none;
  margin:0 10px;
  transform:scale(0.85);
@@ -302,7 +309,6 @@ footer p{
   <div class="hero-overlay"></div>
   <h1 id="title">長高祭イラスト</h1>
 
-  <!-- 流れるテキストバー -->
   <div class="ticker">
     <div class="ticker-track">
       <span>
@@ -315,10 +321,6 @@ footer p{
   </div>
 
 </div>
-<section id="about">
-<h2>文化祭について</h2>
-<p>イラストの上にのっけるかも</p>
-</section>
 
 <section id="events">
 <div class="slider">
@@ -333,252 +335,20 @@ footer p{
 
   </div>
 
-  <!-- ドット -->
   <div class="dots" id="dots"></div>
 
 </div>
-
-</div>
 </section>
-
-<section id="access">
-<h2>アクセス</h2>
-<p>ここに文字書く</p>
-</section>
-
-<footer>
-<p>© 3B公認 長高祭サイト</p>
-</footer>
 
 <script>
 
-// ローディング
-window.onload=()=>{
- document.getElementById("loader").style.opacity="0";
- setTimeout(()=>{document.getElementById("loader").style.display="none"},500);
-};
-
-// particles
-particlesJS("particles-js",{
- particles:{number:{value:50},size:{value:4},move:{speed:2},line_linked:{enable:false}}
-});
-
-// GSAP
-gsap.registerPlugin(ScrollTrigger);
-
-// タイトルアニメ
-const text=document.getElementById("title");
-const chars=text.innerText.split("");
-text.innerHTML="";
-chars.forEach(c=>{
- const span=document.createElement("span");
- span.innerText=c;
- span.style.opacity=0;
- span.style.display="inline-block";
- span.style.transform="translateY(20px)";
- text.appendChild(span);
-});
-
-gsap.to("#title span",{opacity:1,y:0,stagger:0.05});
-
-// スクロールアニメ
-gsap.utils.toArray("section").forEach(sec=>{
- gsap.from(sec,{
-  opacity:0,
-  y:50,
-  duration:1,
-  scrollTrigger:{trigger:sec,start:"top 80%"}
- });
-});
-
-// ハンバーガー
-function toggleMenu(){
- document.getElementById("nav").classList.toggle("active");
-}
-
-//スライド
+// ★追加：複製して無限化
 const slides = document.getElementById("slides");
-const dotsContainer = document.getElementById("dots");
-const slider = document.querySelector(".slider");
-
-let index = 1;
-let startX = 0;
-let currentX = 0;
-let velocity = 0;
-let isDragging = false;
-let autoSlide;
-
-// ===== クローン =====
-const items = slides.children;
-const total = items.length;
-
-const first = items[0].cloneNode(true);
-const last = items[total-1].cloneNode(true);
-
-slides.appendChild(first);
-slides.insertBefore(last, slides.firstChild);
-
-let slideWidth = items[0].offsetWidth + 30;
-
-function setPosition(){
- slides.style.transform = `translateX(-${slideWidth * index}px)`;
-}
-setPosition();
-setTimeout(updateActive, 100);
-
-// ===== ドット =====
-for(let i=0;i<total;i++){
- const dot = document.createElement("span");
- if(i===0) dot.classList.add("active");
-
- dot.onclick = ()=>{
-   index = i+1;
-   moveSlide();
- };
-
- dotsContainer.appendChild(dot);
-}
-
-// ===== 中央強調 =====
-function updateActive(){
-  const sliderRect = slider.getBoundingClientRect();
-  const centerX = sliderRect.left + sliderRect.width / 2;
-
-  let closest = null;
-  let minDist = Infinity;
-
-  document.querySelectorAll(".card").forEach(card=>{
-    const rect = card.getBoundingClientRect();
-    const cardCenter = rect.left + rect.width / 2;
-
-    const dist = Math.abs(centerX - cardCenter);
-
-    if(dist < minDist){
-      minDist = dist;
-      closest = card;
-    }
-  });
-
-  // 全部外す
-  document.querySelectorAll(".card").forEach(c=>{
-    c.classList.remove("active");
-  });
-
-  // 一番中央のやつに付ける
-  if(closest){
-    closest.classList.add("active");
-  }
-}
-
-// ===== スライド移動 =====
-function moveSlide(){
- slides.style.transition = "0.5s";
- setPosition();
- setTimeout(updateActive, 50);
-}
-
-// ===== 無限ループ =====
-slides.addEventListener("transitionend",()=>{
- if(index === 0){
-   slides.style.transition="none";
-   index = total;
-   setPosition();
- }
- if(index === total+1){
-   slides.style.transition="none";
-   index = 1;
-   setPosition();
- }
-
- updateActive(); // ←これ追加
-});
-// ===== 自動スライド =====
-function startAuto(){
- autoSlide = setInterval(()=>{
-   index++;
-   moveSlide();
- },3000);
-}
-function stopAuto(){
- clearInterval(autoSlide);
-}
-startAuto();
-
-// ===== スワイプ（慣性付き） =====
-slider.addEventListener("touchstart",(e)=>{
- startX = e.touches[0].clientX;
- isDragging = true;
- velocity = 0;
- stopAuto(); // ←触ったら停止
+const items = [...slides.children];
+items.forEach(item=>{
+ slides.appendChild(item.cloneNode(true));
 });
 
-slider.addEventListener("touchmove",(e)=>{
- if(!isDragging) return;
-
- const x = e.touches[0].clientX;
- velocity = x - currentX;
- currentX = x;
-
- const move = x - startX;
- slides.style.transition = "none";
- slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
-});
-
-slider.addEventListener("touchend",()=>{
- isDragging = false;
-
- if(velocity > 5){
-   index--;
- }else if(velocity < -5){
-   index++;
- }
-
- moveSlide();
- startAuto(); // ←離したら再開
-});
-
-// ===== PCドラッグ =====
-slider.addEventListener("mousedown",(e)=>{
- startX = e.clientX;
- isDragging = true;
- velocity = 0;
- stopAuto();
-});
-
-slider.addEventListener("mousemove",(e)=>{
- if(!isDragging) return;
-
- const x = e.clientX;
- velocity = x - currentX;
- currentX = x;
-
- const move = x - startX;
- slides.style.transition = "none";
- slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
-});
-
-slider.addEventListener("mouseup",()=>{
- isDragging = false;
-
- if(velocity > 5){
-   index--;
- }else if(velocity < -5){
-   index++;
- }
-
- moveSlide();
- startAuto();
-});
-
-slider.addEventListener("mouseleave",()=>{
- isDragging = false;
-});
-
-// ===== リサイズ対応 =====
-window.addEventListener("resize",()=>{
- slideWidth = slides.children[0].offsetWidth + 30;
- setPosition();
-});
 </script>
 
 </body>
