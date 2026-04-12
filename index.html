@@ -233,18 +233,9 @@ footer p{
 }
   
 .card{
- min-width:35%; /* ←これで左右チラ見え */
- max-width:none;
- margin:0 10px;
- transform:scale(0.85);
- opacity:0.6;
- transition:0.4s;
-}
-
-/* 中央だけ強調 */
-.card.active{
- transform:scale(1.1);
- box-shadow:0 15px 30px rgba(0,0,0,0.25);
+ flex: 0 0 70%; /* ←これが超重要 */
+ margin: 0 10px;
+ transition: 0.4s;
 }
 
 /* ドット */
@@ -407,7 +398,7 @@ let currentX = 0;
 let velocity = 0;
 let isDragging = false;
 let autoSlide;
-
+  
 // ===== クローン =====
 const items = slides.children;
 const total = items.length;
@@ -418,13 +409,20 @@ const last = items[total-1].cloneNode(true);
 slides.appendChild(first);
 slides.insertBefore(last, slides.firstChild);
 
-let slideWidth = items[0].offsetWidth + 30;
+function getSlideWidth(){
+ return slides.children[0].getBoundingClientRect().width;
+}
+
+let slideWidth = getSlideWidth();
 
 function setPosition(){
  slides.style.transform = `translateX(-${slideWidth * index}px)`;
 }
+
+window.addEventListener("load",()=>{
+slideWidth = getSlideWidth();
 setPosition();
-setTimeout(updateActive, 100);
+});
 
 // ===== ドット =====
 for(let i=0;i<total;i++){
@@ -439,25 +437,6 @@ for(let i=0;i<total;i++){
  dotsContainer.appendChild(dot);
 }
 
-// ===== 中央強調 =====
-function updateActive(){
-  const sliderRect = slider.getBoundingClientRect();
-  const centerX = sliderRect.left + sliderRect.width / 2;
-
-  let closest = null;
-  let minDist = Infinity;
-
-  document.querySelectorAll(".card").forEach(card=>{
-    const rect = card.getBoundingClientRect();
-    const cardCenter = rect.left + rect.width / 2;
-
-    const dist = Math.abs(centerX - cardCenter);
-
-    if(dist < minDist){
-      minDist = dist;
-      closest = card;
-    }
-  });
 
   // 全部外す
   document.querySelectorAll(".card").forEach(c=>{
@@ -474,7 +453,6 @@ function updateActive(){
 function moveSlide(){
  slides.style.transition = "0.5s";
  setPosition();
- setTimeout(updateActive, 50);
 }
 
 // ===== 無限ループ =====
@@ -490,7 +468,6 @@ slides.addEventListener("transitionend",()=>{
    setPosition();
  }
 
- updateActive(); // ←これ追加
 });
 // ===== 自動スライド =====
 function startAuto(){
@@ -507,6 +484,7 @@ startAuto();
 // ===== スワイプ（慣性付き） =====
 slider.addEventListener("touchstart",(e)=>{
  startX = e.touches[0].clientX;
+ currentX = startX;
  isDragging = true;
  velocity = 0;
  stopAuto(); // ←触ったら停止
@@ -540,6 +518,7 @@ slider.addEventListener("touchend",()=>{
 // ===== PCドラッグ =====
 slider.addEventListener("mousedown",(e)=>{
  startX = e.clientX;
+ currentX = startX;
  isDragging = true;
  velocity = 0;
  stopAuto();
