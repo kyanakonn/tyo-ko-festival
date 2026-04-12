@@ -233,7 +233,7 @@ footer p{
 }
   
 .card{
- min-width:40%; /* ←これで左右チラ見え */
+ min-width:35%; /* ←これで左右チラ見え */
  max-width:none;
  margin:0 10px;
  transform:scale(0.85);
@@ -248,8 +248,8 @@ footer p{
 }
 
 /* ドット */
-  .dots{
- display:none;
+.dots{
+ display:none !important;
 }
   
 .dots{
@@ -424,6 +424,7 @@ function setPosition(){
  slides.style.transform = `translateX(-${slideWidth * index}px)`;
 }
 setPosition();
+setTimeout(updateActive, 100);
 
 // ===== ドット =====
 for(let i=0;i<total;i++){
@@ -473,9 +474,7 @@ function updateActive(){
 function moveSlide(){
  slides.style.transition = "0.5s";
  setPosition();
- updateActive();
  setTimeout(updateActive, 50);
- updateActive();
 }
 
 // ===== 無限ループ =====
@@ -490,8 +489,9 @@ slides.addEventListener("transitionend",()=>{
    index = 1;
    setPosition();
  }
-});
 
+ updateActive(); // ←これ追加
+});
 // ===== 自動スライド =====
 function startAuto(){
  autoSlide = setInterval(()=>{
