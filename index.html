@@ -218,6 +218,53 @@ footer p{
  100%{transform:translateX(-50%)}
 }
 
+.slider{
+ overflow:hidden;
+ position:relative;
+ padding:20px 0;
+}
+
+.slides{
+ display:flex;
+ transition:0.5s;
+ align-items:center;
+}
+
+.card{
+ min-width:70%; /* ←これで左右チラ見え */
+ margin:0 15px;
+ transform:scale(0.8);
+ opacity:0.5;
+ transition:0.4s;
+}
+
+/* 中央だけ強調 */
+.card.active{
+ transform:scale(1);
+ opacity:1;
+}
+
+/* ドット */
+.dots{
+ display:flex;
+ justify-content:center;
+ margin-top:15px;
+ gap:10px;
+}
+
+.dots span{
+ width:10px;
+ height:10px;
+ background:#333;
+ border-radius:50%;
+ cursor:pointer;
+ opacity:0.4;
+}
+
+.dots span.active{
+ opacity:1;
+ background:#ff4d6d;
+}
 </style>
 </head>
 
@@ -267,22 +314,21 @@ footer p{
 </section>
 
 <section id="events">
-<h2>企画・展示一覧</h2>
-<div class="cards">
+<div class="slider">
 
-<div class="card">
-<img src="event1.jpg">
-<div><h3>企画①</h3></div>
-</div>
+  <div class="slides" id="slides">
 
-<div class="card">
-<img src="event2.jpg">
-<div><h3>企画②</h3></div>
-</div>
+    <div class="card"><img src="event1.jpg"><div><h3>企画①</h3></div></div>
+    <div class="card"><img src="event2.jpg"><div><h3>企画②</h3></div></div>
+    <div class="card"><img src="event3.jpg"><div><h3>企画③</h3></div></div>
+    <div class="card"><img src="event4.jpg"><div><h3>企画④</h3></div></div>
+    <div class="card"><img src="event5.jpg"><div><h3>企画⑤</h3></div></div>
 
-<div class="card">
-<img src="event3.jpg">
-<div><h3>企画③</h3></div>
+  </div>
+
+  <!-- ドット -->
+  <div class="dots" id="dots"></div>
+
 </div>
 
 </div>
@@ -343,7 +389,171 @@ function toggleMenu(){
  document.getElementById("nav").classList.toggle("active");
 }
 
+//スライド
+const slides = document.getElementById("slides");
+const dotsContainer = document.getElementById("dots");
+const slider = document.querySelector(".slider");
 
+let index = 1;
+let startX = 0;
+let currentX = 0;
+let velocity = 0;
+let isDragging = false;
+let autoSlide;
+
+// ===== クローン =====
+const items = slides.children;
+const total = items.length;
+
+const first = items[0].cloneNode(true);
+const last = items[total-1].cloneNode(true);
+
+slides.appendChild(first);
+slides.insertBefore(last, slides.firstChild);
+
+let slideWidth = items[0].offsetWidth + 30;
+
+function setPosition(){
+ slides.style.transform = `translateX(-${slideWidth * index}px)`;
+}
+setPosition();
+
+// ===== ドット =====
+for(let i=0;i<total;i++){
+ const dot = document.createElement("span");
+ if(i===0) dot.classList.add("active");
+
+ dot.onclick = ()=>{
+   index = i+1;
+   moveSlide();
+ };
+
+ dotsContainer.appendChild(dot);
+}
+
+// ===== 中央強調 =====
+function updateActive(){
+ document.querySelectorAll(".card").forEach((c,i)=>{
+   c.classList.remove("active");
+ });
+
+ if(slides.children[index]){
+   slides.children[index].classList.add("active");
+ }
+
+ document.querySelectorAll(".dots span").forEach((d,i)=>{
+   d.classList.toggle("active", i === index-1);
+ });
+}
+
+// ===== スライド移動 =====
+function moveSlide(){
+ slides.style.transition = "0.5s";
+ setPosition();
+ updateActive();
+}
+
+// ===== 無限ループ =====
+slides.addEventListener("transitionend",()=>{
+ if(index === 0){
+   slides.style.transition="none";
+   index = total;
+   setPosition();
+ }
+ if(index === total+1){
+   slides.style.transition="none";
+   index = 1;
+   setPosition();
+ }
+});
+
+// ===== 自動スライド =====
+function startAuto(){
+ autoSlide = setInterval(()=>{
+   index++;
+   moveSlide();
+ },3000);
+}
+function stopAuto(){
+ clearInterval(autoSlide);
+}
+startAuto();
+
+// ===== スワイプ（慣性付き） =====
+slider.addEventListener("touchstart",(e)=>{
+ startX = e.touches[0].clientX;
+ isDragging = true;
+ velocity = 0;
+ stopAuto(); // ←触ったら停止
+});
+
+slider.addEventListener("touchmove",(e)=>{
+ if(!isDragging) return;
+
+ const x = e.touches[0].clientX;
+ velocity = x - currentX;
+ currentX = x;
+
+ const move = x - startX;
+ slides.style.transition = "none";
+ slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
+});
+
+slider.addEventListener("touchend",()=>{
+ isDragging = false;
+
+ if(velocity > 5){
+   index--;
+ }else if(velocity < -5){
+   index++;
+ }
+
+ moveSlide();
+ startAuto(); // ←離したら再開
+});
+
+// ===== PCドラッグ =====
+slider.addEventListener("mousedown",(e)=>{
+ startX = e.clientX;
+ isDragging = true;
+ velocity = 0;
+ stopAuto();
+});
+
+slider.addEventListener("mousemove",(e)=>{
+ if(!isDragging) return;
+
+ const x = e.clientX;
+ velocity = x - currentX;
+ currentX = x;
+
+ const move = x - startX;
+ slides.style.transition = "none";
+ slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
+});
+
+slider.addEventListener("mouseup",()=>{
+ isDragging = false;
+
+ if(velocity > 5){
+   index--;
+ }else if(velocity < -5){
+   index++;
+ }
+
+ moveSlide();
+ startAuto();
+});
+
+slider.addEventListener("mouseleave",()=>{
+ isDragging = false;
+});
+
+// ===== リサイズ対応 =====
+window.addEventListener("resize",()=>{
+ slideWidth = slides.children[0].offsetWidth + 30;
+ setPosition();
+});
 </script>
 
 </body>
