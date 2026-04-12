@@ -440,23 +440,41 @@ for(let i=0;i<total;i++){
 
 // ===== 中央強調 =====
 function updateActive(){
- document.querySelectorAll(".card").forEach((c,i)=>{
-   c.classList.remove("active");
- });
+  const sliderRect = slider.getBoundingClientRect();
+  const centerX = sliderRect.left + sliderRect.width / 2;
 
- if(slides.children[index]){
-   slides.children[index].classList.add("active");
- }
+  let closest = null;
+  let minDist = Infinity;
 
- document.querySelectorAll(".dots span").forEach((d,i)=>{
-   d.classList.toggle("active", i === index-1);
- });
+  document.querySelectorAll(".card").forEach(card=>{
+    const rect = card.getBoundingClientRect();
+    const cardCenter = rect.left + rect.width / 2;
+
+    const dist = Math.abs(centerX - cardCenter);
+
+    if(dist < minDist){
+      minDist = dist;
+      closest = card;
+    }
+  });
+
+  // 全部外す
+  document.querySelectorAll(".card").forEach(c=>{
+    c.classList.remove("active");
+  });
+
+  // 一番中央のやつに付ける
+  if(closest){
+    closest.classList.add("active");
+  }
 }
 
 // ===== スライド移動 =====
 function moveSlide(){
  slides.style.transition = "0.5s";
  setPosition();
+ updateActive();
+ setTimeout(updateActive, 50);
  updateActive();
 }
 
