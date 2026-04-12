@@ -222,6 +222,8 @@ footer p{
  overflow:hidden;
  position:relative;
  padding:20px 0;
+ max-width:900px;
+ margin:auto;
 }
 
 .slides{
@@ -231,9 +233,9 @@ footer p{
 }
   
 .card{
- min-width:60%; /* ←これで左右チラ見え */
- max-width:400px;
- margin:0 15px;
+ min-width:30%; /* ←これで左右チラ見え */
+ max-width:none;
+ margin:0 10px;
  transform:scale(0.85);
  opacity:0.6;
  transition:0.4s;
@@ -241,7 +243,7 @@ footer p{
 
 /* 中央だけ強調 */
 .card.active{
- transform:scale(1);
+ transform:scale(1.1);
  opacity:1;
 }
 
