@@ -316,11 +316,11 @@ footer p{
 
   <div class="slides" id="slides">
 
-    <div class="card"><img src="event1.jpg"><div><h3>企画①</h3></div></div>
-    <div class="card"><img src="event2.jpg"><div><h3>企画②</h3></div></div>
-    <div class="card"><img src="event3.jpg"><div><h3>企画③</h3></div></div>
-    <div class="card"><img src="event4.jpg"><div><h3>企画④</h3></div></div>
-    <div class="card"><img src="event5.jpg"><div><h3>企画⑤</h3></div></div>
+    <div class="card"><img src="event1.jpg"><div><h3>1学年</h3></div></div>
+    <div class="card"><img src="event2.jpg"><div><h3>2学年</h3></div></div>
+    <div class="card"><img src="event3.jpg"><div><h3>3学年</h3></div></div>
+    <div class="card"><img src="event4.jpg"><div><h3>部活動・同好会</h3></div></div>
+    <div class="card"><img src="event5.jpg"><div><h3>その他イベント</h3></div></div>
 
   </div>
 
@@ -437,18 +437,6 @@ for(let i=0;i<total;i++){
  dotsContainer.appendChild(dot);
 }
 
-
-  // 全部外す
-  document.querySelectorAll(".card").forEach(c=>{
-    c.classList.remove("active");
-  });
-
-  // 一番中央のやつに付ける
-  if(closest){
-    closest.classList.add("active");
-  }
-}
-
 // ===== スライド移動 =====
 function moveSlide(){
  slides.style.transition = "0.5s";
@@ -555,7 +543,7 @@ slider.addEventListener("mouseleave",()=>{
 
 // ===== リサイズ対応 =====
 window.addEventListener("resize",()=>{
- slideWidth = slides.children[0].offsetWidth + 30;
+ slideWidth = getSlideWidth();
  setPosition();
 });
 </script>
