@@ -233,7 +233,7 @@ footer p{
 }
   
 .card{
- min-width:30%; /* ←これで左右チラ見え */
+ min-width:35%; /* ←これで左右チラ見え */
  max-width:none;
  margin:0 10px;
  transform:scale(0.85);
@@ -244,10 +244,14 @@ footer p{
 /* 中央だけ強調 */
 .card.active{
  transform:scale(1.1);
- opacity:1;
+ box-shadow:0 15px 30px rgba(0,0,0,0.25);
 }
 
 /* ドット */
+  .dots{
+ display:none;
+}
+  
 .dots{
  display:flex;
  justify-content:center;
