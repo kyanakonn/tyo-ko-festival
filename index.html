@@ -263,6 +263,58 @@ footer p{
  opacity:1;
  background:#ff4d6d;
 }
+
+/* ===== バナースライダー ===== */
+.banner-section{
+ padding:40px 0;
+}
+
+.banner-slider{
+ overflow:hidden;
+ max-width:1000px;
+ margin:auto;
+ position:relative;
+}
+
+.banner-track{
+ display:flex;
+ transition:0.5s;
+ will-change:transform;
+}
+
+.banner{
+ flex:0 0 80%;
+ margin:0 10px;
+}
+
+.banner img{
+ width:100%;
+ height:120px; /* ←高さここで調整 */
+ object-fit:cover;
+ border-radius:15px;
+}
+
+/* ドット */
+.banner-dots{
+ display:flex;
+ justify-content:center;
+ margin-top:10px;
+ gap:8px;
+}
+
+.banner-dots span{
+ width:8px;
+ height:8px;
+ background:#999;
+ border-radius:50%;
+ opacity:0.5;
+}
+
+.banner-dots span.active{
+ background:#ff4d6d;
+ opacity:1;
+}
+  
 </style>
 </head>
 
@@ -304,7 +356,28 @@ footer p{
       </span>
     </div>
   </div>
+  
+<!-- バナースライダー -->
+<section class="banner-section">
 
+  <div class="banner-slider">
+    <div class="banner-track" id="bannerTrack">
+
+      <div class="banner"><img src="banner1.jpg"></div>
+      <div class="banner"><img src="banner2.jpg"></div>
+      <div class="banner"><img src="banner3.jpg"></div>
+      <div class="banner"><img src="banner4.jpg"></div>
+      <div class="banner"><img src="banner5.jpg"></div>
+      <div class="banner"><img src="banner6.jpg"></div>
+      <div class="banner"><img src="banner7.jpg"></div>
+
+    </div>
+
+    <div class="banner-dots" id="bannerDots"></div>
+  </div>
+
+</section>
+  
 </div>
 <section id="about">
 <h2>お知らせ</h2>
@@ -545,6 +618,101 @@ slider.addEventListener("mouseleave",()=>{
 window.addEventListener("resize",()=>{
  slideWidth = getSlideWidth();
  setPosition();
+});
+
+// ===== バナースライダー =====
+const track = document.getElementById("bannerTrack");
+const dots = document.getElementById("bannerDots");
+const banners = track.children;
+
+let bIndex = 0;
+let bStartX = 0;
+let bCurrentX = 0;
+let bVelocity = 0;
+let bDragging = false;
+let bAuto;
+
+const bTotal = banners.length;
+
+// ドット生成
+for(let i=0;i<bTotal;i++){
+ const d = document.createElement("span");
+ if(i===0) d.classList.add("active");
+
+ d.onclick = ()=>{
+  bIndex = i;
+  updateBanner();
+ };
+
+ dots.appendChild(d);
+}
+
+// 幅取得
+function getBannerWidth(){
+ return banners[0].getBoundingClientRect().width + 20;
+}
+
+let bWidth = getBannerWidth();
+
+// 更新
+function updateBanner(){
+ track.style.transform = `translateX(-${bWidth * bIndex}px)`;
+
+ document.querySelectorAll(".banner-dots span").forEach((d,i)=>{
+  d.classList.toggle("active", i===bIndex);
+ });
+}
+
+// 自動
+function startBannerAuto(){
+ bAuto = setInterval(()=>{
+  bIndex = (bIndex + 1) % bTotal;
+  updateBanner();
+ },3000);
+}
+function stopBannerAuto(){
+ clearInterval(bAuto);
+}
+startBannerAuto();
+
+// スワイプ
+track.addEventListener("touchstart",(e)=>{
+ bStartX = e.touches[0].clientX;
+ bCurrentX = bStartX;
+ bDragging = true;
+ stopBannerAuto();
+});
+
+track.addEventListener("touchmove",(e)=>{
+ if(!bDragging) return;
+
+ const x = e.touches[0].clientX;
+ bVelocity = x - bCurrentX;
+ bCurrentX = x;
+
+ const move = x - bStartX;
+ track.style.transition = "none";
+ track.style.transform = `translateX(${-(bWidth * bIndex) + move}px)`;
+});
+
+track.addEventListener("touchend",()=>{
+ bDragging = false;
+
+ if(bVelocity > 5) bIndex--;
+ else if(bVelocity < -5) bIndex++;
+
+ if(bIndex < 0) bIndex = 0;
+ if(bIndex >= bTotal) bIndex = bTotal-1;
+
+ track.style.transition = "0.5s";
+ updateBanner();
+ startBannerAuto();
+});
+
+// リサイズ
+window.addEventListener("resize",()=>{
+ bWidth = getBannerWidth();
+ updateBanner();
 });
 </script>
 
