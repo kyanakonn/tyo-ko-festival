@@ -314,6 +314,43 @@ footer p{
  background:#ff4d6d;
  opacity:1;
 }
+
+/* ===== お知らせ下リンク ===== */
+.info-links{
+ display:flex;
+ gap:20px;
+ margin-top:30px;
+ flex-wrap:wrap;
+}
+
+.info-card{
+ flex:1;
+ min-width:260px;
+ text-decoration:none;
+ background:#fff;
+ border-radius:15px;
+ overflow:hidden;
+ box-shadow:0 8px 20px rgba(0,0,0,0.1);
+ transition:0.3s;
+}
+
+.info-card:hover{
+ transform:translateY(-5px) scale(1.03);
+}
+
+.info-card img{
+ width:100%;
+ height:140px;
+ object-fit:cover;
+}
+
+.info-text{
+ padding:12px;
+ font-size:16px;
+ color:#333;
+ border-bottom:2px solid #ff4d6d; /* ←アンダーライン */
+ display:inline-block;
+}
   
 </style>
 </head>
@@ -381,11 +418,30 @@ footer p{
 </section>
   
 </div>
+
 <section id="about">
 <h2>お知らせ</h2>
 <p>準備中</p>
-</section>
 
+<!-- ここ追加 -->
+<div class="info-links">
+
+  <!-- 来校するにあたって -->
+  <a href="guide.html" class="info-card">
+    <img src="guide.jpg">
+    <div class="info-text">来校するにあたって</div>
+  </a>
+
+  <!-- フロアマップ -->
+  <a href="map.html" class="info-card">
+    <img src="map.jpg">
+    <div class="info-text">フロアマップ</div>
+  </a>
+
+</div>
+
+</section>
+  
 <section id="events">
 <div class="slider">
 
