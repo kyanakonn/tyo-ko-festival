@@ -41,20 +41,24 @@ body{
 header{
  position:fixed;
  width:100%;
- display:flex;
- justify-content:space-between;
- align-items:center;
 
- padding:8px 15px;
+ display:flex;
+ flex-direction:column; /* ←これ追加（超重要） */
+
+ padding:6px 12px; /* ←少し縮める */
+
  background:rgba(255,255,255,0.8);
  backdrop-filter:blur(10px);
  z-index:1000;
 }
 
 header h1{
- font-size:16px;
- color:#ff4d6d;
- margin:0;
+ font-size:14px; /* ←少し小さく */
+}
+
+.menu-btn{
+ align-self:flex-end; /* ←右寄せ */
+ margin-top:4px;
 }
   
 /* ハンバーガー */
@@ -480,8 +484,8 @@ body {
 .top-nav{
  display:flex;
  justify-content:center;
- gap:40px;
- padding:15px 10px;
+ gap:20px;
+ padding:6px 0;
 
  background:#fff;
  border-bottom:1px solid #eee;
@@ -508,7 +512,7 @@ body {
 
 /* 日本語（小） */
 .top-nav .jp{
- font-size:12px;
+ font-size:10px;
  opacity:0.7;
 }
 
@@ -529,6 +533,22 @@ body {
  font-size:10px;
  margin-bottom:2px;
 }
+
+body{
+ padding-top:90px;
+}
+
+header{
+ display:flex;
+ flex-direction:column;
+}
+
+.header-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+  
 </style>
 </head>
 
@@ -544,7 +564,8 @@ body {
 <h1 style="color:#ff4d6d">長高祭web</h1>
 
 <div class="menu-btn" onclick="toggleMenu()">
- <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+ </div>
 </div>
 
 <nav class="top-nav">
