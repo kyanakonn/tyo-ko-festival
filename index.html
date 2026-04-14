@@ -40,16 +40,16 @@ body{
 /* ヘッダー */
 header{
  position:fixed;
+ top:0;
+ left:0;
  width:100%;
 
  display:flex;
- flex-direction:column; /* ←これ追加（超重要） */
+ flex-direction:column;
 
- padding:6px 12px; /* ←少し縮める */
-
- background:rgba(255,255,255,0.8);
+ background:rgba(255,255,255,0.95);
  backdrop-filter:blur(10px);
- z-index:1000;
+ z-index:9999;
 }
 
 header h1{
@@ -486,9 +486,7 @@ body {
  justify-content:center;
  gap:20px;
  padding:6px 0;
-
- background:#fff;
- border-bottom:1px solid #eee;
+ border-top:1px solid #eee;
 }
 
 /* 各メニュー */
@@ -506,7 +504,7 @@ body {
 
 /* 英語（大） */
 .top-nav .en{
- font-size:16px;
+ font-size:13px;
  letter-spacing:1px;
 }
 
@@ -535,7 +533,7 @@ body {
 }
 
 body{
- padding-top:90px;
+ padding-top:70px;
 }
 
 header{
@@ -547,6 +545,7 @@ header{
  display:flex;
  justify-content:space-between;
  align-items:center;
+ padding:6px 12px;
 }
   
 </style>
@@ -561,20 +560,22 @@ header{
 </div>
 
 <header>
-  <h1>長高祭web</h1>
+
+  <div class="header-top">
+    <h1>長高祭web</h1>
+
+    <div class="menu-btn" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
 
   <nav class="top-nav">
-    <a href="#" class="active">
-      <span class="en">TOP</span>
-    </a>
+    <a href="#" class="active"><span class="en">TOP</span></a>
     <a href="#"><span class="en">EXHIBITION</span></a>
     <a href="#"><span class="en">ACCESS</span></a>
     <a href="#"><span class="en">VISITOR</span></a>
   </nav>
 
-  <div class="menu-btn" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
 </header>
   
 <div class="hero">
