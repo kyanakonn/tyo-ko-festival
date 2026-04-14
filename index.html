@@ -476,7 +476,59 @@ body {
  transform:translateY(10px);
  box-shadow:0 0 0 #3aa0d8;
 }
-  
+
+.top-nav{
+ display:flex;
+ justify-content:center;
+ gap:40px;
+ padding:15px 10px;
+
+ background:#fff;
+ border-bottom:1px solid #eee;
+}
+
+/* 各メニュー */
+.top-nav a{
+ text-decoration:none;
+ color:#333;
+
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+
+ font-weight:bold;
+ transition:0.3s;
+}
+
+/* 英語（大） */
+.top-nav .en{
+ font-size:16px;
+ letter-spacing:1px;
+}
+
+/* 日本語（小） */
+.top-nav .jp{
+ font-size:12px;
+ opacity:0.7;
+}
+
+/* ホバー */
+.top-nav a:hover{
+ color:#ff4d6d;
+ transform:translateY(-2px);
+}
+
+/* アクティブ（現在地） */
+.top-nav a.active{
+ color:#ff4d6d;
+}
+
+/* 左の▶っぽい装飾 */
+.top-nav a.active::before{
+ content:"▶";
+ font-size:10px;
+ margin-bottom:2px;
+}
 </style>
 </head>
 
@@ -495,11 +547,28 @@ body {
  <span></span><span></span><span></span>
 </div>
 
-<nav class="nav" id="nav">
- <a href="#about">ABOUT</a>
- <a href="#events">EVENT</a>
- <a href="#access">ACCESS</a>
+<nav class="top-nav">
+  <a href="#" class="active">
+    <span class="en">TOP</span>
+    <span class="jp">トップ</span>
+  </a>
+
+  <a href="#">
+    <span class="en">EXHIBITION</span>
+    <span class="jp">展示・企画一覧</span>
+  </a>
+
+  <a href="#">
+    <span class="en">ACCESS</span>
+    <span class="jp">アクセス</span>
+  </a>
+
+  <a href="#">
+    <span class="en">VISITOR</span>
+    <span class="jp">来校者向け</span>
+  </a>
 </nav>
+  
 </header>
 
 <div class="hero">
