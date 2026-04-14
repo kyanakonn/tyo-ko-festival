@@ -4,19 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>フロアマップ</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+/* 全体 */
+body {
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* タイトル */
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* 戻るボタン */
+.back-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* マップ */
+.map-container {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.main-map {
+  width: 100%;
+}
+
+/* 階ボタン */
+.floor-btn {
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  transform: translate(-50%, -50%);
+}
+
+/* ボタン位置（あとで微調整） */
+.f4 { top: 18%; left: 65%; }
+.f3 { top: 35%; left: 60%; }
+.f2 { top: 52%; left: 55%; }
+.f1 { top: 70%; left: 50%; }
+
+</style>
+
 </head>
 <body>
 
 <h1 class="title">フロアマップ</h1>
-  
+
 <div style="text-align:center; margin-bottom:10px;">
   <a href="index.html" class="back-btn">← TOPに戻る</a>
 </div>
-  
+
 <div class="map-container">
 
-  <!-- 背景（重なってるフロア画像） -->
+  <!-- 背景画像 -->
   <img src="images/map_big.jpg" class="main-map">
 
   <!-- 階ボタン -->
