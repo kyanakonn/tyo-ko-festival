@@ -352,6 +352,50 @@ footer p{
  font-size:32px;
  color:#ff4d6d;
 }
+
+/* タイトル */
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* マップ全体 */
+.map-container {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* 背景画像 */
+.main-map {
+  width: 100%;
+  display: block;
+}
+
+/* 階ボタン共通 */
+.floor-btn {
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+  transform: translate(-50%, -50%);
+}
+
+/* ホバー（スマホでも軽く見える） */
+.floor-btn:active {
+  background: rgba(255,255,255,0.8);
+  color: black;
+}
+
+/* ▼ここ超重要（画像に合わせて微調整） */
+.f4 { top: 18%; left: 65%; }
+.f3 { top: 35%; left: 60%; }
+.f2 { top: 52%; left: 55%; }
+.f1 { top: 70%; left: 50%; }
   
 </style>
 </head>
