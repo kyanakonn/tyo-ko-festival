@@ -45,7 +45,10 @@ header{
  width:100%;
 
  display:flex;
- flex-direction:column;
+ align-items:center;
+ justify-content:space-between;
+
+ padding:6px 16px;
 
  background:rgba(255,255,255,0.95);
  backdrop-filter:blur(10px);
@@ -53,7 +56,9 @@ header{
 }
 
 header h1{
- font-size:14px; /* ←少し小さく */
+ font-size:14px;
+ color:#ff4d6d;
+ white-space:nowrap;
 }
 
 .menu-btn{
@@ -63,18 +68,16 @@ header h1{
   
 /* ハンバーガー */
 .menu-btn{
- width:30px;
- height:20px;
- cursor:pointer;
- display:none;
+ width:24px;
+ height:16px;
+ display:flex;
  flex-direction:column;
  justify-content:space-between;
 }
+
 .menu-btn span{
- display:block;
- height:3px;
+ height:2px;
  background:#ff4d6d;
- border-radius:2px;
 }
 
 /* メニュー */
@@ -97,6 +100,13 @@ header h1{
   padding:20px;
   display:none;
  }
+
+@media(max-width:768px){
+ .top-nav{
+  display:none;
+ }
+}
+  
  .nav.active{display:flex}
 }
 
@@ -483,16 +493,17 @@ body {
 
 .top-nav{
  display:flex;
- justify-content:center;
- gap:20px;
- padding:6px 0;
- border-top:1px solid #eee;
+ gap:25px;
 }
 
 /* 各メニュー */
 .top-nav a{
  text-decoration:none;
  color:#333;
+ font-size:13px;
+ font-weight:bold;
+ transition:0.2s;
+}
 
  display:flex;
  flex-direction:column;
@@ -517,7 +528,6 @@ body {
 /* ホバー */
 .top-nav a:hover{
  color:#ff4d6d;
- transform:translateY(-2px);
 }
 
 /* アクティブ（現在地） */
@@ -561,20 +571,18 @@ header{
 
 <header>
 
-  <div class="header-top">
-    <h1>長高祭web</h1>
-
-    <div class="menu-btn" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
+  <h1>長高祭web</h1>
 
   <nav class="top-nav">
-    <a href="#" class="active"><span class="en">TOP</span></a>
-    <a href="#"><span class="en">EXHIBITION</span></a>
-    <a href="#"><span class="en">ACCESS</span></a>
-    <a href="#"><span class="en">VISITOR</span></a>
+    <a href="#" class="active">TOP</a>
+    <a href="#">EXHIBITION</a>
+    <a href="#">ACCESS</a>
+    <a href="#">VISITOR</a>
   </nav>
+
+  <div class="menu-btn" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 
 </header>
   
