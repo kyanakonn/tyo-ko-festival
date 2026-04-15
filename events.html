@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企画一覧</title>
+
+<style>
+body{
+ font-family:sans-serif;
+ margin:0;
+ background:#fff;
+}
+
+/* ===== タブ ===== */
+.tabs{
+ display:flex;
+ overflow-x:auto;
+ border-bottom:2px solid #2a9d8f;
+}
+
+.tab{
+ flex:0 0 auto;
+ padding:12px 18px;
+ border:2px solid #2a9d8f;
+ border-bottom:none;
+ cursor:pointer;
+ font-weight:bold;
+ color:#2a9d8f;
+ background:#fff;
+}
+
+.tab.active{
+ background:#2a9d8f;
+ color:#fff;
+}
+
+/* ===== コンテンツ ===== */
+.content{
+ padding:20px;
+}
+
+/* ===== グリッド ===== */
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+ gap:15px;
+}
+
+/* ===== カード ===== */
+.card{
+ background:#fff;
+ border-radius:12px;
+ overflow:hidden;
+ box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card img{
+ width:100%;
+ height:120px;
+ object-fit:cover;
+}
+
+.card p{
+ padding:10px;
+ text-align:center;
+ font-weight:bold;
+}
+
+/* 非表示 */
+.hidden{
+ display:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- タブ -->
+<div class="tabs">
+ <div class="tab active" data-cat="all">全て</div>
+ <div class="tab" data-cat="1">1学年</div>
+ <div class="tab" data-cat="2">2学年</div>
+ <div class="tab" data-cat="3">3学年</div>
+ <div class="tab" data-cat="club">部活動・同好会</div>
+ <div class="tab" data-cat="other">その他</div>
+</div>
+
+<!-- コンテンツ -->
+<div class="content">
+
+ <div class="grid" id="grid">
+
+  <!-- ===== 1年 ===== -->
+  <div class="card" data-cat="1"><img src="1a.jpg"><p>1年A組</p></div>
+  <div class="card" data-cat="1"><img src="1b.jpg"><p>1年B組</p></div>
+  <div class="card" data-cat="1"><img src="1c.jpg"><p>1年C組</p></div>
+  <div class="card" data-cat="1"><img src="1d.jpg"><p>1年D組</p></div>
+  <div class="card" data-cat="1"><img src="1e.jpg"><p>1年E組</p></div>
+  <div class="card" data-cat="1"><img src="1f.jpg"><p>1年F組</p></div>
+  <div class="card" data-cat="1"><img src="1g.jpg"><p>1年G組</p></div>
+
+  <!-- ===== 2年 ===== -->
+  <div class="card" data-cat="2"><img src="2a.jpg"><p>2年A組</p></div>
+  <div class="card" data-cat="2"><img src="2b.jpg"><p>2年B組</p></div>
+
+  <!-- ===== 3年 ===== -->
+  <div class="card" data-cat="3"><img src="3a.jpg"><p>3年A組</p></div>
+
+  <!-- ===== 部活 ===== -->
+  <div class="card" data-cat="club"><img src="club1.jpg"><p>野球部</p></div>
+
+  <!-- ===== その他 ===== -->
+  <div class="card" data-cat="other"><img src="other1.jpg"><p>PTA企画</p></div>
+
+ </div>
+
+</div>
+
+<script>
+
+// タブ取得
+const tabs = document.querySelectorAll(".tab");
+const cards = document.querySelectorAll(".card");
+
+// クリックイベント
+tabs.forEach(tab=>{
+ tab.addEventListener("click",()=>{
+
+  // active切り替え
+  tabs.forEach(t=>t.classList.remove("active"));
+  tab.classList.add("active");
+
+  const cat = tab.dataset.cat;
+
+  cards.forEach(card=>{
+   if(cat === "all"){
+     card.classList.remove("hidden");
+   }else{
+     card.classList.toggle("hidden", card.dataset.cat !== cat);
+   }
+  });
+
+ });
+});
+
+</script>
+
+</body>
+</html>
