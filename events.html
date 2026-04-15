@@ -82,6 +82,24 @@ body{
  border-left:5px solid #2a9d8f;
  padding-left:10px;
 }
+
+/* 横スクロール */
+.row{
+ display:flex;
+ gap:15px;
+ overflow-x:auto;
+ padding-bottom:10px;
+}
+
+/* カード横固定 */
+.row .card{
+ flex:0 0 140px;
+}
+
+/* スクロールバー消す（スマホ） */
+.row::-webkit-scrollbar{
+ display:none;
+}
  
 </style>
 </head>
@@ -104,9 +122,9 @@ body{
 <div class="grid" id="grid">
 
   <!-- ===== 1年 ===== -->
-  <div class="group" data-cat="1">
-    <h2 class="group-title">1学年</h2>
-
+ <div class="group" data-cat="1">
+   <h2 class="group-title">1学年</h2>
+   <div class="row">
     <div class="card"><img src="1a.jpg"><p>1年A組</p></div>
     <div class="card"><img src="1b.jpg"><p>1年B組</p></div>
     <div class="card"><img src="1c.jpg"><p>1年C組</p></div>
@@ -114,12 +132,12 @@ body{
     <div class="card"><img src="1e.jpg"><p>1年E組</p></div>
     <div class="card"><img src="1f.jpg"><p>1年F組</p></div>
     <div class="card"><img src="1g.jpg"><p>1年G組</p></div>
+   </div>
   </div>
-
   <!-- ===== 2年 ===== -->
   <div class="group" data-cat="2">
     <h2 class="group-title">2学年</h2>
-
+    <div class="row">
     <div class="card"><img src="2a.jpg"><p>2年A組</p></div>
     <div class="card"><img src="2b.jpg"><p>2年B組</p></div>
     <div class="card"><img src="2c.jpg"><p>2年C組</p></div>
@@ -128,11 +146,11 @@ body{
     <div class="card"><img src="2f.jpg"><p>2年F組</p></div>
     <div class="card"><img src="2g.jpg"><p>2年G組</p></div>
   </div>
-
+ </div>
   <!-- ===== 3年 ===== -->
   <div class="group" data-cat="3">
     <h2 class="group-title">3学年</h2>
-
+    <div class="row">
     <div class="card"><img src="3a.jpg"><p>3年A組</p></div>
     <div class="card"><img src="3b.jpg"><p>3年B組</p></div>
     <div class="card"><img src="3c.jpg"><p>3年C組</p></div>
@@ -141,7 +159,7 @@ body{
     <div class="card"><img src="3f.jpg"><p>3年F組</p></div>
     <div class="card"><img src="3g.jpg"><p>3年G組</p></div>
   </div>
-
+ </div>
   <!-- ===== 部活 ===== -->
   <div class="group" data-cat="club">
     <h2 class="group-title">部活動・同好会</h2>
