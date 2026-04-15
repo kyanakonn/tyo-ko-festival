@@ -40,15 +40,28 @@ body{
  padding:20px;
 }
 
-/* ===== グリッド ===== */
-.card{
+/* ===== グループ ===== */
+.group{
  width:100%;
- background:#fff;
- border-radius:12px;
- overflow:hidden;
- box-shadow:0 5px 15px rgba(0,0,0,0.1);
+ margin-bottom:40px;
 }
- 
+
+/* ===== 見出し ===== */
+.group-title{
+ margin:20px 0 15px;
+ font-size:20px;
+ border-left:5px solid #2a9d8f;
+ padding-left:10px;
+}
+
+/* ===== グリッド（←これが超重要🔥） ===== */
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+ gap:15px;
+ width:100%;
+}
+
 /* ===== カード ===== */
 .card{
  background:#fff;
@@ -74,38 +87,6 @@ body{
  display:none;
 }
 
-.group{
- width:100%;
- margin-bottom:40px;
-}
-
-
-/* 見出し */
-.group-title{
- font-size:20px 0 10px;
- margin-bottom:18px;
- border-left:5px solid #2a9d8f;
- padding-left:10px;
-}
-
-/* 横スクロール */
-.row{
- display:flex;
- gap:15px;
- overflow-x:auto;
- padding-bottom:10px;
-}
-
-/* カード横固定 */
-.row .card{
- flex:0 0 140px;
-}
-
-/* スクロールバー消す（スマホ） */
-.row::-webkit-scrollbar{
- display:none;
-}
- 
 </style>
 </head>
 
@@ -124,73 +105,72 @@ body{
 <!-- コンテンツ -->
 <div class="content">
 
-<div class="grid" id="grid">
-
   <!-- ===== 1年 ===== -->
- <div class="group" data-cat="1">
-  <h2 class="group-title">1学年</h2>
-  <div class="grid">
-    <div class="card"><img src="1a.jpg"><p>1年A組</p></div>
-    <div class="card"><img src="1b.jpg"><p>1年B組</p></div>
-    <div class="card"><img src="1c.jpg"><p>1年C組</p></div>
-    <div class="card"><img src="1d.jpg"><p>1年D組</p></div>
-    <div class="card"><img src="1e.jpg"><p>1年E組</p></div>
-    <div class="card"><img src="1f.jpg"><p>1年F組</p></div>
-    <div class="card"><img src="1g.jpg"><p>1年G組</p></div>
+  <div class="group" data-cat="1">
+    <h2 class="group-title">1学年</h2>
+    <div class="grid">
+      <div class="card"><img src="1a.jpg"><p>1年A組</p></div>
+      <div class="card"><img src="1b.jpg"><p>1年B組</p></div>
+      <div class="card"><img src="1c.jpg"><p>1年C組</p></div>
+      <div class="card"><img src="1d.jpg"><p>1年D組</p></div>
+      <div class="card"><img src="1e.jpg"><p>1年E組</p></div>
+      <div class="card"><img src="1f.jpg"><p>1年F組</p></div>
+      <div class="card"><img src="1g.jpg"><p>1年G組</p></div>
+    </div>
   </div>
- </div>
+
   <!-- ===== 2年 ===== -->
   <div class="group" data-cat="2">
     <h2 class="group-title">2学年</h2>
     <div class="grid">
-    <div class="card"><img src="2a.jpg"><p>2年A組</p></div>
-    <div class="card"><img src="2b.jpg"><p>2年B組</p></div>
-    <div class="card"><img src="2c.jpg"><p>2年C組</p></div>
-    <div class="card"><img src="2d.jpg"><p>2年D組</p></div>
-    <div class="card"><img src="2e.jpg"><p>2年E組</p></div>
-    <div class="card"><img src="2f.jpg"><p>2年F組</p></div>
-    <div class="card"><img src="2g.jpg"><p>2年G組</p></div>
+      <div class="card"><img src="2a.jpg"><p>2年A組</p></div>
+      <div class="card"><img src="2b.jpg"><p>2年B組</p></div>
+      <div class="card"><img src="2c.jpg"><p>2年C組</p></div>
+      <div class="card"><img src="2d.jpg"><p>2年D組</p></div>
+      <div class="card"><img src="2e.jpg"><p>2年E組</p></div>
+      <div class="card"><img src="2f.jpg"><p>2年F組</p></div>
+      <div class="card"><img src="2g.jpg"><p>2年G組</p></div>
+    </div>
   </div>
- </div>
+
   <!-- ===== 3年 ===== -->
   <div class="group" data-cat="3">
     <h2 class="group-title">3学年</h2>
     <div class="grid">
-    <div class="card"><img src="3a.jpg"><p>3年A組</p></div>
-    <div class="card"><img src="3b.jpg"><p>3年B組</p></div>
-    <div class="card"><img src="3c.jpg"><p>3年C組</p></div>
-    <div class="card"><img src="3d.jpg"><p>3年D組</p></div>
-    <div class="card"><img src="3e.jpg"><p>3年E組</p></div>
-    <div class="card"><img src="3f.jpg"><p>3年F組</p></div>
-    <div class="card"><img src="3g.jpg"><p>3年G組</p></div>
+      <div class="card"><img src="3a.jpg"><p>3年A組</p></div>
+      <div class="card"><img src="3b.jpg"><p>3年B組</p></div>
+      <div class="card"><img src="3c.jpg"><p>3年C組</p></div>
+      <div class="card"><img src="3d.jpg"><p>3年D組</p></div>
+      <div class="card"><img src="3e.jpg"><p>3年E組</p></div>
+      <div class="card"><img src="3f.jpg"><p>3年F組</p></div>
+      <div class="card"><img src="3g.jpg"><p>3年G組</p></div>
+    </div>
   </div>
- </div>
+
   <!-- ===== 部活 ===== -->
   <div class="group" data-cat="club">
     <h2 class="group-title">部活動・同好会</h2>
-　　 <div class="grid">
-    <div class="card"><img src="club1.jpg"><p>情報なし</p></div>
+    <div class="grid">
+      <div class="card"><img src="club1.jpg"><p>情報なし</p></div>
+    </div>
   </div>
- </div>
+
   <!-- ===== その他 ===== -->
   <div class="group" data-cat="other">
     <h2 class="group-title">その他</h2>
     <div class="grid">
-    <div class="card"><img src="other1.jpg"><p>その他企画</p></div>
+      <div class="card"><img src="other1.jpg"><p>その他企画</p></div>
+    </div>
   </div>
- </div>
 
 </div>
 
 <script>
-
-// タブ取得
 const tabs = document.querySelectorAll(".tab");
 const groups = document.querySelectorAll(".group");
 
 tabs.forEach(tab=>{
  tab.addEventListener("click",()=>{
-
   tabs.forEach(t=>t.classList.remove("active"));
   tab.classList.add("active");
 
@@ -204,10 +184,8 @@ tabs.forEach(tab=>{
         group.dataset.cat === cat ? "block" : "none";
     }
   });
-
  });
 });
- 
 </script>
 
 </body>
