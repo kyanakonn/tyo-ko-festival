@@ -2,7 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://あなたのサイトURL/</loc>
+    <loc>https://tyo-ko-festival.vercel.app/</loc>
+  </url>
+
+  <url>
+    <loc>https://tyo-ko-festival.vercel.app/map.html</loc>
+  </url>
+
+  <url>
+    <loc>https://tyo-ko-festival.vercel.app/guide.html</loc>
   </url>
 
 </urlset>
