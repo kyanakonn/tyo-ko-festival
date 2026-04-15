@@ -3,4 +3,8 @@ window.onload = () => {
   document.getElementById("loader").style.display = "none";
 };
 
-// ここにGSAPやparticlesのコードを移す
+
+function toggleMenu(){
+  const nav = document.querySelector(".top-nav");
+  nav.classList.toggle("active");
+}
