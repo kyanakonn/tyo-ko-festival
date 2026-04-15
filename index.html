@@ -51,7 +51,7 @@ header{
  display:flex;
  align-items:center;
  justify-content:space-between;
-
+ flex-direction:row;
  padding:6px 16px;
 
  background:rgba(255,255,255,0.95);
@@ -66,8 +66,6 @@ header h1{
 }
 
 .menu-btn{
- align-self:flex-end; /* ←右寄せ */
- margin-top:4px;
 }
   
 /* ハンバーガー */
@@ -561,6 +559,13 @@ header{
  align-items:center;
  padding:6px 12px;
 }
+
+.header-inner{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ width:100%;
+}
   
 </style>
 </head>
@@ -575,17 +580,19 @@ header{
 
 <header>
 
-  <h1>長高祭web</h1>
+  <div class="header-inner">
+    <h1>長高祭web</h1>
 
-  <nav class="top-nav">
-    <a href="#" class="active">TOP</a>
-    <a href="#">EXHIBITION</a>
-    <a href="#">ACCESS</a>
-    <a href="#">VISITOR</a>
-  </nav>
+    <nav class="top-nav">
+      <a href="#" class="active">TOP</a>
+      <a href="#">EXHIBITION</a>
+      <a href="#">ACCESS</a>
+      <a href="#">VISITOR</a>
+    </nav>
 
-  <div class="menu-btn" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+    <div class="menu-btn" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 
 </header>
