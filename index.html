@@ -201,7 +201,11 @@ h2{
 
 .card img{width:100%;height:160px;object-fit:cover}
 .card div{padding:15px}
-
+.card{
+ text-decoration: none;
+ color: inherit;
+ display: block;
+}
 footer{
  text-align:center;
   padding:10px 0;
@@ -668,13 +672,32 @@ fetch("header.html")
 
   <div class="slides" id="slides">
 
-    <div class="card"><img src="event1.jpg"><div><h3>1学年</h3></div></div>
-    <div class="card"><img src="event2.jpg"><div><h3>2学年</h3></div></div>
-    <div class="card"><img src="event3.jpg"><div><h3>3学年</h3></div></div>
-    <div class="card"><img src="event4.jpg"><div><h3>部活動・同好会</h3></div></div>
-    <div class="card"><img src="event5.jpg"><div><h3>その他イベント</h3></div></div>
+  <a href="events.html" class="card">
+    <img src="event1.jpg">
+    <div><h3>1学年</h3></div>
+  </a>
 
-  </div>
+  <a href="events.html" class="card">
+    <img src="event2.jpg">
+    <div><h3>2学年</h3></div>
+  </a>
+
+  <a href="events.html" class="card">
+    <img src="event3.jpg">
+    <div><h3>3学年</h3></div>
+  </a>
+
+  <a href="events.html" class="card">
+    <img src="event4.jpg">
+    <div><h3>部活動・同好会</h3></div>
+  </a>
+
+  <a href="events.html" class="card">
+    <img src="event5.jpg">
+    <div><h3>その他イベント</h3></div>
+  </a>
+
+</div>
 
   <a href="events.html" class="main-btn">
   <span>企画一覧をみる</span>
