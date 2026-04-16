@@ -209,5 +209,30 @@ tabs.forEach(tab=>{
 });
 </script>
 
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
+
+  if(!cat) return;
+
+  const tabs = document.querySelectorAll(".tab");
+  const groups = document.querySelectorAll(".group");
+
+  // タブの見た目切り替え
+  tabs.forEach(t=>{
+    t.classList.remove("active");
+    if(t.dataset.cat === cat){
+      t.classList.add("active");
+    }
+  });
+
+  // 表示制御
+  groups.forEach(group=>{
+    group.style.display =
+      group.dataset.cat === cat ? "block" : "none";
+  });
+});
+</script>
 </body>
 </html>
