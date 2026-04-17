@@ -113,6 +113,61 @@ body{
  opacity:1;
  transform:translateY(0);
 }
+
+/* ===== モーダル ===== */
+.modal{
+ display:none;
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:rgba(0,0,0,0.6);
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+}
+
+.modal-box{
+ background:#fff;
+ padding:20px;
+ border-radius:15px;
+ width:90%;
+ max-width:400px;
+ text-align:center;
+ position:relative;
+ animation:fadeIn 0.3s ease;
+}
+
+.modal-box img{
+ width:100%;
+ border-radius:10px;
+ margin-bottom:10px;
+}
+
+#modal-close{
+ position:absolute;
+ top:10px;
+ right:15px;
+ font-size:24px;
+ cursor:pointer;
+}
+
+@keyframes fadeIn{
+ from{opacity:0; transform:scale(0.9);}
+ to{opacity:1; transform:scale(1);}
+}
+
+.map-btn{
+ display:block;
+ margin-top:15px;
+ padding:12px;
+ background:#2a9d8f;
+ color:#fff;
+ text-decoration:none;
+ border-radius:30px;
+ font-weight:bold;
+}
 </style>
 </head>
 
@@ -204,8 +259,12 @@ fetch("header.html")
     <span id="modal-close">&times;</span>
 
     <img id="modal-img">
+
     <h2 id="modal-title"></h2>
+    <p id="modal-place" style="font-weight:bold; color:#2a9d8f;"></p>
     <p id="modal-desc"></p>
+
+    <a id="modal-link" class="map-btn">フロアマップで確認する →</a>
   </div>
 </div>
  
@@ -310,6 +369,38 @@ function setupScrollAnimation() {
     });
   }, 100);
 }
+
+// ===== モーダル処理 =====
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modal-img");
+const modalTitle = document.getElementById("modal-title");
+const modalPlace = document.getElementById("modal-place");
+const modalDesc = document.getElementById("modal-desc");
+const modalLink = document.getElementById("modal-link");
+const closeBtn = document.getElementById("modal-close");
+
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+
+    modalImg.src = card.querySelector("img").src;
+    modalTitle.innerText = card.dataset.title;
+    modalPlace.innerText = "📍 " + card.dataset.place;
+    modalDesc.innerText = card.dataset.desc;
+    modalLink.href = card.dataset.link;
+
+    modal.style.display = "flex";
+  });
+});
+
+// 閉じる
+closeBtn.onclick = () => modal.style.display = "none";
+
+// 外クリックで閉じる
+modal.onclick = (e) => {
+  if(e.target === modal){
+    modal.style.display = "none";
+  }
+};
 </script>
  
 </body>
