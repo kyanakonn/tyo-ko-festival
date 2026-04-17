@@ -261,7 +261,8 @@ function setupScrollAnimation() {
 
         const card = entry.target;
 
-        // 同じグループ内で順番制御
+        if(card.classList.contains("show")) return;
+
         const group = card.closest(".group");
         const cardsInGroup = Array.from(group.querySelectorAll(".card"));
         const index = cardsInGroup.indexOf(card);
@@ -270,18 +271,30 @@ function setupScrollAnimation() {
           card.classList.add("show");
         }, index * 80);
 
-        observer.unobserve(card); // 1回だけ発火
+        observer.unobserve(card);
       }
     });
   }, {
-    threshold: 0.15 // 少し見えたら発火
+    threshold: 0.1
   });
 
   cards.forEach(card => {
     observer.observe(card);
   });
-}
 
+setTimeout(() => {
+  let delay = 0;
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    if(rect.top < window.innerHeight){
+      setTimeout(()=>{
+        card.classList.add("show");
+      }, delay);
+      delay += 80;
+    }
+  });
+}, 100);
+ 
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const cat = params.get("cat");
