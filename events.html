@@ -100,7 +100,19 @@ body{
   margin: 0 10px;
   text-decoration: none;
 }
- 
+
+/* ===== フェードイン初期状態 ===== */
+.card{
+ opacity:0;
+ transform:translateY(20px);
+ transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* 表示状態 */
+.card.show{
+ opacity:1;
+ transform:translateY(0);
+}
 </style>
 </head>
 
@@ -208,6 +220,7 @@ tabs.forEach(tab=>{
         group.dataset.cat === cat ? "block" : "none";
     }
   });
+  animateCards();
  });
 });
 </script>
@@ -235,6 +248,33 @@ window.addEventListener("DOMContentLoaded", () => {
     group.style.display =
       group.dataset.cat === cat ? "block" : "none";
   });
+ 
+  animateCards();
+});
+
+function animateCards() {
+  const visibleGroups = Array.from(document.querySelectorAll(".group"))
+    .filter(g => g.style.display !== "none");
+
+  let delay = 0;
+
+  visibleGroups.forEach(group => {
+    const cards = group.querySelectorAll(".card");
+
+    cards.forEach(card => {
+      card.classList.remove("show"); // 一旦リセット
+
+      setTimeout(() => {
+        card.classList.add("show");
+      }, delay);
+
+      delay += 80; // ← この数字でスピード調整
+    });
+  });
+}
+ 
+window.addEventListener("DOMContentLoaded", () => {
+  animateCards();
 });
 </script>
 </body>
