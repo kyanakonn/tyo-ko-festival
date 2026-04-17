@@ -219,8 +219,11 @@ tabs.forEach(tab=>{
       group.style.display =
         group.dataset.cat === cat ? "block" : "none";
     }
+    // ★リセット
+    const cards = group.querySelectorAll(".card");
+    cards.forEach(card => card.classList.remove("show"));
   });
-  animateCards();
+  setupScrollAnimation();
  });
 });
 </script>
@@ -274,7 +277,7 @@ function animateCards() {
 }
  
 window.addEventListener("DOMContentLoaded", () => {
-  animateCards();
+  setupScrollAnimation();
 });
 
 function setupScrollAnimation() {
