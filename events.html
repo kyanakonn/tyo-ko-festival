@@ -205,6 +205,7 @@ fetch("header.html")
 const tabs = document.querySelectorAll(".tab");
 const groups = document.querySelectorAll(".group");
 
+// タブ切り替え
 tabs.forEach(tab=>{
  tab.addEventListener("click",()=>{
   tabs.forEach(t=>t.classList.remove("active"));
@@ -219,39 +220,42 @@ tabs.forEach(tab=>{
       group.style.display =
         group.dataset.cat === cat ? "block" : "none";
     }
-    // ★リセット
+
+    // リセット
     const cards = group.querySelectorAll(".card");
     cards.forEach(card => card.classList.remove("show"));
   });
+
   setupScrollAnimation();
  });
 });
-</script>
 
-<script>
+// 初期ロード
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const cat = params.get("cat");
 
-  if(!cat) return;
+  if(cat){
+    tabs.forEach(t=>{
+      t.classList.remove("active");
+      if(t.dataset.cat === cat){
+        t.classList.add("active");
+      }
+    });
 
-  const tabs = document.querySelectorAll(".tab");
-  const groups = document.querySelectorAll(".group");
+    groups.forEach(group=>{
+      group.style.display =
+        group.dataset.cat === cat ? "block" : "none";
 
-  // タブの見た目切り替え
-  tabs.forEach(t=>{
-    t.classList.remove("active");
-    if(t.dataset.cat === cat){
-      t.classList.add("active");
-    }
-  });
+      const cards = group.querySelectorAll(".card");
+      cards.forEach(card => card.classList.remove("show"));
+    });
+  }
 
-  // 表示制御
-  groups.forEach(group=>{
-    group.style.display =
-      group.dataset.cat === cat ? "block" : "none";
-  });
- 
+  setupScrollAnimation();
+});
+
+// スクロールアニメーション
 function setupScrollAnimation() {
   const cards = document.querySelectorAll(".card");
 
@@ -282,45 +286,21 @@ function setupScrollAnimation() {
     observer.observe(card);
   });
 
-setTimeout(() => {
-  let delay = 0;
-  cards.forEach(card => {
-    const rect = card.getBoundingClientRect();
-    if(rect.top < window.innerHeight){
-      setTimeout(()=>{
-        card.classList.add("show");
-      }, delay);
-      delay += 80;
-    }
-  });
-}, 100);
- 
-window.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const cat = params.get("cat");
-
-  const tabs = document.querySelectorAll(".tab");
-  const groups = document.querySelectorAll(".group");
-
-  if(cat){
-    tabs.forEach(t=>{
-      t.classList.remove("active");
-      if(t.dataset.cat === cat){
-        t.classList.add("active");
+  // 初期表示対策
+  setTimeout(() => {
+    let delay = 0;
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if(rect.top < window.innerHeight){
+        setTimeout(()=>{
+          card.classList.add("show");
+        }, delay);
+        delay += 80;
       }
     });
-
-    groups.forEach(group=>{
-      group.style.display =
-        group.dataset.cat === cat ? "block" : "none";
-
-      const cards = group.querySelectorAll(".card");
-      cards.forEach(card => card.classList.remove("show"));
-    });
-  }
-
-  setupScrollAnimation(); // ← 最後に1回だけ
-});
+  }, 100);
+}
 </script>
+ 
 </body>
 </html>
