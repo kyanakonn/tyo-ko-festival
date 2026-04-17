@@ -553,5 +553,21 @@ header{
  justify-content:space-between;
  width:100%;
 }
-  
+
+.map-btn{
+ display:inline-block;
+ margin-top:15px;
+ padding:12px 20px;
+ background:#2a9d8f;
+ color:#fff;
+ text-decoration:none;
+ border-radius:10px;
+ font-weight:700;
+ transition:0.3s;
+}
+
+.map-btn:hover{
+ background:#21867a;
+ transform:translateY(-2px);
+}
 </style>
