@@ -63,7 +63,16 @@ body {
 
 </head>
 <body>
+<div id="header"></div>
 
+<script>
+fetch("header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
+</script>
+  
 <h1 class="title">フロアマップ</h1>
 
 <div style="text-align:center; margin-bottom:10px;">
