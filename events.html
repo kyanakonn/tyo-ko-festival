@@ -252,34 +252,6 @@ window.addEventListener("DOMContentLoaded", () => {
       group.dataset.cat === cat ? "block" : "none";
   });
  
-  animateCards();
-});
-
-function animateCards() {
-  const visibleGroups = Array.from(document.querySelectorAll(".group"))
-    .filter(g => g.style.display !== "none");
-
-  let delay = 0;
-
-  visibleGroups.forEach(group => {
-    const cards = group.querySelectorAll(".card");
-
-    cards.forEach(card => {
-      card.classList.remove("show"); // 一旦リセット
-
-      setTimeout(() => {
-        card.classList.add("show");
-      }, delay);
-
-      delay += 80; // ← この数字でスピード調整
-    });
-  });
-}
- 
-window.addEventListener("DOMContentLoaded", () => {
-  setupScrollAnimation();
-});
-
 function setupScrollAnimation() {
   const cards = document.querySelectorAll(".card");
 
@@ -309,6 +281,33 @@ function setupScrollAnimation() {
     observer.observe(card);
   });
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
+
+  const tabs = document.querySelectorAll(".tab");
+  const groups = document.querySelectorAll(".group");
+
+  if(cat){
+    tabs.forEach(t=>{
+      t.classList.remove("active");
+      if(t.dataset.cat === cat){
+        t.classList.add("active");
+      }
+    });
+
+    groups.forEach(group=>{
+      group.style.display =
+        group.dataset.cat === cat ? "block" : "none";
+
+      const cards = group.querySelectorAll(".card");
+      cards.forEach(card => card.classList.remove("show"));
+    });
+  }
+
+  setupScrollAnimation(); // ← 最後に1回だけ
+});
 </script>
 </body>
 </html>
