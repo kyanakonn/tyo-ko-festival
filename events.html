@@ -104,7 +104,7 @@ body{
 /* ===== フェードイン初期状態 ===== */
 .card{
  opacity:0;
- transform:translateY(20px);
+ transform:translateY(30px);
  transition:opacity 0.6s ease, transform 0.6s ease;
 }
 
@@ -276,6 +276,36 @@ function animateCards() {
 window.addEventListener("DOMContentLoaded", () => {
   animateCards();
 });
+
+function setupScrollAnimation() {
+  const cards = document.querySelectorAll(".card");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+
+        const card = entry.target;
+
+        // 同じグループ内で順番制御
+        const group = card.closest(".group");
+        const cardsInGroup = Array.from(group.querySelectorAll(".card"));
+        const index = cardsInGroup.indexOf(card);
+
+        setTimeout(() => {
+          card.classList.add("show");
+        }, index * 80);
+
+        observer.unobserve(card); // 1回だけ発火
+      }
+    });
+  }, {
+    threshold: 0.15 // 少し見えたら発火
+  });
+
+  cards.forEach(card => {
+    observer.observe(card);
+  });
+}
 </script>
 </body>
 </html>
