@@ -93,18 +93,52 @@ header h1{
  }
 }
 
-/* タブレット以上 */
-@media (min-width:768px){
- .menu-btn{
-  display:none;
- }
-
- .nav{
-  display:flex !important;
-  position:static;
- }
+/* ハンバーガーは常に表示 */
+.menu-btn{
+ display:flex;
 }
 
+/* メニュー初期非表示 */
+.nav{
+ display:none;
+ position:absolute;
+ top:60px;
+ right:10px;
+ background:#fff;
+ flex-direction:column;
+ width:220px;
+ padding:10px;
+ border-radius:12px;
+ box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* 開いた時 */
+.nav.active{
+ display:flex;
+}
+
+.nav a{
+ display:block;
+ padding:12px 14px;
+ margin:5px 0;
+
+ background:#fff;
+ color:#000;
+ text-decoration:none;
+ font-weight:bold;
+
+ border-radius:10px;
+ border:1px solid #ddd;
+
+ transition:0.2s;
+}
+.nav a:hover{
+ background:#f5f5f5;
+}
+.nav a:active{
+ background:#eee;
+ transform:scale(0.98);
+}
 /* ヒーロー */
 .hero{
  height:80vh;
