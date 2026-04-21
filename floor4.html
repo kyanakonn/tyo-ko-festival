@@ -14,12 +14,19 @@ fetch("header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header").innerHTML = data;
-    
+
     const btn = document.querySelector(".menu-btn");
     const nav = document.querySelector(".nav");
 
-    btn.addEventListener("click", () => {
+    // 開閉
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       nav.classList.toggle("active");
+    });
+    document.addEventListener("click", (e) => {
+      if (!nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove("active");
+      }
     });
   });
 </script>
