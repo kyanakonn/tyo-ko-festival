@@ -56,7 +56,6 @@ header h1{
  flex-direction:column;
  justify-content:space-between;
 
- margin-left:auto;
  margin-right:5px;
  cursor:pointer;
 }
