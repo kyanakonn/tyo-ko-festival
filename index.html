@@ -46,8 +46,11 @@ fetch("header.html")
   .then(data => {
     document.getElementById("header").innerHTML = data;
 
+    const btn = document.querySelector(".menu-btn");
+    const nav = document.querySelector(".nav");
+
     btn.addEventListener("click", (e) => {
-      e.stopPropagation(); 
+      e.stopPropagation();
       nav.classList.toggle("active");
     });
 
