@@ -45,9 +45,15 @@ fetch("header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header").innerHTML = data;
+
+    const btn = document.querySelector(".menu-btn");
+    const nav = document.querySelector(".nav");
+
+    btn.addEventListener("click", () => {
+      nav.classList.toggle("active");
+    });
   });
-</script>
-  
+</script>  
 <div class="hero">
   <img src="hero.jpg">
   <div class="hero-overlay"></div>
