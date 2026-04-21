@@ -67,16 +67,21 @@ header h1{
  background:#ff4d6d;
 }
 
-/* メニュー */
+/* スマホ */
 .nav{
  display:none;
- gap:20px;
 }
-.nav a{text-decoration:none;color:#333}
 
-/* モバイル */
-@media(max-width:768px){
- .menu-btn{display:flex}
+.nav.active{
+ display:flex;
+}
+
+/* モバイル用 */
+@media (max-width:768px){
+ .menu-btn{
+  display:flex;
+ }
+
  .nav{
   position:absolute;
   top:60px;
@@ -85,24 +90,19 @@ header h1{
   flex-direction:column;
   width:200px;
   padding:20px;
+ }
+}
+
+/* タブレット以上 */
+@media (min-width:768px){
+ .menu-btn{
   display:none;
  }
 
-@media (min-width: 768px){
-  .menu-btn{
-    display:flex;
-  }
-
-  .nav{
-    display:none;
-  }
-
-  .nav.active{
-    display:block;
-  }
-}
-  
- .nav.active{display:flex}
+ .nav{
+  display:flex !important;
+  position:static;
+ }
 }
 
 /* ヒーロー */
