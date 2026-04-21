@@ -188,10 +188,9 @@ fetch("header.html")
 <script>
 
 // ローディング
-window.onload=()=>{
- document.getElementById("loader").style.opacity="0";
- setTimeout(()=>{document.getElementById("loader").style.display="none"},500);
-};
+window.addEventListener("load", () => {
+  document.getElementById("loader").style.opacity="0";
+});
 
 // particles
 particlesJS("particles-js",{
@@ -225,11 +224,6 @@ gsap.utils.toArray("section").forEach(sec=>{
   scrollTrigger:{trigger:sec,start:"top 80%"}
  });
 });
-
-// ハンバーガー
-function toggleMenu(){
- document.getElementById("nav").classList.toggle("active");
-}
 
 //スライド
 const slides = document.getElementById("slides");
