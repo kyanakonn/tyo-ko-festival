@@ -601,5 +601,17 @@ header{
 .nav-btn:active{
  transform:translateY(4px);
  box-shadow:0 3px 0 #1b5e20;
+
+#particles-js{
+ pointer-events: none;
+ position: fixed;
+ width: 100%;
+ height: 100%;
+ z-index: 0;
+}
+
+header{
+ position: relative;
+ z-index: 10;
 }
 </style>
