@@ -53,7 +53,7 @@ header h1{
  width:24px;
  height:16px;
  display:flex;
- flex-direction:column;
+ flex-direction:row;
  justify-content:space-between;
 
  margin-left:auto; 
