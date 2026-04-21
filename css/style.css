@@ -47,9 +47,6 @@ header h1{
  color:#ff4d6d;
  white-space:nowrap;
 }
-
-.menu-btn{
-}
   
 /* ハンバーガー */
 .menu-btn{
@@ -58,6 +55,9 @@ header h1{
  display:flex;
  flex-direction:column;
  justify-content:space-between;
+
+ margin-left:auto; 
+ cursor:pointer;
 }
 
 .menu-btn span{
