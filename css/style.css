@@ -5,7 +5,7 @@ body{
 }
 
 
-/* ローディング */
+/* ロード */
 #loader{
  position:fixed;
  width:100%;
@@ -93,7 +93,7 @@ header h1{
  }
 }
 
-/* ハンバーガーは常に表示 */
+/* ハンバーガー常に表示 */
 .menu-btn{
  display:flex;
 }
@@ -186,7 +186,7 @@ header h1{
 }
 
 /* セクション */
-/* バナー下（ちょい詰める） */
+/* バナー下 */
 .banner-section{
  padding:30px 0;
 }
@@ -294,7 +294,7 @@ footer p{
 }
   
 .card{
- flex: 0 0 70%; /* ←これが超重要 */
+ flex: 0 0 70%; 
  margin: 0 10px;
  transition: 0.4s;
 }
@@ -350,7 +350,7 @@ footer p{
 
 .banner img{
  width:100%;
- height:120px; /* ←高さここで調整 */
+ height:120px; /* 高さ調整 */
  object-fit:cover;
  border-radius:15px;
 }
@@ -446,13 +446,13 @@ footer p{
   transform: translate(-50%, -50%);
 }
 
-/* ホバー（スマホでも軽く見える） */
+/* ホバー */
 .floor-btn:active {
   background: rgba(255,255,255,0.8);
   color: black;
 }
 
-/* ▼ここ超重要（画像に合わせて微調整） */
+/*画像に合わせて微調整*/
 .f4 { top: 18%; left: 65%; }
 .f3 { top: 35%; left: 60%; }
 .f2 { top: 52%; left: 55%; }
@@ -491,14 +491,14 @@ body {
  align-items:center;
  justify-content:space-between;
 
- max-width:280px; /* ←小さく */
+ max-width:280px; 
  margin:30px auto;
- padding:12px 14px; /* ←余白減らす */
+ padding:12px 14px; 
 
  text-decoration:none;
  color:#fff;
  font-weight:bold;
- font-size:14px; /* ←文字小さく */
+ font-size:14px; 
 
  border-radius:999px;
  background:linear-gradient(135deg,#1e1e2f,#2a2a3f);
@@ -515,7 +515,7 @@ body {
 
 /* ピンク丸 */
 .main-btn .arrow{
- width:36px;  /* ←小さく */
+ width:36px; 
  height:36px;
  font-size:16px;
  background:#ff2e7a;
@@ -578,7 +578,7 @@ body {
  color:#ff4d6d;
 }
 
-/* 左の▶っぽい装飾 */
+/* 左の三角 */
 .top-nav a.active::before{
  content:"▶";
  font-size:10px;
@@ -727,7 +727,7 @@ header{
   transform:rotate(35deg);
 }
 
-/* 右巨大水色 */
+/* 右大水色 */
 .s5{
   top:200px;
   right:-160px;
@@ -762,4 +762,153 @@ header{
 
   transform:rotate(-15deg);
 }
+
+/* ===== スマホ ===== */
+@media (max-width: 768px){
+
+  /* タイトル */
+  .hero h1{
+    font-size:42px;
+    letter-spacing:3px;
+  }
+
+  /* 見出し */
+  h2{
+    font-size:26px;
+  }
+
+  /* ヘッダーメニュー */
+  .top-nav{
+    gap:10px;
+  }
+
+  .top-nav a{
+    font-size:11px;
+  }
+
+  /* お知らせカード */
+  .info-links{
+    flex-direction:column;
+  }
+
+  .info-card{
+    width:100%;
+    min-width:auto;
+  }
+
+  /* 企画カード */
+  .card{
+    flex:0 0 85%;
+  }
+
+  /* Googleマップ部分 */
+  .access-row{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+  }
+
+  .map-btn{
+    width:90%;
+    max-width:300px;
+  }
+
+  /* メインボタン */
+  .main-btn{
+    width:90%;
+    max-width:280px;
+  }
+
+  /* バナー */
+  .banner{
+    flex:0 0 90%;
+  }
+
+  .banner img{
+    height:100px;
+  }
+}
+
+  /* 左上ピンク */
+  .s1{
+    top:-70px;
+    left:-140px;
+
+    border-left:100px solid transparent;
+    border-right:100px solid transparent;
+    border-bottom:220px solid #f78aa0;
+  }
+
+  /* 左中央紫 */
+  .s2{
+    top:260px;
+    left:-70px;
+
+    border-left:60px solid transparent;
+    border-right:60px solid transparent;
+    border-bottom:120px solid #d7b6ff;
+  }
+
+  /* 左下黄色 */
+  .s3{
+    bottom:-90px;
+    left:-50px;
+
+    border-left:90px solid transparent;
+    border-right:90px solid transparent;
+    border-bottom:180px solid #f5d95b;
+  }
+
+  /* 左下水色 */
+  .s4{
+    bottom:100px;
+    left:-10px;
+
+    border-left:45px solid transparent;
+    border-right:45px solid transparent;
+    border-bottom:90px solid #77d9eb;
+  }
+
+  /* 右上水色 */
+  .s5{
+    top:180px;
+    right:-120px;
+
+    border-left:150px solid transparent;
+    border-right:150px solid transparent;
+    border-bottom:260px solid #98d8dc;
+  }
+
+  /* 右下ピンク */
+  .s6{
+    bottom:-60px;
+    right:-60px;
+
+    border-left:90px solid transparent;
+    border-right:90px solid transparent;
+    border-bottom:180px solid #f78aa0;
+  }
+
+  /* 右上紫 */
+  .s7{
+    top:70px;
+    right:15px;
+
+    border-left:35px solid transparent;
+    border-right:35px solid transparent;
+    border-bottom:70px solid #d7b6ff;
+  }
+
+  /* 右下黄色 */
+  .s8{
+    bottom:30px;
+    right:20px;
+
+    border-left:40px solid transparent;
+    border-right:40px solid transparent;
+    border-bottom:80px solid #f5d95b;
+  }
+
+}
+
 </style>
