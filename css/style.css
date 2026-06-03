@@ -149,6 +149,7 @@ header h1{
  position:relative;
  overflow:hidden;
  position:relative;
+ overflow:hidden;
 }
 
 .hero img{
@@ -168,9 +169,13 @@ header h1{
 }
 
 .hero h1{
-  font-size:clamp(28px, 6vw, 80px);
-  letter-spacing:0.08em;
-  white-space:nowrap;
+font-size:clamp(20px, 10vw, 80px);
+  line-height:1.1;
+  letter-spacing:0;
+  margin:0;
+
+  white-space:normal;
+  word-break:keep-all;
 }
 
 .hero{
@@ -179,10 +184,6 @@ header h1{
 
 .hero h1{ font-size:64px; color:#ff4d6d; text-shadow:0 5px 15px rgba(0,0,0,0.2); }
 
-.hero h1{
- font-size:80px;
- letter-spacing:10px;
-}
 
 .hero-title-wrap{
   position:relative;
@@ -191,15 +192,19 @@ header h1{
   flex-direction:column;
   align-items:center;
   width:100%;
+  max-width:100%;
+  padding:0 20px;
   text-align:center;
 }
 
 .hero-subtitle{
-  font-size:clamp(14px, 3vw, 42px);
+  font-size:clamp(12px, 5vw, 42px);
   font-weight:700;
   color:#ff4d6d;
-  margin-top:8px;
-  white-space:nowrap;
+  margin-top:10px;
+  line-height:1.2;
+  white-space:normal;
+  word-break:keep-all;
 }
 
 /* セクション */
@@ -791,7 +796,7 @@ header{
 
   /* タイトル */
   .hero h1{
-    font-size:80px;
+    font-size:56px;
     letter-spacing:3px;
   }
 
@@ -801,7 +806,7 @@ header{
   }
 
   .hero-subtitle{
-  font-size:42px;
+  font-size:24px;
   margin-top:6px;
 }
   
