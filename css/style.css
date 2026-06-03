@@ -168,7 +168,7 @@ header h1{
 }
 
 .hero h1{
-  font-size:clamp(36px, 8vw, 80px);
+  font-size:clamp(28px, 6vw, 80px);
   letter-spacing:0.08em;
   white-space:nowrap;
 }
@@ -195,7 +195,7 @@ header h1{
 }
 
 .hero-subtitle{
-  font-size:clamp(18px, 4.5vw, 42px);
+  font-size:clamp(14px, 3vw, 42px);
   font-weight:700;
   color:#ff4d6d;
   margin-top:8px;
