@@ -1,8 +1,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans JP',sans-serif}
 body{
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4);
-  overflow-x:hidden;
+  background:#fdfdfd;
 }
 
 #particles-js{position:fixed;width:100%;height:100%;z-index:-1}
@@ -659,4 +658,98 @@ header{
  position: relative;
  z-index: 10;
 }
+
+.bg-shapes{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+}
+
+.shape{
+  position:absolute;
+  width:0;
+  height:0;
+}
+
+/* 左上ピンク */
+.s1{
+  top:-80px;
+  left:-140px;
+  border-left:180px solid transparent;
+  border-right:180px solid transparent;
+  border-bottom:380px solid #ff8fa3;
+  transform:rotate(-20deg);
+}
+
+/* 左中央紫 */
+.s2{
+  top:260px;
+  left:-120px;
+  border-left:120px solid transparent;
+  border-right:120px solid transparent;
+  border-bottom:240px solid #d8b4fe;
+  transform:rotate(20deg);
+}
+
+/* 左下黄 */
+.s3{
+  bottom:-180px;
+  left:-120px;
+  border-left:220px solid transparent;
+  border-right:220px solid transparent;
+  border-bottom:420px solid #ffe066;
+  transform:rotate(10deg);
+}
+
+/* 左下水色 */
+.s4{
+  bottom:120px;
+  left:20px;
+  border-left:70px solid transparent;
+  border-right:70px solid transparent;
+  border-bottom:140px solid #7bdff2;
+  transform:rotate(15deg);
+}
+
+/* 右上水色 */
+.s5{
+  top:40px;
+  right:-180px;
+  border-left:260px solid transparent;
+  border-right:260px solid transparent;
+  border-bottom:480px solid #a8edf0;
+  transform:rotate(35deg);
+}
+
+/* 右中央ピンク */
+.s6{
+  top:420px;
+  right:-140px;
+  border-left:180px solid transparent;
+  border-right:180px solid transparent;
+  border-bottom:360px solid #ff9bb2;
+  transform:rotate(-20deg);
+}
+
+/* 右上紫 */
+.s7{
+  top:20px;
+  right:20px;
+  border-left:50px solid transparent;
+  border-right:50px solid transparent;
+  border-bottom:100px solid #e9c6ff;
+  transform:rotate(35deg);
+}
+
+/* 右下黄 */
+.s8{
+  bottom:30px;
+  right:50px;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:120px solid #ffe066;
+  transform:rotate(-15deg);
+}
+
 </style>
