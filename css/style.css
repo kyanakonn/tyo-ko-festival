@@ -643,6 +643,7 @@ header{
 .nav-btn:active{
  transform:translateY(4px);
  box-shadow:0 3px 0 #1b5e20;
+}
 
 #particles-js{
  pointer-events: none;
