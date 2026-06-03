@@ -185,21 +185,23 @@ header h1{
  letter-spacing:10px;
 }
 
-.hero-subtitle{
+.hero-title-wrap{
   position:relative;
   z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
 
-  color:#fff;
-  font-size:40px;
+.hero-subtitle{
+  margin-top:10px;
+
+  color:#ff4d6d;
+
+  font-size:48px;
   font-weight:700;
 
-  margin-top:15px;
-
-  background:rgba(0,0,0,.25);
-  padding:8px 18px;
-  border-radius:999px;
-
-  text-shadow:0 3px 10px rgba(0,0,0,.4);
+  text-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 /* セクション */
 /* バナー下 */
@@ -790,7 +792,7 @@ header{
 
   /* タイトル */
   .hero h1{
-    font-size:42px;
+    font-size:80px;
     letter-spacing:3px;
   }
 
@@ -800,7 +802,8 @@ header{
   }
 
   .hero-subtitle{
-  font-size:24px;
+  font-size:42px;
+  margin-top:6px;
 }
   
   /* ヘッダーメニュー */
