@@ -185,6 +185,22 @@ header h1{
  letter-spacing:10px;
 }
 
+.hero-subtitle{
+  position:relative;
+  z-index:1;
+
+  color:#fff;
+  font-size:40px;
+  font-weight:700;
+
+  margin-top:15px;
+
+  background:rgba(0,0,0,.25);
+  padding:8px 18px;
+  border-radius:999px;
+
+  text-shadow:0 3px 10px rgba(0,0,0,.4);
+}
 /* セクション */
 /* バナー下 */
 .banner-section{
@@ -783,6 +799,10 @@ header{
     font-size:26px;
   }
 
+  .hero-subtitle{
+  font-size:24px;
+}
+  
   /* ヘッダーメニュー */
   .top-nav{
     gap:10px;
