@@ -4,7 +4,6 @@ body{
   background:#fdfdfd;
 }
 
-#particles-js{position:fixed;width:100%;height:100%;z-index:-1}
 
 /* ローディング */
 #loader{
@@ -646,13 +645,6 @@ header{
  box-shadow:0 3px 0 #1b5e20;
 }
 
-#particles-js{
- pointer-events: none;
- position: fixed;
- width: 100%;
- height: 100%;
- z-index: 0;
-}
 
 header{
  position: relative;
@@ -662,8 +654,9 @@ header{
 .bg-shapes{
   position:fixed;
   inset:0;
-  z-index:-1;
+  z-index:-10;
   pointer-events:none;
+  opacity:.85;
 }
 
 .shape{
@@ -674,82 +667,97 @@ header{
 
 /* 左上ピンク */
 .s1{
-  top:-80px;
-  left:-140px;
-  border-left:180px solid transparent;
-  border-right:180px solid transparent;
-  border-bottom:380px solid #ff8fa3;
+  top:-100px;
+  left:-180px;
+
+  border-left:140px solid transparent;
+  border-right:140px solid transparent;
+  border-bottom:300px solid #f78aa0;
+
   transform:rotate(-20deg);
 }
 
 /* 左中央紫 */
 .s2{
-  top:260px;
-  left:-120px;
-  border-left:120px solid transparent;
-  border-right:120px solid transparent;
-  border-bottom:240px solid #d8b4fe;
-  transform:rotate(20deg);
+  top:320px;
+  left:-90px;
+
+  border-left:90px solid transparent;
+  border-right:90px solid transparent;
+  border-bottom:180px solid #d7b6ff;
+
+  transform:rotate(18deg);
 }
 
-/* 左下黄 */
+/* 左下黄色 */
 .s3{
-  bottom:-180px;
-  left:-120px;
-  border-left:220px solid transparent;
-  border-right:220px solid transparent;
-  border-bottom:420px solid #ffe066;
-  transform:rotate(10deg);
+  bottom:-120px;
+  left:-60px;
+
+  border-left:120px solid transparent;
+  border-right:120px solid transparent;
+  border-bottom:240px solid #f5d95b;
+
+  transform:rotate(12deg);
 }
 
 /* 左下水色 */
 .s4{
   bottom:120px;
-  left:20px;
+  left:0px;
+
   border-left:70px solid transparent;
   border-right:70px solid transparent;
-  border-bottom:140px solid #7bdff2;
+  border-bottom:140px solid #77d9eb;
+
   transform:rotate(15deg);
-}
-
-/* 右上水色 */
-.s5{
-  top:40px;
-  right:-180px;
-  border-left:260px solid transparent;
-  border-right:260px solid transparent;
-  border-bottom:480px solid #a8edf0;
-  transform:rotate(35deg);
-}
-
-/* 右中央ピンク */
-.s6{
-  top:420px;
-  right:-140px;
-  border-left:180px solid transparent;
-  border-right:180px solid transparent;
-  border-bottom:360px solid #ff9bb2;
-  transform:rotate(-20deg);
 }
 
 /* 右上紫 */
 .s7{
-  top:20px;
-  right:20px;
+  top:90px;
+  right:30px;
+
   border-left:50px solid transparent;
   border-right:50px solid transparent;
-  border-bottom:100px solid #e9c6ff;
+  border-bottom:100px solid #d7b6ff;
+
   transform:rotate(35deg);
 }
 
-/* 右下黄 */
-.s8{
-  bottom:30px;
-  right:50px;
-  border-left:60px solid transparent;
-  border-right:60px solid transparent;
-  border-bottom:120px solid #ffe066;
+/* 右巨大水色 */
+.s5{
+  top:200px;
+  right:-160px;
+
+  border-left:220px solid transparent;
+  border-right:220px solid transparent;
+  border-bottom:380px solid #98d8dc;
+
+  transform:rotate(30deg);
+}
+
+/* 右下ピンク */
+.s6{
+  bottom:-80px;
+  right:-80px;
+
+  border-left:130px solid transparent;
+  border-right:130px solid transparent;
+  border-bottom:260px solid #f78aa0;
+
   transform:rotate(-15deg);
 }
 
+/* 右下黄色 */
+.s8{
+  bottom:40px;
+  right:40px;
+
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:120px solid #f5d95b;
+
+  transform:rotate(-15deg);
+}
 </style>
