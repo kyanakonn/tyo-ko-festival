@@ -13,34 +13,49 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --main-color: #d96b8a;
+    }
+
     body {
       min-height: 100vh;
-      background: #0b0b0b;
-      color: #ffffff;
+      background: #ffffff;
       font-family: "Yu Gothic", "Hiragino Sans", sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 2rem;
+      padding: 20px;
     }
 
     .container {
       width: 100%;
-      max-width: 800px;
+      max-width: 1200px;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      margin-bottom: 2rem;
-      font-weight: bold;
-      line-height: 1.4;
+      color: var(--main-color);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 40px;
+
+      /* できるだけ1行に収める */
+      font-size: clamp(1.2rem, 4vw, 3rem);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .coming-soon {
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      opacity: 0.8;
-      letter-spacing: 0.1em;
+      color: var(--main-color);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: clamp(1rem, 4vw, 1.8rem);
+      }
     }
   </style>
 </head>
@@ -48,9 +63,7 @@
 <body>
   <div class="container">
     <h1>文化祭（一般公開時）来校上のお願い</h1>
-    <div class="coming-soon">
-      準備中
-    </div>
+    <div class="coming-soon">準備中</div>
   </div>
 </body>
 </html>
