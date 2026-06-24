@@ -944,8 +944,6 @@ header{
     border-bottom:80px solid #f5d95b;
   }
 
-}
-
 html,
 body{
   width:100%;
@@ -963,10 +961,7 @@ body{
 }
 
 .slider,
-.banner-slider,
-.slides,
-.banner-track{
-  max-width:100%;
+.banner-slider{
   overflow:hidden;
 }
 
