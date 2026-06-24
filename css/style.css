@@ -952,4 +952,22 @@ body{
   overflow-x:hidden;
 }
 
+html,
+body{
+  overflow-x:hidden !important;
+  max-width:100%;
+}
+
+body{
+  position:relative;
+}
+
+.slider,
+.banner-slider,
+.slides,
+.banner-track{
+  max-width:100%;
+  overflow:hidden;
+}
+
 </style>
