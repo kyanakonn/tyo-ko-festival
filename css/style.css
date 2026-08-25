@@ -1396,4 +1396,55 @@ body{
 body:not(:has(.hero)){
   padding-top: 45px !important;
 }
+/* ===== 企画カード調整 ===== */
+
+.card{
+  flex: 0 0 55%;
+  margin: 0 10px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.card img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card div{
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.card h3{
+  font-size: 16px;
+  margin: 0;
+}
+
+
+/* ===== スマホ ===== */
+
+@media (max-width: 768px){
+
+  .card{
+    flex: 0 0 70%;
+    margin: 0 8px;
+  }
+
+  .card img{
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .card div{
+    padding: 6px 8px;
+  }
+
+  .card h3{
+    font-size: 14px;
+  }
+
+}
 </style>
