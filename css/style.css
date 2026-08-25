@@ -9,6 +9,7 @@ html,
 body {
   font-family: 'Noto Sans JP', sans-serif;
   background-color: #D2D1D0;
+  position:relative;
 }
 /* ロード */
 #loader{
