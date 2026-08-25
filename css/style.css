@@ -1358,3 +1358,9 @@ footer {
   }
 
 }
+
+/* ===== トップ画像のタイトルを非表示 ===== */
+
+.hero-title-wrap {
+  display: none !important;
+}
