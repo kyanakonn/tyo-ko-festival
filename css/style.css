@@ -1,8 +1,13 @@
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans JP',sans-serif}body {
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Noto Sans JP',sans-serif;
+}
 
-body {
-  background-color: #D2D1D0;
+body{
+  background-color:#D2D1D0;
 }
 
 /* ロード */
@@ -513,14 +518,7 @@ footer p{
   border-radius: 8px;
   text-decoration: none;
 }
-
-/* TOP画面デザイン(上書き) */
-body {
-  background: #D2D1D0;
-  color: black;
-  font-family: 'Noto Sans JP', sans-serif;
-  margin: 0;
-}  
+ 
 /* フロアマップbakkubotann */
   .back-btn {
   display: inline-block;
