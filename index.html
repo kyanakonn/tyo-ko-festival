@@ -57,23 +57,60 @@
 fetch("header.html")
   .then(res => res.text())
   .then(data => {
-    document.getElementById("header").innerHTML = data;
-    
-    const btn = document.querySelector(".menu-btn");
-    const nav = document.querySelector(".nav");
 
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      nav.classList.toggle("active");
-    });
+    const headerContainer = document.getElementById("header");
 
-    document.addEventListener("click", (e) => {
-      if (!nav.contains(e.target) && !btn.contains(e.target)) {
-        nav.classList.remove("active");
-      }
-    });
+    headerContainer.innerHTML = data;
+
+    const header = headerContainer.querySelector("header");
+    const btn = headerContainer.querySelector(".menu-btn");
+    const nav = headerContainer.querySelector(".nav");
+
+    /* -------------------------
+       ヘッダーの実際の高さを取得
+    ------------------------- */
+
+    function updateHeaderHeight() {
+
+      if (!header) return;
+
+      const height = header.getBoundingClientRect().height;
+
+      document.documentElement.style.setProperty(
+        "--header-height",
+        height + "px"
+      );
+    }
+
+    updateHeaderHeight();
+
+    window.addEventListener("resize", updateHeaderHeight);
+
+    /* -------------------------
+       メニュー
+    ------------------------- */
+
+    if (btn && nav) {
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nav.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+
+        if (
+          !nav.contains(e.target) &&
+          !btn.contains(e.target)
+        ) {
+          nav.classList.remove("active");
+        }
+
+      });
+    }
+
   });
-</script>  
+</script>
 <div class="hero">
   <img src="hero.jpg" class="hero-bg">
 
