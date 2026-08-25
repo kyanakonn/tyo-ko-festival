@@ -161,6 +161,22 @@ header h1{
  left:0;
 }
 
+.hero img.hero-front {
+  position: absolute;
+  z-index: 100;
+
+  width: 90%;
+  max-width: 1200px;
+  height: auto;
+
+  object-fit: contain;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+}
 .hero-overlay{
  position:absolute;
  width:100%;
