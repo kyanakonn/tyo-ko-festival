@@ -1378,4 +1378,15 @@ header{
   }
 
 }
+
+/* ===== 固定ヘッダー分の余白 ===== */
+
+body{
+  padding-top: 0 !important;
+}
+
+/* トップページ以外の本文をヘッダーの下から開始 */
+body:not(:has(.hero)){
+  padding-top: 45px !important;
+}
 </style>
