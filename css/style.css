@@ -986,14 +986,12 @@ body{
   z-index: 100;
 
   width: 100%;
-  max-width: none;
   height: 100%;
 
-  object-fit: cover;
+  object-fit: contain;
 
   top: 0;
   left: 0;
-  transform: none;
 
   pointer-events: none;
 }
