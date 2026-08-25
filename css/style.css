@@ -518,9 +518,9 @@ footer p{
 body {
   background: #D2D1D0;
   color: black;
-  font-family: sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   margin: 0;
-}
+}  
 /* フロアマップbakkubotann */
   .back-btn {
   display: inline-block;
