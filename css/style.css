@@ -981,17 +981,19 @@ body{
   overflow:hidden;
 }
 
-.hero-front {
+.hero img.hero-front {
   position: absolute;
   z-index: 100;
 
-  width: 90%;
-  max-width: 1200px;
-  height: auto;
+  width: 100%;
+  max-width: none;
+  height: 100%;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  object-fit: cover;
+
+  top: 0;
+  left: 0;
+  transform: none;
 
   pointer-events: none;
 }
