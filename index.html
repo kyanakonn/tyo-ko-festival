@@ -66,10 +66,7 @@ fetch("header.html")
     const btn = headerContainer.querySelector(".menu-btn");
     const nav = headerContainer.querySelector(".nav");
 
-    /* -------------------------
-       ヘッダーの実際の高さを取得
-    ------------------------- */
-
+    /* ヘッダーの実際の高さを取得 */
     function updateHeaderHeight() {
 
       if (!header) return;
@@ -86,10 +83,7 @@ fetch("header.html")
 
     window.addEventListener("resize", updateHeaderHeight);
 
-    /* -------------------------
-       メニュー
-    ------------------------- */
-
+    /* メニュー */
     if (btn && nav) {
 
       btn.addEventListener("click", (e) => {
@@ -111,6 +105,7 @@ fetch("header.html")
 
   });
 </script>
+  
 <div class="hero">
   <img src="hero.jpg" class="hero-bg">
 
