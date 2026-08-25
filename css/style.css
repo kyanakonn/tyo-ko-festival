@@ -631,7 +631,7 @@ footer p{
 }
 
 body{
- padding-top:70px;
+ padding-top:0px;
 }
 
 header{
@@ -1228,5 +1228,21 @@ body {
 
 .hero img.hero-front {
   max-width: 100%;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+}
+
+header{
+  top:0;
+  margin:0;
+}
+
+.hero{
+  margin:0;
+  padding:0;
 }
 </style>
