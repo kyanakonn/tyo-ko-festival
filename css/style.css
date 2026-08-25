@@ -1419,50 +1419,165 @@ body:not(:has(.hero)){
 }
 
 /* ========================================
-   スマホ：ヘッダー・トップ画像・ticker調整
+   ヘッダー・トップ画像・ticker 最終調整
    ======================================== */
+
+/* ヘッダー */
+#header{
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 100000 !important;
+}
+
+#header header{
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 100000 !important;
+}
+
+
+/* ===== トップ画像 ===== */
+
+.hero{
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+
+  /* ヘッダーとtickerの分を確保 */
+  box-sizing: border-box;
+}
+
+
+/* 背景画像 */
+.hero > img.hero-bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* 前面画像 */
+.hero img.hero-front{
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  /* tickerに被らない */
+  max-height: calc(100% - 30px);
+  object-fit: contain;
+}
+
+
+/* ===== ticker ===== */
+
+.ticker{
+  position: absolute !important;
+
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  height: 30px !important;
+
+  background: rgba(0,0,0,0.85);
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+
+  z-index: 500 !important;
+
+  box-sizing: border-box;
+}
+
+
+/* ===== PC ===== */
+
+@media (min-width: 769px){
+
+  .hero{
+    /*
+      ヘッダーの高さを約40pxとして確保
+      ticker 30pxも確保
+    */
+    height: calc(80vh + 40px);
+    padding-top: 40px !important;
+  }
+
+  .hero img.hero-front{
+    top: calc(50% + 20px);
+  }
+
+}
+
+
+/* ===== スマホ ===== */
 
 @media (max-width: 768px){
 
-  /* ヘッダーは固定 */
-  #header,
-  #header header{
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 100000 !important;
-  }
-
-  /* トップ画像との間に余計な隙間を作らない */
   .hero{
-    margin-top: 0 !important;
+    /*
+      ヘッダー約50px分を画像領域に含める
+      ticker 30pxもhero内に確保
+    */
+    height: auto;
+    aspect-ratio: 1650 / 1080;
+
     padding-top: 50px !important;
+
     box-sizing: border-box;
-    position: relative !important;
-    overflow: hidden;
   }
 
-  /* ヒーロー画像はヘッダーの下から表示 */
+  /* 背景画像 */
   .hero > img.hero-bg{
     top: 50px !important;
     height: calc(100% - 50px) !important;
   }
 
-  /* 前面画像もヘッダーに被らない */
+  /* 前面画像 */
   .hero img.hero-front{
-    top: calc(50% + 25px) !important;
+    width: 100%;
+    max-width: 100%;
+
+    top: calc(50% + 25px);
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    /*
+      tickerにかからないようにする
+    */
+    max-height: calc(100% - 80px);
+    object-fit: contain;
   }
 
-  /* tickerをheroの一番下に固定 */
+  /* ticker */
   .ticker{
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
     height: 30px !important;
-    z-index: 200 !important;
+    bottom: 0 !important;
+    z-index: 500 !important;
   }
 
 }
+
 </style>
