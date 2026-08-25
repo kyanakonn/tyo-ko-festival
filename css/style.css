@@ -1246,6 +1246,31 @@ header{
   padding:0;
 }
 
+/* ===== ヘッダーとトップ画像を密着 ===== */
+
+html,
+body{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+header{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  margin:0 !important;
+}
+
+#header{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+.hero{
+  margin:0 !important;
+  padding:0 !important;
+}
+
 /* ===== スマホでもヘッダーと画像を隙間なくする ===== */
 
 @media (max-width: 768px){
