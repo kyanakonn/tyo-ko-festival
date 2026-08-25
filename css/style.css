@@ -1185,6 +1185,7 @@ body{
   position:absolute;
   z-index:100;
 
+  max-width: 100%;
   width:100%;
   height:auto;
 
@@ -1199,5 +1200,33 @@ body{
 }
 .hero {
   line-height: 0;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+/* ===== 横スクロール防止 ===== */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden !important;
+}
+
+/* キャラ画像が画面幅を超えないようにする */
+.hero {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.hero img.hero-front {
+  max-width: 100%;
 }
 </style>
