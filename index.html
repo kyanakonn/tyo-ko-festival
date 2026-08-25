@@ -58,17 +58,7 @@ fetch("header.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("header").innerHTML = data;
-    const header = document.querySelector("#header header");
-
-    function adjustHeroPosition(){
-      if(header){
-        document.querySelector(".hero").style.marginTop =
-          header.offsetHeight + "px";
-      }
-    }
-
-    adjustHeroPosition();
-    window.addEventListener("resize", adjustHeroPosition);
+    
     const btn = document.querySelector(".menu-btn");
     const nav = document.querySelector(".nav");
 
