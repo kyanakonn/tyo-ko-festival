@@ -1,14 +1,15 @@
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  background-color:#D2D1D0;
+html,
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #D2D1D0;
 }
-
 /* ロード */
 #loader{
  position:fixed;
