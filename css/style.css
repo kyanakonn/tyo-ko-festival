@@ -1,7 +1,8 @@
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans JP',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans JP',sans-serif}body {
+
 body {
-  background-color: #D1D1D0;
+  background-color: #D2D1D0;
 }
 
 /* ロード */
@@ -515,7 +516,7 @@ footer p{
 
 /* TOP画面デザイン(上書き) */
 body {
-  background: white;
+  background: #D2D1D0;
   color: black;
   font-family: sans-serif;
   margin: 0;
