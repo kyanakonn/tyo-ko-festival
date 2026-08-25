@@ -274,7 +274,14 @@ h2{
 }
 .card:hover{transform:translateY(-10px) scale(1.05)}
 
-.card img{width:100%;height:160px;object-fit:cover}
+.card img{
+  width:100%;
+  height:auto;
+  aspect-ratio: 16 / 9;
+  object-fit:contain;
+  display:block;
+  background:#fff;
+}
 .card div{padding:15px}
 .card{
  text-decoration: none;
@@ -346,9 +353,9 @@ footer p{
 }
   
 .card{
- flex: 0 0 70%; 
- margin: 0 10px;
- transition: 0.4s;
+  flex: 0 0 55%;
+  margin: 0 10px;
+  transition: 0.4s;
 }
 
 /* ドット */
@@ -848,7 +855,7 @@ header{
 
   /* 企画カード */
   .card{
-    flex:0 0 85%;
+    flex:0 0 70%;
   }
 
   /* Googleマップ部分 */
