@@ -997,4 +997,8 @@ body{
 
   pointer-events: none;
 }
+/* トップページの背景色 */
+body {
+  background-color: #fcfcfc;
+}
 </style>
