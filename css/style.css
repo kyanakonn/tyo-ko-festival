@@ -1181,16 +1181,20 @@ body{
     aspect-ratio: 1650 / 1080;
   }
 
-  .hero img.hero-front {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.hero img.hero-front{
+  position:absolute;
+  z-index:100;
 
-    top: 0;
-    left: 0;
-    transform: none;
-  }
+  width:100%;
+  height:auto;
+
+  top:50%;
+  left:0;
+
+  transform:translateY(-50%);
+
+  pointer-events:none;
+}
 
 }
 .hero {
