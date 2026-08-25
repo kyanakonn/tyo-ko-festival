@@ -963,14 +963,23 @@ header{
 .bg-shapes{
   position:fixed;
   inset:0;
-  z-index:-10;
+  z-index:0;
   pointer-events:none;
   overflow:hidden;
-  opacity:1;
 }
 
 .shape{
   position:absolute;
+}
+
+#loader,
+#header,
+.hero,
+.banner-section,
+section,
+footer{
+  position:relative;
+  z-index:1;
 }
 
 /* ===== 三角形 ===== */
