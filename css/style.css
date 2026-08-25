@@ -1245,4 +1245,28 @@ header{
   margin:0;
   padding:0;
 }
+
+/* ===== スマホでもヘッダーと画像を隙間なくする ===== */
+
+@media (max-width: 768px){
+
+  html,
+  body{
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  header{
+    top:0 !important;
+    margin:0 !important;
+  }
+
+  .hero{
+    margin:0 !important;
+    padding:0 !important;
+    width:100%;
+    position:relative;
+  }
+
+}
 </style>
