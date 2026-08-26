@@ -30,66 +30,263 @@
       padding: 20px;
     }
 
+    /* =========================
+       メインコンテナ
+    ========================= */
+
     .container {
       width: 100%;
       max-width: 1200px;
+
+      /* ヘッダーに隠れないようにする */
+      margin-top: 80px;
     }
+
+
+    /* =========================
+       タイトル
+    ========================= */
 
     h1 {
       color: var(--main-color);
       font-weight: 700;
       line-height: 1.2;
-      margin-bottom:
-      /* できるだけ1行に収める */
+      margin-bottom: 25px;
+
       font-size: clamp(1.2rem, 4vw, 3rem);
+
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .coming-soon {
-      color: var(--main-color);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 600;
+
+    /* =========================
+       スライダー
+    ========================= */
+
+    .slider-wrapper {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
     }
 
+    .slider {
+      display: flex;
+      width: 600%;
+
+      transition: transform 0.4s ease;
+    }
+
+    .slide {
+      width: calc(100% / 6);
+      flex-shrink: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 0 10px;
+    }
+
+    .slide img {
+      display: block;
+
+      width: 100%;
+      max-width: 850px;
+
+      height: auto;
+
+      max-height: 70vh;
+
+      object-fit: contain;
+
+      border-radius: 10px;
+
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    }
+
+
+    /* =========================
+       左右ボタン
+    ========================= */
+
+    .slider-btn {
+      position: absolute;
+
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 45px;
+      height: 45px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: rgba(255, 255, 255, 0.9);
+
+      color: var(--main-color);
+
+      font-size: 25px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+      z-index: 10;
+
+      transition: 0.2s;
+    }
+
+    .slider-btn:hover {
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .slider-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+
+    /* =========================
+       ページ番号
+    ========================= */
+
+    .page-number {
+      margin-top: 15px;
+
+      font-size: 18px;
+      font-weight: bold;
+
+      color: var(--main-color);
+
+      letter-spacing: 1px;
+    }
+
+
+    /* =========================
+       スマホ
+    ========================= */
+
     @media (max-width: 768px) {
+
+      body {
+        padding: 15px;
+      }
+
+      .container {
+        margin-top: 70px;
+      }
+
       h1 {
-        font-size: clamp(1rem, 4vw, 1.8rem);
+        font-size: clamp(1rem, 5vw, 1.8rem);
+        margin-bottom: 20px;
+      }
+
+      .slider-wrapper {
+        width: 100%;
+      }
+
+      .slide {
+        padding: 0 5px;
+      }
+
+      .slide img {
+        width: 100%;
+        max-height: 65vh;
+      }
+
+      .slider-btn {
+        width: 38px;
+        height: 38px;
+
+        font-size: 20px;
+      }
+
+      .prev {
+        left: 5px;
+      }
+
+      .next {
+        right: 5px;
+      }
+
+      .page-number {
+        font-size: 16px;
+        margin-top: 12px;
       }
     }
   </style>
 </head>
 
+
 <body>
 
-  <!-- 共通ヘッダー -->
+  <!-- =========================
+       共通ヘッダー
+  ========================= -->
+
   <div id="header"></div>
+
 
   <script>
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
+
         document.getElementById("header").innerHTML = data;
 
         const btn = document.querySelector(".menu-btn");
         const nav = document.querySelector(".nav");
 
-        // 開閉
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          nav.classList.toggle("active");
-        });
+        if (btn && nav) {
 
-        document.addEventListener("click", (e) => {
-          if (!nav.contains(e.target) && !btn.contains(e.target)) {
-            nav.classList.remove("active");
-          }
-        });
+          // ハンバーガーメニュー開閉
+          btn.addEventListener("click", (e) => {
+
+            e.stopPropagation();
+
+            nav.classList.toggle("active");
+
+          });
+
+
+          // メニュー外をクリックしたら閉じる
+          document.addEventListener("click", (e) => {
+
+            if (
+              !nav.contains(e.target) &&
+              !btn.contains(e.target)
+            ) {
+
+              nav.classList.remove("active");
+
+            }
+
+          });
+
+        }
+
       });
   </script>
 
+
+  <!-- =========================
+       背景の図形
+  ========================= -->
+
   <div class="bg-shapes">
+
     <div class="shape s1"></div>
     <div class="shape s2"></div>
     <div class="shape s3"></div>
@@ -98,12 +295,271 @@
     <div class="shape s6"></div>
     <div class="shape s7"></div>
     <div class="shape s8"></div>
+
   </div>
 
+
+  <!-- =========================
+       メイン
+  ========================= -->
+
   <div class="container">
-    <h1>文化祭（一般公開時）来校上のお願い</h1>
-    <div class="coming-soon">準備中</div>
+
+    <h1>
+      文化祭（一般公開時）来校上のお願い
+    </h1>
+
+
+    <!-- スライダー -->
+
+    <div class="slider-wrapper">
+
+      <div class="slider" id="slider">
+
+
+        <!-- 1枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor1.jpg"
+            alt="文化祭のお知らせ 1ページ目"
+          >
+
+        </div>
+
+
+        <!-- 2枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor2.jpg"
+            alt="文化祭のお知らせ 2ページ目"
+          >
+
+        </div>
+
+
+        <!-- 3枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor3.jpg"
+            alt="文化祭のお知らせ 3ページ目"
+          >
+
+        </div>
+
+
+        <!-- 4枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor4.jpg"
+            alt="文化祭のお知らせ 4ページ目"
+          >
+
+        </div>
+
+
+        <!-- 5枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor5.jpg"
+            alt="文化祭のお知らせ 5ページ目"
+          >
+
+        </div>
+
+
+        <!-- 6枚目 -->
+
+        <div class="slide">
+
+          <img
+            src="images/visitor6.jpg"
+            alt="文化祭のお知らせ 6ページ目"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- 左ボタン -->
+
+      <button
+        class="slider-btn prev"
+        id="prevBtn"
+        aria-label="前のページ"
+      >
+        ‹
+      </button>
+
+
+      <!-- 右ボタン -->
+
+      <button
+        class="slider-btn next"
+        id="nextBtn"
+        aria-label="次のページ"
+      >
+        ›
+      </button>
+
+    </div>
+
+
+    <!-- ページ番号 -->
+
+    <div class="page-number" id="pageNumber">
+      1 / 6
+    </div>
+
   </div>
+
+
+  <!-- =========================
+       スライダーJavaScript
+  ========================= -->
+
+  <script>
+
+    const slider = document.getElementById("slider");
+
+    const prevBtn = document.getElementById("prevBtn");
+
+    const nextBtn = document.getElementById("nextBtn");
+
+    const pageNumber = document.getElementById("pageNumber");
+
+
+    /* 全ページ数 */
+
+    const totalPages = 6;
+
+
+    /* 現在のページ */
+
+    let currentPage = 0;
+
+
+    /* =========================
+       スライドを移動
+    ========================= */
+
+    function updateSlider() {
+
+      slider.style.transform =
+        `translateX(-${currentPage * (100 / totalPages)}%)`;
+
+
+      pageNumber.textContent =
+        `${currentPage + 1} / ${totalPages}`;
+
+    }
+
+
+    /* =========================
+       次のページ
+    ========================= */
+
+    nextBtn.addEventListener("click", () => {
+
+      if (currentPage < totalPages - 1) {
+
+        currentPage++;
+
+      }
+
+      updateSlider();
+
+    });
+
+
+    /* =========================
+       前のページ
+    ========================= */
+
+    prevBtn.addEventListener("click", () => {
+
+      if (currentPage > 0) {
+
+        currentPage--;
+
+      }
+
+      updateSlider();
+
+    });
+
+
+    /* =========================
+       スワイプ対応
+       スマホで横にスライド
+    ========================= */
+
+    let startX = 0;
+
+    let endX = 0;
+
+
+    slider.addEventListener("touchstart", (e) => {
+
+      startX = e.touches[0].clientX;
+
+    });
+
+
+    slider.addEventListener("touchend", (e) => {
+
+      endX = e.changedTouches[0].clientX;
+
+      const difference = startX - endX;
+
+
+      /* 左にスワイプ */
+
+      if (difference > 50) {
+
+        if (currentPage < totalPages - 1) {
+
+          currentPage++;
+
+          updateSlider();
+
+        }
+
+      }
+
+
+      /* 右にスワイプ */
+
+      if (difference < -50) {
+
+        if (currentPage > 0) {
+
+          currentPage--;
+
+          updateSlider();
+
+        }
+
+      }
+
+    });
+
+
+    /* 初期表示 */
+
+    updateSlider();
+
+  </script>
 
 </body>
 </html>
