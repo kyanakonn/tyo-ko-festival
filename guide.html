@@ -58,13 +58,6 @@
         sans-serif;
 
       touch-action: none;
-
-      /*
-        共通CSSの
-        body:not(:has(.hero))
-        による上部余白を打ち消す
-      */
-      padding-top: 0 !important;
     }
 
 
@@ -252,16 +245,17 @@
       width: 100%;
 
       /*
-        ヘッダー分だけ下から開始し、
-        残りを画像エリアとして使用
+        ヘッダー直下から開始。
+        上側の余白を画面サイズによって
+        増やさないようにする。
       */
-      height: calc(100vh - var(--header-height));
-
-      margin-top: var(--header-height);
+      height: calc(100vh - var(--header-height, 70px));
 
       min-height: 0;
 
       padding: 0;
+
+      margin-top: 0;
 
       display: flex;
 
@@ -366,7 +360,11 @@
 
       justify-content: center;
 
-      align-items: center;
+      /*
+        上側の余白が大きくならないよう、
+        画像を上端基準にする。
+      */
+      align-items: flex-start;
 
       padding: 0;
 
@@ -397,7 +395,7 @@
 
       object-fit: contain;
 
-      object-position: center center;
+      object-position: center top;
 
       border-radius: 0;
 
@@ -584,8 +582,8 @@
     /* =========================================
        拡大モード表示
 
-       ★ページ番号の代わりに
-       ★上部に表示スペースのみ確保
+       ★上部に表示する領域だけ確保
+       ★ページ番号は削除
     ========================================= */
 
     .zoom-indicator {
@@ -637,12 +635,7 @@
 
       .visitor-container {
 
-        /*
-          ヘッダー直下から画像を開始
-        */
-        height: calc(100vh - var(--header-height));
-
-        margin-top: var(--header-height);
+        height: calc(100vh - var(--header-height, 60px));
 
         padding: 0;
 
@@ -691,7 +684,7 @@
 
         height: 100%;
 
-        align-items: center;
+        align-items: flex-start;
 
         justify-content: center;
 
@@ -714,6 +707,8 @@
         max-height: none;
 
         object-fit: contain;
+
+        object-position: center top;
       }
 
 
@@ -772,9 +767,7 @@
 
       .visitor-container {
 
-        height: calc(100vh - var(--header-height));
-
-        margin-top: var(--header-height);
+        height: calc(100vh - var(--header-height, 55px));
       }
 
 
@@ -852,6 +845,29 @@
 
         const nav =
           document.querySelector(".nav");
+
+
+        /*
+          実際のヘッダー高さを取得して
+          visitorページ側に反映する。
+        */
+
+        const headerElement =
+          document.querySelector(
+            "#header header"
+          );
+
+        if (headerElement) {
+
+          const headerHeight =
+            headerElement.getBoundingClientRect().height;
+
+          document.documentElement.style.setProperty(
+            "--header-height",
+            `${headerHeight}px`
+          );
+
+        }
 
 
         if (btn && nav) {
