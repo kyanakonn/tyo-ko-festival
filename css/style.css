@@ -1366,3 +1366,11 @@ footer {
 .hero-title-wrap {
   display: none !important;
 }
+
+/* =========================================
+   ヘッダー固定による他ページの隠れ防止
+========================================= */
+
+body:not(:has(.hero)) {
+  padding-top: var(--header-height) !important;
+}
