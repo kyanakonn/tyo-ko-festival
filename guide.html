@@ -544,39 +544,109 @@
   <!-- =========================================
        スライダーJavaScript
   ========================================= -->
+<script>
 
-  <script>
+  const slides = document.getElementById("slides");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const pageNumber = document.getElementById("pageNumber");
 
-    const slides = document.getElementById("slides");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const pageNumber = document.getElementById("pageNumber");
+  const totalPages = 6;
 
-    const totalPages = 6;
-
-    let currentPage = 0;
+  let currentPage = 0;
 
 
-    /* -----------------------------------------
-       スライドを移動
-    ----------------------------------------- */
+  /* =========================================
+     スライドを1ページ移動
+  ========================================= */
 
-    function updateSlider() {
+  function updateSlider() {
 
-      slides.style.transform =
-        `translateX(-${currentPage * 100}%)`;
+    // 必ず100%ずつ移動
+    slides.style.transform =
+      `translateX(-${currentPage * 100}%)`;
 
-      pageNumber.textContent =
-        `${currentPage + 1} / ${totalPages}`;
+    // ページ番号
+    pageNumber.textContent =
+      `${currentPage + 1} / ${totalPages}`;
+
+  }
+
+
+  /* =========================================
+     次のページ
+  ========================================= */
+
+  nextBtn.addEventListener("click", () => {
+
+    if (currentPage < totalPages - 1) {
+
+      // 1ページだけ進む
+      currentPage++;
+
+    } else {
+
+      // 6ページ目 → 1ページ目
+      currentPage = 0;
 
     }
 
+    updateSlider();
 
-    /* -----------------------------------------
-       次へ
-    ----------------------------------------- */
+  });
 
-    nextBtn.addEventListener("click", () => {
+
+  /* =========================================
+     前のページ
+  ========================================= */
+
+  prevBtn.addEventListener("click", () => {
+
+    if (currentPage > 0) {
+
+      // 1ページだけ戻る
+      currentPage--;
+
+    } else {
+
+      // 1ページ目 → 6ページ目
+      currentPage = totalPages - 1;
+
+    }
+
+    updateSlider();
+
+  });
+
+
+  /* =========================================
+     スワイプ
+  ========================================= */
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+
+  slides.addEventListener("touchstart", (e) => {
+
+    touchStartX = e.changedTouches[0].screenX;
+
+  }, { passive: true });
+
+
+  slides.addEventListener("touchend", (e) => {
+
+    touchEndX = e.changedTouches[0].screenX;
+
+    const difference = touchStartX - touchEndX;
+
+
+    /*
+      左に50px以上スワイプ
+      → 1ページだけ次へ
+    */
+
+    if (difference > 50) {
 
       if (currentPage < totalPages - 1) {
 
@@ -584,25 +654,21 @@
 
       } else {
 
-        /*
-          6ページ目で次を押したら
-          1ページ目に戻る
-        */
-
         currentPage = 0;
 
       }
 
       updateSlider();
 
-    });
+    }
 
 
-    /* -----------------------------------------
-       前へ
-    ----------------------------------------- */
+    /*
+      右に50px以上スワイプ
+      → 1ページだけ前へ
+    */
 
-    prevBtn.addEventListener("click", () => {
+    else if (difference < -50) {
 
       if (currentPage > 0) {
 
@@ -610,81 +676,24 @@
 
       } else {
 
-        /*
-          1ページ目で前を押したら
-          6ページ目に戻る
-        */
-
         currentPage = totalPages - 1;
 
       }
 
       updateSlider();
 
-    });
+    }
+
+  }, { passive: true });
 
 
-    /* -----------------------------------------
-       初期表示
-    ----------------------------------------- */
+  /* =========================================
+     初期表示
+  ========================================= */
 
-    updateSlider();
+  updateSlider();
 
-
-    /* -----------------------------------------
-       スワイプ対応
-    ----------------------------------------- */
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    slides.addEventListener("touchstart", (e) => {
-
-      touchStartX = e.changedTouches[0].screenX;
-
-    });
-
-
-    slides.addEventListener("touchend", (e) => {
-
-      touchEndX = e.changedTouches[0].screenX;
-
-      const difference =
-        touchStartX - touchEndX;
-
-
-      /* 左にスワイプ → 次へ */
-
-      if (difference > 50) {
-
-        if (currentPage < totalPages - 1) {
-          currentPage++;
-        } else {
-          currentPage = 0;
-        }
-
-        updateSlider();
-
-      }
-
-
-      /* 右にスワイプ → 前へ */
-
-      if (difference < -50) {
-
-        if (currentPage > 0) {
-          currentPage--;
-        } else {
-          currentPage = totalPages - 1;
-        }
-
-        updateSlider();
-
-      }
-
-    });
-
-  </script>
+</script>
 
 </body>
 </html>
