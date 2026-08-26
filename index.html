@@ -278,170 +278,440 @@ gsap.utils.toArray("section").forEach(sec=>{
  });
 });
 
-//スライド
+
+// =========================================
+// 企画・イベント スライダー
+// 滑らかな無限ループ
+// =========================================
+
 const slides = document.getElementById("slides");
 const dotsContainer = document.getElementById("dots");
 const slider = document.querySelector(".slider");
 
-let index = 1;
+let index = 0;
 let startX = 0;
 let currentX = 0;
 let velocity = 0;
 let isDragging = false;
 let autoSlide;
-  
-// ===== クローン =====
-const items = slides.children;
-const total = items.length;
 
-const first = items[0].cloneNode(true);
-const last = items[total-1].cloneNode(true);
 
-slides.appendChild(first);
-slides.insertBefore(last, slides.firstChild);
+// ===== 元のカードを取得 =====
+
+const originalItems = Array.from(slides.children);
+const total = originalItems.length;
+
+
+// =========================================
+// カードを3セットにする
+// =========================================
+
+slides.innerHTML = "";
+
+const sets = 3;
+
+for(let s = 0; s < sets; s++){
+
+  originalItems.forEach(item => {
+
+    const clone = item.cloneNode(true);
+
+    slides.appendChild(clone);
+
+  });
+
+}
+
+
+// =========================================
+// カード1枚分の正確な移動幅
+// =========================================
 
 function getSlideWidth(){
- return slides.children[0].getBoundingClientRect().width;
+
+  const card = slides.children[0];
+
+  if(!card) return 0;
+
+  const style = getComputedStyle(card);
+
+  const width = card.getBoundingClientRect().width;
+
+  const marginLeft =
+    parseFloat(style.marginLeft) || 0;
+
+  const marginRight =
+    parseFloat(style.marginRight) || 0;
+
+  return width + marginLeft + marginRight;
 }
+
 
 let slideWidth = getSlideWidth();
 
-function setPosition(){
- slides.style.transform = `translateX(-${slideWidth * index}px)`;
+
+// =========================================
+// 位置設定
+// =========================================
+
+function setPosition(animate = false){
+
+  slides.style.transition =
+    animate ? "0.5s" : "none";
+
+  slides.style.transform =
+    `translateX(-${slideWidth * index}px)`;
+
 }
 
-window.addEventListener("load",()=>{
-slideWidth = getSlideWidth();
-setPosition();
+
+// =========================================
+// 初期位置
+// =========================================
+
+// 真ん中のセットの1枚目から開始
+index = total;
+
+window.addEventListener("load", () => {
+
+  slideWidth = getSlideWidth();
+
+  index = total;
+
+  setPosition(false);
+
 });
 
-// ===== ドット =====
-for(let i=0;i<total;i++){
- const dot = document.createElement("span");
- if(i===0) dot.classList.add("active");
 
- dot.onclick = ()=>{
-   index = i+1;
-   moveSlide();
- };
+// =========================================
+// ドット
+// =========================================
 
- dotsContainer.appendChild(dot);
+for(let i = 0; i < total; i++){
+
+  const dot = document.createElement("span");
+
+  if(i === 0){
+
+    dot.classList.add("active");
+
+  }
+
+  dot.onclick = () => {
+
+    index = total + i;
+
+    moveSlide();
+
+  };
+
+  dotsContainer.appendChild(dot);
+
 }
 
-// ===== スライド移動 =====
+
+// =========================================
+// ドット更新
+// =========================================
+
+function updateDots(){
+
+  let current =
+    index % total;
+
+  if(current < 0){
+
+    current += total;
+
+  }
+
+  const dots =
+    dotsContainer.querySelectorAll("span");
+
+  dots.forEach((dot, i) => {
+
+    dot.classList.toggle(
+      "active",
+      i === current
+    );
+
+  });
+
+}
+
+
+// =========================================
+// スライド移動
+// =========================================
+
 function moveSlide(){
- slides.style.transition = "0.5s";
- setPosition();
+
+  slides.style.transition =
+    "0.5s";
+
+  slides.style.transform =
+    `translateX(-${slideWidth * index}px)`;
+
+  updateDots();
+
 }
 
-// ===== 無限ループ =====
-slides.addEventListener("transitionend",()=>{
- if(index === 0){
-   slides.style.transition="none";
-   index = total;
-   setPosition();
- }
- if(index === total+1){
-   slides.style.transition="none";
-   index = 1;
-   setPosition();
- }
+
+// =========================================
+// 無限ループ
+// =========================================
+
+slides.addEventListener("transitionend", () => {
+
+  // 右方向へ進みすぎた場合
+  if(index >= total * 2){
+
+    slides.style.transition =
+      "none";
+
+    index -= total;
+
+    slides.style.transform =
+      `translateX(-${slideWidth * index}px)`;
+
+    requestAnimationFrame(() => {
+
+      slides.style.transition =
+        "0.5s";
+
+    });
+
+  }
+
+
+  // 左方向へ進みすぎた場合
+  if(index < total){
+
+    slides.style.transition =
+      "none";
+
+    index += total;
+
+    slides.style.transform =
+      `translateX(-${slideWidth * index}px)`;
+
+    requestAnimationFrame(() => {
+
+      slides.style.transition =
+        "0.5s";
+
+    });
+
+  }
+
+  updateDots();
 
 });
-// ===== 自動スライド =====
+
+
+// =========================================
+// 自動スライド
+// =========================================
+
 function startAuto(){
- autoSlide = setInterval(()=>{
-   index++;
-   moveSlide();
- },3000);
+
+  stopAuto();
+
+  autoSlide = setInterval(() => {
+
+    index++;
+
+    moveSlide();
+
+  }, 3000);
+
 }
+
+
 function stopAuto(){
- clearInterval(autoSlide);
+
+  clearInterval(autoSlide);
+
 }
+
+
 startAuto();
 
-// ===== スワイプ（慣性付き） =====
-slider.addEventListener("touchstart",(e)=>{
- startX = e.touches[0].clientX;
- currentX = startX;
- isDragging = true;
- velocity = 0;
- stopAuto(); // ←触ったら停止
+
+// =========================================
+// スワイプ（慣性付き）
+// =========================================
+
+slider.addEventListener("touchstart", (e) => {
+
+  startX =
+    e.touches[0].clientX;
+
+  currentX =
+    startX;
+
+  isDragging =
+    true;
+
+  velocity =
+    0;
+
+  stopAuto();
+
 });
 
-slider.addEventListener("touchmove",(e)=>{
- if(!isDragging) return;
 
- const x = e.touches[0].clientX;
- velocity = x - currentX;
- currentX = x;
+slider.addEventListener("touchmove", (e) => {
 
- const move = x - startX;
- slides.style.transition = "none";
- slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
+  if(!isDragging) return;
+
+  const x =
+    e.touches[0].clientX;
+
+  velocity =
+    x - currentX;
+
+  currentX =
+    x;
+
+  const move =
+    x - startX;
+
+  slides.style.transition =
+    "none";
+
+  slides.style.transform =
+    `translateX(${-(slideWidth * index) + move}px)`;
+
 });
 
-slider.addEventListener("touchend",()=>{
- isDragging = false;
 
- if(velocity > 5){
-   index--;
- }else if(velocity < -5){
-   index++;
- }
+slider.addEventListener("touchend", () => {
 
- moveSlide();
- startAuto(); // ←離したら再開
+  isDragging =
+    false;
+
+  if(velocity > 5){
+
+    index--;
+
+  }else if(velocity < -5){
+
+    index++;
+
+  }
+
+  moveSlide();
+
+  startAuto();
+
 });
 
-// ===== PCドラッグ =====
-slider.addEventListener("mousedown",(e)=>{
- startX = e.clientX;
- currentX = startX;
- isDragging = true;
- velocity = 0;
- stopAuto();
+
+// =========================================
+// PCドラッグ
+// =========================================
+
+slider.addEventListener("mousedown", (e) => {
+
+  startX =
+    e.clientX;
+
+  currentX =
+    startX;
+
+  isDragging =
+    true;
+
+  velocity =
+    0;
+
+  stopAuto();
+
 });
 
-slider.addEventListener("mousemove",(e)=>{
- if(!isDragging) return;
 
- const x = e.clientX;
- velocity = x - currentX;
- currentX = x;
+slider.addEventListener("mousemove", (e) => {
 
- const move = x - startX;
- slides.style.transition = "none";
- slides.style.transform = `translateX(${-(slideWidth * index) + move}px)`;
+  if(!isDragging) return;
+
+  const x =
+    e.clientX;
+
+  velocity =
+    x - currentX;
+
+  currentX =
+    x;
+
+  const move =
+    x - startX;
+
+  slides.style.transition =
+    "none";
+
+  slides.style.transform =
+    `translateX(${-(slideWidth * index) + move}px)`;
+
 });
 
-slider.addEventListener("mouseup",()=>{
- isDragging = false;
 
- if(velocity > 5){
-   index--;
- }else if(velocity < -5){
-   index++;
- }
+slider.addEventListener("mouseup", () => {
 
- moveSlide();
- startAuto();
+  isDragging =
+    false;
+
+  if(velocity > 5){
+
+    index--;
+
+  }else if(velocity < -5){
+
+    index++;
+
+  }
+
+  moveSlide();
+
+  startAuto();
+
 });
 
-slider.addEventListener("mouseleave",()=>{
- isDragging = false;
+
+slider.addEventListener("mouseleave", () => {
+
+  isDragging =
+    false;
+
 });
 
-// ===== リサイズ対応 =====
-window.addEventListener("resize",()=>{
- slideWidth = getSlideWidth();
- setPosition();
+
+// =========================================
+// リサイズ対応
+// =========================================
+
+window.addEventListener("resize", () => {
+
+  slideWidth =
+    getSlideWidth();
+
+  setPosition();
+
 });
 
-// ===== バナースライダー =====
-const track = document.getElementById("bannerTrack");
-const dots = document.getElementById("bannerDots");
-const banners = track.children;
+
+// =========================================
+// バナースライダー
+// =========================================
+
+const track =
+  document.getElementById("bannerTrack");
+
+const dots =
+  document.getElementById("bannerDots");
+
+const banners =
+  track.children;
 
 let bIndex = 0;
 let bStartX = 0;
@@ -450,88 +720,190 @@ let bVelocity = 0;
 let bDragging = false;
 let bAuto;
 
-const bTotal = banners.length;
+const bTotal =
+  banners.length;
 
+
+// =========================================
 // ドット生成
-for(let i=0;i<bTotal;i++){
- const d = document.createElement("span");
- if(i===0) d.classList.add("active");
+// =========================================
 
- d.onclick = ()=>{
-  bIndex = i;
-  updateBanner();
- };
+for(let i = 0; i < bTotal; i++){
 
- dots.appendChild(d);
+  const d =
+    document.createElement("span");
+
+  if(i === 0){
+
+    d.classList.add("active");
+
+  }
+
+  d.onclick = () => {
+
+    bIndex = i;
+
+    updateBanner();
+
+  };
+
+  dots.appendChild(d);
+
 }
 
+
+// =========================================
 // 幅取得
+// =========================================
+
 function getBannerWidth(){
- return banners[0].getBoundingClientRect().width + 20;
+
+  return banners[0].getBoundingClientRect().width + 20;
+
 }
 
-let bWidth = getBannerWidth();
 
+let bWidth =
+  getBannerWidth();
+
+
+// =========================================
 // 更新
+// =========================================
+
 function updateBanner(){
- track.style.transform = `translateX(-${bWidth * bIndex}px)`;
 
- document.querySelectorAll(".banner-dots span").forEach((d,i)=>{
-  d.classList.toggle("active", i===bIndex);
- });
+  track.style.transform =
+    `translateX(-${bWidth * bIndex}px)`;
+
+  document
+    .querySelectorAll(".banner-dots span")
+    .forEach((d,i)=>{
+
+      d.classList.toggle(
+        "active",
+        i === bIndex
+      );
+
+    });
+
 }
 
+
+// =========================================
 // 自動
+// =========================================
+
 function startBannerAuto(){
- bAuto = setInterval(()=>{
-  bIndex = (bIndex + 1) % bTotal;
-  updateBanner();
- },3000);
+
+  bAuto =
+    setInterval(() => {
+
+      bIndex =
+        (bIndex + 1) % bTotal;
+
+      updateBanner();
+
+    },3000);
+
 }
+
+
 function stopBannerAuto(){
- clearInterval(bAuto);
+
+  clearInterval(bAuto);
+
 }
+
+
 startBannerAuto();
 
+
+// =========================================
 // スワイプ
+// =========================================
+
 track.addEventListener("touchstart",(e)=>{
- bStartX = e.touches[0].clientX;
- bCurrentX = bStartX;
- bDragging = true;
- stopBannerAuto();
+
+  bStartX =
+    e.touches[0].clientX;
+
+  bCurrentX =
+    bStartX;
+
+  bDragging =
+    true;
+
+  stopBannerAuto();
+
 });
+
 
 track.addEventListener("touchmove",(e)=>{
- if(!bDragging) return;
 
- const x = e.touches[0].clientX;
- bVelocity = x - bCurrentX;
- bCurrentX = x;
+  if(!bDragging) return;
 
- const move = x - bStartX;
- track.style.transition = "none";
- track.style.transform = `translateX(${-(bWidth * bIndex) + move}px)`;
+  const x =
+    e.touches[0].clientX;
+
+  bVelocity =
+    x - bCurrentX;
+
+  bCurrentX =
+    x;
+
+  const move =
+    x - bStartX;
+
+  track.style.transition =
+    "none";
+
+  track.style.transform =
+    `translateX(${-(bWidth * bIndex) + move}px)`;
+
 });
+
 
 track.addEventListener("touchend",()=>{
- bDragging = false;
 
- if(bVelocity > 5) bIndex--;
- else if(bVelocity < -5) bIndex++;
+  bDragging =
+    false;
 
- if(bIndex < 0) bIndex = 0;
- if(bIndex >= bTotal) bIndex = bTotal-1;
+  if(bVelocity > 5)
+    bIndex--;
 
- track.style.transition = "0.5s";
- updateBanner();
- startBannerAuto();
+  else if(bVelocity < -5)
+    bIndex++;
+
+  if(bIndex < 0)
+    bIndex = 0;
+
+  if(bIndex >= bTotal)
+    bIndex = bTotal - 1;
+
+  track.style.transition =
+    "0.5s";
+
+  updateBanner();
+
+  startBannerAuto();
+
 });
 
+
+// =========================================
 // リサイズ
+// =========================================
+
 window.addEventListener("resize",()=>{
- bWidth = getBannerWidth();
- updateBanner();
+
+  bWidth =
+    getBannerWidth();
+
+  updateBanner();
+
 });
+
 </script>
 
 </body>
