@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -30,22 +31,20 @@
 
     html,
     body {
+
       width: 100%;
       height: 100%;
 
       margin: 0;
       padding: 0;
 
-      /*
-        visitorページでは
-        縦・横スクロールを完全に禁止
-      */
       overflow: hidden;
 
       overscroll-behavior: none;
     }
 
     body {
+
       background: #ffffff;
 
       font-family:
@@ -53,10 +52,6 @@
         "Hiragino Sans",
         sans-serif;
 
-      /*
-        iPhone等での
-        不要なスクロール操作を防止
-      */
       touch-action: none;
     }
 
@@ -66,6 +61,7 @@
     ========================================= */
 
     #header {
+
       position: relative;
 
       z-index: 10000;
@@ -94,6 +90,7 @@
     }
 
     .shape {
+
       position: absolute;
     }
 
@@ -103,6 +100,7 @@
     ========================================= */
 
     .s1 {
+
       top: 5%;
       left: -50px;
 
@@ -117,6 +115,7 @@
     }
 
     .s2 {
+
       top: 25%;
       left: -35px;
 
@@ -131,6 +130,7 @@
     }
 
     .s3 {
+
       bottom: 5%;
       left: -30px;
 
@@ -145,6 +145,7 @@
     }
 
     .s4 {
+
       bottom: 28%;
       left: 20px;
 
@@ -159,6 +160,7 @@
     }
 
     .s5 {
+
       top: 12%;
       right: -80px;
 
@@ -173,6 +175,7 @@
     }
 
     .s6 {
+
       bottom: -40px;
       right: -30px;
 
@@ -187,6 +190,7 @@
     }
 
     .s7 {
+
       top: 8%;
       right: 40px;
 
@@ -201,6 +205,7 @@
     }
 
     .s8 {
+
       bottom: 20%;
       right: 40px;
 
@@ -227,10 +232,6 @@
 
       width: 100%;
 
-      /*
-        ヘッダー以外の部分を
-        画面いっぱいに使用
-      */
       height: calc(100vh - 70px);
 
       min-height: 0;
@@ -243,8 +244,6 @@
 
       align-items: center;
 
-      justify-content: flex-start;
-
       overflow: hidden;
     }
 
@@ -254,6 +253,8 @@
     ========================================= */
 
     .slider-wrapper {
+
+      position: relative;
 
       width: 100%;
 
@@ -276,39 +277,36 @@
 
 
     /* =========================================
-       画像表示部分
+       画像エリア
+       
+       ページ番号のスペースを
+       下に確保
     ========================================= */
 
     .slider {
 
-      /*
-        画像エリアだけが
-        残った高さを使う
-      */
+      position: relative;
 
       width: 100%;
 
-      flex: 1 1 auto;
+      /*
+        ページ番号用の高さを
+        下に確保する
+      */
+      height: calc(100% - 38px);
+
+      flex: 0 0 calc(100% - 38px);
 
       min-height: 0;
 
-      display: flex;
-
-      justify-content: center;
-
-      align-items: flex-start;
-
       overflow: hidden;
 
-      /*
-        横スワイプを優先
-      */
       touch-action: none;
     }
 
 
     /* =========================================
-       スライド本体
+       スライド
     ========================================= */
 
     .slides {
@@ -322,7 +320,7 @@
       flex-shrink: 0;
 
       transition:
-        transform 0.35s ease-out;
+        transform 0.3s ease-out;
 
       will-change: transform;
 
@@ -336,6 +334,8 @@
 
     .slide {
 
+      position: relative;
+
       flex: 0 0 100%;
 
       width: 100%;
@@ -346,7 +346,7 @@
 
       justify-content: center;
 
-      align-items: flex-start;
+      align-items: center;
 
       padding: 0;
 
@@ -356,6 +356,9 @@
 
     /* =========================================
        画像
+       
+       左右にボタンを置くため、
+       少し横幅を空ける
     ========================================= */
 
     .slide img {
@@ -363,20 +366,13 @@
       display: block;
 
       /*
-        横幅を最大限使用
+        左右にボタン用の余白を確保
       */
-      width: 100%;
+      width: calc(100% - 140px);
 
-      /*
-        高さは画像の比率を維持
-      */
-      height: auto;
+      height: 100%;
 
-      /*
-        画面に収まらない場合のみ
-        高さを制限
-      */
-      max-width: 100%;
+      max-width: calc(100% - 140px);
 
       max-height: 100%;
 
@@ -386,9 +382,6 @@
 
       background: transparent;
 
-      /*
-        タップで拡大できる
-      */
       cursor: zoom-in;
 
       user-select: none;
@@ -397,45 +390,47 @@
 
       -webkit-user-drag: none;
 
-      /*
-        スワイプを優先
-      */
       touch-action: none;
     }
 
 
     /* =========================================
        左右ボタン
-       画像のすぐ下
+       
+       ★画像の左右の余白に配置
+       ★画像の下には置かない
     ========================================= */
 
     .slider-controls {
 
+      position: absolute;
+
       /*
-        絶対に画像エリアの中へ
-        入らない
+        画像エリアの中央
       */
-      flex-shrink: 0;
+      top: 0;
+
+      left: 0;
 
       width: 100%;
 
-      height: 62px;
+      height: calc(100% - 38px);
 
       display: flex;
 
-      justify-content: center;
-
       align-items: center;
 
-      gap: 30px;
+      justify-content: space-between;
 
-      margin: 0;
+      /*
+        画面端から少し内側
+      */
+      padding-left: 12px;
+      padding-right: 12px;
 
-      padding: 4px 0;
+      pointer-events: none;
 
-      position: relative;
-
-      z-index: 10;
+      z-index: 20;
     }
 
 
@@ -445,9 +440,9 @@
 
     .slider-btn {
 
-      width: 54px;
+      width: 56px;
 
-      height: 54px;
+      height: 56px;
 
       padding: 0;
 
@@ -459,7 +454,7 @@
 
       color: var(--main-color);
 
-      font-size: 32px;
+      font-size: 34px;
 
       font-weight: bold;
 
@@ -478,32 +473,46 @@
 
       flex-shrink: 0;
 
+      pointer-events: auto;
+
       -webkit-tap-highlight-color: transparent;
 
       touch-action: manipulation;
 
       transition:
-        transform 0.15s ease;
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
+
 
     .slider-btn:hover {
+
       transform: scale(1.08);
+
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.22);
     }
 
+
     .slider-btn:active {
+
       transform: scale(0.92);
     }
 
 
     /* =========================================
        ページ番号
+       
+       ★画像の真下
     ========================================= */
 
     .page-number {
 
-      flex-shrink: 0;
+      width: 100%;
 
-      height: 36px;
+      height: 38px;
+
+      flex: 0 0 38px;
 
       display: flex;
 
@@ -517,7 +526,7 @@
 
       color: var(--main-color);
 
-      font-size: 24px;
+      font-size: 23px;
 
       font-weight: bold;
 
@@ -527,7 +536,7 @@
 
       position: relative;
 
-      z-index: 10;
+      z-index: 30;
     }
 
 
@@ -564,6 +573,7 @@
 
 
     .image-modal.active {
+
       display: flex;
     }
 
@@ -602,9 +612,6 @@
 
       .visitor-container {
 
-        /*
-          ヘッダーの高さだけ除外
-        */
         height: calc(100vh - 60px);
 
         padding: 0;
@@ -623,21 +630,27 @@
       }
 
 
+      /* -----------------------------------------
+         スマホ画像エリア
+      ----------------------------------------- */
+
       .slider {
 
         width: 100%;
 
-        flex: 1 1 auto;
+        height: calc(100% - 34px);
+
+        flex: 0 0 calc(100% - 34px);
 
         min-height: 0;
 
         overflow: hidden;
-
-        align-items: flex-start;
       }
 
 
       .slides {
+
+        width: 100%;
 
         height: 100%;
 
@@ -652,7 +665,9 @@
 
         height: 100%;
 
-        align-items: flex-start;
+        align-items: center;
+
+        justify-content: center;
 
         padding: 0;
       }
@@ -660,11 +675,15 @@
 
       .slide img {
 
-        width: 100%;
+        /*
+          スマホでも左右に
+          ボタン用の余白を確保
+        */
+        width: calc(100% - 110px);
 
-        height: auto;
+        height: 100%;
 
-        max-width: 100%;
+        max-width: calc(100% - 110px);
 
         max-height: 100%;
 
@@ -673,42 +692,44 @@
 
 
       /* -----------------------------------------
-         スマホのボタン
+         スマホ左右ボタン
       ----------------------------------------- */
 
       .slider-controls {
 
-        height: 58px;
+        height: calc(100% - 34px);
 
-        gap: 22px;
+        padding-left: 8px;
 
-        margin: 0;
+        padding-right: 8px;
 
-        padding: 3px 0;
+        pointer-events: none;
       }
 
 
       .slider-btn {
 
-        width: 50px;
+        width: 48px;
 
-        height: 50px;
+        height: 48px;
 
         font-size: 28px;
       }
 
 
       /* -----------------------------------------
-         ページ番号
+         スマホページ番号
       ----------------------------------------- */
 
       .page-number {
 
-        height: 32px;
+        height: 34px;
 
-        font-size: 21px;
+        flex: 0 0 34px;
 
-        margin: 0;
+        font-size: 20px;
+
+        letter-spacing: 1px;
       }
 
     }
@@ -726,11 +747,29 @@
       }
 
 
+      .slider {
+
+        height: calc(100% - 28px);
+
+        flex: 0 0 calc(100% - 28px);
+      }
+
+
+      .slide img {
+
+        width: calc(100% - 100px);
+
+        max-width: calc(100% - 100px);
+      }
+
+
       .slider-controls {
 
-        height: 46px;
+        height: calc(100% - 28px);
 
-        gap: 18px;
+        padding-left: 6px;
+
+        padding-right: 6px;
       }
 
 
@@ -746,7 +785,9 @@
 
       .page-number {
 
-        height: 24px;
+        height: 28px;
+
+        flex: 0 0 28px;
 
         font-size: 17px;
       }
@@ -760,10 +801,19 @@
 
     @media (max-height: 650px) {
 
+      .slider {
+
+        height: calc(100% - 30px);
+
+        flex: 0 0 calc(100% - 30px);
+      }
+
+
       .slider-controls {
 
-        height: 50px;
+        height: calc(100% - 30px);
       }
+
 
       .slider-btn {
 
@@ -774,11 +824,14 @@
         font-size: 25px;
       }
 
+
       .page-number {
 
-        height: 28px;
+        height: 30px;
 
-        font-size: 19px;
+        flex: 0 0 30px;
+
+        font-size: 18px;
       }
 
     }
@@ -814,27 +867,33 @@
 
         if (btn && nav) {
 
-          btn.addEventListener("click", (e) => {
+          btn.addEventListener(
+            "click",
+            (e) => {
 
-            e.stopPropagation();
+              e.stopPropagation();
 
-            nav.classList.toggle("active");
-
-          });
-
-
-          document.addEventListener("click", (e) => {
-
-            if (
-              !nav.contains(e.target) &&
-              !btn.contains(e.target)
-            ) {
-
-              nav.classList.remove("active");
+              nav.classList.toggle("active");
 
             }
+          );
 
-          });
+
+          document.addEventListener(
+            "click",
+            (e) => {
+
+              if (
+                !nav.contains(e.target) &&
+                !btn.contains(e.target)
+              ) {
+
+                nav.classList.remove("active");
+
+              }
+
+            }
+          );
 
         }
 
@@ -977,40 +1036,44 @@
 
         </div>
 
-      </div>
+
+        <!-- =====================================
+             左右ボタン
+
+             ★画像の左右の余白
+             ★画像の下ではない
+        ====================================== -->
+
+        <div class="slider-controls">
+
+          <button
+            type="button"
+            class="slider-btn"
+            id="prevBtn"
+            aria-label="前のページ"
+          >
+            ‹
+          </button>
 
 
-      <!-- =====================================
-           左右ボタン
-           ※画像の直下
-      ====================================== -->
+          <button
+            type="button"
+            class="slider-btn"
+            id="nextBtn"
+            aria-label="次のページ"
+          >
+            ›
+          </button>
 
-      <div class="slider-controls">
-
-        <button
-          type="button"
-          class="slider-btn"
-          id="prevBtn"
-          aria-label="前のページ"
-        >
-          ‹
-        </button>
-
-
-        <button
-          type="button"
-          class="slider-btn"
-          id="nextBtn"
-          aria-label="次のページ"
-        >
-          ›
-        </button>
+        </div>
 
       </div>
 
 
       <!-- =====================================
            ページ番号
+
+           ★画像の真下
       ====================================== -->
 
       <div
@@ -1184,8 +1247,7 @@
     /* =========================================
        スワイプ
        
-       Pointer Eventsを使用して
-       iPhone / Android / PCに対応
+       Pointer Events
     ========================================= */
 
     let pointerStartX = 0;
@@ -1206,7 +1268,7 @@
     /*
       スワイプ判定距離
 
-      以前の50pxより小さくして
+      小さめに設定して
       反応を良くする
     */
 
@@ -1214,8 +1276,7 @@
 
 
     /*
-      スワイプ中に
-      現在位置を少し追従させるための値
+      指についてくる最大距離
     */
 
     const MAX_DRAG = 120;
@@ -1230,14 +1291,16 @@
       (e) => {
 
         /*
-          左クリック以外を無視
+          PCの右クリック等を無視
         */
 
         if (
           e.pointerType === "mouse" &&
           e.button !== 0
         ) {
+
           return;
+
         }
 
 
@@ -1258,22 +1321,29 @@
 
 
         /*
-          指を離しても
-          sliderがイベントを受け取れるようにする
+          pointer capture
         */
 
         try {
-          slider.setPointerCapture(e.pointerId);
+
+          slider.setPointerCapture(
+            e.pointerId
+          );
+
         } catch (error) {
-          // 必要ない場合は無視
+
+          // 無視
+
         }
 
 
         /*
-          アニメーションを一時停止
+          スワイプ開始時は
+          アニメーションを止める
         */
 
-        slides.style.transition = "none";
+        slides.style.transition =
+          "none";
 
       }
     );
@@ -1288,31 +1358,38 @@
       (e) => {
 
         if (!isPointerDown) {
+
           return;
+
         }
 
 
-        pointerCurrentX = e.clientX;
+        pointerCurrentX =
+          e.clientX;
 
-        pointerCurrentY = e.clientY;
+        pointerCurrentY =
+          e.clientY;
 
 
         const deltaX =
-          pointerCurrentX - pointerStartX;
+          pointerCurrentX -
+          pointerStartX;
 
         const deltaY =
-          pointerCurrentY - pointerStartY;
+          pointerCurrentY -
+          pointerStartY;
 
 
         /*
-          横方向への移動が
+          横方向の移動が
           縦方向より大きい場合
-          → スワイプ開始
+          → 横スワイプ
         */
 
         if (
           Math.abs(deltaX) > 8 &&
-          Math.abs(deltaX) > Math.abs(deltaY)
+          Math.abs(deltaX) >
+          Math.abs(deltaY)
         ) {
 
           isDragging = true;
@@ -1321,8 +1398,8 @@
 
 
         /*
-          スワイプ中なら
-          少しだけ画像を指についてこさせる
+          スワイプ中のみ
+          指についてくる
         */
 
         if (isDragging) {
@@ -1334,12 +1411,21 @@
             引っ張りすぎ防止
           */
 
-          if (dragX > MAX_DRAG) {
+          if (
+            dragX > MAX_DRAG
+          ) {
+
             dragX = MAX_DRAG;
+
           }
 
-          if (dragX < -MAX_DRAG) {
+
+          if (
+            dragX < -MAX_DRAG
+          ) {
+
             dragX = -MAX_DRAG;
+
           }
 
 
@@ -1347,19 +1433,17 @@
             currentPage * -100;
 
 
-          /*
-            現在のページ位置
-            ＋ 指の移動量
-          */
-
           const sliderWidth =
             slider.clientWidth;
 
 
-          if (sliderWidth > 0) {
+          if (
+            sliderWidth > 0
+          ) {
 
             const dragPercent =
-              (dragX / sliderWidth) * 100;
+              (dragX / sliderWidth) *
+              100;
 
 
             slides.style.transform =
@@ -1382,22 +1466,26 @@
       (e) => {
 
         if (!isPointerDown) {
+
           return;
+
         }
 
 
         const deltaX =
-          pointerCurrentX - pointerStartX;
+          pointerCurrentX -
+          pointerStartX;
 
         const deltaY =
-          pointerCurrentY - pointerStartY;
+          pointerCurrentY -
+          pointerStartY;
 
 
         isPointerDown = false;
 
 
         /*
-          アニメーションを戻す
+          アニメーション復帰
         */
 
         slides.style.transition =
@@ -1405,19 +1493,21 @@
 
 
         /*
-          横方向のスワイプか判定
+          横スワイプ判定
         */
 
         const isHorizontalSwipe =
-          Math.abs(deltaX) >= SWIPE_DISTANCE &&
-          Math.abs(deltaX) > Math.abs(deltaY);
+          Math.abs(deltaX) >=
+            SWIPE_DISTANCE &&
+          Math.abs(deltaX) >
+            Math.abs(deltaY);
 
 
         if (isHorizontalSwipe) {
 
           /*
-            左へスワイプ
-            → 次のページ
+            左スワイプ
+            → 次へ
           */
 
           if (deltaX < 0) {
@@ -1426,10 +1516,9 @@
 
           }
 
-
           /*
-            右へスワイプ
-            → 前のページ
+            右スワイプ
+            → 前へ
           */
 
           else {
@@ -1440,7 +1529,7 @@
 
 
           /*
-            画像タップによる
+            直後のクリックによる
             拡大を防止
           */
 
@@ -1449,21 +1538,15 @@
           isDragging = false;
 
 
-          /*
-            念のため
-            正しい位置へ戻す
-          */
-
           updateSlider();
 
         }
 
-
         else {
 
           /*
-            スワイプではなかった
-            → 元の位置へ戻す
+            タップだった場合
+            元の位置へ戻す
           */
 
           isDragging = false;
@@ -1499,50 +1582,49 @@
 
     /* =========================================
        画像タップ → 拡大
-       
-       スワイプした場合は
-       拡大しない
     ========================================= */
 
     document
       .querySelectorAll(".slide img")
-      .forEach((img) => {
+      .forEach(
+        (img) => {
 
-        img.addEventListener(
-          "click",
-          (e) => {
+          img.addEventListener(
+            "click",
+            (e) => {
 
-            /*
-              スワイプ直後の
-              誤クリックを防止
-            */
+              /*
+                スワイプ直後なら
+                拡大しない
+              */
 
-            if (swipeHandled) {
+              if (swipeHandled) {
 
-              swipeHandled = false;
+                swipeHandled = false;
 
-              e.preventDefault();
+                e.preventDefault();
 
-              return;
+                return;
+
+              }
+
+
+              /*
+                拡大
+              */
+
+              modalImage.src =
+                img.src;
+
+              imageModal.classList.add(
+                "active"
+              );
 
             }
+          );
 
-
-            /*
-              画像をモーダルへ
-            */
-
-            modalImage.src =
-              img.src;
-
-            imageModal.classList.add(
-              "active"
-            );
-
-          }
-        );
-
-      });
+        }
+      );
 
 
     /* =========================================
@@ -1573,7 +1655,9 @@
 
         if (
           e.key === "Escape" &&
-          imageModal.classList.contains("active")
+          imageModal.classList.contains(
+            "active"
+          )
         ) {
 
           imageModal.classList.remove(
