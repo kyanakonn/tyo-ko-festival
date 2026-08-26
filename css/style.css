@@ -663,12 +663,15 @@ h2 {
   margin-top: 30px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .info-card {
   flex: 1 1 400px;
   max-width: 550px;
   min-width: 260px;
+
+  height: auto;
 
   border-radius: 20px;
   overflow: hidden;
@@ -1195,23 +1198,25 @@ footer {
   /* -------------------------
      お知らせ
   ------------------------- */
-  .info-links {
+    .info-links {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .info-card {
     width: 100%;
     min-width: auto;
     max-width: none;
+    height: auto;
   }
 
   .info-card img {
+    display: block;
     width: 100%;
-    aspect-ratio: 2 / 1;
     height: auto;
+    aspect-ratio: 2 / 1;
     object-fit: contain;
   }
-
 
   /* -------------------------
      企画カード
