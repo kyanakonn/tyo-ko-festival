@@ -281,61 +281,49 @@ gsap.utils.toArray("section").forEach(sec=>{
 
 // =========================================
 // 企画・イベント スライダー
-// 滑らかな無限ループ
+// 完全循環方式
 // =========================================
 
 const slides = document.getElementById("slides");
 const dotsContainer = document.getElementById("dots");
 const slider = document.querySelector(".slider");
 
-let index = 0;
 let startX = 0;
 let currentX = 0;
 let velocity = 0;
 let isDragging = false;
 let autoSlide;
 
+let currentIndex = 0;
+let slideWidth = 0;
 
-// ===== 元のカードを取得 =====
-
-const originalItems = Array.from(slides.children);
-const total = originalItems.length;
-
-
-// =========================================
-// カードを3セットにする
-// =========================================
-
-slides.innerHTML = "";
-
-const sets = 3;
-
-for(let s = 0; s < sets; s++){
-
-  originalItems.forEach(item => {
-
-    const clone = item.cloneNode(true);
-
-    slides.appendChild(clone);
-
-  });
-
-}
+let isAnimating = false;
 
 
 // =========================================
-// カード1枚分の正確な移動幅
+// カード数
+// =========================================
+
+const total =
+  slides.children.length;
+
+
+// =========================================
+// カード1枚分の正確な幅
 // =========================================
 
 function getSlideWidth(){
 
-  const card = slides.children[0];
+  const card =
+    slides.children[0];
 
   if(!card) return 0;
 
-  const style = getComputedStyle(card);
+  const style =
+    getComputedStyle(card);
 
-  const width = card.getBoundingClientRect().width;
+  const width =
+    card.getBoundingClientRect().width;
 
   const marginLeft =
     parseFloat(style.marginLeft) || 0;
@@ -343,24 +331,36 @@ function getSlideWidth(){
   const marginRight =
     parseFloat(style.marginRight) || 0;
 
-  return width + marginLeft + marginRight;
+  return width +
+         marginLeft +
+         marginRight;
+
 }
 
 
-let slideWidth = getSlideWidth();
+// =========================================
+// 現在位置を取得
+// =========================================
+
+function updateSlideWidth(){
+
+  slideWidth =
+    getSlideWidth();
+
+}
 
 
 // =========================================
-// 位置設定
+// スライド位置設定
 // =========================================
 
-function setPosition(animate = false){
+function setPosition(value, animate = false){
 
   slides.style.transition =
     animate ? "0.5s" : "none";
 
   slides.style.transform =
-    `translateX(-${slideWidth * index}px)`;
+    `translateX(${value}px)`;
 
 }
 
@@ -369,16 +369,11 @@ function setPosition(animate = false){
 // 初期位置
 // =========================================
 
-// 真ん中のセットの1枚目から開始
-index = total;
-
 window.addEventListener("load", () => {
 
-  slideWidth = getSlideWidth();
+  updateSlideWidth();
 
-  index = total;
-
-  setPosition(false);
+  setPosition(0, false);
 
 });
 
@@ -389,7 +384,8 @@ window.addEventListener("load", () => {
 
 for(let i = 0; i < total; i++){
 
-  const dot = document.createElement("span");
+  const dot =
+    document.createElement("span");
 
   if(i === 0){
 
@@ -397,13 +393,44 @@ for(let i = 0; i < total; i++){
 
   }
 
-  dot.onclick = () => {
 
-    index = total + i;
+  dot.addEventListener("click", () => {
 
-    moveSlide();
+    if(isAnimating) return;
 
-  };
+    const target =
+      i;
+
+    let forward =
+      (target - currentIndex + total) % total;
+
+    let backward =
+      (currentIndex - target + total) % total;
+
+
+    // 同じ位置
+    if(forward === 0){
+
+      updateDots();
+
+      return;
+
+    }
+
+
+    // 近い方向へ移動
+    if(forward <= backward){
+
+      moveForwardSteps(forward);
+
+    }else{
+
+      moveBackwardSteps(backward);
+
+    }
+
+  });
+
 
   dotsContainer.appendChild(dot);
 
@@ -416,15 +443,6 @@ for(let i = 0; i < total; i++){
 
 function updateDots(){
 
-  let current =
-    index % total;
-
-  if(current < 0){
-
-    current += total;
-
-  }
-
   const dots =
     dotsContainer.querySelectorAll("span");
 
@@ -432,7 +450,7 @@ function updateDots(){
 
     dot.classList.toggle(
       "active",
-      i === current
+      i === currentIndex
     );
 
   });
@@ -441,72 +459,217 @@ function updateDots(){
 
 
 // =========================================
-// スライド移動
+// 前へ1枚
 // =========================================
 
-function moveSlide(){
+function moveBackward(){
 
+  if(isAnimating) return;
+
+  isAnimating = true;
+
+  updateSlideWidth();
+
+
+  // 最後のカードを先頭へ移動
+  const last =
+    slides.lastElementChild;
+
+  slides.insertBefore(
+    last,
+    slides.firstElementChild
+  );
+
+
+  // 移動前の見た目を維持
   slides.style.transition =
-    "0.5s";
+    "none";
 
   slides.style.transform =
-    `translateX(-${slideWidth * index}px)`;
+    `translateX(-${slideWidth}px)`;
+
+
+  // ブラウザに反映させてから
+  // 元の位置へアニメーション
+  requestAnimationFrame(() => {
+
+    requestAnimationFrame(() => {
+
+      slides.style.transition =
+        "0.5s";
+
+      slides.style.transform =
+        "translateX(0px)";
+
+    });
+
+  });
+
+
+  currentIndex--;
+
+  if(currentIndex < 0){
+
+    currentIndex =
+      total - 1;
+
+  }
 
   updateDots();
+
+
+  slides.addEventListener(
+    "transitionend",
+    finishAnimation,
+    { once: true }
+  );
 
 }
 
 
 // =========================================
-// 無限ループ
+// 次へ1枚
 // =========================================
 
-slides.addEventListener("transitionend", () => {
+function moveForward(){
 
-  // 右方向へ進みすぎた場合
-  if(index >= total * 2){
+  if(isAnimating) return;
 
-    slides.style.transition =
-      "none";
+  isAnimating = true;
 
-    index -= total;
-
-    slides.style.transform =
-      `translateX(-${slideWidth * index}px)`;
-
-    requestAnimationFrame(() => {
-
-      slides.style.transition =
-        "0.5s";
-
-    });
-
-  }
+  updateSlideWidth();
 
 
-  // 左方向へ進みすぎた場合
-  if(index < total){
+  // 次のカードへスライド
+  slides.style.transition =
+    "0.5s";
 
-    slides.style.transition =
-      "none";
+  slides.style.transform =
+    `translateX(-${slideWidth}px)`;
 
-    index += total;
 
-    slides.style.transform =
-      `translateX(-${slideWidth * index}px)`;
+  currentIndex++;
 
-    requestAnimationFrame(() => {
+  if(currentIndex >= total){
 
-      slides.style.transition =
-        "0.5s";
-
-    });
+    currentIndex =
+      0;
 
   }
 
   updateDots();
 
-});
+
+  slides.addEventListener(
+    "transitionend",
+    () => {
+
+      // 先頭カードを末尾へ移動
+      // これによりDOM自体が循環する
+      const first =
+        slides.firstElementChild;
+
+      slides.appendChild(first);
+
+
+      // 位置を0へ戻す
+      // カードの並びそのものを変更済みなので
+      // 見た目は全く変わらない
+      slides.style.transition =
+        "none";
+
+      slides.style.transform =
+        "translateX(0px)";
+
+
+      requestAnimationFrame(() => {
+
+        isAnimating =
+          false;
+
+      });
+
+    },
+    { once: true }
+  );
+
+}
+
+
+// =========================================
+// 連続移動（ドット用）
+// =========================================
+
+function moveForwardSteps(count){
+
+  if(count <= 0){
+
+    isAnimating =
+      false;
+
+    return;
+
+  }
+
+
+  moveForward();
+
+  const check =
+    setInterval(() => {
+
+      if(!isAnimating){
+
+        clearInterval(check);
+
+        if(count > 1){
+
+          moveForwardSteps(
+            count - 1
+          );
+
+        }
+
+      }
+
+    }, 20);
+
+}
+
+
+function moveBackwardSteps(count){
+
+  if(count <= 0){
+
+    isAnimating =
+      false;
+
+    return;
+
+  }
+
+
+  moveBackward();
+
+  const check =
+    setInterval(() => {
+
+      if(!isAnimating){
+
+        clearInterval(check);
+
+        if(count > 1){
+
+          moveBackwardSteps(
+            count - 1
+          );
+
+        }
+
+      }
+
+    }, 20);
+
+}
 
 
 // =========================================
@@ -517,20 +680,32 @@ function startAuto(){
 
   stopAuto();
 
-  autoSlide = setInterval(() => {
 
-    index++;
+  autoSlide =
+    setInterval(() => {
 
-    moveSlide();
+      if(!isDragging &&
+         !isAnimating){
 
-  }, 3000);
+        moveForward();
+
+      }
+
+    }, 3000);
 
 }
 
 
 function stopAuto(){
 
-  clearInterval(autoSlide);
+  if(autoSlide){
+
+    clearInterval(autoSlide);
+
+    autoSlide =
+      null;
+
+  }
 
 }
 
@@ -539,165 +714,230 @@ startAuto();
 
 
 // =========================================
-// スワイプ（慣性付き）
+// タッチスワイプ
 // =========================================
 
-slider.addEventListener("touchstart", (e) => {
+slider.addEventListener(
+  "touchstart",
+  (e) => {
 
-  startX =
-    e.touches[0].clientX;
+    if(isAnimating) return;
 
-  currentX =
-    startX;
+    startX =
+      e.touches[0].clientX;
 
-  isDragging =
-    true;
+    currentX =
+      startX;
 
-  velocity =
-    0;
+    velocity =
+      0;
 
-  stopAuto();
+    isDragging =
+      true;
 
-});
+    stopAuto();
 
-
-slider.addEventListener("touchmove", (e) => {
-
-  if(!isDragging) return;
-
-  const x =
-    e.touches[0].clientX;
-
-  velocity =
-    x - currentX;
-
-  currentX =
-    x;
-
-  const move =
-    x - startX;
-
-  slides.style.transition =
-    "none";
-
-  slides.style.transform =
-    `translateX(${-(slideWidth * index) + move}px)`;
-
-});
-
-
-slider.addEventListener("touchend", () => {
-
-  isDragging =
-    false;
-
-  if(velocity > 5){
-
-    index--;
-
-  }else if(velocity < -5){
-
-    index++;
+    slides.style.transition =
+      "none";
 
   }
+);
 
-  moveSlide();
 
-  startAuto();
+slider.addEventListener(
+  "touchmove",
+  (e) => {
 
-});
+    if(!isDragging) return;
+
+    const x =
+      e.touches[0].clientX;
+
+    velocity =
+      x - currentX;
+
+    currentX =
+      x;
+
+    const move =
+      x - startX;
+
+
+    slides.style.transform =
+      `translateX(${move}px)`;
+
+  }
+);
+
+
+slider.addEventListener(
+  "touchend",
+  () => {
+
+    if(!isDragging) return;
+
+    isDragging =
+      false;
+
+
+    if(velocity > 5){
+
+      moveBackward();
+
+    }else if(velocity < -5){
+
+      moveForward();
+
+    }else{
+
+      slides.style.transition =
+        "0.5s";
+
+      slides.style.transform =
+        "translateX(0px)";
+
+    }
+
+
+    startAuto();
+
+  }
+);
 
 
 // =========================================
 // PCドラッグ
 // =========================================
 
-slider.addEventListener("mousedown", (e) => {
+slider.addEventListener(
+  "mousedown",
+  (e) => {
 
-  startX =
-    e.clientX;
+    if(isAnimating) return;
 
-  currentX =
-    startX;
+    startX =
+      e.clientX;
 
-  isDragging =
-    true;
+    currentX =
+      startX;
 
-  velocity =
-    0;
+    velocity =
+      0;
 
-  stopAuto();
+    isDragging =
+      true;
 
-});
+    stopAuto();
 
-
-slider.addEventListener("mousemove", (e) => {
-
-  if(!isDragging) return;
-
-  const x =
-    e.clientX;
-
-  velocity =
-    x - currentX;
-
-  currentX =
-    x;
-
-  const move =
-    x - startX;
-
-  slides.style.transition =
-    "none";
-
-  slides.style.transform =
-    `translateX(${-(slideWidth * index) + move}px)`;
-
-});
-
-
-slider.addEventListener("mouseup", () => {
-
-  isDragging =
-    false;
-
-  if(velocity > 5){
-
-    index--;
-
-  }else if(velocity < -5){
-
-    index++;
+    slides.style.transition =
+      "none";
 
   }
-
-  moveSlide();
-
-  startAuto();
-
-});
+);
 
 
-slider.addEventListener("mouseleave", () => {
+slider.addEventListener(
+  "mousemove",
+  (e) => {
 
-  isDragging =
-    false;
+    if(!isDragging) return;
 
-});
+    const x =
+      e.clientX;
+
+    velocity =
+      x - currentX;
+
+    currentX =
+      x;
+
+    const move =
+      x - startX;
+
+
+    slides.style.transform =
+      `translateX(${move}px)`;
+
+  }
+);
+
+
+slider.addEventListener(
+  "mouseup",
+  () => {
+
+    if(!isDragging) return;
+
+    isDragging =
+      false;
+
+
+    if(velocity > 5){
+
+      moveBackward();
+
+    }else if(velocity < -5){
+
+      moveForward();
+
+    }else{
+
+      slides.style.transition =
+        "0.5s";
+
+      slides.style.transform =
+        "translateX(0px)";
+
+    }
+
+
+    startAuto();
+
+  }
+);
+
+
+slider.addEventListener(
+  "mouseleave",
+  () => {
+
+    if(!isDragging) return;
+
+    isDragging =
+      false;
+
+
+    slides.style.transition =
+      "0.5s";
+
+    slides.style.transform =
+      "translateX(0px)";
+
+
+    startAuto();
+
+  }
+);
 
 
 // =========================================
 // リサイズ対応
 // =========================================
 
-window.addEventListener("resize", () => {
+window.addEventListener(
+  "resize",
+  () => {
 
-  slideWidth =
-    getSlideWidth();
+    updateSlideWidth();
 
-  setPosition();
+    slides.style.transition =
+      "none";
 
-});
+    slides.style.transform =
+      "translateX(0px)";
+
+  }
+);
 
 
 // =========================================
@@ -728,26 +968,26 @@ const bTotal =
 // ドット生成
 // =========================================
 
-for(let i = 0; i < bTotal; i++){
+for(let i=0;i<bTotal;i++){
 
-  const d =
-    document.createElement("span");
+ const d =
+   document.createElement("span");
 
-  if(i === 0){
+ if(i===0)
+   d.classList.add("active");
 
-    d.classList.add("active");
 
-  }
+ d.onclick = ()=>{
 
-  d.onclick = () => {
+   bIndex =
+     i;
 
-    bIndex = i;
+   updateBanner();
 
-    updateBanner();
+ };
 
-  };
 
-  dots.appendChild(d);
+ dots.appendChild(d);
 
 }
 
@@ -758,7 +998,9 @@ for(let i = 0; i < bTotal; i++){
 
 function getBannerWidth(){
 
-  return banners[0].getBoundingClientRect().width + 20;
+ return banners[0]
+   .getBoundingClientRect()
+   .width + 20;
 
 }
 
@@ -773,19 +1015,20 @@ let bWidth =
 
 function updateBanner(){
 
-  track.style.transform =
-    `translateX(-${bWidth * bIndex}px)`;
+ track.style.transform =
+   `translateX(-${bWidth * bIndex}px)`;
 
-  document
-    .querySelectorAll(".banner-dots span")
-    .forEach((d,i)=>{
 
-      d.classList.toggle(
-        "active",
-        i === bIndex
-      );
+ document
+   .querySelectorAll(".banner-dots span")
+   .forEach((d,i)=>{
 
-    });
+     d.classList.toggle(
+       "active",
+       i===bIndex
+     );
+
+   });
 
 }
 
@@ -796,22 +1039,22 @@ function updateBanner(){
 
 function startBannerAuto(){
 
-  bAuto =
-    setInterval(() => {
+ bAuto =
+   setInterval(()=>{
 
-      bIndex =
-        (bIndex + 1) % bTotal;
+     bIndex =
+       (bIndex + 1) % bTotal;
 
-      updateBanner();
+     updateBanner();
 
-    },3000);
+   },3000);
 
 }
 
 
 function stopBannerAuto(){
 
-  clearInterval(bAuto);
+ clearInterval(bAuto);
 
 }
 
@@ -823,86 +1066,101 @@ startBannerAuto();
 // スワイプ
 // =========================================
 
-track.addEventListener("touchstart",(e)=>{
+track.addEventListener(
+  "touchstart",
+  (e)=>{
 
-  bStartX =
-    e.touches[0].clientX;
+    bStartX =
+      e.touches[0].clientX;
 
-  bCurrentX =
-    bStartX;
+    bCurrentX =
+      bStartX;
 
-  bDragging =
-    true;
+    bDragging =
+      true;
 
-  stopBannerAuto();
+    stopBannerAuto();
 
-});
-
-
-track.addEventListener("touchmove",(e)=>{
-
-  if(!bDragging) return;
-
-  const x =
-    e.touches[0].clientX;
-
-  bVelocity =
-    x - bCurrentX;
-
-  bCurrentX =
-    x;
-
-  const move =
-    x - bStartX;
-
-  track.style.transition =
-    "none";
-
-  track.style.transform =
-    `translateX(${-(bWidth * bIndex) + move}px)`;
-
-});
+  }
+);
 
 
-track.addEventListener("touchend",()=>{
+track.addEventListener(
+  "touchmove",
+  (e)=>{
 
-  bDragging =
-    false;
+    if(!bDragging) return;
 
-  if(bVelocity > 5)
-    bIndex--;
+    const x =
+      e.touches[0].clientX;
 
-  else if(bVelocity < -5)
-    bIndex++;
+    bVelocity =
+      x - bCurrentX;
 
-  if(bIndex < 0)
-    bIndex = 0;
+    bCurrentX =
+      x;
 
-  if(bIndex >= bTotal)
-    bIndex = bTotal - 1;
+    const move =
+      x - bStartX;
 
-  track.style.transition =
-    "0.5s";
+    track.style.transition =
+      "none";
 
-  updateBanner();
+    track.style.transform =
+      `translateX(${-(bWidth * bIndex) + move}px)`;
 
-  startBannerAuto();
+  }
+);
 
-});
+
+track.addEventListener(
+  "touchend",
+  ()=>{
+
+    bDragging =
+      false;
+
+
+    if(bVelocity > 5)
+      bIndex--;
+
+    else if(bVelocity < -5)
+      bIndex++;
+
+
+    if(bIndex < 0)
+      bIndex = 0;
+
+    if(bIndex >= bTotal)
+      bIndex = bTotal - 1;
+
+
+    track.style.transition =
+      "0.5s";
+
+    updateBanner();
+
+    startBannerAuto();
+
+  }
+);
 
 
 // =========================================
 // リサイズ
 // =========================================
 
-window.addEventListener("resize",()=>{
+window.addEventListener(
+  "resize",
+  ()=>{
 
-  bWidth =
-    getBannerWidth();
+    bWidth =
+      getBannerWidth();
 
-  updateBanner();
+    updateBanner();
 
-});
+  }
+);
 
 </script>
 
