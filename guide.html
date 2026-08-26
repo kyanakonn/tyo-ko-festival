@@ -58,6 +58,13 @@
         sans-serif;
 
       touch-action: none;
+
+      /*
+        共通CSSの
+        body:not(:has(.hero))
+        による上部余白を打ち消す
+      */
+      padding-top: 0 !important;
     }
 
 
@@ -244,7 +251,13 @@
 
       width: 100%;
 
-      height: calc(100vh - 70px);
+      /*
+        ヘッダー分だけ下から開始し、
+        残りを画像エリアとして使用
+      */
+      height: calc(100vh - var(--header-height));
+
+      margin-top: var(--header-height);
 
       min-height: 0;
 
@@ -569,66 +582,10 @@
 
 
     /* =========================================
-       ページ番号
-
-       ★画像の上に表示
-       ★常に見える
-    ========================================= */
-
-    .page-number {
-
-      position: absolute;
-
-      left: 50%;
-
-      bottom: 18px;
-
-      transform: translateX(-50%);
-
-      z-index: 200;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      width: auto;
-
-      height: auto;
-
-      padding: 6px 14px;
-
-      margin: 0;
-
-      color: var(--main-color);
-
-      background: rgba(255, 255, 255, 0.88);
-
-      border-radius: 20px;
-
-      font-size: 23px;
-
-      font-weight: bold;
-
-      letter-spacing: 2px;
-
-      line-height: 1;
-
-      pointer-events: none;
-
-      white-space: nowrap;
-
-      text-shadow:
-        0 1px 2px rgba(255, 255, 255, 0.8);
-
-      box-shadow:
-        0 1px 5px rgba(0, 0, 0, 0.08);
-    }
-
-
-    /* =========================================
        拡大モード表示
+
+       ★ページ番号の代わりに
+       ★上部に表示スペースのみ確保
     ========================================= */
 
     .zoom-indicator {
@@ -680,7 +637,12 @@
 
       .visitor-container {
 
-        height: calc(100vh - 60px);
+        /*
+          ヘッダー直下から画像を開始
+        */
+        height: calc(100vh - var(--header-height));
+
+        margin-top: var(--header-height);
 
         padding: 0;
 
@@ -787,22 +749,6 @@
 
 
       /* -----------------------------------------
-         スマホページ番号
-      ----------------------------------------- */
-
-      .page-number {
-
-        bottom: 12px;
-
-        padding: 5px 11px;
-
-        font-size: 20px;
-
-        letter-spacing: 1px;
-      }
-
-
-      /* -----------------------------------------
          スマホ拡大表示
       ----------------------------------------- */
 
@@ -826,7 +772,9 @@
 
       .visitor-container {
 
-        height: calc(100vh - 55px);
+        height: calc(100vh - var(--header-height));
+
+        margin-top: var(--header-height);
       }
 
 
@@ -847,16 +795,6 @@
         font-size: 48px;
 
         padding: 0 2px;
-      }
-
-
-      .page-number {
-
-        bottom: 8px;
-
-        font-size: 17px;
-
-        padding: 4px 9px;
       }
 
 
@@ -883,16 +821,6 @@
         min-height: 62px;
 
         font-size: 52px;
-      }
-
-
-      .page-number {
-
-        bottom: 7px;
-
-        font-size: 18px;
-
-        padding: 4px 9px;
       }
 
     }
@@ -1144,20 +1072,6 @@
         </div>
 
 
-        <!-- =====================================
-             ページ番号
-
-             ★画像の上に表示
-        ====================================== -->
-
-        <div
-          class="page-number"
-          id="pageNumber"
-        >
-          1 / 6
-        </div>
-
-
       </div>
 
     </div>
@@ -1189,10 +1103,6 @@
 
     const nextBtn =
       document.getElementById("nextBtn");
-
-
-    const pageNumber =
-      document.getElementById("pageNumber");
 
 
     /* =========================================
@@ -1430,10 +1340,6 @@
 
       slides.style.transform =
         `translate3d(-${currentPage * 100}%, 0, 0)`;
-
-
-      pageNumber.textContent =
-        `${currentPage + 1} / ${totalPages}`;
 
 
       /*
