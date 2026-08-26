@@ -657,6 +657,7 @@ h2 {
 /* =========================================
    お知らせカード
 ========================================= */
+
 .info-links {
   display: flex;
   gap: 20px;
@@ -732,6 +733,7 @@ h2 {
 
 
 /* カード */
+
 .card {
   flex: 0 0 300px;
 
@@ -1198,14 +1200,16 @@ footer {
   /* -------------------------
      お知らせ
   ------------------------- */
-    .info-links {
+
+  .info-links {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .info-card {
+    flex: 0 0 auto;
     width: 100%;
-    min-width: auto;
+    min-width: 0;
     max-width: none;
     height: auto;
   }
@@ -1214,25 +1218,25 @@ footer {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 2 / 1;
-    object-fit: contain;
   }
+
 
   /* -------------------------
      企画カード
   ------------------------- */
-.card {
-  flex: 0 0 280px;
 
-  margin: 0 8px;
-}
+  .card {
+    flex: 0 0 280px;
 
-.card img {
-  width: 100%;
-  height: 170px;
+    margin: 0 8px;
+  }
 
-  object-fit: cover;
-}
+  .card img {
+    width: 100%;
+    height: 170px;
+
+    object-fit: cover;
+  }
 
   .card div {
     padding: 6px 8px;
