@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
 
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
   <style>
     * {
       margin: 0;
@@ -60,43 +63,47 @@
 
 <body>
 
+  <!-- 共通ヘッダー -->
+  <div id="header"></div>
+
   <script>
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
 
-    const btn = document.querySelector(".menu-btn");
-    const nav = document.querySelector(".nav");
+        const btn = document.querySelector(".menu-btn");
+        const nav = document.querySelector(".nav");
 
-    // 開閉
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      nav.classList.toggle("active");
-    });
+        // 開閉
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          nav.classList.toggle("active");
+        });
 
-    document.addEventListener("click", (e) => {
-      if (!nav.contains(e.target) && !btn.contains(e.target)) {
-        nav.classList.remove("active");
-      }
-    });
-  });
-</script>
-  
-    <div class="bg-shapes">
-  <div class="shape s1"></div>
-  <div class="shape s2"></div>
-  <div class="shape s3"></div>
-  <div class="shape s4"></div>
-  <div class="shape s5"></div>
-  <div class="shape s6"></div>
-  <div class="shape s7"></div>
-  <div class="shape s8"></div>
-</div>
+        document.addEventListener("click", (e) => {
+          if (!nav.contains(e.target) && !btn.contains(e.target)) {
+            nav.classList.remove("active");
+          }
+        });
+      });
+  </script>
+
+  <div class="bg-shapes">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+    <div class="shape s4"></div>
+    <div class="shape s5"></div>
+    <div class="shape s6"></div>
+    <div class="shape s7"></div>
+    <div class="shape s8"></div>
+  </div>
+
   <div class="container">
     <h1>文化祭（一般公開時）来校上のお願い</h1>
     <div class="coming-soon">準備中</div>
   </div>
+
 </body>
 </html>
-
