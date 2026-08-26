@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -12,6 +13,7 @@
 
   <!-- 共通CSS -->
   <link rel="stylesheet" href="css/style.css">
+
 
   <style>
 
@@ -25,9 +27,11 @@
       box-sizing: border-box;
     }
 
+
     :root {
       --main-color: #d96b8a;
     }
+
 
     html,
     body {
@@ -42,6 +46,7 @@
 
       overscroll-behavior: none;
     }
+
 
     body {
 
@@ -89,8 +94,8 @@
       opacity: 0.85;
     }
 
-    .shape {
 
+    .shape {
       position: absolute;
     }
 
@@ -114,6 +119,7 @@
       transform: rotate(-25deg);
     }
 
+
     .s2 {
 
       top: 25%;
@@ -128,6 +134,7 @@
 
       transform: rotate(20deg);
     }
+
 
     .s3 {
 
@@ -144,6 +151,7 @@
       transform: rotate(12deg);
     }
 
+
     .s4 {
 
       bottom: 28%;
@@ -158,6 +166,7 @@
 
       transform: rotate(-15deg);
     }
+
 
     .s5 {
 
@@ -174,6 +183,7 @@
       transform: rotate(30deg);
     }
 
+
     .s6 {
 
       bottom: -40px;
@@ -189,6 +199,7 @@
       transform: rotate(-15deg);
     }
 
+
     .s7 {
 
       top: 8%;
@@ -203,6 +214,7 @@
 
       transform: rotate(35deg);
     }
+
 
     .s8 {
 
@@ -278,9 +290,6 @@
 
     /* =========================================
        画像エリア
-       
-       ページ番号のスペースを
-       下に確保
     ========================================= */
 
     .slider {
@@ -289,24 +298,26 @@
 
       width: 100%;
 
-      /*
-        ページ番号用の高さを
-        下に確保する
-      */
-      height: calc(100% - 38px);
+      height: 100%;
 
-      flex: 0 0 calc(100% - 38px);
+      flex: 1 1 auto;
 
       min-height: 0;
 
       overflow: hidden;
 
       touch-action: none;
+
+      /*
+        拡大画像を動かすための
+        クリッピング領域
+      */
+      contain: layout paint;
     }
 
 
     /* =========================================
-       スライド
+       スライド全体
     ========================================= */
 
     .slides {
@@ -350,6 +361,8 @@
 
       padding: 0;
 
+      overflow: hidden;
+
       touch-action: none;
     }
 
@@ -357,32 +370,31 @@
     /* =========================================
        画像
        
-       左右にボタンを置くため、
-       少し横幅を空ける
+       ★左右の余白を作らない
+       ★ボタン用の幅を確保しない
     ========================================= */
 
     .slide img {
 
       display: block;
 
-      /*
-        左右にボタン用の余白を確保
-      */
-      width: calc(100% - 140px);
+      width: 100%;
 
       height: 100%;
 
-      max-width: calc(100% - 140px);
+      max-width: none;
 
-      max-height: 100%;
+      max-height: none;
 
       object-fit: contain;
+
+      object-position: center center;
 
       border-radius: 0;
 
       background: transparent;
 
-      cursor: zoom-in;
+      cursor: zoom-out;
 
       user-select: none;
 
@@ -391,30 +403,71 @@
       -webkit-user-drag: none;
 
       touch-action: none;
+
+      /*
+        拡大・移動用
+      */
+      transform:
+        translate3d(0, 0, 0)
+        scale(1);
+
+      transform-origin: center center;
+
+      will-change: transform;
+
+      transition:
+        transform 0.2s ease-out;
+    }
+
+
+    /* =========================================
+       拡大モード
+    ========================================= */
+
+    .slider.zoom-mode .slide img {
+
+      cursor: grab;
+
+      /*
+        初期拡大率
+      */
+      transform:
+        translate3d(
+          var(--pan-x, 0px),
+          var(--pan-y, 0px),
+          0
+        )
+        scale(
+          var(--zoom-scale, 1.4)
+        );
+
+      transition: none;
+    }
+
+
+    .slider.zoom-mode .slide img:active {
+
+      cursor: grabbing;
     }
 
 
     /* =========================================
        左右ボタン
        
-       ★画像の左右の余白に配置
-       ★画像の下には置かない
+       ★円なし
+       ★背景なし
+       ★画像の上に直接配置
     ========================================= */
 
     .slider-controls {
 
       position: absolute;
 
-      /*
-        画像エリアの中央
-      */
       top: 0;
-
       left: 0;
 
       width: 100%;
-
-      height: calc(100% - 38px);
+      height: 100%;
 
       display: flex;
 
@@ -422,48 +475,52 @@
 
       justify-content: space-between;
 
-      /*
-        画面端から少し内側
-      */
-      padding-left: 12px;
-      padding-right: 12px;
+      padding: 0;
 
       pointer-events: none;
 
-      z-index: 20;
+      z-index: 50;
     }
 
 
     /* =========================================
-       ボタン
+       ボタン本体
     ========================================= */
 
     .slider-btn {
 
-      width: 56px;
+      width: auto;
 
-      height: 56px;
+      height: auto;
 
-      padding: 0;
+      min-width: 48px;
+
+      min-height: 80px;
+
+      padding: 0 8px;
+
+      margin: 0;
 
       border: none;
 
-      border-radius: 50%;
+      border-radius: 0;
 
-      background: #ffffff;
+      background: transparent;
 
       color: var(--main-color);
 
-      font-size: 34px;
+      font-size: 72px;
 
-      font-weight: bold;
+      font-family:
+        Arial,
+        "Helvetica Neue",
+        sans-serif;
+
+      font-weight: 300;
 
       line-height: 1;
 
       cursor: pointer;
-
-      box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.18);
 
       display: flex;
 
@@ -479,40 +536,58 @@
 
       touch-action: manipulation;
 
+      /*
+        文字そのものだけを
+        大きく表示
+      */
+      box-shadow: none;
+
+      text-shadow:
+        0 2px 6px rgba(255, 255, 255, 0.8);
+
       transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+        transform 0.12s ease,
+        opacity 0.12s ease;
     }
 
 
     .slider-btn:hover {
 
-      transform: scale(1.08);
+      background: transparent;
 
-      box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.22);
+      box-shadow: none;
+
+      transform: scale(1.08);
     }
 
 
     .slider-btn:active {
 
-      transform: scale(0.92);
+      background: transparent;
+
+      box-shadow: none;
+
+      transform: scale(0.9);
     }
 
 
     /* =========================================
        ページ番号
        
-       ★画像の真下
+       ★画像の上に表示
     ========================================= */
 
     .page-number {
 
-      width: 100%;
+      position: absolute;
 
-      height: 38px;
+      left: 50%;
 
-      flex: 0 0 38px;
+      bottom: 14px;
+
+      transform: translateX(-50%);
+
+      z-index: 60;
 
       display: flex;
 
@@ -520,11 +595,19 @@
 
       justify-content: center;
 
+      width: auto;
+
+      height: auto;
+
+      padding: 5px 13px;
+
       margin: 0;
 
-      padding: 0;
-
       color: var(--main-color);
+
+      background: rgba(255, 255, 255, 0.78);
+
+      border-radius: 20px;
 
       font-size: 23px;
 
@@ -534,73 +617,57 @@
 
       line-height: 1;
 
-      position: relative;
+      pointer-events: none;
 
-      z-index: 30;
+      white-space: nowrap;
+
+      text-shadow:
+        0 1px 2px rgba(255, 255, 255, 0.8);
     }
 
 
     /* =========================================
-       拡大表示
+       拡大モード表示用
     ========================================= */
 
-    .image-modal {
+    .zoom-indicator {
 
-      position: fixed;
+      position: absolute;
 
-      inset: 0;
+      top: 12px;
 
-      width: 100vw;
+      left: 50%;
 
-      height: 100vh;
+      transform: translateX(-50%);
 
-      background: rgba(0, 0, 0, 0.92);
+      z-index: 60;
 
-      z-index: 99999;
+      padding: 4px 11px;
 
-      display: none;
+      border-radius: 15px;
 
-      align-items: center;
+      background: rgba(255, 255, 255, 0.72);
 
-      justify-content: center;
+      color: var(--main-color);
 
-      overflow: hidden;
+      font-size: 13px;
 
-      cursor: zoom-out;
+      font-weight: bold;
 
-      touch-action: none;
+      line-height: 1.3;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition:
+        opacity 0.2s ease;
     }
 
 
-    .image-modal.active {
+    .slider.zoom-mode .zoom-indicator {
 
-      display: flex;
-    }
-
-
-    .image-modal img {
-
-      display: block;
-
-      width: auto;
-
-      height: auto;
-
-      max-width: 100vw;
-
-      max-height: 100vh;
-
-      object-fit: contain;
-
-      cursor: zoom-out;
-
-      user-select: none;
-
-      -webkit-user-select: none;
-
-      -webkit-user-drag: none;
-
-      touch-action: none;
+      opacity: 1;
     }
 
 
@@ -630,17 +697,13 @@
       }
 
 
-      /* -----------------------------------------
-         スマホ画像エリア
-      ----------------------------------------- */
-
       .slider {
 
         width: 100%;
 
-        height: calc(100% - 34px);
+        height: 100%;
 
-        flex: 0 0 calc(100% - 34px);
+        flex: 1 1 auto;
 
         min-height: 0;
 
@@ -673,19 +736,19 @@
       }
 
 
+      /* -----------------------------------------
+         スマホ画像
+      ----------------------------------------- */
+
       .slide img {
 
-        /*
-          スマホでも左右に
-          ボタン用の余白を確保
-        */
-        width: calc(100% - 110px);
+        width: 100%;
 
         height: 100%;
 
-        max-width: calc(100% - 110px);
+        max-width: none;
 
-        max-height: 100%;
+        max-height: none;
 
         object-fit: contain;
       }
@@ -697,23 +760,28 @@
 
       .slider-controls {
 
-        height: calc(100% - 34px);
+        width: 100%;
 
-        padding-left: 8px;
+        height: 100%;
 
-        padding-right: 8px;
-
-        pointer-events: none;
+        padding: 0;
       }
 
 
       .slider-btn {
 
-        width: 48px;
+        min-width: 42px;
 
-        height: 48px;
+        min-height: 70px;
 
-        font-size: 28px;
+        padding: 0 4px;
+
+        font-size: 58px;
+
+        font-weight: 300;
+
+        text-shadow:
+          0 2px 5px rgba(255, 255, 255, 0.9);
       }
 
 
@@ -723,13 +791,27 @@
 
       .page-number {
 
-        height: 34px;
+        bottom: 12px;
 
-        flex: 0 0 34px;
+        padding: 4px 11px;
 
         font-size: 20px;
 
         letter-spacing: 1px;
+      }
+
+
+      /* -----------------------------------------
+         スマホ拡大表示
+      ----------------------------------------- */
+
+      .zoom-indicator {
+
+        top: 8px;
+
+        padding: 3px 9px;
+
+        font-size: 12px;
       }
 
     }
@@ -749,47 +831,39 @@
 
       .slider {
 
-        height: calc(100% - 28px);
+        height: 100%;
 
-        flex: 0 0 calc(100% - 28px);
-      }
-
-
-      .slide img {
-
-        width: calc(100% - 100px);
-
-        max-width: calc(100% - 100px);
-      }
-
-
-      .slider-controls {
-
-        height: calc(100% - 28px);
-
-        padding-left: 6px;
-
-        padding-right: 6px;
+        flex: 1 1 auto;
       }
 
 
       .slider-btn {
 
-        width: 40px;
+        min-width: 38px;
 
-        height: 40px;
+        min-height: 55px;
 
-        font-size: 23px;
+        font-size: 46px;
+
+        padding: 0 3px;
       }
 
 
       .page-number {
 
-        height: 28px;
-
-        flex: 0 0 28px;
+        bottom: 8px;
 
         font-size: 17px;
+
+        padding: 3px 9px;
+      }
+
+
+      .zoom-indicator {
+
+        top: 6px;
+
+        font-size: 11px;
       }
 
     }
@@ -801,40 +875,27 @@
 
     @media (max-height: 650px) {
 
-      .slider {
-
-        height: calc(100% - 30px);
-
-        flex: 0 0 calc(100% - 30px);
-      }
-
-
-      .slider-controls {
-
-        height: calc(100% - 30px);
-      }
-
-
       .slider-btn {
 
-        width: 44px;
+        min-width: 40px;
 
-        height: 44px;
+        min-height: 60px;
 
-        font-size: 25px;
+        font-size: 50px;
       }
 
 
       .page-number {
 
-        height: 30px;
-
-        flex: 0 0 30px;
+        bottom: 7px;
 
         font-size: 18px;
+
+        padding: 3px 9px;
       }
 
     }
+
 
   </style>
 </head>
@@ -930,13 +991,14 @@
 
 
       <!-- =====================================
-           画像
+           画像スライダー
       ====================================== -->
 
       <div
-        class="slider"
+        class="slider zoom-mode"
         id="slider"
       >
+
 
         <div
           class="slides"
@@ -1039,12 +1101,13 @@
 
         <!-- =====================================
              左右ボタン
-
-             ★画像の左右の余白
-             ★画像の下ではない
+             
+             ★画像の上に直接配置
+             ★白い円なし
         ====================================== -->
 
         <div class="slider-controls">
+
 
           <button
             type="button"
@@ -1065,47 +1128,41 @@
             ›
           </button>
 
+
         </div>
 
+
+        <!-- =====================================
+             拡大モード表示
+        ====================================== -->
+
+        <div
+          class="zoom-indicator"
+          id="zoomIndicator"
+        >
+          拡大モード
+        </div>
+
+
+        <!-- =====================================
+             ページ番号
+             
+             ★画像の上に表示
+        ====================================== -->
+
+        <div
+          class="page-number"
+          id="pageNumber"
+        >
+          1 / 6
+        </div>
+
+
       </div>
-
-
-      <!-- =====================================
-           ページ番号
-
-           ★画像の真下
-      ====================================== -->
-
-      <div
-        class="page-number"
-        id="pageNumber"
-      >
-        1 / 6
-      </div>
-
 
     </div>
 
   </main>
-
-
-  <!-- =========================================
-       拡大表示
-  ========================================= -->
-
-  <div
-    class="image-modal"
-    id="imageModal"
-  >
-
-    <img
-      id="modalImage"
-      src=""
-      alt="拡大表示"
-      draggable="false"
-    >
-
-  </div>
 
 
   <!-- =========================================
@@ -1121,23 +1178,21 @@
     const slider =
       document.getElementById("slider");
 
+
     const slides =
       document.getElementById("slides");
+
 
     const prevBtn =
       document.getElementById("prevBtn");
 
+
     const nextBtn =
       document.getElementById("nextBtn");
 
+
     const pageNumber =
       document.getElementById("pageNumber");
-
-    const imageModal =
-      document.getElementById("imageModal");
-
-    const modalImage =
-      document.getElementById("modalImage");
 
 
     /* =========================================
@@ -1155,6 +1210,281 @@
 
 
     /* =========================================
+       拡大設定
+    ========================================= */
+
+    /*
+      ページを開いた時の
+      初期拡大率
+    */
+
+    const INITIAL_ZOOM = 1.4;
+
+
+    /*
+      最大拡大率
+    */
+
+    const MAX_ZOOM = 4;
+
+
+    /*
+      最小拡大率
+
+      通常モードへ戻す場合は
+      zoom-mode自体を外すため
+      実質1倍
+    */
+
+    const MIN_ZOOM = 1;
+
+
+    /*
+      現在の拡大率
+    */
+
+    let zoomScale =
+      INITIAL_ZOOM;
+
+
+    /*
+      現在の移動量
+    */
+
+    let panX = 0;
+
+    let panY = 0;
+
+
+    /* =========================================
+       ポインター情報
+    ========================================= */
+
+    const activePointers =
+      new Map();
+
+
+    let pointerStartX = 0;
+
+    let pointerStartY = 0;
+
+    let pointerCurrentX = 0;
+
+    let pointerCurrentY = 0;
+
+
+    let isPointerDown =
+      false;
+
+
+    let isDragging =
+      false;
+
+
+    let isPinching =
+      false;
+
+
+    let swipeHandled =
+      false;
+
+
+    let tapCandidate =
+      false;
+
+
+    /*
+      ページ移動用スワイプ距離
+    */
+
+    const SWIPE_DISTANCE = 35;
+
+
+    /*
+      ドラッグ開始判定
+    */
+
+    const DRAG_DISTANCE = 8;
+
+
+    /*
+      ピンチ開始時の距離
+    */
+
+    let pinchStartDistance = 0;
+
+
+    /*
+      ピンチ開始時の拡大率
+    */
+
+    let pinchStartScale = INITIAL_ZOOM;
+
+
+    /*
+      ピンチ中心
+    */
+
+    let pinchCenterX = 0;
+
+    let pinchCenterY = 0;
+
+
+    /* =========================================
+       現在の画像を取得
+    ========================================= */
+
+    function getCurrentImage() {
+
+      const imageList =
+        document.querySelectorAll(".slide img");
+
+      return imageList[currentPage];
+
+    }
+
+
+    /* =========================================
+       拡大画像へ
+       transformを反映
+    ========================================= */
+
+    function applyZoomTransform() {
+
+      const image =
+        getCurrentImage();
+
+
+      if (!image) {
+        return;
+      }
+
+
+      image.style.setProperty(
+        "--zoom-scale",
+        zoomScale
+      );
+
+
+      image.style.setProperty(
+        "--pan-x",
+        `${panX}px`
+      );
+
+
+      image.style.setProperty(
+        "--pan-y",
+        `${panY}px`
+      );
+
+    }
+
+
+    /* =========================================
+       拡大位置をリセット
+    ========================================= */
+
+    function resetZoomPosition() {
+
+      zoomScale =
+        INITIAL_ZOOM;
+
+      panX = 0;
+
+      panY = 0;
+
+      applyZoomTransform();
+
+    }
+
+
+    /* =========================================
+       拡大モードON
+    ========================================= */
+
+    function enableZoomMode() {
+
+      slider.classList.add(
+        "zoom-mode"
+      );
+
+
+      resetZoomPosition();
+
+    }
+
+
+    /* =========================================
+       拡大モードOFF
+    ========================================= */
+
+    function disableZoomMode() {
+
+      slider.classList.remove(
+        "zoom-mode"
+      );
+
+
+      zoomScale = 1;
+
+      panX = 0;
+
+      panY = 0;
+
+
+      const imageList =
+        document.querySelectorAll(
+          ".slide img"
+        );
+
+
+      imageList.forEach(
+        (image) => {
+
+          image.style.removeProperty(
+            "--zoom-scale"
+          );
+
+          image.style.removeProperty(
+            "--pan-x"
+          );
+
+          image.style.removeProperty(
+            "--pan-y"
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       拡大モード切り替え
+    ========================================= */
+
+    function toggleZoomMode() {
+
+      if (
+        slider.classList.contains(
+          "zoom-mode"
+        )
+      ) {
+
+        disableZoomMode();
+
+      }
+
+      else {
+
+        enableZoomMode();
+
+      }
+
+    }
+
+
+    /* =========================================
        スライダー更新
     ========================================= */
 
@@ -1167,6 +1497,23 @@
       pageNumber.textContent =
         `${currentPage + 1} / ${totalPages}`;
 
+
+      /*
+        ページ移動時は
+        新しい画像も最初から
+        拡大モードにする
+      */
+
+      if (
+        slider.classList.contains(
+          "zoom-mode"
+        )
+      ) {
+
+        resetZoomPosition();
+
+      }
+
     }
 
 
@@ -1176,15 +1523,21 @@
 
     function nextPage() {
 
-      if (currentPage < totalPages - 1) {
+      if (
+        currentPage <
+        totalPages - 1
+      ) {
 
         currentPage++;
 
-      } else {
+      }
+
+      else {
 
         currentPage = 0;
 
       }
+
 
       updateSlider();
 
@@ -1197,15 +1550,21 @@
 
     function previousPage() {
 
-      if (currentPage > 0) {
+      if (
+        currentPage > 0
+      ) {
 
         currentPage--;
 
-      } else {
+      }
 
-        currentPage = totalPages - 1;
+      else {
+
+        currentPage =
+          totalPages - 1;
 
       }
+
 
       updateSlider();
 
@@ -1216,15 +1575,25 @@
        ボタン
     ========================================= */
 
-    nextBtn.addEventListener(
-      "click",
+    prevBtn.addEventListener(
+      "pointerdown",
       (e) => {
 
         e.preventDefault();
 
         e.stopPropagation();
 
-        nextPage();
+      }
+    );
+
+
+    nextBtn.addEventListener(
+      "pointerdown",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
 
       }
     );
@@ -1238,48 +1607,208 @@
 
         e.stopPropagation();
 
-        previousPage();
+
+        nextPage();
 
       }
     );
 
 
+    nextBtn.addEventListener(
+      "click",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        nextPage();
+
+      }
+    );
+
+
+    /*
+      前へボタンは
+      previousPage()を使う
+    */
+
+    prevBtn.onclick =
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        previousPage();
+
+      };
+
+
     /* =========================================
-       スワイプ
-       
-       Pointer Events
+       2本指間の距離
     ========================================= */
 
-    let pointerStartX = 0;
+    function getPointerDistance() {
 
-    let pointerStartY = 0;
-
-    let pointerCurrentX = 0;
-
-    let pointerCurrentY = 0;
-
-    let isPointerDown = false;
-
-    let isDragging = false;
-
-    let swipeHandled = false;
+      const points =
+        Array.from(
+          activePointers.values()
+        );
 
 
-    /*
-      スワイプ判定距離
+      if (
+        points.length < 2
+      ) {
 
-      小さめに設定して
-      反応を良くする
-    */
+        return 0;
 
-    const SWIPE_DISTANCE = 35;
+      }
 
 
-    /*
-      指についてくる最大距離
-    */
+      const dx =
+        points[0].x -
+        points[1].x;
 
-    const MAX_DRAG = 120;
+
+      const dy =
+        points[0].y -
+        points[1].y;
+
+
+      return Math.sqrt(
+        dx * dx +
+        dy * dy
+      );
+
+    }
+
+
+    /* =========================================
+       2本指の中心
+    ========================================= */
+
+    function getPointerCenter() {
+
+      const points =
+        Array.from(
+          activePointers.values()
+        );
+
+
+      if (
+        points.length < 2
+      ) {
+
+        return {
+          x: 0,
+          y: 0
+        };
+
+      }
+
+
+      return {
+
+        x:
+          (
+            points[0].x +
+            points[1].x
+          ) / 2,
+
+        y:
+          (
+            points[0].y +
+            points[1].y
+          ) / 2
+
+      };
+
+    }
+
+
+    /* =========================================
+       拡大率を範囲内に収める
+    ========================================= */
+
+    function clampZoom(
+      value
+    ) {
+
+      return Math.max(
+        MIN_ZOOM,
+        Math.min(
+          MAX_ZOOM,
+          value
+        )
+      );
+
+    }
+
+
+    /* =========================================
+       パン位置を制限
+    ========================================= */
+
+    function limitPan() {
+
+      /*
+        拡大率に応じて
+        画像を画面外へ動かせる量を
+       ある程度制限する
+      */
+
+      const maxPan =
+        Math.max(
+          0,
+          (
+            zoomScale - 1
+          ) *
+          Math.min(
+            slider.clientWidth,
+            slider.clientHeight
+          ) *
+          0.75
+        );
+
+
+      if (
+        panX > maxPan
+      ) {
+
+        panX = maxPan;
+
+      }
+
+
+      if (
+        panX < -maxPan
+      ) {
+
+        panX = -maxPan;
+
+      }
+
+
+      if (
+        panY > maxPan
+      ) {
+
+        panY = maxPan;
+
+      }
+
+
+      if (
+        panY < -maxPan
+      ) {
+
+        panY = -maxPan;
+
+      }
+
+    }
 
 
     /* =========================================
@@ -1291,7 +1820,8 @@
       (e) => {
 
         /*
-          PCの右クリック等を無視
+          マウスの場合
+          左クリックだけ
         */
 
         if (
@@ -1304,24 +1834,32 @@
         }
 
 
-        isPointerDown = true;
+        /*
+          ボタンを除外
+        */
 
-        isDragging = false;
+        if (
+          e.target.closest(
+            ".slider-btn"
+          )
+        ) {
 
-        swipeHandled = false;
+          return;
+
+        }
 
 
-        pointerStartX = e.clientX;
-
-        pointerStartY = e.clientY;
-
-        pointerCurrentX = e.clientX;
-
-        pointerCurrentY = e.clientY;
+        activePointers.set(
+          e.pointerId,
+          {
+            x: e.clientX,
+            y: e.clientY
+          }
+        );
 
 
         /*
-          pointer capture
+          ポインターキャプチャ
         */
 
         try {
@@ -1330,7 +1868,9 @@
             e.pointerId
           );
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
           // 無視
 
@@ -1338,12 +1878,73 @@
 
 
         /*
-          スワイプ開始時は
-          アニメーションを止める
+          2本指になった
+          → ピンチ開始
         */
 
-        slides.style.transition =
-          "none";
+        if (
+          activePointers.size >= 2 &&
+          slider.classList.contains(
+            "zoom-mode"
+          )
+        ) {
+
+          isPinching = true;
+
+          isDragging = false;
+
+          tapCandidate = false;
+
+
+          pinchStartDistance =
+            getPointerDistance();
+
+
+          pinchStartScale =
+            zoomScale;
+
+
+          const center =
+            getPointerCenter();
+
+
+          pinchCenterX =
+            center.x;
+
+          pinchCenterY =
+            center.y;
+
+
+          return;
+
+        }
+
+
+        /*
+          1本指
+        */
+
+        isPointerDown = true;
+
+        isDragging = false;
+
+        swipeHandled = false;
+
+        tapCandidate = true;
+
+
+        pointerStartX =
+          e.clientX;
+
+        pointerStartY =
+          e.clientY;
+
+        pointerCurrentX =
+          e.clientX;
+
+        pointerCurrentY =
+          e.clientY;
+
 
       }
     );
@@ -1357,7 +1958,73 @@
       "pointermove",
       (e) => {
 
-        if (!isPointerDown) {
+        /*
+          ポインター位置更新
+        */
+
+        if (
+          activePointers.has(
+            e.pointerId
+          )
+        ) {
+
+          activePointers.set(
+            e.pointerId,
+            {
+              x: e.clientX,
+              y: e.clientY
+            }
+          );
+
+        }
+
+
+        /* -------------------------------------
+           ピンチ操作
+        ------------------------------------- */
+
+        if (
+          isPinching &&
+          activePointers.size >= 2
+        ) {
+
+          const distance =
+            getPointerDistance();
+
+
+          if (
+            pinchStartDistance > 0
+          ) {
+
+            const ratio =
+              distance /
+              pinchStartDistance;
+
+
+            zoomScale =
+              clampZoom(
+                pinchStartScale *
+                ratio
+              );
+
+
+            applyZoomTransform();
+
+          }
+
+
+          return;
+
+        }
+
+
+        /*
+          1本指操作以外は無視
+        */
+
+        if (
+          !isPointerDown
+        ) {
 
           return;
 
@@ -1375,47 +2042,127 @@
           pointerCurrentX -
           pointerStartX;
 
+
         const deltaY =
           pointerCurrentY -
           pointerStartY;
 
 
         /*
-          横方向の移動が
-          縦方向より大きい場合
-          → 横スワイプ
+          拡大モード
+          
+          → ページ移動ではなく
+          → 画像をドラッグ
         */
 
         if (
-          Math.abs(deltaX) > 8 &&
-          Math.abs(deltaX) >
-          Math.abs(deltaY)
+          slider.classList.contains(
+            "zoom-mode"
+          )
         ) {
 
-          isDragging = true;
+          if (
+            Math.abs(deltaX) >
+              DRAG_DISTANCE ||
+            Math.abs(deltaY) >
+              DRAG_DISTANCE
+          ) {
+
+            isDragging = true;
+
+            tapCandidate = false;
+
+          }
+
+
+          if (
+            isDragging
+          ) {
+
+            panX +=
+              deltaX;
+
+            panY +=
+              deltaY;
+
+
+            /*
+              次のmoveのために
+              現在位置を更新
+            */
+
+            pointerStartX =
+              pointerCurrentX;
+
+            pointerStartY =
+              pointerCurrentY;
+
+
+            limitPan();
+
+            applyZoomTransform();
+
+          }
+
+
+          return;
 
         }
 
 
-        /*
-          スワイプ中のみ
-          指についてくる
-        */
+        /* -------------------------------------
+           通常モード
+           
+           → 横スワイプでページ移動
+        ------------------------------------- */
 
-        if (isDragging) {
+        if (
+          Math.abs(deltaX) > 8 &&
+          Math.abs(deltaX) >
+            Math.abs(deltaY)
+        ) {
 
-          let dragX = deltaX;
+          isDragging = true;
+
+          tapCandidate = false;
+
+        }
+
+
+        if (
+          isDragging
+        ) {
+
+          const sliderWidth =
+            slider.clientWidth;
+
+
+          if (
+            sliderWidth <= 0
+          ) {
+
+            return;
+
+          }
+
+
+          let dragX =
+            deltaX;
 
 
           /*
             引っ張りすぎ防止
           */
 
+          const MAX_DRAG = 120;
+
+
           if (
             dragX > MAX_DRAG
           ) {
 
-            dragX = MAX_DRAG;
+            dragX =
+              MAX_DRAG;
 
           }
 
@@ -1424,32 +2171,27 @@
             dragX < -MAX_DRAG
           ) {
 
-            dragX = -MAX_DRAG;
+            dragX =
+              -MAX_DRAG;
 
           }
 
 
           const basePercent =
-            currentPage * -100;
+            currentPage *
+            -100;
 
 
-          const sliderWidth =
-            slider.clientWidth;
+          const dragPercent =
+            (
+              dragX /
+              sliderWidth
+            ) *
+            100;
 
 
-          if (
-            sliderWidth > 0
-          ) {
-
-            const dragPercent =
-              (dragX / sliderWidth) *
-              100;
-
-
-            slides.style.transform =
-              `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
-
-          }
+          slides.style.transform =
+            `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
 
         }
 
@@ -1465,7 +2207,40 @@
       "pointerup",
       (e) => {
 
-        if (!isPointerDown) {
+        /*
+          ポインター情報を削除
+        */
+
+        activePointers.delete(
+          e.pointerId
+        );
+
+
+        /*
+          ピンチ終了
+        */
+
+        if (
+          isPinching
+        ) {
+
+          if (
+            activePointers.size < 2
+          ) {
+
+            isPinching = false;
+
+          }
+
+
+          return;
+
+        }
+
+
+        if (
+          !isPointerDown
+        ) {
 
           return;
 
@@ -1476,6 +2251,7 @@
           pointerCurrentX -
           pointerStartX;
 
+
         const deltaY =
           pointerCurrentY -
           pointerStartY;
@@ -1484,17 +2260,48 @@
         isPointerDown = false;
 
 
-        /*
-          アニメーション復帰
-        */
+        /* -------------------------------------
+           拡大モード
+           
+           タップなら
+           → 通常モードへ
+           
+           ドラッグなら
+           → 何もしない
+        ------------------------------------- */
 
-        slides.style.transition =
-          "transform 0.3s ease-out";
+        if (
+          slider.classList.contains(
+            "zoom-mode"
+          )
+        ) {
+
+          if (
+            tapCandidate &&
+            !isDragging &&
+            Math.abs(deltaX) < 15 &&
+            Math.abs(deltaY) < 15
+          ) {
+
+            toggleZoomMode();
+
+          }
 
 
-        /*
-          横スワイプ判定
-        */
+          isDragging = false;
+
+          tapCandidate = false;
+
+          return;
+
+        }
+
+
+        /* -------------------------------------
+           通常モード
+           
+           横スワイプ判定
+        ------------------------------------- */
 
         const isHorizontalSwipe =
           Math.abs(deltaX) >=
@@ -1503,23 +2310,17 @@
             Math.abs(deltaY);
 
 
-        if (isHorizontalSwipe) {
+        if (
+          isHorizontalSwipe
+        ) {
 
-          /*
-            左スワイプ
-            → 次へ
-          */
-
-          if (deltaX < 0) {
+          if (
+            deltaX < 0
+          ) {
 
             nextPage();
 
           }
-
-          /*
-            右スワイプ
-            → 前へ
-          */
 
           else {
 
@@ -1528,32 +2329,36 @@
           }
 
 
-          /*
-            直後のクリックによる
-            拡大を防止
-          */
-
           swipeHandled = true;
 
-          isDragging = false;
-
-
-          updateSlider();
-
         }
+
 
         else {
 
           /*
-            タップだった場合
-            元の位置へ戻す
+            タップなら
+            → 拡大モードへ
           */
 
-          isDragging = false;
+          if (
+            tapCandidate &&
+            !isDragging
+          ) {
+
+            enableZoomMode();
+
+          }
+
 
           updateSlider();
 
         }
+
+
+        isDragging = false;
+
+        tapCandidate = false;
 
       }
     );
@@ -1565,14 +2370,25 @@
 
     slider.addEventListener(
       "pointercancel",
-      () => {
+      (e) => {
+
+        activePointers.delete(
+          e.pointerId
+        );
+
 
         isPointerDown = false;
 
         isDragging = false;
 
+        isPinching = false;
+
+        tapCandidate = false;
+
+
         slides.style.transition =
           "transform 0.3s ease-out";
+
 
         updateSlider();
 
@@ -1581,44 +2397,42 @@
 
 
     /* =========================================
-       画像タップ → 拡大
+       pointerleave
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerleave",
+      () => {
+
+        /*
+          pointer capture中は
+          ここでは何もしない
+        */
+
+      }
+    );
+
+
+    /* =========================================
+       画像のクリック処理
+       
+       Pointer Events側で
+       タップ処理をしているため
+       通常のclickでは処理しない
     ========================================= */
 
     document
-      .querySelectorAll(".slide img")
+      .querySelectorAll(
+        ".slide img"
+      )
       .forEach(
         (img) => {
 
           img.addEventListener(
-            "click",
+            "dragstart",
             (e) => {
 
-              /*
-                スワイプ直後なら
-                拡大しない
-              */
-
-              if (swipeHandled) {
-
-                swipeHandled = false;
-
-                e.preventDefault();
-
-                return;
-
-              }
-
-
-              /*
-                拡大
-              */
-
-              modalImage.src =
-                img.src;
-
-              imageModal.classList.add(
-                "active"
-              );
+              e.preventDefault();
 
             }
           );
@@ -1628,43 +2442,53 @@
 
 
     /* =========================================
-       拡大表示を閉じる
-    ========================================= */
-
-    imageModal.addEventListener(
-      "click",
-      () => {
-
-        imageModal.classList.remove(
-          "active"
-        );
-
-        modalImage.src = "";
-
-      }
-    );
-
-
-    /* =========================================
-       ESCキー
+       キーボード操作
+       
+       PCでもページ移動可能
     ========================================= */
 
     document.addEventListener(
       "keydown",
       (e) => {
 
+        /*
+          左キー
+        */
+
         if (
-          e.key === "Escape" &&
-          imageModal.classList.contains(
-            "active"
-          )
+          e.key === "ArrowLeft"
         ) {
 
-          imageModal.classList.remove(
-            "active"
-          );
+          previousPage();
 
-          modalImage.src = "";
+        }
+
+
+        /*
+          右キー
+        */
+
+        if (
+          e.key === "ArrowRight"
+        ) {
+
+          nextPage();
+
+        }
+
+
+        /*
+          スペース
+          → 拡大/通常切り替え
+        */
+
+        if (
+          e.key === " "
+        ) {
+
+          e.preventDefault();
+
+          toggleZoomMode();
 
         }
 
@@ -1674,11 +2498,29 @@
 
     /* =========================================
        初期表示
+       
+       ★最初から拡大モード
     ========================================= */
+
+    slider.classList.add(
+      "zoom-mode"
+    );
+
+
+    zoomScale =
+      INITIAL_ZOOM;
+
+
+    panX = 0;
+
+    panY = 0;
+
 
     updateSlider();
 
+
   </script>
+
 
 </body>
 </html>
