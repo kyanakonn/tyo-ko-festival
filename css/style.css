@@ -680,6 +680,7 @@ h2 {
 .info-card img {
   display: block;
   width: 100%;
+  aspect-ratio: 2 / 1;
   height: auto;
   object-fit: contain;
 }
@@ -1194,15 +1195,21 @@ footer {
   /* -------------------------
      お知らせ
   ------------------------- */
-
   .info-links {
     flex-direction: column;
   }
 
   .info-card {
     width: 100%;
-
     min-width: auto;
+    max-width: none;
+  }
+
+  .info-card img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    height: auto;
+    object-fit: contain;
   }
 
 
