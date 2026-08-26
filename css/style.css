@@ -1,1431 +1,2354 @@
-/* =========================================
-   基本設定
-========================================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-
-  background-color: #EEEEEC !important;
-
-  overflow-x: hidden;
-}
-
-body {
-  font-family: 'Noto Sans JP', sans-serif;
-  position: relative;
-}
-
-
-/* =========================================
-   背景の図形
-========================================= */
-
-.bg-shapes {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0.85;
-}
-
-.shape {
-  position: absolute;
-}
-
-
-/* 三角形 */
-
-.s1 {
-  top: 5%;
-  left: -50px;
-  width: 0;
-  height: 0;
-  border-left: 90px solid transparent;
-  border-right: 90px solid transparent;
-  border-bottom: 170px solid #c85c72;
-  transform: rotate(-25deg);
-}
-
-.s2 {
-  top: 25%;
-  left: -35px;
-  width: 0;
-  height: 0;
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 130px solid #8060a8;
-  transform: rotate(20deg);
-}
-
-.s3 {
-  bottom: 5%;
-  left: -30px;
-  width: 0;
-  height: 0;
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 180px solid #d1a92f;
-  transform: rotate(12deg);
-}
-
-.s4 {
-  bottom: 28%;
-  left: 20px;
-  width: 0;
-  height: 0;
-  border-left: 60px solid transparent;
-  border-right: 60px solid transparent;
-  border-bottom: 120px solid #3f9da9;
-  transform: rotate(-15deg);
-}
-
-.s5 {
-  top: 12%;
-  right: -80px;
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 260px solid #4f9fa5;
-  transform: rotate(30deg);
-}
-
-.s6 {
-  bottom: -40px;
-  right: -30px;
-  width: 0;
-  height: 0;
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 190px solid #c85c72;
-  transform: rotate(-15deg);
-}
-
-.s7 {
-  top: 8%;
-  right: 40px;
-  width: 0;
-  height: 0;
-  border-left: 55px solid transparent;
-  border-right: 55px solid transparent;
-  border-bottom: 100px solid #8060a8;
-  transform: rotate(35deg);
-}
-
-.s8 {
-  bottom: 20%;
-  right: 40px;
-  width: 0;
-  height: 0;
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 130px solid #d1a92f;
-  transform: rotate(-20deg);
-}
-
-
-/* 四角形 */
-
-.bg-shapes::before,
-.bg-shapes::after {
-  content: "";
-  position: absolute;
-  display: block;
-}
-
-.bg-shapes::before {
-  width: 85px;
-  height: 150px;
-  left: 7%;
-  top: 45%;
-  background: #9b668f;
-  transform: rotate(28deg);
-}
-
-.bg-shapes::after {
-  width: 110px;
-  height: 70px;
-  right: 4%;
-  top: 55%;
-  background: #4b8f9b;
-  transform: rotate(-20deg);
-}
-
-.s9 {
-  top: 38%;
-  left: 12%;
-  width: 90px;
-  height: 55px;
-  background: #b85d72;
-  transform: rotate(-18deg);
-}
-
-.s10 {
-  top: 70%;
-  left: 18%;
-  width: 65px;
-  height: 100px;
-  background: #66558f;
-  transform: rotate(25deg);
-}
-
-.s11 {
-  top: 32%;
-  right: 15%;
-  width: 75px;
-  height: 75px;
-  background: #c49b35;
-  transform: rotate(18deg);
-}
-
-.s12 {
-  bottom: 10%;
-  right: 20%;
-  width: 100px;
-  height: 55px;
-  background: #438f98;
-  transform: rotate(-30deg);
-}
-
-
-/* =========================================
-   ローディング
-========================================= */
-
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 99999;
-
-  transition: opacity 0.5s ease;
-}
-
-.loader-text {
-  font-size: 28px;
-  color: #ff4d6d;
-  animation: blink 1s infinite alternate;
-}
-
-@keyframes blink {
-  from {
-    opacity: 0.3;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-
-/* =========================================
-   ヘッダー
-========================================= */
-
-#header {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  z-index: 10000;
-}
-
-#header header {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-
-  padding: 6px 16px;
-
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-
-  z-index: 10001;
-}
-
-header h1 {
-  font-size: 14px;
-  color: #ff4d6d;
-  white-space: nowrap;
-}
-
-
-/* ヘッダー内部 */
-
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 12px;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  padding: 0 12px;
-}
-
-
-/* =========================================
-   ハンバーガーメニュー
-========================================= */
-
-.menu-btn {
-  width: 24px;
-  height: 16px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  margin-right: 5px;
-
-  cursor: pointer;
-}
-
-.menu-btn span {
-  display: block;
-
-  width: 100%;
-  height: 2px;
-
-  background: #ff4d6d;
-}
-
-
-/* =========================================
-   ナビゲーション
-========================================= */
-
-.nav {
-  display: none;
-
-  position: absolute;
-
-  top: 60px;
-  right: 10px;
-
-  background: #fff;
-
-  flex-direction: column;
-
-  width: 220px;
-
-  padding: 10px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.nav.active {
-  display: flex;
-}
-
-.nav a {
-  display: block;
-
-  padding: 12px 14px;
-  margin: 5px 0;
+<!DOCTYPE html>
+<html lang="ja">
+<head>
 
-  background: #fff;
+  <meta charset="UTF-8">
 
-  color: #000;
-  text-decoration: none;
-  font-weight: bold;
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  <title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
 
-  transition: 0.2s;
-}
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="css/style.css">
 
-.nav a:hover {
-  background: #f5f5f5;
-}
 
-.nav a:active {
-  background: #eee;
-  transform: scale(0.98);
-}
+  <style>
 
+    /* =========================================
+       基本設定
+    ========================================= */
 
-/* 上部ナビ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.top-nav {
-  display: flex;
-  gap: 25px;
-}
 
-.top-nav a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    :root {
+      --main-color: #d96b8a;
+    }
 
-  text-decoration: none;
-  color: #333;
 
-  font-size: 13px;
-  font-weight: bold;
+    html,
+    body {
 
-  transition: 0.2s;
-}
+      width: 100%;
+      height: 100%;
 
-.top-nav .en {
-  font-size: 13px;
-  letter-spacing: 1px;
-}
+      margin: 0;
+      padding: 0;
 
-.top-nav .jp {
-  font-size: 10px;
-  opacity: 0.7;
-}
+      overflow: hidden;
 
-.top-nav a:hover {
-  color: #ff4d6d;
-}
+      overscroll-behavior: none;
+    }
 
-.top-nav a.active {
-  color: #ff4d6d;
-}
 
-.top-nav a.active::before {
-  content: "▶";
-  font-size: 10px;
-  margin-bottom: 2px;
-}
+    body {
 
+      background: #ffffff;
 
-/* =========================================
-   ヒーロー
-========================================= */
+      font-family:
+        "Yu Gothic",
+        "Hiragino Sans",
+        sans-serif;
 
-/*
-  ヘッダーの実際の高さをJSから取得。
-  JSがまだ実行されていない場合は80px。
-*/
+      touch-action: none;
+    }
 
-:root {
-  --header-height: 80px;
-}
 
-.hero {
-  position: relative;
+    /* =========================================
+       ヘッダー
+    ========================================= */
 
-  width: 100%;
-  max-width: 100%;
+    #header {
 
-  /*
-    固定ヘッダーと重ならないようにする。
-    80px固定ではなく、実際のヘッダー高さを使用。
-  */
-  margin-top: var(--header-height);
+      position: relative;
 
-  padding: 0;
+      z-index: 10000;
 
-  overflow: hidden;
+      width: 100%;
+    }
 
-  line-height: 0;
 
-  text-align: center;
-}
+    /* =========================================
+       背景図形
+    ========================================= */
 
+    .bg-shapes {
 
-/* 背景画像 */
+      position: fixed;
 
-.hero > img.hero-bg {
-  position: absolute;
+      inset: 0;
 
-  top: 0;
-  left: 0;
+      z-index: 0;
 
-  width: 100%;
-  height: 100%;
+      pointer-events: none;
 
-  object-fit: cover;
+      overflow: hidden;
 
-  margin: 0;
-  padding: 0;
-}
+      opacity: 0.85;
+    }
 
 
-/*
-  前面画像
+    .shape {
+      position: absolute;
+    }
 
-  ここでは absolute + top:50% を使わない。
-  画像自身の高さを基準にすることで、
-  後から画像が上下に動くのを防ぐ。
-*/
 
-.hero > img.hero-front {
-  position: relative;
+    /* =========================================
+       三角形
+    ========================================= */
 
-  display: block;
+    .s1 {
 
-  width: 100%;
-  height: auto;
+      top: 5%;
+      left: -50px;
 
-  max-width: 100%;
+      width: 0;
+      height: 0;
 
-  margin: 0;
-  padding: 0;
+      border-left: 90px solid transparent;
+      border-right: 90px solid transparent;
+      border-bottom: 170px solid #c85c72;
 
-  transform: none;
+      transform: rotate(-25deg);
+    }
 
-  object-fit: initial;
 
-  z-index: 100;
+    .s2 {
 
-  pointer-events: none;
-}
+      top: 25%;
+      left: -35px;
 
+      width: 0;
+      height: 0;
 
-/* =========================================
-   ヒーロータイトル
-========================================= */
+      border-left: 70px solid transparent;
+      border-right: 70px solid transparent;
+      border-bottom: 130px solid #8060a8;
 
-.hero-title-wrap {
-  position: absolute;
+      transform: rotate(20deg);
+    }
 
-  top: 50%;
-  left: 50%;
 
-  transform: translate(-50%, -50%);
+    .s3 {
 
-  z-index: 150;
+      bottom: 5%;
+      left: -30px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+      width: 0;
+      height: 0;
 
-  width: 100%;
-  max-width: 100%;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 180px solid #d1a92f;
 
-  padding: 0 20px;
+      transform: rotate(12deg);
+    }
 
-  text-align: center;
 
-  line-height: normal;
-}
+    .s4 {
 
-.hero h1 {
-  font-size: clamp(20px, 10vw, 80px);
+      bottom: 28%;
+      left: 20px;
 
-  line-height: 1.1;
+      width: 0;
+      height: 0;
 
-  letter-spacing: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-bottom: 120px solid #3f9da9;
 
-  margin: 0;
+      transform: rotate(-15deg);
+    }
 
-  color: #ff4d6d;
 
-  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    .s5 {
 
-  white-space: normal;
-  word-break: keep-all;
-}
+      top: 12%;
+      right: -80px;
 
-.hero-subtitle {
-  font-size: clamp(12px, 5vw, 42px);
+      width: 0;
+      height: 0;
 
-  font-weight: 700;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 260px solid #4f9fa5;
 
-  color: #ff4d6d;
+      transform: rotate(30deg);
+    }
 
-  margin-top: 10px;
 
-  line-height: 1.2;
+    .s6 {
 
-  white-space: normal;
-  word-break: keep-all;
-}
+      bottom: -40px;
+      right: -30px;
 
+      width: 0;
+      height: 0;
 
-/* =========================================
-   ticker
-========================================= */
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 190px solid #c85c72;
 
-.ticker {
-  position: absolute;
+      transform: rotate(-15deg);
+    }
 
-  left: 0;
-  bottom: 0;
 
-  width: 100%;
-  height: 30px;
+    .s7 {
 
-  background: rgba(0, 0, 0, 0.85);
+      top: 8%;
+      right: 40px;
 
-  overflow: hidden;
+      width: 0;
+      height: 0;
 
-  display: flex;
-  align-items: center;
+      border-left: 55px solid transparent;
+      border-right: 55px solid transparent;
+      border-bottom: 100px solid #8060a8;
 
-  z-index: 500;
+      transform: rotate(35deg);
+    }
 
-  line-height: normal;
-}
 
-.ticker-track {
-  display: flex;
+    .s8 {
 
-  white-space: nowrap;
+      bottom: 20%;
+      right: 40px;
 
-  animation: scrollLoop 20s linear infinite;
-}
+      width: 0;
+      height: 0;
 
-.ticker span {
-  color: #fff;
+      border-left: 70px solid transparent;
+      border-right: 70px solid transparent;
+      border-bottom: 130px solid #d1a92f;
 
-  font-size: 14px;
+      transform: rotate(-20deg);
+    }
 
-  padding-right: 100px;
-}
 
-@keyframes scrollLoop {
-  0% {
-    transform: translateX(0);
-  }
+    /* =========================================
+       メイン
+    ========================================= */
 
-  100% {
-    transform: translateX(-50%);
-  }
-}
+    .visitor-container {
 
+      position: relative;
 
-/* =========================================
-   セクション
-========================================= */
+      z-index: 1;
 
-.banner-section {
-  padding: 40px 0;
-}
+      width: 100%;
 
-#about {
-  padding: 60px 20px 40px;
-  text-align: center;
-}
+      /*
+        共通CSSのbodyのpadding-topに
+        ヘッダー分の高さが入るため、
+        残りの画面を使用する
+      */
+      height: calc(100vh - var(--header-height, 80px));
 
-#events {
-  padding: 40px 20px;
-}
+      min-height: 0;
 
-#access {
-  padding: 40px 20px 60px;
-  text-align: center;
-}
+      padding: 0;
 
-h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  color: #ff4d6d;
-}
+      display: flex;
 
+      flex-direction: column;
 
-/* =========================================
-   お知らせカード
-========================================= */
+      align-items: center;
 
-.info-links {
-  display: flex;
-  gap: 20px;
-  margin-top: 30px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-}
+      overflow: hidden;
+    }
 
-.info-card {
-  flex: 1 1 400px;
-  max-width: 550px;
-  min-width: 260px;
 
-  height: auto;
+    /* =========================================
+       スライダー全体
+    ========================================= */
 
-  border-radius: 20px;
-  overflow: hidden;
-  display: block;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
-}
+    .slider-wrapper {
 
-.info-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 2 / 1;
-  height: auto;
-  object-fit: contain;
-}
+      position: relative;
 
-.info-card:hover {
-  transform: translateY(-5px) scale(1.03);
-}
+      width: 100%;
 
+      height: 100%;
 
-/* =========================================
-   企画・イベント
-========================================= */
+      min-height: 0;
 
-.events-title {
-  text-align: center;
+      max-width: 1400px;
 
-  margin-bottom: 20px;
+      display: flex;
 
-  font-size: 32px;
+      flex-direction: column;
 
-  color: #ff4d6d;
-}
+      align-items: center;
 
+      justify-content: flex-start;
 
-/* スライダー */
+      overflow: hidden;
+    }
 
-.slider {
-  position: relative;
 
-  overflow: hidden;
+    /* =========================================
+       画像エリア
+    ========================================= */
 
-  max-width: 900px;
+    .slider {
 
-  margin: auto;
+      position: relative;
 
-  padding: 20px 0;
-}
+      width: 100%;
 
-.slides {
-  display: flex;
+      height: 100%;
 
-  align-items: center;
+      flex: 1 1 auto;
 
-  transition: 0.5s;
-}
+      min-height: 0;
 
+      overflow: hidden;
 
-/* カード */
+      touch-action: none;
 
-.card {
-  flex: 0 0 300px;
+      /*
+        拡大画像を動かすための
+        クリッピング領域
+      */
+      contain: layout paint;
+    }
 
-  margin: 0 10px;
 
-  background: #fff;
+    /* =========================================
+       スライド全体
+    ========================================= */
 
-  border-radius: 20px;
+    .slides {
 
-  overflow: hidden;
+      display: flex;
 
-  text-decoration: none;
+      width: 100%;
 
-  color: inherit;
+      height: 100%;
 
-  display: block;
+      flex-shrink: 0;
 
-  transition: 0.4s;
-}
+      transition:
+        transform 0.3s ease-out;
 
-.card img {
-  display: block;
+      will-change: transform;
 
-  width: 100%;
-  height: 180px;
+      touch-action: none;
+    }
 
-  object-fit: cover;
-}
 
-.card:hover {
-  transform: translateY(-10px) scale(1.05);
-}
+    /* =========================================
+       各ページ
+    ========================================= */
 
-.card div {
-  padding: 8px 10px;
+    .slide {
 
-  text-align: center;
-}
+      position: relative;
 
-.card h3 {
-  font-size: 16px;
+      flex: 0 0 100%;
 
-  margin: 0;
-}
+      width: 100%;
 
+      height: 100%;
 
-/* ドット */
+      display: flex;
 
-.dots {
-  display: none !important;
-}
+      justify-content: center;
 
+      /*
+        画像を上から詰めて表示
+      */
+      align-items: flex-start;
 
-/* =========================================
-   メインボタン
-========================================= */
+      padding: 0;
 
-.main-btn {
-  display: flex;
+      overflow: hidden;
 
-  align-items: center;
-  justify-content: space-between;
+      touch-action: none;
+    }
 
-  max-width: 280px;
 
-  margin: 30px auto;
+    /* =========================================
+       画像
 
-  padding: 12px 14px;
+       ★左右の余白を作らない
+       ★上側から詰めて表示
+    ========================================= */
 
-  text-decoration: none;
+    .slide img {
 
-  color: #fff;
+      display: block;
 
-  font-weight: bold;
-  font-size: 14px;
+      width: 100%;
 
-  border-radius: 999px;
+      height: 100%;
 
-  background: linear-gradient(
-    135deg,
-    #1e1e2f,
-    #2a2a3f
-  );
+      max-width: none;
 
-  box-shadow: 0 6px 0 #4b1fd1;
+      max-height: none;
 
-  transition: 0.2s;
-}
+      object-fit: contain;
 
-.main-btn span {
-  flex: 1;
+      /*
+        画像を上側に寄せる
+      */
+      object-position: center top;
 
-  text-align: center;
-}
+      border-radius: 0;
 
-.main-btn .arrow {
-  width: 36px;
-  height: 36px;
+      background: transparent;
 
-  font-size: 16px;
+      cursor: zoom-in;
 
-  background: #ff2e7a;
+      user-select: none;
 
-  border-radius: 50%;
+      -webkit-user-select: none;
 
-  display: flex;
+      -webkit-user-drag: none;
 
-  align-items: center;
-  justify-content: center;
-}
+      touch-action: none;
 
-.main-btn:hover {
-  transform: translateY(3px);
+      /*
+        拡大・移動用
+      */
+      transform:
+        translate3d(0, 0, 0)
+        scale(1);
 
-  box-shadow: 0 3px 0 #4b1fd1;
-}
+      transform-origin: center center;
 
-.main-btn:active {
-  transform: translateY(10px);
+      will-change: transform;
 
-  box-shadow: 0 0 0 #3aa0d8;
-}
+      transition:
+        transform 0.2s ease-out;
+    }
 
 
-/* =========================================
-   バナースライダー
-========================================= */
+    /* =========================================
+       拡大モード
+    ========================================= */
 
-.banner-slider {
-  position: relative;
+    .slider.zoom-mode .slide img {
 
-  overflow: hidden;
+      cursor: grab;
 
-  max-width: 1000px;
+      transform:
+        translate3d(
+          var(--pan-x, 0px),
+          var(--pan-y, 0px),
+          0
+        )
+        scale(
+          var(--zoom-scale, 1.4)
+        );
 
-  margin: auto;
-}
+      transition: none;
+    }
 
-.banner-track {
-  display: flex;
 
-  transition: 0.5s;
+    .slider.zoom-mode .slide img:active {
 
-  will-change: transform;
-}
+      cursor: grabbing;
+    }
 
-.banner {
-  flex: 0 0 80%;
 
-  margin: 0 10px;
-}
+    /* =========================================
+       左右ボタン
 
-.banner img {
-  display: block;
+       ★円なし
+       ★背景なし
+       ★画像の上に直接配置
+    ========================================= */
 
-  width: 100%;
-  height: 120px;
+    .slider-controls {
 
-  object-fit: cover;
+      position: absolute;
 
-  border-radius: 15px;
-}
+      top: 0;
+      left: 0;
 
+      width: 100%;
+      height: 100%;
 
-/* バナードット */
+      display: flex;
 
-.banner-dots {
-  display: flex;
+      align-items: center;
 
-  justify-content: center;
+      justify-content: space-between;
 
-  margin-top: 10px;
+      padding: 0;
 
-  gap: 8px;
-}
+      pointer-events: none;
 
-.banner-dots span {
-  width: 8px;
-  height: 8px;
+      z-index: 50;
+    }
 
-  background: #999;
 
-  border-radius: 50%;
+    /* =========================================
+       ボタン本体
+    ========================================= */
 
-  opacity: 0.5;
-}
+    .slider-btn {
 
-.banner-dots span.active {
-  background: #ff4d6d;
+      width: auto;
 
-  opacity: 1;
-}
+      height: auto;
 
+      min-width: 48px;
 
-/* =========================================
-   アクセス
-========================================= */
+      min-height: 80px;
 
-.access-row {
-  display: flex;
+      padding: 0 8px;
 
-  justify-content: center;
-  align-items: center;
+      margin: 0;
 
-  gap: 20px;
+      border: none;
 
-  flex-wrap: wrap;
+      border-radius: 0;
 
-  margin-top: 20px;
-}
+      background: transparent;
 
-.map-btn {
-  display: flex;
+      color: var(--main-color);
 
-  align-items: center;
-  justify-content: center;
+      font-size: 72px;
 
-  width: 260px;
-  height: 56px;
+      font-family:
+        Arial,
+        "Helvetica Neue",
+        sans-serif;
 
-  background: #000;
+      font-weight: 300;
 
-  color: #fff;
+      line-height: 1;
 
-  text-decoration: none;
+      cursor: pointer;
 
-  font-weight: bold;
-  font-size: 16px;
+      display: flex;
 
-  border-radius: 999px;
+      align-items: center;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      justify-content: center;
 
-  transition: 0.2s;
-}
+      flex-shrink: 0;
 
-.map-btn:hover {
-  transform: translateY(-2px);
-}
+      pointer-events: auto;
 
-.map-btn:active {
-  transform: translateY(2px);
-}
+      -webkit-tap-highlight-color: transparent;
 
+      touch-action: manipulation;
 
-/* =========================================
-   フロアマップ
-========================================= */
+      box-shadow: none;
 
-.title {
-  text-align: center;
+      text-shadow:
+        0 2px 6px rgba(255, 255, 255, 0.8);
 
-  margin: 20px 0;
-}
+      transition:
+        transform 0.12s ease,
+        opacity 0.12s ease;
+    }
 
-.map-container {
-  position: relative;
 
-  width: 90%;
-  max-width: 500px;
+    .slider-btn:hover {
 
-  margin: auto;
-}
+      background: transparent;
 
-.main-map {
-  display: block;
+      box-shadow: none;
 
-  width: 100%;
-}
+      transform: scale(1.08);
+    }
 
-.floor-btn {
-  position: absolute;
 
-  padding: 10px 14px;
+    .slider-btn:active {
 
-  background: rgba(0, 0, 0, 0.75);
+      background: transparent;
 
-  color: white;
+      box-shadow: none;
 
-  font-weight: bold;
+      transform: scale(0.9);
+    }
 
-  border-radius: 10px;
 
-  text-decoration: none;
+    /* =========================================
+       拡大モード表示
 
-  transform: translate(-50%, -50%);
-}
+       ★ページ番号は削除
+       ★上部に必要最小限のスペースだけ確保
+    ========================================= */
 
-.floor-btn:active {
-  background: rgba(255, 255, 255, 0.8);
+    .zoom-indicator {
 
-  color: black;
-}
+      position: absolute;
 
-.f4 {
-  top: 18%;
-  left: 65%;
-}
+      top: 6px;
 
-.f3 {
-  top: 35%;
-  left: 60%;
-}
+      left: 50%;
 
-.f2 {
-  top: 52%;
-  left: 55%;
-}
+      transform: translateX(-50%);
 
-.f1 {
-  top: 70%;
-  left: 50%;
-}
+      z-index: 60;
 
+      padding: 4px 11px;
 
-/* 戻るボタン */
+      border-radius: 15px;
 
-.back-btn {
-  display: inline-block;
+      background: rgba(255, 255, 255, 0.72);
 
-  padding: 10px 16px;
+      color: var(--main-color);
 
-  margin: 10px;
+      font-size: 13px;
 
-  background: black;
+      font-weight: bold;
 
-  color: white;
+      line-height: 1.3;
 
-  border-radius: 8px;
+      pointer-events: none;
 
-  text-decoration: none;
-}
+      opacity: 0;
 
+      transition:
+        opacity 0.2s ease;
+    }
 
-/* =========================================
-   フッター
-========================================= */
 
-footer {
-  position: relative;
+    .slider.zoom-mode .zoom-indicator {
 
-  z-index: 1;
+      opacity: 1;
+    }
 
-  text-align: center;
 
-  padding: 20px 0;
+    /* =========================================
+       スマホ
+    ========================================= */
 
-  background: #000;
+    @media (max-width: 768px) {
 
-  color: #fff;
+      .visitor-container {
 
-  border-top: 3px solid #ff4d6d;
-}
+        /*
+          実際のヘッダー高さを使用
+        */
+        height: calc(100vh - var(--header-height, 60px));
 
-footer p {
-  font-size: 14px;
+        padding: 0;
 
-  color: #fff;
+        overflow: hidden;
+      }
 
-  letter-spacing: 1px;
-}
 
+      .slider-wrapper {
 
-/* =========================================
-   背景・コンテンツの重なり
-========================================= */
+        width: 100%;
 
-.hero,
-.banner-section,
-section,
-footer {
-  position: relative;
+        height: 100%;
 
-  z-index: 1;
-}
+        overflow: hidden;
+      }
 
 
-/* =========================================
-   スマホ
-========================================= */
+      .slider {
 
-@media (max-width: 768px) {
+        width: 100%;
 
-  /* -------------------------
-     ヘッダー
-  ------------------------- */
+        height: 100%;
 
-  #header header {
-    padding: 6px 12px;
-  }
+        flex: 1 1 auto;
 
+        min-height: 0;
 
-  /* -------------------------
-     ヒーロー
-  ------------------------- */
+        overflow: hidden;
+      }
 
-  .hero {
-    /*
-      ここでも80pxを使わない。
-      JSが取得したヘッダー高さを使う。
-    */
-    margin-top: var(--header-height);
 
-    width: 100%;
+      .slides {
 
-    height: auto;
+        width: 100%;
 
-    overflow: hidden;
-  }
+        height: 100%;
 
-  .hero > img.hero-front {
-    position: relative;
+        transition:
+          transform 0.3s ease-out;
+      }
 
-    width: 100%;
-    height: auto;
 
-    max-width: 100%;
+      .slide {
 
-    margin: 0;
+        width: 100%;
 
-    transform: none;
+        height: 100%;
 
-    object-fit: initial;
-  }
+        align-items: flex-start;
 
+        justify-content: center;
 
-  /* タイトル */
+        padding: 0;
+      }
 
-  .hero h1 {
-    font-size: 56px;
 
-    letter-spacing: 3px;
-  }
+      /* -----------------------------------------
+         スマホ画像
+      ----------------------------------------- */
 
-  .hero-subtitle {
-    font-size: 24px;
+      .slide img {
 
-    margin-top: 6px;
-  }
+        width: 100%;
 
+        height: 100%;
 
-  /* -------------------------
-     見出し
-  ------------------------- */
+        max-width: none;
 
-  h2 {
-    font-size: 26px;
-  }
+        max-height: none;
 
+        object-fit: contain;
 
-  /* -------------------------
-     ナビ
-  ------------------------- */
+        object-position: center top;
+      }
 
-  .top-nav {
-    gap: 10px;
-  }
 
-  .top-nav a {
-    font-size: 11px;
-  }
+      /* -----------------------------------------
+         スマホ左右ボタン
+      ----------------------------------------- */
 
+      .slider-controls {
 
-  /* -------------------------
-     お知らせ
-  ------------------------- */
+        width: 100%;
 
-  .info-links {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+        height: 100%;
 
-  .info-card {
-    flex: 0 0 auto;
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-    height: auto;
-  }
+        padding: 0;
+      }
 
-  .info-card img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
 
+      .slider-btn {
 
-  /* -------------------------
-     企画カード
-  ------------------------- */
+        min-width: 42px;
 
-  .card {
-    flex: 0 0 280px;
+        min-height: 70px;
 
-    margin: 0 8px;
-  }
+        padding: 0 4px;
 
-  .card img {
-    width: 100%;
-    height: 170px;
+        font-size: 58px;
 
-    object-fit: cover;
-  }
+        font-weight: 300;
 
-  .card div {
-    padding: 6px 8px;
-  }
+        text-shadow:
+          0 2px 5px rgba(255, 255, 255, 0.9);
+      }
 
-  .card h3 {
-    font-size: 14px;
-  }
 
+      /* -----------------------------------------
+         スマホ拡大表示
+      ----------------------------------------- */
 
-  /* -------------------------
-     アクセス
-  ------------------------- */
+      .zoom-indicator {
 
-  .access-row {
-    flex-direction: column;
+        top: 5px;
 
-    gap: 15px;
+        padding: 3px 9px;
 
-    text-align: center;
-  }
+        font-size: 12px;
+      }
 
-  .map-btn {
-    width: 90%;
+    }
 
-    max-width: 300px;
-  }
 
+    /* =========================================
+       横向きスマホ
+    ========================================= */
 
-  /* -------------------------
-     メインボタン
-  ------------------------- */
+    @media (max-width: 768px) and (orientation: landscape) {
 
-  .main-btn {
-    width: 90%;
+      .visitor-container {
 
-    max-width: 280px;
-  }
+        height: calc(100vh - var(--header-height, 55px));
+      }
 
 
-  /* -------------------------
-     バナー
-  ------------------------- */
+      .slider {
 
-  .banner {
-    flex: 0 0 90%;
-  }
+        height: 100%;
 
-  .banner img {
-    height: 100px;
-  }
+        flex: 1 1 auto;
+      }
 
 
-  /* -------------------------
-     背景図形
-  ------------------------- */
+      .slider-btn {
 
-  .s1 {
-    top: 5%;
-    left: -50px;
+        min-width: 38px;
 
-    border-left-width: 90px;
-    border-right-width: 90px;
-    border-bottom-width: 170px;
-  }
+        min-height: 55px;
 
-  .s2 {
-    top: 25%;
-    left: -35px;
+        font-size: 46px;
 
-    border-left-width: 70px;
-    border-right-width: 70px;
-    border-bottom-width: 130px;
-  }
+        padding: 0 3px;
+      }
 
-  .s3 {
-    bottom: 5%;
-    left: -30px;
 
-    border-left-width: 100px;
-    border-right-width: 100px;
-    border-bottom-width: 180px;
-  }
+      .zoom-indicator {
 
-  .s4 {
-    bottom: 28%;
-    left: 20px;
+        top: 4px;
 
-    border-left-width: 60px;
-    border-right-width: 60px;
-    border-bottom-width: 120px;
-  }
+        font-size: 11px;
+      }
 
-  .s5 {
-    top: 12%;
-    right: -80px;
+    }
 
-    border-left-width: 150px;
-    border-right-width: 150px;
-    border-bottom-width: 260px;
-  }
 
-  .s6 {
-    bottom: -40px;
-    right: -30px;
+    /* =========================================
+       非常に小さい画面
+    ========================================= */
 
-    border-left-width: 100px;
-    border-right-width: 100px;
-    border-bottom-width: 190px;
-  }
+    @media (max-height: 650px) {
 
-  .s7 {
-    top: 8%;
-    right: 40px;
+      .slider-btn {
 
-    border-left-width: 55px;
-    border-right-width: 55px;
-    border-bottom-width: 100px;
-  }
+        min-width: 40px;
 
-  .s8 {
-    bottom: 20%;
-    right: 40px;
+        min-height: 60px;
 
-    border-left-width: 70px;
-    border-right-width: 70px;
-    border-bottom-width: 130px;
-  }
+        font-size: 50px;
+      }
 
-}
+    }
 
-/* ===== トップ画像のタイトルを非表示 ===== */
 
-.hero-title-wrap {
-  display: none !important;
-}
+  </style>
+</head>
 
-/* =========================================
-   ヘッダー固定による他ページの隠れ防止
-========================================= */
 
-body:not(:has(.hero)) {
-  padding-top: var(--header-height) !important;
-}
+<body>
 
-/* =========================================
-   背景図形よりコンテンツを前面にする
-========================================= */
 
-#header {
-  position: fixed !important;
-  z-index: 10000 !important;
-}
+  <!-- =========================================
+       共通ヘッダー
+  ========================================= -->
 
-main,
-section,
-article,
-.exhibition,
-.exhibition-page {
-  position: relative;
-  z-index: 1;
-}
+  <div id="header"></div>
 
-footer {
-  position: relative;
-  z-index: 1;
-}
 
-/* =========================================
-   exhibitionページ
-   背景図形よりコンテンツを前面に表示
-========================================= */
+  <script>
 
-.tabs,
-.content {
-  position: relative;
-  z-index: 10;
-}
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => {
 
-/* ヘッダーと重ならないようにする */
-.tabs {
-  margin-top: var(--header-height);
-}
+        document.getElementById("header").innerHTML = data;
 
-/* コンテンツも背景図形より前面 */
-.group,
-.group-title,
-.grid,
-.card {
-  position: relative;
-  z-index: 10;
-}
+        const btn =
+          document.querySelector(".menu-btn");
+
+        const nav =
+          document.querySelector(".nav");
+
+
+        /*
+          実際のヘッダー高さを取得して
+          共通CSSの--header-heightへ反映
+
+          これにより、
+          画面サイズによって
+          ヘッダー下に余分な隙間が
+          発生しないようにする
+        */
+
+        function updateHeaderHeight() {
+
+          const header =
+            document.querySelector(
+              "#header header"
+            );
+
+
+          if (!header) {
+            return;
+          }
+
+
+          const height =
+            header.getBoundingClientRect().height;
+
+
+          if (height > 0) {
+
+            document.documentElement.style.setProperty(
+              "--header-height",
+              `${height}px`
+            );
+
+          }
+
+        }
+
+
+        updateHeaderHeight();
+
+
+        window.addEventListener(
+          "resize",
+          updateHeaderHeight
+        );
+
+
+        if (btn && nav) {
+
+          btn.addEventListener(
+            "click",
+            (e) => {
+
+              e.stopPropagation();
+
+              nav.classList.toggle("active");
+
+            }
+          );
+
+
+          document.addEventListener(
+            "click",
+            (e) => {
+
+              if (
+                !nav.contains(e.target) &&
+                !btn.contains(e.target)
+              ) {
+
+                nav.classList.remove("active");
+
+              }
+
+            }
+          );
+
+        }
+
+      });
+
+  </script>
+
+
+  <!-- =========================================
+       背景図形
+  ========================================= -->
+
+  <div class="bg-shapes">
+
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+    <div class="shape s4"></div>
+    <div class="shape s5"></div>
+    <div class="shape s6"></div>
+    <div class="shape s7"></div>
+    <div class="shape s8"></div>
+
+  </div>
+
+
+  <!-- =========================================
+       メイン
+  ========================================= -->
+
+  <main class="visitor-container">
+
+    <div class="slider-wrapper">
+
+
+      <!-- =====================================
+           画像スライダー
+      ====================================== -->
+
+      <div
+        class="slider"
+        id="slider"
+      >
+
+
+        <div
+          class="slides"
+          id="slides"
+        >
+
+
+          <!-- ================================
+               1ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor1.jpeg"
+              alt="来校案内 1ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+          <!-- ================================
+               2ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor2.jpeg"
+              alt="来校案内 2ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+          <!-- ================================
+               3ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor3.jpeg"
+              alt="来校案内 3ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+          <!-- ================================
+               4ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor4.jpeg"
+              alt="来校案内 4ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+          <!-- ================================
+               5ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor5.jpeg"
+              alt="来校案内 5ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+          <!-- ================================
+               6ページ目
+          ================================= -->
+
+          <div class="slide">
+
+            <img
+              src="images/visitor6.jpeg"
+              alt="来校案内 6ページ目"
+              draggable="false"
+            >
+
+          </div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             左右ボタン
+             
+             ★画像の上に直接配置
+             ★白い円なし
+        ====================================== -->
+
+        <div class="slider-controls">
+
+
+          <button
+            type="button"
+            class="slider-btn"
+            id="prevBtn"
+            aria-label="前のページ"
+          >
+            ‹
+          </button>
+
+
+          <button
+            type="button"
+            class="slider-btn"
+            id="nextBtn"
+            aria-label="次のページ"
+          >
+            ›
+          </button>
+
+
+        </div>
+
+
+        <!-- =====================================
+             拡大モード表示
+        ====================================== -->
+
+        <div
+          class="zoom-indicator"
+          id="zoomIndicator"
+        >
+          拡大モード
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================================
+       JavaScript
+  ========================================= -->
+
+  <script>
+
+    /* =========================================
+       要素取得
+    ========================================= */
+
+    const slider =
+      document.getElementById("slider");
+
+
+    const slides =
+      document.getElementById("slides");
+
+
+    const prevBtn =
+      document.getElementById("prevBtn");
+
+
+    const nextBtn =
+      document.getElementById("nextBtn");
+
+
+    /* =========================================
+       ページ数
+    ========================================= */
+
+    const totalPages = 6;
+
+
+    /* =========================================
+       現在のページ
+    ========================================= */
+
+    let currentPage = 0;
+
+
+    /* =========================================
+       拡大設定
+    ========================================= */
+
+    const INITIAL_ZOOM = 1.4;
+
+
+    const MAX_ZOOM = 4;
+
+
+    const MIN_ZOOM = 1;
+
+
+    let zoomScale =
+      INITIAL_ZOOM;
+
+
+    let panX = 0;
+
+    let panY = 0;
+
+
+    /* =========================================
+       ポインター情報
+    ========================================= */
+
+    const activePointers =
+      new Map();
+
+
+    let pointerStartX = 0;
+
+    let pointerStartY = 0;
+
+    let pointerCurrentX = 0;
+
+    let pointerCurrentY = 0;
+
+
+    let isPointerDown =
+      false;
+
+
+    let isDragging =
+      false;
+
+
+    let isPinching =
+      false;
+
+
+    let swipeHandled =
+      false;
+
+
+    let tapCandidate =
+      false;
+
+
+    const SWIPE_DISTANCE = 35;
+
+
+    const DRAG_DISTANCE = 8;
+
+
+    let pinchStartDistance = 0;
+
+
+    let pinchStartScale = INITIAL_ZOOM;
+
+
+    let pinchCenterX = 0;
+
+    let pinchCenterY = 0;
+
+
+    /* =========================================
+       現在の画像を取得
+    ========================================= */
+
+    function getCurrentImage() {
+
+      const imageList =
+        document.querySelectorAll(".slide img");
+
+      return imageList[currentPage];
+
+    }
+
+
+    /* =========================================
+       拡大画像へ
+       transformを反映
+    ========================================= */
+
+    function applyZoomTransform() {
+
+      const image =
+        getCurrentImage();
+
+
+      if (!image) {
+        return;
+      }
+
+
+      image.style.setProperty(
+        "--zoom-scale",
+        zoomScale
+      );
+
+
+      image.style.setProperty(
+        "--pan-x",
+        `${panX}px`
+      );
+
+
+      image.style.setProperty(
+        "--pan-y",
+        `${panY}px`
+      );
+
+    }
+
+
+    /* =========================================
+       拡大位置をリセット
+    ========================================= */
+
+    function resetZoomPosition() {
+
+      zoomScale =
+        INITIAL_ZOOM;
+
+      panX = 0;
+
+      panY = 0;
+
+      applyZoomTransform();
+
+    }
+
+
+    /* =========================================
+       拡大モードON
+    ========================================= */
+
+    function enableZoomMode() {
+
+      slider.classList.add(
+        "zoom-mode"
+      );
+
+
+      resetZoomPosition();
+
+    }
+
+
+    /* =========================================
+       拡大モードOFF
+    ========================================= */
+
+    function disableZoomMode() {
+
+      slider.classList.remove(
+        "zoom-mode"
+      );
+
+
+      zoomScale = 1;
+
+      panX = 0;
+
+      panY = 0;
+
+
+      const imageList =
+        document.querySelectorAll(
+          ".slide img"
+        );
+
+
+      imageList.forEach(
+        (image) => {
+
+          image.style.removeProperty(
+            "--zoom-scale"
+          );
+
+          image.style.removeProperty(
+            "--pan-x"
+          );
+
+          image.style.removeProperty(
+            "--pan-y"
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       拡大モード切り替え
+    ========================================= */
+
+    function toggleZoomMode() {
+
+      if (
+        slider.classList.contains(
+          "zoom-mode"
+        )
+      ) {
+
+        disableZoomMode();
+
+      }
+
+      else {
+
+        enableZoomMode();
+
+      }
+
+    }
+
+
+    /* =========================================
+       スライダー更新
+    ========================================= */
+
+    function updateSlider() {
+
+      slides.style.transform =
+        `translate3d(-${currentPage * 100}%, 0, 0)`;
+
+
+      /*
+        ページ移動時は
+        拡大モード中なら
+        新しい画像の拡大位置をリセット
+      */
+
+      if (
+        slider.classList.contains(
+          "zoom-mode"
+        )
+      ) {
+
+        resetZoomPosition();
+
+      }
+
+    }
+
+
+    /* =========================================
+       次のページ
+    ========================================= */
+
+    function nextPage() {
+
+      if (
+        currentPage <
+        totalPages - 1
+      ) {
+
+        currentPage++;
+
+      }
+
+      else {
+
+        currentPage = 0;
+
+      }
+
+
+      updateSlider();
+
+    }
+
+
+    /* =========================================
+       前のページ
+    ========================================= */
+
+    function previousPage() {
+
+      if (
+        currentPage > 0
+      ) {
+
+        currentPage--;
+
+      }
+
+      else {
+
+        currentPage =
+          totalPages - 1;
+
+      }
+
+
+      updateSlider();
+
+    }
+
+
+    /* =========================================
+       ボタン
+    ========================================= */
+
+    prevBtn.addEventListener(
+      "pointerdown",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+      }
+    );
+
+
+    nextBtn.addEventListener(
+      "pointerdown",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+      }
+    );
+
+
+    prevBtn.addEventListener(
+      "click",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        previousPage();
+
+      }
+    );
+
+
+    nextBtn.addEventListener(
+      "click",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        nextPage();
+
+      }
+    );
+
+
+    /* =========================================
+       2本指間の距離
+    ========================================= */
+
+    function getPointerDistance() {
+
+      const points =
+        Array.from(
+          activePointers.values()
+        );
+
+
+      if (
+        points.length < 2
+      ) {
+
+        return 0;
+
+      }
+
+
+      const dx =
+        points[0].x -
+        points[1].x;
+
+
+      const dy =
+        points[0].y -
+        points[1].y;
+
+
+      return Math.sqrt(
+        dx * dx +
+        dy * dy
+      );
+
+    }
+
+
+    /* =========================================
+       2本指の中心
+    ========================================= */
+
+    function getPointerCenter() {
+
+      const points =
+        Array.from(
+          activePointers.values()
+        );
+
+
+      if (
+        points.length < 2
+      ) {
+
+        return {
+          x: 0,
+          y: 0
+        };
+
+      }
+
+
+      return {
+
+        x:
+          (
+            points[0].x +
+            points[1].x
+          ) / 2,
+
+        y:
+          (
+            points[0].y +
+            points[1].y
+          ) / 2
+
+      };
+
+    }
+
+
+    /* =========================================
+       拡大率を範囲内に収める
+    ========================================= */
+
+    function clampZoom(
+      value
+    ) {
+
+      return Math.max(
+        MIN_ZOOM,
+        Math.min(
+          MAX_ZOOM,
+          value
+        )
+      );
+
+    }
+
+
+    /* =========================================
+       パン位置を制限
+    ========================================= */
+
+    function limitPan() {
+
+      const maxPan =
+        Math.max(
+          0,
+          (
+            zoomScale - 1
+          ) *
+          Math.min(
+            slider.clientWidth,
+            slider.clientHeight
+          ) *
+          0.75
+        );
+
+
+      if (
+        panX > maxPan
+      ) {
+
+        panX = maxPan;
+
+      }
+
+
+      if (
+        panX < -maxPan
+      ) {
+
+        panX = -maxPan;
+
+      }
+
+
+      if (
+        panY > maxPan
+      ) {
+
+        panY = maxPan;
+
+      }
+
+
+      if (
+        panY < -maxPan
+      ) {
+
+        panY = -maxPan;
+
+      }
+
+    }
+
+
+    /* =========================================
+       pointerdown
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerdown",
+      (e) => {
+
+        if (
+          e.pointerType === "mouse" &&
+          e.button !== 0
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          e.target.closest(
+            ".slider-btn"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        activePointers.set(
+          e.pointerId,
+          {
+            x: e.clientX,
+            y: e.clientY
+          }
+        );
+
+
+        try {
+
+          slider.setPointerCapture(
+            e.pointerId
+          );
+
+        }
+
+        catch (error) {
+
+          // 無視
+
+        }
+
+
+        if (
+          activePointers.size >= 2 &&
+          slider.classList.contains(
+            "zoom-mode"
+          )
+        ) {
+
+          isPinching = true;
+
+          isDragging = false;
+
+          tapCandidate = false;
+
+
+          pinchStartDistance =
+            getPointerDistance();
+
+
+          pinchStartScale =
+            zoomScale;
+
+
+          const center =
+            getPointerCenter();
+
+
+          pinchCenterX =
+            center.x;
+
+          pinchCenterY =
+            center.y;
+
+
+          return;
+
+        }
+
+
+        isPointerDown = true;
+
+        isDragging = false;
+
+        swipeHandled = false;
+
+        tapCandidate = true;
+
+
+        pointerStartX =
+          e.clientX;
+
+        pointerStartY =
+          e.clientY;
+
+        pointerCurrentX =
+          e.clientX;
+
+        pointerCurrentY =
+          e.clientY;
+
+      }
+    );
+
+
+    /* =========================================
+       pointermove
+    ========================================= */
+
+    slider.addEventListener(
+      "pointermove",
+      (e) => {
+
+        if (
+          activePointers.has(
+            e.pointerId
+          )
+        ) {
+
+          activePointers.set(
+            e.pointerId,
+            {
+              x: e.clientX,
+              y: e.clientY
+            }
+          );
+
+        }
+
+
+        /* -------------------------------------
+           ピンチ操作
+        ------------------------------------- */
+
+        if (
+          isPinching &&
+          activePointers.size >= 2
+        ) {
+
+          const distance =
+            getPointerDistance();
+
+
+          if (
+            pinchStartDistance > 0
+          ) {
+
+            const ratio =
+              distance /
+              pinchStartDistance;
+
+
+            zoomScale =
+              clampZoom(
+                pinchStartScale *
+                ratio
+              );
+
+
+            applyZoomTransform();
+
+          }
+
+
+          return;
+
+        }
+
+
+        if (
+          !isPointerDown
+        ) {
+
+          return;
+
+        }
+
+
+        pointerCurrentX =
+          e.clientX;
+
+        pointerCurrentY =
+          e.clientY;
+
+
+        const deltaX =
+          pointerCurrentX -
+          pointerStartX;
+
+
+        const deltaY =
+          pointerCurrentY -
+          pointerStartY;
+
+
+        /* -------------------------------------
+           拡大モード
+           
+           → 画像をドラッグ
+        ------------------------------------- */
+
+        if (
+          slider.classList.contains(
+            "zoom-mode"
+          )
+        ) {
+
+          if (
+            Math.abs(deltaX) >
+              DRAG_DISTANCE ||
+            Math.abs(deltaY) >
+              DRAG_DISTANCE
+          ) {
+
+            isDragging = true;
+
+            tapCandidate = false;
+
+          }
+
+
+          if (
+            isDragging
+          ) {
+
+            panX +=
+              deltaX;
+
+            panY +=
+              deltaY;
+
+
+            pointerStartX =
+              pointerCurrentX;
+
+            pointerStartY =
+              pointerCurrentY;
+
+
+            limitPan();
+
+            applyZoomTransform();
+
+          }
+
+
+          return;
+
+        }
+
+
+        /* -------------------------------------
+           通常モード
+           
+           → 横スワイプでページ移動
+        ------------------------------------- */
+
+        if (
+          Math.abs(deltaX) > 8 &&
+          Math.abs(deltaX) >
+            Math.abs(deltaY)
+        ) {
+
+          isDragging = true;
+
+          tapCandidate = false;
+
+        }
+
+
+        if (
+          isDragging
+        ) {
+
+          const sliderWidth =
+            slider.clientWidth;
+
+
+          if (
+            sliderWidth <= 0
+          ) {
+
+            return;
+
+          }
+
+
+          let dragX =
+            deltaX;
+
+
+          const MAX_DRAG = 120;
+
+
+          if (
+            dragX > MAX_DRAG
+          ) {
+
+            dragX =
+              MAX_DRAG;
+
+          }
+
+
+          if (
+            dragX < -MAX_DRAG
+          ) {
+
+            dragX =
+              -MAX_DRAG;
+
+          }
+
+
+          const basePercent =
+            currentPage *
+            -100;
+
+
+          const dragPercent =
+            (
+              dragX /
+              sliderWidth
+            ) *
+            100;
+
+
+          slides.style.transform =
+            `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       pointerup
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerup",
+      (e) => {
+
+        activePointers.delete(
+          e.pointerId
+        );
+
+
+        /* -------------------------------------
+           ピンチ終了
+        ------------------------------------- */
+
+        if (
+          isPinching
+        ) {
+
+          if (
+            activePointers.size < 2
+          ) {
+
+            isPinching = false;
+
+          }
+
+
+          return;
+
+        }
+
+
+        if (
+          !isPointerDown
+        ) {
+
+          return;
+
+        }
+
+
+        const deltaX =
+          pointerCurrentX -
+          pointerStartX;
+
+
+        const deltaY =
+          pointerCurrentY -
+          pointerStartY;
+
+
+        isPointerDown = false;
+
+
+        /* -------------------------------------
+           拡大モード
+           
+           タップなら
+           → 通常モードへ
+           
+           ドラッグなら
+           → 何もしない
+        ------------------------------------- */
+
+        if (
+          slider.classList.contains(
+            "zoom-mode"
+          )
+        ) {
+
+          if (
+            tapCandidate &&
+            !isDragging &&
+            Math.abs(deltaX) < 15 &&
+            Math.abs(deltaY) < 15
+          ) {
+
+            toggleZoomMode();
+
+          }
+
+
+          isDragging = false;
+
+          tapCandidate = false;
+
+          return;
+
+        }
+
+
+        /* -------------------------------------
+           通常モード
+           
+           横スワイプ判定
+        ------------------------------------- */
+
+        const isHorizontalSwipe =
+          Math.abs(deltaX) >=
+            SWIPE_DISTANCE &&
+          Math.abs(deltaX) >
+            Math.abs(deltaY);
+
+
+        if (
+          isHorizontalSwipe
+        ) {
+
+          if (
+            deltaX < 0
+          ) {
+
+            nextPage();
+
+          }
+
+          else {
+
+            previousPage();
+
+          }
+
+
+          swipeHandled = true;
+
+        }
+
+
+        else {
+
+          /*
+            タップなら
+            → 拡大モードへ
+          */
+
+          if (
+            tapCandidate &&
+            !isDragging
+          ) {
+
+            enableZoomMode();
+
+          }
+
+
+          updateSlider();
+
+        }
+
+
+        isDragging = false;
+
+        tapCandidate = false;
+
+      }
+    );
+
+
+    /* =========================================
+       pointercancel
+    ========================================= */
+
+    slider.addEventListener(
+      "pointercancel",
+      (e) => {
+
+        activePointers.delete(
+          e.pointerId
+        );
+
+
+        isPointerDown = false;
+
+        isDragging = false;
+
+        isPinching = false;
+
+        tapCandidate = false;
+
+
+        slides.style.transition =
+          "transform 0.3s ease-out";
+
+
+        updateSlider();
+
+      }
+    );
+
+
+    /* =========================================
+       pointerleave
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerleave",
+      () => {
+
+        /*
+          pointer capture中は
+          ここでは何もしない
+        */
+
+      }
+    );
+
+
+    /* =========================================
+       画像のクリック処理
+    ========================================= */
+
+    document
+      .querySelectorAll(
+        ".slide img"
+      )
+      .forEach(
+        (img) => {
+
+          img.addEventListener(
+            "dragstart",
+            (e) => {
+
+              e.preventDefault();
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =========================================
+       キーボード操作
+       
+       PCでもページ移動可能
+    ========================================= */
+
+    document.addEventListener(
+      "keydown",
+      (e) => {
+
+        /*
+          左キー
+        */
+
+        if (
+          e.key === "ArrowLeft"
+        ) {
+
+          previousPage();
+
+        }
+
+
+        /*
+          右キー
+        */
+
+        if (
+          e.key === "ArrowRight"
+        ) {
+
+          nextPage();
+
+        }
+
+
+        /*
+          スペース
+          → 拡大/通常切り替え
+        */
+
+        if (
+          e.key === " "
+        ) {
+
+          e.preventDefault();
+
+          toggleZoomMode();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       初期表示
+
+       ★最初は通常モード
+    ========================================= */
+
+    slider.classList.remove(
+      "zoom-mode"
+    );
+
+
+    zoomScale = 1;
+
+    panX = 0;
+
+    panY = 0;
+
+
+    updateSlider();
+
+
+  </script>
+
+
+</body>
+</html>
