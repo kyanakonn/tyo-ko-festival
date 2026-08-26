@@ -657,40 +657,31 @@ h2 {
 /* =========================================
    お知らせカード
 ========================================= */
-
 .info-links {
   display: flex;
-
   gap: 20px;
-
   margin-top: 30px;
-
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .info-card {
-  flex: 1;
-
+  flex: 1 1 400px;
+  max-width: 550px;
   min-width: 260px;
 
   border-radius: 20px;
-
   overflow: hidden;
-
   display: block;
-
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-
   transition: 0.3s;
 }
 
 .info-card img {
   display: block;
-
   width: 100%;
-  height: 150px;
-
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
 }
 
 .info-card:hover {
