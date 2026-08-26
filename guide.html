@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
 
@@ -29,16 +32,32 @@
     body {
       width: 100%;
       height: 100%;
+
       margin: 0;
       padding: 0;
 
-      /* visitorページのみ上下左右スクロール禁止 */
+      /*
+        visitorページでは
+        縦・横スクロールを完全に禁止
+      */
       overflow: hidden;
+
+      overscroll-behavior: none;
     }
 
     body {
       background: #ffffff;
-      font-family: "Yu Gothic", "Hiragino Sans", sans-serif;
+
+      font-family:
+        "Yu Gothic",
+        "Hiragino Sans",
+        sans-serif;
+
+      /*
+        iPhone等での
+        不要なスクロール操作を防止
+      */
+      touch-action: none;
     }
 
 
@@ -48,7 +67,10 @@
 
     #header {
       position: relative;
+
       z-index: 10000;
+
+      width: 100%;
     }
 
 
@@ -57,7 +79,9 @@
     ========================================= */
 
     .bg-shapes {
+
       position: fixed;
+
       inset: 0;
 
       z-index: 0;
@@ -196,6 +220,7 @@
     ========================================= */
 
     .visitor-container {
+
       position: relative;
 
       z-index: 1;
@@ -203,17 +228,22 @@
       width: 100%;
 
       /*
-        ヘッダーを除いた画面全体
+        ヘッダー以外の部分を
+        画面いっぱいに使用
       */
       height: calc(100vh - 70px);
 
-      padding: 5px 0 0;
+      min-height: 0;
+
+      padding: 0;
 
       display: flex;
 
       flex-direction: column;
 
       align-items: center;
+
+      justify-content: flex-start;
 
       overflow: hidden;
     }
@@ -224,8 +254,12 @@
     ========================================= */
 
     .slider-wrapper {
+
       width: 100%;
+
       height: 100%;
+
+      min-height: 0;
 
       max-width: 1400px;
 
@@ -234,6 +268,8 @@
       flex-direction: column;
 
       align-items: center;
+
+      justify-content: flex-start;
 
       overflow: hidden;
     }
@@ -244,13 +280,15 @@
     ========================================= */
 
     .slider {
-      width: 100%;
 
       /*
-        ボタンとページ番号を置くスペースを
-        確保した上で残りを画像に使用
+        画像エリアだけが
+        残った高さを使う
       */
-      flex: 1;
+
+      width: 100%;
+
+      flex: 1 1 auto;
 
       min-height: 0;
 
@@ -258,53 +296,90 @@
 
       justify-content: center;
 
-      align-items: center;
+      align-items: flex-start;
 
       overflow: hidden;
+
+      /*
+        横スワイプを優先
+      */
+      touch-action: none;
     }
 
+
+    /* =========================================
+       スライド本体
+    ========================================= */
+
     .slides {
+
       display: flex;
 
       width: 100%;
+
       height: 100%;
 
-      transition: transform 0.45s ease;
+      flex-shrink: 0;
+
+      transition:
+        transform 0.35s ease-out;
 
       will-change: transform;
+
+      touch-action: none;
     }
 
+
+    /* =========================================
+       各ページ
+    ========================================= */
+
     .slide {
+
       flex: 0 0 100%;
 
       width: 100%;
+
       height: 100%;
 
       display: flex;
 
       justify-content: center;
 
-      align-items: center;
+      align-items: flex-start;
 
       padding: 0;
+
+      touch-action: none;
     }
 
+
+    /* =========================================
+       画像
+    ========================================= */
+
     .slide img {
+
       display: block;
 
       /*
-        画像を可能な限り大きく表示
+        横幅を最大限使用
       */
       width: 100%;
-      height: 100%;
-
-      max-width: 100%;
-      max-height: 100%;
 
       /*
-        元画像の比率を維持
-        → 画像を切り抜かない
+        高さは画像の比率を維持
       */
+      height: auto;
+
+      /*
+        画面に収まらない場合のみ
+        高さを制限
+      */
+      max-width: 100%;
+
+      max-height: 100%;
+
       object-fit: contain;
 
       border-radius: 0;
@@ -312,7 +387,7 @@
       background: transparent;
 
       /*
-        タップで拡大できることを示す
+        タップで拡大できる
       */
       cursor: zoom-in;
 
@@ -321,6 +396,11 @@
       -webkit-user-select: none;
 
       -webkit-user-drag: none;
+
+      /*
+        スワイプを優先
+      */
+      touch-action: none;
     }
 
 
@@ -330,11 +410,16 @@
     ========================================= */
 
     .slider-controls {
-      width: 100%;
 
+      /*
+        絶対に画像エリアの中へ
+        入らない
+      */
       flex-shrink: 0;
 
-      height: 60px;
+      width: 100%;
+
+      height: 62px;
 
       display: flex;
 
@@ -344,12 +429,27 @@
 
       gap: 30px;
 
-      margin: 3px 0 2px;
+      margin: 0;
+
+      padding: 4px 0;
+
+      position: relative;
+
+      z-index: 10;
     }
 
+
+    /* =========================================
+       ボタン
+    ========================================= */
+
     .slider-btn {
-      width: 52px;
-      height: 52px;
+
+      width: 54px;
+
+      height: 54px;
+
+      padding: 0;
 
       border: none;
 
@@ -359,14 +459,16 @@
 
       color: var(--main-color);
 
-      font-size: 30px;
+      font-size: 32px;
 
       font-weight: bold;
+
+      line-height: 1;
 
       cursor: pointer;
 
       box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.15);
+        0 3px 12px rgba(0, 0, 0, 0.18);
 
       display: flex;
 
@@ -374,11 +476,14 @@
 
       justify-content: center;
 
-      transition: 0.2s;
-
       flex-shrink: 0;
 
-      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+
+      touch-action: manipulation;
+
+      transition:
+        transform 0.15s ease;
     }
 
     .slider-btn:hover {
@@ -386,7 +491,7 @@
     }
 
     .slider-btn:active {
-      transform: scale(0.95);
+      transform: scale(0.92);
     }
 
 
@@ -395,9 +500,10 @@
     ========================================= */
 
     .page-number {
+
       flex-shrink: 0;
 
-      height: 32px;
+      height: 36px;
 
       display: flex;
 
@@ -405,7 +511,9 @@
 
       justify-content: center;
 
-      margin: 0 0 2px;
+      margin: 0;
+
+      padding: 0;
 
       color: var(--main-color);
 
@@ -414,6 +522,12 @@
       font-weight: bold;
 
       letter-spacing: 2px;
+
+      line-height: 1;
+
+      position: relative;
+
+      z-index: 10;
     }
 
 
@@ -422,14 +536,16 @@
     ========================================= */
 
     .image-modal {
+
       position: fixed;
 
       inset: 0;
 
       width: 100vw;
+
       height: 100vh;
 
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.92);
 
       z-index: 99999;
 
@@ -442,19 +558,26 @@
       overflow: hidden;
 
       cursor: zoom-out;
+
+      touch-action: none;
     }
+
 
     .image-modal.active {
       display: flex;
     }
 
+
     .image-modal img {
+
       display: block;
 
       width: auto;
+
       height: auto;
 
       max-width: 100vw;
+
       max-height: 100vh;
 
       object-fit: contain;
@@ -466,6 +589,8 @@
       -webkit-user-select: none;
 
       -webkit-user-drag: none;
+
+      touch-action: none;
     }
 
 
@@ -476,6 +601,10 @@
     @media (max-width: 768px) {
 
       .visitor-container {
+
+        /*
+          ヘッダーの高さだけ除外
+        */
         height: calc(100vh - 60px);
 
         padding: 0;
@@ -483,62 +612,99 @@
         overflow: hidden;
       }
 
+
       .slider-wrapper {
+
+        width: 100%;
+
         height: 100%;
 
         overflow: hidden;
       }
 
+
       .slider {
-        flex: 1;
+
+        width: 100%;
+
+        flex: 1 1 auto;
 
         min-height: 0;
 
-        width: 100%;
-
         overflow: hidden;
+
+        align-items: flex-start;
       }
 
-      .slide {
-        width: 100%;
+
+      .slides {
+
         height: 100%;
+
+        transition:
+          transform 0.3s ease-out;
+      }
+
+
+      .slide {
+
+        width: 100%;
+
+        height: 100%;
+
+        align-items: flex-start;
 
         padding: 0;
       }
 
+
       .slide img {
+
         width: 100%;
-        height: 100%;
+
+        height: auto;
 
         max-width: 100%;
+
         max-height: 100%;
 
         object-fit: contain;
       }
 
 
-      /* 画像のすぐ下にボタン */
+      /* -----------------------------------------
+         スマホのボタン
+      ----------------------------------------- */
 
       .slider-controls {
-        height: 54px;
 
-        gap: 20px;
+        height: 58px;
 
-        margin: 2px 0 0;
+        gap: 22px;
+
+        margin: 0;
+
+        padding: 3px 0;
       }
+
 
       .slider-btn {
-        width: 48px;
-        height: 48px;
 
-        font-size: 27px;
+        width: 50px;
+
+        height: 50px;
+
+        font-size: 28px;
       }
 
 
-      /* ページ番号 */
+      /* -----------------------------------------
+         ページ番号
+      ----------------------------------------- */
 
       .page-number {
-        height: 27px;
+
+        height: 32px;
 
         font-size: 21px;
 
@@ -555,26 +721,64 @@
     @media (max-width: 768px) and (orientation: landscape) {
 
       .visitor-container {
+
         height: calc(100vh - 55px);
       }
 
-      .slider-controls {
-        height: 44px;
 
-        margin: 1px 0 0;
+      .slider-controls {
+
+        height: 46px;
+
+        gap: 18px;
       }
 
+
       .slider-btn {
+
         width: 40px;
+
         height: 40px;
 
         font-size: 23px;
       }
 
+
       .page-number {
-        height: 22px;
+
+        height: 24px;
 
         font-size: 17px;
+      }
+
+    }
+
+
+    /* =========================================
+       非常に小さい画面
+    ========================================= */
+
+    @media (max-height: 650px) {
+
+      .slider-controls {
+
+        height: 50px;
+      }
+
+      .slider-btn {
+
+        width: 44px;
+
+        height: 44px;
+
+        font-size: 25px;
+      }
+
+      .page-number {
+
+        height: 28px;
+
+        font-size: 19px;
       }
 
     }
@@ -584,6 +788,7 @@
 
 
 <body>
+
 
   <!-- =========================================
        共通ヘッダー
@@ -669,83 +874,106 @@
            画像
       ====================================== -->
 
-      <div class="slider">
+      <div
+        class="slider"
+        id="slider"
+      >
 
         <div
           class="slides"
           id="slides"
         >
 
-          <!-- 1枚目 -->
+
+          <!-- ================================
+               1ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor1.jpeg"
               alt="来校案内 1ページ目"
+              draggable="false"
             >
 
           </div>
 
 
-          <!-- 2枚目 -->
+          <!-- ================================
+               2ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor2.jpeg"
               alt="来校案内 2ページ目"
+              draggable="false"
             >
 
           </div>
 
 
-          <!-- 3枚目 -->
+          <!-- ================================
+               3ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor3.jpeg"
               alt="来校案内 3ページ目"
+              draggable="false"
             >
 
           </div>
 
 
-          <!-- 4枚目 -->
+          <!-- ================================
+               4ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor4.jpeg"
               alt="来校案内 4ページ目"
+              draggable="false"
             >
 
           </div>
 
 
-          <!-- 5枚目 -->
+          <!-- ================================
+               5ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor5.jpeg"
               alt="来校案内 5ページ目"
+              draggable="false"
             >
 
           </div>
 
 
-          <!-- 6枚目 -->
+          <!-- ================================
+               6ページ目
+          ================================= -->
 
           <div class="slide">
 
             <img
               src="images/visitor6.jpeg"
               alt="来校案内 6ページ目"
+              draggable="false"
             >
 
           </div>
+
 
         </div>
 
@@ -754,11 +982,13 @@
 
       <!-- =====================================
            左右ボタン
+           ※画像の直下
       ====================================== -->
 
       <div class="slider-controls">
 
         <button
+          type="button"
           class="slider-btn"
           id="prevBtn"
           aria-label="前のページ"
@@ -768,6 +998,7 @@
 
 
         <button
+          type="button"
           class="slider-btn"
           id="nextBtn"
           aria-label="次のページ"
@@ -796,7 +1027,7 @@
 
 
   <!-- =========================================
-       拡大表示用
+       拡大表示
   ========================================= -->
 
   <div
@@ -808,6 +1039,7 @@
       id="modalImage"
       src=""
       alt="拡大表示"
+      draggable="false"
     >
 
   </div>
@@ -822,6 +1054,9 @@
     /* =========================================
        要素取得
     ========================================= */
+
+    const slider =
+      document.getElementById("slider");
 
     const slides =
       document.getElementById("slides");
@@ -862,17 +1097,9 @@
 
     function updateSlider() {
 
-      /*
-        1ページ = 100%
-      */
-
       slides.style.transform =
-        `translateX(-${currentPage * 100}%)`;
+        `translate3d(-${currentPage * 100}%, 0, 0)`;
 
-
-      /*
-        ページ番号
-      */
 
       pageNumber.textContent =
         `${currentPage + 1} / ${totalPages}`;
@@ -884,7 +1111,7 @@
        次のページ
     ========================================= */
 
-    nextBtn.addEventListener("click", () => {
+    function nextPage() {
 
       if (currentPage < totalPages - 1) {
 
@@ -898,14 +1125,14 @@
 
       updateSlider();
 
-    });
+    }
 
 
     /* =========================================
        前のページ
     ========================================= */
 
-    prevBtn.addEventListener("click", () => {
+    function previousPage() {
 
       if (currentPage > 0) {
 
@@ -919,116 +1146,416 @@
 
       updateSlider();
 
-    });
+    }
 
 
     /* =========================================
-       スワイプ
+       ボタン
     ========================================= */
 
-    let touchStartX = 0;
-
-    let touchEndX = 0;
-
-
-    slides.addEventListener(
-      "touchstart",
+    nextBtn.addEventListener(
+      "click",
       (e) => {
 
-        touchStartX =
-          e.changedTouches[0].screenX;
+        e.preventDefault();
 
-      },
-      {
-        passive: true
+        e.stopPropagation();
+
+        nextPage();
+
       }
     );
 
 
-    slides.addEventListener(
-      "touchend",
+    prevBtn.addEventListener(
+      "click",
       (e) => {
 
-        touchEndX =
-          e.changedTouches[0].screenX;
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        previousPage();
+
+      }
+    );
 
 
-        const difference =
-          touchStartX - touchEndX;
+    /* =========================================
+       スワイプ
+       
+       Pointer Eventsを使用して
+       iPhone / Android / PCに対応
+    ========================================= */
+
+    let pointerStartX = 0;
+
+    let pointerStartY = 0;
+
+    let pointerCurrentX = 0;
+
+    let pointerCurrentY = 0;
+
+    let isPointerDown = false;
+
+    let isDragging = false;
+
+    let swipeHandled = false;
 
 
-        /* 左スワイプ */
+    /*
+      スワイプ判定距離
 
-        if (difference > 50) {
+      以前の50pxより小さくして
+      反応を良くする
+    */
 
-          if (currentPage < totalPages - 1) {
+    const SWIPE_DISTANCE = 35;
 
-            currentPage++;
 
-          } else {
+    /*
+      スワイプ中に
+      現在位置を少し追従させるための値
+    */
 
-            currentPage = 0;
+    const MAX_DRAG = 120;
+
+
+    /* =========================================
+       pointerdown
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerdown",
+      (e) => {
+
+        /*
+          左クリック以外を無視
+        */
+
+        if (
+          e.pointerType === "mouse" &&
+          e.button !== 0
+        ) {
+          return;
+        }
+
+
+        isPointerDown = true;
+
+        isDragging = false;
+
+        swipeHandled = false;
+
+
+        pointerStartX = e.clientX;
+
+        pointerStartY = e.clientY;
+
+        pointerCurrentX = e.clientX;
+
+        pointerCurrentY = e.clientY;
+
+
+        /*
+          指を離しても
+          sliderがイベントを受け取れるようにする
+        */
+
+        try {
+          slider.setPointerCapture(e.pointerId);
+        } catch (error) {
+          // 必要ない場合は無視
+        }
+
+
+        /*
+          アニメーションを一時停止
+        */
+
+        slides.style.transition = "none";
+
+      }
+    );
+
+
+    /* =========================================
+       pointermove
+    ========================================= */
+
+    slider.addEventListener(
+      "pointermove",
+      (e) => {
+
+        if (!isPointerDown) {
+          return;
+        }
+
+
+        pointerCurrentX = e.clientX;
+
+        pointerCurrentY = e.clientY;
+
+
+        const deltaX =
+          pointerCurrentX - pointerStartX;
+
+        const deltaY =
+          pointerCurrentY - pointerStartY;
+
+
+        /*
+          横方向への移動が
+          縦方向より大きい場合
+          → スワイプ開始
+        */
+
+        if (
+          Math.abs(deltaX) > 8 &&
+          Math.abs(deltaX) > Math.abs(deltaY)
+        ) {
+
+          isDragging = true;
+
+        }
+
+
+        /*
+          スワイプ中なら
+          少しだけ画像を指についてこさせる
+        */
+
+        if (isDragging) {
+
+          let dragX = deltaX;
+
+
+          /*
+            引っ張りすぎ防止
+          */
+
+          if (dragX > MAX_DRAG) {
+            dragX = MAX_DRAG;
+          }
+
+          if (dragX < -MAX_DRAG) {
+            dragX = -MAX_DRAG;
+          }
+
+
+          const basePercent =
+            currentPage * -100;
+
+
+          /*
+            現在のページ位置
+            ＋ 指の移動量
+          */
+
+          const sliderWidth =
+            slider.clientWidth;
+
+
+          if (sliderWidth > 0) {
+
+            const dragPercent =
+              (dragX / sliderWidth) * 100;
+
+
+            slides.style.transform =
+              `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
 
           }
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       pointerup
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerup",
+      (e) => {
+
+        if (!isPointerDown) {
+          return;
+        }
+
+
+        const deltaX =
+          pointerCurrentX - pointerStartX;
+
+        const deltaY =
+          pointerCurrentY - pointerStartY;
+
+
+        isPointerDown = false;
+
+
+        /*
+          アニメーションを戻す
+        */
+
+        slides.style.transition =
+          "transform 0.3s ease-out";
+
+
+        /*
+          横方向のスワイプか判定
+        */
+
+        const isHorizontalSwipe =
+          Math.abs(deltaX) >= SWIPE_DISTANCE &&
+          Math.abs(deltaX) > Math.abs(deltaY);
+
+
+        if (isHorizontalSwipe) {
+
+          /*
+            左へスワイプ
+            → 次のページ
+          */
+
+          if (deltaX < 0) {
+
+            nextPage();
+
+          }
+
+
+          /*
+            右へスワイプ
+            → 前のページ
+          */
+
+          else {
+
+            previousPage();
+
+          }
+
+
+          /*
+            画像タップによる
+            拡大を防止
+          */
+
+          swipeHandled = true;
+
+          isDragging = false;
+
+
+          /*
+            念のため
+            正しい位置へ戻す
+          */
 
           updateSlider();
 
         }
 
 
-        /* 右スワイプ */
+        else {
 
-        else if (difference < -50) {
+          /*
+            スワイプではなかった
+            → 元の位置へ戻す
+          */
 
-          if (currentPage > 0) {
-
-            currentPage--;
-
-          } else {
-
-            currentPage = totalPages - 1;
-
-          }
+          isDragging = false;
 
           updateSlider();
 
         }
 
-      },
-      {
-        passive: true
+      }
+    );
+
+
+    /* =========================================
+       pointercancel
+    ========================================= */
+
+    slider.addEventListener(
+      "pointercancel",
+      () => {
+
+        isPointerDown = false;
+
+        isDragging = false;
+
+        slides.style.transition =
+          "transform 0.3s ease-out";
+
+        updateSlider();
+
       }
     );
 
 
     /* =========================================
        画像タップ → 拡大
+       
+       スワイプした場合は
+       拡大しない
     ========================================= */
 
     document
       .querySelectorAll(".slide img")
-      .forEach(img => {
+      .forEach((img) => {
 
-        img.addEventListener("click", () => {
+        img.addEventListener(
+          "click",
+          (e) => {
 
-          modalImage.src = img.src;
+            /*
+              スワイプ直後の
+              誤クリックを防止
+            */
 
-          imageModal.classList.add("active");
+            if (swipeHandled) {
 
-        });
+              swipeHandled = false;
+
+              e.preventDefault();
+
+              return;
+
+            }
+
+
+            /*
+              画像をモーダルへ
+            */
+
+            modalImage.src =
+              img.src;
+
+            imageModal.classList.add(
+              "active"
+            );
+
+          }
+        );
 
       });
 
 
     /* =========================================
-       拡大画像タップ → 閉じる
+       拡大表示を閉じる
     ========================================= */
 
     imageModal.addEventListener(
       "click",
       () => {
 
-        imageModal.classList.remove("active");
+        imageModal.classList.remove(
+          "active"
+        );
 
         modalImage.src = "";
 
@@ -1037,7 +1564,7 @@
 
 
     /* =========================================
-       ESCキー → 閉じる
+       ESCキー
     ========================================= */
 
     document.addEventListener(
@@ -1049,7 +1576,9 @@
           imageModal.classList.contains("active")
         ) {
 
-          imageModal.classList.remove("active");
+          imageModal.classList.remove(
+            "active"
+          );
 
           modalImage.src = "";
 
