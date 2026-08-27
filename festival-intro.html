@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>長高祭 2026</title>
+
+<meta
+  name="description"
+  content="長高祭2026 公式サイト オープニング"
+/>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+/* =========================================
+   基本設定
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  background: #EEEEEC;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Noto Sans JP', sans-serif;
+
+  background: #EEEEEC;
+
+  color: #333;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================
+   オープニング全体
+========================================= */
+
+.intro-page {
+  position: relative;
+
+  width: 100%;
+  min-height: 200vh;
+
+  overflow: hidden;
+
+  background: #EEEEEC;
+}
+
+
+/* =========================================
+   ローポリ背景
+========================================= */
+
+.intro-shapes {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+
+/* 三角形 */
+
+.intro-shape {
+  position: absolute;
+
+  opacity: 0.9;
+}
+
+
+/* 左上 */
+
+.intro-s1 {
+  top: 8%;
+  left: -50px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 85px solid transparent;
+  border-right: 85px solid transparent;
+  border-bottom: 150px solid #c85c72;
+
+  transform: rotate(-25deg);
+}
+
+
+/* 左中 */
+
+.intro-s2 {
+  top: 30%;
+  left: -65px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 75px solid transparent;
+  border-right: 75px solid transparent;
+  border-bottom: 135px solid #8060a8;
+
+  transform: rotate(20deg);
+}
+
+
+/* 左下 */
+
+.intro-s3 {
+  bottom: 2%;
+  left: -70px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 115px solid transparent;
+  border-right: 115px solid transparent;
+  border-bottom: 205px solid #d1a92f;
+
+  transform: rotate(12deg);
+}
+
+
+/* 右上 */
+
+.intro-s4 {
+  top: 5%;
+  right: -90px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 260px solid #4f9fa5;
+
+  transform: rotate(30deg);
+}
+
+
+/* 右中 */
+
+.intro-s5 {
+  top: 40%;
+  right: -50px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 90px solid transparent;
+  border-right: 90px solid transparent;
+  border-bottom: 165px solid #3f9da9;
+
+  transform: rotate(-18deg);
+}
+
+
+/* 右下 */
+
+.intro-s6 {
+  bottom: -50px;
+  right: -60px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-bottom: 200px solid #c85c72;
+
+  transform: rotate(-15deg);
+}
+
+
+/* 四角形 */
+
+.intro-s7 {
+  top: 20%;
+  left: 9%;
+
+  width: 80px;
+  height: 130px;
+
+  background: #9b668f;
+
+  transform: rotate(28deg);
+}
+
+
+.intro-s8 {
+  top: 55%;
+  right: 8%;
+
+  width: 110px;
+  height: 70px;
+
+  background: #4b8f9b;
+
+  transform: rotate(-20deg);
+}
+
+
+.intro-s9 {
+  bottom: 17%;
+  left: 16%;
+
+  width: 70px;
+  height: 105px;
+
+  background: #66558f;
+
+  transform: rotate(25deg);
+}
+
+
+.intro-s10 {
+  top: 30%;
+  right: 16%;
+
+  width: 75px;
+  height: 75px;
+
+  background: #c49b35;
+
+  transform: rotate(18deg);
+}
+
+
+/* 小さい三角形 */
+
+.intro-s11 {
+  top: 20%;
+  left: 30%;
+
+  width: 0;
+  height: 0;
+
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 55px solid #f0a12b;
+
+  transform: rotate(15deg);
+}
+
+
+.intro-s12 {
+  bottom: 22%;
+  right: 28%;
+
+  width: 0;
+  height: 0;
+
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 45px solid #ff4d6d;
+
+  transform: rotate(-20deg);
+}
+
+
+/* =========================================
+   1画面目
+========================================= */
+
+.intro-first {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+}
+
+
+/* 中央コンテンツ */
+
+.intro-first-content {
+  position: relative;
+
+  z-index: 10;
+
+  width: 90%;
+  max-width: 650px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+/* ロゴ */
+
+.intro-logo {
+  display: block;
+
+  width: min(72vw, 520px);
+
+  height: auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 10px 15px
+      rgba(0, 0, 0, 0.12)
+    );
+
+  animation: introLogoAppear 1.2s ease both;
+}
+
+
+@keyframes introLogoAppear {
+
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+
+/* 日付 */
+
+.intro-date {
+  margin-top: 25px;
+
+  color: #d94b67;
+
+  font-size: clamp(
+    32px,
+    6vw,
+    58px
+  );
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  line-height: 1;
+
+  text-shadow:
+    0 4px 10px
+    rgba(0, 0, 0, 0.08);
+
+  animation:
+    introDateAppear
+    1.2s
+    0.25s
+    ease
+    both;
+}
+
+
+.intro-date span {
+  font-size: 0.55em;
+
+  margin-left: 6px;
+
+  letter-spacing: 1px;
+}
+
+
+@keyframes introDateAppear {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================================
+   SCROLL表示
+========================================= */
+
+.intro-scroll {
+  position: absolute;
+
+  bottom: 35px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #d94b67;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  z-index: 20;
+
+  animation:
+    introScrollAppear
+    1s
+    0.8s
+    ease
+    both;
+}
+
+
+.intro-scroll-arrow {
+  width: 18px;
+  height: 18px;
+
+  border-right: 2px solid #d94b67;
+  border-bottom: 2px solid #d94b67;
+
+  transform: rotate(45deg);
+
+  animation:
+    scrollArrow
+    1.5s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes scrollArrow {
+
+  0%,
+  100% {
+    transform:
+      rotate(45deg)
+      translate(0, 0);
+  }
+
+  50% {
+    transform:
+      rotate(45deg)
+      translate(5px, 5px);
+  }
+
+}
+
+
+@keyframes introScrollAppear {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================================
+   2画面目
+========================================= */
+
+.intro-second {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+}
+
+
+/* 中央パネル */
+
+.intro-panel {
+  position: relative;
+
+  z-index: 10;
+
+  width: min(88%, 700px);
+
+  min-height: 430px;
+
+  padding: 55px 35px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  clip-path: polygon(
+    5% 0%,
+    95% 4%,
+    100% 18%,
+    96% 88%,
+    87% 100%,
+    11% 96%,
+    0% 82%,
+    4% 15%
+  );
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.12);
+
+  opacity: 0;
+
+  transform:
+    translateY(60px)
+    scale(0.95);
+
+  animation:
+    introPanelAppear
+    1s
+    0.1s
+    ease
+    forwards;
+}
+
+
+/*
+  スクロールで2画面目に入ったとき
+*/
+@keyframes introPanelAppear {
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+/* WELCOME */
+
+.intro-welcome {
+
+  color: #d94b67;
+
+  font-size: clamp(
+    20px,
+    4vw,
+    32px
+  );
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 5px;
+}
+
+
+/* 長高祭 */
+
+.intro-festival {
+
+  color: #d94b67;
+
+  font-size: clamp(
+    50px,
+    10vw,
+    90px
+  );
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  line-height: 1.15;
+
+  text-shadow:
+    0 6px 12px
+    rgba(0, 0, 0, 0.12);
+
+  margin-bottom: 35px;
+}
+
+
+/* =========================================
+   STARTボタン
+========================================= */
+
+.intro-start {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: min(75vw, 360px);
+
+  min-height: 70px;
+
+  padding: 15px 30px;
+
+  background: #d94b67;
+
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: clamp(
+    22px,
+    4vw,
+    30px
+  );
+
+  font-weight: 900;
+
+  letter-spacing: 4px;
+
+  clip-path: polygon(
+    7% 0%,
+    93% 0%,
+    100% 50%,
+    93% 100%,
+    7% 100%,
+    0% 50%
+  );
+
+  box-shadow:
+    0 8px 0
+    #a9344e;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+
+  cursor: pointer;
+}
+
+
+.intro-start:hover {
+
+  background: #e55a73;
+
+  transform:
+    translateY(3px);
+
+  box-shadow:
+    0 5px 0
+    #a9344e;
+}
+
+
+.intro-start:active {
+
+  transform:
+    translateY(8px);
+
+  box-shadow:
+    0 0 0
+    #a9344e;
+}
+
+
+/* =========================================
+   2画面目の小さな図形
+========================================= */
+
+.intro-second::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 75px;
+  height: 120px;
+
+  left: 10%;
+  bottom: 15%;
+
+  background: #d1a92f;
+
+  transform: rotate(25deg);
+
+  opacity: 0.8;
+
+  z-index: 3;
+}
+
+
+.intro-second::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 65px;
+
+  right: 9%;
+  top: 15%;
+
+  background: #3f9da9;
+
+  transform: rotate(-20deg);
+
+  opacity: 0.8;
+
+  z-index: 3;
+}
+
+
+/* =========================================
+   スマホ
+========================================= */
+
+@media (max-width: 768px) {
+
+  .intro-first,
+  .intro-second {
+
+    min-height: 100svh;
+
+    height: 100svh;
+
+  }
+
+
+  .intro-page {
+
+    min-height: 200svh;
+
+  }
+
+
+  .intro-logo {
+
+    width: min(78vw, 480px);
+
+  }
+
+
+  .intro-date {
+
+    margin-top: 20px;
+
+    font-size: 42px;
+
+  }
+
+
+  .intro-scroll {
+
+    bottom: 28px;
+
+    font-size: 11px;
+
+  }
+
+
+  .intro-panel {
+
+    width: 90%;
+
+    min-height: 400px;
+
+    padding:
+      45px
+      20px;
+
+  }
+
+
+  .intro-welcome {
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+  }
+
+
+  .intro-festival {
+
+    font-size: 52px;
+
+    margin-bottom: 30px;
+
+  }
+
+
+  .intro-start {
+
+    width: 75vw;
+
+    min-height: 64px;
+
+    font-size: 23px;
+
+  }
+
+
+  .intro-s1 {
+
+    left: -75px;
+
+  }
+
+
+  .intro-s2 {
+
+    left: -80px;
+
+  }
+
+
+  .intro-s3 {
+
+    left: -100px;
+
+  }
+
+
+  .intro-s4 {
+
+    right: -120px;
+
+  }
+
+
+  .intro-s5 {
+
+    right: -80px;
+
+  }
+
+
+  .intro-s6 {
+
+    right: -100px;
+
+  }
+
+
+  .intro-s7 {
+
+    left: 3%;
+
+  }
+
+
+  .intro-s8 {
+
+    right: 2%;
+
+  }
+
+
+  .intro-s9 {
+
+    left: 8%;
+
+  }
+
+
+  .intro-s10 {
+
+    right: 8%;
+
+  }
+
+}
+
+
+/* =========================================
+   非常に小さい画面
+========================================= */
+
+@media (max-width: 380px) {
+
+  .intro-date {
+
+    font-size: 36px;
+
+  }
+
+
+  .intro-festival {
+
+    font-size: 45px;
+
+  }
+
+
+  .intro-panel {
+
+    min-height: 370px;
+
+  }
+
+
+  .intro-start {
+
+    width: 80vw;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="intro-page">
+
+
+  <!-- =====================================
+       ローポリ背景
+  ====================================== -->
+
+  <div class="intro-shapes">
+
+    <div class="intro-shape intro-s1"></div>
+    <div class="intro-shape intro-s2"></div>
+    <div class="intro-shape intro-s3"></div>
+    <div class="intro-shape intro-s4"></div>
+    <div class="intro-shape intro-s5"></div>
+    <div class="intro-shape intro-s6"></div>
+
+    <div class="intro-shape intro-s7"></div>
+    <div class="intro-shape intro-s8"></div>
+    <div class="intro-shape intro-s9"></div>
+    <div class="intro-shape intro-s10"></div>
+
+    <div class="intro-shape intro-s11"></div>
+    <div class="intro-shape intro-s12"></div>
+
+  </div>
+
+
+  <!-- =====================================
+       1画面目
+  ====================================== -->
+
+  <section class="intro-first">
+
+    <div class="intro-first-content">
+
+      <img
+        src="images/logo.png"
+        alt="長高祭"
+        class="intro-logo"
+      >
+
+      <div class="intro-date">
+
+        9.12
+        <span>Sat</span>
+
+      </div>
+
+    </div>
+
+
+    <div class="intro-scroll">
+
+      <div class="intro-scroll-arrow"></div>
+
+      <span>SCROLL</span>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       2画面目
+  ====================================== -->
+
+  <section class="intro-second">
+
+    <div class="intro-panel">
+
+      <div class="intro-welcome">
+        WELCOME TO
+      </div>
+
+      <div class="intro-festival">
+        長高祭
+      </div>
+
+
+      <a
+        href="index.html"
+        class="intro-start"
+        id="startButton"
+      >
+        START
+      </a>
+
+    </div>
+
+  </section>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+   STARTボタン
+========================================= */
+
+const startButton =
+  document.getElementById("startButton");
+
+
+startButton.addEventListener(
+  "click",
+  function(e) {
+
+    e.preventDefault();
+
+
+    /*
+      オープニングを
+      すでに見たことを記録
+    */
+    localStorage.setItem(
+      "choko_festival_intro_done",
+      "true"
+    );
+
+
+    /*
+      既存のスプラッシュも
+      START後には表示しない
+    */
+    localStorage.setItem(
+      "choko_splash_shown",
+      "true"
+    );
+
+
+    /*
+      TOPページへ移動
+    */
+    window.location.href =
+      "index.html";
+
+  }
+);
+
+
+/* =========================================
+   スクロールアニメーション
+========================================= */
+
+const introPanel =
+  document.querySelector(".intro-panel");
+
+
+const observer =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(entry => {
+
+        if(entry.isIntersecting) {
+
+          introPanel.style.animation =
+            "introPanelAppear 1s ease forwards";
+
+        }
+
+      });
+
+    },
+    {
+      threshold: 0.25
+    }
+  );
+
+
+observer.observe(
+  document.querySelector(".intro-second")
+);
+
+</script>
+
+
+</body>
+
+</html>
