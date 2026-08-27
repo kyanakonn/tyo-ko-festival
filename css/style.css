@@ -723,7 +723,12 @@ h2 {
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  display: inline-block;
+  display: block;
+
+  width: fit-content;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
