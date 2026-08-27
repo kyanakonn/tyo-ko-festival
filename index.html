@@ -1,190 +1,118 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8" />
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="google-site-verification"
+  content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8"
+/>
 
 <title>長生高校文化祭2026｜長高祭【公式】サイト</title>
 
-<meta name="description" content="長生高校文化祭、通称『長高祭』の公式サイト！企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！">
+<meta
+  name="description"
+  content="長生高校文化祭、通称『長高祭』の公式サイト！企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！"
+>
 
-<meta name="keywords" content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭">
+<meta
+  name="keywords"
+  content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭"
+>
 
-<meta name="application-name" content="長高祭">
-<meta property="og:site_name" content="長高祭">
+<meta
+  name="application-name"
+  content="長高祭"
+>
 
-<meta property="og:title" content="長高祭｜長生高校文化祭公式サイト">
-<meta property="og:description" content="長生高校文化祭の公式サイト">
-<meta property="og:type" content="website">
+<meta
+  property="og:site_name"
+  content="長高祭"
+>
+
+<meta
+  property="og:title"
+  content="長高祭｜長生高校文化祭公式サイト"
+>
+
+<meta
+  property="og:description"
+  content="長生高校文化祭の公式サイト"
+>
+
+<meta
+  property="og:type"
+  content="website"
+>
 
 <link rel="icon" href="/favicon.ico">
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap"
+  rel="stylesheet"
+>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
+</script>
 
-<style>
-/* =========================================
-   スプラッシュ画面
-========================================= */
-
-#splash {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-
-  /*
-    画像の上下に余白ができた場合でも、
-    背景の黒が透けて見えるようにする
-  */
-  background: rgba(0, 0, 0, 0.88);
-
-  z-index: 99999;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  /*
-    アニメーションはJavaScriptで制御
-  */
-  transition: opacity 0.8s ease;
-}
-
-#splash img {
-  /*
-    画像全体を表示。
-    スマホでも横が切れない。
-  */
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-  object-position: center;
-
-  display: block;
-}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
+</script>
 
 
-/*
-  スプラッシュ表示中
-*/
-#splash.splash-visible {
-  opacity: 1;
-}
-
-
-/*
-  スプラッシュ終了後
-*/
-#splash.splash-hidden {
-  opacity: 0;
-}
-</style>
-
-</head>
-
-<link rel="stylesheet" href="css/style.css">
-
-<body>
-
-<div id="splash">
-  <img src="images/splash.png" alt="">
-</div>
+<!-- =========================================
+     長高祭オープニング判定
+========================================= -->
 
 <script>
-/* =========================================
-   初回アクセス時のみスプラッシュ表示
-========================================= */
 
 (function(){
 
-  const splash =
-    document.getElementById("splash");
-
   /*
-    初回アクセス済みか確認
+    オープニングをまだSTARTしていない場合、
+    TOPページへ直接アクセスしても
+    オープニングへ移動する。
   */
-  const splashShown =
-    localStorage.getItem("choko_splash_shown");
 
-  /*
-    すでに表示済みなら
-    スプラッシュを表示しない
-  */
-  if(splashShown){
+  const introDone =
+    localStorage.getItem(
+      "choko_festival_intro_done"
+    );
 
-    splash.remove();
 
-    return;
+  if(!introDone){
+
+    window.location.replace(
+      "festival-intro.html"
+    );
 
   }
 
-
-  /*
-    今回のアクセスを
-    「初回表示済み」として記録
-  */
-  localStorage.setItem(
-    "choko_splash_shown",
-    "true"
-  );
-
-
-  /*
-    フェードイン開始
-  */
-  requestAnimationFrame(() => {
-
-    requestAnimationFrame(() => {
-
-      splash.classList.add(
-        "splash-visible"
-      );
-
-    });
-
-  });
-
-
-  /*
-    表示開始から4秒後に
-    フェードアウト開始
-  */
-  setTimeout(() => {
-
-    splash.classList.remove(
-      "splash-visible"
-    );
-
-    splash.classList.add(
-      "splash-hidden"
-    );
-
-
-    /*
-      フェードアウト完了後に
-      要素自体を削除
-    */
-    setTimeout(() => {
-
-      splash.remove();
-
-    }, 800);
-
-  }, 4000);
-
 })();
+
 </script>
-  
+
+</head>
+
+
+<link
+  rel="stylesheet"
+  href="css/style.css"
+>
+
+
+<body>
+
+
 <div class="bg-shapes">
+
   <div class="shape s1"></div>
   <div class="shape s2"></div>
   <div class="shape s3"></div>
@@ -197,72 +125,127 @@
   <div class="shape s10"></div>
   <div class="shape s11"></div>
   <div class="shape s12"></div>
+
 </div>
 
+
 <div id="loader">
-  <div class="loader-text">LOADING...</div>
+
+  <div class="loader-text">
+    LOADING...
+  </div>
+
 </div>
+
 
 <div id="header"></div>
 
+
 <script>
+
 fetch("header.html")
+
   .then(res => res.text())
+
   .then(data => {
 
-    const headerContainer = document.getElementById("header");
+    const headerContainer =
+      document.getElementById("header");
 
-    headerContainer.innerHTML = data;
 
-    const header = headerContainer.querySelector("header");
-    const btn = headerContainer.querySelector(".menu-btn");
-    const nav = headerContainer.querySelector(".nav");
+    headerContainer.innerHTML =
+      data;
+
+
+    const header =
+      headerContainer.querySelector("header");
+
+    const btn =
+      headerContainer.querySelector(".menu-btn");
+
+    const nav =
+      headerContainer.querySelector(".nav");
+
 
     function updateHeaderHeight() {
 
       if (!header) return;
 
-      const height = header.getBoundingClientRect().height;
+
+      const height =
+        header.getBoundingClientRect().height;
+
 
       document.documentElement.style.setProperty(
         "--header-height",
         height + "px"
       );
+
     }
+
 
     updateHeaderHeight();
 
-    window.addEventListener("resize", updateHeaderHeight);
 
-    if (btn && nav) {
+    window.addEventListener(
+      "resize",
+      updateHeaderHeight
+    );
 
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        nav.classList.toggle("active");
-      });
 
-      document.addEventListener("click", (e) => {
+    if(btn && nav){
 
-        if (
-          !nav.contains(e.target) &&
-          !btn.contains(e.target)
-        ) {
-          nav.classList.remove("active");
+      btn.addEventListener(
+        "click",
+        (e) => {
+
+          e.stopPropagation();
+
+          nav.classList.toggle(
+            "active"
+          );
+
         }
+      );
 
-      });
+
+      document.addEventListener(
+        "click",
+        (e) => {
+
+          if(
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ){
+
+            nav.classList.remove(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
     }
 
   });
+
 </script>
+
 
 <div class="hero">
 
-  <img src="hero.jpg" class="hero-bg">
+  <img
+    src="hero.jpg"
+    class="hero-bg"
+  >
 
   <div class="hero-title-wrap">
 
-    <h1 id="title">長高祭 2026</h1>
+    <h1 id="title">
+      長高祭 2026
+    </h1>
 
     <p class="hero-subtitle">
       【一般公開は9月12日土曜日！】
@@ -270,7 +253,12 @@ fetch("header.html")
 
   </div>
 
-  <img src="IMG_0354.png" class="hero-front">
+
+  <img
+    src="IMG_0354.png"
+    class="hero-front"
+  >
+
 
   <div class="ticker">
 
@@ -292,11 +280,15 @@ fetch("header.html")
 
 
 <!-- バナースライダー -->
+
 <section class="banner-section">
 
   <div class="banner-slider">
 
-    <div class="banner-track" id="bannerTrack">
+    <div
+      class="banner-track"
+      id="bannerTrack"
+    >
 
       <div class="banner">
         <img src="images/banner1.jpeg">
@@ -328,7 +320,11 @@ fetch("header.html")
 
     </div>
 
-    <div class="banner-dots" id="bannerDots"></div>
+
+    <div
+      class="banner-dots"
+      id="bannerDots">
+    </div>
 
   </div>
 
@@ -339,14 +335,26 @@ fetch("header.html")
 
 <h2>\ お知らせ /</h2>
 
+
 <div class="info-links">
 
-  <a href="guide.html" class="info-card">
+  <a
+    href="guide.html"
+    class="info-card"
+  >
+
     <img src="images/guide.png">
+
   </a>
 
-  <a href="map.html" class="info-card">
+
+  <a
+    href="map.html"
+    class="info-card"
+  >
+
     <img src="images/map.png">
+
   </a>
 
 </div>
@@ -356,45 +364,110 @@ fetch("header.html")
 
 <section id="events">
 
-<h2 class="events-title">\ 企画・イベント /</h2>
+<h2 class="events-title">
+  \ 企画・イベント /
+</h2>
+
 
 <div class="slider">
 
-  <div class="slides" id="slides">
+  <div
+    class="slides"
+    id="slides"
+  >
 
-    <a href="events.html?cat=1" class="card">
+    <a
+      href="events.html?cat=1"
+      class="card"
+    >
+
       <img src="images/event1.jpg">
-      <div><h3>1学年</h3></div>
+
+      <div>
+        <h3>1学年</h3>
+      </div>
+
     </a>
 
-    <a href="events.html?cat=2" class="card">
+
+    <a
+      href="events.html?cat=2"
+      class="card"
+    >
+
       <img src="images/event2.jpg">
-      <div><h3>2学年</h3></div>
+
+      <div>
+        <h3>2学年</h3>
+      </div>
+
     </a>
 
-    <a href="events.html?cat=3" class="card">
+
+    <a
+      href="events.html?cat=3"
+      class="card"
+    >
+
       <img src="images/event3.jpg">
-      <div><h3>3学年</h3></div>
+
+      <div>
+        <h3>3学年</h3>
+      </div>
+
     </a>
 
-    <a href="events.html?cat=club" class="card">
+
+    <a
+      href="events.html?cat=club"
+      class="card"
+    >
+
       <img src="images/event4.jpg">
-      <div><h3>部活動・同好会</h3></div>
+
+      <div>
+        <h3>部活動・同好会</h3>
+      </div>
+
     </a>
 
-    <a href="events.html?cat=other" class="card">
+
+    <a
+      href="events.html?cat=other"
+      class="card"
+    >
+
       <img src="images/event5.jpg">
-      <div><h3>その他イベント</h3></div>
+
+      <div>
+        <h3>その他イベント</h3>
+      </div>
+
     </a>
 
   </div>
 
-  <a href="events.html" class="main-btn">
-    <span>企画一覧をみる</span>
-    <div class="arrow">→</div>
+
+  <a
+    href="events.html"
+    class="main-btn"
+  >
+
+    <span>
+      企画一覧をみる
+    </span>
+
+    <div class="arrow">
+      →
+    </div>
+
   </a>
 
-  <div class="dots" id="dots"></div>
+
+  <div
+    class="dots"
+    id="dots">
+  </div>
 
 </div>
 
@@ -403,13 +476,17 @@ fetch("header.html")
 
 <section id="access">
 
-  <h2>\ アクセス /</h2>
+  <h2>
+    \ アクセス /
+  </h2>
+
 
   <div class="access-row">
 
     <p>
       「茂原駅東口」から徒歩 約15分
     </p>
+
 
     <a
       href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
@@ -426,94 +503,145 @@ fetch("header.html")
 
 <footer>
 
-<p>©長高祭サイト</p>
+  <p>
+    ©長高祭サイト
+  </p>
 
 </footer>
 
 
 <script>
 
-// ローディング
-window.addEventListener("load", () => {
+/* =========================================
+   ローディング
+========================================= */
 
-  const loader =
-    document.getElementById("loader");
+window.addEventListener(
+  "load",
+  () => {
 
-  loader.style.opacity = "0";
-
-  setTimeout(() => {
-
-    loader.style.display = "none";
-
-  }, 500);
-
-});
+    const loader =
+      document.getElementById("loader");
 
 
-// GSAP
-gsap.registerPlugin(ScrollTrigger);
+    loader.style.opacity =
+      "0";
 
 
-// タイトルアニメ
+    setTimeout(() => {
+
+      loader.style.display =
+        "none";
+
+    }, 500);
+
+  }
+);
+
+
+/* =========================================
+   GSAP
+========================================= */
+
+gsap.registerPlugin(
+  ScrollTrigger
+);
+
+
+/* =========================================
+   タイトルアニメ
+========================================= */
+
 const text =
   document.getElementById("title");
+
 
 const chars =
   text.innerText.split("");
 
-text.innerHTML = "";
+
+text.innerHTML =
+  "";
+
 
 chars.forEach(c => {
 
   const span =
     document.createElement("span");
 
-  span.innerText = c;
 
-  span.style.opacity = 0;
+  span.innerText =
+    c;
+
+
+  span.style.opacity =
+    0;
+
 
   span.style.display =
     "inline-block";
 
+
   span.style.transform =
     "translateY(20px)";
 
-  text.appendChild(span);
+
+  text.appendChild(
+    span
+  );
 
 });
 
-gsap.to("#title span", {
-  opacity: 1,
-  y: 0,
-  stagger: 0.05
-});
+
+gsap.to(
+  "#title span",
+  {
+
+    opacity: 1,
+
+    y: 0,
+
+    stagger: 0.05
+
+  }
+);
 
 
-// スクロールアニメ
-gsap.utils.toArray("section").forEach(sec => {
+/* =========================================
+   スクロールアニメ
+========================================= */
 
-  gsap.from(sec, {
+gsap.utils
+  .toArray("section")
+  .forEach(sec => {
 
-    opacity: 0,
+    gsap.from(
+      sec,
+      {
 
-    y: 50,
+        opacity: 0,
 
-    duration: 1,
+        y: 50,
 
-    scrollTrigger: {
-      trigger: sec,
-      start: "top 80%"
-    }
+        duration: 1,
+
+        scrollTrigger: {
+
+          trigger: sec,
+
+          start: "top 80%"
+
+        }
+
+      }
+    );
 
   });
 
-});
 
-
-// =========================================
-// 企画・イベント スライダー
-// 完全循環方式
-// =========================================
+/* =========================================
+   企画・イベント スライダー
+========================================= */
 
 const slides =
   document.getElementById("slides");
@@ -548,17 +676,22 @@ function getSlideWidth(){
 
   if(!card) return 0;
 
+
   const style =
     getComputedStyle(card);
+
 
   const width =
     card.getBoundingClientRect().width;
 
+
   const marginLeft =
     parseFloat(style.marginLeft) || 0;
 
+
   const marginRight =
     parseFloat(style.marginRight) || 0;
+
 
   return width +
          marginLeft +
@@ -583,70 +716,105 @@ function setPosition(
   slides.style.transition =
     animate ? "0.5s" : "none";
 
+
   slides.style.transform =
     `translateX(${value}px)`;
 
 }
 
 
-window.addEventListener("load", () => {
+window.addEventListener(
+  "load",
+  () => {
 
-  updateSlideWidth();
+    updateSlideWidth();
 
-  setPosition(0, false);
+    setPosition(
+      0,
+      false
+    );
 
-});
+  }
+);
 
 
-for(let i = 0; i < total; i++){
+for(
+  let i = 0;
+  i < total;
+  i++
+){
 
   const dot =
     document.createElement("span");
 
+
   if(i === 0){
 
-    dot.classList.add("active");
+    dot.classList.add(
+      "active"
+    );
 
   }
 
 
-  dot.addEventListener("click", () => {
+  dot.addEventListener(
+    "click",
+    () => {
 
-    if(isAnimating) return;
-
-    const target =
-      i;
-
-    let forward =
-      (target - currentIndex + total) % total;
-
-    let backward =
-      (currentIndex - target + total) % total;
+      if(isAnimating)
+        return;
 
 
-    if(forward === 0){
+      const target =
+        i;
 
-      updateDots();
 
-      return;
+      let forward =
+        (
+          target -
+          currentIndex +
+          total
+        ) % total;
+
+
+      let backward =
+        (
+          currentIndex -
+          target +
+          total
+        ) % total;
+
+
+      if(forward === 0){
+
+        updateDots();
+
+        return;
+
+      }
+
+
+      if(forward <= backward){
+
+        moveForwardSteps(
+          forward
+        );
+
+      }else{
+
+        moveBackwardSteps(
+          backward
+        );
+
+      }
 
     }
+  );
 
 
-    if(forward <= backward){
-
-      moveForwardSteps(forward);
-
-    }else{
-
-      moveBackwardSteps(backward);
-
-    }
-
-  });
-
-
-  dotsContainer.appendChild(dot);
+  dotsContainer.appendChild(
+    dot
+  );
 
 }
 
@@ -654,31 +822,41 @@ for(let i = 0; i < total; i++){
 function updateDots(){
 
   const dots =
-    dotsContainer.querySelectorAll("span");
-
-  dots.forEach((dot, i) => {
-
-    dot.classList.toggle(
-      "active",
-      i === currentIndex
+    dotsContainer.querySelectorAll(
+      "span"
     );
 
-  });
+
+  dots.forEach(
+    (dot, i) => {
+
+      dot.classList.toggle(
+        "active",
+        i === currentIndex
+      );
+
+    }
+  );
 
 }
 
 
 function moveBackward(){
 
-  if(isAnimating) return;
+  if(isAnimating)
+    return;
 
-  isAnimating = true;
+
+  isAnimating =
+    true;
+
 
   updateSlideWidth();
 
 
   const last =
     slides.lastElementChild;
+
 
   slides.insertBefore(
     last,
@@ -689,26 +867,33 @@ function moveBackward(){
   slides.style.transition =
     "none";
 
+
   slides.style.transform =
     `translateX(-${slideWidth}px)`;
 
 
-  requestAnimationFrame(() => {
+  requestAnimationFrame(
+    () => {
 
-    requestAnimationFrame(() => {
+      requestAnimationFrame(
+        () => {
 
-      slides.style.transition =
-        "0.5s";
+          slides.style.transition =
+            "0.5s";
 
-      slides.style.transform =
-        "translateX(0px)";
 
-    });
+          slides.style.transform =
+            "translateX(0px)";
 
-  });
+        }
+      );
+
+    }
+  );
 
 
   currentIndex--;
+
 
   if(currentIndex < 0){
 
@@ -717,31 +902,45 @@ function moveBackward(){
 
   }
 
+
   updateDots();
 
 
   let finished = false;
 
+
   const finish = () => {
 
-    if(finished) return;
+    if(finished)
+      return;
 
-    finished = true;
 
-    clearTimeout(fallback);
+    finished =
+      true;
+
+
+    clearTimeout(
+      fallback
+    );
+
 
     slides.removeEventListener(
       "transitionend",
       finish
     );
 
-    isAnimating = false;
+
+    isAnimating =
+      false;
 
   };
 
 
   const fallback =
-    setTimeout(finish, 700);
+    setTimeout(
+      finish,
+      700
+    );
 
 
   slides.addEventListener(
@@ -752,18 +951,15 @@ function moveBackward(){
 }
 
 
-function finishAnimation(){
-
-  isAnimating = false;
-
-}
-
-
 function moveForward(){
 
-  if(isAnimating) return;
+  if(isAnimating)
+    return;
 
-  isAnimating = true;
+
+  isAnimating =
+    true;
+
 
   updateSlideWidth();
 
@@ -771,11 +967,13 @@ function moveForward(){
   slides.style.transition =
     "0.5s";
 
+
   slides.style.transform =
     `translateX(-${slideWidth}px)`;
 
 
   currentIndex++;
+
 
   if(currentIndex >= total){
 
@@ -783,6 +981,7 @@ function moveForward(){
       0;
 
   }
+
 
   updateDots();
 
@@ -792,11 +991,18 @@ function moveForward(){
 
   const finish = () => {
 
-    if(finished) return;
+    if(finished)
+      return;
 
-    finished = true;
 
-    clearTimeout(fallback);
+    finished =
+      true;
+
+
+    clearTimeout(
+      fallback
+    );
+
 
     slides.removeEventListener(
       "transitionend",
@@ -807,22 +1013,28 @@ function moveForward(){
     const first =
       slides.firstElementChild;
 
-    slides.appendChild(first);
+
+    slides.appendChild(
+      first
+    );
 
 
     slides.style.transition =
       "none";
 
+
     slides.style.transform =
       "translateX(0px)";
 
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(
+      () => {
 
-      isAnimating =
-        false;
+        isAnimating =
+          false;
 
-    });
+      }
+    );
 
   };
 
@@ -834,12 +1046,17 @@ function moveForward(){
 
 
   const fallback =
-    setTimeout(finish, 700);
+    setTimeout(
+      finish,
+      700
+    );
 
 }
 
 
-function moveForwardSteps(count){
+function moveForwardSteps(
+  count
+){
 
   if(count <= 0){
 
@@ -853,29 +1070,38 @@ function moveForwardSteps(count){
 
   moveForward();
 
+
   const check =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(!isAnimating){
+        if(!isAnimating){
 
-        clearInterval(check);
-
-        if(count > 1){
-
-          moveForwardSteps(
-            count - 1
+          clearInterval(
+            check
           );
+
+
+          if(count > 1){
+
+            moveForwardSteps(
+              count - 1
+            );
+
+          }
 
         }
 
-      }
-
-    }, 20);
+      },
+      20
+    );
 
 }
 
 
-function moveBackwardSteps(count){
+function moveBackwardSteps(
+  count
+){
 
   if(count <= 0){
 
@@ -889,24 +1115,31 @@ function moveBackwardSteps(count){
 
   moveBackward();
 
+
   const check =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(!isAnimating){
+        if(!isAnimating){
 
-        clearInterval(check);
-
-        if(count > 1){
-
-          moveBackwardSteps(
-            count - 1
+          clearInterval(
+            check
           );
+
+
+          if(count > 1){
+
+            moveBackwardSteps(
+              count - 1
+            );
+
+          }
 
         }
 
-      }
-
-    }, 20);
+      },
+      20
+    );
 
 }
 
@@ -917,18 +1150,21 @@ function startAuto(){
 
 
   autoSlide =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(
-        !isDragging &&
-        !isAnimating
-      ){
+        if(
+          !isDragging &&
+          !isAnimating
+        ){
 
-        moveForward();
+          moveForward();
 
-      }
+        }
 
-    }, 3000);
+      },
+      3000
+    );
 
 }
 
@@ -937,7 +1173,10 @@ function stopAuto(){
 
   if(autoSlide){
 
-    clearInterval(autoSlide);
+    clearInterval(
+      autoSlide
+    );
+
 
     autoSlide =
       null;
@@ -950,29 +1189,36 @@ function stopAuto(){
 startAuto();
 
 
-// =========================================
-// タッチスワイプ
-// =========================================
+/* =========================================
+   タッチスワイプ
+========================================= */
 
 slider.addEventListener(
   "touchstart",
   (e) => {
 
-    if(isAnimating) return;
+    if(isAnimating)
+      return;
+
 
     startX =
       e.touches[0].clientX;
 
+
     currentX =
       startX;
+
 
     velocity =
       0;
 
+
     isDragging =
       true;
 
+
     stopAuto();
+
 
     slides.style.transition =
       "none";
@@ -986,7 +1232,8 @@ slider.addEventListener(
   "touchmove",
   (e) => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
 
 
     const x =
@@ -995,6 +1242,7 @@ slider.addEventListener(
 
     velocity =
       x - currentX;
+
 
     currentX =
       x;
@@ -1016,7 +1264,9 @@ slider.addEventListener(
   "touchend",
   () => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
+
 
     isDragging =
       false;
@@ -1039,6 +1289,7 @@ slider.addEventListener(
       slides.style.transition =
         "0.5s";
 
+
       slides.style.transform =
         "translateX(0px)";
 
@@ -1056,7 +1307,8 @@ slider.addEventListener(
   "touchcancel",
   () => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
 
 
     isDragging =
@@ -1065,6 +1317,7 @@ slider.addEventListener(
 
     slides.style.transition =
       "0.5s";
+
 
     slides.style.transform =
       "translateX(0px)";
@@ -1077,29 +1330,36 @@ slider.addEventListener(
 );
 
 
-// =========================================
-// PCドラッグ
-// =========================================
+/* =========================================
+   PCドラッグ
+========================================= */
 
 slider.addEventListener(
   "mousedown",
   (e) => {
 
-    if(isAnimating) return;
+    if(isAnimating)
+      return;
+
 
     startX =
       e.clientX;
 
+
     currentX =
       startX;
+
 
     velocity =
       0;
 
+
     isDragging =
       true;
 
+
     stopAuto();
+
 
     slides.style.transition =
       "none";
@@ -1112,19 +1372,25 @@ slider.addEventListener(
   "mousemove",
   (e) => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
+
 
     const x =
       e.clientX;
 
+
     velocity =
       x - currentX;
+
 
     currentX =
       x;
 
+
     const move =
       x - startX;
+
 
     slides.style.transform =
       `translateX(${move}px)`;
@@ -1137,7 +1403,9 @@ slider.addEventListener(
   "mouseup",
   () => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
+
 
     isDragging =
       false;
@@ -1156,6 +1424,7 @@ slider.addEventListener(
       slides.style.transition =
         "0.5s";
 
+
       slides.style.transform =
         "translateX(0px)";
 
@@ -1172,7 +1441,9 @@ slider.addEventListener(
   "mouseleave",
   () => {
 
-    if(!isDragging) return;
+    if(!isDragging)
+      return;
+
 
     isDragging =
       false;
@@ -1180,6 +1451,7 @@ slider.addEventListener(
 
     slides.style.transition =
       "0.5s";
+
 
     slides.style.transform =
       "translateX(0px)";
@@ -1191,9 +1463,9 @@ slider.addEventListener(
 );
 
 
-// =========================================
-// リサイズ対応
-// =========================================
+/* =========================================
+   リサイズ対応
+========================================= */
 
 window.addEventListener(
   "resize",
@@ -1201,8 +1473,10 @@ window.addEventListener(
 
     updateSlideWidth();
 
+
     slides.style.transition =
       "none";
+
 
     slides.style.transform =
       "translateX(0px)";
@@ -1211,17 +1485,19 @@ window.addEventListener(
 );
 
 
-// =========================================
-// バナースライダー
-// 完全循環方式
-// 安定動作用に改善
-// =========================================
+/* =========================================
+   バナースライダー
+========================================= */
 
 const track =
-  document.getElementById("bannerTrack");
+  document.getElementById(
+    "bannerTrack"
+  );
 
 const dots =
-  document.getElementById("bannerDots");
+  document.getElementById(
+    "bannerDots"
+  );
 
 const banners =
   track.children;
@@ -1241,25 +1517,33 @@ const bTotal =
   banners.length;
 
 
-// =========================================
-// バナー幅取得
-// =========================================
-
 function getBannerWidth(){
 
   const banner =
     track.children[0];
 
-  if(!banner) return 0;
+
+  if(!banner)
+    return 0;
+
 
   const style =
-    getComputedStyle(banner);
+    getComputedStyle(
+      banner
+    );
+
 
   const marginLeft =
-    parseFloat(style.marginLeft) || 0;
+    parseFloat(
+      style.marginLeft
+    ) || 0;
+
 
   const marginRight =
-    parseFloat(style.marginRight) || 0;
+    parseFloat(
+      style.marginRight
+    ) || 0;
+
 
   return (
     banner.getBoundingClientRect().width +
@@ -1274,10 +1558,6 @@ let bWidth =
   getBannerWidth();
 
 
-// =========================================
-// バナー位置設定
-// =========================================
-
 function setBannerPosition(
   value,
   animate = false
@@ -1286,22 +1566,22 @@ function setBannerPosition(
   track.style.transition =
     animate ? "0.5s" : "none";
 
+
   track.style.transform =
     `translateX(${value}px)`;
 
 }
 
 
-// =========================================
-// バナーアニメーション強制解除
-// =========================================
-
 function forceFinishBannerAnimation(){
 
-  bAnimating = false;
+  bAnimating =
+    false;
+
 
   track.style.transition =
     "none";
+
 
   track.style.transform =
     "translateX(0px)";
@@ -1309,65 +1589,75 @@ function forceFinishBannerAnimation(){
 }
 
 
-// =========================================
-// ドット生成
-// =========================================
-
-for(let i = 0; i < bTotal; i++){
+for(
+  let i = 0;
+  i < bTotal;
+  i++
+){
 
   const d =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
+
 
   if(i === 0){
 
-    d.classList.add("active");
+    d.classList.add(
+      "active"
+    );
 
   }
 
 
-  d.addEventListener("click", () => {
+  d.addEventListener(
+    "click",
+    () => {
 
-    if(bAnimating) return;
-
-    moveBannerTo(i);
-
-  });
+      if(bAnimating)
+        return;
 
 
-  dots.appendChild(d);
+      moveBannerTo(i);
+
+    }
+  );
+
+
+  dots.appendChild(
+    d
+  );
 
 }
 
-
-// =========================================
-// ドット更新
-// =========================================
 
 function updateBannerDots(){
 
   dots
     .querySelectorAll("span")
-    .forEach((d, i) => {
+    .forEach(
+      (d, i) => {
 
-      d.classList.toggle(
-        "active",
-        i === bIndex
-      );
+        d.classList.toggle(
+          "active",
+          i === bIndex
+        );
 
-    });
+      }
+    );
 
 }
 
 
-// =========================================
-// バナー次へ
-// =========================================
-
 function moveBannerForward(){
 
-  if(bAnimating) return;
+  if(bAnimating)
+    return;
 
-  bAnimating = true;
+
+  bAnimating =
+    true;
+
 
   bWidth =
     getBannerWidth();
@@ -1384,11 +1674,18 @@ function moveBannerForward(){
 
   const finish = () => {
 
-    if(finished) return;
+    if(finished)
+      return;
 
-    finished = true;
 
-    clearTimeout(fallback);
+    finished =
+      true;
+
+
+    clearTimeout(
+      fallback
+    );
+
 
     track.removeEventListener(
       "transitionend",
@@ -1399,9 +1696,12 @@ function moveBannerForward(){
     const first =
       track.firstElementChild;
 
+
     if(first){
 
-      track.appendChild(first);
+      track.appendChild(
+        first
+      );
 
     }
 
@@ -1414,9 +1714,11 @@ function moveBannerForward(){
 
     bIndex++;
 
+
     if(bIndex >= bTotal){
 
-      bIndex = 0;
+      bIndex =
+        0;
 
     }
 
@@ -1424,12 +1726,14 @@ function moveBannerForward(){
     updateBannerDots();
 
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(
+      () => {
 
-      bAnimating =
-        false;
+        bAnimating =
+          false;
 
-    });
+      }
+    );
 
   };
 
@@ -1440,22 +1744,24 @@ function moveBannerForward(){
   );
 
 
-  // transitionendが発火しない場合の安全装置
   const fallback =
-    setTimeout(finish, 700);
+    setTimeout(
+      finish,
+      700
+    );
 
 }
 
 
-// =========================================
-// バナー前へ
-// =========================================
-
 function moveBannerBackward(){
 
-  if(bAnimating) return;
+  if(bAnimating)
+    return;
 
-  bAnimating = true;
+
+  bAnimating =
+    true;
+
 
   bWidth =
     getBannerWidth();
@@ -1481,18 +1787,22 @@ function moveBannerBackward(){
   );
 
 
-  requestAnimationFrame(() => {
+  requestAnimationFrame(
+    () => {
 
-    requestAnimationFrame(() => {
+      requestAnimationFrame(
+        () => {
 
-      setBannerPosition(
-        0,
-        true
+          setBannerPosition(
+            0,
+            true
+          );
+
+        }
       );
 
-    });
-
-  });
+    }
+  );
 
 
   let finished = false;
@@ -1500,11 +1810,18 @@ function moveBannerBackward(){
 
   const finish = () => {
 
-    if(finished) return;
+    if(finished)
+      return;
 
-    finished = true;
 
-    clearTimeout(fallback);
+    finished =
+      true;
+
+
+    clearTimeout(
+      fallback
+    );
+
 
     track.removeEventListener(
       "transitionend",
@@ -1513,6 +1830,7 @@ function moveBannerBackward(){
 
 
     bIndex--;
+
 
     if(bIndex < 0){
 
@@ -1523,6 +1841,7 @@ function moveBannerBackward(){
 
 
     updateBannerDots();
+
 
     bAnimating =
       false;
@@ -1536,20 +1855,22 @@ function moveBannerBackward(){
   );
 
 
-  // transitionendが発火しない場合の安全装置
   const fallback =
-    setTimeout(finish, 700);
+    setTimeout(
+      finish,
+      700
+    );
 
 }
 
 
-// =========================================
-// 指定バナーへ移動
-// =========================================
+function moveBannerTo(
+  target
+){
 
-function moveBannerTo(target){
+  if(bAnimating)
+    return;
 
-  if(bAnimating) return;
 
   if(target === bIndex){
 
@@ -1561,10 +1882,19 @@ function moveBannerTo(target){
 
 
   const forward =
-    (target - bIndex + bTotal) % bTotal;
+    (
+      target -
+      bIndex +
+      bTotal
+    ) % bTotal;
+
 
   const backward =
-    (bIndex - target + bTotal) % bTotal;
+    (
+      bIndex -
+      target +
+      bTotal
+    ) % bTotal;
 
 
   if(forward <= backward){
@@ -1584,11 +1914,9 @@ function moveBannerTo(target){
 }
 
 
-// =========================================
-// 次へ複数枚
-// =========================================
-
-function moveBannerForwardSteps(count){
+function moveBannerForwardSteps(
+  count
+){
 
   if(count <= 0){
 
@@ -1604,32 +1932,36 @@ function moveBannerForwardSteps(count){
 
 
   const check =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(!bAnimating){
+        if(!bAnimating){
 
-        clearInterval(check);
-
-        if(count > 1){
-
-          moveBannerForwardSteps(
-            count - 1
+          clearInterval(
+            check
           );
+
+
+          if(count > 1){
+
+            moveBannerForwardSteps(
+              count - 1
+            );
+
+          }
 
         }
 
-      }
-
-    }, 20);
+      },
+      20
+    );
 
 }
 
 
-// =========================================
-// 前へ複数枚
-// =========================================
-
-function moveBannerBackwardSteps(count){
+function moveBannerBackwardSteps(
+  count
+){
 
   if(count <= 0){
 
@@ -1645,30 +1977,32 @@ function moveBannerBackwardSteps(count){
 
 
   const check =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(!bAnimating){
+        if(!bAnimating){
 
-        clearInterval(check);
-
-        if(count > 1){
-
-          moveBannerBackwardSteps(
-            count - 1
+          clearInterval(
+            check
           );
+
+
+          if(count > 1){
+
+            moveBannerBackwardSteps(
+              count - 1
+            );
+
+          }
 
         }
 
-      }
-
-    }, 20);
+      },
+      20
+    );
 
 }
 
-
-// =========================================
-// 自動スライド
-// =========================================
 
 function startBannerAuto(){
 
@@ -1676,18 +2010,21 @@ function startBannerAuto(){
 
 
   bAuto =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      if(
-        !bDragging &&
-        !bAnimating
-      ){
+        if(
+          !bDragging &&
+          !bAnimating
+        ){
 
-        moveBannerForward();
+          moveBannerForward();
 
-      }
+        }
 
-    }, 3000);
+      },
+      3000
+    );
 
 }
 
@@ -1696,36 +2033,45 @@ function stopBannerAuto(){
 
   if(bAuto){
 
-    clearInterval(bAuto);
+    clearInterval(
+      bAuto
+    );
 
-    bAuto = null;
+
+    bAuto =
+      null;
 
   }
 
 }
 
 
-// =========================================
-// バナータッチスワイプ
-// =========================================
-
 track.addEventListener(
   "touchstart",
   (e) => {
 
-    if(bAnimating) return;
+    if(bAnimating)
+      return;
 
-    if(!e.touches || !e.touches.length) return;
+
+    if(
+      !e.touches ||
+      !e.touches.length
+    )
+      return;
 
 
     bStartX =
       e.touches[0].clientX;
 
+
     bCurrentX =
       bStartX;
 
+
     bVelocity =
       0;
+
 
     bDragging =
       true;
@@ -1746,9 +2092,15 @@ track.addEventListener(
   "touchmove",
   (e) => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
-    if(!e.touches || !e.touches.length) return;
+
+    if(
+      !e.touches ||
+      !e.touches.length
+    )
+      return;
 
 
     const x =
@@ -1757,6 +2109,7 @@ track.addEventListener(
 
     bVelocity =
       x - bCurrentX;
+
 
     bCurrentX =
       x;
@@ -1774,13 +2127,10 @@ track.addEventListener(
 );
 
 
-// =========================================
-// タッチ終了
-// =========================================
-
 function finishBannerTouch(){
 
-  if(!bDragging) return;
+  if(!bDragging)
+    return;
 
 
   bDragging =
@@ -1788,7 +2138,8 @@ function finishBannerTouch(){
 
 
   const distance =
-    bCurrentX - bStartX;
+    bCurrentX -
+    bStartX;
 
 
   if(distance <= -50){
@@ -1818,10 +2169,6 @@ function finishBannerTouch(){
 }
 
 
-// =========================================
-// 通常のtouchend
-// =========================================
-
 track.addEventListener(
   "touchend",
   finishBannerTouch,
@@ -1829,15 +2176,12 @@ track.addEventListener(
 );
 
 
-// =========================================
-// スクロール等でtouchcancelになった場合
-// =========================================
-
 track.addEventListener(
   "touchcancel",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     bDragging =
@@ -1857,15 +2201,13 @@ track.addEventListener(
 );
 
 
-// =========================================
-// 指が画面外へ出た場合の安全対策
-// =========================================
-
 window.addEventListener(
   "touchend",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
+
 
     finishBannerTouch();
 
@@ -1878,7 +2220,8 @@ window.addEventListener(
   "touchcancel",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     bDragging =
@@ -1898,24 +2241,29 @@ window.addEventListener(
 );
 
 
-// =========================================
-// PCドラッグ
-// =========================================
+/* =========================================
+   PCドラッグ
+========================================= */
 
 track.addEventListener(
   "mousedown",
   (e) => {
 
-    if(bAnimating) return;
+    if(bAnimating)
+      return;
+
 
     bStartX =
       e.clientX;
 
+
     bCurrentX =
       bStartX;
 
+
     bVelocity =
       0;
+
 
     bDragging =
       true;
@@ -1935,7 +2283,8 @@ track.addEventListener(
   "mousemove",
   (e) => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     const x =
@@ -1944,6 +2293,7 @@ track.addEventListener(
 
     bVelocity =
       x - bCurrentX;
+
 
     bCurrentX =
       x;
@@ -1964,7 +2314,8 @@ track.addEventListener(
   "mouseup",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     bDragging =
@@ -2003,7 +2354,8 @@ track.addEventListener(
   "mouseleave",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     bDragging =
@@ -2021,16 +2373,13 @@ track.addEventListener(
   }
 );
 
-
-// =========================================
-// PCマウスが画面外へ出た場合
-// =========================================
 
 window.addEventListener(
   "mouseup",
   () => {
 
-    if(!bDragging) return;
+    if(!bDragging)
+      return;
 
 
     bDragging =
@@ -2049,9 +2398,9 @@ window.addEventListener(
 );
 
 
-// =========================================
-// リサイズ
-// =========================================
+/* =========================================
+   バナーリサイズ
+========================================= */
 
 window.addEventListener(
   "resize",
@@ -2060,15 +2409,16 @@ window.addEventListener(
     bWidth =
       getBannerWidth();
 
+
     forceFinishBannerAnimation();
 
   }
 );
 
 
-// =========================================
-// 初期化
-// =========================================
+/* =========================================
+   バナー初期化
+========================================= */
 
 window.addEventListener(
   "load",
@@ -2076,6 +2426,7 @@ window.addEventListener(
 
     bWidth =
       getBannerWidth();
+
 
     setBannerPosition(
       0,
@@ -2085,6 +2436,7 @@ window.addEventListener(
 
     updateBannerDots();
 
+
     startBannerAuto();
 
   }
@@ -2092,5 +2444,7 @@ window.addEventListener(
 
 </script>
 
+
 </body>
+
 </html>
