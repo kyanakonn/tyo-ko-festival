@@ -9,7 +9,7 @@
 
 <meta name="description" content="長生高校文化祭、通称『長高祭』の公式サイト！企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！">
 
-<meta name="keywords" content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校">
+<meta name="keywords" content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭, 千葉県　文化祭">
 
 <meta name="application-name" content="長高祭">
 <meta property="og:site_name" content="長高祭">
@@ -567,10 +567,33 @@ function moveBackward(){
   updateDots();
 
 
+  let finished = false;
+
+  const finish = () => {
+
+    if(finished) return;
+
+    finished = true;
+
+    clearTimeout(fallback);
+
+    slides.removeEventListener(
+      "transitionend",
+      finish
+    );
+
+    isAnimating = false;
+
+  };
+
+
+  const fallback =
+    setTimeout(finish, 700);
+
+
   slides.addEventListener(
     "transitionend",
-    finishAnimation,
-    { once: true }
+    finish
   );
 
 }
@@ -611,33 +634,54 @@ function moveForward(){
   updateDots();
 
 
+  let finished = false;
+
+
+  const finish = () => {
+
+    if(finished) return;
+
+    finished = true;
+
+    clearTimeout(fallback);
+
+    slides.removeEventListener(
+      "transitionend",
+      finish
+    );
+
+
+    const first =
+      slides.firstElementChild;
+
+    slides.appendChild(first);
+
+
+    slides.style.transition =
+      "none";
+
+    slides.style.transform =
+      "translateX(0px)";
+
+
+    requestAnimationFrame(() => {
+
+      isAnimating =
+        false;
+
+    });
+
+  };
+
+
   slides.addEventListener(
     "transitionend",
-    () => {
-
-      const first =
-        slides.firstElementChild;
-
-      slides.appendChild(first);
-
-
-      slides.style.transition =
-        "none";
-
-      slides.style.transform =
-        "translateX(0px)";
-
-
-      requestAnimationFrame(() => {
-
-        isAnimating =
-          false;
-
-      });
-
-    },
-    { once: true }
+    finish
   );
+
+
+  const fallback =
+    setTimeout(finish, 700);
 
 }
 
@@ -807,7 +851,6 @@ slider.addEventListener(
       x - startX;
 
 
-    // 指の位置にリアルタイムで追従
     slides.style.transform =
       `translateX(${move}px)`;
 
@@ -830,7 +873,6 @@ slider.addEventListener(
       currentX - startX;
 
 
-    // 指を50px以上動かした場合だけスライド
     if(distance <= -50){
 
       moveForward();
@@ -848,6 +890,31 @@ slider.addEventListener(
         "translateX(0px)";
 
     }
+
+
+    startAuto();
+
+  },
+  { passive: true }
+);
+
+
+slider.addEventListener(
+  "touchcancel",
+  () => {
+
+    if(!isDragging) return;
+
+
+    isDragging =
+      false;
+
+
+    slides.style.transition =
+      "0.5s";
+
+    slides.style.transform =
+      "translateX(0px)";
 
 
     startAuto();
@@ -994,6 +1061,7 @@ window.addEventListener(
 // =========================================
 // バナースライダー
 // 完全循環方式
+// 安定動作用に改善
 // =========================================
 
 const track =
@@ -1072,6 +1140,23 @@ function setBannerPosition(
 
 
 // =========================================
+// バナーアニメーション強制解除
+// =========================================
+
+function forceFinishBannerAnimation(){
+
+  bAnimating = false;
+
+  track.style.transition =
+    "none";
+
+  track.style.transform =
+    "translateX(0px)";
+
+}
+
+
+// =========================================
 // ドット生成
 // =========================================
 
@@ -1141,44 +1226,70 @@ function moveBannerForward(){
   );
 
 
-  track.addEventListener(
-    "transitionend",
-    () => {
+  let finished = false;
 
-      const first =
-        track.firstElementChild;
+
+  const finish = () => {
+
+    if(finished) return;
+
+    finished = true;
+
+    clearTimeout(fallback);
+
+    track.removeEventListener(
+      "transitionend",
+      finish
+    );
+
+
+    const first =
+      track.firstElementChild;
+
+    if(first){
 
       track.appendChild(first);
 
-
-      setBannerPosition(
-        0,
-        false
-      );
+    }
 
 
-      bIndex++;
-
-      if(bIndex >= bTotal){
-
-        bIndex = 0;
-
-      }
+    setBannerPosition(
+      0,
+      false
+    );
 
 
-      updateBannerDots();
+    bIndex++;
+
+    if(bIndex >= bTotal){
+
+      bIndex = 0;
+
+    }
 
 
-      requestAnimationFrame(() => {
+    updateBannerDots();
 
-        bAnimating =
-          false;
 
-      });
+    requestAnimationFrame(() => {
 
-    },
-    { once: true }
+      bAnimating =
+        false;
+
+    });
+
+  };
+
+
+  track.addEventListener(
+    "transitionend",
+    finish
   );
+
+
+  // transitionendが発火しない場合の安全装置
+  const fallback =
+    setTimeout(finish, 700);
 
 }
 
@@ -1200,10 +1311,15 @@ function moveBannerBackward(){
   const last =
     track.lastElementChild;
 
-  track.insertBefore(
-    last,
-    track.firstElementChild
-  );
+
+  if(last){
+
+    track.insertBefore(
+      last,
+      track.firstElementChild
+    );
+
+  }
 
 
   setBannerPosition(
@@ -1226,28 +1342,50 @@ function moveBannerBackward(){
   });
 
 
+  let finished = false;
+
+
+  const finish = () => {
+
+    if(finished) return;
+
+    finished = true;
+
+    clearTimeout(fallback);
+
+    track.removeEventListener(
+      "transitionend",
+      finish
+    );
+
+
+    bIndex--;
+
+    if(bIndex < 0){
+
+      bIndex =
+        bTotal - 1;
+
+    }
+
+
+    updateBannerDots();
+
+    bAnimating =
+      false;
+
+  };
+
+
   track.addEventListener(
     "transitionend",
-    () => {
-
-      bIndex--;
-
-      if(bIndex < 0){
-
-        bIndex =
-          bTotal - 1;
-
-      }
-
-
-      updateBannerDots();
-
-      bAnimating =
-        false;
-
-    },
-    { once: true }
+    finish
   );
+
+
+  // transitionendが発火しない場合の安全装置
+  const fallback =
+    setTimeout(finish, 700);
 
 }
 
@@ -1299,7 +1437,14 @@ function moveBannerTo(target){
 
 function moveBannerForwardSteps(count){
 
-  if(count <= 0) return;
+  if(count <= 0){
+
+    bAnimating =
+      false;
+
+    return;
+
+  }
 
 
   moveBannerForward();
@@ -1333,7 +1478,14 @@ function moveBannerForwardSteps(count){
 
 function moveBannerBackwardSteps(count){
 
-  if(count <= 0) return;
+  if(count <= 0){
+
+    bAnimating =
+      false;
+
+    return;
+
+  }
 
 
   moveBannerBackward();
@@ -1410,6 +1562,8 @@ track.addEventListener(
 
     if(bAnimating) return;
 
+    if(!e.touches || !e.touches.length) return;
+
 
     bStartX =
       e.touches[0].clientX;
@@ -1441,6 +1595,8 @@ track.addEventListener(
 
     if(!bDragging) return;
 
+    if(!e.touches || !e.touches.length) return;
+
 
     const x =
       e.touches[0].clientX;
@@ -1453,12 +1609,10 @@ track.addEventListener(
       x;
 
 
-    // スワイプした距離そのものを取得
     const move =
       x - bStartX;
 
 
-    // 指にバナーをリアルタイム追従させる
     track.style.transform =
       `translateX(${move}px)`;
 
@@ -1467,8 +1621,67 @@ track.addEventListener(
 );
 
 
+// =========================================
+// タッチ終了
+// =========================================
+
+function finishBannerTouch(){
+
+  if(!bDragging) return;
+
+
+  bDragging =
+    false;
+
+
+  const distance =
+    bCurrentX - bStartX;
+
+
+  if(distance <= -50){
+
+    moveBannerForward();
+
+  }
+
+  else if(distance >= 50){
+
+    moveBannerBackward();
+
+  }
+
+  else{
+
+    setBannerPosition(
+      0,
+      true
+    );
+
+  }
+
+
+  startBannerAuto();
+
+}
+
+
+// =========================================
+// 通常のtouchend
+// =========================================
+
 track.addEventListener(
   "touchend",
+  finishBannerTouch,
+  { passive: true }
+);
+
+
+// =========================================
+// スクロール等でtouchcancelになった場合
+// =========================================
+
+track.addEventListener(
+  "touchcancel",
   () => {
 
     if(!bDragging) return;
@@ -1478,26 +1691,145 @@ track.addEventListener(
       false;
 
 
-    // 最初の位置からどれだけ動かしたか
-    const distance =
-      bCurrentX - bStartX;
+    setBannerPosition(
+      0,
+      true
+    );
 
 
-    // 左へ50px以上
-    if(distance <= -50){
+    startBannerAuto();
 
-      moveBannerForward();
+  },
+  { passive: true }
+);
 
-    }
 
-    // 右へ50px以上
-    else if(distance >= 50){
+// =========================================
+// 指が画面外へ出た場合の安全対策
+// =========================================
+
+window.addEventListener(
+  "touchend",
+  () => {
+
+    if(!bDragging) return;
+
+    finishBannerTouch();
+
+  },
+  { passive: true }
+);
+
+
+window.addEventListener(
+  "touchcancel",
+  () => {
+
+    if(!bDragging) return;
+
+
+    bDragging =
+      false;
+
+
+    setBannerPosition(
+      0,
+      true
+    );
+
+
+    startBannerAuto();
+
+  },
+  { passive: true }
+);
+
+
+// =========================================
+// PCドラッグ
+// =========================================
+
+track.addEventListener(
+  "mousedown",
+  (e) => {
+
+    if(bAnimating) return;
+
+    bStartX =
+      e.clientX;
+
+    bCurrentX =
+      bStartX;
+
+    bVelocity =
+      0;
+
+    bDragging =
+      true;
+
+
+    stopBannerAuto();
+
+
+    track.style.transition =
+      "none";
+
+  }
+);
+
+
+track.addEventListener(
+  "mousemove",
+  (e) => {
+
+    if(!bDragging) return;
+
+
+    const x =
+      e.clientX;
+
+
+    bVelocity =
+      x - bCurrentX;
+
+    bCurrentX =
+      x;
+
+
+    const move =
+      x - bStartX;
+
+
+    track.style.transform =
+      `translateX(${move}px)`;
+
+  }
+);
+
+
+track.addEventListener(
+  "mouseup",
+  () => {
+
+    if(!bDragging) return;
+
+
+    bDragging =
+      false;
+
+
+    if(bVelocity > 5){
 
       moveBannerBackward();
 
     }
 
-    // 50px未満なら元へ戻す
+    else if(bVelocity < -5){
+
+      moveBannerForward();
+
+    }
+
     else{
 
       setBannerPosition(
@@ -1510,8 +1842,57 @@ track.addEventListener(
 
     startBannerAuto();
 
-  },
-  { passive: true }
+  }
+);
+
+
+track.addEventListener(
+  "mouseleave",
+  () => {
+
+    if(!bDragging) return;
+
+
+    bDragging =
+      false;
+
+
+    setBannerPosition(
+      0,
+      true
+    );
+
+
+    startBannerAuto();
+
+  }
+);
+
+
+// =========================================
+// PCマウスが画面外へ出た場合
+// =========================================
+
+window.addEventListener(
+  "mouseup",
+  () => {
+
+    if(!bDragging) return;
+
+
+    bDragging =
+      false;
+
+
+    setBannerPosition(
+      0,
+      true
+    );
+
+
+    startBannerAuto();
+
+  }
 );
 
 
@@ -1526,10 +1907,7 @@ window.addEventListener(
     bWidth =
       getBannerWidth();
 
-    setBannerPosition(
-      0,
-      false
-    );
+    forceFinishBannerAnimation();
 
   }
 );
