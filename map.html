@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -44,13 +45,8 @@ body {
 
 /* 階ボタン */
 .floor-btn {
-  position: absolute;
-  padding: 10px 14px;
-  background: rgba(0,0,0,0.75);
-  color: white;
-  border-radius: 10px;
-  text-decoration: none;
-  transform: translate(-50%, -50%);
+  display: none;
+  pointer-events: none;
 }
 
 /* ボタン位置（あとで調整） */
@@ -63,7 +59,7 @@ body {
 
 </head>
 <body>
-  <div class="images/bg-shapes">
+  <div class="bg-shapes">
   <div class="shape s1"></div>
   <div class="shape s2"></div>
   <div class="shape s3"></div>
@@ -97,12 +93,6 @@ fetch("header.html")
     });
   });
 </script>
-  
-<h1 class="title">フロアマップ</h1>
-
-<div style="text-align:center; margin-bottom:10px;">
-  <a href="index.html" class="back-btn"></a>
-</div>
 
 <div class="map-container">
 
@@ -119,3 +109,4 @@ fetch("header.html")
 
 </body>
 </html>
+```
