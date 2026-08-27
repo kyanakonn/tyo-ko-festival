@@ -332,13 +332,25 @@ body {
 }
 
 
-/* ロゴ */
+/* =========================================
+   ロゴ
+========================================= */
 
-.intro-logo {
+.intro-logo-wrap {
+  position: relative;
+
   display: block;
 
   width: min(72vw, 520px);
 
+  overflow: hidden;
+}
+
+
+.intro-logo {
+  display: block;
+
+  width: 100%;
   height: auto;
 
   object-fit: contain;
@@ -350,6 +362,29 @@ body {
     );
 
   animation: introLogoAppear 1.2s ease both;
+}
+
+
+/*
+  画像左上の「長高祭」を非表示
+*/
+
+.intro-logo-wrap::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 30%;
+  height: 18%;
+
+  background: #EEEEEC;
+
+  z-index: 2;
+
+  pointer-events: none;
 }
 
 
@@ -731,54 +766,6 @@ body {
 
 
 /* =========================================
-   2画面目の小さな図形
-========================================= */
-
-.intro-second::before {
-
-  content: "";
-
-  position: absolute;
-
-  width: 75px;
-  height: 120px;
-
-  left: 10%;
-  bottom: 15%;
-
-  background: #d1a92f;
-
-  transform: rotate(25deg);
-
-  opacity: 0.8;
-
-  z-index: 3;
-}
-
-
-.intro-second::after {
-
-  content: "";
-
-  position: absolute;
-
-  width: 90px;
-  height: 65px;
-
-  right: 9%;
-  top: 15%;
-
-  background: #3f9da9;
-
-  transform: rotate(-20deg);
-
-  opacity: 0.8;
-
-  z-index: 3;
-}
-
-
-/* =========================================
    スマホ
 ========================================= */
 
@@ -801,9 +788,16 @@ body {
   }
 
 
-  .intro-logo {
+  .intro-logo-wrap {
 
     width: min(78vw, 480px);
+
+  }
+
+
+  .intro-logo {
+
+    width: 100%;
 
   }
 
@@ -1018,11 +1012,16 @@ body {
 
     <div class="intro-first-content">
 
-      <img
-        src="images/logo.png"
-        alt="長高祭"
-        class="intro-logo"
-      >
+      <div class="intro-logo-wrap">
+
+        <img
+          src="images/logo.png"
+          alt="長高祭"
+          class="intro-logo"
+        >
+
+      </div>
+
 
       <div class="intro-date">
 
