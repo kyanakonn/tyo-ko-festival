@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>フロアマップ</title>
 <link rel="stylesheet" href="css/style.css">
+
 <style>
 /* 全体 */
 body {
@@ -40,6 +41,7 @@ body {
 
 .main-map {
   width: 100%;
+  display: block;
 }
 
 /* 階ボタン */
@@ -54,57 +56,95 @@ body {
 .f2 { top: 52%; left: 55%; }
 .f1 { top: 70%; left: 50%; }
 
+/* マップ内リンク */
+.map-link {
+  position: absolute;
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* 2棟 */
+.map-link-2tou {
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 1棟 */
+.map-link-1tou {
+  top: 39%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 体育館 */
+.map-link-gym {
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 </style>
 
 </head>
 <body>
+
   <div class="bg-shapes">
-  <div class="shape s1"></div>
-  <div class="shape s2"></div>
-  <div class="shape s3"></div>
-  <div class="shape s4"></div>
-  <div class="shape s5"></div>
-  <div class="shape s6"></div>
-  <div class="shape s7"></div>
-  <div class="shape s8"></div>
-</div>
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+    <div class="shape s4"></div>
+    <div class="shape s5"></div>
+    <div class="shape s6"></div>
+    <div class="shape s7"></div>
+    <div class="shape s8"></div>
+  </div>
   
-<div id="header"></div>
+  <div id="header"></div>
 
-<script>
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
+  <script>
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
 
-    const btn = document.querySelector(".menu-btn");
-    const nav = document.querySelector(".nav");
+      const btn = document.querySelector(".menu-btn");
+      const nav = document.querySelector(".nav");
 
-    // 開閉
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      nav.classList.toggle("active");
+      // 開閉
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nav.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!nav.contains(e.target) && !btn.contains(e.target)) {
+          nav.classList.remove("active");
+        }
+      });
     });
-    document.addEventListener("click", (e) => {
-      if (!nav.contains(e.target) && !btn.contains(e.target)) {
-        nav.classList.remove("active");
-      }
-    });
-  });
-</script>
+  </script>
 
-<div class="map-container">
+  <div class="map-container">
 
-  <!-- 背景画像 -->
-  <img src="images/map_big.jpg" class="main-map">
+    <!-- 背景画像 -->
+    <img src="images/map_big.jpg" class="main-map">
 
-  <!-- 階ボタン -->
-  <a href="floor4.html" class="floor-btn f4">4F</a>
-  <a href="floor3.html" class="floor-btn f3">3F</a>
-  <a href="floor2.html" class="floor-btn f2">2F</a>
-  <a href="floor1.html" class="floor-btn f1">1F</a>
+    <!-- 階ボタン -->
+    <a href="floor4.html" class="floor-btn f4">4F</a>
+    <a href="floor3.html" class="floor-btn f3">3F</a>
+    <a href="floor2.html" class="floor-btn f2">2F</a>
+    <a href="floor1.html" class="floor-btn f1">1F</a>
 
-</div>
+    <!-- マップ内リンク -->
+    <a href="2tou.html" class="map-link map-link-2tou">2棟</a>
+    <a href="1tou.html" class="map-link map-link-1tou">1棟</a>
+    <a href="gym.html" class="map-link map-link-gym">体育館</a>
+
+  </div>
 
 </body>
 </html>
