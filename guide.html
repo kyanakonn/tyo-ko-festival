@@ -244,11 +244,6 @@
 
       width: 100%;
 
-      /*
-        ヘッダー直下から開始。
-        上側の余白を画面サイズによって
-        増やさないようにする。
-      */
       height: calc(100vh - var(--header-height, 70px));
 
       min-height: 0;
@@ -313,6 +308,11 @@
 
       overflow: hidden;
 
+      /*
+        ピンチズームとドラッグを
+        JavaScriptで処理するため
+        ブラウザ標準のタッチ処理を無効化
+      */
       touch-action: none;
 
       contain: layout paint;
@@ -361,10 +361,9 @@
       justify-content: center;
 
       /*
-        上側の余白が大きくならないよう、
-        画像を上端基準にする。
+        画像を上下左右中央配置
       */
-      align-items: flex-start;
+      align-items: center;
 
       padding: 0;
 
@@ -377,7 +376,7 @@
     /* =========================================
        画像
 
-       左右の余白なし
+       中央配置
        画像全体を表示
     ========================================= */
 
@@ -395,13 +394,13 @@
 
       object-fit: contain;
 
-      object-position: center top;
+      object-position: center center;
 
       border-radius: 0;
 
       background: transparent;
 
-      cursor: zoom-in;
+      cursor: default;
 
       user-select: none;
 
@@ -421,34 +420,6 @@
 
       transition:
         transform 0.2s ease-out;
-    }
-
-
-    /* =========================================
-       拡大モード
-    ========================================= */
-
-    .slider.zoom-mode .slide img {
-
-      cursor: grab;
-
-      transform:
-        translate3d(
-          var(--pan-x, 0px),
-          var(--pan-y, 0px),
-          0
-        )
-        scale(
-          var(--zoom-scale, 1.4)
-        );
-
-      transition: none;
-    }
-
-
-    .slider.zoom-mode .slide img:active {
-
-      cursor: grabbing;
     }
 
 
@@ -580,54 +551,6 @@
 
 
     /* =========================================
-       拡大モード表示
-
-       ★上部に表示する領域だけ確保
-       ★ページ番号は削除
-    ========================================= */
-
-    .zoom-indicator {
-
-      position: absolute;
-
-      top: 14px;
-
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      z-index: 200;
-
-      padding: 5px 12px;
-
-      border-radius: 15px;
-
-      background: rgba(255, 255, 255, 0.82);
-
-      color: var(--main-color);
-
-      font-size: 13px;
-
-      font-weight: bold;
-
-      line-height: 1.3;
-
-      pointer-events: none;
-
-      opacity: 0;
-
-      transition:
-        opacity 0.2s ease;
-    }
-
-
-    .slider.zoom-mode .zoom-indicator {
-
-      opacity: 1;
-    }
-
-
-    /* =========================================
        スマホ
     ========================================= */
 
@@ -684,7 +607,7 @@
 
         height: 100%;
 
-        align-items: flex-start;
+        align-items: center;
 
         justify-content: center;
 
@@ -708,7 +631,7 @@
 
         object-fit: contain;
 
-        object-position: center top;
+        object-position: center center;
       }
 
 
@@ -740,20 +663,6 @@
 
         text-shadow:
           0 2px 5px rgba(255, 255, 255, 0.9);
-      }
-
-
-      /* -----------------------------------------
-         スマホ拡大表示
-      ----------------------------------------- */
-
-      .zoom-indicator {
-
-        top: 8px;
-
-        padding: 3px 9px;
-
-        font-size: 12px;
       }
 
     }
@@ -788,14 +697,6 @@
         font-size: 48px;
 
         padding: 0 2px;
-      }
-
-
-      .zoom-indicator {
-
-        top: 6px;
-
-        font-size: 11px;
       }
 
     }
@@ -1076,18 +977,6 @@
         </div>
 
 
-        <!-- =====================================
-             拡大モード表示
-        ====================================== -->
-
-        <div
-          class="zoom-indicator"
-          id="zoomIndicator"
-        >
-          拡大モード
-        </div>
-
-
       </div>
 
     </div>
@@ -1139,8 +1028,6 @@
        拡大設定
     ========================================= */
 
-    const INITIAL_ZOOM = 1.4;
-
     const MAX_ZOOM = 4;
 
     const MIN_ZOOM = 1;
@@ -1174,9 +1061,9 @@
 
     let isDragging = false;
 
-    let isPinching = false;
-
     let tapCandidate = false;
+
+    let isPinching = false;
 
 
     const SWIPE_DISTANCE = 35;
@@ -1187,6 +1074,11 @@
     let pinchStartDistance = 0;
 
     let pinchStartScale = 1;
+
+
+    let pinchStartPanX = 0;
+
+    let pinchStartPanY = 0;
 
 
     /* =========================================
@@ -1220,22 +1112,8 @@
       }
 
 
-      image.style.setProperty(
-        "--zoom-scale",
-        zoomScale
-      );
-
-
-      image.style.setProperty(
-        "--pan-x",
-        `${panX}px`
-      );
-
-
-      image.style.setProperty(
-        "--pan-y",
-        `${panY}px`
-      );
+      image.style.transform =
+        `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
 
     }
 
@@ -1246,8 +1124,7 @@
 
     function resetZoomPosition() {
 
-      zoomScale =
-        INITIAL_ZOOM;
+      zoomScale = 1;
 
       panX = 0;
 
@@ -1259,87 +1136,159 @@
 
 
     /* =========================================
-       拡大モードON
+       拡大率を制限
     ========================================= */
 
-    function enableZoomMode() {
+    function clampZoom(value) {
 
-      slider.classList.add(
-        "zoom-mode"
+      return Math.max(
+        MIN_ZOOM,
+        Math.min(
+          MAX_ZOOM,
+          value
+        )
       );
-
-
-      resetZoomPosition();
 
     }
 
 
     /* =========================================
-       拡大モードOFF
+       2本指間の距離
     ========================================= */
 
-    function disableZoomMode() {
+    function getPointerDistance() {
 
-      slider.classList.remove(
-        "zoom-mode"
-      );
-
-
-      zoomScale = 1;
-
-      panX = 0;
-
-      panY = 0;
-
-
-      const images =
-        document.querySelectorAll(
-          ".slide img"
+      const points =
+        Array.from(
+          activePointers.values()
         );
 
 
-      images.forEach(
-        (image) => {
+      if (
+        points.length < 2
+      ) {
 
-          image.style.removeProperty(
-            "--zoom-scale"
-          );
+        return 0;
 
-          image.style.removeProperty(
-            "--pan-x"
-          );
+      }
 
-          image.style.removeProperty(
-            "--pan-y"
-          );
 
-        }
+      const dx =
+        points[0].x -
+        points[1].x;
+
+
+      const dy =
+        points[0].y -
+        points[1].y;
+
+
+      return Math.sqrt(
+        dx * dx +
+        dy * dy
       );
 
     }
 
 
     /* =========================================
-       拡大モード切り替え
+       2本指の中心位置
     ========================================= */
 
-    function toggleZoomMode() {
+    function getPointerCenter() {
+
+      const points =
+        Array.from(
+          activePointers.values()
+        );
+
 
       if (
-        slider.classList.contains(
-          "zoom-mode"
-        )
+        points.length < 2
       ) {
 
-        disableZoomMode();
+        return {
+          x: 0,
+          y: 0
+        };
 
       }
 
-      else {
 
-        enableZoomMode();
+      return {
 
-      }
+        x:
+          (
+            points[0].x +
+            points[1].x
+          ) / 2,
+
+        y:
+          (
+            points[0].y +
+            points[1].y
+          ) / 2
+
+      };
+
+    }
+
+
+    /* =========================================
+       画像移動範囲を制限
+    ========================================= */
+
+    function limitPan() {
+
+      const sliderWidth =
+        slider.clientWidth;
+
+
+      const sliderHeight =
+        slider.clientHeight;
+
+
+      /*
+        拡大率に応じて
+        画像が画面外へ動ける範囲を設定
+      */
+
+      const maxPanX =
+        Math.max(
+          0,
+          (zoomScale - 1) *
+          sliderWidth /
+          2
+        );
+
+
+      const maxPanY =
+        Math.max(
+          0,
+          (zoomScale - 1) *
+          sliderHeight /
+          2
+        );
+
+
+      panX =
+        Math.max(
+          -maxPanX,
+          Math.min(
+            maxPanX,
+            panX
+          )
+        );
+
+
+      panY =
+        Math.max(
+          -maxPanY,
+          Math.min(
+            maxPanY,
+            panY
+          )
+        );
 
     }
 
@@ -1359,20 +1308,11 @@
 
 
       /*
-        拡大モード中にページを
-        切り替えた場合は
-        新しいページを中央に戻す
+        ページ変更時は
+        拡大状態をリセット
       */
 
-      if (
-        slider.classList.contains(
-          "zoom-mode"
-        )
-      ) {
-
-        resetZoomPosition();
-
-      }
+      resetZoomPosition();
 
     }
 
@@ -1433,10 +1373,6 @@
 
     /* =========================================
        矢印ボタン
-
-       ★ここは重複登録しない
-       ★左 → previousPage
-       ★右 → nextPage
     ========================================= */
 
     prevBtn.addEventListener(
@@ -1469,7 +1405,7 @@
 
     /*
       ボタン上でのpointerdownを
-      スライダーの操作として扱わない
+      スライダー操作として扱わない
     */
 
     prevBtn.addEventListener(
@@ -1490,106 +1426,6 @@
 
       }
     );
-
-
-    /* =========================================
-       2本指間の距離
-    ========================================= */
-
-    function getPointerDistance() {
-
-      const points =
-        Array.from(
-          activePointers.values()
-        );
-
-
-      if (
-        points.length < 2
-      ) {
-
-        return 0;
-
-      }
-
-
-      const dx =
-        points[0].x -
-        points[1].x;
-
-
-      const dy =
-        points[0].y -
-        points[1].y;
-
-
-      return Math.sqrt(
-        dx * dx +
-        dy * dy
-      );
-
-    }
-
-
-    /* =========================================
-       拡大率を制限
-    ========================================= */
-
-    function clampZoom(value) {
-
-      return Math.max(
-        MIN_ZOOM,
-        Math.min(
-          MAX_ZOOM,
-          value
-        )
-      );
-
-    }
-
-
-    /* =========================================
-       画像移動範囲を制限
-    ========================================= */
-
-    function limitPan() {
-
-      const baseSize =
-        Math.min(
-          slider.clientWidth,
-          slider.clientHeight
-        );
-
-
-      const maxPan =
-        Math.max(
-          0,
-          (zoomScale - 1) *
-          baseSize *
-          0.75
-        );
-
-
-      panX =
-        Math.max(
-          -maxPan,
-          Math.min(
-            maxPan,
-            panX
-          )
-        );
-
-
-      panY =
-        Math.max(
-          -maxPan,
-          Math.min(
-            maxPan,
-            panY
-          )
-        );
-
-    }
 
 
     /* =========================================
@@ -1653,19 +1489,18 @@
         }
 
 
-        /*
-          2本指になった場合
-          → ピンチ操作
-        */
+        /* -------------------------------------
+           2本指になった場合
+           → ピンチ開始
+        ------------------------------------- */
 
         if (
-          activePointers.size >= 2 &&
-          slider.classList.contains(
-            "zoom-mode"
-          )
+          activePointers.size >= 2
         ) {
 
           isPinching = true;
+
+          isPointerDown = false;
 
           isDragging = false;
 
@@ -1680,14 +1515,22 @@
             zoomScale;
 
 
+          pinchStartPanX =
+            panX;
+
+
+          pinchStartPanY =
+            panY;
+
+
           return;
 
         }
 
 
-        /*
-          1本指
-        */
+        /* -------------------------------------
+           1本指
+        ------------------------------------- */
 
         isPointerDown = true;
 
@@ -1770,6 +1613,34 @@
               );
 
 
+            /*
+              1倍に戻ったら
+              移動位置も中央に戻す
+            */
+
+            if (
+              zoomScale <= 1
+            ) {
+
+              zoomScale = 1;
+
+              panX = 0;
+
+              panY = 0;
+
+            }
+
+            else {
+
+              panX =
+                pinchStartPanX;
+
+              panY =
+                pinchStartPanY;
+
+            }
+
+
             limitPan();
 
             applyZoomTransform();
@@ -1782,9 +1653,9 @@
         }
 
 
-        /*
-          1本指操作
-        */
+        /* -------------------------------------
+           1本指操作
+        ------------------------------------- */
 
         if (
           !isPointerDown
@@ -1813,15 +1684,12 @@
 
 
         /* -------------------------------------
-           拡大モード
-
+           拡大中
            → 画像をドラッグ
         ------------------------------------- */
 
         if (
-          slider.classList.contains(
-            "zoom-mode"
-          )
+          zoomScale > 1
         ) {
 
           if (
@@ -1868,7 +1736,6 @@
 
         /* -------------------------------------
            通常モード
-
            → 横スワイプ
         ------------------------------------- */
 
@@ -1971,9 +1838,9 @@
         );
 
 
-        /*
-          ピンチ終了
-        */
+        /* -------------------------------------
+           ピンチ終了
+        ------------------------------------- */
 
         if (
           isPinching
@@ -2016,31 +1883,12 @@
 
 
         /* -------------------------------------
-           拡大モード
+           拡大中
         ------------------------------------- */
 
         if (
-          slider.classList.contains(
-            "zoom-mode"
-          )
+          zoomScale > 1
         ) {
-
-          /*
-            指をほとんど動かしていなければ
-            → 通常モードへ戻す
-          */
-
-          if (
-            tapCandidate &&
-            !isDragging &&
-            Math.abs(deltaX) < 15 &&
-            Math.abs(deltaY) < 15
-          ) {
-
-            disableZoomMode();
-
-          }
-
 
           isDragging = false;
 
@@ -2095,19 +1943,9 @@
         else {
 
           /*
-            タップ
-            → 拡大モード
+            スワイプでなければ
+            現在のページ位置を復元
           */
-
-          if (
-            tapCandidate &&
-            !isDragging
-          ) {
-
-            enableZoomMode();
-
-          }
-
 
           updateSlider();
 
@@ -2146,6 +1984,66 @@
 
         updateSlider();
 
+      }
+    );
+
+
+    /* =========================================
+       マウスホイール拡大
+
+       Ctrl + ホイール
+       → 拡大・縮小
+    ========================================= */
+
+    slider.addEventListener(
+      "wheel",
+      (e) => {
+
+        if (
+          !e.ctrlKey
+        ) {
+
+          return;
+
+        }
+
+
+        e.preventDefault();
+
+
+        const zoomStep =
+          e.deltaY < 0
+            ? 1.1
+            : 0.9;
+
+
+        zoomScale =
+          clampZoom(
+            zoomScale *
+            zoomStep
+          );
+
+
+        if (
+          zoomScale <= 1
+        ) {
+
+          zoomScale = 1;
+
+          panX = 0;
+
+          panY = 0;
+
+        }
+
+
+        limitPan();
+
+        applyZoomTransform();
+
+      },
+      {
+        passive: false
       }
     );
 
@@ -2213,22 +2111,6 @@
 
         }
 
-
-        /*
-          スペース
-          → 拡大/通常切り替え
-        */
-
-        if (
-          e.key === " "
-        ) {
-
-          e.preventDefault();
-
-          toggleZoomMode();
-
-        }
-
       }
     );
 
@@ -2237,13 +2119,9 @@
        初期表示
 
        ★通常モード
-       ★拡大モードにはしない
+       ★画像中央配置
+       ★拡大なし
     ========================================= */
-
-    slider.classList.remove(
-      "zoom-mode"
-    );
-
 
     zoomScale = 1;
 
