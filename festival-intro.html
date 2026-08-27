@@ -333,13 +333,22 @@ body {
 
 
 /* =========================================
-   フェードイン共通
+   ロゴ
 ========================================= */
 
-.fade-item {
+.intro-logo-wrap {
+  position: relative;
+
+  display: block;
+
+  width: min(72vw, 520px);
+
+  overflow: hidden;
+
   opacity: 0;
 
-  transform: translateY(25px);
+  transform:
+    translateY(30px);
 
   transition:
     opacity 1s ease,
@@ -347,22 +356,10 @@ body {
 }
 
 
-.fade-item.fade-visible {
-  opacity: 1;
-
-  transform: translateY(0);
-}
-
-
-/* =========================================
-   ロゴ
-========================================= */
-
 .intro-logo {
   display: block;
 
-  width: min(72vw, 520px);
-
+  width: 100%;
   height: auto;
 
   object-fit: contain;
@@ -375,9 +372,40 @@ body {
 }
 
 
-/* =========================================
-   日付
-========================================= */
+/*
+  画像左上の「長高祭」を非表示
+*/
+
+.intro-logo-wrap::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 30%;
+  height: 18%;
+
+  background: #EEEEEC;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* ロゴ フェードイン */
+
+.intro-logo-wrap.is-visible {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+}
+
+
+/* 日付 */
 
 .intro-date {
   margin-top: 25px;
@@ -399,6 +427,15 @@ body {
   text-shadow:
     0 4px 10px
     rgba(0, 0, 0, 0.08);
+
+  opacity: 0;
+
+  transform:
+    translateY(25px);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
 }
 
 
@@ -408,6 +445,16 @@ body {
   margin-left: 6px;
 
   letter-spacing: 1px;
+}
+
+
+/* 日付 フェードイン */
+
+.intro-date.is-visible {
+  opacity: 1;
+
+  transform:
+    translateY(0);
 }
 
 
@@ -421,9 +468,7 @@ body {
   bottom: 35px;
   left: 50%;
 
-  transform:
-    translateX(-50%)
-    translateY(25px);
+  transform: translateX(-50%);
 
   display: flex;
 
@@ -446,18 +491,14 @@ body {
   opacity: 0;
 
   transition:
-    opacity 1s ease,
-    transform 1s ease;
+    opacity 1s ease;
 }
 
 
-.intro-scroll.fade-visible {
+/* SCROLL表示 */
 
+.intro-scroll.is-visible {
   opacity: 1;
-
-  transform:
-    translateX(-50%)
-    translateY(0);
 }
 
 
@@ -559,8 +600,32 @@ body {
 
 
 /* =========================================
-   WELCOME
+   2画面目フェードイン用
 ========================================= */
+
+.intro-panel {
+  opacity: 0;
+
+  transform:
+    translateY(60px)
+    scale(0.95);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+
+.intro-panel.is-visible {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+/* WELCOME */
 
 .intro-welcome {
 
@@ -577,12 +642,28 @@ body {
   letter-spacing: 3px;
 
   margin-bottom: 5px;
+
+  opacity: 0;
+
+  transform:
+    translateY(25px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
 }
 
 
-/* =========================================
-   長高祭
-========================================= */
+.intro-welcome.is-visible {
+
+  opacity: 1;
+
+  transform:
+    translateY(0);
+}
+
+
+/* 長高祭 */
 
 .intro-festival {
 
@@ -605,6 +686,24 @@ body {
     rgba(0, 0, 0, 0.12);
 
   margin-bottom: 35px;
+
+  opacity: 0;
+
+  transform:
+    translateY(30px);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+
+.intro-festival.is-visible {
+
+  opacity: 1;
+
+  transform:
+    translateY(0);
 }
 
 
@@ -663,6 +762,28 @@ body {
     background 0.2s ease;
 
   cursor: pointer;
+
+  opacity: 0;
+
+  transform:
+    translateY(30px);
+}
+
+
+/* START フェードイン */
+
+.intro-start.is-visible {
+
+  opacity: 1;
+
+  transform:
+    translateY(0);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 
@@ -691,54 +812,6 @@ body {
 
 
 /* =========================================
-   2画面目の小さな図形
-========================================= */
-
-.intro-second::before {
-
-  content: "";
-
-  position: absolute;
-
-  width: 75px;
-  height: 120px;
-
-  left: 10%;
-  bottom: 15%;
-
-  background: #d1a92f;
-
-  transform: rotate(25deg);
-
-  opacity: 0.8;
-
-  z-index: 3;
-}
-
-
-.intro-second::after {
-
-  content: "";
-
-  position: absolute;
-
-  width: 90px;
-  height: 65px;
-
-  right: 9%;
-  top: 15%;
-
-  background: #3f9da9;
-
-  transform: rotate(-20deg);
-
-  opacity: 0.8;
-
-  z-index: 3;
-}
-
-
-/* =========================================
    スマホ
 ========================================= */
 
@@ -761,9 +834,16 @@ body {
   }
 
 
-  .intro-logo {
+  .intro-logo-wrap {
 
     width: min(78vw, 480px);
+
+  }
+
+
+  .intro-logo {
+
+    width: 100%;
 
   }
 
@@ -978,13 +1058,18 @@ body {
 
     <div class="intro-first-content">
 
-      <img
-        src="images/logo.png"
-        alt="長高祭"
-        class="intro-logo fade-item"
-      >
+      <div class="intro-logo-wrap">
 
-      <div class="intro-date fade-item">
+        <img
+          src="images/logo.png"
+          alt="長高祭"
+          class="intro-logo"
+        >
+
+      </div>
+
+
+      <div class="intro-date">
 
         9.12
         <span>Sat</span>
@@ -1013,18 +1098,18 @@ body {
 
     <div class="intro-panel">
 
-      <div class="intro-welcome fade-item">
+      <div class="intro-welcome">
         WELCOME TO
       </div>
 
-      <div class="intro-festival fade-item">
+      <div class="intro-festival">
         長高祭
       </div>
 
 
       <a
         href="index.html"
-        class="intro-start fade-item"
+        class="intro-start"
         id="startButton"
       >
         START
@@ -1039,6 +1124,67 @@ body {
 
 
 <script>
+
+/* =========================================
+   初回表示アニメーション
+========================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    const logo =
+      document.querySelector(".intro-logo-wrap");
+
+    const date =
+      document.querySelector(".intro-date");
+
+    const scroll =
+      document.querySelector(".intro-scroll");
+
+
+    /*
+      1画面目を順番にフェードイン
+    */
+
+    setTimeout(
+      () => {
+
+        logo.classList.add(
+          "is-visible"
+        );
+
+      },
+      200
+    );
+
+
+    setTimeout(
+      () => {
+
+        date.classList.add(
+          "is-visible"
+        );
+
+      },
+      500
+    );
+
+
+    setTimeout(
+      () => {
+
+        scroll.classList.add(
+          "is-visible"
+        );
+
+      },
+      900
+    );
+
+  }
+);
+
 
 /* =========================================
    STARTボタン
@@ -1059,6 +1205,7 @@ startButton.addEventListener(
       オープニングを
       すでに見たことを記録
     */
+
     localStorage.setItem(
       "choko_festival_intro_done",
       "true"
@@ -1069,6 +1216,7 @@ startButton.addEventListener(
       既存のスプラッシュも
       START後には表示しない
     */
+
     localStorage.setItem(
       "choko_splash_shown",
       "true"
@@ -1078,6 +1226,7 @@ startButton.addEventListener(
     /*
       TOPページへ移動
     */
+
     window.location.href =
       "index.html";
 
@@ -1086,131 +1235,116 @@ startButton.addEventListener(
 
 
 /* =========================================
-   スクロールフェードイン
-========================================= */
-
-const fadeItems =
-  document.querySelectorAll(".fade-item");
-
-
-const fadeObserver =
-  new IntersectionObserver(
-    (entries) => {
-
-      entries.forEach(
-        entry => {
-
-          if(entry.isIntersecting) {
-
-            entry.target.classList.add(
-              "fade-visible"
-            );
-
-          }
-
-        }
-      );
-
-    },
-    {
-      threshold: 0.2
-    }
-  );
-
-
-fadeItems.forEach(
-  item => {
-
-    fadeObserver.observe(
-      item
-    );
-
-  }
-);
-
-
-/* =========================================
-   SCROLL表示フェードイン
-========================================= */
-
-const scrollIndicator =
-  document.querySelector(".intro-scroll");
-
-
-const scrollObserver =
-  new IntersectionObserver(
-    (entries) => {
-
-      entries.forEach(
-        entry => {
-
-          if(entry.isIntersecting) {
-
-            scrollIndicator.classList.add(
-              "fade-visible"
-            );
-
-          }
-
-        }
-      );
-
-    },
-    {
-      threshold: 0.2
-    }
-  );
-
-
-scrollObserver.observe(
-  document.querySelector(".intro-first")
-);
-
-
-/* =========================================
-   2画面目の表示
+   スクロールアニメーション
 ========================================= */
 
 const introSecond =
-  document.querySelector(".intro-second");
+  document.querySelector(
+    ".intro-second"
+  );
 
 
-const secondObserver =
+const introPanel =
+  document.querySelector(
+    ".intro-panel"
+  );
+
+
+const introWelcome =
+  document.querySelector(
+    ".intro-welcome"
+  );
+
+
+const introFestival =
+  document.querySelector(
+    ".intro-festival"
+  );
+
+
+/*
+  2画面目が画面内に入ったら
+  順番にフェードイン
+*/
+
+const observer =
   new IntersectionObserver(
     (entries) => {
 
-      entries.forEach(
-        entry => {
+      entries.forEach(entry => {
 
-          if(entry.isIntersecting) {
+        if(entry.isIntersecting) {
 
-            const items =
-              introSecond.querySelectorAll(
-                ".fade-item"
+          /*
+            中央の白いパネル
+          */
+
+          introPanel.classList.add(
+            "is-visible"
+          );
+
+
+          /*
+            WELCOME TO
+          */
+
+          setTimeout(
+            () => {
+
+              introWelcome.classList.add(
+                "is-visible"
               );
 
+            },
+            250
+          );
 
-            items.forEach(
-              (item, index) => {
 
-                setTimeout(
-                  () => {
+          /*
+            長高祭
+          */
 
-                    item.classList.add(
-                      "fade-visible"
-                    );
+          setTimeout(
+            () => {
 
-                  },
-                  index * 180
-                );
+              introFestival.classList.add(
+                "is-visible"
+              );
 
-              }
-            );
+            },
+            500
+          );
 
-          }
+
+          /*
+            START
+          */
+
+          setTimeout(
+            () => {
+
+              startButton.classList.add(
+                "is-visible"
+              );
+
+            },
+            750
+          );
+
+
+          /*
+            一度表示したら
+            再スクロールでは
+            再アニメーションしない
+          */
+
+          observer.unobserve(
+            introSecond
+          );
 
         }
-      );
+
+      });
 
     },
     {
@@ -1219,7 +1353,7 @@ const secondObserver =
   );
 
 
-secondObserver.observe(
+observer.observe(
   introSecond
 );
 
