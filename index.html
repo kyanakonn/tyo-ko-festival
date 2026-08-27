@@ -20,17 +20,17 @@
 
 <link rel="icon" href="/favicon.ico">
 
-
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-  
 </head>
+
 <link rel="stylesheet" href="css/style.css">
+
 <body>
-  
+
 <div class="bg-shapes">
   <div class="shape s1"></div>
   <div class="shape s2"></div>
@@ -45,7 +45,6 @@
   <div class="shape s11"></div>
   <div class="shape s12"></div>
 </div>
-  
 
 <div id="loader">
   <div class="loader-text">LOADING...</div>
@@ -66,7 +65,6 @@ fetch("header.html")
     const btn = headerContainer.querySelector(".menu-btn");
     const nav = headerContainer.querySelector(".nav");
 
-    /* ヘッダーの実際の高さを取得 */
     function updateHeaderHeight() {
 
       if (!header) return;
@@ -83,7 +81,6 @@ fetch("header.html")
 
     window.addEventListener("resize", updateHeaderHeight);
 
-    /* メニュー */
     if (btn && nav) {
 
       btn.addEventListener("click", (e) => {
@@ -105,55 +102,88 @@ fetch("header.html")
 
   });
 </script>
-  
+
 <div class="hero">
+
   <img src="hero.jpg" class="hero-bg">
 
   <div class="hero-title-wrap">
+
     <h1 id="title">長高祭 2026</h1>
-    <p class="hero-subtitle">【一般公開は9月12日土曜日！】</p>
+
+    <p class="hero-subtitle">
+      【一般公開は9月12日土曜日！】
+    </p>
+
   </div>
 
-  <!-- 最前面に表示する画像 -->
   <img src="IMG_0354.png" class="hero-front">
 
-  <!-- 流れるテキストバー -->
   <div class="ticker">
+
     <div class="ticker-track">
+
       <span>
         長高祭2026 今年は9月12日(土)一般公開！ぜひご来場ください！・長高祭2026、まもなく開幕。
       </span>
+
       <span>
         長高祭2026 今年は9月12日(土)一般公開！ぜひご来場ください！・長高祭2026、まもなく開幕。
       </span>
+
     </div>
+
   </div>
-</div> 
-  
+
+</div>
+
+
 <!-- バナースライダー -->
 <section class="banner-section">
 
   <div class="banner-slider">
+
     <div class="banner-track" id="bannerTrack">
 
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
-      <div class="banner"><img src="images/banner1.jpeg"></div>
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
+
+      <div class="banner">
+        <img src="images/banner1.jpeg">
+      </div>
 
     </div>
 
     <div class="banner-dots" id="bannerDots"></div>
+
   </div>
 
 </section>
-  
-</div>
+
 
 <section id="about">
+
 <h2>\ お知らせ /</h2>
 
 <div class="info-links">
@@ -169,113 +199,161 @@ fetch("header.html")
 </div>
 
 </section>
-  
+
+
 <section id="events">
-  
+
 <h2 class="events-title">\ 企画・イベント /</h2>
-  
+
 <div class="slider">
 
   <div class="slides" id="slides">
 
-  <a href="events.html?cat=1" class="card">
-  <img src="images/event1.jpg">
-  <div><h3>1学年</h3></div>
-</a>
+    <a href="events.html?cat=1" class="card">
+      <img src="images/event1.jpg">
+      <div><h3>1学年</h3></div>
+    </a>
 
-<a href="events.html?cat=2" class="card">
-  <img src="images/event2.jpg">
-  <div><h3>2学年</h3></div>
-</a>
+    <a href="events.html?cat=2" class="card">
+      <img src="images/event2.jpg">
+      <div><h3>2学年</h3></div>
+    </a>
 
-<a href="events.html?cat=3" class="card">
-  <img src="images/event3.jpg">
-  <div><h3>3学年</h3></div>
-</a>
+    <a href="events.html?cat=3" class="card">
+      <img src="images/event3.jpg">
+      <div><h3>3学年</h3></div>
+    </a>
 
-<a href="events.html?cat=club" class="card">
-  <img src="images/event4.jpg">
-  <div><h3>部活動・同好会</h3></div>
-</a>
+    <a href="events.html?cat=club" class="card">
+      <img src="images/event4.jpg">
+      <div><h3>部活動・同好会</h3></div>
+    </a>
 
-<a href="events.html?cat=other" class="card">
-  <img src="images/event5.jpg">
-  <div><h3>その他イベント</h3></div>
-</a>
+    <a href="events.html?cat=other" class="card">
+      <img src="images/event5.jpg">
+      <div><h3>その他イベント</h3></div>
+    </a>
 
-</div>
+  </div>
 
   <a href="events.html" class="main-btn">
-  <span>企画一覧をみる</span>
-  <div class="arrow">→</div>
-</a>
-  
-  <!-- ドット -->
+    <span>企画一覧をみる</span>
+    <div class="arrow">→</div>
+  </a>
+
   <div class="dots" id="dots"></div>
 
 </div>
 
-</div>
 </section>
 
+
 <section id="access">
+
   <h2>\ アクセス /</h2>
 
   <div class="access-row">
-    <p>「茂原駅東口」から徒歩 約15分</p>
 
-    <a href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
-       target="_blank"
-       class="map-btn">
+    <p>
+      「茂原駅東口」から徒歩 約15分
+    </p>
+
+    <a
+      href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
+      target="_blank"
+      class="map-btn"
+    >
       Googleマップで確認
     </a>
+
   </div>
+
 </section>
 
+
 <footer>
+
 <p>©電算室公認 長高祭サイト</p>
+
 </footer>
+
 
 <script>
 
 // ローディング
 window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
+
+  const loader =
+    document.getElementById("loader");
 
   loader.style.opacity = "0";
 
   setTimeout(() => {
+
     loader.style.display = "none";
+
   }, 500);
+
 });
 
 
 // GSAP
 gsap.registerPlugin(ScrollTrigger);
 
+
 // タイトルアニメ
-const text=document.getElementById("title");
-const chars=text.innerText.split("");
-text.innerHTML="";
-chars.forEach(c=>{
- const span=document.createElement("span");
- span.innerText=c;
- span.style.opacity=0;
- span.style.display="inline-block";
- span.style.transform="translateY(20px)";
- text.appendChild(span);
+const text =
+  document.getElementById("title");
+
+const chars =
+  text.innerText.split("");
+
+text.innerHTML = "";
+
+chars.forEach(c => {
+
+  const span =
+    document.createElement("span");
+
+  span.innerText = c;
+
+  span.style.opacity = 0;
+
+  span.style.display =
+    "inline-block";
+
+  span.style.transform =
+    "translateY(20px)";
+
+  text.appendChild(span);
+
 });
 
-gsap.to("#title span",{opacity:1,y:0,stagger:0.05});
+gsap.to("#title span", {
+  opacity: 1,
+  y: 0,
+  stagger: 0.05
+});
+
 
 // スクロールアニメ
-gsap.utils.toArray("section").forEach(sec=>{
- gsap.from(sec,{
-  opacity:0,
-  y:50,
-  duration:1,
-  scrollTrigger:{trigger:sec,start:"top 80%"}
- });
+gsap.utils.toArray("section").forEach(sec => {
+
+  gsap.from(sec, {
+
+    opacity: 0,
+
+    y: 50,
+
+    duration: 1,
+
+    scrollTrigger: {
+      trigger: sec,
+      start: "top 80%"
+    }
+
+  });
+
 });
 
 
@@ -284,13 +362,19 @@ gsap.utils.toArray("section").forEach(sec=>{
 // 完全循環方式
 // =========================================
 
-const slides = document.getElementById("slides");
-const dotsContainer = document.getElementById("dots");
-const slider = document.querySelector(".slider");
+const slides =
+  document.getElementById("slides");
+
+const dotsContainer =
+  document.getElementById("dots");
+
+const slider =
+  document.querySelector(".slider");
 
 let startX = 0;
 let currentX = 0;
 let velocity = 0;
+
 let isDragging = false;
 let autoSlide;
 
@@ -300,17 +384,9 @@ let slideWidth = 0;
 let isAnimating = false;
 
 
-// =========================================
-// カード数
-// =========================================
-
 const total =
   slides.children.length;
 
-
-// =========================================
-// カード1枚分の正確な幅
-// =========================================
 
 function getSlideWidth(){
 
@@ -338,10 +414,6 @@ function getSlideWidth(){
 }
 
 
-// =========================================
-// 現在位置を取得
-// =========================================
-
 function updateSlideWidth(){
 
   slideWidth =
@@ -350,11 +422,10 @@ function updateSlideWidth(){
 }
 
 
-// =========================================
-// スライド位置設定
-// =========================================
-
-function setPosition(value, animate = false){
+function setPosition(
+  value,
+  animate = false
+){
 
   slides.style.transition =
     animate ? "0.5s" : "none";
@@ -365,10 +436,6 @@ function setPosition(value, animate = false){
 }
 
 
-// =========================================
-// 初期位置
-// =========================================
-
 window.addEventListener("load", () => {
 
   updateSlideWidth();
@@ -377,10 +444,6 @@ window.addEventListener("load", () => {
 
 });
 
-
-// =========================================
-// ドット
-// =========================================
 
 for(let i = 0; i < total; i++){
 
@@ -408,7 +471,6 @@ for(let i = 0; i < total; i++){
       (currentIndex - target + total) % total;
 
 
-    // 同じ位置
     if(forward === 0){
 
       updateDots();
@@ -418,7 +480,6 @@ for(let i = 0; i < total; i++){
     }
 
 
-    // 近い方向へ移動
     if(forward <= backward){
 
       moveForwardSteps(forward);
@@ -437,10 +498,6 @@ for(let i = 0; i < total; i++){
 }
 
 
-// =========================================
-// ドット更新
-// =========================================
-
 function updateDots(){
 
   const dots =
@@ -458,10 +515,6 @@ function updateDots(){
 }
 
 
-// =========================================
-// 前へ1枚
-// =========================================
-
 function moveBackward(){
 
   if(isAnimating) return;
@@ -471,7 +524,6 @@ function moveBackward(){
   updateSlideWidth();
 
 
-  // 最後のカードを先頭へ移動
   const last =
     slides.lastElementChild;
 
@@ -481,7 +533,6 @@ function moveBackward(){
   );
 
 
-  // 移動前の見た目を維持
   slides.style.transition =
     "none";
 
@@ -489,8 +540,6 @@ function moveBackward(){
     `translateX(-${slideWidth}px)`;
 
 
-  // ブラウザに反映させてから
-  // 元の位置へアニメーション
   requestAnimationFrame(() => {
 
     requestAnimationFrame(() => {
@@ -527,9 +576,12 @@ function moveBackward(){
 }
 
 
-// =========================================
-// 次へ1枚
-// =========================================
+function finishAnimation(){
+
+  isAnimating = false;
+
+}
+
 
 function moveForward(){
 
@@ -540,7 +592,6 @@ function moveForward(){
   updateSlideWidth();
 
 
-  // 次のカードへスライド
   slides.style.transition =
     "0.5s";
 
@@ -564,17 +615,12 @@ function moveForward(){
     "transitionend",
     () => {
 
-      // 先頭カードを末尾へ移動
-      // これによりDOM自体が循環する
       const first =
         slides.firstElementChild;
 
       slides.appendChild(first);
 
 
-      // 位置を0へ戻す
-      // カードの並びそのものを変更済みなので
-      // 見た目は全く変わらない
       slides.style.transition =
         "none";
 
@@ -595,10 +641,6 @@ function moveForward(){
 
 }
 
-
-// =========================================
-// 連続移動（ドット用）
-// =========================================
 
 function moveForwardSteps(count){
 
@@ -672,10 +714,6 @@ function moveBackwardSteps(count){
 }
 
 
-// =========================================
-// 自動スライド
-// =========================================
-
 function startAuto(){
 
   stopAuto();
@@ -684,8 +722,10 @@ function startAuto(){
   autoSlide =
     setInterval(() => {
 
-      if(!isDragging &&
-         !isAnimating){
+      if(
+        !isDragging &&
+        !isAnimating
+      ){
 
         moveForward();
 
@@ -740,7 +780,8 @@ slider.addEventListener(
     slides.style.transition =
       "none";
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -750,8 +791,10 @@ slider.addEventListener(
 
     if(!isDragging) return;
 
+
     const x =
       e.touches[0].clientX;
+
 
     velocity =
       x - currentX;
@@ -759,14 +802,17 @@ slider.addEventListener(
     currentX =
       x;
 
+
     const move =
       x - startX;
 
 
+    // 指の位置にリアルタイムで追従
     slides.style.transform =
       `translateX(${move}px)`;
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -780,13 +826,18 @@ slider.addEventListener(
       false;
 
 
-    if(velocity > 5){
+    const distance =
+      currentX - startX;
 
-      moveBackward();
 
-    }else if(velocity < -5){
+    // 指を50px以上動かした場合だけスライド
+    if(distance <= -50){
 
       moveForward();
+
+    }else if(distance >= 50){
+
+      moveBackward();
 
     }else{
 
@@ -801,7 +852,8 @@ slider.addEventListener(
 
     startAuto();
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -853,7 +905,6 @@ slider.addEventListener(
 
     const move =
       x - startX;
-
 
     slides.style.transform =
       `translateX(${move}px)`;
@@ -955,11 +1006,14 @@ const banners =
   track.children;
 
 let bIndex = 0;
+
 let bStartX = 0;
 let bCurrentX = 0;
 let bVelocity = 0;
+
 let bDragging = false;
 let bAnimating = false;
+
 let bAuto = null;
 
 const bTotal =
@@ -967,7 +1021,7 @@ const bTotal =
 
 
 // =========================================
-// 幅取得
+// バナー幅取得
 // =========================================
 
 function getBannerWidth(){
@@ -1000,7 +1054,7 @@ let bWidth =
 
 
 // =========================================
-// 位置設定
+// バナー位置設定
 // =========================================
 
 function setBannerPosition(
@@ -1027,8 +1081,11 @@ for(let i = 0; i < bTotal; i++){
     document.createElement("span");
 
   if(i === 0){
+
     d.classList.add("active");
+
   }
+
 
   d.addEventListener("click", () => {
 
@@ -1037,6 +1094,7 @@ for(let i = 0; i < bTotal; i++){
     moveBannerTo(i);
 
   });
+
 
   dots.appendChild(d);
 
@@ -1064,7 +1122,7 @@ function updateBannerDots(){
 
 
 // =========================================
-// 次へ1枚
+// バナー次へ
 // =========================================
 
 function moveBannerForward(){
@@ -1077,14 +1135,12 @@ function moveBannerForward(){
     getBannerWidth();
 
 
-  // 1枚左へスライド
   setBannerPosition(
     -bWidth,
     true
   );
 
 
-  // アニメーション終了後に先頭を末尾へ移動
   track.addEventListener(
     "transitionend",
     () => {
@@ -1094,23 +1150,29 @@ function moveBannerForward(){
 
       track.appendChild(first);
 
-      // DOMを入れ替えたので位置を0へ戻す
+
       setBannerPosition(
         0,
         false
       );
 
+
       bIndex++;
 
       if(bIndex >= bTotal){
+
         bIndex = 0;
+
       }
+
 
       updateBannerDots();
 
+
       requestAnimationFrame(() => {
 
-        bAnimating = false;
+        bAnimating =
+          false;
 
       });
 
@@ -1122,7 +1184,7 @@ function moveBannerForward(){
 
 
 // =========================================
-// 前へ1枚
+// バナー前へ
 // =========================================
 
 function moveBannerBackward(){
@@ -1135,7 +1197,6 @@ function moveBannerBackward(){
     getBannerWidth();
 
 
-  // 最後のバナーを先頭へ移動
   const last =
     track.lastElementChild;
 
@@ -1145,7 +1206,6 @@ function moveBannerBackward(){
   );
 
 
-  // 移動前の見た目を維持
   setBannerPosition(
     -bWidth,
     false
@@ -1156,7 +1216,6 @@ function moveBannerBackward(){
 
     requestAnimationFrame(() => {
 
-      // 0へアニメーション
       setBannerPosition(
         0,
         true
@@ -1174,12 +1233,17 @@ function moveBannerBackward(){
       bIndex--;
 
       if(bIndex < 0){
-        bIndex = bTotal - 1;
+
+        bIndex =
+          bTotal - 1;
+
       }
+
 
       updateBannerDots();
 
-      bAnimating = false;
+      bAnimating =
+        false;
 
     },
     { once: true }
@@ -1189,7 +1253,7 @@ function moveBannerBackward(){
 
 
 // =========================================
-// 指定したバナーへ移動
+// 指定バナーへ移動
 // =========================================
 
 function moveBannerTo(target){
@@ -1197,9 +1261,13 @@ function moveBannerTo(target){
   if(bAnimating) return;
 
   if(target === bIndex){
+
     updateBannerDots();
+
     return;
+
   }
+
 
   const forward =
     (target - bIndex + bTotal) % bTotal;
@@ -1208,7 +1276,6 @@ function moveBannerTo(target){
     (bIndex - target + bTotal) % bTotal;
 
 
-  // 近い方向へ移動
   if(forward <= backward){
 
     moveBannerForwardSteps(
@@ -1234,7 +1301,9 @@ function moveBannerForwardSteps(count){
 
   if(count <= 0) return;
 
+
   moveBannerForward();
+
 
   const check =
     setInterval(() => {
@@ -1266,7 +1335,9 @@ function moveBannerBackwardSteps(count){
 
   if(count <= 0) return;
 
+
   moveBannerBackward();
+
 
   const check =
     setInterval(() => {
@@ -1291,12 +1362,13 @@ function moveBannerBackwardSteps(count){
 
 
 // =========================================
-// 自動
+// 自動スライド
 // =========================================
 
 function startBannerAuto(){
 
   stopBannerAuto();
+
 
   bAuto =
     setInterval(() => {
@@ -1320,6 +1392,7 @@ function stopBannerAuto(){
   if(bAuto){
 
     clearInterval(bAuto);
+
     bAuto = null;
 
   }
@@ -1328,7 +1401,7 @@ function stopBannerAuto(){
 
 
 // =========================================
-// スワイプ
+// バナータッチスワイプ
 // =========================================
 
 track.addEventListener(
@@ -1337,22 +1410,28 @@ track.addEventListener(
 
     if(bAnimating) return;
 
+
     bStartX =
       e.touches[0].clientX;
 
     bCurrentX =
       bStartX;
 
-    bVelocity = 0;
+    bVelocity =
+      0;
 
-    bDragging = true;
+    bDragging =
+      true;
+
 
     stopBannerAuto();
+
 
     track.style.transition =
       "none";
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -1362,8 +1441,10 @@ track.addEventListener(
 
     if(!bDragging) return;
 
+
     const x =
       e.touches[0].clientX;
+
 
     bVelocity =
       x - bCurrentX;
@@ -1371,13 +1452,18 @@ track.addEventListener(
     bCurrentX =
       x;
 
+
+    // スワイプした距離そのものを取得
     const move =
       x - bStartX;
 
+
+    // 指にバナーをリアルタイム追従させる
     track.style.transform =
       `translateX(${move}px)`;
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -1387,17 +1473,32 @@ track.addEventListener(
 
     if(!bDragging) return;
 
-    bDragging = false;
 
-    if(bVelocity > 5){
+    bDragging =
+      false;
 
-      moveBannerBackward();
 
-    }else if(bVelocity < -5){
+    // 最初の位置からどれだけ動かしたか
+    const distance =
+      bCurrentX - bStartX;
+
+
+    // 左へ50px以上
+    if(distance <= -50){
 
       moveBannerForward();
 
-    }else{
+    }
+
+    // 右へ50px以上
+    else if(distance >= 50){
+
+      moveBannerBackward();
+
+    }
+
+    // 50px未満なら元へ戻す
+    else{
 
       setBannerPosition(
         0,
@@ -1406,9 +1507,11 @@ track.addEventListener(
 
     }
 
+
     startBannerAuto();
 
-  }
+  },
+  { passive: true }
 );
 
 
@@ -1447,6 +1550,7 @@ window.addEventListener(
       0,
       false
     );
+
 
     updateBannerDots();
 
