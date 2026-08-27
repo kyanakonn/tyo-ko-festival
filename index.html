@@ -35,7 +35,13 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: #000;
+
+  /*
+    画像の上下に余白ができた場合でも、
+    背景の黒が透けて見えるようにする
+  */
+  background: rgba(0, 0, 0, 0.88);
+
   z-index: 99999;
 
   display: flex;
@@ -43,39 +49,46 @@
   justify-content: center;
 
   opacity: 0;
-  animation: splashAnimation 5.5s ease forwards;
 
   pointer-events: none;
+
+  /*
+    アニメーションはJavaScriptで制御
+  */
+  transition: opacity 0.8s ease;
 }
 
 #splash img {
+  /*
+    画像全体を表示。
+    スマホでも横が切れない。
+  */
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  object-fit: contain;
+  object-position: center;
+
   display: block;
 }
 
-@keyframes splashAnimation {
 
-  0% {
-    opacity: 0;
-  }
+/*
+  スプラッシュ表示中
+*/
+#splash.splash-visible {
+  opacity: 1;
+}
 
-  15% {
-    opacity: 1;
-  }
 
-  73% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-
+/*
+  スプラッシュ終了後
+*/
+#splash.splash-hidden {
+  opacity: 0;
 }
 </style>
-  
+
 </head>
 
 <link rel="stylesheet" href="css/style.css">
@@ -85,6 +98,91 @@
 <div id="splash">
   <img src="images/splash.png" alt="">
 </div>
+
+<script>
+/* =========================================
+   初回アクセス時のみスプラッシュ表示
+========================================= */
+
+(function(){
+
+  const splash =
+    document.getElementById("splash");
+
+  /*
+    初回アクセス済みか確認
+  */
+  const splashShown =
+    localStorage.getItem("choko_splash_shown");
+
+  /*
+    すでに表示済みなら
+    スプラッシュを表示しない
+  */
+  if(splashShown){
+
+    splash.remove();
+
+    return;
+
+  }
+
+
+  /*
+    今回のアクセスを
+    「初回表示済み」として記録
+  */
+  localStorage.setItem(
+    "choko_splash_shown",
+    "true"
+  );
+
+
+  /*
+    フェードイン開始
+  */
+  requestAnimationFrame(() => {
+
+    requestAnimationFrame(() => {
+
+      splash.classList.add(
+        "splash-visible"
+      );
+
+    });
+
+  });
+
+
+  /*
+    表示開始から4秒後に
+    フェードアウト開始
+  */
+  setTimeout(() => {
+
+    splash.classList.remove(
+      "splash-visible"
+    );
+
+    splash.classList.add(
+      "splash-hidden"
+    );
+
+
+    /*
+      フェードアウト完了後に
+      要素自体を削除
+    */
+    setTimeout(() => {
+
+      splash.remove();
+
+    }, 800);
+
+  }, 4000);
+
+})();
+</script>
   
 <div class="bg-shapes">
   <div class="shape s1"></div>
