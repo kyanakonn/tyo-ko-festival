@@ -432,12 +432,6 @@ header h1 {
    ヒーロー
 ========================================= */
 
-/*
-  ヘッダーの実際の高さをJSから取得。
-  JSがまだ実行されていない場合は
-  ヘッダー本体＋拡大モード表示用の最小スペース。
-*/
-
 :root {
   --header-height: 48px;
 }
@@ -448,11 +442,6 @@ header h1 {
   width: 100%;
   max-width: 100%;
 
-  /*
-    固定ヘッダーと重ならないようにする。
-    不要な大きな固定余白を作らず、
-    拡大モード表示用のスペースだけ確保。
-  */
   margin-top: var(--header-height);
 
   padding: 0;
@@ -483,13 +472,7 @@ header h1 {
 }
 
 
-/*
-  前面画像
-
-  ここでは absolute + top:50% を使わない。
-  画像自身の高さを基準にすることで、
-  後から画像が上下に動くのを防ぐ。
-*/
+/* 前面画像 */
 
 .hero > img.hero-front {
   position: relative;
@@ -649,10 +632,31 @@ header h1 {
   text-align: center;
 }
 
+
+/* =========================================
+   見出し
+   ① 白い半透明の帯
+   ④ 文字を少し太く
+========================================= */
+
 h2 {
+  display: inline-block;
+
   font-size: 32px;
+
   margin-bottom: 20px;
+
+  padding: 8px 20px;
+
   color: #ff4d6d;
+
+  font-weight: 700;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  border-radius: 10px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 
@@ -708,6 +712,18 @@ h2 {
   font-size: 32px;
 
   color: #ff4d6d;
+
+  font-weight: 700;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  padding: 8px 20px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  display: inline-block;
 }
 
 
@@ -1133,10 +1149,6 @@ footer {
   ------------------------- */
 
   .hero {
-    /*
-      ヘッダー直下の余分な空白を作らず、
-      拡大モード表示用のスペースだけ確保。
-    */
     margin-top: var(--header-height);
 
     width: 100%;
@@ -1183,6 +1195,12 @@ footer {
 
   h2 {
     font-size: 26px;
+    padding: 7px 16px;
+  }
+
+  .events-title {
+    font-size: 26px;
+    padding: 7px 16px;
   }
 
 
@@ -1372,11 +1390,13 @@ footer {
 
 }
 
+
 /* ===== トップ画像のタイトルを非表示 ===== */
 
 .hero-title-wrap {
   display: none !important;
 }
+
 
 /* =========================================
    ヘッダー固定による他ページの隠れ防止
@@ -1385,6 +1405,7 @@ footer {
 body:not(:has(.hero)) {
   padding-top: var(--header-height) !important;
 }
+
 
 /* =========================================
    背景図形よりコンテンツを前面にする
@@ -1409,6 +1430,7 @@ footer {
   z-index: 1;
 }
 
+
 /* =========================================
    exhibitionページ
    背景図形よりコンテンツを前面に表示
@@ -1420,12 +1442,16 @@ footer {
   z-index: 10;
 }
 
+
 /* ヘッダーと重ならないようにする */
+
 .tabs {
   margin-top: var(--header-height);
 }
 
+
 /* コンテンツも背景図形より前面 */
+
 .group,
 .group-title,
 .grid,
