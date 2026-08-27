@@ -942,6 +942,7 @@ window.addEventListener(
 
 // =========================================
 // バナースライダー
+// 完全循環方式
 // =========================================
 
 const track =
@@ -958,38 +959,11 @@ let bStartX = 0;
 let bCurrentX = 0;
 let bVelocity = 0;
 let bDragging = false;
-let bAuto;
+let bAnimating = false;
+let bAuto = null;
 
 const bTotal =
   banners.length;
-
-
-// =========================================
-// ドット生成
-// =========================================
-
-for(let i=0;i<bTotal;i++){
-
- const d =
-   document.createElement("span");
-
- if(i===0)
-   d.classList.add("active");
-
-
- d.onclick = ()=>{
-
-   bIndex =
-     i;
-
-   updateBanner();
-
- };
-
-
- dots.appendChild(d);
-
-}
 
 
 // =========================================
@@ -998,9 +972,25 @@ for(let i=0;i<bTotal;i++){
 
 function getBannerWidth(){
 
- return banners[0]
-   .getBoundingClientRect()
-   .width + 20;
+  const banner =
+    track.children[0];
+
+  if(!banner) return 0;
+
+  const style =
+    getComputedStyle(banner);
+
+  const marginLeft =
+    parseFloat(style.marginLeft) || 0;
+
+  const marginRight =
+    parseFloat(style.marginRight) || 0;
+
+  return (
+    banner.getBoundingClientRect().width +
+    marginLeft +
+    marginRight
+  );
 
 }
 
@@ -1010,25 +1000,292 @@ let bWidth =
 
 
 // =========================================
-// 更新
+// 位置設定
 // =========================================
 
-function updateBanner(){
+function setBannerPosition(
+  value,
+  animate = false
+){
 
- track.style.transform =
-   `translateX(-${bWidth * bIndex}px)`;
+  track.style.transition =
+    animate ? "0.5s" : "none";
+
+  track.style.transform =
+    `translateX(${value}px)`;
+
+}
 
 
- document
-   .querySelectorAll(".banner-dots span")
-   .forEach((d,i)=>{
+// =========================================
+// ドット生成
+// =========================================
 
-     d.classList.toggle(
-       "active",
-       i===bIndex
-     );
+for(let i = 0; i < bTotal; i++){
 
-   });
+  const d =
+    document.createElement("span");
+
+  if(i === 0){
+    d.classList.add("active");
+  }
+
+  d.addEventListener("click", () => {
+
+    if(bAnimating) return;
+
+    moveBannerTo(i);
+
+  });
+
+  dots.appendChild(d);
+
+}
+
+
+// =========================================
+// ドット更新
+// =========================================
+
+function updateBannerDots(){
+
+  dots
+    .querySelectorAll("span")
+    .forEach((d, i) => {
+
+      d.classList.toggle(
+        "active",
+        i === bIndex
+      );
+
+    });
+
+}
+
+
+// =========================================
+// 次へ1枚
+// =========================================
+
+function moveBannerForward(){
+
+  if(bAnimating) return;
+
+  bAnimating = true;
+
+  bWidth =
+    getBannerWidth();
+
+
+  // 1枚左へスライド
+  setBannerPosition(
+    -bWidth,
+    true
+  );
+
+
+  // アニメーション終了後に先頭を末尾へ移動
+  track.addEventListener(
+    "transitionend",
+    () => {
+
+      const first =
+        track.firstElementChild;
+
+      track.appendChild(first);
+
+      // DOMを入れ替えたので位置を0へ戻す
+      setBannerPosition(
+        0,
+        false
+      );
+
+      bIndex++;
+
+      if(bIndex >= bTotal){
+        bIndex = 0;
+      }
+
+      updateBannerDots();
+
+      requestAnimationFrame(() => {
+
+        bAnimating = false;
+
+      });
+
+    },
+    { once: true }
+  );
+
+}
+
+
+// =========================================
+// 前へ1枚
+// =========================================
+
+function moveBannerBackward(){
+
+  if(bAnimating) return;
+
+  bAnimating = true;
+
+  bWidth =
+    getBannerWidth();
+
+
+  // 最後のバナーを先頭へ移動
+  const last =
+    track.lastElementChild;
+
+  track.insertBefore(
+    last,
+    track.firstElementChild
+  );
+
+
+  // 移動前の見た目を維持
+  setBannerPosition(
+    -bWidth,
+    false
+  );
+
+
+  requestAnimationFrame(() => {
+
+    requestAnimationFrame(() => {
+
+      // 0へアニメーション
+      setBannerPosition(
+        0,
+        true
+      );
+
+    });
+
+  });
+
+
+  track.addEventListener(
+    "transitionend",
+    () => {
+
+      bIndex--;
+
+      if(bIndex < 0){
+        bIndex = bTotal - 1;
+      }
+
+      updateBannerDots();
+
+      bAnimating = false;
+
+    },
+    { once: true }
+  );
+
+}
+
+
+// =========================================
+// 指定したバナーへ移動
+// =========================================
+
+function moveBannerTo(target){
+
+  if(bAnimating) return;
+
+  if(target === bIndex){
+    updateBannerDots();
+    return;
+  }
+
+  const forward =
+    (target - bIndex + bTotal) % bTotal;
+
+  const backward =
+    (bIndex - target + bTotal) % bTotal;
+
+
+  // 近い方向へ移動
+  if(forward <= backward){
+
+    moveBannerForwardSteps(
+      forward
+    );
+
+  }else{
+
+    moveBannerBackwardSteps(
+      backward
+    );
+
+  }
+
+}
+
+
+// =========================================
+// 次へ複数枚
+// =========================================
+
+function moveBannerForwardSteps(count){
+
+  if(count <= 0) return;
+
+  moveBannerForward();
+
+  const check =
+    setInterval(() => {
+
+      if(!bAnimating){
+
+        clearInterval(check);
+
+        if(count > 1){
+
+          moveBannerForwardSteps(
+            count - 1
+          );
+
+        }
+
+      }
+
+    }, 20);
+
+}
+
+
+// =========================================
+// 前へ複数枚
+// =========================================
+
+function moveBannerBackwardSteps(count){
+
+  if(count <= 0) return;
+
+  moveBannerBackward();
+
+  const check =
+    setInterval(() => {
+
+      if(!bAnimating){
+
+        clearInterval(check);
+
+        if(count > 1){
+
+          moveBannerBackwardSteps(
+            count - 1
+          );
+
+        }
+
+      }
+
+    }, 20);
 
 }
 
@@ -1039,27 +1296,35 @@ function updateBanner(){
 
 function startBannerAuto(){
 
- bAuto =
-   setInterval(()=>{
+  stopBannerAuto();
 
-     bIndex =
-       (bIndex + 1) % bTotal;
+  bAuto =
+    setInterval(() => {
 
-     updateBanner();
+      if(
+        !bDragging &&
+        !bAnimating
+      ){
 
-   },3000);
+        moveBannerForward();
+
+      }
+
+    }, 3000);
 
 }
 
 
 function stopBannerAuto(){
 
- clearInterval(bAuto);
+  if(bAuto){
+
+    clearInterval(bAuto);
+    bAuto = null;
+
+  }
 
 }
-
-
-startBannerAuto();
 
 
 // =========================================
@@ -1068,7 +1333,9 @@ startBannerAuto();
 
 track.addEventListener(
   "touchstart",
-  (e)=>{
+  (e) => {
+
+    if(bAnimating) return;
 
     bStartX =
       e.touches[0].clientX;
@@ -1076,10 +1343,14 @@ track.addEventListener(
     bCurrentX =
       bStartX;
 
-    bDragging =
-      true;
+    bVelocity = 0;
+
+    bDragging = true;
 
     stopBannerAuto();
+
+    track.style.transition =
+      "none";
 
   }
 );
@@ -1087,7 +1358,7 @@ track.addEventListener(
 
 track.addEventListener(
   "touchmove",
-  (e)=>{
+  (e) => {
 
     if(!bDragging) return;
 
@@ -1103,11 +1374,8 @@ track.addEventListener(
     const move =
       x - bStartX;
 
-    track.style.transition =
-      "none";
-
     track.style.transform =
-      `translateX(${-(bWidth * bIndex) + move}px)`;
+      `translateX(${move}px)`;
 
   }
 );
@@ -1115,30 +1383,28 @@ track.addEventListener(
 
 track.addEventListener(
   "touchend",
-  ()=>{
+  () => {
 
-    bDragging =
-      false;
+    if(!bDragging) return;
 
+    bDragging = false;
 
-    if(bVelocity > 5)
-      bIndex--;
+    if(bVelocity > 5){
 
-    else if(bVelocity < -5)
-      bIndex++;
+      moveBannerBackward();
 
+    }else if(bVelocity < -5){
 
-    if(bIndex < 0)
-      bIndex = 0;
+      moveBannerForward();
 
-    if(bIndex >= bTotal)
-      bIndex = bTotal - 1;
+    }else{
 
+      setBannerPosition(
+        0,
+        true
+      );
 
-    track.style.transition =
-      "0.5s";
-
-    updateBanner();
+    }
 
     startBannerAuto();
 
@@ -1152,12 +1418,39 @@ track.addEventListener(
 
 window.addEventListener(
   "resize",
-  ()=>{
+  () => {
 
     bWidth =
       getBannerWidth();
 
-    updateBanner();
+    setBannerPosition(
+      0,
+      false
+    );
+
+  }
+);
+
+
+// =========================================
+// 初期化
+// =========================================
+
+window.addEventListener(
+  "load",
+  () => {
+
+    bWidth =
+      getBannerWidth();
+
+    setBannerPosition(
+      0,
+      false
+    );
+
+    updateBannerDots();
+
+    startBannerAuto();
 
   }
 );
