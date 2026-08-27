@@ -374,7 +374,6 @@ body {
 
 /*
   画像左上の「長高祭」を非表示
-  四角形はロゴの白背景に合わせて白にする
 */
 
 .intro-logo-wrap::before {
@@ -388,11 +387,77 @@ body {
   width: 30%;
   height: 18%;
 
-  background: #ffffff;
+  background: #EEEEEC;
 
   z-index: 2;
 
   pointer-events: none;
+}
+
+
+/* =========================================
+   画像上の追加文字
+========================================= */
+
+.intro-logo-text {
+  position: absolute;
+
+  top: 4%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 90%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #000;
+
+  text-align: center;
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+
+.intro-logo-text-main {
+  font-size: clamp(
+    18px,
+    3.5vw,
+    30px
+  );
+
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  letter-spacing: 2px;
+}
+
+
+.intro-logo-text-sub {
+  margin-top: 3px;
+
+  font-size: clamp(
+    11px,
+    2.2vw,
+    18px
+  );
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  letter-spacing: 1px;
+
+  white-space: nowrap;
 }
 
 
@@ -849,6 +914,21 @@ body {
   }
 
 
+  .intro-logo-text {
+    top: 4%;
+  }
+
+
+  .intro-logo-text-main {
+    font-size: 20px;
+  }
+
+
+  .intro-logo-text-sub {
+    font-size: 12px;
+  }
+
+
   .intro-date {
 
     margin-top: 20px;
@@ -1014,6 +1094,16 @@ body {
 
   }
 
+
+  .intro-logo-text-main {
+    font-size: 17px;
+  }
+
+
+  .intro-logo-text-sub {
+    font-size: 10px;
+  }
+
 }
 
 </style>
@@ -1067,12 +1157,26 @@ body {
           class="intro-logo"
         >
 
+        <!-- 画像の上に表示する文字 -->
+
+        <div class="intro-logo-text">
+
+          <div class="intro-logo-text-main">
+            第65回
+          </div>
+
+          <div class="intro-logo-text-sub">
+            ちょう、せい春してみました。
+          </div>
+
+        </div>
+
       </div>
 
 
       <div class="intro-date">
 
-        一般公開　9.12
+        9.12
         <span>Sat</span>
 
       </div>
