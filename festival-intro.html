@@ -333,24 +333,36 @@ body {
 
 
 /* =========================================
-   ロゴ
+   フェードイン共通
 ========================================= */
 
-.intro-logo-wrap {
-  position: relative;
+.fade-item {
+  opacity: 0;
 
-  display: block;
+  transform: translateY(25px);
 
-  width: min(72vw, 520px);
-
-  overflow: hidden;
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
 }
 
+
+.fade-item.fade-visible {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   ロゴ
+========================================= */
 
 .intro-logo {
   display: block;
 
-  width: 100%;
+  width: min(72vw, 520px);
+
   height: auto;
 
   object-fit: contain;
@@ -360,50 +372,12 @@ body {
       0 10px 15px
       rgba(0, 0, 0, 0.12)
     );
-
-  animation: introLogoAppear 1.2s ease both;
 }
 
 
-/*
-  画像左上の「長高祭」を非表示
-*/
-
-.intro-logo-wrap::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 30%;
-  height: 18%;
-
-  background: #EEEEEC;
-
-  z-index: 2;
-
-  pointer-events: none;
-}
-
-
-@keyframes introLogoAppear {
-
-  from {
-    opacity: 0;
-    transform: translateY(25px) scale(0.94);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-}
-
-
-/* 日付 */
+/* =========================================
+   日付
+========================================= */
 
 .intro-date {
   margin-top: 25px;
@@ -425,13 +399,6 @@ body {
   text-shadow:
     0 4px 10px
     rgba(0, 0, 0, 0.08);
-
-  animation:
-    introDateAppear
-    1.2s
-    0.25s
-    ease
-    both;
 }
 
 
@@ -441,21 +408,6 @@ body {
   margin-left: 6px;
 
   letter-spacing: 1px;
-}
-
-
-@keyframes introDateAppear {
-
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
 }
 
 
@@ -469,7 +421,9 @@ body {
   bottom: 35px;
   left: 50%;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%)
+    translateY(25px);
 
   display: flex;
 
@@ -489,12 +443,21 @@ body {
 
   z-index: 20;
 
-  animation:
-    introScrollAppear
-    1s
-    0.8s
-    ease
-    both;
+  opacity: 0;
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+
+.intro-scroll.fade-visible {
+
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
 }
 
 
@@ -528,19 +491,6 @@ body {
     transform:
       rotate(45deg)
       translate(5px, 5px);
-  }
-
-}
-
-
-@keyframes introScrollAppear {
-
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 
 }
@@ -605,39 +555,12 @@ body {
   box-shadow:
     0 20px 50px
     rgba(0, 0, 0, 0.12);
-
-  opacity: 0;
-
-  transform:
-    translateY(60px)
-    scale(0.95);
-
-  animation:
-    introPanelAppear
-    1s
-    0.1s
-    ease
-    forwards;
 }
 
 
-/*
-  スクロールで2画面目に入ったとき
-*/
-@keyframes introPanelAppear {
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0)
-      scale(1);
-  }
-
-}
-
-
-/* WELCOME */
+/* =========================================
+   WELCOME
+========================================= */
 
 .intro-welcome {
 
@@ -657,7 +580,9 @@ body {
 }
 
 
-/* 長高祭 */
+/* =========================================
+   長高祭
+========================================= */
 
 .intro-festival {
 
@@ -766,6 +691,54 @@ body {
 
 
 /* =========================================
+   2画面目の小さな図形
+========================================= */
+
+.intro-second::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 75px;
+  height: 120px;
+
+  left: 10%;
+  bottom: 15%;
+
+  background: #d1a92f;
+
+  transform: rotate(25deg);
+
+  opacity: 0.8;
+
+  z-index: 3;
+}
+
+
+.intro-second::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 65px;
+
+  right: 9%;
+  top: 15%;
+
+  background: #3f9da9;
+
+  transform: rotate(-20deg);
+
+  opacity: 0.8;
+
+  z-index: 3;
+}
+
+
+/* =========================================
    スマホ
 ========================================= */
 
@@ -788,16 +761,9 @@ body {
   }
 
 
-  .intro-logo-wrap {
-
-    width: min(78vw, 480px);
-
-  }
-
-
   .intro-logo {
 
-    width: 100%;
+    width: min(78vw, 480px);
 
   }
 
@@ -1012,18 +978,13 @@ body {
 
     <div class="intro-first-content">
 
-      <div class="intro-logo-wrap">
+      <img
+        src="images/logo.png"
+        alt="長高祭"
+        class="intro-logo fade-item"
+      >
 
-        <img
-          src="images/logo.png"
-          alt="長高祭"
-          class="intro-logo"
-        >
-
-      </div>
-
-
-      <div class="intro-date">
+      <div class="intro-date fade-item">
 
         9.12
         <span>Sat</span>
@@ -1052,18 +1013,18 @@ body {
 
     <div class="intro-panel">
 
-      <div class="intro-welcome">
+      <div class="intro-welcome fade-item">
         WELCOME TO
       </div>
 
-      <div class="intro-festival">
+      <div class="intro-festival fade-item">
         長高祭
       </div>
 
 
       <a
         href="index.html"
-        class="intro-start"
+        class="intro-start fade-item"
         id="startButton"
       >
         START
@@ -1125,27 +1086,131 @@ startButton.addEventListener(
 
 
 /* =========================================
-   スクロールアニメーション
+   スクロールフェードイン
 ========================================= */
 
-const introPanel =
-  document.querySelector(".intro-panel");
+const fadeItems =
+  document.querySelectorAll(".fade-item");
 
 
-const observer =
+const fadeObserver =
   new IntersectionObserver(
     (entries) => {
 
-      entries.forEach(entry => {
+      entries.forEach(
+        entry => {
 
-        if(entry.isIntersecting) {
+          if(entry.isIntersecting) {
 
-          introPanel.style.animation =
-            "introPanelAppear 1s ease forwards";
+            entry.target.classList.add(
+              "fade-visible"
+            );
+
+          }
 
         }
+      );
 
-      });
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+
+fadeItems.forEach(
+  item => {
+
+    fadeObserver.observe(
+      item
+    );
+
+  }
+);
+
+
+/* =========================================
+   SCROLL表示フェードイン
+========================================= */
+
+const scrollIndicator =
+  document.querySelector(".intro-scroll");
+
+
+const scrollObserver =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(
+        entry => {
+
+          if(entry.isIntersecting) {
+
+            scrollIndicator.classList.add(
+              "fade-visible"
+            );
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+
+scrollObserver.observe(
+  document.querySelector(".intro-first")
+);
+
+
+/* =========================================
+   2画面目の表示
+========================================= */
+
+const introSecond =
+  document.querySelector(".intro-second");
+
+
+const secondObserver =
+  new IntersectionObserver(
+    (entries) => {
+
+      entries.forEach(
+        entry => {
+
+          if(entry.isIntersecting) {
+
+            const items =
+              introSecond.querySelectorAll(
+                ".fade-item"
+              );
+
+
+            items.forEach(
+              (item, index) => {
+
+                setTimeout(
+                  () => {
+
+                    item.classList.add(
+                      "fade-visible"
+                    );
+
+                  },
+                  index * 180
+                );
+
+              }
+            );
+
+          }
+
+        }
+      );
 
     },
     {
@@ -1154,8 +1219,8 @@ const observer =
   );
 
 
-observer.observe(
-  document.querySelector(".intro-second")
+secondObserver.observe(
+  introSecond
 );
 
 </script>
