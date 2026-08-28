@@ -577,11 +577,16 @@ gsap.registerPlugin(
   ③ 「長高祭2026」
   ④ TOP画像
   ⑤ ticker
-  ⑥ ticker以下のコンテンツ
+  ⑥ バナースライダー
+  ⑦ お知らせ
+  ⑧ 企画・イベント
+  ⑨ アクセス
+  ⑩ footer
 
-  ①〜④はゆっくり表示
-  ⑤以降はすばやく表示
+  tickerが完全に表示されるまで、
+  ⑥以降は絶対に表示しない。
 */
+
 
 const heroBg =
   document.querySelector(".hero-bg");
@@ -606,6 +611,14 @@ const introSections =
   document.querySelectorAll(
     ".banner-section, #about, #events, #access, footer"
   );
+
+
+/*
+  初回アニメーションが完了したか
+*/
+
+let initialAnimationFinished =
+  false;
 
 
 /* =========================================
@@ -638,11 +651,11 @@ gsap.set(
 /*
   TOP画像
 
-  autoAlphaを使用することで、
-  アニメーション開始前は
-  opacity:0 + visibility:hidden
-  となり、画像の枠や画像内の
-  青いブロックなどが先に見えない。
+  CSS側でも最初から
+  visibility:hidden / opacity:0
+  にしているため、
+  JSが実行される前の一瞬も
+  画像の枠などが表示されない。
 */
 
 gsap.set(
@@ -668,8 +681,8 @@ gsap.set(
 /*
   tickerより下のコンテンツ
 
-  tickerが表示されるまでは
-  表示しない。
+  初回アニメーションが完了するまで
+  完全に非表示。
 */
 
 gsap.set(
@@ -682,103 +695,218 @@ gsap.set(
 
 
 /* =========================================
-   ヒーローアニメーション
-========================================= */
-
-const heroTimeline =
-  gsap.timeline({
-    delay: 0.2
-  });
-
-
-/* ① 背景画像 */
-
-heroTimeline.to(
-  heroBg,
-  {
-    opacity: 1,
-    y: 0,
-    duration: 1.2,
-    ease: "power2.out"
-  }
-);
-
-
-/* ② 「ようこそ」
-   ③ 「長高祭2026」
-
-   ゆっくり表示
-*/
-
-heroTimeline.to(
-  titleSpans,
-  {
-    opacity: 1,
-    y: 0,
-    duration: 1.0,
-    stagger: 0.35,
-    ease: "power3.out"
-  },
-  "-=0.15"
-);
-
-
-/* ④ TOP画像
-
-   タイトル表示後、
-   少し間を置いてゆっくり表示
-*/
-
-heroTimeline.to(
-  heroFront,
-  {
-    autoAlpha: 1,
-    y: 0,
-    duration: 1.3,
-    ease: "power3.out"
-  },
-  "+=0.2"
-);
-
-
-/* ⑤ ticker
-
-   ここからすばやく表示
-*/
-
-heroTimeline.to(
-  ticker,
-  {
-    opacity: 1,
-    y: 0,
-    duration: 0.35,
-    ease: "power2.out"
-  },
-  "+=0.05"
-);
-
-
-/* =========================================
-   ⑥ ticker以下のコンテンツ
+   ヒーロー画像読み込み待機
 ========================================= */
 
 /*
-  tickerのフェードインが完了してから
-  バナー → お知らせ → 企画 → アクセス → footer
-  の順で素早く表示。
+  TOP画像が読み込まれる前に
+  青いブロックや枠が見えるのを防ぐ。
+
+  画像が読み込み済みならすぐ進む。
+  読み込み中ならload完了を待つ。
 */
 
-heroTimeline.to(
-  introSections,
-  {
-    opacity: 1,
-    y: 0,
-    duration: 0.35,
-    stagger: 0.08,
-    ease: "power2.out"
-  },
-  "+=0.05"
-);
+function waitForHeroImage(){
+
+  return new Promise(
+    resolve => {
+
+      if(
+        heroFront.complete &&
+        heroFront.naturalWidth > 0
+      ){
+
+        resolve();
+
+        return;
+
+      }
+
+
+      heroFront.addEventListener(
+        "load",
+        () => {
+
+          resolve();
+
+        },
+        {
+          once: true
+        }
+      );
+
+
+      /*
+        万一画像の読み込みに失敗しても
+        アニメーション全体が止まらないようにする。
+      */
+
+      heroFront.addEventListener(
+        "error",
+        () => {
+
+          resolve();
+
+        },
+        {
+          once: true
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   ヒーローアニメーション
+========================================= */
+
+async function startInitialAnimation(){
+
+  /*
+    TOP画像の読み込み完了を待つ。
+  */
+
+  await waitForHeroImage();
+
+
+  const heroTimeline =
+    gsap.timeline({
+      delay: 0.2
+    });
+
+
+  /* =========================================
+     ① 背景画像
+  ========================================= */
+
+  heroTimeline.to(
+    heroBg,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power2.out"
+    }
+  );
+
+
+  /* =========================================
+     ② 「ようこそ」
+     ③ 「長高祭2026」
+  ========================================= */
+
+  heroTimeline.to(
+    titleSpans,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.0,
+      stagger: 0.35,
+      ease: "power3.out"
+    },
+    "-=0.15"
+  );
+
+
+  /* =========================================
+     ④ TOP画像
+  ========================================= */
+
+  heroTimeline.to(
+    heroFront,
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 1.3,
+      ease: "power3.out"
+    },
+    "+=0.2"
+  );
+
+
+  /* =========================================
+     ⑤ ticker
+     
+     以前より高速化
+     0.35秒 → 0.22秒
+  ========================================= */
+
+  heroTimeline.to(
+    ticker,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.22,
+      ease: "power2.out"
+    },
+    "+=0.05"
+  );
+
+
+  /* =========================================
+     ⑥ ticker以下
+     
+     ticker完了後に初めて開始。
+     
+     上から順番に
+     
+     バナー
+     ↓
+     お知らせ
+     ↓
+     企画・イベント
+     ↓
+     アクセス
+     ↓
+     footer
+  ========================================= */
+
+  heroTimeline.to(
+    introSections,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.35,
+      stagger: 0.18,
+      ease: "power2.out"
+    },
+    "+=0.03"
+  );
+
+
+  /*
+    初回アニメーションが完全に完了した後に
+    ScrollTriggerを有効化する。
+
+    これにより、初回表示中に
+    ScrollTriggerが先に発火して
+    バナーやお知らせが出てしまう問題を防ぐ。
+  */
+
+  heroTimeline.eventCallback(
+    "onComplete",
+    () => {
+
+      initialAnimationFinished =
+        true;
+
+
+      ScrollTrigger.refresh();
+
+    }
+  );
+
+}
+
+
+/*
+  初回アニメーション開始
+*/
+
+startInitialAnimation();
 
 
 /* =========================================
@@ -786,12 +914,12 @@ heroTimeline.to(
 ========================================= */
 
 /*
-  初回表示後のスクロールアニメーション。
+  初回アニメーション完了後だけ
+  ScrollTriggerを動作させる。
 
-  すでに初回アニメーションで表示済みの
-  セクションはそのまま維持し、
-  画面外のセクションだけ
-  スクロール時にアニメーションさせる。
+  これにより、
+  tickerより先に下のコンテンツが
+  フェードインすることを完全に防止。
 */
 
 gsap.utils
@@ -808,24 +936,46 @@ gsap.utils
 
       onEnter: () => {
 
+        /*
+          初回アニメーション中は
+          何もしない。
+        */
+
+        if(
+          !initialAnimationFinished
+        ){
+
+          return;
+
+        }
+
+
+        /*
+          すでに表示済みなら
+          何もしない。
+        */
+
         if(
           gsap.getProperty(
             sec,
             "opacity"
-          ) === 0
+          ) !== 0
         ){
 
-          gsap.to(
-            sec,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.35,
-              ease: "power2.out"
-            }
-          );
+          return;
 
         }
+
+
+        gsap.to(
+          sec,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.35,
+            ease: "power2.out"
+          }
+        );
 
       }
 
@@ -2228,9 +2378,7 @@ function stopBannerAuto(){
 
   if(bAuto){
 
-    clearInterval(
-      bAuto
-    );
+    clearInterval(bAuto);
 
 
     bAuto =
