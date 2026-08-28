@@ -75,12 +75,6 @@
 
 (function(){
 
-  /*
-    オープニングをまだSTARTしていない場合、
-    TOPページへ直接アクセスしても
-    オープニングへ移動する。
-  */
-
   const introDone =
     localStorage.getItem(
       "choko_festival_intro_done"
@@ -118,7 +112,17 @@ html,
 body {
   overflow-x: hidden;
   overflow-y: auto;
+
+  /*
+    ページ全体は縦方向へ
+    スワイプできるようにする。
+  */
   touch-action: pan-y;
+
+  /*
+    iPhone等でのスクロールを安定させる。
+  */
+  -webkit-overflow-scrolling: touch;
 }
 
 
@@ -621,23 +625,6 @@ gsap.registerPlugin(
    TOPページ 初回アニメーション
 ========================================= */
 
-/*
-  表示順：
-
-  ① 背景画像
-  ② 「ようこそ」
-  ③ 「長高祭2026」
-  ④ TOP画像
-  ⑤ ticker
-  ⑥ 画面内に見えている下部コンテンツだけ
-
-  ★変更点
-
-  TOP画像にはアニメーションを付けない。
-  画像読み込み完了後、そのまま表示する。
-*/
-
-
 const heroBg =
   document.querySelector(".hero-bg");
 
@@ -662,10 +649,6 @@ const introSections =
     ".banner-section, #about, #events, #access, footer"
   );
 
-
-/*
-  初回アニメーションが完了したか
-*/
 
 let initialAnimationFinished =
   false;
@@ -700,12 +683,6 @@ gsap.set(
 
 /*
   TOP画像
-
-  ★アニメーション削除
-
-  画像読み込み前だけ非表示。
-  読み込み完了後は opacity:1 で
-  そのまま表示する。
 */
 
 gsap.set(
@@ -777,11 +754,6 @@ function waitForHeroImage(){
       );
 
 
-      /*
-        万一画像の読み込みに失敗しても
-        アニメーション全体が止まらないようにする。
-      */
-
       heroFront.addEventListener(
         "error",
         () => {
@@ -829,23 +801,8 @@ function isSectionVisible(sec){
 
 async function startInitialAnimation(){
 
-  /*
-    TOP画像の読み込み完了を待つ。
-  */
-
   await waitForHeroImage();
 
-
-  /*
-    ★TOP画像はアニメーションしない。
-
-    読み込み完了した時点で
-    そのまま表示する。
-
-    visibility:hidden によって
-    読み込み前の青いブロックや枠が
-    見えるのを防ぐ。
-  */
 
   gsap.set(
     heroFront,
@@ -883,7 +840,7 @@ async function startInitialAnimation(){
      ② 「ようこそ」
      ③ 「長高祭2026」
 
-     ★以前より高速化
+     ★ここだけ速度変更
   ========================================= */
 
   heroTimeline.to(
@@ -893,18 +850,21 @@ async function startInitialAnimation(){
       y: 0,
 
       /*
-        以前：1.0秒
-        今回：0.6秒
+        0.6秒 → 0.9秒
+        文字が読めるように
+        少しゆっくり表示。
       */
 
-      duration: 0.6,
+      duration: 0.9,
 
       /*
-        以前：0.35秒
-        今回：0.15秒
+        0.15秒 → 0.3秒
+        「ようこそ」の後に
+        「長高祭2026」が出るまで
+        少し時間を作る。
       */
 
-      stagger: 0.15,
+      stagger: 0.3,
 
       ease: "power3.out"
     },
@@ -915,10 +875,7 @@ async function startInitialAnimation(){
   /* =========================================
      ④ TOP画像
 
-     ★削除
-
-     TOP画像はすでに表示済みなので
-     ここでは何もしない。
+     アニメーションなし
   ========================================= */
 
 
@@ -940,9 +897,6 @@ async function startInitialAnimation(){
 
   /* =========================================
      ⑥ ticker以下
-
-     初回表示時に画面内にある要素だけ
-     フェードイン。
   ========================================= */
 
   const visibleSections =
@@ -960,15 +914,8 @@ async function startInitialAnimation(){
       {
         opacity: 1,
         y: 0,
-
-        /*
-          以前の0.35秒よりゆっくり。
-        */
-
         duration: 0.8,
-
         stagger: 0.25,
-
         ease: "power2.out",
 
         onStart: function(){
@@ -991,11 +938,6 @@ async function startInitialAnimation(){
   }
 
 
-  /*
-    初回アニメーション完了後に
-    ScrollTriggerを有効化。
-  */
-
   heroTimeline.eventCallback(
     "onComplete",
     () => {
@@ -1011,10 +953,6 @@ async function startInitialAnimation(){
 
 }
 
-
-/*
-  初回アニメーション開始
-*/
 
 startInitialAnimation();
 
@@ -1039,11 +977,6 @@ gsap.utils
 
       onEnter: () => {
 
-        /*
-          初回アニメーション中は
-          何もしない。
-        */
-
         if(
           !initialAnimationFinished
         ){
@@ -1052,11 +985,6 @@ gsap.utils
 
         }
 
-
-        /*
-          すでに表示済みなら
-          何もしない。
-        */
 
         if(
           sec.dataset.revealed ===
@@ -1071,10 +999,6 @@ gsap.utils
         sec.dataset.revealed =
           "true";
 
-
-        /*
-          ゆっくりフェードイン。
-        */
 
         gsap.to(
           sec,
