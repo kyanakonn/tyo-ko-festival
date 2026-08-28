@@ -499,15 +499,19 @@ header h1 {
 
 /* =========================================
    ヒーロータイトル
+   2枚目画像と同じように
+   「ようこそ」
+   「長高祭2026」
+   を画像上部中央に表示
 ========================================= */
 
 .hero-title-wrap {
   position: absolute;
 
-  top: 50%;
+  top: 2.8%;
   left: 50%;
 
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 
   z-index: 150;
 
@@ -523,38 +527,67 @@ header h1 {
   text-align: center;
 
   line-height: normal;
+
+  pointer-events: none;
 }
 
+
 .hero h1 {
-  font-size: clamp(20px, 10vw, 80px);
+  display: flex;
 
-  line-height: 1.1;
+  flex-direction: column;
 
-  letter-spacing: 0;
+  align-items: center;
+  justify-content: center;
 
   margin: 0;
 
-  color: #ff4d6d;
+  padding: 0;
 
-  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: #E2022E;
 
-  white-space: normal;
-  word-break: keep-all;
+  font-family: 'Noto Sans JP', sans-serif;
+
+  font-weight: 900;
+
+  line-height: 0.98;
+
+  letter-spacing: 0;
+
+  text-shadow: none;
+
+  white-space: nowrap;
 }
 
+
+/* 「ようこそ」 */
+
+.hero h1 .welcome {
+  display: block;
+
+  font-size: clamp(42px, 6.2vw, 104px);
+
+  margin: 0 0 4px 0;
+}
+
+
+/* 「長高祭2026」 */
+
+.hero h1 .festival {
+  display: block;
+
+  font-size: clamp(56px, 7.3vw, 122px);
+
+  margin: 0;
+
+  letter-spacing: 0;
+}
+
+
+/* 元のsubtitleは表示しない */
+
 .hero-subtitle {
-  font-size: clamp(12px, 5vw, 42px);
-
-  font-weight: 700;
-
-  color: #ff4d6d;
-
-  margin-top: 10px;
-
-  line-height: 1.2;
-
-  white-space: normal;
-  word-break: keep-all;
+  display: none;
 }
 
 
@@ -635,8 +668,6 @@ header h1 {
 
 /* =========================================
    見出し
-   ① 白い半透明の帯
-   ④ 文字を少し太く
 ========================================= */
 
 h2 {
@@ -1179,18 +1210,33 @@ footer {
   }
 
 
-  /* タイトル */
+  /* -------------------------
+     タイトル
+  ------------------------- */
 
-  .hero h1 {
-    font-size: 56px;
+  .hero-title-wrap {
+    top: 2.5%;
 
-    letter-spacing: 3px;
+    padding: 0 10px;
   }
 
-  .hero-subtitle {
-    font-size: 24px;
 
-    margin-top: 6px;
+  .hero h1 {
+    line-height: 0.98;
+  }
+
+
+  .hero h1 .welcome {
+    font-size: clamp(30px, 8.8vw, 58px);
+
+    margin-bottom: 3px;
+  }
+
+
+  .hero h1 .festival {
+    font-size: clamp(38px, 10.4vw, 70px);
+
+    letter-spacing: 0;
   }
 
 
@@ -1393,13 +1439,6 @@ footer {
     border-bottom-width: 130px;
   }
 
-}
-
-
-/* ===== トップ画像のタイトルを非表示 ===== */
-
-.hero-title-wrap {
-  display: none !important;
 }
 
 
