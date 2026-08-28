@@ -569,45 +569,25 @@ gsap.registerPlugin(
    タイトルアニメ
 ========================================= */
 
-const text =
-  document.getElementById("title");
+/*
+  以前の処理では title 全体の文字を
+  1文字ずつ span に分解していたため、
+  CSSの flex-direction: column と組み合わさって
+  文字が縦方向に並んでいました。
 
+  元々用意してある
+  .welcome
+  .festival
+  の2つのspanをそのまま使用します。
+*/
 
-const chars =
-  text.innerText.split("");
-
-
-text.innerHTML =
-  "";
-
-
-chars.forEach(c => {
-
-  const span =
-    document.createElement("span");
-
-
-  span.innerText =
-    c;
-
-
-  span.style.opacity =
-    0;
-
-
-  span.style.display =
-    "inline-block";
-
-
-  span.style.transform =
-    "translateY(20px)";
-
-
-  text.appendChild(
-    span
-  );
-
-});
+gsap.set(
+  "#title > span",
+  {
+    opacity: 0,
+    y: 20
+  }
+);
 
 
 gsap.to(
@@ -618,7 +598,7 @@ gsap.to(
 
     y: 0,
 
-    stagger: 0.05
+    stagger: 0.15
 
   }
 );
