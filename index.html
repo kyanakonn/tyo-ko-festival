@@ -54,7 +54,7 @@
 <link rel="icon" href="/favicon.ico">
 
 <link
-  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap"
   rel="stylesheet"
 >
 
@@ -241,15 +241,24 @@ fetch("header.html")
     class="hero-bg"
   >
 
+
+  <!-- =========================================
+       画像の上に表示するタイトル
+  ========================================= -->
+
   <div class="hero-title-wrap">
 
     <h1 id="title">
-      長高祭 2026
-    </h1>
 
-    <p class="hero-subtitle">
-      【一般公開は9月12日土曜日　9:30から13:00 まで】
-    </p>
+      <span class="welcome">
+        ようこそ
+      </span>
+
+      <span class="festival">
+        長高祭2026
+      </span>
+
+    </h1>
 
   </div>
 
@@ -602,7 +611,7 @@ chars.forEach(c => {
 
 
 gsap.to(
-  "#title span",
+  "#title > span",
   {
 
     opacity: 1,
