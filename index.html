@@ -577,9 +577,10 @@ gsap.registerPlugin(
   ③ 「長高祭2026」
   ④ TOP画像
   ⑤ ticker
+  ⑥ ticker以下のコンテンツ
 
-  すべて上から下へ移動しながら
-  フェードインします。
+  ①〜④はゆっくり表示
+  ⑤以降はすばやく表示
 */
 
 const heroBg =
@@ -597,7 +598,22 @@ const ticker =
   document.querySelector(".ticker");
 
 
-/* 初期状態 */
+/*
+  tickerより下のコンテンツ
+*/
+
+const introSections =
+  document.querySelectorAll(
+    ".banner-section, #about, #events, #access, footer"
+  );
+
+
+/* =========================================
+   初期状態
+========================================= */
+
+
+/* 背景 */
 
 gsap.set(
   heroBg,
@@ -608,6 +624,8 @@ gsap.set(
 );
 
 
+/* タイトル */
+
 gsap.set(
   titleSpans,
   {
@@ -617,14 +635,26 @@ gsap.set(
 );
 
 
+/*
+  TOP画像
+
+  autoAlphaを使用することで、
+  アニメーション開始前は
+  opacity:0 + visibility:hidden
+  となり、画像の枠や画像内の
+  青いブロックなどが先に見えない。
+*/
+
 gsap.set(
   heroFront,
   {
-    opacity: 0,
+    autoAlpha: 0,
     y: -30
   }
 );
 
+
+/* ticker */
 
 gsap.set(
   ticker,
@@ -635,7 +665,25 @@ gsap.set(
 );
 
 
-/* アニメーション */
+/*
+  tickerより下のコンテンツ
+
+  tickerが表示されるまでは
+  表示しない。
+*/
+
+gsap.set(
+  introSections,
+  {
+    opacity: 0,
+    y: 25
+  }
+);
+
+
+/* =========================================
+   ヒーローアニメーション
+========================================= */
 
 const heroTimeline =
   gsap.timeline({
@@ -650,7 +698,7 @@ heroTimeline.to(
   {
     opacity: 1,
     y: 0,
-    duration: 0.8,
+    duration: 1.2,
     ease: "power2.out"
   }
 );
@@ -658,6 +706,8 @@ heroTimeline.to(
 
 /* ② 「ようこそ」
    ③ 「長高祭2026」
+
+   ゆっくり表示
 */
 
 heroTimeline.to(
@@ -665,33 +715,35 @@ heroTimeline.to(
   {
     opacity: 1,
     y: 0,
-    duration: 0.7,
-    stagger: 0.22,
+    duration: 1.0,
+    stagger: 0.35,
     ease: "power3.out"
   },
-  "-=0.25"
+  "-=0.15"
 );
 
 
 /* ④ TOP画像
-   文字のアニメーションが
-   完全に進んでから開始
+
+   タイトル表示後、
+   少し間を置いてゆっくり表示
 */
 
 heroTimeline.to(
   heroFront,
   {
-    opacity: 1,
+    autoAlpha: 1,
     y: 0,
-    duration: 1.0,
+    duration: 1.3,
     ease: "power3.out"
   },
-  "+=0.15"
+  "+=0.2"
 );
 
 
 /* ⑤ ticker
-   TOP画像の表示後に開始
+
+   ここからすばやく表示
 */
 
 heroTimeline.to(
@@ -699,10 +751,33 @@ heroTimeline.to(
   {
     opacity: 1,
     y: 0,
-    duration: 0.7,
-    ease: "power3.out"
+    duration: 0.35,
+    ease: "power2.out"
   },
-  "+=0.1"
+  "+=0.05"
+);
+
+
+/* =========================================
+   ⑥ ticker以下のコンテンツ
+========================================= */
+
+/*
+  tickerのフェードインが完了してから
+  バナー → お知らせ → 企画 → アクセス → footer
+  の順で素早く表示。
+*/
+
+heroTimeline.to(
+  introSections,
+  {
+    opacity: 1,
+    y: 0,
+    duration: 0.35,
+    stagger: 0.08,
+    ease: "power2.out"
+  },
+  "+=0.05"
 );
 
 
@@ -710,30 +785,51 @@ heroTimeline.to(
    スクロールアニメ
 ========================================= */
 
+/*
+  初回表示後のスクロールアニメーション。
+
+  すでに初回アニメーションで表示済みの
+  セクションはそのまま維持し、
+  画面外のセクションだけ
+  スクロール時にアニメーションさせる。
+*/
+
 gsap.utils
   .toArray("section")
   .forEach(sec => {
 
-    gsap.from(
-      sec,
-      {
+    ScrollTrigger.create({
 
-        opacity: 0,
+      trigger: sec,
 
-        y: 50,
+      start: "top 80%",
 
-        duration: 1,
+      once: true,
 
-        scrollTrigger: {
+      onEnter: () => {
 
-          trigger: sec,
+        if(
+          gsap.getProperty(
+            sec,
+            "opacity"
+          ) === 0
+        ){
 
-          start: "top 80%"
+          gsap.to(
+            sec,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.35,
+              ease: "power2.out"
+            }
+          );
 
         }
 
       }
-    );
+
+    });
 
   });
 
