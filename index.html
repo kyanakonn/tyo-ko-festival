@@ -643,7 +643,7 @@ const ticker =
 /*
   tickerより下のコンテンツ
 
-  ※フッターはここから除外
+  ※フッターはアニメーション対象外
 */
 
 const introSections =
@@ -652,21 +652,25 @@ const introSections =
   );
 
 
-/* =========================================
-   初回アニメーション判定
-========================================= */
-
-const animationStorageKey =
-  "choko_top_animation_played";
-
-const isFirstTopVisit =
-  !localStorage.getItem(
-    animationStorageKey
-  );
-
+/*
+  TOPページの初回アニメーションが
+  完了したかどうか
+*/
 
 let initialAnimationFinished =
   false;
+
+
+/*
+  このブラウザで
+  TOPページ初回アニメーションを
+  すでに見たかどうか
+*/
+
+const topAnimationDone =
+  localStorage.getItem(
+    "choko_top_animation_done"
+  );
 
 
 /* =========================================
@@ -675,12 +679,12 @@ let initialAnimationFinished =
 
 
 /*
-  初回アクセス時のみ
-  ヒーローのアニメーションを
-  最初の状態にする。
+  初回訪問時のみ
+  ヒーローアニメーション用の
+  初期状態にする
 */
 
-if(isFirstTopVisit){
+if(!topAnimationDone){
 
   /* 背景 */
 
@@ -727,12 +731,16 @@ if(isFirstTopVisit){
     }
   );
 
-}else{
+}
 
-  /*
-    2回目以降は
-    最初から表示
-  */
+
+/*
+  2回目以降は
+  「ようこそ」「長高祭2026」
+  tickerを最初から表示
+*/
+
+else{
 
   gsap.set(
     heroBg,
@@ -775,22 +783,19 @@ if(isFirstTopVisit){
 
 
 /*
-  tickerより下のコンテンツ
-
-  初回のみ初期状態にする。
+  tickerより下のコンテンツは
+  毎回画面に入ったときに
+  フェードインさせるため、
+  最初は非表示
 */
 
-if(isFirstTopVisit){
-
-  gsap.set(
-    introSections,
-    {
-      opacity: 0,
-      y: 25
-    }
-  );
-
-}
+gsap.set(
+  introSections,
+  {
+    opacity: 0,
+    y: 25
+  }
+);
 
 
 /* =========================================
@@ -869,21 +874,21 @@ function isSectionVisible(sec){
 
 
 /* =========================================
-   初回アクセス時のみ
-   ヒーローアニメーション
+   初回ヒーローアニメーション
 ========================================= */
 
 async function startInitialAnimation(){
 
   /*
     2回目以降は
-    アニメーションを実行しない
+    ヒーローアニメーションを実行しない
   */
 
-  if(!isFirstTopVisit){
+  if(topAnimationDone){
 
     initialAnimationFinished =
       true;
+
 
     ScrollTrigger.refresh();
 
@@ -929,10 +934,6 @@ async function startInitialAnimation(){
 
   /* =========================================
      ② 「ようこそ」
-     ③ 「長高祭2026」
-
-     ゆっくり表示して
-     しっかり見られるように調整
   ========================================= */
 
   heroTimeline.to(
@@ -940,35 +941,44 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 1.2,
+
+      /*
+        「ようこそ」を
+        じっくり表示
+      */
+
+      duration: 0.9,
+
       ease: "power3.out"
-    },
-    "+=0.15"
+    }
   );
 
+
+  /* =========================================
+     ③ 「長高祭2026」
+     
+     「ようこそ」が表示された後、
+     少し間を置いて表示
+  ========================================= */
 
   heroTimeline.to(
     titleSpans[1],
     {
       opacity: 1,
       y: 0,
-      duration: 1.2,
+
+      duration: 0.9,
+
       ease: "power3.out"
     },
-    "+=0.6"
-  );
 
+    /*
+      「ようこそ」表示完了後、
+      0.55秒待ってから
+      「長高祭2026」を表示
+    */
 
-  /*
-    タイトルを表示したあと
-    しっかり見せるための待機時間
-  */
-
-  heroTimeline.to(
-    {},
-    {
-      duration: 1.2
-    }
+    "+=0.55"
   );
 
 
@@ -981,6 +991,9 @@ async function startInitialAnimation(){
 
   /* =========================================
      ⑤ ticker
+     
+     「長高祭2026」からtickerまでを
+     以前より短くする
   ========================================= */
 
   heroTimeline.to(
@@ -988,15 +1001,30 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 0.5,
+
+      /*
+        ticker自体の表示も
+        素早くする
+      */
+
+      duration: 0.22,
+
       ease: "power2.out"
     },
-    "+=0.1"
+
+    /*
+      「長高祭2026」が終わってから
+      0.18秒だけ待つ
+    */
+
+    "+=0.18"
   );
 
 
   /* =========================================
      ⑥ ticker以下
+     
+     フッターは除外
   ========================================= */
 
   const visibleSections =
@@ -1014,24 +1042,15 @@ async function startInitialAnimation(){
       {
         opacity: 1,
         y: 0,
+
         duration: 0.8,
+
         stagger: 0.25,
-        ease: "power2.out",
 
-        onStart: function(){
-
-          visibleSections.forEach(
-            sec => {
-
-              sec.dataset.revealed =
-                "true";
-
-            }
-          );
-
-        }
+        ease: "power2.out"
 
       },
+
       "+=0.08"
     );
 
@@ -1042,18 +1061,19 @@ async function startInitialAnimation(){
     "onComplete",
     () => {
 
+      initialAnimationFinished =
+        true;
+
+
       /*
-        初回アニメーション終了を記録
+        初回ヒーローアニメーションを
+        完了済みとして保存
       */
 
       localStorage.setItem(
-        animationStorageKey,
+        "choko_top_animation_done",
         "true"
       );
-
-
-      initialAnimationFinished =
-        true;
 
 
       ScrollTrigger.refresh();
@@ -1068,8 +1088,14 @@ startInitialAnimation();
 
 
 /* =========================================
-   スクロールアニメ
+   スクロールアニメーション
 ========================================= */
+
+/*
+  tickerより下のコンテンツのみ。
+
+  フッターは対象外。
+*/
 
 gsap.utils
   .toArray(
@@ -1083,9 +1109,24 @@ gsap.utils
 
       start: "top 85%",
 
+      /*
+        一度だけではなく
+        何度でも発火させる
+      */
+
       once: false,
 
+
+      /*
+        画面に入ったとき
+      */
+
       onEnter: () => {
+
+        /*
+          初回ヒーローアニメーション中は
+          一旦待つ
+        */
 
         if(
           !initialAnimationFinished
@@ -1096,9 +1137,56 @@ gsap.utils
         }
 
 
+        /*
+          毎回フェードイン
+        */
+
+        gsap.fromTo(
+          sec,
+          {
+            opacity: 0,
+            y: 25
+          },
+          {
+            opacity: 1,
+            y: 0,
+
+            duration: 0.8,
+
+            ease: "power2.out"
+          }
+        );
+
+      },
+
+
+      /*
+        下方向へスクロールして
+        画面外へ出たとき
+      */
+
+      onLeave: () => {
+
+        gsap.set(
+          sec,
+          {
+            opacity: 0,
+            y: 25
+          }
+        );
+
+      },
+
+
+      /*
+        上方向へ戻って
+        再び画面に入ったとき
+      */
+
+      onEnterBack: () => {
+
         if(
-          sec.dataset.revealed ===
-          "true"
+          !initialAnimationFinished
         ){
 
           return;
@@ -1106,17 +1194,37 @@ gsap.utils
         }
 
 
-        sec.dataset.revealed =
-          "true";
-
-
-        gsap.to(
+        gsap.fromTo(
           sec,
+          {
+            opacity: 0,
+            y: 25
+          },
           {
             opacity: 1,
             y: 0,
+
             duration: 0.8,
+
             ease: "power2.out"
+          }
+        );
+
+      },
+
+
+      /*
+        上方向へスクロールして
+        画面上から外れたとき
+      */
+
+      onLeaveBack: () => {
+
+        gsap.set(
+          sec,
+          {
+            opacity: 0,
+            y: 25
           }
         );
 
