@@ -93,16 +93,12 @@ body {
 }
 
 
-/* 三角形 */
-
 .intro-shape {
   position: absolute;
 
   opacity: 0.9;
 }
 
-
-/* 左上 */
 
 .intro-s1 {
   top: 8%;
@@ -119,8 +115,6 @@ body {
 }
 
 
-/* 左中 */
-
 .intro-s2 {
   top: 30%;
   left: -65px;
@@ -135,8 +129,6 @@ body {
   transform: rotate(20deg);
 }
 
-
-/* 左下 */
 
 .intro-s3 {
   bottom: 2%;
@@ -153,8 +145,6 @@ body {
 }
 
 
-/* 右上 */
-
 .intro-s4 {
   top: 5%;
   right: -90px;
@@ -169,8 +159,6 @@ body {
   transform: rotate(30deg);
 }
 
-
-/* 右中 */
 
 .intro-s5 {
   top: 40%;
@@ -187,8 +175,6 @@ body {
 }
 
 
-/* 右下 */
-
 .intro-s6 {
   bottom: -50px;
   right: -60px;
@@ -203,8 +189,6 @@ body {
   transform: rotate(-15deg);
 }
 
-
-/* 四角形 */
 
 .intro-s7 {
   top: 20%;
@@ -258,8 +242,6 @@ body {
 }
 
 
-/* 小さい三角形 */
-
 .intro-s11 {
   top: 20%;
   left: 30%;
@@ -309,8 +291,6 @@ body {
   z-index: 5;
 }
 
-
-/* 中央コンテンツ */
 
 .intro-first-content {
   position: relative;
@@ -362,8 +342,6 @@ body {
 }
 
 
-/* 第65回 */
-
 .intro-heading-main {
   color: #000;
 
@@ -383,8 +361,6 @@ body {
 }
 
 
-/* ちょう、せい春してみました。 */
-
 .intro-heading-sub {
   color: #000;
 
@@ -403,8 +379,6 @@ body {
   white-space: nowrap;
 }
 
-
-/* 文字フェードイン */
 
 .intro-heading.is-visible {
   opacity: 1;
@@ -454,11 +428,6 @@ body {
 }
 
 
-/*
-  画像左上の「長高祭」を非表示
-  背景色に合わせて白に設定
-*/
-
 .intro-logo-wrap::before {
   content: "";
 
@@ -477,8 +446,6 @@ body {
   pointer-events: none;
 }
 
-
-/* ロゴ フェードイン */
 
 .intro-logo-wrap.is-visible {
   opacity: 1;
@@ -554,8 +521,6 @@ body {
 }
 
 
-/* 日付 フェードイン */
-
 .intro-date.is-visible {
   opacity: 1;
 
@@ -600,8 +565,6 @@ body {
     opacity 1s ease;
 }
 
-
-/* SCROLL表示 */
 
 .intro-scroll.is-visible {
   opacity: 1;
@@ -662,8 +625,6 @@ body {
   z-index: 5;
 }
 
-
-/* 中央パネル */
 
 .intro-panel {
   position: relative;
@@ -875,8 +836,6 @@ body {
     translateY(30px);
 }
 
-
-/* START フェードイン */
 
 .intro-start.is-visible {
 
@@ -1198,10 +1157,6 @@ body {
 <div class="intro-page">
 
 
-  <!-- =====================================
-       ローポリ背景
-  ====================================== -->
-
   <div class="intro-shapes">
 
     <div class="intro-shape intro-s1"></div>
@@ -1222,18 +1177,10 @@ body {
   </div>
 
 
-  <!-- =====================================
-       1画面目
-  ====================================== -->
-
   <section class="intro-first">
 
     <div class="intro-first-content">
 
-
-      <!-- =================================
-           画像の上の文字
-      ================================== -->
 
       <div class="intro-heading">
 
@@ -1247,10 +1194,6 @@ body {
 
       </div>
 
-
-      <!-- =================================
-           ロゴ画像
-      ================================== -->
 
       <div class="intro-logo-wrap">
 
@@ -1287,10 +1230,6 @@ body {
 
   </section>
 
-
-  <!-- =====================================
-       2画面目
-  ====================================== -->
 
   <section class="intro-second">
 
@@ -1343,10 +1282,6 @@ window.addEventListener(
     const scroll =
       document.querySelector(".intro-scroll");
 
-
-    /*
-      1画面目を順番にフェードイン
-    */
 
     setTimeout(
       () => {
@@ -1415,13 +1350,25 @@ startButton.addEventListener(
 
 
     /*
-      オープニングを
-      すでに見たことを記録
+      =========================================
+      サイトバージョン
+
+      index.htmlと同じ番号にしてください。
+      =========================================
+    */
+
+    const SITE_VERSION =
+      "2026.08.28.01";
+
+
+    /*
+      このバージョンのイントロを
+      見終わったことを記録
     */
 
     localStorage.setItem(
-      "choko_festival_intro_done",
-      "true"
+      "choko_festival_intro_version",
+      SITE_VERSION
     );
 
 
@@ -1475,11 +1422,6 @@ const introFestival =
   );
 
 
-/*
-  2画面目が画面内に入ったら
-  順番にフェードイン
-*/
-
 const observer =
   new IntersectionObserver(
     (entries) => {
@@ -1488,18 +1430,11 @@ const observer =
 
         if(entry.isIntersecting) {
 
-          /*
-            中央の白いパネル
-          */
 
           introPanel.classList.add(
             "is-visible"
           );
 
-
-          /*
-            WELCOME TO
-          */
 
           setTimeout(
             () => {
@@ -1513,10 +1448,6 @@ const observer =
           );
 
 
-          /*
-            長高祭
-          */
-
           setTimeout(
             () => {
 
@@ -1529,10 +1460,6 @@ const observer =
           );
 
 
-          /*
-            START
-          */
-
           setTimeout(
             () => {
 
@@ -1544,12 +1471,6 @@ const observer =
             750
           );
 
-
-          /*
-            一度表示したら
-            再スクロールでは
-            再アニメーションしない
-          */
 
           observer.unobserve(
             introSecond
