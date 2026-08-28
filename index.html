@@ -577,14 +577,11 @@ gsap.registerPlugin(
   ③ 「長高祭2026」
   ④ TOP画像
   ⑤ ticker
-  ⑥ バナースライダー
-  ⑦ お知らせ
-  ⑧ 企画・イベント
-  ⑨ アクセス
-  ⑩ footer
-
-  tickerが完全に表示されるまで、
-  ⑥以降は絶対に表示しない。
+  ⑥ 画面内に見えている下部コンテンツだけ
+     
+     ※画面外のコンテンツは表示しない。
+       下へスクロールして画面内に入った時に
+       ScrollTriggerでフェードインする。
 */
 
 
@@ -651,18 +648,19 @@ gsap.set(
 /*
   TOP画像
 
-  CSS側でも最初から
-  visibility:hidden / opacity:0
-  にしているため、
-  JSが実行される前の一瞬も
-  画像の枠などが表示されない。
+  重要：
+  上から下へ移動するアニメーションを
+  完全に削除。
+
+  位置は最初から y:0 のままにして、
+  opacityだけでフェードインする。
 */
 
 gsap.set(
   heroFront,
   {
     autoAlpha: 0,
-    y: -30
+    y: 0
   }
 );
 
@@ -681,8 +679,9 @@ gsap.set(
 /*
   tickerより下のコンテンツ
 
-  初回アニメーションが完了するまで
-  完全に非表示。
+  最初はすべて非表示。
+  後から「現在画面内に見えているもの」だけ
+  初回アニメーションに参加させる。
 */
 
 gsap.set(
@@ -702,8 +701,11 @@ gsap.set(
   TOP画像が読み込まれる前に
   青いブロックや枠が見えるのを防ぐ。
 
-  画像が読み込み済みならすぐ進む。
-  読み込み中ならload完了を待つ。
+  画像が読み込まれるまでは
+  visibility:hidden の状態を維持。
+
+  読み込み完了後にのみ
+  フェードインを開始する。
 */
 
 function waitForHeroImage(){
@@ -760,6 +762,37 @@ function waitForHeroImage(){
 
 
 /* =========================================
+   画面内判定
+========================================= */
+
+/*
+  tickerより下の各コンテンツが
+  現在の画面内に少しでも見えているかを判定。
+
+  画面内に入っている要素だけを
+  初回フェードインさせる。
+*/
+
+function isSectionVisible(sec){
+
+  const rect =
+    sec.getBoundingClientRect();
+
+
+  const viewportHeight =
+    window.innerHeight ||
+    document.documentElement.clientHeight;
+
+
+  return (
+    rect.bottom > 0 &&
+    rect.top < viewportHeight
+  );
+
+}
+
+
+/* =========================================
    ヒーローアニメーション
 ========================================= */
 
@@ -770,6 +803,24 @@ async function startInitialAnimation(){
   */
 
   await waitForHeroImage();
+
+
+  /*
+    画像が読み込み完了したので、
+    CSSのvisibility:hiddenを解除する準備。
+    
+    ただし、まだopacity:0なので
+    この時点では画面には表示されない。
+  */
+
+  gsap.set(
+    heroFront,
+    {
+      visibility: "visible",
+      opacity: 0,
+      y: 0
+    }
+  );
 
 
   const heroTimeline =
@@ -813,6 +864,11 @@ async function startInitialAnimation(){
 
   /* =========================================
      ④ TOP画像
+     
+     ★ここが今回の重要変更
+     
+     y方向の移動を完全に削除。
+     ただのフェードインにする。
   ========================================= */
 
   heroTimeline.to(
@@ -821,7 +877,7 @@ async function startInitialAnimation(){
       autoAlpha: 1,
       y: 0,
       duration: 1.3,
-      ease: "power3.out"
+      ease: "power2.out"
     },
     "+=0.2"
   );
@@ -830,8 +886,7 @@ async function startInitialAnimation(){
   /* =========================================
      ⑤ ticker
      
-     以前より高速化
-     0.35秒 → 0.22秒
+     ticker自体は以前の速度を維持。
   ========================================= */
 
   heroTimeline.to(
@@ -849,32 +904,66 @@ async function startInitialAnimation(){
   /* =========================================
      ⑥ ticker以下
      
-     ticker完了後に初めて開始。
+     ★今回の重要変更
      
-     上から順番に
+     初回表示時に画面内にある要素だけを
+     フェードイン。
      
-     バナー
-     ↓
-     お知らせ
-     ↓
-     企画・イベント
-     ↓
-     アクセス
-     ↓
-     footer
+     画面外の要素は opacity:0 のまま。
+     
+     下へスクロールして画面に入った時に
+     ScrollTriggerでフェードインする。
   ========================================= */
 
-  heroTimeline.to(
-    introSections,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.35,
-      stagger: 0.18,
-      ease: "power2.out"
-    },
-    "+=0.03"
-  );
+  const visibleSections =
+    Array.from(
+      introSections
+    ).filter(
+      sec => isSectionVisible(sec)
+    );
+
+
+  if(visibleSections.length > 0){
+
+    heroTimeline.to(
+      visibleSections,
+      {
+        opacity: 1,
+        y: 0,
+
+        /*
+          以前の0.35秒よりゆっくり。
+        */
+
+        duration: 0.8,
+
+        /*
+          各要素を少しずつずらして
+          ゆっくり表示。
+        */
+
+        stagger: 0.25,
+
+        ease: "power2.out",
+
+        onStart: function(){
+
+          visibleSections.forEach(
+            sec => {
+
+              sec.dataset.revealed =
+                "true";
+
+            }
+          );
+
+        }
+
+      },
+      "+=0.08"
+    );
+
+  }
 
 
   /*
@@ -883,7 +972,7 @@ async function startInitialAnimation(){
 
     これにより、初回表示中に
     ScrollTriggerが先に発火して
-    バナーやお知らせが出てしまう問題を防ぐ。
+    下部コンテンツが勝手に出る問題を防ぐ。
   */
 
   heroTimeline.eventCallback(
@@ -893,6 +982,10 @@ async function startInitialAnimation(){
       initialAnimationFinished =
         true;
 
+
+      /*
+        初回表示後の現在位置を再計算。
+      */
 
       ScrollTrigger.refresh();
 
@@ -914,25 +1007,34 @@ startInitialAnimation();
 ========================================= */
 
 /*
-  初回アニメーション完了後だけ
-  ScrollTriggerを動作させる。
+  tickerより下の各コンテンツを
+  スクロールによってフェードインさせる。
 
-  これにより、
-  tickerより先に下のコンテンツが
-  フェードインすることを完全に防止。
+  画面に入った要素だけ表示。
+
+  once:trueにはしない。
+  初回アニメーション中にtriggerされても
+  その後もう一度判定できるようにする。
 */
 
 gsap.utils
-  .toArray("section")
+  .toArray(
+    ".banner-section, #about, #events, #access, footer"
+  )
   .forEach(sec => {
 
     ScrollTrigger.create({
 
       trigger: sec,
 
-      start: "top 80%",
+      /*
+        要素の上端が画面の85%位置に来たら
+        フェードイン開始。
+      */
 
-      once: true,
+      start: "top 85%",
+
+      once: false,
 
       onEnter: () => {
 
@@ -956,10 +1058,8 @@ gsap.utils
         */
 
         if(
-          gsap.getProperty(
-            sec,
-            "opacity"
-          ) !== 0
+          sec.dataset.revealed ===
+          "true"
         ){
 
           return;
@@ -967,12 +1067,20 @@ gsap.utils
         }
 
 
+        sec.dataset.revealed =
+          "true";
+
+
+        /*
+          ゆっくりフェードイン。
+        */
+
         gsap.to(
           sec,
           {
             opacity: 1,
             y: 0,
-            duration: 0.35,
+            duration: 0.8,
             ease: "power2.out"
           }
         );
