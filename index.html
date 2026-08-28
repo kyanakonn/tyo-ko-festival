@@ -566,36 +566,143 @@ gsap.registerPlugin(
 
 
 /* =========================================
-   タイトルアニメ
+   TOPページ 初回アニメーション
 ========================================= */
 
 /*
-  以前の処理では title 全体の文字を
-  1文字ずつ span に分解していたため、
-  CSSの flex-direction: column と組み合わさって
-  文字が縦方向に並んでいました。
+  表示順：
 
-  元々用意してある
-  .welcome
-  .festival
-  の2つのspanをそのまま使用します。
+  ① 背景画像
+  ② 「ようこそ」
+  ③ 「長高祭2026」
+  ④ TOP画像
+  ⑤ ticker
+
+  すべて上から下へ移動しながら
+  フェードインします。
 */
 
+const heroBg =
+  document.querySelector(".hero-bg");
+
+const titleSpans =
+  document.querySelectorAll(
+    "#title > span"
+  );
+
+const heroFront =
+  document.querySelector(".hero-front");
+
+const ticker =
+  document.querySelector(".ticker");
+
+
+/* 初期状態 */
+
 gsap.set(
-  "#title > span",
+  heroBg,
   {
     opacity: 0,
-    y: 20
+    y: -25
   }
 );
 
-gsap.to(
-  "#title > span",
+
+gsap.set(
+  titleSpans,
+  {
+    opacity: 0,
+    y: -30
+  }
+);
+
+
+gsap.set(
+  heroFront,
+  {
+    opacity: 0,
+    y: -30
+  }
+);
+
+
+gsap.set(
+  ticker,
+  {
+    opacity: 0,
+    y: -20
+  }
+);
+
+
+/* アニメーション */
+
+const heroTimeline =
+  gsap.timeline({
+    delay: 0.2
+  });
+
+
+/* ① 背景画像 */
+
+heroTimeline.to(
+  heroBg,
   {
     opacity: 1,
     y: 0,
-    stagger: 0.15
+    duration: 0.8,
+    ease: "power2.out"
   }
+);
+
+
+/* ② 「ようこそ」
+   ③ 「長高祭2026」
+*/
+
+heroTimeline.to(
+  titleSpans,
+  {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    stagger: 0.22,
+    ease: "power3.out"
+  },
+  "-=0.25"
+);
+
+
+/* ④ TOP画像
+   文字のアニメーションが
+   完全に進んでから開始
+*/
+
+heroTimeline.to(
+  heroFront,
+  {
+    opacity: 1,
+    y: 0,
+    duration: 1.0,
+    ease: "power3.out"
+  },
+  "+=0.15"
+);
+
+
+/* ⑤ ticker
+   TOP画像の表示後に開始
+*/
+
+heroTimeline.to(
+  ticker,
+  {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    ease: "power3.out"
+  },
+  "+=0.1"
 );
 
 
