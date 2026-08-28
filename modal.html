@@ -1,0 +1,381 @@
+<!--
+  共通モーダル
+
+  企画ID
+  1a / 1b / 1c / 1d / 1e / 1f / 1g
+  2a / 2b / 2c / 2d / 2e / 2f / 2g
+  3a / 3b / 3c / 3d / 3e / 3f / 3g
+
+  別ページからは
+
+  event.html?modal=1a
+
+  のように呼び出せます。
+-->
+
+
+<style>
+
+/* ===== モーダル ===== */
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-box{
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  position:relative;
+  animation:fadeIn 0.3s ease;
+}
+
+.modal-box img{
+  width:100%;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+#modal-close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:24px;
+  cursor:pointer;
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:scale(0.9);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
+.map-btn{
+  display:block;
+  margin-top:15px;
+  padding:12px;
+  background:#2a9d8f;
+  color:#fff;
+  text-decoration:none;
+  border-radius:30px;
+  font-weight:bold;
+}
+
+
+/* ===== モーダルデータ ===== */
+
+.modal-data{
+  display:none;
+}
+
+</style>
+
+
+<!-- ==================================================
+     共通モーダル本体
+     ================================================== -->
+
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <span id="modal-close">&times;</span>
+
+    <img
+      id="modal-img"
+      src=""
+      alt=""
+    >
+
+    <h2 id="modal-title"></h2>
+
+    <p
+      id="modal-place"
+      style="font-weight:bold; color:#2a9d8f;"
+    ></p>
+
+    <p id="modal-desc"></p>
+
+    <a
+      id="modal-link"
+      class="map-btn"
+      href=""
+    >
+      フロアマップで確認する →
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     企画情報
+     ================================================== -->
+
+<div class="modal-data-container">
+
+
+  <!-- ==================================================
+       1年
+       ================================================== -->
+
+  <div
+    class="modal-data"
+    id="modal-data-1a"
+    data-title="1年A組 「タイトル」"
+    data-place="1棟　4階 1A教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1b"
+    data-title="1年B組 「タイトル」"
+    data-place="1棟　4階 1B教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1c"
+    data-title="1年C組 「タイトル」"
+    data-place="1棟　4階 1C教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1d"
+    data-title="1年D組 「タイトル」"
+    data-place="1棟　4階 1D教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1e"
+    data-title="1年E組 「タイトル」"
+    data-place="1棟　4階 1E教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1f"
+    data-title="1棟　1年F組 「タイトル」"
+    data-place="4階 1F教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1g"
+    data-title="1年G組 「タイトル」"
+    data-place="1棟　4階 1G教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <!-- ==================================================
+       2年
+       ================================================== -->
+
+  <div
+    class="modal-data"
+    id="modal-data-2a"
+    data-title="2年A組 「タイトル」"
+    data-place="1棟　3階 2A教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2b"
+    data-title="2年B組 「タイトル」"
+    data-place="1棟　3階 2B教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2c"
+    data-title="2年C組 「タイトル」"
+    data-place="1棟　3階 2C教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2d"
+    data-title="2年D組 「タイトル」"
+    data-place="1棟　3階 2D教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2e"
+    data-title="2年E組 「タイトル」"
+    data-place="1棟　3階 2E教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2f"
+    data-title="2年F組 「タイトル」"
+    data-place="1棟　3階 2F教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2g"
+    data-title="2年G組 「タイトル」"
+    data-place="1棟　3階 2G教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <!-- ==================================================
+       3年
+       ================================================== -->
+
+  <div
+    class="modal-data"
+    id="modal-data-3a"
+    data-title="3年A組 「タイトル」"
+    data-place="1棟　2階 3A教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3b"
+    data-title="3年B組 「タイトル」"
+    data-place="1棟　2階 3B教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3c"
+    data-title="3年C組 「タイトル」"
+    data-place="1棟　2階 3C教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3d"
+    data-title="3年D組 「タイトル」"
+    data-place="1棟　2階 3D教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3e"
+    data-title="3年E組 「タイトル」"
+    data-place="1棟　2階 3E教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3f"
+    data-title="3年F組 「タイトル」"
+    data-place="1棟　2階 3F教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3g"
+    data-title="3年G組 「タイトル」"
+    data-place="1棟　2階 3G教室"
+    data-desc="準備中"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+</div>
