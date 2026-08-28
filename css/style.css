@@ -18,11 +18,35 @@ body {
   background-color: #EEEEEC !important;
 
   overflow-x: hidden;
+
+  /*
+    縦スクロールを明示的に有効化
+  */
+  overflow-y: auto;
+
+  /*
+    スマホで上下スワイプを
+    ページスクロールとして認識させる
+  */
+  touch-action: pan-y;
+
+  /*
+    iOSでの慣性スクロール
+  */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   font-family: 'Noto Sans JP', sans-serif;
   position: relative;
+
+  /*
+    body自体も縦方向の
+    スクロールを許可
+  */
+  touch-action: pan-y;
+
+  min-height: 100%;
 }
 
 
@@ -487,11 +511,6 @@ header h1 {
   margin: 0;
   padding: 0;
 
-  /*
-    位置移動は一切しない。
-    フェードインはopacityのみ。
-  */
-
   transform: none;
 
   object-fit: initial;
@@ -499,12 +518,6 @@ header h1 {
   z-index: 100;
 
   pointer-events: none;
-
-  /*
-    画像読み込み前から完全に非表示。
-    読み込み完了後にJavaScriptから
-    visibilityを解除してフェードインする。
-  */
 
   visibility: hidden;
   opacity: 0;
@@ -787,6 +800,12 @@ h2 {
   margin: auto;
 
   padding: 20px 0;
+
+  /*
+    縦方向のページスクロールを
+    妨げない
+  */
+  touch-action: pan-y;
 }
 
 .slides {
@@ -795,6 +814,8 @@ h2 {
   align-items: center;
 
   transition: 0.5s;
+
+  touch-action: pan-y;
 }
 
 
@@ -936,6 +957,8 @@ h2 {
   max-width: 1000px;
 
   margin: auto;
+
+  touch-action: pan-y;
 }
 
 .banner-track {
@@ -944,6 +967,8 @@ h2 {
   transition: 0.5s;
 
   will-change: transform;
+
+  touch-action: pan-y;
 }
 
 .banner {
@@ -1204,6 +1229,12 @@ footer {
     height: auto;
 
     overflow: hidden;
+
+    /*
+      ヒーロー内では
+      横方向のはみ出しだけ防ぐ
+    */
+    touch-action: pan-y;
   }
 
   .hero > img.hero-front {
@@ -1216,18 +1247,9 @@ footer {
 
     margin: 0;
 
-    /*
-      スマホでも位置移動なし。
-    */
-
     transform: none;
 
     object-fit: initial;
-
-    /*
-      スマホでも画像読み込み前は
-      完全に非表示
-    */
 
     visibility: hidden;
     opacity: 0;
@@ -1240,11 +1262,6 @@ footer {
 
   .hero-title-wrap {
 
-    /*
-      スマホではタイトルを
-      少し上に配置
-    */
-
     top: 1.2%;
 
     padding: 0 6px;
@@ -1253,22 +1270,11 @@ footer {
 
   .hero h1 {
 
-    /*
-      横幅に余裕を持たせ、
-      キャラクター部分まで
-      タイトルが下がらないようにする
-    */
-
     line-height: 0.94;
   }
 
 
   .hero h1 .welcome {
-
-    /*
-      元より小さくして
-      キャラクターと重ならないようにする
-    */
 
     font-size: clamp(27px, 7.2vw, 48px);
 
@@ -1277,11 +1283,6 @@ footer {
 
 
   .hero h1 .festival {
-
-    /*
-      「長高祭2026」も
-      スマホでは少し小さくする
-    */
 
     font-size: clamp(34px, 8.2vw, 56px);
 
