@@ -8,7 +8,6 @@
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
-
 >
 
 <meta
@@ -21,43 +20,36 @@ content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8"
 <meta
 name="description"
 content="長生高校文化祭、通称『長高祭』の公式サイト。企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！"
-
 >
 
 <meta
 name="keywords"
 content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭"
-
 >
 
 <meta
 name="application-name"
 content="長高祭"
-
 >
 
 <meta
 property="og:site_name"
 content="長高祭"
-
 >
 
 <meta
 property="og:title"
 content="長高祭｜長生高校文化祭公式サイト"
-
 >
 
 <meta
 property="og:description"
 content="長生高校文化祭の公式サイト"
-
 >
 
 <meta
 property="og:type"
 content="website"
-
 >
 
 <link rel="icon" href="/favicon.ico">
@@ -74,6 +66,7 @@ content="website"
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
 </script>
+
 
 <!-- =========================================
      長高祭オープニング判定
@@ -120,10 +113,12 @@ content="website"
 
 </head>
 
+
 <link
   rel="stylesheet"
   href="css/style.css"
 >
+
 
 <style>
 
@@ -159,7 +154,8 @@ body {
 
 /* =========================================
    TOP画像
-   アニメーションなし
+   CSSアニメーションは使用しない
+   GSAPで制御する
 ========================================= */
 
 .hero > img.hero-front {
@@ -168,7 +164,9 @@ body {
 
 </style>
 
+
 <body>
+
 
 <div class="bg-shapes">
 
@@ -187,6 +185,7 @@ body {
 
 </div>
 
+
 <div id="loader">
 
   <div class="loader-text">
@@ -195,7 +194,9 @@ body {
 
 </div>
 
+
 <div id="header"></div>
+
 
 <script>
 
@@ -285,12 +286,12 @@ fetch("header.html")
 
 </script>
 
+
 <div class="hero">
 
 <img
 src="hero.jpg"
 class="hero-bg"
-
 >
 
   <div class="hero-title-wrap">
@@ -309,11 +310,12 @@ class="hero-bg"
 
   </div>
 
+
 <img
 src="IMG_0354.png"
 class="hero-front"
-
 >
+
 
   <div class="ticker">
 
@@ -332,6 +334,7 @@ class="hero-front"
   </div>
 
 </div>
+
 
 <!-- バナースライダー -->
 
@@ -384,6 +387,7 @@ class="hero-front"
 
 </section>
 
+
 <section id="about">
 
 <h2>\ お知らせ /</h2>
@@ -393,7 +397,6 @@ class="hero-front"
 <a
 href="guide.html"
 class="info-card"
-
 >
 
 <img src="images/guide.png">
@@ -403,9 +406,8 @@ class="info-card"
 <a
 href="map.html"
 class="info-card"
-
 >
-  
+
 <img src="images/map.png">
 
   </a>
@@ -413,6 +415,7 @@ class="info-card"
 </div>
 
 </section>
+
 
 <section id="events">
 
@@ -498,10 +501,10 @@ class="info-card"
 
   </div>
 
+
 <a
 href="events.html"
 class="main-btn"
-
 >
 
 <span>
@@ -514,6 +517,7 @@ class="main-btn"
 
   </a>
 
+
   <div
     class="dots"
     id="dots">
@@ -522,6 +526,7 @@ class="main-btn"
 </div>
 
 </section>
+
 
 <section id="access">
 
@@ -556,6 +561,7 @@ class="main-btn"
 
 </section>
 
+
 <footer>
 
   <p>
@@ -563,6 +569,7 @@ class="main-btn"
   </p>
 
 </footer>
+
 
 <script>
 
@@ -639,7 +646,7 @@ let initialAnimationFinished =
 */
 
 const TOP_ANIMATION_VERSION =
-  "2026.08.28.02";
+  "2026.08.28.03";
 
 
 const topAnimationVersion =
@@ -647,15 +654,6 @@ const topAnimationVersion =
     "choko_top_animation_version"
   );
 
-
-/*
-  以前使用していた
-  choko_top_animation_done
-  は今回の判定では使用しません。
-
-  バージョンが違えば必ず初回アニメーションを
-  再生します。
-*/
 
 const shouldPlayInitialAnimation =
   topAnimationVersion !==
@@ -682,10 +680,7 @@ if(shouldPlayInitialAnimation){
 
 
   /*
-    「ようこそ」
-    「長高祭2026」
-
-    最初は完全に非表示
+    タイトル
   */
 
   gsap.set(
@@ -700,13 +695,19 @@ if(shouldPlayInitialAnimation){
 
   /*
     TOP画像
+
+    最初は完全に透明。
+    visibility:hiddenにはしない。
+    GSAPのautoAlphaによる制御を
+    正常に動作させる。
   */
 
   gsap.set(
     heroFront,
     {
       opacity: 0,
-      visibility: "hidden",
+      visibility: "visible",
+      autoAlpha: 0,
       y: 0
     }
   );
@@ -730,7 +731,7 @@ else{
 
   /*
     2回目以降は
-    すべて最初から表示
+    最初からすべて表示
   */
 
   gsap.set(
@@ -774,20 +775,24 @@ else{
 }
 
 
-/*
-  tickerより下の部分
+/* =========================================
+   下のセクション
 
-  初回アニメーション時だけ
-  フェードインさせる。
-*/
+   初回アニメーション時だけ
+   非表示にする。
+========================================= */
 
-gsap.set(
-  introSections,
-  {
-    opacity: 0,
-    y: 25
-  }
-);
+if(shouldPlayInitialAnimation){
+
+  gsap.set(
+    introSections,
+    {
+      opacity: 0,
+      y: 25
+    }
+  );
+
+}
 
 
 /* =========================================
@@ -873,7 +878,7 @@ async function startInitialAnimation(){
 
   /*
     アニメーション済みなら
-    そのまま終了
+    そのまま表示
   */
 
   if(!shouldPlayInitialAnimation){
@@ -881,10 +886,6 @@ async function startInitialAnimation(){
     initialAnimationFinished =
       true;
 
-
-    /*
-      下のセクションも表示
-    */
 
     gsap.set(
       introSections,
@@ -910,23 +911,8 @@ async function startInitialAnimation(){
 
 
   /*
-    TOP画像を表示可能にする
-  */
-
-  gsap.set(
-    heroFront,
-    {
-      visibility: "visible",
-      opacity: 1,
-      autoAlpha: 1,
-      y: 0
-    }
-  );
-
-
-  /*
     =========================================
-    ヒーローアニメーション
+    ヒーローアニメーション開始
     =========================================
   */
 
@@ -935,7 +921,9 @@ async function startInitialAnimation(){
 
 
   /*
-    背景フェードイン
+    -----------------------------------------
+    背景
+    -----------------------------------------
   */
 
   heroTimeline.to(
@@ -943,16 +931,16 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 0.75,
+      duration: 0.9,
       ease: "power2.out"
     }
   );
 
 
   /*
+    -----------------------------------------
     「ようこそ」
-
-    背景と同時に表示
+    -----------------------------------------
   */
 
   heroTimeline.to(
@@ -960,17 +948,17 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 0.9,
+      duration: 1.0,
       ease: "power2.out"
     },
-    "<"
+    "<0.05"
   );
 
 
   /*
+    -----------------------------------------
     「長高祭2026」
-
-    少し遅れて表示
+    -----------------------------------------
   */
 
   heroTimeline.to(
@@ -978,7 +966,7 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 1.0,
+      duration: 1.1,
       ease: "power2.out"
     },
     "+=0.35"
@@ -986,15 +974,23 @@ async function startInitialAnimation(){
 
 
   /*
-    ticker
+    -----------------------------------------
+    TOP画像
+    -----------------------------------------
+
+    ここで初めて表示する。
+
+    透明 → 不透明
+    をGSAPでゆっくり表示。
   */
 
   heroTimeline.to(
-    ticker,
+    heroFront,
     {
       opacity: 1,
+      autoAlpha: 1,
       y: 0,
-      duration: 0.65,
+      duration: 1.2,
       ease: "power2.out"
     },
     "+=0.15"
@@ -1002,8 +998,28 @@ async function startInitialAnimation(){
 
 
   /*
+    -----------------------------------------
+    ticker
+    -----------------------------------------
+  */
+
+  heroTimeline.to(
+    ticker,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    },
+    "+=0.15"
+  );
+
+
+  /*
+    -----------------------------------------
     最初から画面内にある
-    セクションを順番に表示
+    セクションを表示
+    -----------------------------------------
   */
 
   const visibleSections =
@@ -1021,11 +1037,11 @@ async function startInitialAnimation(){
       {
         opacity: 1,
         y: 0,
-        duration: 1.0,
-        stagger: 0.2,
+        duration: 1.15,
+        stagger: 0.25,
         ease: "power2.out"
       },
-      "+=0.12"
+      "+=0.2"
     );
 
   }
@@ -1046,8 +1062,8 @@ async function startInitialAnimation(){
 
 
       /*
-        今回のバージョンの
-        アニメーションを再生済みとして保存
+        今回のバージョンを
+        再生済みとして保存
       */
 
       localStorage.setItem(
