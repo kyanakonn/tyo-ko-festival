@@ -692,7 +692,7 @@ if(!topAnimationDone){
     heroBg,
     {
       opacity: 0,
-      y: -25
+      y: 0
     }
   );
 
@@ -703,7 +703,7 @@ if(!topAnimationDone){
     titleSpans,
     {
       opacity: 0,
-      y: -30
+      y: 0
     }
   );
 
@@ -727,7 +727,7 @@ if(!topAnimationDone){
     ticker,
     {
       opacity: 0,
-      y: -20
+      y: 0
     }
   );
 
@@ -911,14 +911,23 @@ async function startInitialAnimation(){
   );
 
 
+  /*
+    不要なdelayは入れない。
+
+    背景画像と「ようこそ」を
+    ほぼ同時に開始することで、
+    「ようこそ」が表示されるまでの
+    無駄な待ち時間をなくす。
+  */
+
   const heroTimeline =
-    gsap.timeline({
-      delay: 0.2
-    });
+    gsap.timeline();
 
 
   /* =========================================
      ① 背景画像
+     
+     「ようこそ」と同時に開始
   ========================================= */
 
   heroTimeline.to(
@@ -926,7 +935,9 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 1.2,
+
+      duration: 0.75,
+
       ease: "power2.out"
     }
   );
@@ -934,6 +945,8 @@ async function startInitialAnimation(){
 
   /* =========================================
      ② 「ようこそ」
+     
+     不要な待ち時間なし
   ========================================= */
 
   heroTimeline.to(
@@ -942,23 +955,18 @@ async function startInitialAnimation(){
       opacity: 1,
       y: 0,
 
-      /*
-        「ようこそ」を
-        じっくり表示
-      */
+      duration: 0.75,
 
-      duration: 0.9,
-
-      ease: "power3.out"
-    }
+      ease: "power2.out"
+    },
+    "<"
   );
 
 
   /* =========================================
      ③ 「長高祭2026」
      
-     「ようこそ」が表示された後、
-     少し間を置いて表示
+     「ようこそ」が読める程度の間を置く
   ========================================= */
 
   heroTimeline.to(
@@ -967,18 +975,17 @@ async function startInitialAnimation(){
       opacity: 1,
       y: 0,
 
-      duration: 0.9,
+      duration: 0.8,
 
-      ease: "power3.out"
+      ease: "power2.out"
     },
 
     /*
-      「ようこそ」表示完了後、
-      0.55秒待ってから
-      「長高祭2026」を表示
+      「ようこそ」の表示後、
+      0.4秒だけ間を置く
     */
 
-    "+=0.55"
+    "+=0.4"
   );
 
 
@@ -992,8 +999,8 @@ async function startInitialAnimation(){
   /* =========================================
      ⑤ ticker
      
-     「長高祭2026」からtickerまでを
-     以前より短くする
+     タイトルを確認してから
+     自然に表示
   ========================================= */
 
   heroTimeline.to(
@@ -1002,22 +1009,17 @@ async function startInitialAnimation(){
       opacity: 1,
       y: 0,
 
-      /*
-        ticker自体の表示も
-        素早くする
-      */
-
-      duration: 0.22,
+      duration: 0.65,
 
       ease: "power2.out"
     },
 
     /*
-      「長高祭2026」が終わってから
-      0.18秒だけ待つ
+      「長高祭2026」が表示された後、
+      0.15秒だけ間を置く
     */
 
-    "+=0.18"
+    "+=0.15"
   );
 
 
@@ -1043,15 +1045,25 @@ async function startInitialAnimation(){
         opacity: 1,
         y: 0,
 
-        duration: 0.8,
+        /*
+          人間が内容を認識できる
+          ゆったりした表示速度
+        */
 
-        stagger: 0.25,
+        duration: 1.0,
+
+        /*
+          セクション同士が
+          ほぼ連続して自然に表示される
+        */
+
+        stagger: 0.2,
 
         ease: "power2.out"
 
       },
 
-      "+=0.08"
+      "+=0.12"
     );
 
   }
@@ -1151,7 +1163,11 @@ gsap.utils
             opacity: 1,
             y: 0,
 
-            duration: 0.8,
+            /*
+              以前より少しゆっくり
+            */
+
+            duration: 0.9,
 
             ease: "power2.out"
           }
@@ -1204,7 +1220,7 @@ gsap.utils
             opacity: 1,
             y: 0,
 
-            duration: 0.8,
+            duration: 0.9,
 
             ease: "power2.out"
           }
