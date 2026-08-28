@@ -1,54 +1,63 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 
 <meta charset="UTF-8">
 
 <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
 >
 
 <meta
-  name="google-site-verification"
-  content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8"
+name="google-site-verification"
+content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8"
 />
 
 <title>長生高校文化祭2026｜長高祭【公式】サイト</title>
 
 <meta
-  name="description"
-  content="長生高校文化祭、通称『長高祭』の公式サイト。企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！"
+name="description"
+content="長生高校文化祭、通称『長高祭』の公式サイト。企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！"
+
 >
 
 <meta
-  name="keywords"
-  content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭"
+name="keywords"
+content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭"
+
 >
 
 <meta
-  name="application-name"
-  content="長高祭"
+name="application-name"
+content="長高祭"
+
 >
 
 <meta
-  property="og:site_name"
-  content="長高祭"
+property="og:site_name"
+content="長高祭"
+
 >
 
 <meta
-  property="og:title"
-  content="長高祭｜長生高校文化祭公式サイト"
+property="og:title"
+content="長高祭｜長生高校文化祭公式サイト"
+
 >
 
 <meta
-  property="og:description"
-  content="長生高校文化祭の公式サイト"
+property="og:description"
+content="長生高校文化祭の公式サイト"
+
 >
 
 <meta
-  property="og:type"
-  content="website"
+property="og:type"
+content="website"
+
 >
 
 <link rel="icon" href="/favicon.ico">
@@ -66,6 +75,52 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
 </script>
 
+<!-- =========================================
+     長高祭 サイトバージョン
+     
+     Webサイトを更新して再デプロイするときは
+     この数字を変更してください。
+
+     例：
+     2026.08.28.1
+     ↓
+     2026.08.28.2
+
+     バージョンを変更すると、
+     そのブラウザでは新しいサイトを
+     「初回訪問」として扱います。
+========================================= -->
+
+<script>
+
+const SITE_VERSION =
+  "2026.08.28.2";
+
+
+/*
+  バージョンごとにlocalStorageの保存場所を
+  分けるためのキーを作成
+*/
+
+const INTRO_DONE_KEY =
+  "choko_festival_intro_done_" +
+  SITE_VERSION;
+
+
+const TOP_ANIMATION_DONE_KEY =
+  "choko_top_animation_done_" +
+  SITE_VERSION;
+
+
+/*
+  旧バージョンのキーは使用しない。
+
+  新しいSITE_VERSIONに変更すると、
+  以前のバージョンの「完了済み」は
+  自動的に引き継がれません。
+*/
+
+</script>
 
 <!-- =========================================
      長高祭オープニング判定
@@ -77,7 +132,7 @@
 
   const introDone =
     localStorage.getItem(
-      "choko_festival_intro_done"
+      INTRO_DONE_KEY
     );
 
 
@@ -95,12 +150,10 @@
 
 </head>
 
-
 <link
   rel="stylesheet"
   href="css/style.css"
 >
-
 
 <style>
 
@@ -113,15 +166,8 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 
-  /*
-    ページ全体は縦方向へ
-    スワイプできるようにする。
-  */
   touch-action: pan-y;
 
-  /*
-    iPhone等でのスクロールを安定させる。
-  */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -163,9 +209,7 @@ body {
 
 </style>
 
-
 <body>
-
 
 <div class="bg-shapes">
 
@@ -184,7 +228,6 @@ body {
 
 </div>
 
-
 <div id="loader">
 
   <div class="loader-text">
@@ -193,9 +236,7 @@ body {
 
 </div>
 
-
 <div id="header"></div>
-
 
 <script>
 
@@ -289,14 +330,13 @@ fetch("header.html")
 
 </script>
 
-
 <div class="hero">
 
-  <img
-    src="hero.jpg"
-    class="hero-bg"
-  >
+<img
+src="hero.jpg"
+class="hero-bg"
 
+>
 
   <!-- =========================================
        画像の上に表示するタイトル
@@ -304,45 +344,47 @@ fetch("header.html")
 
   <div class="hero-title-wrap">
 
-    <h1 id="title">
+```
+<h1 id="title">
 
-      <span class="welcome">
-        ようこそ
-      </span>
+  <span class="welcome">
+    ようこそ
+  </span>
 
-      <span class="festival">
-        長高祭2026
-      </span>
+  <span class="festival">
+    長高祭2026
+  </span>
 
-    </h1>
+</h1>
+```
 
   </div>
 
+<img
+src="IMG_0354.png"
+class="hero-front"
 
-  <img
-    src="IMG_0354.png"
-    class="hero-front"
-  >
-
+>
 
   <div class="ticker">
 
-    <div class="ticker-track">
+```
+<div class="ticker-track">
 
-      <span>
-        長高祭2026 今年は9月12日(土) 9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
-      </span>
+  <span>
+    長高祭2026 今年は9月12日(土) 9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
+  </span>
 
-      <span>
-        長高祭2026 今年は9月12日(土)　9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
-      </span>
+  <span>
+    長高祭2026 今年は9月12日(土)　9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
+  </span>
 
-    </div>
+</div>
+```
 
   </div>
 
 </div>
-
 
 <!-- バナースライダー -->
 
@@ -350,75 +392,80 @@ fetch("header.html")
 
   <div class="banner-slider">
 
-    <div
-      class="banner-track"
-      id="bannerTrack"
-    >
+```
+<div
+  class="banner-track"
+  id="bannerTrack"
+>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-      <div class="banner">
-        <img src="images/banner1.jpeg">
-      </div>
+  <div class="banner">
+    <img src="images/banner1.jpeg">
+  </div>
 
-    </div>
+</div>
 
 
-    <div
-      class="banner-dots"
-      id="bannerDots">
-    </div>
+<div
+  class="banner-dots"
+  id="bannerDots">
+</div>
+```
 
   </div>
 
 </section>
 
-
 <section id="about">
 
 <h2>\ お知らせ /</h2>
 
-
 <div class="info-links">
 
-  <a
-    href="guide.html"
-    class="info-card"
-  >
+<a
+href="guide.html"
+class="info-card"
 
-    <img src="images/guide.png">
+>
+
+```
+<img src="images/guide.png">
+```
 
   </a>
 
+<a
+href="map.html"
+class="info-card"
 
-  <a
-    href="map.html"
-    class="info-card"
-  >
+>
 
-    <img src="images/map.png">
+```
+<img src="images/map.png">
+```
 
   </a>
 
@@ -426,13 +473,11 @@ fetch("header.html")
 
 </section>
 
-
 <section id="events">
 
 <h2 class="events-title">
   \ 企画・イベント /
 </h2>
-
 
 <div class="slider">
 
@@ -441,93 +486,96 @@ fetch("header.html")
     id="slides"
   >
 
-    <a
-      href="events.html?cat=1"
-      class="card"
-    >
+```
+<a
+  href="events.html?cat=1"
+  class="card"
+>
 
-      <img src="images/event1.jpg">
+  <img src="images/event1.jpg">
 
-      <div>
-        <h3>1学年</h3>
-      </div>
+  <div>
+    <h3>1学年</h3>
+  </div>
 
-    </a>
-
-
-    <a
-      href="events.html?cat=2"
-      class="card"
-    >
-
-      <img src="images/event2.jpg">
-
-      <div>
-        <h3>2学年</h3>
-      </div>
-
-    </a>
+</a>
 
 
-    <a
-      href="events.html?cat=3"
-      class="card"
-    >
+<a
+  href="events.html?cat=2"
+  class="card"
+>
 
-      <img src="images/event3.jpg">
+  <img src="images/event2.jpg">
 
-      <div>
-        <h3>3学年</h3>
-      </div>
+  <div>
+    <h3>2学年</h3>
+  </div>
 
-    </a>
-
-
-    <a
-      href="events.html?cat=club"
-      class="card"
-    >
-
-      <img src="images/event4.jpg">
-
-      <div>
-        <h3>部活動・同好会</h3>
-      </div>
-
-    </a>
+</a>
 
 
-    <a
-      href="events.html?cat=other"
-      class="card"
-    >
+<a
+  href="events.html?cat=3"
+  class="card"
+>
 
-      <img src="images/event5.jpg">
+  <img src="images/event3.jpg">
 
-      <div>
-        <h3>その他イベント</h3>
-      </div>
+  <div>
+    <h3>3学年</h3>
+  </div>
 
-    </a>
+</a>
+
+
+<a
+  href="events.html?cat=club"
+  class="card"
+>
+
+  <img src="images/event4.jpg">
+
+  <div>
+    <h3>部活動・同好会</h3>
+  </div>
+
+</a>
+
+
+<a
+  href="events.html?cat=other"
+  class="card"
+>
+
+  <img src="images/event5.jpg">
+
+  <div>
+    <h3>その他イベント</h3>
+  </div>
+
+</a>
+```
 
   </div>
 
+<a
+href="events.html"
+class="main-btn"
 
-  <a
-    href="events.html"
-    class="main-btn"
-  >
+>
 
-    <span>
-      企画一覧をみる
-    </span>
+```
+<span>
+  企画一覧をみる
+</span>
 
-    <div class="arrow">
-      →
-    </div>
+<div class="arrow">
+  →
+</div>
+```
 
   </a>
-
 
   <div
     class="dots"
@@ -538,41 +586,40 @@ fetch("header.html")
 
 </section>
 
-
 <section id="access">
 
   <h2>
     \ アクセス /
   </h2>
 
-
   <div class="access-row">
 
-    <div>
+```
+<div>
 
-      <p>
-        <strong>「茂原駅東口」から徒歩 約15分</strong>
-      </p>
+  <p>
+    <strong>「茂原駅東口」から徒歩 約15分</strong>
+  </p>
 
-      <p style="color: red; font-weight: bold;">
-        ※学校で駐車場は用意しておりません
-      </p>
+  <p style="color: red; font-weight: bold;">
+    ※学校で駐車場は用意しておりません
+  </p>
 
-    </div>
+</div>
 
 
-    <a
-      href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
-      target="_blank"
-      class="map-btn"
-    >
-      Googleマップで確認
-    </a>
+<a
+  href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
+  target="_blank"
+  class="map-btn"
+>
+  Googleマップで確認
+</a>
+```
 
   </div>
 
 </section>
-
 
 <footer>
 
@@ -581,7 +628,6 @@ fetch("header.html")
   </p>
 
 </footer>
-
 
 <script>
 
@@ -642,8 +688,6 @@ const ticker =
 
 /*
   tickerより下のコンテンツ
-
-  ※フッターはアニメーション対象外
 */
 
 const introSections =
@@ -652,24 +696,18 @@ const introSections =
   );
 
 
-/*
-  TOPページの初回アニメーションが
-  完了したかどうか
-*/
-
 let initialAnimationFinished =
   false;
 
 
 /*
-  このブラウザで
-  TOPページ初回アニメーションを
-  すでに見たかどうか
+  サイトバージョンごとの
+  TOPアニメーション完了判定
 */
 
 const topAnimationDone =
   localStorage.getItem(
-    "choko_top_animation_done"
+    TOP_ANIMATION_DONE_KEY
   );
 
 
@@ -677,16 +715,7 @@ const topAnimationDone =
    初期状態
 ========================================= */
 
-
-/*
-  初回訪問時のみ
-  ヒーローアニメーション用の
-  初期状態にする
-*/
-
 if(!topAnimationDone){
-
-  /* 背景 */
 
   gsap.set(
     heroBg,
@@ -697,8 +726,6 @@ if(!topAnimationDone){
   );
 
 
-  /* タイトル */
-
   gsap.set(
     titleSpans,
     {
@@ -708,10 +735,6 @@ if(!topAnimationDone){
   );
 
 
-  /*
-    TOP画像
-  */
-
   gsap.set(
     heroFront,
     {
@@ -720,8 +743,6 @@ if(!topAnimationDone){
     }
   );
 
-
-  /* ticker */
 
   gsap.set(
     ticker,
@@ -733,12 +754,6 @@ if(!topAnimationDone){
 
 }
 
-
-/*
-  2回目以降は
-  「ようこそ」「長高祭2026」
-  tickerを最初から表示
-*/
 
 else{
 
@@ -781,13 +796,6 @@ else{
 
 }
 
-
-/*
-  tickerより下のコンテンツは
-  毎回画面に入ったときに
-  フェードインさせるため、
-  最初は非表示
-*/
 
 gsap.set(
   introSections,
@@ -879,11 +887,6 @@ function isSectionVisible(sec){
 
 async function startInitialAnimation(){
 
-  /*
-    2回目以降は
-    ヒーローアニメーションを実行しない
-  */
-
   if(topAnimationDone){
 
     initialAnimationFinished =
@@ -911,23 +914,12 @@ async function startInitialAnimation(){
   );
 
 
-  /*
-    不要なdelayは入れない。
-
-    背景画像と「ようこそ」を
-    ほぼ同時に開始することで、
-    「ようこそ」が表示されるまでの
-    無駄な待ち時間をなくす。
-  */
-
   const heroTimeline =
     gsap.timeline();
 
 
   /* =========================================
      ① 背景画像
-     
-     「ようこそ」と同時に開始
   ========================================= */
 
   heroTimeline.to(
@@ -945,8 +937,6 @@ async function startInitialAnimation(){
 
   /* =========================================
      ② 「ようこそ」
-     
-     不要な待ち時間なし
   ========================================= */
 
   heroTimeline.to(
@@ -965,8 +955,6 @@ async function startInitialAnimation(){
 
   /* =========================================
      ③ 「長高祭2026」
-     
-     「ようこそ」が読める程度の間を置く
   ========================================= */
 
   heroTimeline.to(
@@ -980,27 +968,19 @@ async function startInitialAnimation(){
       ease: "power2.out"
     },
 
-    /*
-      「ようこそ」の表示後、
-      0.4秒だけ間を置く
-    */
-
     "+=0.4"
   );
 
 
   /* =========================================
      ④ TOP画像
-
+     
      アニメーションなし
   ========================================= */
 
 
   /* =========================================
      ⑤ ticker
-     
-     タイトルを確認してから
-     自然に表示
   ========================================= */
 
   heroTimeline.to(
@@ -1014,19 +994,12 @@ async function startInitialAnimation(){
       ease: "power2.out"
     },
 
-    /*
-      「長高祭2026」が表示された後、
-      0.15秒だけ間を置く
-    */
-
     "+=0.15"
   );
 
 
   /* =========================================
      ⑥ ticker以下
-     
-     フッターは除外
   ========================================= */
 
   const visibleSections =
@@ -1045,17 +1018,7 @@ async function startInitialAnimation(){
         opacity: 1,
         y: 0,
 
-        /*
-          人間が内容を認識できる
-          ゆったりした表示速度
-        */
-
         duration: 1.0,
-
-        /*
-          セクション同士が
-          ほぼ連続して自然に表示される
-        */
 
         stagger: 0.2,
 
@@ -1078,12 +1041,12 @@ async function startInitialAnimation(){
 
 
       /*
-        初回ヒーローアニメーションを
-        完了済みとして保存
+        このサイトバージョンで
+        初回アニメーションを見たことを保存
       */
 
       localStorage.setItem(
-        "choko_top_animation_done",
+        TOP_ANIMATION_DONE_KEY,
         "true"
       );
 
@@ -1103,12 +1066,6 @@ startInitialAnimation();
    スクロールアニメーション
 ========================================= */
 
-/*
-  tickerより下のコンテンツのみ。
-
-  フッターは対象外。
-*/
-
 gsap.utils
   .toArray(
     ".banner-section, #about, #events, #access"
@@ -1121,24 +1078,10 @@ gsap.utils
 
       start: "top 85%",
 
-      /*
-        一度だけではなく
-        何度でも発火させる
-      */
-
       once: false,
 
 
-      /*
-        画面に入ったとき
-      */
-
       onEnter: () => {
-
-        /*
-          初回ヒーローアニメーション中は
-          一旦待つ
-        */
 
         if(
           !initialAnimationFinished
@@ -1148,10 +1091,6 @@ gsap.utils
 
         }
 
-
-        /*
-          毎回フェードイン
-        */
 
         gsap.fromTo(
           sec,
@@ -1163,10 +1102,6 @@ gsap.utils
             opacity: 1,
             y: 0,
 
-            /*
-              以前より少しゆっくり
-            */
-
             duration: 0.9,
 
             ease: "power2.out"
@@ -1175,11 +1110,6 @@ gsap.utils
 
       },
 
-
-      /*
-        下方向へスクロールして
-        画面外へ出たとき
-      */
 
       onLeave: () => {
 
@@ -1193,11 +1123,6 @@ gsap.utils
 
       },
 
-
-      /*
-        上方向へ戻って
-        再び画面に入ったとき
-      */
 
       onEnterBack: () => {
 
@@ -1228,11 +1153,6 @@ gsap.utils
 
       },
 
-
-      /*
-        上方向へスクロールして
-        画面上から外れたとき
-      */
 
       onLeaveBack: () => {
 
@@ -3053,7 +2973,6 @@ window.addEventListener(
 );
 
 </script>
-
 
 </body>
 
