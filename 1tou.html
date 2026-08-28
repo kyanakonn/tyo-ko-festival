@@ -1,1 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
 
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+>
+
+<title>1棟 フロアマップ</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+/* =========================================
+   全体
+========================================= */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  background-color: white;
+  color: black;
+
+  font-family: sans-serif;
+
+  overscroll-behavior: none;
+}
+
+
+/* =========================================
+   ヘッダー
+========================================= */
+
+#header {
+  position: relative;
+  z-index: 100;
+}
+
+
+/* =========================================
+   フロアマップ画面
+========================================= */
+
+.floor-page {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: none;
+
+  background-color: white;
+}
+
+
+/* =========================================
+   マップ表示エリア
+========================================= */
+
+.map-view {
+  position: relative;
+
+  width: 100%;
+  height: calc(100vh - 80px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  touch-action: none;
+}
+
+
+/* =========================================
+   マップ画像
+========================================= */
+
+.map-image-wrapper {
+  position: relative;
+
+  max-width: 90vw;
+  max-height: 75vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform-origin: center center;
+
+  touch-action: none;
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.map-image {
+  display: block;
+
+  max-width: 90vw;
+  max-height: 75vh;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   左右ボタン
+========================================= */
+
+.floor-arrow {
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 48px;
+  height: 80px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 52px;
+  line-height: 1;
+
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 30;
+
+  padding: 0;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.floor-arrow:active {
+  opacity: 0.5;
+}
+
+.floor-prev {
+  left: 4px;
+}
+
+.floor-next {
+  right: 4px;
+}
+
+
+/* =========================================
+   棟切り替えボタン
+========================================= */
+
+.building-switch {
+  position: absolute;
+
+  bottom: 12px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 58px;
+  height: 42px;
+
+  border: none;
+  background: transparent;
+
+  color: black;
+
+  font-size: 42px;
+  line-height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 40;
+
+  padding: 0;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.building-switch:active {
+  opacity: 0.5;
+}
+
+
+/* =========================================
+   戻るボタン
+========================================= */
+
+.back-button {
+  position: absolute;
+
+  top: 10px;
+  left: 10px;
+
+  z-index: 100;
+
+  display: inline-block;
+
+  padding: 8px 14px;
+
+  background: black;
+  color: white;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   階数表示
+========================================= */
+
+.floor-name {
+  position: absolute;
+
+  top: 12px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 30;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  background: rgba(255,255,255,0.85);
+
+  padding: 5px 12px;
+
+  border-radius: 8px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   スマートフォン
+========================================= */
+
+@media (max-width: 600px) {
+
+  .map-view {
+    height: calc(100vh - 50px);
+  }
+
+  .map-image {
+    max-width: 82vw;
+    max-height: 68vh;
+  }
+
+  .map-image-wrapper {
+    max-width: 82vw;
+    max-height: 68vh;
+  }
+
+  .floor-arrow {
+    width: 40px;
+    height: 70px;
+
+    font-size: 44px;
+  }
+
+  .floor-prev {
+    left: 0;
+  }
+
+  .floor-next {
+    right: 0;
+  }
+
+  .building-switch {
+    bottom: 5px;
+
+    font-size: 38px;
+  }
+
+  .floor-name {
+    top: 8px;
+    font-size: 16px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bg-shapes">
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+  <div class="shape s5"></div>
+  <div class="shape s6"></div>
+  <div class="shape s7"></div>
+  <div class="shape s8"></div>
+</div>
+
+
+<!-- ヘッダー -->
+
+<div id="header"></div>
+
+
+<script>
+
+fetch("header.html")
+  .then(res => res.text())
+  .then(data => {
+
+    document.getElementById("header").innerHTML = data;
+
+    const btn = document.querySelector(".menu-btn");
+    const nav = document.querySelector(".nav");
+
+    if (btn && nav) {
+
+      btn.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        nav.classList.toggle("active");
+
+      });
+
+      document.addEventListener("click", (e) => {
+
+        if (
+          !nav.contains(e.target) &&
+          !btn.contains(e.target)
+        ) {
+
+          nav.classList.remove("active");
+
+        }
+
+      });
+
+    }
+
+  });
+
+</script>
+
+
+<!-- =========================================
+     フロアマップ
+========================================= -->
+
+<div class="floor-page">
+
+  <!-- 戻る -->
+  <a href="javascript:history.back()" class="back-button">
+    戻る
+  </a>
+
+
+  <div class="map-view">
+
+    <!-- 階数 -->
+    <div id="floorName" class="floor-name">
+      1棟 1階
+    </div>
+
+
+    <!-- 左 -->
+    <button
+      class="floor-arrow floor-prev"
+      id="prevButton"
+      aria-label="前の階"
+    >
+      〈
+    </button>
+
+
+    <!-- 画像 -->
+    <div
+      class="map-image-wrapper"
+      id="imageWrapper"
+    >
+
+      <img
+        id="floorImage"
+        class="map-image"
+        src="images/1tou_1f.jpg"
+        alt="1棟 1階 フロアマップ"
+      >
+
+    </div>
+
+
+    <!-- 右 -->
+    <button
+      class="floor-arrow floor-next"
+      id="nextButton"
+      aria-label="次の階"
+    >
+      〉
+    </button>
+
+
+    <!-- 2棟へ -->
+    <button
+      class="building-switch"
+      id="buildingSwitch"
+      aria-label="2棟へ"
+    >
+      〉
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   1棟 フロア設定
+========================================= */
+
+const floors = [
+
+  {
+    name: "1棟 1階",
+    image: "images/1tou_1f.jpg"
+  },
+
+  {
+    name: "1棟 2階",
+    image: "images/1tou_2f.jpg"
+  },
+
+  {
+    name: "1棟 3階",
+    image: "images/1tou_3f.jpg"
+  },
+
+  {
+    name: "1棟 4階",
+    image: "images/1tou_4f.jpg"
+  }
+
+];
+
+
+let currentFloor = 0;
+
+
+/* =========================================
+   要素
+========================================= */
+
+const floorImage =
+  document.getElementById("floorImage");
+
+const floorName =
+  document.getElementById("floorName");
+
+const prevButton =
+  document.getElementById("prevButton");
+
+const nextButton =
+  document.getElementById("nextButton");
+
+const buildingSwitch =
+  document.getElementById("buildingSwitch");
+
+const imageWrapper =
+  document.getElementById("imageWrapper");
+
+
+/* =========================================
+   フロア変更
+========================================= */
+
+function showFloor(index) {
+
+  currentFloor =
+    (index + floors.length) % floors.length;
+
+  floorImage.src =
+    floors[currentFloor].image;
+
+  floorImage.alt =
+    floors[currentFloor].name +
+    " フロアマップ";
+
+  floorName.textContent =
+    floors[currentFloor].name;
+
+  resetZoom();
+
+}
+
+
+/* =========================================
+   左右ボタン
+========================================= */
+
+prevButton.addEventListener(
+  "click",
+  () => {
+
+    showFloor(currentFloor - 1);
+
+  }
+);
+
+
+nextButton.addEventListener(
+  "click",
+  () => {
+
+    showFloor(currentFloor + 1);
+
+  }
+);
+
+
+/* =========================================
+   2棟へ移動
+========================================= */
+
+buildingSwitch.addEventListener(
+  "click",
+  () => {
+
+    location.href = "2tou.html";
+
+  }
+);
+
+
+/* =========================================
+   ピンチズーム
+========================================= */
+
+let scale = 1;
+
+let startDistance = 0;
+
+let startScale = 1;
+
+
+function getDistance(touches) {
+
+  const dx =
+    touches[0].clientX -
+    touches[1].clientX;
+
+  const dy =
+    touches[0].clientY -
+    touches[1].clientY;
+
+  return Math.sqrt(
+    dx * dx + dy * dy
+  );
+
+}
+
+
+function setZoom(value) {
+
+  scale =
+    Math.min(
+      Math.max(value, 1),
+      5
+    );
+
+  imageWrapper.style.transform =
+    "scale(" + scale + ")";
+
+}
+
+
+function resetZoom() {
+
+  scale = 1;
+
+  imageWrapper.style.transform =
+    "scale(1)";
+
+}
+
+
+/* =========================================
+   タッチ操作
+========================================= */
+
+imageWrapper.addEventListener(
+  "touchstart",
+  (e) => {
+
+    if (e.touches.length === 2) {
+
+      startDistance =
+        getDistance(e.touches);
+
+      startScale =
+        scale;
+
+    }
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.addEventListener(
+  "touchmove",
+  (e) => {
+
+    if (e.touches.length === 2) {
+
+      e.preventDefault();
+
+      const distance =
+        getDistance(e.touches);
+
+      const ratio =
+        distance / startDistance;
+
+      setZoom(
+        startScale * ratio
+      );
+
+    }
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.addEventListener(
+  "touchend",
+  () => {
+
+    if (scale < 1) {
+
+      resetZoom();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   マウスホイール
+========================================= */
+
+imageWrapper.addEventListener(
+  "wheel",
+  (e) => {
+
+    e.preventDefault();
+
+    const delta =
+      e.deltaY > 0
+        ? -0.15
+        : 0.15;
+
+    setZoom(scale + delta);
+
+  },
+  { passive: false }
+);
+
+</script>
+
+</body>
+</html>
