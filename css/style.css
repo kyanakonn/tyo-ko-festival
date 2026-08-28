@@ -494,15 +494,18 @@ header h1 {
   z-index: 100;
 
   pointer-events: none;
+
+  /*
+    アニメーション開始前の
+    画像の枠・青いブロック等を
+    見せないための設定
+  */
+  backface-visibility: hidden;
 }
 
 
 /* =========================================
    ヒーロータイトル
-   2枚目画像と同じように
-   「ようこそ」
-   「長高祭2026」
-   を画像上部中央に表示
 ========================================= */
 
 .hero-title-wrap {
@@ -1215,26 +1218,51 @@ footer {
   ------------------------- */
 
   .hero-title-wrap {
-    top: 2.5%;
 
-    padding: 0 10px;
+    /*
+      スマホではタイトルを
+      少し上に配置
+    */
+
+    top: 1.2%;
+
+    padding: 0 6px;
   }
 
 
   .hero h1 {
-    line-height: 0.98;
+
+    /*
+      横幅に余裕を持たせ、
+      キャラクター部分まで
+      タイトルが下がらないようにする
+    */
+
+    line-height: 0.94;
   }
 
 
   .hero h1 .welcome {
-    font-size: clamp(30px, 8.8vw, 58px);
 
-    margin-bottom: 3px;
+    /*
+      元より小さくして
+      キャラクターと重ならないようにする
+    */
+
+    font-size: clamp(27px, 7.2vw, 48px);
+
+    margin-bottom: 2px;
   }
 
 
   .hero h1 .festival {
-    font-size: clamp(38px, 10.4vw, 70px);
+
+    /*
+      「長高祭2026」も
+      スマホでは少し小さくする
+    */
+
+    font-size: clamp(34px, 8.2vw, 56px);
 
     letter-spacing: 0;
   }
