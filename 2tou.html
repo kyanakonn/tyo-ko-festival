@@ -28,12 +28,242 @@ body {
 
   overflow: hidden;
 
-  background-color: white;
+  background-color: #eeedeb !important;
   color: black;
 
   font-family: sans-serif;
 
   overscroll-behavior: none;
+}
+
+
+/* =========================================
+   背景図形
+   参考画像に合わせたデザイン
+========================================= */
+
+.bg-shapes {
+  position: fixed !important;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 0 !important;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  opacity: 1 !important;
+}
+
+
+.bg-shapes .shape {
+  position: absolute;
+
+  display: block;
+
+  opacity: 1;
+
+  border: none;
+}
+
+
+/* =========================================
+   大きな紺色の四角形
+========================================= */
+
+.bg-shapes .s1 {
+  top: 16%;
+  left: 6%;
+
+  width: 150px;
+  height: 610px;
+
+  background: #06254f;
+
+  clip-path: polygon(
+    35% 0,
+    100% 16%,
+    100% 100%,
+    0 94%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   中央のオレンジ色の四角形
+========================================= */
+
+.bg-shapes .s2 {
+  top: 30%;
+  left: 39%;
+
+  width: 315px;
+  height: 470px;
+
+  background: #ff9d1c;
+
+  clip-path: polygon(
+    10% 0,
+    100% 8%,
+    82% 100%,
+    0 96%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   右側の青緑の大きな三角形
+========================================= */
+
+.bg-shapes .s3 {
+  top: 26%;
+  right: 10%;
+
+  width: 330px;
+  height: 500px;
+
+  background: #15929e;
+
+  clip-path: polygon(
+    55% 0,
+    100% 100%,
+    0 100%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   左上の赤い三角形
+========================================= */
+
+.bg-shapes .s4 {
+  top: 5%;
+  left: 3%;
+
+  width: 90px;
+  height: 90px;
+
+  background: #f0444d;
+
+  clip-path: polygon(
+    42% 0,
+    100% 100%,
+    0 100%
+  );
+
+  transform: rotate(-14deg);
+}
+
+
+/* =========================================
+   右上の濃赤三角形
+========================================= */
+
+.bg-shapes .s5 {
+  top: -1%;
+  right: 4%;
+
+  width: 170px;
+  height: 170px;
+
+  background: #650006;
+
+  clip-path: polygon(
+    100% 0,
+    100% 100%,
+    0 35%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   左側の紫三角形
+========================================= */
+
+.bg-shapes .s6 {
+  top: 36%;
+  left: 2%;
+
+  width: 65px;
+  height: 65px;
+
+  background: #8f5bd0;
+
+  clip-path: polygon(
+    70% 0,
+    100% 100%,
+    0 70%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   右側のオレンジ三角形
+========================================= */
+
+.bg-shapes .s7 {
+  top: 35%;
+  right: 10%;
+
+  width: 65px;
+  height: 65px;
+
+  background: #ff991d;
+
+  clip-path: polygon(
+    15% 0,
+    100% 55%,
+    0 100%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   右側の小さな青緑図形
+========================================= */
+
+.bg-shapes .s8 {
+  top: 47%;
+  right: 4%;
+
+  width: 80px;
+  height: 105px;
+
+  background: #087b84;
+
+  clip-path: polygon(
+    100% 0,
+    100% 100%,
+    0 62%
+  );
+
+  transform: rotate(0deg);
+}
+
+
+/* =========================================
+   style.css由来の四角形を無効化
+========================================= */
+
+.bg-shapes::before,
+.bg-shapes::after {
+  display: none !important;
 }
 
 
@@ -69,7 +299,9 @@ body {
 
   touch-action: none;
 
-  background-color: white;
+  background: transparent !important;
+
+  z-index: 1;
 }
 
 
@@ -91,6 +323,8 @@ body {
   overflow: hidden;
 
   touch-action: none;
+
+  background: transparent !important;
 }
 
 
@@ -143,6 +377,7 @@ body {
 
 /* =========================================
    全体図に戻るボタン
+   サイズは元のまま
 ========================================= */
 
 .back-to-map {
@@ -157,26 +392,30 @@ body {
 
   border: none;
 
-  background: rgba(255,255,255,0.88);
+  background: #06254f;
 
-  color: black;
+  color: #fff;
 
   padding: 6px 13px;
 
   border-radius: 8px;
 
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
 
   white-space: nowrap;
 
   cursor: pointer;
 
+  box-shadow: none;
+
   -webkit-tap-highlight-color: transparent;
 }
 
 .back-to-map:active {
-  opacity: 0.5;
+  opacity: 0.65;
 }
 
 
@@ -195,12 +434,13 @@ body {
   height: 80px;
 
   border: none;
+
   background: transparent;
 
   font-size: 52px;
   line-height: 1;
 
-  color: black;
+  color: #06254f;
 
   display: flex;
   align-items: center;
@@ -211,6 +451,8 @@ body {
   z-index: 30;
 
   padding: 0;
+
+  text-shadow: none;
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -225,33 +467,37 @@ body {
 
 .floor-next {
   right: 4px;
+
+  color: #d92a21;
 }
 
 
 /* =========================================
    棟切り替えボタン
-   画像の下端に重ねる
+   左右ボタンと同程度のサイズ
+   画像の下側へ少し重ねる
 ========================================= */
 
 .building-switch {
   position: absolute;
 
   left: 50%;
-  bottom: 2px;
+
+  bottom: 18px;
 
   transform: translateX(-50%);
 
-  width: 58px;
-  height: 38px;
+  width: 48px;
+  height: 80px;
 
   border: none;
 
-  background: rgba(255,255,255,0.78);
+  background: transparent;
 
-  color: black;
+  color: #15929e;
 
-  font-size: 38px;
-  line-height: 30px;
+  font-size: 52px;
+  line-height: 1;
 
   display: flex;
   align-items: center;
@@ -263,7 +509,9 @@ body {
 
   padding: 0;
 
-  border-radius: 8px;
+  border-radius: 0;
+
+  text-shadow: none;
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -293,6 +541,11 @@ body {
     max-height: 68vh;
   }
 
+
+  /* -------------------------
+     左右矢印
+  ------------------------- */
+
   .floor-arrow {
     width: 40px;
     height: 70px;
@@ -308,14 +561,24 @@ body {
     right: 0;
   }
 
+
+  /* -------------------------
+     棟切り替え
+  ------------------------- */
+
   .building-switch {
-    width: 58px;
-    height: 38px;
+    width: 40px;
+    height: 70px;
 
-    font-size: 34px;
+    font-size: 44px;
 
-    bottom: 2px;
+    bottom: 16px;
   }
+
+
+  /* -------------------------
+     全体図へ戻る
+  ------------------------- */
 
   .back-to-map {
     top: 6px;
@@ -323,6 +586,75 @@ body {
     font-size: 14px;
 
     padding: 5px 11px;
+  }
+
+
+  /* -------------------------
+     背景図形
+  ------------------------- */
+
+  .bg-shapes .s1 {
+    left: -15px;
+    top: 18%;
+
+    width: 90px;
+    height: 390px;
+  }
+
+  .bg-shapes .s2 {
+    left: 36%;
+    top: 33%;
+
+    width: 180px;
+    height: 300px;
+  }
+
+  .bg-shapes .s3 {
+    right: 1%;
+    top: 31%;
+
+    width: 170px;
+    height: 290px;
+  }
+
+  .bg-shapes .s4 {
+    top: 6%;
+    left: 2%;
+
+    width: 55px;
+    height: 55px;
+  }
+
+  .bg-shapes .s5 {
+    top: 0;
+    right: 0;
+
+    width: 95px;
+    height: 95px;
+  }
+
+  .bg-shapes .s6 {
+    top: 37%;
+    left: 1%;
+
+    width: 42px;
+    height: 42px;
+  }
+
+  .bg-shapes .s7 {
+    top: 37%;
+    right: 4%;
+
+    width: 42px;
+    height: 42px;
+  }
+
+  .bg-shapes .s8 {
+    top: 49%;
+    right: 0;
+
+    width: 50px;
+    height: 65px;
   }
 
 }
