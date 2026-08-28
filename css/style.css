@@ -496,10 +496,14 @@ header h1 {
   pointer-events: none;
 
   /*
-    アニメーション開始前の
-    画像の枠・青いブロック等を
-    見せないための設定
+    画像読み込み前から完全に非表示にする。
+    これによりブラウザが画像を読み込んでいる間の
+    青いブロック・枠・壊れた画像表示などが
+    一瞬表示されるのを防ぐ。
   */
+  visibility: hidden;
+  opacity: 0;
+
   backface-visibility: hidden;
 }
 
@@ -1210,6 +1214,13 @@ footer {
     transform: none;
 
     object-fit: initial;
+
+    /*
+      スマホでも画像読み込み前は
+      完全に非表示
+    */
+    visibility: hidden;
+    opacity: 0;
   }
 
 
