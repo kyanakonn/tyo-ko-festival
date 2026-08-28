@@ -487,6 +487,11 @@ header h1 {
   margin: 0;
   padding: 0;
 
+  /*
+    位置移動は一切しない。
+    フェードインはopacityのみ。
+  */
+
   transform: none;
 
   object-fit: initial;
@@ -496,11 +501,11 @@ header h1 {
   pointer-events: none;
 
   /*
-    画像読み込み前から完全に非表示にする。
-    これによりブラウザが画像を読み込んでいる間の
-    青いブロック・枠・壊れた画像表示などが
-    一瞬表示されるのを防ぐ。
+    画像読み込み前から完全に非表示。
+    読み込み完了後にJavaScriptから
+    visibilityを解除してフェードインする。
   */
+
   visibility: hidden;
   opacity: 0;
 
@@ -1211,6 +1216,10 @@ footer {
 
     margin: 0;
 
+    /*
+      スマホでも位置移動なし。
+    */
+
     transform: none;
 
     object-fit: initial;
@@ -1219,6 +1228,7 @@ footer {
       スマホでも画像読み込み前は
       完全に非表示
     */
+
     visibility: hidden;
     opacity: 0;
   }
