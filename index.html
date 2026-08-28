@@ -642,11 +642,26 @@ const ticker =
 
 /*
   tickerより下のコンテンツ
+
+  ※フッターはここから除外
 */
 
 const introSections =
   document.querySelectorAll(
-    ".banner-section, #about, #events, #access, footer"
+    ".banner-section, #about, #events, #access"
+  );
+
+
+/* =========================================
+   初回アニメーション判定
+========================================= */
+
+const animationStorageKey =
+  "choko_top_animation_played";
+
+const isFirstTopVisit =
+  !localStorage.getItem(
+    animationStorageKey
   );
 
 
@@ -659,65 +674,123 @@ let initialAnimationFinished =
 ========================================= */
 
 
-/* 背景 */
-
-gsap.set(
-  heroBg,
-  {
-    opacity: 0,
-    y: -25
-  }
-);
-
-
-/* タイトル */
-
-gsap.set(
-  titleSpans,
-  {
-    opacity: 0,
-    y: -30
-  }
-);
-
-
 /*
-  TOP画像
+  初回アクセス時のみ
+  ヒーローのアニメーションを
+  最初の状態にする。
 */
 
-gsap.set(
-  heroFront,
-  {
-    autoAlpha: 0,
-    y: 0
-  }
-);
+if(isFirstTopVisit){
+
+  /* 背景 */
+
+  gsap.set(
+    heroBg,
+    {
+      opacity: 0,
+      y: -25
+    }
+  );
 
 
-/* ticker */
+  /* タイトル */
 
-gsap.set(
-  ticker,
-  {
-    opacity: 0,
-    y: -20
-  }
-);
+  gsap.set(
+    titleSpans,
+    {
+      opacity: 0,
+      y: -30
+    }
+  );
+
+
+  /*
+    TOP画像
+  */
+
+  gsap.set(
+    heroFront,
+    {
+      autoAlpha: 0,
+      y: 0
+    }
+  );
+
+
+  /* ticker */
+
+  gsap.set(
+    ticker,
+    {
+      opacity: 0,
+      y: -20
+    }
+  );
+
+}else{
+
+  /*
+    2回目以降は
+    最初から表示
+  */
+
+  gsap.set(
+    heroBg,
+    {
+      opacity: 1,
+      y: 0
+    }
+  );
+
+
+  gsap.set(
+    titleSpans,
+    {
+      opacity: 1,
+      y: 0
+    }
+  );
+
+
+  gsap.set(
+    heroFront,
+    {
+      visibility: "visible",
+      opacity: 1,
+      autoAlpha: 1,
+      y: 0
+    }
+  );
+
+
+  gsap.set(
+    ticker,
+    {
+      opacity: 1,
+      y: 0
+    }
+  );
+
+}
 
 
 /*
   tickerより下のコンテンツ
 
-  最初はすべて非表示。
+  初回のみ初期状態にする。
 */
 
-gsap.set(
-  introSections,
-  {
-    opacity: 0,
-    y: 25
-  }
-);
+if(isFirstTopVisit){
+
+  gsap.set(
+    introSections,
+    {
+      opacity: 0,
+      y: 25
+    }
+  );
+
+}
 
 
 /* =========================================
@@ -796,10 +869,28 @@ function isSectionVisible(sec){
 
 
 /* =========================================
+   初回アクセス時のみ
    ヒーローアニメーション
 ========================================= */
 
 async function startInitialAnimation(){
+
+  /*
+    2回目以降は
+    アニメーションを実行しない
+  */
+
+  if(!isFirstTopVisit){
+
+    initialAnimationFinished =
+      true;
+
+    ScrollTrigger.refresh();
+
+    return;
+
+  }
+
 
   await waitForHeroImage();
 
@@ -840,35 +931,44 @@ async function startInitialAnimation(){
      ② 「ようこそ」
      ③ 「長高祭2026」
 
-     ★ここだけ速度変更
+     ゆっくり表示して
+     しっかり見られるように調整
   ========================================= */
 
   heroTimeline.to(
-    titleSpans,
+    titleSpans[0],
     {
       opacity: 1,
       y: 0,
-
-      /*
-        0.6秒 → 0.9秒
-        文字が読めるように
-        少しゆっくり表示。
-      */
-
-      duration: 0.9,
-
-      /*
-        0.15秒 → 0.3秒
-        「ようこそ」の後に
-        「長高祭2026」が出るまで
-        少し時間を作る。
-      */
-
-      stagger: 0.3,
-
+      duration: 1.2,
       ease: "power3.out"
     },
-    "-=0.15"
+    "+=0.15"
+  );
+
+
+  heroTimeline.to(
+    titleSpans[1],
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power3.out"
+    },
+    "+=0.6"
+  );
+
+
+  /*
+    タイトルを表示したあと
+    しっかり見せるための待機時間
+  */
+
+  heroTimeline.to(
+    {},
+    {
+      duration: 1.2
+    }
   );
 
 
@@ -888,10 +988,10 @@ async function startInitialAnimation(){
     {
       opacity: 1,
       y: 0,
-      duration: 0.22,
+      duration: 0.5,
       ease: "power2.out"
     },
-    "+=0.05"
+    "+=0.1"
   );
 
 
@@ -942,6 +1042,16 @@ async function startInitialAnimation(){
     "onComplete",
     () => {
 
+      /*
+        初回アニメーション終了を記録
+      */
+
+      localStorage.setItem(
+        animationStorageKey,
+        "true"
+      );
+
+
       initialAnimationFinished =
         true;
 
@@ -963,7 +1073,7 @@ startInitialAnimation();
 
 gsap.utils
   .toArray(
-    ".banner-section, #about, #events, #access, footer"
+    ".banner-section, #about, #events, #access"
   )
   .forEach(sec => {
 
