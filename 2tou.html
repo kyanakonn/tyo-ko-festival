@@ -22,18 +22,19 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
 
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   background-color: #eeedeb !important;
   color: black;
 
   font-family: sans-serif;
 
-  overscroll-behavior: none;
+  overscroll-behavior-x: none;
 }
 
 
@@ -42,12 +43,14 @@ body {
 ========================================= */
 
 .bg-shapes {
-  position: fixed !important;
+  position: absolute !important;
 
-  inset: 0;
+  top: 0;
+  left: 0;
 
   width: 100%;
-  height: 100%;
+
+  height: max(100vh, 1100px);
 
   z-index: 0 !important;
 
@@ -281,22 +284,23 @@ body {
 ========================================= */
 
 .floor-page {
-  position: fixed;
+  position: relative;
 
-  top: 0;
-  left: 0;
+  top: auto;
+  left: auto;
 
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
 
-  overflow: hidden;
+  min-height: calc(100vh - 80px);
+
+  overflow: visible;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  touch-action: none;
+  touch-action: pan-y;
 
   background: transparent !important;
 
@@ -312,18 +316,26 @@ body {
   position: relative;
 
   width: 100%;
-  height: calc(100vh - 80px);
+
+  min-height: calc(100vh - 80px);
+
+  height: auto;
+
+  padding-top: 70px;
+  padding-bottom: 80px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  overflow: hidden;
+  overflow: visible;
 
-  touch-action: none;
+  touch-action: pan-y;
 
   background: transparent !important;
+
+  box-sizing: border-box;
 }
 
 
@@ -343,17 +355,20 @@ body {
 
   transform-origin: center center;
 
-  touch-action: none;
+  touch-action: pan-y;
 
   user-select: none;
   -webkit-user-select: none;
 
-  flex-shrink: 1;
+  flex-shrink: 0;
 
   cursor: default;
 
   will-change: transform;
+
+  margin: 0 auto;
 }
+
 
 .map-image {
   display: block;
@@ -697,6 +712,28 @@ body {
 }
 
 
+/* =========================================
+   指アイコン部分を四角形へ変更
+========================================= */
+
+.help-icon.gesture-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #ff9d1c;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   操作説明テキスト
+========================================= */
+
 .help-text {
 
   color: #222;
@@ -797,14 +834,30 @@ body {
 
 @media (max-width: 600px) {
 
+  .floor-page {
+
+    min-height: calc(100vh - 50px);
+
+    overflow: visible;
+  }
+
+
   .map-view {
 
-    height: calc(100vh - 50px);
+    min-height: calc(100vh - 50px);
+
+    height: auto;
 
     /*
-      上下固定を解除して中央配置
+      ボタンを少し下へ移動
     */
-    justify-content: center;
+    padding-top: 115px;
+
+    padding-bottom: 75px;
+
+    justify-content: flex-start;
+
+    overflow: visible;
   }
 
 
@@ -829,6 +882,8 @@ body {
 
     width: auto;
     height: auto;
+
+    margin: 0 auto;
   }
 
 
@@ -838,7 +893,10 @@ body {
 
   .top-controls {
 
-    top: 6px;
+    /*
+      元の6pxから58pxへ
+    */
+    top: 58px;
 
     gap: 5px;
   }
@@ -865,6 +923,8 @@ body {
     height: 70px;
 
     font-size: 44px;
+
+    top: calc(115px + 34vh);
   }
 
   .floor-prev {
@@ -950,6 +1010,18 @@ body {
   }
 
 
+  .help-icon.gesture-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #ff9d1c;
+
+    border-radius: 7px;
+  }
+
+
   .help-text {
     font-size: 12px;
   }
@@ -963,6 +1035,12 @@ body {
   /* -------------------------
      背景図形
   ------------------------- */
+
+  .bg-shapes {
+
+    height: max(100vh, 1050px);
+  }
+
 
   .bg-shapes .s1 {
 
@@ -1238,9 +1316,7 @@ fetch("header.html")
 
     <div class="help-item">
 
-      <div class="help-icon">
-        🤏
-      </div>
+      <div class="help-icon gesture-square"></div>
 
       <div class="help-text">
         <strong>2本指で拡大・縮小</strong><br>
