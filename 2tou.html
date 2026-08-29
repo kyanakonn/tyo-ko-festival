@@ -39,7 +39,6 @@ body {
 
 /* =========================================
    背景図形
-   参考画像に合わせたデザイン
 ========================================= */
 
 .bg-shapes {
@@ -376,11 +375,10 @@ body {
 
 
 /* =========================================
-   全体図に戻るボタン
-   サイズは元のまま
+   上部ボタンエリア
 ========================================= */
 
-.back-to-map {
+.top-controls {
   position: absolute;
 
   top: 8px;
@@ -388,7 +386,23 @@ body {
 
   transform: translateX(-50%);
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
   z-index: 50;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   全体図に戻る
+========================================= */
+
+.back-to-map {
 
   border: none;
 
@@ -415,6 +429,39 @@ body {
 }
 
 .back-to-map:active {
+  opacity: 0.65;
+}
+
+
+/* =========================================
+   操作説明
+========================================= */
+
+.help-button {
+
+  border: none;
+
+  background: #15929e;
+
+  color: #fff;
+
+  padding: 6px 13px;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-button:active {
   opacity: 0.65;
 }
 
@@ -473,20 +520,14 @@ body {
 
 
 /* =========================================
-   棟切り替えボタン
-   画像の真下に配置
+   棟切り替え
 ========================================= */
 
 .building-switch {
   position: absolute;
 
   left: 50%;
-
-  /*
-    画像の下端を基準に配置
-  */
   top: 100%;
-  bottom: auto;
 
   transform: translateX(-50%);
 
@@ -525,43 +566,292 @@ body {
 
 
 /* =========================================
+   操作説明モーダル
+========================================= */
+
+.help-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(6, 37, 79, 0.55);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.help-overlay.active {
+  display: flex;
+}
+
+
+/* =========================================
+   操作説明本体
+========================================= */
+
+.help-modal {
+
+  position: relative;
+
+  width: min(430px, 92vw);
+
+  max-height: 82vh;
+
+  overflow-y: auto;
+
+  background: #eeedeb;
+
+  border-radius: 18px;
+
+  padding: 24px 20px 20px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+  border-top: 7px solid #06254f;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   タイトル
+========================================= */
+
+.help-title {
+
+  margin: 0 35px 5px 0;
+
+  color: #06254f;
+
+  font-size: 23px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+}
+
+
+.help-subtitle {
+
+  margin: 0 0 18px;
+
+  color: #555;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   操作項目
+========================================= */
+
+.help-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 10px;
+
+  padding: 11px 12px;
+
+  background: #fff;
+
+  border-radius: 10px;
+
+  border-left: 5px solid #15929e;
+
+  box-sizing: border-box;
+}
+
+
+.help-icon {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 21px;
+
+  border-radius: 8px;
+
+  background: #eeedeb;
+}
+
+
+.help-text {
+
+  color: #222;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  font-weight: 600;
+}
+
+
+.help-text strong {
+
+  color: #06254f;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   閉じる
+========================================= */
+
+.help-close {
+
+  width: 100%;
+
+  margin-top: 8px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 11px;
+
+  background: #06254f;
+
+  color: #fff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-close:active {
+  opacity: 0.65;
+}
+
+
+/* =========================================
+   ×
+========================================= */
+
+.help-x {
+
+  position: absolute;
+
+  top: 13px;
+  right: 14px;
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #d92a21;
+
+  color: #fff;
+
+  font-size: 19px;
+
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-x:active {
+  opacity: 0.65;
+}
+
+
+/* =========================================
    スマートフォン
 ========================================= */
 
 @media (max-width: 600px) {
 
   .map-view {
+
     height: calc(100vh - 50px);
 
     /*
-      画像を中央ではなく上側へ配置して、
-      全体図ボタンとの距離を縮める
+      上下固定を解除して中央配置
     */
-    justify-content: flex-start;
+    justify-content: center;
   }
+
 
   .map-image {
+
     max-width: 82vw;
     max-height: 68vh;
   }
 
+
   .map-image-wrapper {
+
     max-width: 82vw;
     max-height: 68vh;
 
-    /*
-      全体図ボタンの下から
-      適度な間隔で画像を配置
-    */
-    position: absolute;
+    position: relative;
 
-    top: 100px;
-    left: 50%;
+    left: auto;
+    top: auto;
 
-    transform: translateX(-50%);
+    transform: none;
 
     width: auto;
     height: auto;
+  }
+
+
+  /* -------------------------
+     上部ボタン
+  ------------------------- */
+
+  .top-controls {
+
+    top: 6px;
+
+    gap: 5px;
+  }
+
+
+  .back-to-map,
+  .help-button {
+
+    font-size: 14px;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
   }
 
 
@@ -570,6 +860,7 @@ body {
   ------------------------- */
 
   .floor-arrow {
+
     width: 40px;
     height: 70px;
 
@@ -587,30 +878,85 @@ body {
 
   /* -------------------------
      棟切り替え
-     画像の真下
   ------------------------- */
 
   .building-switch {
+
     width: 40px;
     height: 50px;
 
     font-size: 44px;
 
     top: 100%;
-    bottom: auto;
   }
 
 
   /* -------------------------
-     全体図へ戻る
+     操作説明
   ------------------------- */
 
-  .back-to-map {
-    top: 6px;
+  .help-overlay {
 
-    font-size: 14px;
+    padding: 15px;
+  }
 
-    padding: 5px 11px;
+
+  .help-modal {
+
+    width: 94vw;
+
+    max-height: 84vh;
+
+    padding: 21px 16px 16px;
+
+    border-radius: 16px;
+
+    border-top-width: 6px;
+  }
+
+
+  .help-title {
+    font-size: 20px;
+  }
+
+
+  .help-subtitle {
+
+    font-size: 12px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .help-item {
+
+    gap: 10px;
+
+    margin-bottom: 8px;
+
+    padding: 9px 10px;
+
+    border-left-width: 4px;
+  }
+
+
+  .help-icon {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    font-size: 18px;
+  }
+
+
+  .help-text {
+    font-size: 12px;
+  }
+
+
+  .help-text strong {
+    font-size: 13px;
   }
 
 
@@ -619,6 +965,7 @@ body {
   ------------------------- */
 
   .bg-shapes .s1 {
+
     left: -15px;
     top: 18%;
 
@@ -627,6 +974,7 @@ body {
   }
 
   .bg-shapes .s2 {
+
     left: 36%;
     top: 33%;
 
@@ -635,6 +983,7 @@ body {
   }
 
   .bg-shapes .s3 {
+
     right: 1%;
     top: 31%;
 
@@ -643,6 +992,7 @@ body {
   }
 
   .bg-shapes .s4 {
+
     top: 6%;
     left: 2%;
 
@@ -651,6 +1001,7 @@ body {
   }
 
   .bg-shapes .s5 {
+
     top: 0;
     right: 0;
 
@@ -659,6 +1010,7 @@ body {
   }
 
   .bg-shapes .s6 {
+
     top: 37%;
     left: 1%;
 
@@ -667,6 +1019,7 @@ body {
   }
 
   .bg-shapes .s7 {
+
     top: 37%;
     right: 4%;
 
@@ -675,6 +1028,7 @@ body {
   }
 
   .bg-shapes .s8 {
+
     top: 49%;
     right: 0;
 
@@ -691,6 +1045,7 @@ body {
 <body>
 
 <div class="bg-shapes">
+
   <div class="shape s1"></div>
   <div class="shape s2"></div>
   <div class="shape s3"></div>
@@ -699,10 +1054,13 @@ body {
   <div class="shape s6"></div>
   <div class="shape s7"></div>
   <div class="shape s8"></div>
+
 </div>
 
 
-<!-- ヘッダー -->
+<!-- =========================================
+     ヘッダー
+========================================= -->
 
 <div id="header"></div>
 
@@ -727,6 +1085,7 @@ fetch("header.html")
         nav.classList.toggle("active");
 
       });
+
 
       document.addEventListener("click", (e) => {
 
@@ -756,17 +1115,33 @@ fetch("header.html")
 
   <div class="map-view">
 
-    <!-- 全体図に戻る -->
-    <button
-      class="back-to-map"
-      id="backToMap"
-      type="button"
-    >
-      全体図に戻る
-    </button>
+
+    <!-- 上部ボタン -->
+
+    <div class="top-controls">
+
+      <button
+        class="back-to-map"
+        id="backToMap"
+        type="button"
+      >
+        全体図に戻る
+      </button>
+
+
+      <button
+        class="help-button"
+        id="helpButton"
+        type="button"
+      >
+        操作説明
+      </button>
+
+    </div>
 
 
     <!-- 左 -->
+
     <button
       class="floor-arrow floor-prev"
       id="prevButton"
@@ -778,6 +1153,7 @@ fetch("header.html")
 
 
     <!-- 画像 -->
+
     <div
       class="map-image-wrapper"
       id="imageWrapper"
@@ -792,6 +1168,7 @@ fetch("header.html")
 
 
       <!-- 1棟へ -->
+
       <button
         class="building-switch"
         id="buildingSwitch"
@@ -805,6 +1182,7 @@ fetch("header.html")
 
 
     <!-- 右 -->
+
     <button
       class="floor-arrow floor-next"
       id="nextButton"
@@ -812,6 +1190,133 @@ fetch("header.html")
       type="button"
     >
       〉
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     操作説明
+========================================= -->
+
+<div
+  class="help-overlay"
+  id="helpOverlay"
+>
+
+  <div
+    class="help-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="helpTitle"
+  >
+
+    <button
+      class="help-x"
+      id="helpX"
+      type="button"
+      aria-label="操作説明を閉じる"
+    >
+      ×
+    </button>
+
+
+    <h2
+      class="help-title"
+      id="helpTitle"
+    >
+      フロアマップの操作方法
+    </h2>
+
+
+    <p class="help-subtitle">
+      画像を動かしたり拡大したりできます
+    </p>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        🤏
+      </div>
+
+      <div class="help-text">
+        <strong>2本指で拡大・縮小</strong><br>
+        画像の上で2本の指を広げたり閉じたりすると、
+        マップを拡大・縮小できます。
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        👆
+      </div>
+
+      <div class="help-text">
+        <strong>拡大後は1本指で移動</strong><br>
+        拡大した状態で1本指を動かすと、
+        マップを見る位置を移動できます。
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        〈〉
+      </div>
+
+      <div class="help-text">
+        <strong>階を切り替える</strong><br>
+        左右の「〈」「〉」ボタンで
+        1階・2階・3階・4階を切り替えられます。
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        ⌃
+      </div>
+
+      <div class="help-text">
+        <strong>棟を切り替える</strong><br>
+        画像の下にある「⌃」を押すと、
+        1棟のフロアマップへ移動します。
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        🖱️
+      </div>
+
+      <div class="help-text">
+        <strong>パソコンではホイール操作も可能</strong><br>
+        マウスホイールでマップを
+        拡大・縮小できます。
+      </div>
+
+    </div>
+
+
+    <button
+      class="help-close"
+      id="helpClose"
+      type="button"
+    >
+      マップを見る
     </button>
 
   </div>
@@ -880,6 +1385,112 @@ const mapView =
 
 
 /* =========================================
+   操作説明
+========================================= */
+
+const helpButton =
+  document.getElementById("helpButton");
+
+const helpOverlay =
+  document.getElementById("helpOverlay");
+
+const helpClose =
+  document.getElementById("helpClose");
+
+const helpX =
+  document.getElementById("helpX");
+
+
+const HELP_STORAGE_KEY =
+  "choko_floor_map_help_shown";
+
+
+function openHelp() {
+
+  helpOverlay.classList.add("active");
+
+}
+
+
+function closeHelp() {
+
+  helpOverlay.classList.remove("active");
+
+  localStorage.setItem(
+    HELP_STORAGE_KEY,
+    "true"
+  );
+
+}
+
+
+helpButton.addEventListener(
+  "click",
+  () => {
+
+    openHelp();
+
+  }
+);
+
+
+helpClose.addEventListener(
+  "click",
+  () => {
+
+    closeHelp();
+
+  }
+);
+
+
+helpX.addEventListener(
+  "click",
+  () => {
+
+    closeHelp();
+
+  }
+);
+
+
+helpOverlay.addEventListener(
+  "click",
+  (e) => {
+
+    if (e.target === helpOverlay) {
+
+      closeHelp();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   初回のみ表示
+========================================= */
+
+if (
+  localStorage.getItem(
+    HELP_STORAGE_KEY
+  ) !== "true"
+) {
+
+  setTimeout(
+    () => {
+
+      openHelp();
+
+    },
+    350
+  );
+
+}
+
+
+/* =========================================
    ズーム・移動
 ========================================= */
 
@@ -896,6 +1507,9 @@ let startPanY = 0;
 
 let startTouchX = 0;
 let startTouchY = 0;
+
+let startCenterX = 0;
+let startCenterY = 0;
 
 let isDragging = false;
 
@@ -922,7 +1536,7 @@ function getDistance(touches) {
 
 
 /* =========================================
-   中央からの移動範囲を制限
+   移動範囲
 ========================================= */
 
 function clampPosition() {
@@ -1066,7 +1680,7 @@ nextButton.addEventListener(
 
 
 /* =========================================
-   全体図に戻る
+   全体図
 ========================================= */
 
 backToMap.addEventListener(
@@ -1080,7 +1694,7 @@ backToMap.addEventListener(
 
 
 /* =========================================
-   1棟へ移動
+   1棟へ
 ========================================= */
 
 buildingSwitch.addEventListener(
@@ -1096,7 +1710,7 @@ buildingSwitch.addEventListener(
 
 
 /* =========================================
-   タッチ操作
+   タッチ開始
 ========================================= */
 
 imageWrapper.addEventListener(
@@ -1116,6 +1730,20 @@ imageWrapper.addEventListener(
 
       startPanY =
         translateY;
+
+      startCenterX =
+        (
+          e.touches[0].clientX +
+          e.touches[1].clientX
+        ) / 2;
+
+      startCenterY =
+        (
+          e.touches[0].clientY +
+          e.touches[1].clientY
+        ) / 2;
+
+      isDragging = false;
 
       return;
 
@@ -1156,10 +1784,6 @@ imageWrapper.addEventListener(
   "touchmove",
   (e) => {
 
-    /* -------------------------
-       ピンチ＋移動
-    ------------------------- */
-
     if (e.touches.length === 2) {
 
       e.preventDefault();
@@ -1197,30 +1821,13 @@ imageWrapper.addEventListener(
         ) / 2;
 
 
-      const originalCenterX =
-        startTouchX ||
-        centerX;
-
-      const originalCenterY =
-        startTouchY ||
-        centerY;
-
-
-      if (!startTouchX) {
-
-        startTouchX = centerX;
-        startTouchY = centerY;
-
-      }
-
-
       translateX =
         startPanX +
-        (centerX - originalCenterX);
+        (centerX - startCenterX);
 
       translateY =
         startPanY +
-        (centerY - originalCenterY);
+        (centerY - startCenterY);
 
       updateTransform();
 
@@ -1228,10 +1835,6 @@ imageWrapper.addEventListener(
 
     }
 
-
-    /* -------------------------
-       1本指で移動
-    ------------------------- */
 
     if (
       e.touches.length === 1 &&
@@ -1280,6 +1883,9 @@ imageWrapper.addEventListener(
 
       startTouchX = 0;
       startTouchY = 0;
+
+      startCenterX = 0;
+      startCenterY = 0;
 
     }
 
