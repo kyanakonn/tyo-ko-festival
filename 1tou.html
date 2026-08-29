@@ -22,18 +22,19 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
 
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   background-color: #eeedeb !important;
   color: black;
 
   font-family: sans-serif;
 
-  overscroll-behavior: none;
+  overscroll-behavior-x: none;
 }
 
 
@@ -42,12 +43,18 @@ body {
 ========================================= */
 
 .bg-shapes {
-  position: fixed !important;
+  position: absolute !important;
 
-  inset: 0;
+  top: 0;
+  left: 0;
 
   width: 100%;
-  height: 100%;
+
+  /*
+    スクロールしても背景図形が途中で
+    切れすぎないように描画領域を確保
+  */
+  height: max(100vh, 1100px);
 
   z-index: 0 !important;
 
@@ -281,22 +288,27 @@ body {
 ========================================= */
 
 .floor-page {
-  position: fixed;
+  position: relative;
 
-  top: 0;
-  left: 0;
+  top: auto;
+  left: auto;
 
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
 
-  overflow: hidden;
+  /*
+    画面いっぱいに固定するのではなく、
+    内容に応じて縦方向へ伸びるようにする
+  */
+  min-height: calc(100vh - 80px);
+
+  overflow: visible;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  touch-action: none;
+  touch-action: pan-y;
 
   background: transparent !important;
 
@@ -312,18 +324,29 @@ body {
   position: relative;
 
   width: 100%;
-  height: calc(100vh - 80px);
+
+  /*
+    固定heightをやめる
+  */
+  min-height: calc(100vh - 80px);
+
+  height: auto;
+
+  padding-top: 70px;
+  padding-bottom: 80px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  overflow: hidden;
+  overflow: visible;
 
-  touch-action: none;
+  touch-action: pan-y;
 
   background: transparent !important;
+
+  box-sizing: border-box;
 }
 
 
@@ -343,17 +366,23 @@ body {
 
   transform-origin: center center;
 
-  touch-action: none;
+  /*
+    ページ全体の縦スクロールを可能にする
+  */
+  touch-action: pan-y;
 
   user-select: none;
   -webkit-user-select: none;
 
-  flex-shrink: 1;
+  flex-shrink: 0;
 
   cursor: default;
 
   will-change: transform;
+
+  margin: 0 auto;
 }
+
 
 .map-image {
   display: block;
@@ -697,6 +726,28 @@ body {
 }
 
 
+/* =========================================
+   指アイコン部分を四角形へ変更
+========================================= */
+
+.help-icon.gesture-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #ff9d1c;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   操作説明テキスト
+========================================= */
+
 .help-text {
 
   color: #222;
@@ -797,31 +848,49 @@ body {
 
 @media (max-width: 600px) {
 
+  .floor-page {
+
+    min-height: calc(100vh - 50px);
+
+    overflow: visible;
+  }
+
+
   .map-view {
-    height: calc(100vh - 50px);
 
     /*
-      上下位置の固定を解除。
-      画面サイズに合わせて自然に中央配置。
+      固定heightを解除
     */
-    justify-content: center;
+    min-height: calc(100vh - 50px);
+
+    height: auto;
+
+    /*
+      ボタンを上から少し下げ、
+      画像との距離を縮める
+    */
+    padding-top: 115px;
+
+    padding-bottom: 75px;
+
+    justify-content: flex-start;
+
+    overflow: visible;
   }
 
 
   .map-image {
+
     max-width: 82vw;
     max-height: 68vh;
   }
 
 
   .map-image-wrapper {
+
     max-width: 82vw;
     max-height: 68vh;
 
-    /*
-      top:100px を廃止。
-      absoluteによる上下位置固定も解除。
-    */
     position: relative;
 
     left: auto;
@@ -831,6 +900,8 @@ body {
 
     width: auto;
     height: auto;
+
+    margin: 0 auto;
   }
 
 
@@ -839,7 +910,11 @@ body {
   ------------------------- */
 
   .top-controls {
-    top: 6px;
+
+    /*
+      現在より下へ移動
+    */
+    top: 58px;
 
     gap: 5px;
   }
@@ -861,10 +936,16 @@ body {
   ------------------------- */
 
   .floor-arrow {
+
     width: 40px;
     height: 70px;
 
     font-size: 44px;
+
+    /*
+      画像の中央付近に配置
+    */
+    top: calc(115px + 34vh);
   }
 
   .floor-prev {
@@ -881,6 +962,7 @@ body {
   ------------------------- */
 
   .building-switch {
+
     width: 40px;
     height: 50px;
 
@@ -937,11 +1019,24 @@ body {
 
 
   .help-icon {
+
     width: 31px;
     min-width: 31px;
     height: 31px;
 
     font-size: 18px;
+  }
+
+
+  .help-icon.gesture-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #ff9d1c;
+
+    border-radius: 7px;
   }
 
 
@@ -959,7 +1054,14 @@ body {
      背景図形
   ------------------------- */
 
+  .bg-shapes {
+
+    height: max(100vh, 1050px);
+  }
+
+
   .bg-shapes .s1 {
+
     left: -15px;
     top: 18%;
 
@@ -968,6 +1070,7 @@ body {
   }
 
   .bg-shapes .s2 {
+
     left: 36%;
     top: 33%;
 
@@ -976,6 +1079,7 @@ body {
   }
 
   .bg-shapes .s3 {
+
     right: 1%;
     top: 31%;
 
@@ -984,6 +1088,7 @@ body {
   }
 
   .bg-shapes .s4 {
+
     top: 6%;
     left: 2%;
 
@@ -992,6 +1097,7 @@ body {
   }
 
   .bg-shapes .s5 {
+
     top: 0;
     right: 0;
 
@@ -1000,6 +1106,7 @@ body {
   }
 
   .bg-shapes .s6 {
+
     top: 37%;
     left: 1%;
 
@@ -1008,6 +1115,7 @@ body {
   }
 
   .bg-shapes .s7 {
+
     top: 37%;
     right: 4%;
 
@@ -1016,6 +1124,7 @@ body {
   }
 
   .bg-shapes .s8 {
+
     top: 49%;
     right: 0;
 
@@ -1233,9 +1342,7 @@ fetch("header.html")
 
     <div class="help-item">
 
-      <div class="help-icon">
-        🤏
-      </div>
+      <div class="help-icon gesture-square"></div>
 
       <div class="help-text">
         <strong>2本指で拡大・縮小</strong><br>
@@ -1395,12 +1502,6 @@ const helpClose =
 const helpX =
   document.getElementById("helpX");
 
-
-/*
-  1棟・2棟共通の初回表示判定。
-  一度どちらかで説明を閉じれば、
-  次回から自動表示されません。
-*/
 
 const HELP_STORAGE_KEY =
   "choko_floor_map_help_shown";
