@@ -6,7 +6,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+  content="width=device-width, initial-scale=5.0, user-scalable=yes"
 >
 
 <title>2棟 フロアマップ</title>
@@ -488,7 +488,10 @@ body {
 .floor-arrow {
   position: absolute;
 
-  top: 50%;
+  /*
+    JavaScriptで画像中央へ配置
+  */
+  top: 0;
 
   transform: translateY(-50%);
 
@@ -713,7 +716,7 @@ body {
 
 
 /* =========================================
-   指アイコン部分を四角形へ変更
+   2本指アイコン部分
 ========================================= */
 
 .help-icon.gesture-square {
@@ -723,6 +726,24 @@ body {
   height: 34px;
 
   background: #ff9d1c;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   1本指移動アイコン部分
+========================================= */
+
+.help-icon.gesture-pan-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #15929e;
 
   border-radius: 8px;
 
@@ -848,9 +869,6 @@ body {
 
     height: auto;
 
-    /*
-      ボタンを少し下へ移動
-    */
     padding-top: 115px;
 
     padding-bottom: 75px;
@@ -893,9 +911,6 @@ body {
 
   .top-controls {
 
-    /*
-      元の6pxから58pxへ
-    */
     top: 58px;
 
     gap: 5px;
@@ -924,7 +939,7 @@ body {
 
     font-size: 44px;
 
-    top: calc(115px + 34vh);
+    top: 0;
   }
 
   .floor-prev {
@@ -1017,6 +1032,18 @@ body {
     height: 31px;
 
     background: #ff9d1c;
+
+    border-radius: 7px;
+  }
+
+
+  .help-icon.gesture-pan-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #15929e;
 
     border-radius: 7px;
   }
@@ -1329,9 +1356,7 @@ fetch("header.html")
 
     <div class="help-item">
 
-      <div class="help-icon">
-        👆
-      </div>
+      <div class="help-icon gesture-pan-square"></div>
 
       <div class="help-text">
         <strong>拡大後は1本指で移動</strong><br>
@@ -1612,6 +1637,34 @@ function getDistance(touches) {
 
 
 /* =========================================
+   左右ボタンを画像中央へ配置
+========================================= */
+
+function updateArrowPosition() {
+
+  if (!imageWrapper) {
+    return;
+  }
+
+  const imageTop =
+    imageWrapper.offsetTop;
+
+  const imageHeight =
+    imageWrapper.offsetHeight;
+
+  const centerY =
+    imageTop + (imageHeight / 2);
+
+  prevButton.style.top =
+    centerY + "px";
+
+  nextButton.style.top =
+    centerY + "px";
+
+}
+
+
+/* =========================================
    移動範囲
 ========================================= */
 
@@ -1623,23 +1676,27 @@ function clampPosition() {
   const wrapperHeight =
     imageWrapper.offsetHeight;
 
-  const viewWidth =
-    mapView.clientWidth;
+  /*
+    拡大した画像そのものの
+    「元サイズから増えた分」を基準にする。
 
-  const viewHeight =
-    mapView.clientHeight;
+    これにより、画像の縦横比や
+    拡大率によって上下移動が
+    できなくなる問題を防ぐ。
+  */
 
   const maxX =
     Math.max(
       0,
-      (wrapperWidth * scale - viewWidth) / 2
+      (wrapperWidth * (scale - 1)) / 2
     );
 
   const maxY =
     Math.max(
       0,
-      (wrapperHeight * scale - viewHeight) / 2
+      (wrapperHeight * (scale - 1)) / 2
     );
+
 
   translateX =
     Math.min(
@@ -1707,6 +1764,8 @@ function resetZoom() {
   imageWrapper.style.transform =
     "translate3d(0, 0, 0) scale(1)";
 
+  updateArrowPosition();
+
 }
 
 
@@ -1729,6 +1788,22 @@ function showFloor(index) {
   resetZoom();
 
 }
+
+
+/* =========================================
+   画像読み込み完了時
+========================================= */
+
+floorImage.addEventListener(
+  "load",
+  () => {
+
+    resetZoom();
+
+    updateArrowPosition();
+
+  }
+);
 
 
 /* =========================================
@@ -2087,6 +2162,20 @@ imageWrapper.style.cursor = "default";
 
 
 /* =========================================
+   初期位置
+========================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    updateArrowPosition();
+
+  }
+);
+
+
+/* =========================================
    画面サイズ変更
 ========================================= */
 
@@ -2099,6 +2188,8 @@ window.addEventListener(
       updateTransform();
 
     }
+
+    updateArrowPosition();
 
   }
 );
