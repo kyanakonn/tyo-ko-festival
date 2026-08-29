@@ -386,21 +386,21 @@ body {
   justify-content: center;
 
   /*
-    文字とボタンを近づける
+    文字とボタンの間隔
   */
 
-  gap: 9px;
+  gap: 7px;
 
   color: #111;
 
   text-decoration: none;
 
   /*
-    建物の中に収まるよう
-    以前より小さくする
+    建物の中に収まるように
+    文字を小さめに設定
   */
 
-  font-size: 25px;
+  font-size: 21px;
 
   font-weight: 700;
 
@@ -413,7 +413,8 @@ body {
   -webkit-tap-highlight-color: transparent;
 
   /*
-    指定位置をグループの中央にする
+    指定した位置を
+    文字＋ボタンのグループ中央にする
   */
 
   transform: translate(-50%, -50%);
@@ -433,11 +434,11 @@ body {
 
   justify-content: center;
 
-  flex: 0 0 38px;
+  flex: 0 0 30px;
 
-  width: 38px;
+  width: 30px;
 
-  height: 38px;
+  height: 30px;
 
   box-sizing: border-box;
 
@@ -447,25 +448,32 @@ body {
 
   color: #222;
 
-  /*
-    矢印の位置を完全中央にする
-  */
-
   font-family:
     Arial,
     sans-serif;
 
-  font-size: 25px;
+  /*
+    円の中で矢印がずれないように
+    固定の高さ・幅で中央配置
+  */
+
+  font-size: 20px;
 
   font-weight: 400;
 
-  line-height: 1;
+  line-height: 30px;
 
   text-align: center;
 
   padding: 0;
 
   margin: 0;
+
+  /*
+    Safari等での文字の上下ズレを防止
+  */
+
+  vertical-align: middle;
 
   box-shadow:
     0 2px 7px rgba(0, 0, 0, 0.06);
@@ -480,14 +488,15 @@ body {
 /*
    2棟の建物の中央付近
 
-   地図画像そのものを基準に配置
+   元画像の建物位置に合わせて
+   上側へ移動
 */
 
 .map-link-2tou {
 
-  top: 18.5%;
+  top: 12%;
 
-  left: 45%;
+  left: 44%;
 
 }
 
@@ -498,9 +507,9 @@ body {
 
 .map-link-1tou {
 
-  top: 47%;
+  top: 49%;
 
-  left: 45%;
+  left: 44%;
 
 }
 
@@ -511,9 +520,9 @@ body {
 
 .map-link-gym {
 
-  top: 71.5%;
+  top: 75%;
 
-  left: 36%;
+  left: 43%;
 
 }
 
@@ -603,29 +612,73 @@ body {
   }
 
 
-  /*
-    PCでは建物の中に確実に収まる
-    サイズにする
-  */
+  /* =======================================
+     地図上の文字
+  ======================================= */
 
   .map-link {
 
-    font-size: 25px;
+    font-size: 21px;
 
-    gap: 9px;
+    gap: 7px;
 
   }
 
 
+  /* =======================================
+     円
+  ======================================= */
+
   .map-link-arrow {
 
-    flex-basis: 38px;
+    flex-basis: 30px;
 
-    width: 38px;
+    width: 30px;
 
-    height: 38px;
+    height: 30px;
 
-    font-size: 25px;
+    font-size: 20px;
+
+    line-height: 30px;
+
+  }
+
+
+  /* =======================================
+     2棟
+  ======================================= */
+
+  .map-link-2tou {
+
+    top: 12%;
+
+    left: 44%;
+
+  }
+
+
+  /* =======================================
+     1棟
+  ======================================= */
+
+  .map-link-1tou {
+
+    top: 49%;
+
+    left: 44%;
+
+  }
+
+
+  /* =======================================
+     体育館
+  ======================================= */
+
+  .map-link-gym {
+
+    top: 75%;
+
+    left: 43%;
 
   }
 
@@ -695,57 +748,67 @@ body {
 
   .map-link {
 
-    font-size: 21px;
+    font-size: 18px;
 
-    gap: 7px;
+    gap: 6px;
 
   }
 
 
-  /* 円 */
+  /* =======================================
+     円
+  ======================================= */
 
   .map-link-arrow {
 
-    flex-basis: 34px;
+    flex-basis: 27px;
 
-    width: 34px;
+    width: 27px;
 
-    height: 34px;
+    height: 27px;
 
-    font-size: 22px;
+    font-size: 18px;
+
+    line-height: 27px;
 
   }
 
 
-  /* 2棟 */
+  /* =======================================
+     2棟
+  ======================================= */
 
   .map-link-2tou {
 
-    top: 18.5%;
+    top: 12%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
-  /* 1棟 */
+  /* =======================================
+     1棟
+  ======================================= */
 
   .map-link-1tou {
 
-    top: 47%;
+    top: 49%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
-  /* 体育館 */
+  /* =======================================
+     体育館
+  ======================================= */
 
   .map-link-gym {
 
-    top: 71.5%;
+    top: 75%;
 
-    left: 36%;
+    left: 43%;
 
   }
 
@@ -908,11 +971,6 @@ body {
 
     width: 100%;
 
-    /*
-      元画像 2000 × 1500
-      4 : 3
-    */
-
     aspect-ratio: 4 / 3;
 
     border-radius: 15px;
@@ -926,9 +984,9 @@ body {
 
   .map-link {
 
-    font-size: 18px;
+    font-size: 16px;
 
-    gap: 6px;
+    gap: 5px;
 
   }
 
@@ -939,13 +997,15 @@ body {
 
   .map-link-arrow {
 
-    flex-basis: 30px;
+    flex-basis: 25px;
 
-    width: 30px;
+    width: 25px;
 
-    height: 30px;
+    height: 25px;
 
-    font-size: 20px;
+    font-size: 17px;
+
+    line-height: 25px;
 
   }
 
@@ -956,27 +1016,27 @@ body {
 
   .map-link-2tou {
 
-    top: 18.5%;
+    top: 12%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
   .map-link-1tou {
 
-    top: 47%;
+    top: 49%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
   .map-link-gym {
 
-    top: 71.5%;
+    top: 75%;
 
-    left: 36%;
+    left: 43%;
 
   }
 
@@ -1063,55 +1123,67 @@ body {
 
   .map-link {
 
-    font-size: 16px;
+    font-size: 14px;
 
-    gap: 5px;
+    gap: 4px;
 
   }
 
+
+  /* =======================================
+     円
+  ======================================= */
 
   .map-link-arrow {
 
-    flex-basis: 27px;
+    flex-basis: 23px;
 
-    width: 27px;
+    width: 23px;
 
-    height: 27px;
+    height: 23px;
 
-    font-size: 18px;
+    font-size: 16px;
+
+    line-height: 23px;
 
   }
 
 
-  /* 2棟 */
+  /* =======================================
+     2棟
+  ======================================= */
 
   .map-link-2tou {
 
-    top: 18.5%;
+    top: 12%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
-  /* 1棟 */
+  /* =======================================
+     1棟
+  ======================================= */
 
   .map-link-1tou {
 
-    top: 47%;
+    top: 49%;
 
-    left: 45%;
+    left: 44%;
 
   }
 
 
-  /* 体育館 */
+  /* =======================================
+     体育館
+  ======================================= */
 
   .map-link-gym {
 
-    top: 71.5%;
+    top: 75%;
 
-    left: 36%;
+    left: 43%;
 
   }
 
