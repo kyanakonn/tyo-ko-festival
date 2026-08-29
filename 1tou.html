@@ -6,7 +6,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=5.0, user-scalable=yes"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
 >
 
 <title>1棟 フロアマップ</title>
@@ -22,7 +22,9 @@
 html,
 body {
   width: 100%;
+  min-width: 0;
   min-height: 100%;
+
   margin: 0;
   padding: 0;
 
@@ -290,6 +292,7 @@ body {
   left: auto;
 
   width: 100%;
+  max-width: 100%;
 
   min-height: calc(100vh - 80px);
 
@@ -316,6 +319,7 @@ body {
   position: relative;
 
   width: 100%;
+  max-width: 100%;
 
   min-height: calc(100vh - 80px);
 
@@ -488,9 +492,6 @@ body {
 .floor-arrow {
   position: absolute;
 
-  /*
-    JavaScriptで画像中央へ配置
-  */
   top: 0;
 
   transform: translateY(-50%);
@@ -857,6 +858,9 @@ body {
 
   .floor-page {
 
+    width: 100%;
+    max-width: 100%;
+
     min-height: calc(100vh - 50px);
 
     overflow: visible;
@@ -864,6 +868,9 @@ body {
 
 
   .map-view {
+
+    width: 100%;
+    max-width: 100%;
 
     min-height: calc(100vh - 50px);
 
@@ -939,10 +946,6 @@ body {
 
     font-size: 44px;
 
-    /*
-      JavaScriptで画像中央へ配置するため、
-      ここでは固定のtop位置を指定しない
-    */
     top: 0;
   }
 
@@ -1066,6 +1069,8 @@ body {
 
   .bg-shapes {
 
+    width: 100%;
+
     height: max(100vh, 1050px);
   }
 
@@ -1144,6 +1149,68 @@ body {
 
 }
 
+
+/* =========================================
+   極端に狭い画面への対応
+========================================= */
+
+@media (max-width: 360px) {
+
+  .map-view {
+    padding-top: 105px;
+  }
+
+  .top-controls {
+    top: 52px;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+}
+
+
+/* =========================================
+   横向きスマートフォン
+========================================= */
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+  .map-view {
+
+    padding-top: 75px;
+    padding-bottom: 60px;
+
+  }
+
+
+  .top-controls {
+
+    top: 48px;
+
+  }
+
+
+  .map-image {
+
+    max-width: 80vw;
+    max-height: 72vh;
+
+  }
+
+
+  .map-image-wrapper {
+
+    max-width: 80vw;
+    max-height: 72vh;
+
+  }
+
+}
+
 </style>
 
 </head>
@@ -1179,8 +1246,11 @@ fetch("header.html")
 
     document.getElementById("header").innerHTML = data;
 
-    const btn = document.querySelector(".menu-btn");
-    const nav = document.querySelector(".nav");
+    const btn =
+      document.querySelector(".menu-btn");
+
+    const nav =
+      document.querySelector(".nav");
 
     if (btn && nav) {
 
@@ -1693,14 +1763,6 @@ function clampPosition() {
   const wrapperHeight =
     imageWrapper.offsetHeight;
 
-  /*
-    拡大した画像そのものの
-    「元サイズから増えた分」を基準にする。
-
-    これにより、画像の縦横比や
-    拡大率によって上下移動が
-    できなくなる問題を防ぐ。
-  */
 
   const maxX =
     Math.max(
