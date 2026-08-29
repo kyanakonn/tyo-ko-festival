@@ -24,6 +24,7 @@ body {
   margin: 0;
   background: #f7f7f8;
   color: #111;
+
   font-family:
     "Noto Sans JP",
     "Yu Gothic",
@@ -43,6 +44,7 @@ body {
   z-index: 2;
 
   width: 100%;
+
   padding-top: 100px;
   padding-bottom: 35px;
 }
@@ -54,6 +56,7 @@ body {
 
 .map-title {
   width: 100%;
+
   text-align: center;
 
   margin: 0 auto 24px;
@@ -64,12 +67,16 @@ body {
 
 .map-title-main {
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   gap: 18px;
 
   font-size: clamp(34px, 4vw, 56px);
+
   font-weight: 700;
+
   line-height: 1.2;
 
   letter-spacing: 0.02em;
@@ -85,6 +92,7 @@ body {
 
   border-top: 28px solid transparent;
   border-bottom: 28px solid transparent;
+
   border-left: 48px solid #ef5b7b;
 }
 
@@ -94,6 +102,7 @@ body {
   color: #ef5b7b;
 
   font-size: clamp(15px, 1.5vw, 21px);
+
   font-weight: 500;
 
   letter-spacing: 0.03em;
@@ -148,6 +157,7 @@ body {
   color: #ef5b7b;
 
   font-size: 18px;
+
   font-weight: 700;
 
   line-height: 1.7;
@@ -168,7 +178,9 @@ body {
 }
 
 
-/* 色付き四角 */
+/* =========================================
+   説明ボックスの色
+========================================= */
 
 .guide-icon {
   flex: 0 0 26px;
@@ -194,7 +206,9 @@ body {
 }
 
 
-/* 説明文 */
+/* =========================================
+   説明文
+========================================= */
 
 .guide-text {
   min-width: 0;
@@ -204,6 +218,7 @@ body {
   margin: 0;
 
   font-size: 16px;
+
   font-weight: 700;
 
   line-height: 1.5;
@@ -213,6 +228,7 @@ body {
   margin: 5px 0 0;
 
   font-size: 12px;
+
   font-weight: 500;
 
   line-height: 1.65;
@@ -229,8 +245,8 @@ body {
   width: 100%;
 
   /*
-    元画像が2000×1500pxなので
-    4:3の比率を維持
+    元画像 2000 × 1500px
+    → 4 : 3
   */
   aspect-ratio: 4 / 3;
 
@@ -259,10 +275,6 @@ body {
 
   display: block;
 
-  /*
-    2000×1500の元画像を
-    縦横比を崩さず表示
-  */
   object-fit: contain;
 
   object-position: center;
@@ -274,20 +286,20 @@ body {
 
 
 /* =========================================
-   地図上の建物リンク共通
+   地図上の建物リンク
 ========================================= */
+
+/*
+   文字とボタンを別々に位置調整できるように
+   グループの中央配置をやめる
+*/
 
 .map-link {
   position: absolute;
 
   z-index: 10;
 
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 13px;
+  display: block;
 
   color: #111;
 
@@ -301,41 +313,67 @@ body {
 
   white-space: nowrap;
 
-  transform: translate(-50%, -50%);
-
   cursor: pointer;
 
   -webkit-tap-highlight-color: transparent;
+
+  /*
+    transformでグループ全体を中央に
+    動かさない
+  */
+  transform: none;
 }
 
 
 /* =========================================
-   白い丸型 ＞ ボタン
+   建物名
+========================================= */
+
+.map-link-text {
+  position: absolute;
+
+  display: block;
+
+  transform: translate(-50%, -50%);
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   ＞ボタン
 ========================================= */
 
 .map-link-arrow {
-  width: clamp(34px, 4vw, 48px);
-  height: clamp(34px, 4vw, 48px);
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.97);
+  position: absolute;
 
   display: flex;
 
   align-items: center;
   justify-content: center;
 
+  /*
+    現在より小さめ
+  */
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.97);
+
   color: #222;
 
-  font-size: clamp(27px, 3vw, 38px);
+  font-size: 30px;
 
   font-weight: 400;
 
   line-height: 1;
 
   box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.04);
+    0 2px 6px rgba(0, 0, 0, 0.06);
+
+  transform: translate(-50%, -50%);
 
   transition:
     transform 0.2s ease,
@@ -343,7 +381,9 @@ body {
 }
 
 .map-link:hover .map-link-arrow {
-  transform: scale(1.08);
+  transform:
+    translate(-50%, -50%)
+    scale(1.06);
 }
 
 
@@ -352,13 +392,32 @@ body {
 ========================================= */
 
 /*
-  元画像の2000×1500に対して
-  おおよそ中央上部
+   地図画像に対する位置
+
+   文字：
+   X = 約44%
+   Y = 約22%
+
+   ボタン：
+   X = 約56%
+   Y = 約22%
 */
 
 .map-link-2tou {
+  position: absolute;
+
   top: 22%;
-  left: 50%;
+  left: 44%;
+}
+
+.map-link-2tou .map-link-text {
+  top: 0;
+  left: 0;
+}
+
+.map-link-2tou .map-link-arrow {
+  top: 0;
+  left: 18%;
 }
 
 
@@ -367,8 +426,20 @@ body {
 ========================================= */
 
 .map-link-1tou {
+  position: absolute;
+
   top: 48%;
-  left: 50%;
+  left: 44%;
+}
+
+.map-link-1tou .map-link-text {
+  top: 0;
+  left: 0;
+}
+
+.map-link-1tou .map-link-arrow {
+  top: 0;
+  left: 18%;
 }
 
 
@@ -377,8 +448,20 @@ body {
 ========================================= */
 
 .map-link-gym {
+  position: absolute;
+
   top: 72%;
   left: 39%;
+}
+
+.map-link-gym .map-link-text {
+  top: 0;
+  left: 0;
+}
+
+.map-link-gym .map-link-arrow {
+  top: 0;
+  left: 28%;
 }
 
 
@@ -457,7 +540,9 @@ body {
   .map-content {
     width: min(700px, calc(100% - 40px));
 
-    grid-template-columns: 190px minmax(0, 1fr);
+    grid-template-columns:
+      190px
+      minmax(0, 1fr);
 
     gap: 18px;
   }
@@ -489,11 +574,14 @@ body {
 
   .map-page {
     padding-top: 85px;
+
     padding-bottom: 25px;
   }
 
 
-  /* タイトル */
+  /* -----------------------------------------
+     タイトル
+  ----------------------------------------- */
 
   .map-title {
     margin-bottom: 18px;
@@ -508,6 +596,7 @@ body {
   .map-title-main::before {
     border-top-width: 17px;
     border-bottom-width: 17px;
+
     border-left-width: 30px;
   }
 
@@ -518,7 +607,9 @@ body {
   }
 
 
-  /* コンテンツ */
+  /* -----------------------------------------
+     コンテンツ
+  ----------------------------------------- */
 
   .map-content {
     width: calc(100% - 28px);
@@ -533,7 +624,9 @@ body {
   }
 
 
-  /* 説明ボックス */
+  /* -----------------------------------------
+     説明ボックス
+  ----------------------------------------- */
 
   .map-guide {
     width: 100%;
@@ -587,7 +680,9 @@ body {
   }
 
 
-  /* 地図 */
+  /* -----------------------------------------
+     地図
+  ----------------------------------------- */
 
   .map-container {
     width: 100%;
@@ -596,23 +691,64 @@ body {
   }
 
 
-  /* 地図上の文字 */
+  /* -----------------------------------------
+     地図上の文字
+  ----------------------------------------- */
 
   .map-link {
-    gap: 7px;
-
     font-size: 21px;
   }
+
+
+  /* -----------------------------------------
+     スマホ用ボタン
+  ----------------------------------------- */
 
   .map-link-arrow {
     width: 32px;
     height: 32px;
 
-    font-size: 25px;
+    font-size: 24px;
   }
 
 
-  /* 下部文章 */
+  /* -----------------------------------------
+     スマホ用位置
+  ----------------------------------------- */
+
+  .map-link-2tou {
+    top: 22%;
+    left: 44%;
+  }
+
+  .map-link-2tou .map-link-arrow {
+    left: 18%;
+  }
+
+
+  .map-link-1tou {
+    top: 48%;
+    left: 44%;
+  }
+
+  .map-link-1tou .map-link-arrow {
+    left: 18%;
+  }
+
+
+  .map-link-gym {
+    top: 72%;
+    left: 39%;
+  }
+
+  .map-link-gym .map-link-arrow {
+    left: 28%;
+  }
+
+
+  /* -----------------------------------------
+     下部文章
+  ----------------------------------------- */
 
   .map-bottom-text {
     margin-top: 17px;
@@ -646,6 +782,7 @@ body {
   .map-title-main::before {
     border-top-width: 14px;
     border-bottom-width: 14px;
+
     border-left-width: 25px;
   }
 
@@ -666,10 +803,34 @@ body {
   }
 
   .map-link-arrow {
-    width: 28px;
-    height: 28px;
+    width: 29px;
+    height: 29px;
 
     font-size: 22px;
+  }
+
+}
+
+
+/* =========================================
+   超小型画面での位置微調整
+========================================= */
+
+@media (max-width: 400px) {
+
+  .map-link-2tou {
+    top: 22%;
+    left: 44%;
+  }
+
+  .map-link-1tou {
+    top: 48%;
+    left: 44%;
+  }
+
+  .map-link-gym {
+    top: 72%;
+    left: 39%;
   }
 
 }
@@ -717,13 +878,11 @@ fetch("header.html")
 
     document.getElementById("header").innerHTML = data;
 
-
     const btn =
       document.querySelector(".menu-btn");
 
     const nav =
       document.querySelector(".nav");
-
 
     if (btn && nav) {
 
@@ -773,7 +932,9 @@ fetch("header.html")
 <main class="map-page">
 
 
-  <!-- タイトル -->
+  <!-- =======================================
+       タイトル
+  ======================================== -->
 
   <section class="map-title">
 
@@ -912,7 +1073,7 @@ fetch("header.html")
         aria-label="2棟のフロアマップを見る"
       >
 
-        <span>
+        <span class="map-link-text">
           2棟
         </span>
 
@@ -933,7 +1094,7 @@ fetch("header.html")
         aria-label="1棟のフロアマップを見る"
       >
 
-        <span>
+        <span class="map-link-text">
           1棟
         </span>
 
@@ -954,7 +1115,7 @@ fetch("header.html")
         aria-label="体育館のフロアマップを見る"
       >
 
-        <span>
+        <span class="map-link-text">
           体育館
         </span>
 
