@@ -50,7 +50,12 @@ body {
 
   width: 100%;
 
-  height: max(100vh, 1100px);
+  /*
+    ページ下部まで背景図形の領域を確保
+  */
+  height: 100%;
+
+  min-height: max(100vh, 1100px);
 
   z-index: 0 !important;
 
@@ -488,9 +493,6 @@ body {
 .floor-arrow {
   position: absolute;
 
-  /*
-    JavaScriptで画像中央へ配置
-  */
   top: 0;
 
   transform: translateY(-50%);
@@ -869,6 +871,9 @@ body {
 
     height: auto;
 
+    /*
+      上のボタンと画像の距離を短くする
+    */
     padding-top: 115px;
 
     padding-bottom: 75px;
@@ -905,13 +910,17 @@ body {
   }
 
 
-  /* -------------------------
+  /* =========================================
      上部ボタン
-  ------------------------- */
+  ========================================= */
 
   .top-controls {
 
-    top: 58px;
+    /*
+      58px → 72px
+      ボタンを画像側へ少し下げる
+    */
+    top: 72px;
 
     gap: 5px;
   }
@@ -928,9 +937,9 @@ body {
   }
 
 
-  /* -------------------------
+  /* =========================================
      左右矢印
-  ------------------------- */
+  ========================================= */
 
   .floor-arrow {
 
@@ -951,9 +960,9 @@ body {
   }
 
 
-  /* -------------------------
+  /* =========================================
      棟切り替え
-  ------------------------- */
+  ========================================= */
 
   .building-switch {
 
@@ -966,9 +975,9 @@ body {
   }
 
 
-  /* -------------------------
+  /* =========================================
      操作説明
-  ------------------------- */
+  ========================================= */
 
   .help-overlay {
 
@@ -1059,13 +1068,19 @@ body {
   }
 
 
-  /* -------------------------
+  /* =========================================
      背景図形
-  ------------------------- */
+  ========================================= */
 
   .bg-shapes {
 
-    height: max(100vh, 1050px);
+    /*
+      スマホでページ下部まで
+      背景領域を確保
+    */
+    height: 100%;
+
+    min-height: 1050px;
   }
 
 
@@ -1078,6 +1093,7 @@ body {
     height: 390px;
   }
 
+
   .bg-shapes .s2 {
 
     left: 36%;
@@ -1086,6 +1102,7 @@ body {
     width: 180px;
     height: 300px;
   }
+
 
   .bg-shapes .s3 {
 
@@ -1096,6 +1113,7 @@ body {
     height: 290px;
   }
 
+
   .bg-shapes .s4 {
 
     top: 6%;
@@ -1104,6 +1122,7 @@ body {
     width: 55px;
     height: 55px;
   }
+
 
   .bg-shapes .s5 {
 
@@ -1114,6 +1133,7 @@ body {
     height: 95px;
   }
 
+
   .bg-shapes .s6 {
 
     top: 37%;
@@ -1123,6 +1143,7 @@ body {
     height: 42px;
   }
 
+
   .bg-shapes .s7 {
 
     top: 37%;
@@ -1131,6 +1152,7 @@ body {
     width: 42px;
     height: 42px;
   }
+
 
   .bg-shapes .s8 {
 
@@ -1148,6 +1170,11 @@ body {
 </head>
 
 <body>
+
+
+<!-- =========================================
+     背景図形
+========================================= -->
 
 <div class="bg-shapes">
 
@@ -1178,32 +1205,42 @@ fetch("header.html")
 
     document.getElementById("header").innerHTML = data;
 
-    const btn = document.querySelector(".menu-btn");
-    const nav = document.querySelector(".nav");
+    const btn =
+      document.querySelector(".menu-btn");
+
+    const nav =
+      document.querySelector(".nav");
+
 
     if (btn && nav) {
 
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener(
+        "click",
+        (e) => {
 
-        e.stopPropagation();
+          e.stopPropagation();
 
-        nav.classList.toggle("active");
-
-      });
-
-
-      document.addEventListener("click", (e) => {
-
-        if (
-          !nav.contains(e.target) &&
-          !btn.contains(e.target)
-        ) {
-
-          nav.classList.remove("active");
+          nav.classList.toggle("active");
 
         }
+      );
 
-      });
+
+      document.addEventListener(
+        "click",
+        (e) => {
+
+          if (
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ) {
+
+            nav.classList.remove("active");
+
+          }
+
+        }
+      );
 
     }
 
@@ -1221,7 +1258,9 @@ fetch("header.html")
   <div class="map-view">
 
 
-    <!-- 上部ボタン -->
+    <!-- =====================================
+         上部ボタン
+    ====================================== -->
 
     <div class="top-controls">
 
@@ -1245,7 +1284,9 @@ fetch("header.html")
     </div>
 
 
-    <!-- 左 -->
+    <!-- =====================================
+         左ボタン
+    ====================================== -->
 
     <button
       class="floor-arrow floor-prev"
@@ -1257,7 +1298,9 @@ fetch("header.html")
     </button>
 
 
-    <!-- 画像 -->
+    <!-- =====================================
+         画像
+    ====================================== -->
 
     <div
       class="map-image-wrapper"
@@ -1272,7 +1315,9 @@ fetch("header.html")
       >
 
 
-      <!-- 1棟へ -->
+      <!-- ===================================
+           1棟へ
+      ==================================== -->
 
       <button
         class="building-switch"
@@ -1286,7 +1331,9 @@ fetch("header.html")
     </div>
 
 
-    <!-- 右 -->
+    <!-- =====================================
+         右ボタン
+    ====================================== -->
 
     <button
       class="floor-arrow floor-next"
@@ -1346,9 +1393,16 @@ fetch("header.html")
       <div class="help-icon gesture-square"></div>
 
       <div class="help-text">
-        <strong>2本指で拡大・縮小</strong><br>
+
+        <strong>
+          2本指で拡大・縮小
+        </strong>
+
+        <br>
+
         画像の上で2本の指を広げたり閉じたりすると、
         マップを拡大・縮小できます。
+
       </div>
 
     </div>
@@ -1359,9 +1413,16 @@ fetch("header.html")
       <div class="help-icon gesture-pan-square"></div>
 
       <div class="help-text">
-        <strong>拡大後は1本指で移動</strong><br>
+
+        <strong>
+          拡大後は1本指で移動
+        </strong>
+
+        <br>
+
         拡大した状態で1本指を動かすと、
         マップを見る位置を移動できます。
+
       </div>
 
     </div>
@@ -1374,9 +1435,16 @@ fetch("header.html")
       </div>
 
       <div class="help-text">
-        <strong>階を切り替える</strong><br>
+
+        <strong>
+          階を切り替える
+        </strong>
+
+        <br>
+
         左右の「〈」「〉」ボタンで
         1階・2階・3階・4階を切り替えられます。
+
       </div>
 
     </div>
@@ -1389,9 +1457,16 @@ fetch("header.html")
       </div>
 
       <div class="help-text">
-        <strong>棟を切り替える</strong><br>
+
+        <strong>
+          棟を切り替える
+        </strong>
+
+        <br>
+
         画像の下にある「⌃」を押すと、
         1棟のフロアマップへ移動します。
+
       </div>
 
     </div>
@@ -1404,9 +1479,16 @@ fetch("header.html")
       </div>
 
       <div class="help-text">
-        <strong>パソコンではホイール操作も可能</strong><br>
+
+        <strong>
+          パソコンではホイール操作も可能
+        </strong>
+
+        <br>
+
         マウスホイールでマップを
         拡大・縮小できます。
+
       </div>
 
     </div>
@@ -1506,12 +1588,20 @@ const HELP_STORAGE_KEY =
   "choko_floor_map_help_shown";
 
 
+/* =========================================
+   操作説明を開く
+========================================= */
+
 function openHelp() {
 
   helpOverlay.classList.add("active");
 
 }
 
+
+/* =========================================
+   操作説明を閉じる
+========================================= */
 
 function closeHelp() {
 
@@ -1525,6 +1615,10 @@ function closeHelp() {
 }
 
 
+/* =========================================
+   操作説明ボタン
+========================================= */
+
 helpButton.addEventListener(
   "click",
   () => {
@@ -1534,6 +1628,10 @@ helpButton.addEventListener(
   }
 );
 
+
+/* =========================================
+   閉じるボタン
+========================================= */
 
 helpClose.addEventListener(
   "click",
@@ -1545,6 +1643,10 @@ helpClose.addEventListener(
 );
 
 
+/* =========================================
+   ×ボタン
+========================================= */
+
 helpX.addEventListener(
   "click",
   () => {
@@ -1554,6 +1656,10 @@ helpX.addEventListener(
   }
 );
 
+
+/* =========================================
+   背景クリック
+========================================= */
 
 helpOverlay.addEventListener(
   "click",
@@ -1616,7 +1722,7 @@ let isDragging = false;
 
 
 /* =========================================
-   距離
+   2点間の距離
 ========================================= */
 
 function getDistance(touches) {
@@ -1646,14 +1752,17 @@ function updateArrowPosition() {
     return;
   }
 
+
   const imageTop =
     imageWrapper.offsetTop;
 
   const imageHeight =
     imageWrapper.offsetHeight;
 
+
   const centerY =
     imageTop + (imageHeight / 2);
+
 
   prevButton.style.top =
     centerY + "px";
@@ -1676,20 +1785,13 @@ function clampPosition() {
   const wrapperHeight =
     imageWrapper.offsetHeight;
 
-  /*
-    拡大した画像そのものの
-    「元サイズから増えた分」を基準にする。
-
-    これにより、画像の縦横比や
-    拡大率によって上下移動が
-    できなくなる問題を防ぐ。
-  */
 
   const maxX =
     Math.max(
       0,
       (wrapperWidth * (scale - 1)) / 2
     );
+
 
   const maxY =
     Math.max(
@@ -1703,6 +1805,7 @@ function clampPosition() {
       Math.max(translateX, -maxX),
       maxX
     );
+
 
   translateY =
     Math.min(
@@ -1720,6 +1823,7 @@ function clampPosition() {
 function updateTransform() {
 
   clampPosition();
+
 
   imageWrapper.style.transform =
     "translate3d(" +
@@ -1745,6 +1849,7 @@ function setZoom(value) {
       5
     );
 
+
   updateTransform();
 
 }
@@ -1761,8 +1866,10 @@ function resetZoom() {
   translateX = 0;
   translateY = 0;
 
+
   imageWrapper.style.transform =
     "translate3d(0, 0, 0) scale(1)";
+
 
   updateArrowPosition();
 
@@ -1778,12 +1885,15 @@ function showFloor(index) {
   currentFloor =
     (index + floors.length) % floors.length;
 
+
   floorImage.src =
     floors[currentFloor].image;
+
 
   floorImage.alt =
     floors[currentFloor].name +
     " フロアマップ";
+
 
   resetZoom();
 
@@ -1807,7 +1917,7 @@ floorImage.addEventListener(
 
 
 /* =========================================
-   左右ボタン
+   左ボタン
 ========================================= */
 
 prevButton.addEventListener(
@@ -1820,6 +1930,10 @@ prevButton.addEventListener(
 );
 
 
+/* =========================================
+   右ボタン
+========================================= */
+
 nextButton.addEventListener(
   "click",
   () => {
@@ -1831,7 +1945,7 @@ nextButton.addEventListener(
 
 
 /* =========================================
-   全体図
+   全体図に戻る
 ========================================= */
 
 backToMap.addEventListener(
@@ -1868,13 +1982,19 @@ imageWrapper.addEventListener(
   "touchstart",
   (e) => {
 
+    /* -------------------------
+       2本指
+    ------------------------- */
+
     if (e.touches.length === 2) {
 
       startDistance =
         getDistance(e.touches);
 
+
       startScale =
         scale;
+
 
       startPanX =
         translateX;
@@ -1882,17 +2002,20 @@ imageWrapper.addEventListener(
       startPanY =
         translateY;
 
+
       startCenterX =
         (
           e.touches[0].clientX +
           e.touches[1].clientX
         ) / 2;
 
+
       startCenterY =
         (
           e.touches[0].clientY +
           e.touches[1].clientY
         ) / 2;
+
 
       isDragging = false;
 
@@ -1901,6 +2024,10 @@ imageWrapper.addEventListener(
     }
 
 
+    /* -------------------------
+       1本指
+    ------------------------- */
+
     if (
       e.touches.length === 1 &&
       scale > 1
@@ -1908,11 +2035,13 @@ imageWrapper.addEventListener(
 
       isDragging = true;
 
+
       startTouchX =
         e.touches[0].clientX;
 
       startTouchY =
         e.touches[0].clientY;
+
 
       startPanX =
         translateX;
@@ -1923,7 +2052,9 @@ imageWrapper.addEventListener(
     }
 
   },
-  { passive: false }
+  {
+    passive: false
+  }
 );
 
 
@@ -1935,17 +2066,24 @@ imageWrapper.addEventListener(
   "touchmove",
   (e) => {
 
+    /* -------------------------
+       2本指ズーム
+    ------------------------- */
+
     if (e.touches.length === 2) {
 
       e.preventDefault();
 
+
       const distance =
-        getDistance(e.touches);
+        getDistance(e);
+
 
       if (startDistance > 0) {
 
         const ratio =
           distance / startDistance;
+
 
         scale =
           Math.min(
@@ -1965,6 +2103,7 @@ imageWrapper.addEventListener(
           e.touches[1].clientX
         ) / 2;
 
+
       const centerY =
         (
           e.touches[0].clientY +
@@ -1976,9 +2115,11 @@ imageWrapper.addEventListener(
         startPanX +
         (centerX - startCenterX);
 
+
       translateY =
         startPanY +
         (centerY - startCenterY);
+
 
       updateTransform();
 
@@ -1986,6 +2127,10 @@ imageWrapper.addEventListener(
 
     }
 
+
+    /* -------------------------
+       1本指移動
+    ------------------------- */
 
     if (
       e.touches.length === 1 &&
@@ -1995,26 +2140,32 @@ imageWrapper.addEventListener(
 
       e.preventDefault();
 
+
       const x =
         e.touches[0].clientX;
 
       const y =
         e.touches[0].clientY;
 
+
       translateX =
         startPanX +
         (x - startTouchX);
 
+
       translateY =
         startPanY +
         (y - startTouchY);
+
 
       updateTransform();
 
     }
 
   },
-  { passive: false }
+  {
+    passive: false
+  }
 );
 
 
@@ -2041,12 +2192,14 @@ imageWrapper.addEventListener(
     }
 
   },
-  { passive: false }
+  {
+    passive: false
+  }
 );
 
 
 /* =========================================
-   マウスドラッグ
+   マウスドラッグ開始
 ========================================= */
 
 imageWrapper.addEventListener(
@@ -2060,7 +2213,9 @@ imageWrapper.addEventListener(
       return;
     }
 
+
     isDragging = true;
+
 
     startTouchX =
       e.clientX;
@@ -2068,20 +2223,27 @@ imageWrapper.addEventListener(
     startTouchY =
       e.clientY;
 
+
     startPanX =
       translateX;
 
     startPanY =
       translateY;
 
+
     imageWrapper.style.cursor =
       "grabbing";
+
 
     e.preventDefault();
 
   }
 );
 
+
+/* =========================================
+   マウス移動
+========================================= */
 
 document.addEventListener(
   "mousemove",
@@ -2094,19 +2256,26 @@ document.addEventListener(
       return;
     }
 
+
     translateX =
       startPanX +
       (e.clientX - startTouchX);
 
+
     translateY =
       startPanY +
       (e.clientY - startTouchY);
+
 
     updateTransform();
 
   }
 );
 
+
+/* =========================================
+   マウスドラッグ終了
+========================================= */
 
 document.addEventListener(
   "mouseup",
@@ -2115,6 +2284,7 @@ document.addEventListener(
     if (isDragging) {
 
       isDragging = false;
+
 
       imageWrapper.style.cursor =
         scale > 1
@@ -2137,12 +2307,17 @@ imageWrapper.addEventListener(
 
     e.preventDefault();
 
+
     const delta =
       e.deltaY > 0
         ? -0.15
         : 0.15;
 
-    setZoom(scale + delta);
+
+    setZoom(
+      scale + delta
+    );
+
 
     imageWrapper.style.cursor =
       scale > 1
@@ -2150,7 +2325,9 @@ imageWrapper.addEventListener(
         : "default";
 
   },
-  { passive: false }
+  {
+    passive: false
+  }
 );
 
 
@@ -2158,7 +2335,8 @@ imageWrapper.addEventListener(
    初期カーソル
 ========================================= */
 
-imageWrapper.style.cursor = "default";
+imageWrapper.style.cursor =
+  "default";
 
 
 /* =========================================
@@ -2188,6 +2366,7 @@ window.addEventListener(
       updateTransform();
 
     }
+
 
     updateArrowPosition();
 
