@@ -194,7 +194,6 @@ body {
 
 </div>
 
-
 <div id="header"></div>
 
 
@@ -209,17 +208,168 @@ fetch("header.html")
     const headerContainer =
       document.getElementById("header");
 
+
+    /* =========================================
+       共通ヘッダーを読み込み
+    ========================================= */
+
     headerContainer.innerHTML =
       data;
 
+
+    /* =========================================
+       現在のページを判定
+    ========================================= */
+
+    const currentPage =
+      window.location.pathname
+        .split("/")
+        .pop()
+        .toLowerCase() || "index.html";
+
+
+    const navLinks =
+      headerContainer.querySelectorAll(
+        ".top-nav a"
+      );
+
+
+    /* =========================================
+       現在のページをアクティブ表示
+    ========================================= */
+
+    navLinks.forEach(
+      function(link) {
+
+        const href =
+          link.getAttribute("href");
+
+
+        if(!href)
+          return;
+
+
+        const linkPage =
+          href
+            .split("/")
+            .pop()
+            .split("?")[0]
+            .toLowerCase();
+
+
+        if(linkPage === currentPage){
+
+          link.classList.add(
+            "active"
+          );
+
+
+          link.setAttribute(
+            "aria-current",
+            "page"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       既存のヘッダー処理
+    ========================================= */
+
     const header =
-      headerContainer.querySelector("header");
+      headerContainer.querySelector(
+        "header"
+      );
+
 
     const btn =
-      headerContainer.querySelector(".menu-btn");
+      headerContainer.querySelector(
+        ".menu-btn"
+      );
+
 
     const nav =
-      headerContainer.querySelector(".nav");
+      headerContainer.querySelector(
+        ".nav"
+      );
+
+
+    function updateHeaderHeight() {
+
+      if(!header)
+        return;
+
+
+      const height =
+        header.getBoundingClientRect().height;
+
+
+      document.documentElement
+        .style
+        .setProperty(
+          "--header-height",
+          height + "px"
+        );
+
+    }
+
+
+    updateHeaderHeight();
+
+
+    window.addEventListener(
+      "resize",
+      updateHeaderHeight
+    );
+
+
+    /* =========================================
+       メニュー開閉
+    ========================================= */
+
+    if(btn && nav){
+
+      btn.addEventListener(
+        "click",
+        (e) => {
+
+          e.stopPropagation();
+
+
+          nav.classList.toggle(
+            "active"
+          );
+
+        }
+      );
+
+
+      document.addEventListener(
+        "click",
+        (e) => {
+
+          if(
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ){
+
+            nav.classList.remove(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+  });
+
+</script>
 
 
     function updateHeaderHeight() {
