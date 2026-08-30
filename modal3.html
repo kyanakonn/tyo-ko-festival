@@ -16,6 +16,7 @@
 /* =========================================
    modal3.html
    2棟フロアマップ用 場所詳細モーダル
+
    modal2.html と同じデザイン
 ========================================= */
 
@@ -185,7 +186,7 @@ body {
 
 
 /* =========================================
-   ラベル
+   上部ラベル
 ========================================= */
 
 .modal-label {
@@ -244,15 +245,94 @@ body {
 
 
 /* =========================================
-   本文
+   情報エリア
 ========================================= */
 
-.modal-body {
+.modal-info {
   position: relative;
 
   z-index: 1;
 
-  padding: 16px 15px;
+  overflow: hidden;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  border-left: 5px solid #15929e;
+}
+
+
+/* =========================================
+   情報1項目
+========================================= */
+
+.info-row {
+  display: flex;
+
+  align-items: stretch;
+
+  border-bottom: 1px solid #e5e5e5;
+}
+
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+
+/* =========================================
+   項目ラベル
+========================================= */
+
+.info-label {
+  flex: 0 0 92px;
+
+  padding: 12px 10px;
+
+  background: #f1f1f1;
+
+  color: #06254f;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  font-weight: 800;
+}
+
+
+/* =========================================
+   項目内容
+========================================= */
+
+.info-value {
+  flex: 1;
+
+  padding: 12px 13px;
+
+  color: #222;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   説明
+========================================= */
+
+.modal-description {
+  position: relative;
+
+  z-index: 1;
+
+  margin-top: 12px;
+
+  padding: 14px 15px;
 
   background: #fff;
 
@@ -324,7 +404,7 @@ body {
 
 
 /* =========================================
-   スマホ
+   スマートフォン
 ========================================= */
 
 @media (max-width: 600px) {
@@ -391,7 +471,23 @@ body {
   }
 
 
-  .modal-body {
+  .info-label {
+    flex: 0 0 76px;
+
+    padding: 10px 8px;
+
+    font-size: 11px;
+  }
+
+
+  .info-value {
+    padding: 10px 10px;
+
+    font-size: 13px;
+  }
+
+
+  .modal-description {
     padding: 13px 12px;
 
     font-size: 13px;
@@ -446,10 +542,13 @@ body {
 
 
     <!-- =====================================
-         ラベル
+         階数
     ====================================== -->
 
-    <div class="modal-label">
+    <div
+      class="modal-label"
+      id="modalLabel"
+    >
       2棟 FLOOR MAP
     </div>
 
@@ -479,13 +578,73 @@ body {
 
 
     <!-- =====================================
-         本文
+         基本情報
     ====================================== -->
 
     <div
-      class="modal-body"
-      id="modalBody"
-    ></div>
+      class="modal-info"
+      id="modalInfo"
+    >
+
+      <div class="info-row">
+
+        <div class="info-label">
+          クラス・団体
+        </div>
+
+        <div
+          class="info-value"
+          id="modalClass"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <div class="info-label">
+          開催場所
+        </div>
+
+        <div
+          class="info-value"
+          id="modalPlace"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <div class="info-label">
+          企画
+        </div>
+
+        <div
+          class="info-value"
+          id="modalEvent"
+        >
+          -
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         説明
+    ====================================== -->
+
+    <div
+      class="modal-description"
+      id="modalDescription"
+    >
+    </div>
 
 
     <!-- =====================================
@@ -496,7 +655,8 @@ body {
       class="modal-note"
       id="modalNote"
     >
-      フロアマップ上の紫色のエリアをタップすると、この詳細画面を表示できます。
+      フロアマップ上の紫色のエリアをタップすると、
+      この詳細画面を表示できます。
     </p>
 
 
@@ -521,117 +681,175 @@ body {
 
 <script>
 
-
-/* =========================================
-   2棟 モーダルデータ
-========================================= */
+/* ==================================================
+   2棟フロアマップ モーダルデータ
+================================================== */
 
 const modalData = {
 
 
   /* =========================================
-     2棟 1階
+     2棟1階
   ========================================= */
 
-
   "cha": {
+
+    floor: "2棟 1階 FLOOR MAP",
 
     title: "茶道部",
 
     subtitle: "2棟 1階・茶道部",
 
-    body:
+    className: "茶道部",
+
+    place: "2棟 1階・茶道室",
+
+    event: "企画・体験",
+
+    description:
       "茶道部の企画・体験エリアです。2棟1階のフロアマップ上に表示されています。"
+
   },
 
 
   "science-kagaku": {
 
+    floor: "2棟 1階 FLOOR MAP",
+
     title: "サイエンス部 科学班",
 
     subtitle: "2棟 1階・サイエンス部 科学班",
 
-    body:
+    className: "サイエンス部 科学班",
+
+    place: "2棟 1階・科学班",
+
+    event: "企画・展示",
+
+    description:
       "サイエンス部 科学班の企画・展示エリアです。2棟1階のフロアマップ上に表示されています。"
+
   },
 
 
   /* =========================================
-     2棟 2階
+     2棟2階
   ========================================= */
 
-
   "art": {
+
+    floor: "2棟 2階 FLOOR MAP",
 
     title: "美術部",
 
     subtitle: "2棟 2階・美術部",
 
-    body:
+    className: "美術部",
+
+    place: "2棟 2階・美術室",
+
+    event: "作品展示・企画",
+
+    description:
       "美術部の作品展示・企画エリアです。2棟2階のフロアマップ上に表示されています。"
+
   },
 
 
   "science-butsuri": {
 
+    floor: "2棟 2階 FLOOR MAP",
+
     title: "サイエンス部 物理班",
 
     subtitle: "2棟 2階・サイエンス部 物理班",
 
-    body:
+    className: "サイエンス部 物理班",
+
+    place: "2棟 2階・物理班",
+
+    event: "企画・展示",
+
+    description:
       "サイエンス部 物理班の企画・展示エリアです。2棟2階のフロアマップ上に表示されています。"
+
   },
 
 
   "shogi": {
 
+    floor: "2棟 2階 FLOOR MAP",
+
     title: "将棋部",
 
     subtitle: "2棟 2階・将棋部",
 
-    body:
+    className: "将棋部",
+
+    place: "2棟 2階・将棋部",
+
+    event: "企画・体験",
+
+    description:
       "将棋部の企画・体験エリアです。2棟2階のフロアマップ上に表示されています。"
+
   },
 
 
   /* =========================================
-     2棟 3階
+     2棟3階
   ========================================= */
 
-
   "science-seibutsu": {
+
+    floor: "2棟 3階 FLOOR MAP",
 
     title: "サイエンス部 生物班",
 
     subtitle: "2棟 3階・サイエンス部 生物班",
 
-    body:
+    className: "サイエンス部 生物班",
+
+    place: "2棟 3階・生物班",
+
+    event: "企画・展示",
+
+    description:
       "サイエンス部 生物班の企画・展示エリアです。2棟3階のフロアマップ上に表示されています。"
+
   },
 
 
   /* =========================================
-     2棟 4階
+     2棟4階
   ========================================= */
 
-
   "science-chigaku": {
+
+    floor: "2棟 4階 FLOOR MAP",
 
     title: "サイエンス部 地学班",
 
     subtitle: "2棟 4階・サイエンス部 地学班",
 
-    body:
+    className: "サイエンス部 地学班",
+
+    place: "2棟 4階・地学班",
+
+    event: "企画・展示",
+
+    description:
       "サイエンス部 地学班の企画・展示エリアです。2棟4階のフロアマップ上に表示されています。"
+
   }
 
 
 };
 
 
-/* =========================================
-   URLパラメータ取得
-========================================= */
+/* ==================================================
+   URLからtypeを取得
+================================================== */
 
 const params =
   new URLSearchParams(
@@ -643,39 +861,65 @@ const type =
   params.get("type") || "cha";
 
 
-/* =========================================
+/* ==================================================
    データ取得
-========================================= */
+================================================== */
 
 const data =
   modalData[type] || modalData.cha;
 
 
-/* =========================================
-   モーダルへ反映
-========================================= */
+/* ==================================================
+   データを表示
+================================================== */
+
+document
+  .getElementById("modalLabel")
+  .textContent =
+  data.floor;
+
 
 document
   .getElementById("modalTitle")
-  .textContent = data.title;
+  .textContent =
+  data.title;
 
 
 document
   .getElementById("modalSubtitle")
-  .textContent = data.subtitle;
+  .textContent =
+  data.subtitle;
 
 
 document
-  .getElementById("modalBody")
-  .textContent = data.body;
+  .getElementById("modalClass")
+  .textContent =
+  data.className;
 
 
-/* =========================================
+document
+  .getElementById("modalPlace")
+  .textContent =
+  data.place;
+
+
+document
+  .getElementById("modalEvent")
+  .textContent =
+  data.event;
+
+
+document
+  .getElementById("modalDescription")
+  .textContent =
+  data.description;
+
+
+/* ==================================================
    モーダルを閉じる
-========================================= */
+================================================== */
 
 function closeModal() {
-
 
   /*
     親ページからモーダルを表示している場合
@@ -709,9 +953,9 @@ function closeModal() {
 }
 
 
-/* =========================================
+/* ==================================================
    ×ボタン
-========================================= */
+================================================== */
 
 document
   .getElementById("modalClose")
@@ -721,9 +965,9 @@ document
   );
 
 
-/* =========================================
+/* ==================================================
    マップに戻る
-========================================= */
+================================================== */
 
 document
   .getElementById("modalMapButton")
@@ -733,9 +977,9 @@ document
   );
 
 
-/* =========================================
-   背景タップで閉じる
-========================================= */
+/* ==================================================
+   背景クリック
+================================================== */
 
 document
   .getElementById("modalPage")
@@ -755,9 +999,9 @@ document
   );
 
 
-/* =========================================
-   ESCキー
-========================================= */
+/* ==================================================
+   Escキー
+================================================== */
 
 document.addEventListener(
   "keydown",
@@ -771,7 +1015,6 @@ document.addEventListener(
 
   }
 );
-
 
 </script>
 
