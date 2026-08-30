@@ -38,19 +38,20 @@
 
       width: 100%;
 
-      margin: 0;
+      min-height: 100%;
 
+      margin: 0;
       padding: 0;
 
       /*
-        縦方向は通常スクロール可能
-        横方向のみページからはみ出さないようにする
+        上下固定を解除
+        → 縦方向にページスクロール可能
       */
-
       overflow-x: hidden;
-
       overflow-y: auto;
 
+      overscroll-behavior-x: none;
+      overscroll-behavior-y: auto;
     }
 
 
@@ -64,11 +65,10 @@
         sans-serif;
 
       /*
-        指で上下にスクロールできるようにする
+        縦方向はブラウザの
+        通常スクロールを許可
       */
-
       touch-action: pan-y;
-
     }
 
 
@@ -83,7 +83,6 @@
       z-index: 10000;
 
       width: 100%;
-
     }
 
 
@@ -92,11 +91,6 @@
     ========================================= */
 
     .bg-shapes {
-
-      /*
-        背景図形自体は画面に固定
-        ページスクロールを邪魔しない
-      */
 
       position: fixed;
 
@@ -109,7 +103,6 @@
       overflow: hidden;
 
       opacity: 0.85;
-
     }
 
 
@@ -135,7 +128,6 @@
       border-bottom: 170px solid #c85c72;
 
       transform: rotate(-25deg);
-
     }
 
 
@@ -152,7 +144,6 @@
       border-bottom: 130px solid #8060a8;
 
       transform: rotate(20deg);
-
     }
 
 
@@ -169,7 +160,6 @@
       border-bottom: 180px solid #d1a92f;
 
       transform: rotate(12deg);
-
     }
 
 
@@ -186,7 +176,6 @@
       border-bottom: 120px solid #3f9da9;
 
       transform: rotate(-15deg);
-
     }
 
 
@@ -203,7 +192,6 @@
       border-bottom: 260px solid #4f9fa5;
 
       transform: rotate(30deg);
-
     }
 
 
@@ -220,7 +208,6 @@
       border-bottom: 190px solid #c85c72;
 
       transform: rotate(-15deg);
-
     }
 
 
@@ -237,7 +224,6 @@
       border-bottom: 100px solid #8060a8;
 
       transform: rotate(35deg);
-
     }
 
 
@@ -254,12 +240,14 @@
       border-bottom: 130px solid #d1a92f;
 
       transform: rotate(-20deg);
-
     }
 
 
     /* =========================================
        メイン
+       
+       ★上下固定を解除
+       ★ページ全体を縦スクロール可能にする
     ========================================= */
 
     .visitor-container {
@@ -271,9 +259,8 @@
       width: 100%;
 
       /*
-        画面の高さに固定しない
+        固定高さを解除
       */
-
       height: auto;
 
       min-height: 0;
@@ -289,12 +276,9 @@
       align-items: center;
 
       /*
-        縦方向のコンテンツを
-        通常のページとして表示
+        縦方向のスクロールを許可
       */
-
       overflow: visible;
-
     }
 
 
@@ -309,9 +293,8 @@
       width: 100%;
 
       /*
-        高さ固定を解除
+        固定高さを解除
       */
-
       height: auto;
 
       min-height: 0;
@@ -326,13 +309,7 @@
 
       justify-content: flex-start;
 
-      /*
-        ページスクロールを可能にするため
-        overflow固定を解除
-      */
-
       overflow: visible;
-
     }
 
 
@@ -347,30 +324,30 @@
       width: 100%;
 
       /*
-        画面高さへの固定を解除
+        固定高さを解除
       */
-
       height: auto;
-
-      min-height: 0;
 
       flex: none;
 
-      /*
-        縦スクロール可能
-      */
+      min-height: 0;
 
+      /*
+        縦スクロールをブラウザに許可
+      */
       overflow: visible;
 
       /*
-        横スワイプはJavaScript、
-        縦方向はブラウザの通常スクロール
-      */
+        通常時：
+        ・上下 → ページスクロール
+        ・左右 → JSでページ切り替え
 
+        拡大時：
+        ・JSで画像ドラッグ
+      */
       touch-action: pan-y;
 
-      contain: none;
-
+      contain: layout paint;
     }
 
 
@@ -385,9 +362,8 @@
       width: 100%;
 
       /*
-        高さ固定を解除
+        固定高さを解除
       */
-
       height: auto;
 
       flex-shrink: 0;
@@ -398,16 +374,16 @@
       will-change: transform;
 
       /*
-        縦スクロールを許可
+        縦スクロール可能
       */
-
       touch-action: pan-y;
-
     }
 
 
     /* =========================================
        各ページ
+       
+       ★画面の縦中央に画像を配置
     ========================================= */
 
     .slide {
@@ -419,50 +395,56 @@
       width: 100%;
 
       /*
-        高さ固定を解除
+        固定高さではなく
+        最低でも画面いっぱい
       */
+      min-height: calc(
+        100vh - var(--header-height, 70px)
+      );
 
       height: auto;
-
-      min-height: 0;
 
       display: flex;
 
       justify-content: center;
 
-      align-items: flex-start;
+      /*
+        画像を縦中央に配置
+      */
+      align-items: center;
 
       padding: 0;
 
       /*
-        縦方向にコンテンツを
-        自然に表示
+        画像が画面より縦に長い場合も
+        ページスクロールできるようにする
       */
-
       overflow: visible;
 
       touch-action: pan-y;
-
     }
 
 
     /* =========================================
        画像
-
-       横幅を基準に
-       自然な高さで表示
+       
+       ★縦中央配置
+       ★縦長画像も自然なサイズで表示
     ========================================= */
 
     .slide img {
 
       display: block;
 
+      /*
+        横幅いっぱいを基準にする
+      */
       width: 100%;
 
       /*
-        画面高さへの固定を解除
+        高さを固定しない
+        → 元画像の縦横比を維持
       */
-
       height: auto;
 
       max-width: none;
@@ -486,9 +468,8 @@
       -webkit-user-drag: none;
 
       /*
-        上下スクロール可能
+        通常時は縦スクロールを許可
       */
-
       touch-action: pan-y;
 
       transform:
@@ -501,13 +482,12 @@
 
       transition:
         transform 0.2s ease-out;
-
     }
 
 
     /* =========================================
        左右ボタン
-
+       
        白い円なし
        背景なし
        画像の上に直接配置
@@ -523,9 +503,8 @@
       width: 100%;
 
       /*
-        画像の高さに合わせる
+        スライド全体に合わせる
       */
-
       height: 100%;
 
       display: flex;
@@ -539,7 +518,6 @@
       pointer-events: none;
 
       z-index: 100;
-
     }
 
 
@@ -594,10 +572,6 @@
 
       -webkit-tap-highlight-color: transparent;
 
-      /*
-        ボタン操作を優先
-      */
-
       touch-action: manipulation;
 
       box-shadow: none;
@@ -610,7 +584,6 @@
       transition:
         transform 0.12s ease,
         opacity 0.12s ease;
-
     }
 
 
@@ -621,7 +594,6 @@
       box-shadow: none;
 
       transform: scale(1.08);
-
     }
 
 
@@ -632,7 +604,6 @@
       box-shadow: none;
 
       transform: scale(0.9);
-
     }
 
 
@@ -654,9 +625,8 @@
       .visitor-container {
 
         /*
-          画面高さ固定を解除
+          固定高さを解除
         */
-
         height: auto;
 
         min-height: 0;
@@ -664,7 +634,6 @@
         padding: 0;
 
         overflow: visible;
-
       }
 
 
@@ -674,8 +643,9 @@
 
         height: auto;
 
-        overflow: visible;
+        min-height: 0;
 
+        overflow: visible;
       }
 
 
@@ -691,8 +661,10 @@
 
         overflow: visible;
 
+        /*
+          上下スクロールを許可
+        */
         touch-action: pan-y;
-
       }
 
 
@@ -706,7 +678,6 @@
           transform 0.3s ease-out;
 
         touch-action: pan-y;
-
       }
 
 
@@ -714,11 +685,17 @@
 
         width: 100%;
 
+        /*
+          ヘッダーを除いた画面高さを
+          最低限確保
+        */
+        min-height: calc(
+          100vh - var(--header-height, 60px)
+        );
+
         height: auto;
 
-        min-height: 0;
-
-        align-items: flex-start;
+        align-items: center;
 
         justify-content: center;
 
@@ -727,12 +704,14 @@
         overflow: visible;
 
         touch-action: pan-y;
-
       }
 
 
       /* -----------------------------------------
          スマホ画像
+         
+         ★ページの縦中央
+         ★縦横比維持
       ----------------------------------------- */
 
       .slide img {
@@ -750,7 +729,6 @@
         object-position: center center;
 
         touch-action: pan-y;
-
       }
 
 
@@ -765,7 +743,6 @@
         height: 100%;
 
         padding: 0;
-
       }
 
 
@@ -783,7 +760,6 @@
 
         text-shadow:
           0 2px 5px rgba(255, 255, 255, 0.9);
-
       }
 
     }
@@ -797,14 +773,9 @@
 
       .visitor-container {
 
-        /*
-          高さ固定を解除
-        */
-
         height: auto;
 
         min-height: 0;
-
       }
 
 
@@ -813,7 +784,14 @@
         height: auto;
 
         flex: none;
+      }
 
+
+      .slide {
+
+        min-height: calc(
+          100vh - var(--header-height, 55px)
+        );
       }
 
 
@@ -826,7 +804,6 @@
         font-size: 48px;
 
         padding: 0 2px;
-
       }
 
     }
@@ -845,7 +822,6 @@
         min-height: 62px;
 
         font-size: 52px;
-
       }
 
     }
@@ -880,13 +856,7 @@
 
 
         /*
-          ヘッダー高さ取得
-          
-          ※現在はページを高さ固定していないため
-          visitor-containerの高さ計算には使用しません。
-          
-          他の共通処理との互換性のため
-          --header-heightだけ設定します。
+          実際のヘッダー高さを取得
         */
 
         const headerElement =
@@ -1082,9 +1052,6 @@
 
         <!-- =====================================
              左右ボタン
-
-             ★画像の上に直接配置
-             ★白い円なし
         ====================================== -->
 
         <div class="slider-controls">
@@ -1384,6 +1351,11 @@
         slider.clientHeight;
 
 
+      /*
+        拡大率に応じて
+        画像が画面外へ動ける範囲を設定
+      */
+
       const maxPanX =
         Math.max(
           0,
@@ -1393,13 +1365,36 @@
         );
 
 
-      const maxPanY =
+      /*
+        縦方向は画像自体の高さを考慮
+      */
+
+      const image =
+        getCurrentImage();
+
+
+      let maxPanY =
         Math.max(
           0,
           (zoomScale - 1) *
           sliderHeight /
           2
         );
+
+
+      if (image) {
+
+        const imageHeight =
+          image.getBoundingClientRect().height /
+          Math.max(zoomScale, 1);
+
+        maxPanY =
+          Math.max(
+            maxPanY,
+            (imageHeight * (zoomScale - 1)) / 2
+          );
+
+      }
 
 
       panX =
@@ -1724,6 +1719,14 @@
           activePointers.size >= 2
         ) {
 
+          /*
+            ブラウザの縦スクロールを
+            ピンチ操作中だけ止める
+          */
+
+          e.preventDefault();
+
+
           const distance =
             getPointerDistance();
 
@@ -1743,6 +1746,11 @@
                 ratio
               );
 
+
+            /*
+              1倍に戻ったら
+              移動位置も中央に戻す
+            */
 
             if (
               zoomScale <= 1
@@ -1818,6 +1826,14 @@
           zoomScale > 1
         ) {
 
+          /*
+            拡大中はブラウザのスクロールではなく
+            画像移動として扱う
+          */
+
+          e.preventDefault();
+
+
           if (
             Math.abs(deltaX) >
               DRAG_DISTANCE ||
@@ -1862,9 +1878,12 @@
 
         /* -------------------------------------
            通常モード
-           → 横スワイプ
            
-           縦方向の操作はブラウザに任せる
+           ★上下：
+             → ブラウザ標準の縦スクロール
+           
+           ★左右：
+             → スライダー操作
         ------------------------------------- */
 
         if (
@@ -1872,6 +1891,13 @@
           Math.abs(deltaX) >
             Math.abs(deltaY)
         ) {
+
+          /*
+            横方向の操作だけ
+            スライダー操作として扱う
+          */
+
+          e.preventDefault();
 
           isDragging = true;
 
@@ -1945,6 +1971,9 @@
 
         }
 
+      },
+      {
+        passive: false
       }
     );
 
@@ -2068,10 +2097,12 @@
 
         }
 
-        else {
+        else if (
+          isDragging
+        ) {
 
           /*
-            横スワイプでなければ
+            横スワイプ途中で終了した場合
             現在のページ位置を復元
           */
 
@@ -2130,6 +2161,11 @@
         if (
           !e.ctrlKey
         ) {
+
+          /*
+            Ctrlなしの通常ホイールは
+            ブラウザ標準の縦スクロール
+          */
 
           return;
 
@@ -2245,9 +2281,8 @@
 
     /* =========================================
        初期表示
-       
-       ★ページ高さ固定なし
-       ★通常の縦スクロール
+
+       ★縦スクロール可能
        ★画像中央配置
        ★拡大なし
     ========================================= */
