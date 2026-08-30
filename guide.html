@@ -43,10 +43,6 @@
       margin: 0;
       padding: 0;
 
-      /*
-        上下固定を解除
-        → 縦方向にページスクロール可能
-      */
       overflow-x: hidden;
       overflow-y: auto;
 
@@ -65,8 +61,12 @@
         sans-serif;
 
       /*
-        縦方向はブラウザの
-        通常スクロールを許可
+        等倍時：
+        縦方向のページスクロールを許可
+
+        拡大時：
+        JS側で必要に応じて
+        preventDefault() を使用
       */
       touch-action: pan-y;
     }
@@ -245,9 +245,6 @@
 
     /* =========================================
        メイン
-       
-       ★上下固定を解除
-       ★ページ全体を縦スクロール可能にする
     ========================================= */
 
     .visitor-container {
@@ -258,9 +255,6 @@
 
       width: 100%;
 
-      /*
-        固定高さを解除
-      */
       height: auto;
 
       min-height: 0;
@@ -275,9 +269,6 @@
 
       align-items: center;
 
-      /*
-        縦方向のスクロールを許可
-      */
       overflow: visible;
     }
 
@@ -292,9 +283,6 @@
 
       width: 100%;
 
-      /*
-        固定高さを解除
-      */
       height: auto;
 
       min-height: 0;
@@ -323,31 +311,34 @@
 
       width: 100%;
 
-      /*
-        固定高さを解除
-      */
       height: auto;
 
       flex: none;
 
       min-height: 0;
 
-      /*
-        縦スクロールをブラウザに許可
-      */
       overflow: visible;
 
       /*
         通常時：
-        ・上下 → ページスクロール
-        ・左右 → JSでページ切り替え
+        縦方向 → ブラウザスクロール
+
+        JSで横スワイプ時だけ
+        preventDefault()
 
         拡大時：
-        ・JSで画像ドラッグ
+        JSで画像移動
       */
       touch-action: pan-y;
 
       contain: layout paint;
+
+      /*
+        ピンチ中のブラウザ側の
+       視覚的な遅延を抑える
+      */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
 
@@ -361,9 +352,6 @@
 
       width: 100%;
 
-      /*
-        固定高さを解除
-      */
       height: auto;
 
       flex-shrink: 0;
@@ -373,17 +361,12 @@
 
       will-change: transform;
 
-      /*
-        縦スクロール可能
-      */
       touch-action: pan-y;
     }
 
 
     /* =========================================
        各ページ
-       
-       ★画面の縦中央に画像を配置
     ========================================= */
 
     .slide {
@@ -394,10 +377,6 @@
 
       width: 100%;
 
-      /*
-        固定高さではなく
-        最低でも画面いっぱい
-      */
       min-height: calc(
         100vh - var(--header-height, 70px)
       );
@@ -408,17 +387,10 @@
 
       justify-content: center;
 
-      /*
-        画像を縦中央に配置
-      */
       align-items: center;
 
       padding: 0;
 
-      /*
-        画像が画面より縦に長い場合も
-        ページスクロールできるようにする
-      */
       overflow: visible;
 
       touch-action: pan-y;
@@ -427,24 +399,14 @@
 
     /* =========================================
        画像
-       
-       ★縦中央配置
-       ★縦長画像も自然なサイズで表示
     ========================================= */
 
     .slide img {
 
       display: block;
 
-      /*
-        横幅いっぱいを基準にする
-      */
       width: 100%;
 
-      /*
-        高さを固定しない
-        → 元画像の縦横比を維持
-      */
       height: auto;
 
       max-width: none;
@@ -472,6 +434,10 @@
       */
       touch-action: pan-y;
 
+      /*
+        JSで完全に制御するため
+        transformアニメーションは使用しない
+      */
       transform:
         translate3d(0, 0, 0)
         scale(1);
@@ -480,17 +446,12 @@
 
       will-change: transform;
 
-      transition:
-        transform 0.2s ease-out;
+      transition: none;
     }
 
 
     /* =========================================
        左右ボタン
-       
-       白い円なし
-       背景なし
-       画像の上に直接配置
     ========================================= */
 
     .slider-controls {
@@ -502,9 +463,6 @@
 
       width: 100%;
 
-      /*
-        スライド全体に合わせる
-      */
       height: 100%;
 
       display: flex;
@@ -612,7 +570,6 @@
       outline: none;
 
       background: transparent;
-
     }
 
 
@@ -624,9 +581,6 @@
 
       .visitor-container {
 
-        /*
-          固定高さを解除
-        */
         height: auto;
 
         min-height: 0;
@@ -661,9 +615,6 @@
 
         overflow: visible;
 
-        /*
-          上下スクロールを許可
-        */
         touch-action: pan-y;
       }
 
@@ -685,10 +636,6 @@
 
         width: 100%;
 
-        /*
-          ヘッダーを除いた画面高さを
-          最低限確保
-        */
         min-height: calc(
           100vh - var(--header-height, 60px)
         );
@@ -707,13 +654,6 @@
       }
 
 
-      /* -----------------------------------------
-         スマホ画像
-         
-         ★ページの縦中央
-         ★縦横比維持
-      ----------------------------------------- */
-
       .slide img {
 
         width: 100%;
@@ -729,12 +669,10 @@
         object-position: center center;
 
         touch-action: pan-y;
+
+        transition: none;
       }
 
-
-      /* -----------------------------------------
-         スマホ左右ボタン
-      ----------------------------------------- */
 
       .slider-controls {
 
@@ -940,7 +878,6 @@
 
     <div class="slider-wrapper">
 
-
       <!-- =====================================
            画像スライダー
       ====================================== -->
@@ -950,16 +887,12 @@
         id="slider"
       >
 
-
         <div
           class="slides"
           id="slides"
         >
 
-
-          <!-- ================================
-               1ページ目
-          ================================= -->
+          <!-- 1ページ目 -->
 
           <div class="slide">
 
@@ -972,9 +905,7 @@
           </div>
 
 
-          <!-- ================================
-               2ページ目
-          ================================= -->
+          <!-- 2ページ目 -->
 
           <div class="slide">
 
@@ -987,9 +918,7 @@
           </div>
 
 
-          <!-- ================================
-               3ページ目
-          ================================= -->
+          <!-- 3ページ目 -->
 
           <div class="slide">
 
@@ -1002,9 +931,7 @@
           </div>
 
 
-          <!-- ================================
-               4ページ目
-          ================================= -->
+          <!-- 4ページ目 -->
 
           <div class="slide">
 
@@ -1017,9 +944,7 @@
           </div>
 
 
-          <!-- ================================
-               5ページ目
-          ================================= -->
+          <!-- 5ページ目 -->
 
           <div class="slide">
 
@@ -1032,9 +957,7 @@
           </div>
 
 
-          <!-- ================================
-               6ページ目
-          ================================= -->
+          <!-- 6ページ目 -->
 
           <div class="slide">
 
@@ -1046,7 +969,6 @@
 
           </div>
 
-
         </div>
 
 
@@ -1055,7 +977,6 @@
         ====================================== -->
 
         <div class="slider-controls">
-
 
           <button
             type="button"
@@ -1076,9 +997,7 @@
             ›
           </button>
 
-
         </div>
-
 
       </div>
 
@@ -1113,11 +1032,20 @@
       document.getElementById("nextBtn");
 
 
+    const images =
+      Array.from(
+        document.querySelectorAll(
+          ".slide img"
+        )
+      );
+
+
     /* =========================================
        ページ数
     ========================================= */
 
-    const totalPages = 6;
+    const totalPages =
+      images.length;
 
 
     /* =========================================
@@ -1151,49 +1079,88 @@
       new Map();
 
 
-    let pointerStartX = 0;
+    /*
+      1本指ドラッグ用
+    */
 
-    let pointerStartY = 0;
+    let singlePointerId = null;
 
-    let pointerCurrentX = 0;
+    let lastPointerX = 0;
 
-    let pointerCurrentY = 0;
+    let lastPointerY = 0;
 
 
-    let isPointerDown = false;
+    /*
+      ページスワイプ開始位置
+    */
+
+    let swipeStartX = 0;
+
+    let swipeStartY = 0;
+
+
+    /*
+      状態
+    */
 
     let isDragging = false;
 
-    let tapCandidate = false;
+    let isHorizontalGesture = false;
 
     let isPinching = false;
 
 
-    const SWIPE_DISTANCE = 35;
-
-    const DRAG_DISTANCE = 8;
-
+    /*
+      ピンチ開始時の情報
+    */
 
     let pinchStartDistance = 0;
 
     let pinchStartScale = 1;
 
+    let pinchStartCenterX = 0;
+
+    let pinchStartCenterY = 0;
 
     let pinchStartPanX = 0;
 
     let pinchStartPanY = 0;
 
+    /*
+      ピンチ開始時点で
+      画像上のどの場所を掴んでいたか
+    */
+
+    let pinchContentX = 0;
+
+    let pinchContentY = 0;
+
+    /*
+      ピンチ開始時の
+      画像のレイアウト上の中心
+    */
+
+    let pinchLayoutCenterX = 0;
+
+    let pinchLayoutCenterY = 0;
+
+
+    /*
+      しきい値
+    */
+
+    const SWIPE_DISTANCE = 45;
+
+    const DIRECTION_THRESHOLD = 8;
+
+    const DRAG_THRESHOLD = 4;
+
 
     /* =========================================
-       現在の画像を取得
+       現在の画像
     ========================================= */
 
     function getCurrentImage() {
-
-      const images =
-        document.querySelectorAll(
-          ".slide img"
-        );
 
       return images[currentPage];
 
@@ -1201,45 +1168,7 @@
 
 
     /* =========================================
-       拡大変形を反映
-    ========================================= */
-
-    function applyZoomTransform() {
-
-      const image =
-        getCurrentImage();
-
-
-      if (!image) {
-        return;
-      }
-
-
-      image.style.transform =
-        `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
-
-    }
-
-
-    /* =========================================
-       拡大位置リセット
-    ========================================= */
-
-    function resetZoomPosition() {
-
-      zoomScale = 1;
-
-      panX = 0;
-
-      panY = 0;
-
-      applyZoomTransform();
-
-    }
-
-
-    /* =========================================
-       拡大率を制限
+       拡大率制限
     ========================================= */
 
     function clampZoom(value) {
@@ -1256,7 +1185,7 @@
 
 
     /* =========================================
-       2本指間の距離
+       ポインター距離
     ========================================= */
 
     function getPointerDistance() {
@@ -1286,16 +1215,16 @@
         points[1].y;
 
 
-      return Math.sqrt(
-        dx * dx +
-        dy * dy
+      return Math.hypot(
+        dx,
+        dy
       );
 
     }
 
 
     /* =========================================
-       2本指の中心位置
+       2本指の中心
     ========================================= */
 
     function getPointerCenter() {
@@ -1338,63 +1267,170 @@
 
 
     /* =========================================
-       画像移動範囲を制限
+       現在の画像の
+       レイアウト中心を取得
     ========================================= */
 
-    function limitPan() {
-
-      const sliderWidth =
-        slider.clientWidth;
-
-
-      const sliderHeight =
-        slider.clientHeight;
-
-
-      /*
-        拡大率に応じて
-        画像が画面外へ動ける範囲を設定
-      */
-
-      const maxPanX =
-        Math.max(
-          0,
-          (zoomScale - 1) *
-          sliderWidth /
-          2
-        );
-
-
-      /*
-        縦方向は画像自体の高さを考慮
-      */
+    function getImageLayoutCenter() {
 
       const image =
         getCurrentImage();
 
 
-      let maxPanY =
+      if (!image) {
+
+        return {
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2
+        };
+
+      }
+
+
+      /*
+        getBoundingClientRect() は
+        transform後の位置。
+
+        現在のpanを引くことで
+        transform前の中心位置を求める。
+      */
+
+      const rect =
+        image.getBoundingClientRect();
+
+
+      return {
+
+        x:
+          rect.left +
+          rect.width / 2 -
+          panX,
+
+        y:
+          rect.top +
+          rect.height / 2 -
+          panY
+
+      };
+
+    }
+
+
+    /* =========================================
+       画像の移動範囲
+       
+       実際の画像サイズを基準にする
+    ========================================= */
+
+    function limitPan() {
+
+      const image =
+        getCurrentImage();
+
+
+      if (!image) {
+        return;
+      }
+
+
+      if (
+        zoomScale <= 1
+      ) {
+
+        panX = 0;
+
+        panY = 0;
+
+        return;
+
+      }
+
+
+      /*
+        transform前の画像サイズ
+      */
+
+      const rect =
+        image.getBoundingClientRect();
+
+
+      const baseWidth =
+        rect.width /
         Math.max(
-          0,
-          (zoomScale - 1) *
-          sliderHeight /
-          2
+          zoomScale,
+          0.0001
         );
 
 
-      if (image) {
+      const baseHeight =
+        rect.height /
+        Math.max(
+          zoomScale,
+          0.0001
+        );
 
-        const imageHeight =
-          image.getBoundingClientRect().height /
-          Math.max(zoomScale, 1);
 
-        maxPanY =
-          Math.max(
-            maxPanY,
-            (imageHeight * (zoomScale - 1)) / 2
-          );
+      /*
+        画像の拡大後サイズ
+      */
 
-      }
+      const scaledWidth =
+        baseWidth *
+        zoomScale;
+
+
+      const scaledHeight =
+        baseHeight *
+        zoomScale;
+
+
+      /*
+        スライダー表示領域
+      */
+
+      const viewportWidth =
+        slider.clientWidth;
+
+
+      /*
+        縦方向については
+        実際の画像の高さと
+        ビューポート高さの差を使用
+      */
+
+      const viewportHeight =
+        Math.max(
+          slider.clientHeight,
+          window.innerHeight
+        );
+
+
+      /*
+        横方向
+      */
+
+      const maxPanX =
+        Math.max(
+          0,
+          (
+            scaledWidth -
+            viewportWidth
+          ) / 2
+        );
+
+
+      /*
+        縦方向
+      */
+
+      const maxPanY =
+        Math.max(
+          0,
+          (
+            scaledHeight -
+            viewportHeight
+          ) / 2
+        );
 
 
       panX =
@@ -1420,13 +1456,72 @@
 
 
     /* =========================================
-       スライダー更新
+       transform適用
     ========================================= */
 
-    function updateSlider() {
+    function applyZoomTransform() {
 
-      slides.style.transition =
-        "transform 0.3s ease-out";
+      const image =
+        getCurrentImage();
+
+
+      if (!image) {
+        return;
+      }
+
+
+      image.style.transform =
+        `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
+
+    }
+
+
+    /* =========================================
+       拡大位置リセット
+    ========================================= */
+
+    function resetZoomPosition() {
+
+      zoomScale = 1;
+
+      panX = 0;
+
+      panY = 0;
+
+
+      images.forEach(
+        (image) => {
+
+          image.style.transform =
+            "translate3d(0, 0, 0) scale(1)";
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       ページ更新
+    ========================================= */
+
+    function updateSlider(
+      animate = true
+    ) {
+
+      if (animate) {
+
+        slides.style.transition =
+          "transform 0.3s ease-out";
+
+      }
+
+      else {
+
+        slides.style.transition =
+          "none";
+
+      }
 
 
       slides.style.transform =
@@ -1434,8 +1529,8 @@
 
 
       /*
-        ページ変更時は
-        拡大状態をリセット
+        ページを変えたら
+        必ず拡大解除
       */
 
       resetZoomPosition();
@@ -1444,10 +1539,17 @@
 
 
     /* =========================================
-       次のページ
+       次ページ
     ========================================= */
 
     function nextPage() {
+
+      if (
+        totalPages <= 0
+      ) {
+        return;
+      }
+
 
       if (
         currentPage <
@@ -1465,16 +1567,23 @@
       }
 
 
-      updateSlider();
+      updateSlider(true);
 
     }
 
 
     /* =========================================
-       前のページ
+       前ページ
     ========================================= */
 
     function previousPage() {
+
+      if (
+        totalPages <= 0
+      ) {
+        return;
+      }
+
 
       if (
         currentPage > 0
@@ -1492,13 +1601,13 @@
       }
 
 
-      updateSlider();
+      updateSlider(true);
 
     }
 
 
     /* =========================================
-       矢印ボタン
+       ボタン
     ========================================= */
 
     prevBtn.addEventListener(
@@ -1529,11 +1638,6 @@
     );
 
 
-    /*
-      ボタン上でのpointerdownを
-      スライダー操作として扱わない
-    */
-
     prevBtn.addEventListener(
       "pointerdown",
       (e) => {
@@ -1555,6 +1659,127 @@
 
 
     /* =========================================
+       ピンチ開始
+       
+       ★指の位置を基準にする
+    ========================================= */
+
+    function startPinch() {
+
+      if (
+        activePointers.size < 2
+      ) {
+        return;
+      }
+
+
+      const image =
+        getCurrentImage();
+
+
+      if (!image) {
+        return;
+      }
+
+
+      isPinching = true;
+
+      isDragging = false;
+
+      isHorizontalGesture = false;
+
+
+      /*
+        現在の2本指距離
+      */
+
+      pinchStartDistance =
+        getPointerDistance();
+
+
+      /*
+        現在の2本指中心
+      */
+
+      const center =
+        getPointerCenter();
+
+
+      pinchStartCenterX =
+        center.x;
+
+      pinchStartCenterY =
+        center.y;
+
+
+      /*
+        開始時の拡大率
+      */
+
+      pinchStartScale =
+        zoomScale;
+
+
+      pinchStartPanX =
+        panX;
+
+      pinchStartPanY =
+        panY;
+
+
+      /*
+        現在の画像の
+        transform前の中心
+      */
+
+      const rect =
+        image.getBoundingClientRect();
+
+
+      pinchLayoutCenterX =
+        rect.left +
+        rect.width / 2 -
+        panX;
+
+
+      pinchLayoutCenterY =
+        rect.top +
+        rect.height / 2 -
+        panY;
+
+
+      /*
+        ピンチ中心が画像上の
+        どの位置なのかを保存
+      */
+
+      pinchContentX =
+        (
+          pinchStartCenterX -
+          pinchLayoutCenterX -
+          pinchStartPanX
+        ) /
+        Math.max(
+          pinchStartScale,
+          0.0001
+        );
+
+
+      pinchContentY =
+        (
+          pinchStartCenterY -
+          pinchLayoutCenterY -
+          pinchStartPanY
+        ) /
+        Math.max(
+          pinchStartScale,
+          0.0001
+        );
+
+    }
+
+
+    /* =========================================
        pointerdown
     ========================================= */
 
@@ -1563,7 +1788,7 @@
       (e) => {
 
         /*
-          ボタンなら無視
+          ボタンは無視
         */
 
         if (
@@ -1578,7 +1803,7 @@
 
 
         /*
-          PCの場合は左クリックのみ
+          マウスは左クリックのみ
         */
 
         if (
@@ -1590,6 +1815,10 @@
 
         }
 
+
+        /*
+          ポインター登録
+        */
 
         activePointers.set(
           e.pointerId,
@@ -1609,14 +1838,12 @@
         }
 
         catch (error) {
-
           // 無視
-
         }
 
 
         /* -------------------------------------
-           2本指になった場合
+           2本目の指
            → ピンチ開始
         ------------------------------------- */
 
@@ -1624,30 +1851,7 @@
           activePointers.size >= 2
         ) {
 
-          isPinching = true;
-
-          isPointerDown = false;
-
-          isDragging = false;
-
-          tapCandidate = false;
-
-
-          pinchStartDistance =
-            getPointerDistance();
-
-
-          pinchStartScale =
-            zoomScale;
-
-
-          pinchStartPanX =
-            panX;
-
-
-          pinchStartPanY =
-            panY;
-
+          startPinch();
 
           return;
 
@@ -1658,24 +1862,27 @@
            1本指
         ------------------------------------- */
 
-        isPointerDown = true;
+        singlePointerId =
+          e.pointerId;
+
+
+        lastPointerX =
+          e.clientX;
+
+        lastPointerY =
+          e.clientY;
+
+
+        swipeStartX =
+          e.clientX;
+
+        swipeStartY =
+          e.clientY;
+
 
         isDragging = false;
 
-        tapCandidate = true;
-
-
-        pointerStartX =
-          e.clientX;
-
-        pointerStartY =
-          e.clientY;
-
-        pointerCurrentX =
-          e.clientX;
-
-        pointerCurrentY =
-          e.clientY;
+        isHorizontalGesture = false;
 
       }
     );
@@ -1690,7 +1897,7 @@
       (e) => {
 
         /*
-          ポインター位置更新
+          ポインター位置を更新
         */
 
         if (
@@ -1710,9 +1917,9 @@
         }
 
 
-        /* -------------------------------------
-           ピンチ操作
-        ------------------------------------- */
+        /* =====================================
+           2本指ピンチ
+        ===================================== */
 
         if (
           isPinching &&
@@ -1720,66 +1927,109 @@
         ) {
 
           /*
-            ブラウザの縦スクロールを
-            ピンチ操作中だけ止める
+            ブラウザの通常操作を止める
           */
 
           e.preventDefault();
 
 
-          const distance =
+          /*
+            現在の距離
+          */
+
+          const currentDistance =
             getPointerDistance();
 
 
           if (
-            pinchStartDistance > 0
+            pinchStartDistance <= 0
           ) {
 
-            const ratio =
-              distance /
-              pinchStartDistance;
-
-
-            zoomScale =
-              clampZoom(
-                pinchStartScale *
-                ratio
-              );
-
-
-            /*
-              1倍に戻ったら
-              移動位置も中央に戻す
-            */
-
-            if (
-              zoomScale <= 1
-            ) {
-
-              zoomScale = 1;
-
-              panX = 0;
-
-              panY = 0;
-
-            }
-
-            else {
-
-              panX =
-                pinchStartPanX;
-
-              panY =
-                pinchStartPanY;
-
-            }
-
-
-            limitPan();
-
-            applyZoomTransform();
+            return;
 
           }
+
+
+          /*
+            拡大率
+          */
+
+          const ratio =
+            currentDistance /
+            pinchStartDistance;
+
+
+          let newScale =
+            clampZoom(
+              pinchStartScale *
+              ratio
+            );
+
+
+          /*
+            2本指中心
+          */
+
+          const center =
+            getPointerCenter();
+
+
+          /*
+            ★重要
+            ピンチの中心位置を維持する
+
+            これにより、
+            指でつまんだ場所を中心に
+            拡大・縮小できる
+          */
+
+          panX =
+            center.x -
+            pinchLayoutCenterX -
+            pinchContentX *
+              newScale;
+
+
+          panY =
+            center.y -
+            pinchLayoutCenterY -
+            pinchContentY *
+              newScale;
+
+
+          zoomScale =
+            newScale;
+
+
+          /*
+            1倍以下になった場合
+          */
+
+          if (
+            zoomScale <= 1
+          ) {
+
+            zoomScale = 1;
+
+            panX = 0;
+
+            panY = 0;
+
+          }
+
+
+          /*
+            移動範囲制限
+          */
+
+          limitPan();
+
+
+          /*
+            即時反映
+          */
+
+          applyZoomTransform();
 
 
           return;
@@ -1787,12 +2037,13 @@
         }
 
 
-        /* -------------------------------------
-           1本指操作
-        ------------------------------------- */
+        /* =====================================
+           1本指
+        ===================================== */
 
         if (
-          !isPointerDown
+          e.pointerId !==
+          singlePointerId
         ) {
 
           return;
@@ -1800,50 +2051,51 @@
         }
 
 
-        pointerCurrentX =
-          e.clientX;
-
-        pointerCurrentY =
-          e.clientY;
+        const moveX =
+          e.clientX -
+          lastPointerX;
 
 
-        const deltaX =
-          pointerCurrentX -
-          pointerStartX;
+        const moveY =
+          e.clientY -
+          lastPointerY;
 
 
-        const deltaY =
-          pointerCurrentY -
-          pointerStartY;
+        const totalX =
+          e.clientX -
+          swipeStartX;
 
 
-        /* -------------------------------------
+        const totalY =
+          e.clientY -
+          swipeStartY;
+
+
+        /* =====================================
            拡大中
-           → 画像をドラッグ
-        ------------------------------------- */
+           
+           → 完全に画像移動
+        ===================================== */
 
         if (
           zoomScale > 1
         ) {
 
-          /*
-            拡大中はブラウザのスクロールではなく
-            画像移動として扱う
-          */
-
           e.preventDefault();
 
 
+          /*
+            少しでも動いたらドラッグ開始
+          */
+
           if (
-            Math.abs(deltaX) >
-              DRAG_DISTANCE ||
-            Math.abs(deltaY) >
-              DRAG_DISTANCE
+            Math.abs(totalX) >
+              DRAG_THRESHOLD ||
+            Math.abs(totalY) >
+              DRAG_THRESHOLD
           ) {
 
             isDragging = true;
-
-            tapCandidate = false;
 
           }
 
@@ -1852,23 +2104,32 @@
             isDragging
           ) {
 
-            panX += deltaX;
+            panX += moveX;
 
-            panY += deltaY;
+            panY += moveY;
 
 
-            pointerStartX =
-              pointerCurrentX;
-
-            pointerStartY =
-              pointerCurrentY;
-
+            /*
+              移動範囲制限
+            */
 
             limitPan();
+
+
+            /*
+              即時反映
+            */
 
             applyZoomTransform();
 
           }
+
+
+          lastPointerX =
+            e.clientX;
+
+          lastPointerY =
+            e.clientY;
 
 
           return;
@@ -1876,39 +2137,55 @@
         }
 
 
-        /* -------------------------------------
-           通常モード
+        /* =====================================
+           等倍時
            
-           ★上下：
-             → ブラウザ標準の縦スクロール
-           
-           ★左右：
-             → スライダー操作
-        ------------------------------------- */
+           横 → ページスワイプ
+           縦 → ブラウザスクロール
+        ===================================== */
+
+        const absX =
+          Math.abs(totalX);
+
+        const absY =
+          Math.abs(totalY);
+
+
+        /*
+          まだ方向が決まっていない
+        */
 
         if (
-          Math.abs(deltaX) > 8 &&
-          Math.abs(deltaX) >
-            Math.abs(deltaY)
+          !isHorizontalGesture &&
+          absX > DIRECTION_THRESHOLD &&
+          absX > absY
         ) {
 
           /*
-            横方向の操作だけ
-            スライダー操作として扱う
+            横方向ジェスチャー確定
           */
 
-          e.preventDefault();
+          isHorizontalGesture = true;
 
           isDragging = true;
-
-          tapCandidate = false;
 
         }
 
 
+        /*
+          横スワイプ中
+        */
+
         if (
-          isDragging
+          isHorizontalGesture
         ) {
+
+          /*
+            ブラウザの横スクロール等を防止
+          */
+
+          e.preventDefault();
+
 
           const sliderWidth =
             slider.clientWidth;
@@ -1923,31 +2200,30 @@
           }
 
 
+          /*
+            スワイプ移動量
+          */
+
           let dragX =
-            deltaX;
+            totalX;
 
 
-          const MAX_DRAG = 120;
+          /*
+            最大移動量を制限
+          */
+
+          const MAX_DRAG =
+            sliderWidth * 0.35;
 
 
-          if (
-            dragX > MAX_DRAG
-          ) {
-
-            dragX =
-              MAX_DRAG;
-
-          }
-
-
-          if (
-            dragX < -MAX_DRAG
-          ) {
-
-            dragX =
-              -MAX_DRAG;
-
-          }
+          dragX =
+            Math.max(
+              -MAX_DRAG,
+              Math.min(
+                MAX_DRAG,
+                dragX
+              )
+            );
 
 
           const basePercent =
@@ -1971,11 +2247,80 @@
 
         }
 
+
+        lastPointerX =
+          e.clientX;
+
+        lastPointerY =
+          e.clientY;
+
       },
       {
         passive: false
       }
     );
+
+
+    /* =========================================
+       ピンチ終了後の
+       1本指操作への移行
+    ========================================= */
+
+    function continueSingleFingerAfterPinch() {
+
+      if (
+        activePointers.size !== 1
+      ) {
+
+        return;
+
+      }
+
+
+      const remaining =
+        Array.from(
+          activePointers.entries()
+        )[0];
+
+
+      if (!remaining) {
+        return;
+      }
+
+
+      singlePointerId =
+        remaining[0];
+
+
+      lastPointerX =
+        remaining[1].x;
+
+      lastPointerY =
+        remaining[1].y;
+
+
+      swipeStartX =
+        remaining[1].x;
+
+      swipeStartY =
+        remaining[1].y;
+
+
+      /*
+        ピンチ終了直後の
+        スワイプ判定をリセット
+
+        これにより
+        2本指→1本指になった瞬間に
+        ページが勝手に切り替わらない
+      */
+
+      isDragging = false;
+
+      isHorizontalGesture =
+        false;
+
+    }
 
 
     /* =========================================
@@ -1987,7 +2332,7 @@
       (e) => {
 
         /*
-          ポインターを削除
+          ポインター削除
         */
 
         activePointers.delete(
@@ -1995,19 +2340,51 @@
         );
 
 
-        /* -------------------------------------
-           ピンチ終了
-        ------------------------------------- */
+        /* =====================================
+           ピンチ中
+        ===================================== */
 
         if (
           isPinching
         ) {
 
+          /*
+            まだ2本以上残っている
+            → ピンチ継続
+          */
+
           if (
-            activePointers.size < 2
+            activePointers.size >= 2
           ) {
 
-            isPinching = false;
+            return;
+
+          }
+
+
+          /*
+            ピンチ終了
+          */
+
+          isPinching = false;
+
+
+          /*
+            1本残っている場合は
+            その指で続けてドラッグできるようにする
+          */
+
+          if (
+            activePointers.size === 1
+          ) {
+
+            continueSingleFingerAfterPinch();
+
+          }
+
+          else {
+
+            singlePointerId = null;
 
           }
 
@@ -2017,8 +2394,13 @@
         }
 
 
+        /* =====================================
+           1本指以外
+        ===================================== */
+
         if (
-          !isPointerDown
+          e.pointerId !==
+          singlePointerId
         ) {
 
           return;
@@ -2027,21 +2409,18 @@
 
 
         const deltaX =
-          pointerCurrentX -
-          pointerStartX;
+          e.clientX -
+          swipeStartX;
 
 
         const deltaY =
-          pointerCurrentY -
-          pointerStartY;
+          e.clientY -
+          swipeStartY;
 
 
-        isPointerDown = false;
-
-
-        /* -------------------------------------
-           拡大中
-        ------------------------------------- */
+        /*
+          拡大中
+        */
 
         if (
           zoomScale > 1
@@ -2049,71 +2428,87 @@
 
           isDragging = false;
 
-          tapCandidate = false;
+          isHorizontalGesture = false;
+
+          singlePointerId = null;
 
           return;
 
         }
 
 
-        /* -------------------------------------
-           通常モード
-        ------------------------------------- */
-
-        const isHorizontalSwipe =
-          Math.abs(deltaX) >=
-            SWIPE_DISTANCE &&
-          Math.abs(deltaX) >
-            Math.abs(deltaY);
-
+        /* =====================================
+           等倍時
+        ===================================== */
 
         if (
-          isHorizontalSwipe
+          isHorizontalGesture
         ) {
 
           /*
-            左へスワイプ
-            → 次ページ
+            横スワイプ判定
           */
+
+          const isSwipe =
+            Math.abs(deltaX) >=
+              SWIPE_DISTANCE &&
+            Math.abs(deltaX) >
+              Math.abs(deltaY);
+
 
           if (
-            deltaX < 0
+            isSwipe
           ) {
 
-            nextPage();
+            if (
+              deltaX < 0
+            ) {
+
+              /*
+                左へ
+                → 次ページ
+              */
+
+              nextPage();
+
+            }
+
+            else {
+
+              /*
+                右へ
+                → 前ページ
+              */
+
+              previousPage();
+
+            }
 
           }
-
-          /*
-            右へスワイプ
-            → 前ページ
-          */
 
           else {
 
-            previousPage();
+            /*
+              スワイプ量不足
+              → 元の位置へ
+            */
+
+            updateSlider(true);
 
           }
 
         }
 
-        else if (
-          isDragging
-        ) {
 
-          /*
-            横スワイプ途中で終了した場合
-            現在のページ位置を復元
-          */
-
-          updateSlider();
-
-        }
-
+        /*
+          状態リセット
+        */
 
         isDragging = false;
 
-        tapCandidate = false;
+        isHorizontalGesture = false;
+
+        singlePointerId = null;
 
       }
     );
@@ -2132,16 +2527,37 @@
         );
 
 
-        isPointerDown = false;
+        if (
+          activePointers.size === 0
+        ) {
 
-        isDragging = false;
+          isPinching = false;
 
-        isPinching = false;
+          isDragging = false;
 
-        tapCandidate = false;
+          isHorizontalGesture = false;
+
+          singlePointerId = null;
 
 
-        updateSlider();
+          /*
+            キャンセル時は
+            現在ページへ戻す
+          */
+
+          updateSlider(true);
+
+        }
+
+        else if (
+          activePointers.size === 1
+        ) {
+
+          isPinching = false;
+
+          continueSingleFingerAfterPinch();
+
+        }
 
       }
     );
@@ -2149,9 +2565,8 @@
 
     /* =========================================
        マウスホイール拡大
-
+       
        Ctrl + ホイール
-       → 拡大・縮小
     ========================================= */
 
     slider.addEventListener(
@@ -2163,8 +2578,8 @@
         ) {
 
           /*
-            Ctrlなしの通常ホイールは
-            ブラウザ標準の縦スクロール
+            通常ホイールは
+            ブラウザ標準スクロール
           */
 
           return;
@@ -2175,17 +2590,107 @@
         e.preventDefault();
 
 
+        const image =
+          getCurrentImage();
+
+
+        if (!image) {
+          return;
+        }
+
+
+        /*
+          マウス位置を中心に拡大
+        */
+
+        const rect =
+          image.getBoundingClientRect();
+
+
+        const mouseX =
+          e.clientX;
+
+        const mouseY =
+          e.clientY;
+
+
+        const layoutCenterX =
+          rect.left +
+          rect.width / 2 -
+          panX;
+
+
+        const layoutCenterY =
+          rect.top +
+          rect.height / 2 -
+          panY;
+
+
+        /*
+          現在の画像上の位置
+        */
+
+        const contentX =
+          (
+            mouseX -
+            layoutCenterX -
+            panX
+          ) /
+          Math.max(
+            zoomScale,
+            0.0001
+          );
+
+
+        const contentY =
+          (
+            mouseY -
+            layoutCenterY -
+            panY
+          ) /
+          Math.max(
+            zoomScale,
+            0.0001
+          );
+
+
+        /*
+          新しい倍率
+        */
+
         const zoomStep =
           e.deltaY < 0
-            ? 1.1
-            : 0.9;
+            ? 1.12
+            : 0.88;
 
 
-        zoomScale =
+        const newScale =
           clampZoom(
             zoomScale *
             zoomStep
           );
+
+
+        /*
+          マウス位置を維持
+        */
+
+        panX =
+          mouseX -
+          layoutCenterX -
+          contentX *
+            newScale;
+
+
+        panY =
+          mouseY -
+          layoutCenterY -
+          contentY *
+            newScale;
+
+
+        zoomScale =
+          newScale;
 
 
         if (
@@ -2213,27 +2718,44 @@
 
 
     /* =========================================
-       画像のドラッグ防止
+       画像ドラッグ防止
     ========================================= */
 
-    document
-      .querySelectorAll(
-        ".slide img"
-      )
-      .forEach(
-        (img) => {
+    images.forEach(
+      (img) => {
 
-          img.addEventListener(
-            "dragstart",
-            (e) => {
+        img.addEventListener(
+          "dragstart",
+          (e) => {
+
+            e.preventDefault();
+
+          }
+        );
+
+
+        img.addEventListener(
+          "contextmenu",
+          (e) => {
+
+            /*
+              長押しメニュー等による
+              操作中断を防止
+            */
+
+            if (
+              zoomScale > 1
+            ) {
 
               e.preventDefault();
 
             }
-          );
 
-        }
-      );
+          }
+        );
+
+      }
+    );
 
 
     /* =========================================
@@ -2245,8 +2767,7 @@
       (e) => {
 
         /*
-          左キー
-          → 前ページ
+          左
         */
 
         if (
@@ -2261,8 +2782,7 @@
 
 
         /*
-          右キー
-          → 次ページ
+          右
         */
 
         if (
@@ -2275,26 +2795,62 @@
 
         }
 
+
+        /*
+          Escape
+          → 拡大解除
+        */
+
+        if (
+          e.key === "Escape"
+        ) {
+
+          if (
+            zoomScale > 1
+          ) {
+
+            resetZoomPosition();
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       画面サイズ変更時
+       
+       拡大位置が画面外へ
+       はみ出さないよう補正
+    ========================================= */
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        if (
+          zoomScale > 1
+        ) {
+
+          limitPan();
+
+          applyZoomTransform();
+
+        }
+
       }
     );
 
 
     /* =========================================
        初期表示
-
-       ★縦スクロール可能
-       ★画像中央配置
-       ★拡大なし
     ========================================= */
 
-    zoomScale = 1;
+    resetZoomPosition();
 
-    panX = 0;
-
-    panY = 0;
-
-
-    updateSlider();
+    updateSlider(false);
 
   </script>
 
