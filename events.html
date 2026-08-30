@@ -21,7 +21,7 @@
 
 /* ==================================================
    基本
-   ※背景・全体デザインは元コードのまま
+   ※背景・全体デザインは変更なし
 ================================================== */
 
 body{
@@ -98,14 +98,14 @@ body{
 
 /* ==================================================
    グリッド
-   ※カードを画像のような横長カードに調整
 ================================================== */
 
 .grid{
   display:grid;
 
   /*
-   * PCでは画像のように4列を基本にする
+   * PC
+   * 4列
    */
   grid-template-columns:repeat(4, minmax(0, 1fr));
 
@@ -117,52 +117,35 @@ body{
 
 /* ==================================================
    カード
-   ※ここが今回の主な変更部分
+   ※画像のデザインに合わせたカード
 ================================================== */
 
 .card{
+
   position:relative;
 
-  /*
-   * 背景
-   */
   background:#fff;
 
-  /*
-   * 画像のような淡い青色の枠
-   */
   border:1.5px solid #d7e4ff;
 
-  /*
-   * 角丸
-   */
   border-radius:10px;
 
-  /*
-   * はみ出し防止
-   */
   overflow:hidden;
 
-  /*
-   * 画像のように薄い影
-   */
   box-shadow:
     0 4px 12px rgba(82,110,170,0.06);
 
-  /*
-   * カード内部
-   */
-  min-height:190px;
+  min-height:255px;
 
-  padding:22px 22px 20px;
+  padding:
+    22px
+    22px
+    20px;
 
   box-sizing:border-box;
 
   cursor:pointer;
 
-  /*
-   * 既存のフェードイン機能を維持
-   */
   opacity:0;
 
   transform:translateY(30px);
@@ -186,33 +169,31 @@ body{
 
 
 /* ==================================================
-   カード ホバー
+   ホバー
 ================================================== */
 
 .card:hover{
+
   border-color:#c9dcff;
 
   box-shadow:
     0 8px 22px rgba(82,110,170,0.12);
 
   transform:translateY(-3px);
+
 }
 
-
-/*
- * フェードイン表示後にホバーしたときの位置調整
- */
 .card.show:hover{
   transform:translateY(-3px);
 }
 
 
 /* ==================================================
-   カード左上
    「クラス企画」
 ================================================== */
 
 .card::before{
+
   content:"クラス企画";
 
   position:absolute;
@@ -221,6 +202,7 @@ body{
   left:22px;
 
   font-size:15px;
+
   font-weight:700;
 
   color:#2864ff;
@@ -228,15 +210,16 @@ body{
   line-height:1.4;
 
   pointer-events:none;
+
 }
 
 
 /* ==================================================
-   カード右上
-   「教室」バッジ
+   右上「教室」
 ================================================== */
 
 .card::after{
+
   content:"教室";
 
   position:absolute;
@@ -245,10 +228,12 @@ body{
   right:18px;
 
   display:flex;
+
   align-items:center;
   justify-content:center;
 
   min-width:50px;
+
   height:34px;
 
   padding:0 11px;
@@ -262,20 +247,19 @@ body{
   color:#5d6d86;
 
   font-size:14px;
+
   font-weight:700;
 
   white-space:nowrap;
 
   pointer-events:none;
+
 }
 
 
 /* ==================================================
-   カード画像
-   ==================================================
-
-   元コードの画像要素・画像ファイル自体は残したまま、
-   画像のような「文字中心カード」にするため非表示。
+   元画像は非表示
+   ※モーダルで使用する画像データはそのまま
 ================================================== */
 
 .card img{
@@ -284,15 +268,23 @@ body{
 
 
 /* ==================================================
-   カードタイトル
+   カード情報全体
 ================================================== */
 
-.card p{
-  /*
-   * 左上の「クラス企画」と
-   * 右上の「教室」バッジの下に配置
-   */
-  margin:65px 0 0;
+.card-content{
+
+  margin-top:65px;
+
+}
+
+
+/* ==================================================
+   企画タイトル
+================================================== */
+
+.card-title{
+
+  margin:0 0 25px;
 
   padding:0;
 
@@ -309,11 +301,67 @@ body{
   letter-spacing:0.01em;
 
   word-break:break-word;
+
 }
 
 
 /* ==================================================
-   カードクリック時
+   クラス・開催場所
+================================================== */
+
+.card-info{
+
+  display:grid;
+
+  grid-template-columns:78px 1fr;
+
+  row-gap:14px;
+
+  align-items:center;
+
+}
+
+
+/* ==================================================
+   左側ラベル
+================================================== */
+
+.card-label{
+
+  font-size:14px;
+
+  line-height:1.4;
+
+  font-weight:700;
+
+  color:#ff4597;
+
+  white-space:nowrap;
+
+}
+
+
+/* ==================================================
+   右側の値
+================================================== */
+
+.card-value{
+
+  font-size:15px;
+
+  line-height:1.4;
+
+  font-weight:500;
+
+  color:#59677f;
+
+  word-break:break-word;
+
+}
+
+
+/* ==================================================
+   クリック時
 ================================================== */
 
 .card:active{
@@ -359,7 +407,7 @@ body{
 @media (max-width:1100px){
 
   .grid{
-    grid-template-columns:repeat(3, minmax(0, 1fr));
+    grid-template-columns:repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -367,6 +415,7 @@ body{
 
 /* ==================================================
    スマートフォン
+   ※ここでは2列
 ================================================== */
 
 @media (max-width:700px){
@@ -377,43 +426,79 @@ body{
 
   .grid{
     grid-template-columns:repeat(2, minmax(0, 1fr));
+
     gap:12px;
   }
 
   .card{
-    min-height:170px;
+
+    min-height:245px;
 
     padding:
       18px
       16px
       17px;
+
   }
 
   .card::before{
+
     top:18px;
     left:16px;
 
     font-size:13px;
+
   }
 
   .card::after{
+
     top:15px;
     right:14px;
 
     min-width:44px;
+
     height:29px;
 
     padding:0 8px;
 
     font-size:12px;
+
   }
 
-  .card p{
+  .card-content{
+
     margin-top:56px;
+
+  }
+
+  .card-title{
+
+    margin-bottom:21px;
 
     font-size:16px;
 
     line-height:1.5;
+
+  }
+
+  .card-info{
+
+    grid-template-columns:58px 1fr;
+
+    row-gap:12px;
+
+  }
+
+  .card-label{
+
+    font-size:12px;
+
+  }
+
+  .card-value{
+
+    font-size:13px;
+
   }
 
 }
@@ -421,66 +506,189 @@ body{
 
 /* ==================================================
    小さいスマートフォン
+   ※ここから1列表示
 ================================================== */
 
-@media (max-width:430px){
+@media (max-width:480px){
 
   .content{
     padding:12px;
   }
 
   .grid{
-    gap:10px;
+
+    /*
+     * 画面が小さい場合は
+     * 横1枚にする
+     */
+    grid-template-columns:1fr;
+
+    gap:12px;
+
   }
 
   .card{
-    min-height:155px;
+
+    width:100%;
+
+    min-height:220px;
 
     padding:
-      16px
-      13px
-      15px;
+      18px
+      17px
+      18px;
 
     border-radius:9px;
+
   }
 
   .card::before{
-    top:16px;
-    left:13px;
 
-    font-size:12px;
+    top:18px;
+    left:17px;
+
+    font-size:13px;
+
   }
 
   .card::after{
-    top:13px;
-    right:11px;
 
-    min-width:40px;
-    height:27px;
+    top:15px;
+    right:14px;
 
-    padding:0 7px;
+    min-width:44px;
 
-    font-size:11px;
+    height:29px;
+
+    font-size:12px;
+
   }
 
-  .card p{
-    margin-top:51px;
+  .card-content{
+
+    margin-top:57px;
+
+  }
+
+  .card-title{
+
+    margin-bottom:22px;
+
+    font-size:18px;
+
+    line-height:1.5;
+
+  }
+
+  .card-info{
+
+    grid-template-columns:65px 1fr;
+
+    row-gap:13px;
+
+  }
+
+  .card-label{
+
+    font-size:13px;
+
+  }
+
+  .card-value{
 
     font-size:14px;
 
-    line-height:1.5;
   }
 
 }
 
 
 /* ==================================================
-   フェードイン初期状態
-   ※元コードの仕組みを維持
+   さらに小さいスマートフォン
+================================================== */
+
+@media (max-width:360px){
+
+  .content{
+    padding:10px;
+  }
+
+  .card{
+
+    min-height:210px;
+
+    padding:
+      16px
+      15px
+      16px;
+
+  }
+
+  .card::before{
+
+    top:16px;
+    left:15px;
+
+    font-size:12px;
+
+  }
+
+  .card::after{
+
+    top:13px;
+    right:12px;
+
+    min-width:42px;
+
+    height:27px;
+
+    font-size:11px;
+
+  }
+
+  .card-content{
+
+    margin-top:53px;
+
+  }
+
+  .card-title{
+
+    font-size:17px;
+
+    margin-bottom:20px;
+
+  }
+
+  .card-info{
+
+    grid-template-columns:62px 1fr;
+
+  }
+
+  .card-label{
+
+    font-size:12px;
+
+  }
+
+  .card-value{
+
+    font-size:13px;
+
+  }
+
+}
+
+
+/* ==================================================
+   フェードイン
+   ※元の機能を維持
 ================================================== */
 
 .card{
   opacity:0;
+
   transform:translateY(30px);
 
   transition:
@@ -491,12 +699,9 @@ body{
 }
 
 
-/* ==================================================
-   表示状態
-================================================== */
-
 .card.show{
   opacity:1;
+
   transform:translateY(0);
 }
 
@@ -511,7 +716,7 @@ body{
 
 <!-- ==================================================
      背景図形
-     ※元コードのまま
+     ※変更なし
 ================================================== -->
 
 <div class="bg-shapes">
@@ -527,10 +732,6 @@ body{
 
 </div>
 
-
-<!-- ==================================================
-     ヘッダー
-================================================== -->
 
 <div id="header"></div>
 
@@ -672,9 +873,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年A組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年A組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年A組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -686,9 +911,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年B組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年B組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年B組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -700,9 +949,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年C組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年C組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年C組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -714,9 +987,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年D組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年D組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年D組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -728,9 +1025,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年E組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年E組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年E組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -742,9 +1063,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年F組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年F組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年F組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -756,9 +1101,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          1年G組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            1年G組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1年G組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -792,9 +1161,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年A組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年A組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年A組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -806,9 +1199,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年B組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年B組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年B組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -820,9 +1237,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年C組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年C組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年C組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -834,9 +1275,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年D組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年D組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年D組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -848,9 +1313,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年E組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年E組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年E組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -862,9 +1351,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年F組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年F組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年F組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -876,9 +1389,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          2年G組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            2年G組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2年G組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -912,9 +1449,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年A組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年A組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年A組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -926,9 +1487,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年B組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年B組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年B組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -940,9 +1525,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年C組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年C組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年C組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -954,9 +1563,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年D組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年D組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年D組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -968,9 +1601,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年E組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年E組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年E組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -982,9 +1639,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年F組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年F組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年F組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -996,9 +1677,33 @@ fetch("header.html")
 
         <img src="1a.jpg">
 
-        <p>
-          3年G組
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            3年G組
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3年G組
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -1029,9 +1734,33 @@ fetch("header.html")
 
         <img src="club1.jpg">
 
-        <p>
-          情報なし
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            情報なし
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              情報なし
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              情報なし
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -1062,9 +1791,33 @@ fetch("header.html")
 
         <img src="other1.jpg">
 
-        <p>
-          情報なし
-        </p>
+        <div class="card-content">
+
+          <div class="card-title">
+            情報なし
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              情報なし
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              情報なし
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -1076,6 +1829,7 @@ fetch("header.html")
 
   <!-- ==================================================
        共通モーダル
+       ※変更なし
   ================================================== -->
 
   <div id="modal-container"></div>
