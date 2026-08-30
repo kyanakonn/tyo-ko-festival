@@ -1244,6 +1244,10 @@ body {
   transform: scale(0.98);
 }
 
+/* =========================================
+   1棟1階
+========================================= */
+
 /* 食堂：1D 10円パン */
 .map-hotspot.ten-yen-bread {
   left: 45.0%;
@@ -1258,6 +1262,68 @@ body {
   top: 68.8%;
   width: 5.2%;
   height: 20.5%;
+}
+
+
+/* =========================================
+   1棟2階
+   ※画像の赤文字の部屋を基準に配置
+========================================= */
+
+/* 2E 迷路 */
+.map-hotspot.room-2e {
+  left: 23.0%;
+  top: 32.5%;
+  width: 9.5%;
+  height: 8.8%;
+}
+
+/* 3G カジノ */
+.map-hotspot.room-3g {
+  left: 32.5%;
+  top: 32.5%;
+  width: 9.0%;
+  height: 8.8%;
+}
+
+/* 1A 縁日 */
+.map-hotspot.room-1a {
+  left: 41.5%;
+  top: 32.5%;
+  width: 8.5%;
+  height: 8.8%;
+}
+
+/* 2A フォトスポット */
+.map-hotspot.room-2a {
+  left: 76.0%;
+  top: 32.5%;
+  width: 7.5%;
+  height: 8.8%;
+}
+
+/* 3A 焼き菓子 */
+.map-hotspot.room-3a {
+  left: 83.5%;
+  top: 32.5%;
+  width: 6.8%;
+  height: 8.8%;
+}
+
+/* 2D 体験型 */
+.map-hotspot.room-2d {
+  left: 90.3%;
+  top: 32.5%;
+  width: 7.0%;
+  height: 8.8%;
+}
+
+/* 3D お化け屋敷 */
+.map-hotspot.room-3d {
+  left: 5.0%;
+  top: 62.0%;
+  width: 10.2%;
+  height: 15.0%;
 }
 
 .map-hotspot[hidden] {
@@ -1431,11 +1497,13 @@ fetch("header.html")
 
       <!-- =====================================
            赤文字部分のクリックエリア
-           1棟1階のみ表示
+           フロアごとに表示を切り替え
       ====================================== -->
 
+      <!-- 1棟1階 -->
+
       <button
-        class="map-hotspot ten-yen-bread"
+        class="map-hotspot ten-yen-bread floor-1-hotspot"
         data-modal-type="ten-yen-bread"
         type="button"
         aria-label="1D 10円パンの詳細を表示"
@@ -1443,11 +1511,70 @@ fetch("header.html")
       ></button>
 
       <button
-        class="map-hotspot special-support"
+        class="map-hotspot special-support floor-1-hotspot"
         data-modal-type="special-support"
         type="button"
         aria-label="特別支援学校の詳細を表示"
         title="特別支援学校"
+      ></button>
+
+
+      <!-- 1棟2階：立ち入り禁止以外の赤文字部分 -->
+
+      <button
+        class="map-hotspot room-2e floor-2-hotspot"
+        data-modal-type="room-2e"
+        type="button"
+        aria-label="2E 迷路の詳細を表示"
+        title="2E 迷路"
+      ></button>
+
+      <button
+        class="map-hotspot room-3g floor-2-hotspot"
+        data-modal-type="room-3g"
+        type="button"
+        aria-label="3G カジノの詳細を表示"
+        title="3G カジノ"
+      ></button>
+
+      <button
+        class="map-hotspot room-1a floor-2-hotspot"
+        data-modal-type="room-1a"
+        type="button"
+        aria-label="1A 縁日の詳細を表示"
+        title="1A 縁日"
+      ></button>
+
+      <button
+        class="map-hotspot room-2a floor-2-hotspot"
+        data-modal-type="room-2a"
+        type="button"
+        aria-label="2A フォトスポットの詳細を表示"
+        title="2A フォトスポット"
+      ></button>
+
+      <button
+        class="map-hotspot room-3a floor-2-hotspot"
+        data-modal-type="room-3a"
+        type="button"
+        aria-label="3A 焼き菓子の詳細を表示"
+        title="3A 焼き菓子"
+      ></button>
+
+      <button
+        class="map-hotspot room-2d floor-2-hotspot"
+        data-modal-type="room-2d"
+        type="button"
+        aria-label="2D 体験型の詳細を表示"
+        title="2D 体験型"
+      ></button>
+
+      <button
+        class="map-hotspot room-3d floor-2-hotspot"
+        data-modal-type="room-3d"
+        type="button"
+        aria-label="3D お化け屋敷の詳細を表示"
+        title="3D お化け屋敷"
       ></button>
 
 
@@ -1759,10 +1886,26 @@ window.addEventListener("message", (e) => {
 
 function updateHotspots() {
 
-  const isFirstFloor = currentFloor === 0;
-
   mapHotspots.forEach((hotspot) => {
-    hotspot.hidden = !isFirstFloor;
+
+    const isFloor1Hotspot =
+      hotspot.classList.contains("floor-1-hotspot");
+
+    const isFloor2Hotspot =
+      hotspot.classList.contains("floor-2-hotspot");
+
+    if (isFloor1Hotspot) {
+      hotspot.hidden = currentFloor !== 0;
+      return;
+    }
+
+    if (isFloor2Hotspot) {
+      hotspot.hidden = currentFloor !== 1;
+      return;
+    }
+
+    hotspot.hidden = true;
+
   });
 
 }
