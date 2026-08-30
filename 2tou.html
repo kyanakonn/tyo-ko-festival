@@ -442,7 +442,9 @@ body {
 }
 
 
-/* タップ時 */
+/* =========================================
+   タップ時
+========================================= */
 
 .map-hotspot:active {
   background: rgba(143, 91, 208, 0.48);
@@ -453,122 +455,131 @@ body {
 
 /* =========================================
    2棟1階
+   ★ ピンク色の部屋全体を覆う
 ========================================= */
 
-/*
-  茶道部
-
-  ★ 部屋全体に合わせて修正
-*/
-
 .hotspot-cha {
-  left: 34.3%;
-  top: 37.0%;
 
-  width: 11.6%;
-  height: 20.3%;
+  left: 34.3%;
+  top: 43.5%;
+
+  width: 11.4%;
+  height: 24.8%;
 }
 
 
-/*
-  サイエンス部 科学班
-
-  ★ 科学班の部屋全体に合わせて修正
-*/
-
 .hotspot-science-kagaku {
-  left: 63.7%;
-  top: 37.0%;
 
-  width: 10.8%;
-  height: 20.3%;
+  left: 63.7%;
+  top: 43.5%;
+
+  width: 10.7%;
+  height: 24.8%;
 }
 
 
 /* =========================================
    2棟2階
+   ★ ピンク色の部屋全体を覆う
 ========================================= */
 
-/*
-  美術部
-
-  ★ 美術室全体に合わせて修正
-*/
-
 .hotspot-art {
-  left: 8.6%;
-  top: 35.4%;
 
-  width: 14.2%;
-  height: 19.8%;
+  left: 8.7%;
+  top: 42.0%;
+
+  width: 13.8%;
+  height: 24.0%;
 }
 
-
-/*
-  サイエンス部 物理班
-
-  ★ 物理講義室全体に合わせて修正
-*/
 
 .hotspot-science-butsuri {
-  left: 64.3%;
-  top: 35.4%;
 
-  width: 12.2%;
-  height: 19.8%;
+  left: 64.4%;
+  top: 42.0%;
+
+  width: 12.0%;
+  height: 24.0%;
 }
 
 
-/*
-  将棋部
-
-  ★ 物理実験室側の部屋全体に合わせて修正
-*/
-
 .hotspot-shogi {
-  left: 84.7%;
-  top: 35.4%;
 
-  width: 10.9%;
-  height: 19.8%;
+  left: 84.8%;
+  top: 42.0%;
+
+  width: 10.8%;
+  height: 24.0%;
 }
 
 
 /* =========================================
    2棟3階
+   ★ ピンク色の部屋全体を覆う
 ========================================= */
 
-/*
-  サイエンス部 生物班
-
-  ★ 生物講義室全体に合わせて修正
-*/
-
 .hotspot-science-seibutsu {
-  left: 64.2%;
-  top: 26.0%;
 
-  width: 11.8%;
-  height: 20.0%;
+  left: 64.4%;
+  top: 30.0%;
+
+  width: 11.4%;
+  height: 24.2%;
 }
 
 
 /* =========================================
    2棟4階
+   ★ ピンク色の部屋全体を覆う
 ========================================= */
 
-/*
-  サイエンス部 地学班
-
-  ★ 地学実験室全体に合わせて修正
-*/
-
 .hotspot-science-chigaku {
-  left: 57.5%;
-  top: 27.5%;
 
-  width: 14.6%;
-  height: 21.8%;
+  left: 57.6%;
+  top: 32.0%;
+
+  width: 14.5%;
+  height: 27.0%;
+}
+
+
+/* =========================================
+   場所詳細モーダル
+   modal3.html
+========================================= */
+
+#placeModalOverlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: none;
+
+  background: rgba(6, 37, 79, 0.58);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+
+#placeModalOverlay.active {
+  display: block;
+}
+
+
+#placeModalFrame {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  background: transparent;
 }
 
 
@@ -626,6 +637,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+
 .back-to-map:active {
   opacity: 0.65;
 }
@@ -658,6 +670,7 @@ body {
 
   -webkit-tap-highlight-color: transparent;
 }
+
 
 .help-button:active {
   opacity: 0.65;
@@ -702,13 +715,16 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+
 .floor-arrow:active {
   opacity: 0.5;
 }
 
+
 .floor-prev {
   left: 4px;
 }
+
 
 .floor-next {
   right: 4px;
@@ -758,6 +774,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+
 .building-switch:active {
   opacity: 0.5;
 }
@@ -787,6 +804,7 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
+
 
 .help-overlay.active {
   display: flex;
@@ -984,6 +1002,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+
 .help-close:active {
   opacity: 0.65;
 }
@@ -1023,6 +1042,7 @@ body {
 
   -webkit-tap-highlight-color: transparent;
 }
+
 
 .help-x:active {
   opacity: 0.65;
@@ -1085,9 +1105,9 @@ body {
   }
 
 
-  /* =========================================
+  /* =====================================
      上部ボタン
-  ========================================= */
+  ====================================== */
 
   .top-controls {
 
@@ -1108,9 +1128,9 @@ body {
   }
 
 
-  /* =========================================
+  /* =====================================
      左右矢印
-  ========================================= */
+  ====================================== */
 
   .floor-arrow {
 
@@ -1122,18 +1142,20 @@ body {
     top: 0;
   }
 
+
   .floor-prev {
     left: 0;
   }
+
 
   .floor-next {
     right: 0;
   }
 
 
-  /* =========================================
+  /* =====================================
      棟切り替え
-  ========================================= */
+  ====================================== */
 
   .building-switch {
 
@@ -1146,9 +1168,18 @@ body {
   }
 
 
-  /* =========================================
+  /* =====================================
+     場所詳細モーダル
+  ====================================== */
+
+  #placeModalOverlay {
+    z-index: 2000;
+  }
+
+
+  /* =====================================
      操作説明
-  ========================================= */
+  ====================================== */
 
   .help-overlay {
 
@@ -1239,9 +1270,9 @@ body {
   }
 
 
-  /* =========================================
+  /* =====================================
      背景図形
-  ========================================= */
+  ====================================== */
 
   .bg-shapes {
 
@@ -1331,9 +1362,9 @@ body {
   }
 
 
-  /* =========================================
+  /* =====================================
      スマホ用当たり判定
-  ========================================= */
+  ====================================== */
 
   .map-hotspot {
 
@@ -1344,6 +1375,67 @@ body {
     background: rgba(143, 91, 208, 0.28);
 
     border-color: rgba(143, 91, 208, 0.65);
+  }
+
+}
+
+
+/* =========================================
+   極端に狭い画面
+========================================= */
+
+@media (max-width: 360px) {
+
+  .map-view {
+    padding-top: 105px;
+  }
+
+
+  .top-controls {
+    top: 52px;
+  }
+
+
+  .back-to-map,
+  .help-button {
+
+    font-size: 12px;
+
+    padding: 5px 8px;
+  }
+
+}
+
+
+/* =========================================
+   横向きスマートフォン
+========================================= */
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+  .map-view {
+
+    padding-top: 75px;
+    padding-bottom: 60px;
+  }
+
+
+  .top-controls {
+    top: 48px;
+  }
+
+
+  .map-image {
+
+    max-width: 80vw;
+    max-height: 72vh;
+  }
+
+
+  .map-image-wrapper {
+
+    max-width: 80vw;
+    max-height: 72vh;
   }
 
 }
@@ -1483,7 +1575,7 @@ fetch("header.html")
 
     <!-- =====================================
          画像
-    ===================================== -->
+    ====================================== -->
 
     <div
       class="map-image-wrapper"
@@ -1499,13 +1591,14 @@ fetch("header.html")
 
 
       <!-- ===================================
-           透明紫の当たり判定
+           透けた紫の当たり判定
       ==================================== -->
 
       <div
         class="map-hotspots"
         id="mapHotspots"
       >
+
 
         <!-- =================================
              2棟1階
@@ -1514,7 +1607,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-cha"
           data-floor="0"
-          aria-label="茶道部"
+          data-modal-type="room-cha"
+          aria-label="茶道部の詳細を表示"
+          title="茶道部"
           type="button"
         ></button>
 
@@ -1522,7 +1617,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-science-kagaku"
           data-floor="0"
-          aria-label="サイエンス部 科学班"
+          data-modal-type="room-science-kagaku"
+          aria-label="サイエンス部 科学班の詳細を表示"
+          title="サイエンス部 科学班"
           type="button"
         ></button>
 
@@ -1534,7 +1631,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-art"
           data-floor="1"
-          aria-label="美術部"
+          data-modal-type="room-art"
+          aria-label="美術部の詳細を表示"
+          title="美術部"
           type="button"
         ></button>
 
@@ -1542,7 +1641,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-science-butsuri"
           data-floor="1"
-          aria-label="サイエンス部 物理班"
+          data-modal-type="room-science-butsuri"
+          aria-label="サイエンス部 物理班の詳細を表示"
+          title="サイエンス部 物理班"
           type="button"
         ></button>
 
@@ -1550,7 +1651,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-shogi"
           data-floor="1"
-          aria-label="将棋部"
+          data-modal-type="room-shogi"
+          aria-label="将棋部の詳細を表示"
+          title="将棋部"
           type="button"
         ></button>
 
@@ -1562,7 +1665,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-science-seibutsu"
           data-floor="2"
-          aria-label="サイエンス部 生物班"
+          data-modal-type="room-science-seibutsu"
+          aria-label="サイエンス部 生物班の詳細を表示"
+          title="サイエンス部 生物班"
           type="button"
         ></button>
 
@@ -1574,7 +1679,9 @@ fetch("header.html")
         <button
           class="map-hotspot hotspot-science-chigaku"
           data-floor="3"
-          aria-label="サイエンス部 地学班"
+          data-modal-type="room-science-chigaku"
+          aria-label="サイエンス部 地学班の詳細を表示"
+          title="サイエンス部 地学班"
           type="button"
         ></button>
 
@@ -1611,6 +1718,25 @@ fetch("header.html")
     </button>
 
   </div>
+
+</div>
+
+
+<!-- =========================================
+     場所詳細モーダル
+     modal3.html
+========================================= -->
+
+<div
+  id="placeModalOverlay"
+  aria-hidden="true"
+>
+
+  <iframe
+    id="placeModalFrame"
+    title="場所の詳細"
+    src="about:blank"
+  ></iframe>
 
 </div>
 
@@ -1837,6 +1963,150 @@ const mapHotspots =
 
 
 /* =========================================
+   場所詳細モーダル
+   modal3.html
+========================================= */
+
+const placeModalOverlay =
+  document.getElementById("placeModalOverlay");
+
+const placeModalFrame =
+  document.getElementById("placeModalFrame");
+
+
+/* =========================================
+   モーダルを開く
+========================================= */
+
+function openPlaceModal(type) {
+
+  if (
+    !placeModalOverlay ||
+    !placeModalFrame
+  ) {
+    return;
+  }
+
+
+  placeModalFrame.src =
+    "modal3.html?type=" +
+    encodeURIComponent(type);
+
+
+  placeModalOverlay.classList.add(
+    "active"
+  );
+
+
+  placeModalOverlay.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+}
+
+
+/* =========================================
+   モーダルを閉じる
+========================================= */
+
+function closePlaceModal() {
+
+  if (
+    !placeModalOverlay ||
+    !placeModalFrame
+  ) {
+    return;
+  }
+
+
+  placeModalOverlay.classList.remove(
+    "active"
+  );
+
+
+  placeModalOverlay.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  placeModalFrame.src =
+    "about:blank";
+
+
+  document.body.style.overflow =
+    "";
+}
+
+
+/* =========================================
+   当たり判定クリック
+========================================= */
+
+mapHotspots.forEach(
+  (hotspot) => {
+
+    hotspot.addEventListener(
+      "click",
+      (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        const type =
+          hotspot.dataset.modalType;
+
+
+        if (type) {
+
+          openPlaceModal(type);
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   modal3.htmlから閉じる
+========================================= */
+
+window.addEventListener(
+  "message",
+  (e) => {
+
+    if (
+      e.source !==
+      placeModalFrame?.contentWindow
+    ) {
+      return;
+    }
+
+
+    if (
+      e.data &&
+      e.data.type ===
+      "close-map-modal"
+    ) {
+
+      closePlaceModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================
    操作説明
 ========================================= */
 
@@ -1863,7 +2133,9 @@ const HELP_STORAGE_KEY =
 
 function openHelp() {
 
-  helpOverlay.classList.add("active");
+  helpOverlay.classList.add(
+    "active"
+  );
 
 }
 
@@ -1874,7 +2146,10 @@ function openHelp() {
 
 function closeHelp() {
 
-  helpOverlay.classList.remove("active");
+  helpOverlay.classList.remove(
+    "active"
+  );
+
 
   localStorage.setItem(
     HELP_STORAGE_KEY,
@@ -1934,7 +2209,10 @@ helpOverlay.addEventListener(
   "click",
   (e) => {
 
-    if (e.target === helpOverlay) {
+    if (
+      e.target ===
+      helpOverlay
+    ) {
 
       closeHelp();
 
@@ -1980,7 +2258,10 @@ function updateHotspots() {
           hotspot.dataset.floor
         );
 
-      if (floor === currentFloor) {
+
+      if (
+        floor === currentFloor
+      ) {
 
         hotspot.style.display =
           "block";
@@ -1996,31 +2277,6 @@ function updateHotspots() {
   );
 
 }
-
-
-/* =========================================
-   当たり判定クリック
-========================================= */
-
-mapHotspots.forEach(
-  (hotspot) => {
-
-    hotspot.addEventListener(
-      "click",
-      (e) => {
-
-        e.stopPropagation();
-
-        /*
-          現時点では当たり判定のみ。
-          ここにモーダル表示処理を接続できます。
-        */
-
-      }
-    );
-
-  }
-);
 
 
 /* =========================================
@@ -2061,6 +2317,7 @@ function getDistance(touches) {
     touches[0].clientY -
     touches[1].clientY;
 
+
   return Math.sqrt(
     dx * dx +
     dy * dy
@@ -2088,7 +2345,8 @@ function updateArrowPosition() {
 
 
   const centerY =
-    imageTop + (imageHeight / 2);
+    imageTop +
+    (imageHeight / 2);
 
 
   prevButton.style.top =
@@ -2116,27 +2374,35 @@ function clampPosition() {
   const maxX =
     Math.max(
       0,
-      (wrapperWidth * (scale - 1)) / 2
+      (wrapperWidth *
+      (scale - 1)) / 2
     );
 
 
   const maxY =
     Math.max(
       0,
-      (wrapperHeight * (scale - 1)) / 2
+      (wrapperHeight *
+      (scale - 1)) / 2
     );
 
 
   translateX =
     Math.min(
-      Math.max(translateX, -maxX),
+      Math.max(
+        translateX,
+        -maxX
+      ),
       maxX
     );
 
 
   translateY =
     Math.min(
-      Math.max(translateY, -maxY),
+      Math.max(
+        translateY,
+        -maxY
+      ),
       maxY
     );
 
@@ -2172,7 +2438,10 @@ function setZoom(value) {
 
   scale =
     Math.min(
-      Math.max(value, 1),
+      Math.max(
+        value,
+        1
+      ),
       5
     );
 
@@ -2210,7 +2479,8 @@ function resetZoom() {
 function showFloor(index) {
 
   currentFloor =
-    (index + floors.length) % floors.length;
+    (index + floors.length) %
+    floors.length;
 
 
   floorImage.src =
@@ -2222,17 +2492,8 @@ function showFloor(index) {
     " フロアマップ";
 
 
-  /*
-    階を変えたらズームをリセット
-  */
-
   resetZoom();
 
-
-  /*
-    階に合わせて
-    当たり判定を切り替え
-  */
 
   updateHotspots();
 
@@ -2265,7 +2526,9 @@ prevButton.addEventListener(
   "click",
   () => {
 
-    showFloor(currentFloor - 1);
+    showFloor(
+      currentFloor - 1
+    );
 
   }
 );
@@ -2279,7 +2542,9 @@ nextButton.addEventListener(
   "click",
   () => {
 
-    showFloor(currentFloor + 1);
+    showFloor(
+      currentFloor + 1
+    );
 
   }
 );
@@ -2293,7 +2558,10 @@ backToMap.addEventListener(
   "click",
   () => {
 
-    location.href = "map.html";
+    closePlaceModal();
+
+    location.href =
+      "map.html";
 
   }
 );
@@ -2309,7 +2577,12 @@ buildingSwitch.addEventListener(
 
     e.stopPropagation();
 
-    location.href = "1tou.html";
+
+    closePlaceModal();
+
+
+    location.href =
+      "1tou.html";
 
   }
 );
@@ -2327,10 +2600,14 @@ imageWrapper.addEventListener(
        2本指
     ------------------------- */
 
-    if (e.touches.length === 2) {
+    if (
+      e.touches.length === 2
+    ) {
 
       startDistance =
-        getDistance(e.touches);
+        getDistance(
+          e.touches
+        );
 
 
       startScale =
@@ -2411,25 +2688,33 @@ imageWrapper.addEventListener(
        2本指ズーム
     ------------------------- */
 
-    if (e.touches.length === 2) {
+    if (
+      e.touches.length === 2
+    ) {
 
       e.preventDefault();
 
 
       const distance =
-        getDistance(e);
+        getDistance(
+          e.touches
+        );
 
 
-      if (startDistance > 0) {
+      if (
+        startDistance > 0
+      ) {
 
         const ratio =
-          distance / startDistance;
+          distance /
+          startDistance;
 
 
         scale =
           Math.min(
             Math.max(
-              startScale * ratio,
+              startScale *
+              ratio,
               1
             ),
             5
@@ -2454,12 +2739,18 @@ imageWrapper.addEventListener(
 
       translateX =
         startPanX +
-        (centerX - startCenterX);
+        (
+          centerX -
+          startCenterX
+        );
 
 
       translateY =
         startPanY +
-        (centerY - startCenterY);
+        (
+          centerY -
+          startCenterY
+        );
 
 
       updateTransform();
@@ -2491,12 +2782,18 @@ imageWrapper.addEventListener(
 
       translateX =
         startPanX +
-        (x - startTouchX);
+        (
+          x -
+          startTouchX
+        );
 
 
       translateY =
         startPanY +
-        (y - startTouchY);
+        (
+          y -
+          startTouchY
+        );
 
 
       updateTransform();
@@ -2518,7 +2815,9 @@ imageWrapper.addEventListener(
   "touchend",
   (e) => {
 
-    if (e.touches.length === 0) {
+    if (
+      e.touches.length === 0
+    ) {
 
       isDragging = false;
 
@@ -2616,12 +2915,18 @@ document.addEventListener(
 
     translateX =
       startPanX +
-      (e.clientX - startTouchX);
+      (
+        e.clientX -
+        startTouchX
+      );
 
 
     translateY =
       startPanY +
-      (e.clientY - startTouchY);
+      (
+        e.clientY -
+        startTouchY
+      );
 
 
     updateTransform();
