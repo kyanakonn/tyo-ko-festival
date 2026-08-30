@@ -50,9 +50,6 @@ body {
 
   width: 100%;
 
-  /*
-    ページ下部まで背景図形の領域を確保
-  */
   height: 100%;
 
   min-height: max(100vh, 1100px);
@@ -345,7 +342,7 @@ body {
 
 
 /* =========================================
-   マップ画像
+   マップ画像ラッパー
 ========================================= */
 
 .map-image-wrapper {
@@ -375,6 +372,10 @@ body {
 }
 
 
+/* =========================================
+   マップ画像
+========================================= */
+
 .map-image {
   display: block;
 
@@ -391,6 +392,178 @@ body {
   -webkit-user-select: none;
 
   pointer-events: none;
+}
+
+
+/* =========================================
+   ★ 透ける紫の当たり判定
+========================================= */
+
+.map-hotspots {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  z-index: 10;
+}
+
+
+/* -----------------------------------------
+   各当たり判定
+----------------------------------------- */
+
+.map-hotspot {
+  position: absolute;
+
+  display: none;
+
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  /*
+    透ける紫
+  */
+  background: rgba(143, 91, 208, 0.28);
+
+  /*
+    紫の枠
+  */
+  border: 2px solid rgba(143, 91, 208, 0.65);
+
+  /*
+    タップしやすくする
+  */
+  pointer-events: auto;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+/* タップ時 */
+
+.map-hotspot:active {
+  background: rgba(143, 91, 208, 0.48);
+
+  border-color: rgba(143, 91, 208, 0.9);
+}
+
+
+/* =========================================
+   2棟1階
+========================================= */
+
+/*
+  茶道部
+*/
+
+.hotspot-cha {
+  left: 34.0%;
+  top: 35.0%;
+
+  width: 11.2%;
+  height: 18.5%;
+}
+
+
+/*
+  サイエンス部 科学班
+*/
+
+.hotspot-science-kagaku {
+  left: 63.0%;
+  top: 35.0%;
+
+  width: 11.2%;
+  height: 18.5%;
+}
+
+
+/* =========================================
+   2棟2階
+========================================= */
+
+/*
+  美術部
+*/
+
+.hotspot-art {
+  left: 8.0%;
+  top: 35.0%;
+
+  width: 13.5%;
+  height: 18.5%;
+}
+
+
+/*
+  サイエンス部 物理班
+*/
+
+.hotspot-science-butsuri {
+  left: 63.2%;
+  top: 35.0%;
+
+  width: 12.0%;
+  height: 18.5%;
+}
+
+
+/*
+  将棋部
+*/
+
+.hotspot-shogi {
+  left: 77.0%;
+  top: 35.0%;
+
+  width: 12.8%;
+  height: 18.5%;
+}
+
+
+/* =========================================
+   2棟3階
+========================================= */
+
+/*
+  サイエンス部 生物班
+*/
+
+.hotspot-science-seibutsu {
+  left: 66.5%;
+  top: 35.0%;
+
+  width: 11.0%;
+  height: 18.5%;
+}
+
+
+/* =========================================
+   2棟4階
+========================================= */
+
+/*
+  サイエンス部 地学班
+*/
+
+.hotspot-science-chigaku {
+  left: 56.0%;
+  top: 35.0%;
+
+  width: 12.0%;
+  height: 20.0%;
 }
 
 
@@ -871,9 +1044,6 @@ body {
 
     height: auto;
 
-    /*
-      上のボタンと画像の距離を短くする
-    */
     padding-top: 115px;
 
     padding-bottom: 75px;
@@ -916,10 +1086,6 @@ body {
 
   .top-controls {
 
-    /*
-      58px → 72px
-      ボタンを画像側へ少し下げる
-    */
     top: 72px;
 
     gap: 5px;
@@ -1074,10 +1240,6 @@ body {
 
   .bg-shapes {
 
-    /*
-      スマホでページ下部まで
-      背景領域を確保
-    */
     height: 100%;
 
     min-height: 1050px;
@@ -1161,6 +1323,22 @@ body {
 
     width: 50px;
     height: 65px;
+  }
+
+
+  /* =========================================
+     スマホ用当たり判定
+  ========================================= */
+
+  .map-hotspot {
+
+    border-radius: 6px;
+
+    border-width: 2px;
+
+    background: rgba(143, 91, 208, 0.28);
+
+    border-color: rgba(143, 91, 208, 0.65);
   }
 
 }
@@ -1300,7 +1478,7 @@ fetch("header.html")
 
     <!-- =====================================
          画像
-    ====================================== -->
+    ===================================== -->
 
     <div
       class="map-image-wrapper"
@@ -1313,6 +1491,81 @@ fetch("header.html")
         src="images/2tou_1f.jpg"
         alt="2棟 1階 フロアマップ"
       >
+
+
+      <!-- ===================================
+           ★ 透明紫の当たり判定
+      ==================================== -->
+
+      <div
+        class="map-hotspots"
+        id="mapHotspots"
+      >
+
+        <!-- 2棟1階 -->
+
+        <button
+          class="map-hotspot hotspot-cha"
+          data-floor="0"
+          aria-label="茶道部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-kagaku"
+          data-floor="0"
+          aria-label="サイエンス部 科学班"
+          type="button"
+        ></button>
+
+
+        <!-- 2棟2階 -->
+
+        <button
+          class="map-hotspot hotspot-art"
+          data-floor="1"
+          aria-label="美術部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-butsuri"
+          data-floor="1"
+          aria-label="サイエンス部 物理班"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-shogi"
+          data-floor="1"
+          aria-label="将棋部"
+          type="button"
+        ></button>
+
+
+        <!-- 2棟3階 -->
+
+        <button
+          class="map-hotspot hotspot-science-seibutsu"
+          data-floor="2"
+          aria-label="サイエンス部 生物班"
+          type="button"
+        ></button>
+
+
+        <!-- 2棟4階 -->
+
+        <button
+          class="map-hotspot hotspot-science-chigaku"
+          data-floor="3"
+          aria-label="サイエンス部 地学班"
+          type="button"
+        ></button>
+
+      </div>
 
 
       <!-- ===================================
@@ -1333,7 +1586,7 @@ fetch("header.html")
 
     <!-- =====================================
          右ボタン
-    ====================================== -->
+    ===================================== -->
 
     <button
       class="floor-arrow floor-next"
@@ -1566,6 +1819,9 @@ const backToMap =
 const mapView =
   document.querySelector(".map-view");
 
+const mapHotspots =
+  document.querySelectorAll(".map-hotspot");
+
 
 /* =========================================
    操作説明
@@ -1695,6 +1951,64 @@ if (
   );
 
 }
+
+
+/* =========================================
+   ★ 当たり判定表示
+========================================= */
+
+function updateHotspots() {
+
+  mapHotspots.forEach(
+    (hotspot) => {
+
+      const floor =
+        Number(
+          hotspot.dataset.floor
+        );
+
+      if (floor === currentFloor) {
+
+        hotspot.style.display =
+          "block";
+
+      } else {
+
+        hotspot.style.display =
+          "none";
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   ★ 当たり判定クリック
+========================================= */
+
+mapHotspots.forEach(
+  (hotspot) => {
+
+    hotspot.addEventListener(
+      "click",
+      (e) => {
+
+        e.stopPropagation();
+
+        /*
+          現時点では当たり判定のみ。
+          ここに以前と同じモーダル表示処理を
+          接続できます。
+        */
+
+      }
+    );
+
+  }
+);
 
 
 /* =========================================
@@ -1895,7 +2209,17 @@ function showFloor(index) {
     " フロアマップ";
 
 
+  /*
+    階を変えたらズームをリセット
+  */
   resetZoom();
+
+
+  /*
+    ★ 階に合わせて
+       当たり判定を切り替え
+  */
+  updateHotspots();
 
 }
 
@@ -1911,6 +2235,8 @@ floorImage.addEventListener(
     resetZoom();
 
     updateArrowPosition();
+
+    updateHotspots();
 
   }
 );
@@ -2206,6 +2532,22 @@ imageWrapper.addEventListener(
   "mousedown",
   (e) => {
 
+    /*
+      当たり判定をクリックした場合は
+      マップ移動開始にしない
+    */
+
+    if (
+      e.target.classList.contains(
+        "map-hotspot"
+      )
+    ) {
+
+      return;
+
+    }
+
+
     if (
       e.button !== 0 ||
       scale <= 1
@@ -2348,6 +2690,8 @@ window.addEventListener(
   () => {
 
     updateArrowPosition();
+
+    updateHotspots();
 
   }
 );
