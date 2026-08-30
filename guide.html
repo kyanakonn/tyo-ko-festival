@@ -47,7 +47,7 @@
       overflow-y: auto;
 
       overscroll-behavior-x: none;
-      overscroll-behavior-y: auto;
+
     }
 
 
@@ -61,14 +61,17 @@
         sans-serif;
 
       /*
-        等倍時：
-        縦方向のページスクロールを許可
+        重要：
 
-        拡大時：
-        JS側で必要に応じて
-        preventDefault() を使用
+        ブラウザにタッチ操作を勝手に
+        スクロール・ズーム処理させず、
+        このページではJS側で操作を管理する。
       */
-      touch-action: pan-y;
+      touch-action: none;
+
+      -webkit-user-select: none;
+      user-select: none;
+
     }
 
 
@@ -83,6 +86,15 @@
       z-index: 10000;
 
       width: 100%;
+
+      /*
+        ヘッダー自体は通常操作可能
+      */
+      touch-action: manipulation;
+
+      -webkit-user-select: none;
+      user-select: none;
+
     }
 
 
@@ -103,6 +115,7 @@
       overflow: hidden;
 
       opacity: 0.85;
+
     }
 
 
@@ -128,6 +141,7 @@
       border-bottom: 170px solid #c85c72;
 
       transform: rotate(-25deg);
+
     }
 
 
@@ -144,6 +158,7 @@
       border-bottom: 130px solid #8060a8;
 
       transform: rotate(20deg);
+
     }
 
 
@@ -160,6 +175,7 @@
       border-bottom: 180px solid #d1a92f;
 
       transform: rotate(12deg);
+
     }
 
 
@@ -176,6 +192,7 @@
       border-bottom: 120px solid #3f9da9;
 
       transform: rotate(-15deg);
+
     }
 
 
@@ -192,6 +209,7 @@
       border-bottom: 260px solid #4f9fa5;
 
       transform: rotate(30deg);
+
     }
 
 
@@ -208,6 +226,7 @@
       border-bottom: 190px solid #c85c72;
 
       transform: rotate(-15deg);
+
     }
 
 
@@ -224,6 +243,7 @@
       border-bottom: 100px solid #8060a8;
 
       transform: rotate(35deg);
+
     }
 
 
@@ -240,6 +260,7 @@
       border-bottom: 130px solid #d1a92f;
 
       transform: rotate(-20deg);
+
     }
 
 
@@ -270,6 +291,7 @@
       align-items: center;
 
       overflow: visible;
+
     }
 
 
@@ -298,6 +320,7 @@
       justify-content: flex-start;
 
       overflow: visible;
+
     }
 
 
@@ -320,25 +343,24 @@
       overflow: visible;
 
       /*
-        通常時：
-        縦方向 → ブラウザスクロール
+        ★重要
 
-        JSで横スワイプ時だけ
-        preventDefault()
+        touch-action:none にすることで、
+        ピンチ中にSafariが勝手に
+        gesture / pointercancel を発生させる
+        ことを防ぐ。
 
-        拡大時：
-        JSで画像移動
+        縦スクロールはJSで処理する。
       */
-      touch-action: pan-y;
+      touch-action: none;
 
-      contain: layout paint;
-
-      /*
-        ピンチ中のブラウザ側の
-       視覚的な遅延を抑える
-      */
       -webkit-user-select: none;
       user-select: none;
+
+      -webkit-touch-callout: none;
+
+      overscroll-behavior: none;
+
     }
 
 
@@ -361,7 +383,12 @@
 
       will-change: transform;
 
-      touch-action: pan-y;
+      /*
+        slides自身もブラウザの
+        タッチ操作を受けない
+      */
+      touch-action: none;
+
     }
 
 
@@ -393,7 +420,8 @@
 
       overflow: visible;
 
-      touch-action: pan-y;
+      touch-action: none;
+
     }
 
 
@@ -429,15 +457,15 @@
 
       -webkit-user-drag: none;
 
-      /*
-        通常時は縦スクロールを許可
-      */
-      touch-action: pan-y;
+      -webkit-touch-callout: none;
 
       /*
-        JSで完全に制御するため
-        transformアニメーションは使用しない
+        ★重要
+        画像自身もブラウザへ
+        タッチ操作を渡さない
       */
+      touch-action: none;
+
       transform:
         translate3d(0, 0, 0)
         scale(1);
@@ -447,6 +475,7 @@
       will-change: transform;
 
       transition: none;
+
     }
 
 
@@ -476,6 +505,7 @@
       pointer-events: none;
 
       z-index: 100;
+
     }
 
 
@@ -542,6 +572,7 @@
       transition:
         transform 0.12s ease,
         opacity 0.12s ease;
+
     }
 
 
@@ -552,6 +583,7 @@
       box-shadow: none;
 
       transform: scale(1.08);
+
     }
 
 
@@ -562,6 +594,7 @@
       box-shadow: none;
 
       transform: scale(0.9);
+
     }
 
 
@@ -570,6 +603,7 @@
       outline: none;
 
       background: transparent;
+
     }
 
 
@@ -588,6 +622,7 @@
         padding: 0;
 
         overflow: visible;
+
       }
 
 
@@ -600,6 +635,7 @@
         min-height: 0;
 
         overflow: visible;
+
       }
 
 
@@ -615,7 +651,8 @@
 
         overflow: visible;
 
-        touch-action: pan-y;
+        touch-action: none;
+
       }
 
 
@@ -628,7 +665,8 @@
         transition:
           transform 0.3s ease-out;
 
-        touch-action: pan-y;
+        touch-action: none;
+
       }
 
 
@@ -650,7 +688,8 @@
 
         overflow: visible;
 
-        touch-action: pan-y;
+        touch-action: none;
+
       }
 
 
@@ -668,9 +707,10 @@
 
         object-position: center center;
 
-        touch-action: pan-y;
+        touch-action: none;
 
         transition: none;
+
       }
 
 
@@ -681,6 +721,7 @@
         height: 100%;
 
         padding: 0;
+
       }
 
 
@@ -698,6 +739,7 @@
 
         text-shadow:
           0 2px 5px rgba(255, 255, 255, 0.9);
+
       }
 
     }
@@ -714,6 +756,7 @@
         height: auto;
 
         min-height: 0;
+
       }
 
 
@@ -722,6 +765,7 @@
         height: auto;
 
         flex: none;
+
       }
 
 
@@ -730,6 +774,7 @@
         min-height: calc(
           100vh - var(--header-height, 55px)
         );
+
       }
 
 
@@ -742,6 +787,7 @@
         font-size: 48px;
 
         padding: 0 2px;
+
       }
 
     }
@@ -760,6 +806,7 @@
         min-height: 62px;
 
         font-size: 52px;
+
       }
 
     }
@@ -802,10 +849,12 @@
             "#header header"
           );
 
+
         if (headerElement) {
 
           const headerHeight =
             headerElement.getBoundingClientRect().height;
+
 
           document.documentElement.style.setProperty(
             "--header-height",
@@ -1079,9 +1128,9 @@
       new Map();
 
 
-    /*
-      1本指ドラッグ用
-    */
+    /* =========================================
+       1本指操作
+    ========================================= */
 
     let singlePointerId = null;
 
@@ -1089,30 +1138,49 @@
 
     let lastPointerY = 0;
 
-
-    /*
-      ページスワイプ開始位置
-    */
-
     let swipeStartX = 0;
 
     let swipeStartY = 0;
 
 
     /*
-      状態
+      縦スクロール判定
+    */
+
+    let isVerticalGesture = false;
+
+
+    /*
+      横スワイプ判定
+    */
+
+    let isHorizontalGesture = false;
+
+
+    /*
+      画像ドラッグ
     */
 
     let isDragging = false;
 
-    let isHorizontalGesture = false;
+
+    /*
+      ピンチ中
+    */
 
     let isPinching = false;
 
 
     /*
-      ピンチ開始時の情報
+      ピンチ終了直後
     */
+
+    let pinchJustEnded = false;
+
+
+    /* =========================================
+       ピンチ開始情報
+    ========================================= */
 
     let pinchStartDistance = 0;
 
@@ -1126,28 +1194,25 @@
 
     let pinchStartPanY = 0;
 
-    /*
-      ピンチ開始時点で
-      画像上のどの場所を掴んでいたか
-    */
-
     let pinchContentX = 0;
 
     let pinchContentY = 0;
-
-    /*
-      ピンチ開始時の
-      画像のレイアウト上の中心
-    */
 
     let pinchLayoutCenterX = 0;
 
     let pinchLayoutCenterY = 0;
 
 
-    /*
-      しきい値
-    */
+    /* =========================================
+       縦スクロール用
+    ========================================= */
+
+    let lastScrollY = 0;
+
+
+    /* =========================================
+       しきい値
+    ========================================= */
 
     const SWIPE_DISTANCE = 45;
 
@@ -1224,7 +1289,7 @@
 
 
     /* =========================================
-       2本指の中心
+       2本指中心
     ========================================= */
 
     function getPointerCenter() {
@@ -1267,8 +1332,9 @@
 
 
     /* =========================================
-       現在の画像の
-       レイアウト中心を取得
+       画像のレイアウト上の中心
+       
+       transformの影響を除いた中心
     ========================================= */
 
     function getImageLayoutCenter() {
@@ -1280,24 +1346,26 @@
       if (!image) {
 
         return {
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2
+
+          x:
+            window.innerWidth / 2,
+
+          y:
+            window.innerHeight / 2
+
         };
 
       }
 
 
-      /*
-        getBoundingClientRect() は
-        transform後の位置。
-
-        現在のpanを引くことで
-        transform前の中心位置を求める。
-      */
-
       const rect =
         image.getBoundingClientRect();
 
+
+      /*
+        現在のtranslate分を
+        rectから除く
+      */
 
       return {
 
@@ -1318,8 +1386,6 @@
 
     /* =========================================
        画像の移動範囲
-       
-       実際の画像サイズを基準にする
     ========================================= */
 
     function limitPan() {
@@ -1347,15 +1413,17 @@
 
 
       /*
-        transform前の画像サイズ
+        現在のrectは
+        scale後のサイズなので、
+        そこから元サイズを算出。
       */
 
-      const rect =
+      const transformedRect =
         image.getBoundingClientRect();
 
 
       const baseWidth =
-        rect.width /
+        transformedRect.width /
         Math.max(
           zoomScale,
           0.0001
@@ -1363,16 +1431,12 @@
 
 
       const baseHeight =
-        rect.height /
+        transformedRect.height /
         Math.max(
           zoomScale,
           0.0001
         );
 
-
-      /*
-        画像の拡大後サイズ
-      */
 
       const scaledWidth =
         baseWidth *
@@ -1385,7 +1449,7 @@
 
 
       /*
-        スライダー表示領域
+        実際の表示領域
       */
 
       const viewportWidth =
@@ -1393,9 +1457,9 @@
 
 
       /*
-        縦方向については
-        実際の画像の高さと
-        ビューポート高さの差を使用
+        画面上の表示領域。
+        slider自身の高さが画像高さより
+        大きい場合も考慮する。
       */
 
       const viewportHeight =
@@ -1406,7 +1470,7 @@
 
 
       /*
-        横方向
+        横方向の移動可能量
       */
 
       const maxPanX =
@@ -1420,7 +1484,7 @@
 
 
       /*
-        縦方向
+        縦方向の移動可能量
       */
 
       const maxPanY =
@@ -1477,7 +1541,7 @@
 
 
     /* =========================================
-       拡大位置リセット
+       拡大状態を完全リセット
     ========================================= */
 
     function resetZoomPosition() {
@@ -1529,8 +1593,16 @@
 
 
       /*
-        ページを変えたら
-        必ず拡大解除
+        ページ切り替え時のみ
+        拡大解除。
+
+        ★以前の問題：
+        pointercancel等でも
+        updateSlider() が呼ばれ、
+        拡大が解除されることがあった。
+
+        今回はpointercancelでは
+        安易にupdateSlider()を呼ばない。
       */
 
       resetZoomPosition();
@@ -1660,8 +1732,6 @@
 
     /* =========================================
        ピンチ開始
-       
-       ★指の位置を基準にする
     ========================================= */
 
     function startPinch() {
@@ -1669,7 +1739,9 @@
       if (
         activePointers.size < 2
       ) {
+
         return;
+
       }
 
 
@@ -1682,23 +1754,38 @@
       }
 
 
+      /*
+        ★ここからピンチ状態
+      */
+
       isPinching = true;
 
       isDragging = false;
 
       isHorizontalGesture = false;
 
+      isVerticalGesture = false;
+
 
       /*
-        現在の2本指距離
+        現在の距離
       */
 
       pinchStartDistance =
         getPointerDistance();
 
 
+      if (
+        pinchStartDistance <= 0
+      ) {
+
+        return;
+
+      }
+
+
       /*
-        現在の2本指中心
+        2本指中心
       */
 
       const center =
@@ -1713,12 +1800,16 @@
 
 
       /*
-        開始時の拡大率
+        開始時の倍率
       */
 
       pinchStartScale =
         zoomScale;
 
+
+      /*
+        開始時のpan
+      */
 
       pinchStartPanX =
         panX;
@@ -1728,8 +1819,7 @@
 
 
       /*
-        現在の画像の
-        transform前の中心
+        transform前の画像中心
       */
 
       const rect =
@@ -1749,8 +1839,8 @@
 
 
       /*
-        ピンチ中心が画像上の
-        どの位置なのかを保存
+        指が画像上のどこを
+        掴んでいるかを保存
       */
 
       pinchContentX =
@@ -1823,11 +1913,22 @@
         activePointers.set(
           e.pointerId,
           {
+
             x: e.clientX,
+
             y: e.clientY
+
           }
         );
 
+
+        /*
+          pointer capture
+
+          ★重要
+          ピンチ中に指が少し画像の外へ
+          出てもイベントを維持する。
+        */
 
         try {
 
@@ -1838,14 +1939,15 @@
         }
 
         catch (error) {
-          // 無視
+
+          // Safari等では無視
+
         }
 
 
-        /* -------------------------------------
-           2本目の指
-           → ピンチ開始
-        ------------------------------------- */
+        /* =====================================
+           2本目
+        ===================================== */
 
         if (
           activePointers.size >= 2
@@ -1858,9 +1960,9 @@
         }
 
 
-        /* -------------------------------------
-           1本指
-        ------------------------------------- */
+        /* =====================================
+           1本目
+        ===================================== */
 
         singlePointerId =
           e.pointerId;
@@ -1880,9 +1982,15 @@
           e.clientY;
 
 
+        lastScrollY =
+          window.scrollY;
+
+
         isDragging = false;
 
         isHorizontalGesture = false;
+
+        isVerticalGesture = false;
 
       }
     );
@@ -1897,7 +2005,7 @@
       (e) => {
 
         /*
-          ポインター位置を更新
+          ポインター位置更新
         */
 
         if (
@@ -1909,8 +2017,11 @@
           activePointers.set(
             e.pointerId,
             {
+
               x: e.clientX,
+
               y: e.clientY
+
             }
           );
 
@@ -1927,15 +2038,11 @@
         ) {
 
           /*
-            ブラウザの通常操作を止める
+            ★絶対にブラウザ側へ渡さない
           */
 
           e.preventDefault();
 
-
-          /*
-            現在の距離
-          */
 
           const currentDistance =
             getPointerDistance();
@@ -1951,7 +2058,7 @@
 
 
           /*
-            拡大率
+            距離比
           */
 
           const ratio =
@@ -1959,7 +2066,11 @@
             pinchStartDistance;
 
 
-          let newScale =
+          /*
+            新倍率
+          */
+
+          const newScale =
             clampZoom(
               pinchStartScale *
               ratio
@@ -1967,7 +2078,7 @@
 
 
           /*
-            2本指中心
+            現在の2本指中心
           */
 
           const center =
@@ -1975,12 +2086,8 @@
 
 
           /*
-            ★重要
-            ピンチの中心位置を維持する
-
-            これにより、
-            指でつまんだ場所を中心に
-            拡大・縮小できる
+            指の位置を維持したまま
+            拡大・縮小
           */
 
           panX =
@@ -2002,7 +2109,7 @@
 
 
           /*
-            1倍以下になった場合
+            1倍以下にはしない
           */
 
           if (
@@ -2019,7 +2126,7 @@
 
 
           /*
-            移動範囲制限
+            移動範囲
           */
 
           limitPan();
@@ -2038,7 +2145,7 @@
 
 
         /* =====================================
-           1本指
+           1本指以外
         ===================================== */
 
         if (
@@ -2073,8 +2180,6 @@
 
         /* =====================================
            拡大中
-           
-           → 完全に画像移動
         ===================================== */
 
         if (
@@ -2083,10 +2188,6 @@
 
           e.preventDefault();
 
-
-          /*
-            少しでも動いたらドラッグ開始
-          */
 
           if (
             Math.abs(totalX) >
@@ -2109,16 +2210,7 @@
             panY += moveY;
 
 
-            /*
-              移動範囲制限
-            */
-
             limitPan();
-
-
-            /*
-              即時反映
-            */
 
             applyZoomTransform();
 
@@ -2139,30 +2231,29 @@
 
         /* =====================================
            等倍時
-           
-           横 → ページスワイプ
-           縦 → ブラウザスクロール
         ===================================== */
 
         const absX =
           Math.abs(totalX);
+
 
         const absY =
           Math.abs(totalY);
 
 
         /*
-          まだ方向が決まっていない
+          方向決定
         */
 
         if (
           !isHorizontalGesture &&
+          !isVerticalGesture &&
           absX > DIRECTION_THRESHOLD &&
           absX > absY
         ) {
 
           /*
-            横方向ジェスチャー確定
+            横方向
           */
 
           isHorizontalGesture = true;
@@ -2172,17 +2263,29 @@
         }
 
 
-        /*
-          横スワイプ中
-        */
+        else if (
+          !isHorizontalGesture &&
+          !isVerticalGesture &&
+          absY > DIRECTION_THRESHOLD &&
+          absY > absX
+        ) {
+
+          /*
+            縦方向
+          */
+
+          isVerticalGesture = true;
+
+        }
+
+
+        /* =====================================
+           横スワイプ
+        ===================================== */
 
         if (
           isHorizontalGesture
         ) {
-
-          /*
-            ブラウザの横スクロール等を防止
-          */
 
           e.preventDefault();
 
@@ -2200,17 +2303,9 @@
           }
 
 
-          /*
-            スワイプ移動量
-          */
-
           let dragX =
             totalX;
 
-
-          /*
-            最大移動量を制限
-          */
 
           const MAX_DRAG =
             sliderWidth * 0.35;
@@ -2248,6 +2343,40 @@
         }
 
 
+        /* =====================================
+           縦スクロール
+           
+           touch-action:noneなので
+           JSでスクロールさせる
+        ===================================== */
+
+        else if (
+          isVerticalGesture
+        ) {
+
+          e.preventDefault();
+
+
+          /*
+            指が上へ動く
+            → ページを下へ
+
+            指が下へ動く
+            → ページを上へ
+          */
+
+          window.scrollBy(
+            0,
+            -moveY
+          );
+
+
+          lastScrollY =
+            window.scrollY;
+
+        }
+
+
         lastPointerX =
           e.clientX;
 
@@ -2262,8 +2391,8 @@
 
 
     /* =========================================
-       ピンチ終了後の
-       1本指操作への移行
+       ピンチ終了後
+       1本指へ移行
     ========================================= */
 
     function continueSingleFingerAfterPinch() {
@@ -2307,18 +2436,22 @@
 
 
       /*
-        ピンチ終了直後の
-        スワイプ判定をリセット
-
-        これにより
-        2本指→1本指になった瞬間に
-        ページが勝手に切り替わらない
+        ピンチ終了直後に
+        ページ切り替えを起こさない
       */
 
       isDragging = false;
 
-      isHorizontalGesture =
-        false;
+      isHorizontalGesture = false;
+
+      isVerticalGesture = false;
+
+
+      /*
+        重要：
+        拡大率・panX・panYは
+        ここでは一切変更しない。
+      */
 
     }
 
@@ -2349,8 +2482,7 @@
         ) {
 
           /*
-            まだ2本以上残っている
-            → ピンチ継続
+            まだ2本以上なら継続
           */
 
           if (
@@ -2368,10 +2500,11 @@
 
           isPinching = false;
 
+          pinchJustEnded = true;
+
 
           /*
-            1本残っている場合は
-            その指で続けてドラッグできるようにする
+            1本残った場合
           */
 
           if (
@@ -2384,10 +2517,19 @@
 
           else {
 
-            singlePointerId = null;
+            singlePointerId =
+              null;
 
           }
 
+
+          /*
+            ★ここで
+            resetZoomPosition() を
+            絶対に呼ばない。
+
+            これが今回の重要ポイント。
+          */
 
           return;
 
@@ -2408,6 +2550,30 @@
         }
 
 
+        /*
+          ピンチ直後なら
+          何もしない
+        */
+
+        if (
+          pinchJustEnded
+        ) {
+
+          pinchJustEnded = false;
+
+          isDragging = false;
+
+          isHorizontalGesture = false;
+
+          isVerticalGesture = false;
+
+          singlePointerId = null;
+
+          return;
+
+        }
+
+
         const deltaX =
           e.clientX -
           swipeStartX;
@@ -2418,17 +2584,23 @@
           swipeStartY;
 
 
-        /*
-          拡大中
-        */
+        /* =====================================
+           拡大中
+        ===================================== */
 
         if (
           zoomScale > 1
         ) {
 
+          /*
+            拡大状態を維持
+          */
+
           isDragging = false;
 
           isHorizontalGesture = false;
+
+          isVerticalGesture = false;
 
           singlePointerId = null;
 
@@ -2438,16 +2610,33 @@
 
 
         /* =====================================
-           等倍時
+           縦スクロール
+        ===================================== */
+
+        if (
+          isVerticalGesture
+        ) {
+
+          isVerticalGesture = false;
+
+          isHorizontalGesture = false;
+
+          isDragging = false;
+
+          singlePointerId = null;
+
+          return;
+
+        }
+
+
+        /* =====================================
+           横スワイプ
         ===================================== */
 
         if (
           isHorizontalGesture
         ) {
-
-          /*
-            横スワイプ判定
-          */
 
           const isSwipe =
             Math.abs(deltaX) >=
@@ -2465,7 +2654,7 @@
             ) {
 
               /*
-                左へ
+                左
                 → 次ページ
               */
 
@@ -2476,7 +2665,7 @@
             else {
 
               /*
-                右へ
+                右
                 → 前ページ
               */
 
@@ -2489,11 +2678,16 @@
           else {
 
             /*
-              スワイプ量不足
-              → 元の位置へ
+              スワイプ不足
+              → 現在ページへ戻す
             */
 
-            updateSlider(true);
+            slides.style.transition =
+              "transform 0.3s ease-out";
+
+
+            slides.style.transform =
+              `translate3d(-${currentPage * 100}%, 0, 0)`;
 
           }
 
@@ -2508,6 +2702,8 @@
 
         isHorizontalGesture = false;
 
+        isVerticalGesture = false;
+
         singlePointerId = null;
 
       }
@@ -2516,6 +2712,9 @@
 
     /* =========================================
        pointercancel
+       
+       ★重要
+       ここで拡大解除しない
     ========================================= */
 
     slider.addEventListener(
@@ -2527,25 +2726,103 @@
         );
 
 
+        /*
+          ピンチ中にSafari等が
+          cancelしてしまった場合でも、
+          拡大状態を維持する。
+        */
+
+        if (
+          isPinching
+        ) {
+
+          if (
+            activePointers.size >= 2
+          ) {
+
+            return;
+
+          }
+
+
+          isPinching = false;
+
+          pinchJustEnded = true;
+
+
+          if (
+            activePointers.size === 1
+          ) {
+
+            continueSingleFingerAfterPinch();
+
+          }
+
+          else {
+
+            singlePointerId =
+              null;
+
+          }
+
+
+          /*
+            ★ここでは
+            updateSlider()
+            resetZoomPosition()
+            を呼ばない
+          */
+
+          return;
+
+        }
+
+
+        /*
+          通常の1本指操作の
+          cancelでもページを
+          リセットしない。
+
+          特にSafariでは、
+          ジェスチャー途中の
+          cancelが発生することがあるため。
+        */
+
         if (
           activePointers.size === 0
         ) {
-
-          isPinching = false;
 
           isDragging = false;
 
           isHorizontalGesture = false;
 
+          isVerticalGesture = false;
+
           singlePointerId = null;
 
-
           /*
-            キャンセル時は
-            現在ページへ戻す
+            拡大状態はそのまま維持
           */
 
-          updateSlider(true);
+          if (
+            zoomScale > 1
+          ) {
+
+            limitPan();
+
+            applyZoomTransform();
+
+          }
+
+          else {
+
+            slides.style.transition =
+              "transform 0.3s ease-out";
+
+            slides.style.transform =
+              `translate3d(-${currentPage * 100}%, 0, 0)`;
+
+          }
 
         }
 
@@ -2553,11 +2830,34 @@
           activePointers.size === 1
         ) {
 
-          isPinching = false;
-
           continueSingleFingerAfterPinch();
 
         }
+
+      },
+      {
+        passive: false
+      }
+    );
+
+
+    /* =========================================
+       pointerout / pointerleave
+       
+       pointer capture中は基本不要だが、
+       念のため何もしない。
+    ========================================= */
+
+    slider.addEventListener(
+      "pointerleave",
+      (e) => {
+
+        /*
+          何もしない。
+
+          指が外に出ても
+          pointer captureを維持する。
+        */
 
       }
     );
@@ -2599,16 +2899,13 @@
         }
 
 
-        /*
-          マウス位置を中心に拡大
-        */
-
         const rect =
           image.getBoundingClientRect();
 
 
         const mouseX =
           e.clientX;
+
 
         const mouseY =
           e.clientY;
@@ -2625,10 +2922,6 @@
           rect.height / 2 -
           panY;
 
-
-        /*
-          現在の画像上の位置
-        */
 
         const contentX =
           (
@@ -2654,10 +2947,6 @@
           );
 
 
-        /*
-          新しい倍率
-        */
-
         const zoomStep =
           e.deltaY < 0
             ? 1.12
@@ -2670,10 +2959,6 @@
             zoomStep
           );
 
-
-        /*
-          マウス位置を維持
-        */
 
         panX =
           mouseX -
@@ -2737,11 +3022,6 @@
         img.addEventListener(
           "contextmenu",
           (e) => {
-
-            /*
-              長押しメニュー等による
-              操作中断を防止
-            */
 
             if (
               zoomScale > 1
@@ -2820,10 +3100,7 @@
 
 
     /* =========================================
-       画面サイズ変更時
-       
-       拡大位置が画面外へ
-       はみ出さないよう補正
+       画面サイズ変更
     ========================================= */
 
     window.addEventListener(
@@ -2834,9 +3111,49 @@
           zoomScale > 1
         ) {
 
-          limitPan();
+          /*
+            少し待ってから
+            レイアウト確定後に補正
+          */
 
-          applyZoomTransform();
+          requestAnimationFrame(
+            () => {
+
+              limitPan();
+
+              applyZoomTransform();
+
+            }
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       orientationchange
+    ========================================= */
+
+    window.addEventListener(
+      "orientationchange",
+      () => {
+
+        if (
+          zoomScale > 1
+        ) {
+
+          setTimeout(
+            () => {
+
+              limitPan();
+
+              applyZoomTransform();
+
+            },
+            150
+          );
 
         }
 
