@@ -1326,6 +1326,146 @@ body {
   height: 15.5%;
 }
 
+
+/* =========================================
+   1棟3階
+   ※立ち入り禁止以外の赤文字の部屋全体
+========================================= */
+
+/* 1C 脱出ゲーム */
+.map-hotspot.room-1c {
+  left: 23.4%;
+  top: 30.8%;
+  width: 9.0%;
+  height: 16.9%;
+}
+
+/* 2F 体験型 */
+.map-hotspot.room-2f {
+  left: 32.3%;
+  top: 30.8%;
+  width: 8.0%;
+  height: 16.9%;
+}
+
+/* 1F ディッピンドッツ */
+.map-hotspot.room-1f {
+  left: 40.3%;
+  top: 30.8%;
+  width: 7.8%;
+  height: 16.9%;
+}
+
+/* SSH推進部 */
+.map-hotspot.room-ssh {
+  left: 48.2%;
+  top: 30.8%;
+  width: 7.8%;
+  height: 16.9%;
+}
+
+/* 3E ポップコーン */
+.map-hotspot.room-3e {
+  left: 75.0%;
+  top: 30.8%;
+  width: 7.4%;
+  height: 16.9%;
+}
+
+/* 3F カジノ */
+.map-hotspot.room-3f {
+  left: 83.1%;
+  top: 30.8%;
+  width: 6.7%;
+  height: 16.9%;
+}
+
+/* 1E 脱出ゲーム */
+.map-hotspot.room-1e {
+  left: 89.8%;
+  top: 30.8%;
+  width: 6.6%;
+  height: 16.9%;
+}
+
+/* 3B お化け屋敷 */
+.map-hotspot.room-3b {
+  left: 5.1%;
+  top: 59.6%;
+  width: 10.4%;
+  height: 14.3%;
+}
+
+
+/* =========================================
+   1棟4階
+   ※立ち入り禁止以外の赤文字の部屋全体
+========================================= */
+
+/* 書道部 */
+.map-hotspot.room-shodo {
+  left: 4.6%;
+  top: 28.1%;
+  width: 13.3%;
+  height: 17.5%;
+}
+
+/* 3C お化け屋敷 */
+.map-hotspot.room-3c {
+  left: 23.1%;
+  top: 28.1%;
+  width: 9.3%;
+  height: 17.5%;
+}
+
+/* 1G 焼き菓子 */
+.map-hotspot.room-1g {
+  left: 32.4%;
+  top: 28.1%;
+  width: 8.2%;
+  height: 17.5%;
+}
+
+/* 2G 体験型 */
+.map-hotspot.room-2g {
+  left: 40.6%;
+  top: 28.1%;
+  width: 8.0%;
+  height: 17.5%;
+}
+
+/* ESS部 */
+.map-hotspot.room-ess {
+  left: 48.6%;
+  top: 28.1%;
+  width: 8.2%;
+  height: 17.5%;
+}
+
+/* 2B 映画 */
+.map-hotspot.room-2b {
+  left: 76.7%;
+  top: 28.1%;
+  width: 6.6%;
+  height: 17.5%;
+}
+
+/* 1B アイス */
+.map-hotspot.room-1b {
+  left: 83.4%;
+  top: 28.1%;
+  width: 6.7%;
+  height: 17.5%;
+}
+
+/* 2C 迷路 */
+.map-hotspot.room-2c {
+  left: 90.1%;
+  top: 28.1%;
+  width: 6.8%;
+  height: 17.5%;
+}
+
 .map-hotspot[hidden] {
   display: none;
 }
@@ -1576,6 +1716,30 @@ fetch("header.html")
         aria-label="3D お化け屋敷の詳細を表示"
         title="3D お化け屋敷"
       ></button>
+
+
+      <!-- 1棟3階：立ち入り禁止以外の赤文字部分 -->
+
+      <button class="map-hotspot room-1c floor-3-hotspot" data-modal-type="room-1c" type="button" aria-label="1C 脱出ゲームの詳細を表示" title="1C 脱出ゲーム"></button>
+      <button class="map-hotspot room-2f floor-3-hotspot" data-modal-type="room-2f" type="button" aria-label="2F 体験型の詳細を表示" title="2F 体験型"></button>
+      <button class="map-hotspot room-1f floor-3-hotspot" data-modal-type="room-1f" type="button" aria-label="1F ディッピンドッツの詳細を表示" title="1F ディッピンドッツ"></button>
+      <button class="map-hotspot room-ssh floor-3-hotspot" data-modal-type="room-ssh" type="button" aria-label="SSH推進部の詳細を表示" title="SSH推進部"></button>
+      <button class="map-hotspot room-3e floor-3-hotspot" data-modal-type="room-3e" type="button" aria-label="3E ポップコーンの詳細を表示" title="3E ポップコーン"></button>
+      <button class="map-hotspot room-3f floor-3-hotspot" data-modal-type="room-3f" type="button" aria-label="3F カジノの詳細を表示" title="3F カジノ"></button>
+      <button class="map-hotspot room-1e floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
+      <button class="map-hotspot room-3b floor-3-hotspot" data-modal-type="room-3b" type="button" aria-label="3B お化け屋敷の詳細を表示" title="3B お化け屋敷"></button>
+
+
+      <!-- 1棟4階：立ち入り禁止以外の赤文字部分 -->
+
+      <button class="map-hotspot room-shodo floor-4-hotspot" data-modal-type="room-shodo" type="button" aria-label="書道部の詳細を表示" title="書道部"></button>
+      <button class="map-hotspot room-3c floor-4-hotspot" data-modal-type="room-3c" type="button" aria-label="3C お化け屋敷の詳細を表示" title="3C お化け屋敷"></button>
+      <button class="map-hotspot room-1g floor-4-hotspot" data-modal-type="room-1g" type="button" aria-label="1G 焼き菓子の詳細を表示" title="1G 焼き菓子"></button>
+      <button class="map-hotspot room-2g floor-4-hotspot" data-modal-type="room-2g" type="button" aria-label="2G 体験型の詳細を表示" title="2G 体験型"></button>
+      <button class="map-hotspot room-ess floor-4-hotspot" data-modal-type="room-ess" type="button" aria-label="ESS部の詳細を表示" title="ESS部"></button>
+      <button class="map-hotspot room-2b floor-4-hotspot" data-modal-type="room-2b" type="button" aria-label="2B 映画の詳細を表示" title="2B 映画"></button>
+      <button class="map-hotspot room-1b floor-4-hotspot" data-modal-type="room-1b" type="button" aria-label="1B アイスの詳細を表示" title="1B アイス"></button>
+      <button class="map-hotspot room-2c floor-4-hotspot" data-modal-type="room-2c" type="button" aria-label="2C 迷路の詳細を表示" title="2C 迷路"></button>
 
 
       <!-- 2棟へ -->
@@ -1894,6 +2058,12 @@ function updateHotspots() {
     const isFloor2Hotspot =
       hotspot.classList.contains("floor-2-hotspot");
 
+    const isFloor3Hotspot =
+      hotspot.classList.contains("floor-3-hotspot");
+
+    const isFloor4Hotspot =
+      hotspot.classList.contains("floor-4-hotspot");
+
     if (isFloor1Hotspot) {
       hotspot.hidden = currentFloor !== 0;
       return;
@@ -1901,6 +2071,16 @@ function updateHotspots() {
 
     if (isFloor2Hotspot) {
       hotspot.hidden = currentFloor !== 1;
+      return;
+    }
+
+    if (isFloor3Hotspot) {
+      hotspot.hidden = currentFloor !== 2;
+      return;
+    }
+
+    if (isFloor4Hotspot) {
+      hotspot.hidden = currentFloor !== 3;
       return;
     }
 
