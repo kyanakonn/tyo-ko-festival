@@ -1211,6 +1211,86 @@ body {
 
 }
 
+
+
+/* =========================================
+   赤文字エリアのクリック判定
+========================================= */
+
+.map-hotspot {
+  position: absolute;
+  z-index: 25;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 2px dashed rgba(143, 91, 208, 0.85);
+  border-radius: 10px;
+  background: rgba(143, 91, 208, 0.24);
+  box-shadow: 0 2px 10px rgba(143, 91, 208, 0.12);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.map-hotspot:hover {
+  background: rgba(143, 91, 208, 0.34);
+  border-color: rgba(143, 91, 208, 1);
+}
+
+.map-hotspot:active {
+  background: rgba(143, 91, 208, 0.42);
+  transform: scale(0.98);
+}
+
+/* 食堂：1D 10円パン */
+.map-hotspot.ten-yen-bread {
+  left: 45.0%;
+  top: 73.8%;
+  width: 7.0%;
+  height: 8.8%;
+}
+
+/* 特別支援学校 */
+.map-hotspot.special-support {
+  left: 63.9%;
+  top: 68.8%;
+  width: 5.2%;
+  height: 20.5%;
+}
+
+.map-hotspot[hidden] {
+  display: none;
+}
+
+
+/* =========================================
+   場所詳細モーダル
+========================================= */
+
+#placeModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  background: rgba(6, 37, 79, 0.58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+#placeModalOverlay.active {
+  display: block;
+}
+
+#placeModalFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
 </style>
 
 </head>
@@ -1349,6 +1429,28 @@ fetch("header.html")
       >
 
 
+      <!-- =====================================
+           赤文字部分のクリックエリア
+           1棟1階のみ表示
+      ====================================== -->
+
+      <button
+        class="map-hotspot ten-yen-bread"
+        data-modal-type="ten-yen-bread"
+        type="button"
+        aria-label="1D 10円パンの詳細を表示"
+        title="1D 10円パン"
+      ></button>
+
+      <button
+        class="map-hotspot special-support"
+        data-modal-type="special-support"
+        type="button"
+        aria-label="特別支援学校の詳細を表示"
+        title="特別支援学校"
+      ></button>
+
+
       <!-- 2棟へ -->
 
       <button
@@ -1378,6 +1480,22 @@ fetch("header.html")
 
   </div>
 
+</div>
+
+
+<!-- =========================================
+     場所詳細モーダル（modal2.html）
+========================================= -->
+
+<div
+  id="placeModalOverlay"
+  aria-hidden="true"
+>
+  <iframe
+    id="placeModalFrame"
+    title="場所の詳細"
+    src="about:blank"
+  ></iframe>
 </div>
 
 
@@ -1562,6 +1680,93 @@ const backToMap =
 
 const mapView =
   document.querySelector(".map-view");
+
+
+/* =========================================
+   場所詳細モーダル
+========================================= */
+
+const placeModalOverlay =
+  document.getElementById("placeModalOverlay");
+
+const placeModalFrame =
+  document.getElementById("placeModalFrame");
+
+const mapHotspots =
+  document.querySelectorAll(".map-hotspot");
+
+
+function openPlaceModal(type) {
+
+  if (!placeModalOverlay || !placeModalFrame) {
+    return;
+  }
+
+  placeModalFrame.src =
+    "modal2.html?type=" + encodeURIComponent(type);
+
+  placeModalOverlay.classList.add("active");
+  placeModalOverlay.setAttribute("aria-hidden", "false");
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closePlaceModal() {
+
+  if (!placeModalOverlay || !placeModalFrame) {
+    return;
+  }
+
+  placeModalOverlay.classList.remove("active");
+  placeModalOverlay.setAttribute("aria-hidden", "true");
+  placeModalFrame.src = "about:blank";
+
+  document.body.style.overflow = "";
+}
+
+
+mapHotspots.forEach((hotspot) => {
+
+  hotspot.addEventListener("click", (e) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const type = hotspot.dataset.modalType;
+
+    if (type) {
+      openPlaceModal(type);
+    }
+
+  });
+
+});
+
+
+window.addEventListener("message", (e) => {
+
+  if (e.source !== placeModalFrame?.contentWindow) {
+    return;
+  }
+
+  if (e.data && e.data.type === "close-map-modal") {
+    closePlaceModal();
+  }
+
+});
+
+
+function updateHotspots() {
+
+  const isFirstFloor = currentFloor === 0;
+
+  mapHotspots.forEach((hotspot) => {
+    hotspot.hidden = !isFirstFloor;
+  });
+
+}
+
 
 
 /* =========================================
@@ -1865,6 +2070,7 @@ function showFloor(index) {
     " フロアマップ";
 
   resetZoom();
+  updateHotspots();
 
 }
 
@@ -2246,6 +2452,8 @@ imageWrapper.addEventListener(
 ========================================= */
 
 imageWrapper.style.cursor = "default";
+
+updateHotspots();
 
 
 /* =========================================
