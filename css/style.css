@@ -1553,3 +1553,28 @@ footer {
   position: relative;
   z-index: 10;
 }
+
+/* =========================================
+   現在のページのナビゲーション
+========================================= */
+
+.top-nav a {
+  position: relative;
+}
+
+.top-nav a.active {
+  color: #e85b78;
+}
+
+.top-nav a.active::after {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -1px;
+
+  height: 4px;
+
+  background: #e85b78;
+}
