@@ -112,6 +112,8 @@ body{
   gap:16px;
 
   width:100%;
+
+  box-sizing:border-box;
 }
 
 
@@ -145,6 +147,12 @@ body{
   box-sizing:border-box;
 
   cursor:pointer;
+
+  /*
+   * 1枚表示時の位置ずれ防止
+   */
+  margin-left:0;
+  margin-right:0;
 
   opacity:0;
 
@@ -210,7 +218,6 @@ body{
   line-height:1.4;
 
   pointer-events:none;
-
 }
 
 
@@ -253,7 +260,6 @@ body{
   white-space:nowrap;
 
   pointer-events:none;
-
 }
 
 
@@ -318,7 +324,6 @@ body{
   row-gap:14px;
 
   align-items:center;
-
 }
 
 
@@ -337,7 +342,6 @@ body{
   color:#ff4597;
 
   white-space:nowrap;
-
 }
 
 
@@ -356,7 +360,6 @@ body{
   color:#59677f;
 
   word-break:break-word;
-
 }
 
 
@@ -411,6 +414,10 @@ body{
     grid-template-columns:repeat(2, minmax(0, 1fr));
 
     gap:12px;
+
+    width:100%;
+
+    box-sizing:border-box;
   }
 
   .card{
@@ -496,6 +503,7 @@ body{
 
   .content{
     padding:12px;
+    box-sizing:border-box;
   }
 
   .grid{
@@ -504,15 +512,35 @@ body{
      * 画面が小さい場合は
      * 横1枚にする
      */
-    grid-template-columns:1fr;
+    grid-template-columns:minmax(0, 1fr);
 
     gap:12px;
+
+    /*
+     * グリッド自体も幅を正確に合わせる
+     */
+    width:100%;
+
+    box-sizing:border-box;
+
+    /*
+     * 1枚だけの場合も中央配置
+     */
+    justify-items:center;
 
   }
 
   .card{
 
+    /*
+     * カードをグリッドの中央に配置
+     */
     width:100%;
+
+    max-width:none;
+
+    margin-left:auto;
+    margin-right:auto;
 
     min-height:220px;
 
@@ -522,6 +550,18 @@ body{
       18px;
 
     border-radius:9px;
+
+  }
+
+  /*
+   * 1枚だけのカードを確実に中央配置
+   */
+  .grid .card:only-child{
+
+    width:100%;
+
+    margin-left:auto;
+    margin-right:auto;
 
   }
 
@@ -594,9 +634,25 @@ body{
 
   .content{
     padding:10px;
+    box-sizing:border-box;
+  }
+
+  .grid{
+
+    width:100%;
+
+    grid-template-columns:minmax(0, 1fr);
+
+    justify-items:center;
+
   }
 
   .card{
+
+    width:100%;
+
+    margin-left:auto;
+    margin-right:auto;
 
     min-height:210px;
 
@@ -604,6 +660,15 @@ body{
       16px
       15px
       16px;
+
+  }
+
+  .grid .card:only-child{
+
+    width:100%;
+
+    margin-left:auto;
+    margin-right:auto;
 
   }
 
