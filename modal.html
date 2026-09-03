@@ -8,7 +8,17 @@
   2a / 2b / 2c / 2d / 2e / 2f / 2g
   3a / 3b / 3c / 3d / 3e / 3f / 3g
 
-  使用例：
+  対応するカード記述例：
+
+  onclick="openFestivalModal('1a')"
+
+  data-modal="1a"
+
+  data-modal-id="1a"
+
+  data-event-id="1a"
+
+  URL：
   event.html?modal=1a
 -->
 
@@ -97,6 +107,8 @@
   background:#2a9d8f;
 
   border-radius:15px 15px 0 0;
+
+  pointer-events:none;
 }
 
 
@@ -333,7 +345,7 @@
    ============================================================ */
 
 .modal-data{
-  display:none;
+  display:none !important;
 }
 
 
@@ -551,6 +563,7 @@
 </style>
 
 
+
 <!-- ============================================================
      共通モーダル本体
      ============================================================ -->
@@ -565,7 +578,9 @@
   >
 
 
-    <!-- 閉じるボタン -->
+    <!-- ========================================================
+         閉じるボタン
+         ======================================================== -->
 
     <button
       id="modal-close"
@@ -576,7 +591,9 @@
     </button>
 
 
-    <!-- 企画画像 -->
+    <!-- ========================================================
+         企画画像
+         ======================================================== -->
 
     <img
       id="modal-img"
@@ -585,29 +602,32 @@
     >
 
 
-    <!-- キャッチコピー -->
+    <!-- ========================================================
+         キャッチコピー
+         ======================================================== -->
 
     <p
       id="modal-catchcopy"
-      style="
-        display:block !important;
-        visibility:visible !important;
-        opacity:1 !important;
-      "
     ></p>
 
 
-    <!-- 装飾 -->
+    <!-- ========================================================
+         装飾
+         ======================================================== -->
 
     <div class="modal-divider"></div>
 
 
-    <!-- 開催場所 -->
+    <!-- ========================================================
+         開催場所
+         ======================================================== -->
 
     <p id="modal-place"></p>
 
 
-    <!-- フロアマップボタン -->
+    <!-- ========================================================
+         フロアマップボタン
+         ======================================================== -->
 
     <a
       id="modal-link"
@@ -932,52 +952,85 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
+(function(){
+
+  "use strict";
 
 
   /* ==========================================================
-     要素取得
+     モーダルを開く処理
+     
+     DOMContentLoadedより前でも後でも使えるように、
+     関数そのものを最初からwindowへ公開する。
      ========================================================== */
 
-  const modal =
-    document.getElementById("modal");
+  function openFestivalModal(id){
+
+    id = String(id || "")
+      .trim()
+      .toLowerCase();
 
 
-  const modalBox =
-    document.querySelector(".modal-box");
+    if(!id){
+
+      console.warn(
+        "モーダルIDが指定されていません。"
+      );
+
+      return;
+
+    }
 
 
-  const modalClose =
-    document.getElementById("modal-close");
+    const modal =
+      document.getElementById("modal");
 
 
-  const modalImg =
-    document.getElementById("modal-img");
+    const modalBox =
+      document.querySelector(".modal-box");
 
 
-  const modalCatchcopy =
-    document.getElementById("modal-catchcopy");
+    const modalImg =
+      document.getElementById("modal-img");
 
 
-  const modalPlace =
-    document.getElementById("modal-place");
+    const modalCatchcopy =
+      document.getElementById(
+        "modal-catchcopy"
+      );
 
 
-  const modalLink =
-    document.getElementById("modal-link");
+    const modalPlace =
+      document.getElementById(
+        "modal-place"
+      );
 
 
+    const modalLink =
+      document.getElementById(
+        "modal-link"
+      );
 
-  /* ==========================================================
-     モーダルを開く
-     ========================================================== */
-
-  function openModal(id){
 
     const data =
       document.getElementById(
         "modal-data-" + id
       );
+
+
+    /* ========================================================
+       必要な要素が存在するか確認
+       ======================================================== */
+
+    if(!modal){
+
+      console.warn(
+        "#modal が見つかりません。"
+      );
+
+      return;
+
+    }
 
 
     if(!data){
@@ -996,85 +1049,112 @@ document.addEventListener("DOMContentLoaded", function(){
        画像
        ======================================================== */
 
-    modalImg.src =
-      data.dataset.img || "";
+    if(modalImg){
+
+      modalImg.src =
+        data.dataset.img || "";
 
 
-    modalImg.alt =
-      data.dataset.title ||
-      "企画画像";
+      /*
+        タイトル自体は表示しない。
+        画像のaltにのみ使用。
+      */
 
+      modalImg.alt =
+        data.dataset.title ||
+        "企画画像";
+
+    }
 
 
     /* ========================================================
        キャッチコピー
        ======================================================== */
 
-    const catchcopy =
-      data.dataset.catchcopy || "";
+    if(modalCatchcopy){
+
+      const catchcopy =
+        data.dataset.catchcopy || "";
 
 
-    modalCatchcopy.textContent =
-      catchcopy;
+      modalCatchcopy.textContent =
+        catchcopy;
 
 
-    /*
-      キャッチコピーを確実に表示
-    */
+      /*
+        外部CSSなどによって
+        非表示にならないようにする。
+      */
 
-    modalCatchcopy.style.setProperty(
-      "display",
-      "block",
-      "important"
-    );
+      modalCatchcopy.style.setProperty(
+        "display",
+        "block",
+        "important"
+      );
 
-    modalCatchcopy.style.setProperty(
-      "visibility",
-      "visible",
-      "important"
-    );
 
-    modalCatchcopy.style.setProperty(
-      "opacity",
-      "1",
-      "important"
-    );
+      modalCatchcopy.style.setProperty(
+        "visibility",
+        "visible",
+        "important"
+      );
 
+
+      modalCatchcopy.style.setProperty(
+        "opacity",
+        "1",
+        "important"
+      );
+
+    }
 
 
     /* ========================================================
        開催場所
        ======================================================== */
 
-    modalPlace.textContent =
-      data.dataset.place || "";
+    if(modalPlace){
 
+      modalPlace.textContent =
+        data.dataset.place || "";
+
+    }
 
 
     /* ========================================================
        フロアマップリンク
        ======================================================== */
 
-    modalLink.href =
-      data.dataset.link ||
-      "map.html";
+    if(modalLink){
 
+      modalLink.href =
+        data.dataset.link ||
+        "map.html";
+
+    }
 
 
     /* ========================================================
        モーダル表示
        ======================================================== */
 
-    modal.style.display = "flex";
+    modal.style.display =
+      "flex";
 
 
-    /* 背景スクロール停止 */
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
 
     document.body.style.overflow =
       "hidden";
 
 
-    /* モーダルを先頭へ */
+    /* ========================================================
+       モーダルを先頭へ
+       ======================================================== */
 
     if(modalBox){
 
@@ -1087,13 +1167,46 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
   /* ==========================================================
+     グローバルへ公開
+
+     これにより、
+
+     onclick="openFestivalModal('1a')"
+
+     が確実に動作する。
+     ========================================================== */
+
+  window.openFestivalModal =
+    openFestivalModal;
+
+
+
+  /* ==========================================================
      モーダルを閉じる
      ========================================================== */
 
-  function closeModal(){
+  function closeFestivalModal(){
+
+    const modal =
+      document.getElementById("modal");
+
+
+    if(!modal){
+
+      return;
+
+    }
+
 
     modal.style.display =
       "none";
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
 
     document.body.style.overflow =
       "";
@@ -1101,38 +1214,260 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
 
+  /* グローバルへ公開 */
 
-  /* ==========================================================
-     ×ボタン
-     ========================================================== */
-
-  modalClose.addEventListener(
-    "click",
-    function(){
-
-      closeModal();
-
-    }
-  );
+  window.closeFestivalModal =
+    closeFestivalModal;
 
 
 
   /* ==========================================================
-     背景クリック
+     初期化
      ========================================================== */
 
-  modal.addEventListener(
-    "click",
-    function(event){
+  function initializeModal(){
 
-      if(event.target === modal){
+    const modal =
+      document.getElementById("modal");
 
-        closeModal();
 
-      }
+    const modalClose =
+      document.getElementById(
+        "modal-close"
+      );
+
+
+    if(!modal){
+
+      /*
+        HTMLが後から挿入される場合でも
+        openFestivalModal自体はすでに使用可能。
+      */
+
+      return;
 
     }
-  );
+
+
+    /* ========================================================
+       閉じるボタン
+       ======================================================== */
+
+    if(
+      modalClose &&
+      !modalClose.dataset.modalInitialized
+    ){
+
+      modalClose.dataset.modalInitialized =
+        "true";
+
+
+      modalClose.addEventListener(
+        "click",
+        function(event){
+
+          event.preventDefault();
+
+          event.stopPropagation();
+
+          closeFestivalModal();
+
+        }
+      );
+
+    }
+
+
+    /* ========================================================
+       背景クリック
+       ======================================================== */
+
+    if(
+      !modal.dataset.modalInitialized
+    ){
+
+      modal.dataset.modalInitialized =
+        "true";
+
+
+      modal.addEventListener(
+        "click",
+        function(event){
+
+          if(
+            event.target === modal
+          ){
+
+            closeFestivalModal();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* ========================================================
+       URLパラメータ
+       
+       event.html?modal=1a
+       ======================================================== */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const modalId =
+      params.get("modal");
+
+
+    if(modalId){
+
+      openFestivalModal(
+        modalId
+      );
+
+    }
+
+  }
+
+
+
+  /* ==========================================================
+     企画カードクリック対応
+     ========================================================== */
+
+  function initializeCardClick(){
+
+    /*
+      同じイベントリスナーを
+      複数回登録しない。
+    */
+
+    if(
+      document.documentElement.dataset
+        .festivalModalCardInitialized === "true"
+    ){
+
+      return;
+
+    }
+
+
+    document.documentElement.dataset
+      .festivalModalCardInitialized =
+        "true";
+
+
+    document.addEventListener(
+      "click",
+      function(event){
+
+        /*
+          モーダル内部をクリックした場合は
+          カードクリック処理をしない。
+        */
+
+        if(
+          event.target.closest(
+            "#modal"
+          )
+        ){
+
+          return;
+
+        }
+
+
+        /*
+          以下のいずれかを持つ要素を探す。
+
+          data-modal
+          data-modal-id
+          data-event-id
+          data-event
+          */
+
+        const target =
+          event.target.closest(
+            "[data-modal]," +
+            "[data-modal-id]," +
+            "[data-event-id]," +
+            "[data-event]"
+          );
+
+
+        if(target){
+
+          const id =
+            target.dataset.modal ||
+            target.dataset.modalId ||
+            target.dataset.eventId ||
+            target.dataset.event;
+
+
+          if(id){
+
+            event.preventDefault();
+
+            openFestivalModal(id);
+
+            return;
+
+          }
+
+        }
+
+
+        /*
+          onclick属性に
+          openFestivalModal('1a')
+          が設定されているカードにも対応。
+
+          既存のカードHTMLを
+          書き換える必要がないようにする。
+        */
+
+        const clickable =
+          event.target.closest(
+            "[onclick]"
+          );
+
+
+        if(clickable){
+
+          const onclick =
+            clickable.getAttribute(
+              "onclick"
+            ) || "";
+
+
+          const match =
+            onclick.match(
+              /openFestivalModal\s*\(\s*['"]([^'"]+)['"]\s*\)/
+            );
+
+
+          if(match){
+
+            event.preventDefault();
+
+            openFestivalModal(
+              match[1]
+            );
+
+          }
+
+        }
+
+      },
+      true
+    );
+
+  }
 
 
 
@@ -1140,67 +1475,94 @@ document.addEventListener("DOMContentLoaded", function(){
      ESCキー
      ========================================================== */
 
-  document.addEventListener(
-    "keydown",
-    function(event){
+  function initializeKeyboard(){
 
-      if(
-        event.key === "Escape" &&
-        modal.style.display === "flex"
-      ){
+    if(
+      document.documentElement.dataset
+        .festivalModalKeyboardInitialized === "true"
+    ){
 
-        closeModal();
-
-      }
+      return;
 
     }
-  );
 
 
+    document.documentElement.dataset
+      .festivalModalKeyboardInitialized =
+        "true";
 
-  /* ==========================================================
-     URLパラメータ
 
-     event.html?modal=1a
-     ========================================================== */
+    document.addEventListener(
+      "keydown",
+      function(event){
 
-  const params =
-    new URLSearchParams(
-      window.location.search
+        if(
+          event.key === "Escape"
+        ){
+
+          const modal =
+            document.getElementById(
+              "modal"
+            );
+
+
+          if(
+            modal &&
+            modal.style.display === "flex"
+          ){
+
+            closeFestivalModal();
+
+          }
+
+        }
+
+      }
     );
-
-
-  const modalId =
-    params.get("modal");
-
-
-
-  /* ==========================================================
-     URLからモーダルを自動表示
-     ========================================================== */
-
-  if(modalId){
-
-    openModal(modalId);
 
   }
 
 
 
   /* ==========================================================
-     外部から呼び出し可能
-
-     openFestivalModal("1a");
+     初期化実行
      ========================================================== */
 
-  window.openFestivalModal =
-    openModal;
+  function init(){
+
+    initializeModal();
+
+    initializeCardClick();
+
+    initializeKeyboard();
+
+  }
 
 
-  window.closeFestivalModal =
-    closeModal;
+  /*
+    DOMContentLoaded前なら待つ。
+    すでに読み込み済みなら即実行。
+  */
+
+  if(
+    document.readyState === "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    init();
+
+  }
 
 
-});
+})();
 
 </script>
