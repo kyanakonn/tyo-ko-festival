@@ -9,32 +9,29 @@
   2a / 2b / 2c / 2d / 2e / 2f / 2g
   3a / 3b / 3c / 3d / 3e / 3f / 3g
 
+  対応方法
 
-  カード側の書き方は以下のどれでも対応
+  ① data-modal="1a"
 
-  ①
-  <div data-modal="1a">
+  ② data-modal-id="1a"
 
-  ②
-  <div data-modal-id="1a">
+  ③ data-event-id="1a"
 
-  ③
-  <div data-event-id="1a">
+  ④ data-event="1a"
 
-  ④
-  <div onclick="openFestivalModal('1a')">
+  ⑤ onclick="openFestivalModal('1a')"
 
-  ⑤
-  <div class="event-card">
-    <h3>1年A組</h3>
-  </div>
+  ⑥ href="event.html?modal=1a"
 
-  ⑤の場合はカード内の
-  「1年A組」「1年B組」などから自動判定。
+  ⑦ カード内の
+     「1年A組」
+     「1年B組」
+     「2年A組」
+     「3年G組」
+     「1A」
+     などから自動判定
 
-
-  URLからも開ける
-
+  URL
   event.html?modal=1a
 
 -->
@@ -66,7 +63,7 @@
 
   align-items:center;
 
-  z-index:9999;
+  z-index:999999;
 
   backdrop-filter:blur(3px);
 
@@ -308,11 +305,11 @@
 
   color:#2a9d8f;
 
-  font-size:16px;
+  font-size:17px;
 
   font-weight:900;
 
-  line-height:1.4;
+  line-height:1.5;
 
 }
 
@@ -333,13 +330,13 @@
 
   width:calc(100% - 16px);
 
-  min-height:42px;
+  min-height:44px;
 
   box-sizing:border-box;
 
-  margin:11px 8px 0;
+  margin:13px 8px 0;
 
-  padding:8px 16px;
+  padding:9px 16px;
 
   background:#2a9d8f;
 
@@ -351,7 +348,7 @@
 
   border-radius:9px;
 
-  font-size:14px;
+  font-size:15px;
 
   font-weight:900;
 
@@ -398,7 +395,7 @@
 
 .map-arrow{
 
-  font-size:17px;
+  font-size:18px;
 
   line-height:1;
 
@@ -549,20 +546,20 @@
 
     font-size:15px;
 
-    line-height:1.35;
+    line-height:1.4;
 
   }
 
 
   .map-btn{
 
-    min-height:41px;
+    min-height:42px;
 
-    margin-top:10px;
+    margin-top:11px;
 
     padding:8px 14px;
 
-    font-size:13px;
+    font-size:14px;
 
     box-shadow:
       3px 3px 0 #202020;
@@ -635,11 +632,11 @@
 
   .map-btn{
 
-    min-height:39px;
+    min-height:40px;
 
     margin-top:9px;
 
-    font-size:12px;
+    font-size:13px;
 
   }
 
@@ -782,11 +779,9 @@
   <div
     class="modal-data"
     id="modal-data-1a"
-
     data-title="1年A組　タイトル"
     data-catchcopy="テスト"
     data-place="1棟　4階 1A教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -795,11 +790,9 @@
   <div
     class="modal-data"
     id="modal-data-1b"
-
     data-title="1年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1B教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -808,11 +801,9 @@
   <div
     class="modal-data"
     id="modal-data-1c"
-
     data-title="1年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1C教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -821,11 +812,9 @@
   <div
     class="modal-data"
     id="modal-data-1d"
-
     data-title="1年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1D教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -834,11 +823,9 @@
   <div
     class="modal-data"
     id="modal-data-1e"
-
     data-title="1年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1E教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -847,11 +834,9 @@
   <div
     class="modal-data"
     id="modal-data-1f"
-
     data-title="1年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1F教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -860,11 +845,9 @@
   <div
     class="modal-data"
     id="modal-data-1g"
-
     data-title="1年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1G教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -879,11 +862,9 @@
   <div
     class="modal-data"
     id="modal-data-2a"
-
     data-title="2年A組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2A教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -892,11 +873,9 @@
   <div
     class="modal-data"
     id="modal-data-2b"
-
     data-title="2年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2B教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -905,11 +884,9 @@
   <div
     class="modal-data"
     id="modal-data-2c"
-
     data-title="2年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2C教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -918,11 +895,9 @@
   <div
     class="modal-data"
     id="modal-data-2d"
-
     data-title="2年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2D教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -931,11 +906,9 @@
   <div
     class="modal-data"
     id="modal-data-2e"
-
     data-title="2年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2E教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -944,11 +917,9 @@
   <div
     class="modal-data"
     id="modal-data-2f"
-
     data-title="2年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2F教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -957,11 +928,9 @@
   <div
     class="modal-data"
     id="modal-data-2g"
-
     data-title="2年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2G教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -976,11 +945,9 @@
   <div
     class="modal-data"
     id="modal-data-3a"
-
     data-title="3年A組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3A教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -989,11 +956,9 @@
   <div
     class="modal-data"
     id="modal-data-3b"
-
     data-title="3年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3B教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1002,11 +967,9 @@
   <div
     class="modal-data"
     id="modal-data-3c"
-
     data-title="3年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3C教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1015,11 +978,9 @@
   <div
     class="modal-data"
     id="modal-data-3d"
-
     data-title="3年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3D教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1028,11 +989,9 @@
   <div
     class="modal-data"
     id="modal-data-3e"
-
     data-title="3年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3E教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1041,11 +1000,9 @@
   <div
     class="modal-data"
     id="modal-data-3f"
-
     data-title="3年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3F教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1054,11 +1011,9 @@
   <div
     class="modal-data"
     id="modal-data-3g"
-
     data-title="3年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3G教室"
-
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1070,13 +1025,17 @@
 
 <script>
 
+/* ============================================================
+   長高祭2026 共通モーダル JavaScript
+   ============================================================ */
+
 (function(){
 
   "use strict";
 
 
   /* ==========================================================
-     モーダル要素
+     モーダル取得
      ========================================================== */
 
   function getModal(){
@@ -1088,20 +1047,19 @@
 
   function getModalBox(){
 
-    return document.querySelector(
-      ".modal-box"
-    );
+    return document.querySelector(".modal-box");
 
   }
 
 
+
   /* ==========================================================
-     IDを正規化
+     ID正規化
      ========================================================== */
 
   function normalizeId(id){
 
-    if(!id){
+    if(id === null || id === undefined){
 
       return "";
 
@@ -1111,10 +1069,484 @@
     return String(id)
       .trim()
       .toLowerCase()
-      .replace(/^modal-data-/, "")
-      .replace(/^modal-/, "");
+      .replace(/^modal-data[-_]/,"")
+      .replace(/^modal[-_]/,"")
+      .replace(/\s+/g,"");
 
   }
+
+
+
+  /* ==========================================================
+     有効な企画IDか確認
+     ========================================================== */
+
+  function isValidId(id){
+
+    id = normalizeId(id);
+
+
+    if(!/^[123][abcdefg]$/.test(id)){
+
+      return false;
+
+    }
+
+
+    return !!document.getElementById(
+      "modal-data-" + id
+    );
+
+  }
+
+
+
+  /* ==========================================================
+     文字から企画IDを判定
+     ========================================================== */
+
+  function detectIdFromText(text){
+
+    if(!text){
+
+      return "";
+
+    }
+
+
+    const value =
+      String(text)
+        .replace(/\u3000/g," ")
+        .replace(/\s+/g,"")
+        .toLowerCase();
+
+
+    let match;
+
+
+
+    /* --------------------------------------------------------
+       1年A組
+       1年A
+       1年 a組
+       -------------------------------------------------------- */
+
+    match =
+      value.match(
+        /([123])年([abcdefg])(?:組)?/
+      );
+
+
+    if(match){
+
+      const id =
+        match[1] + match[2];
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+
+    /* --------------------------------------------------------
+       1A組
+       1A
+       2B組
+       3G
+       -------------------------------------------------------- */
+
+    match =
+      value.match(
+        /(?:^|[^0-9])([123])([abcdefg])(?:組)?(?:$|[^a-z0-9])/
+      );
+
+
+    if(match){
+
+      const id =
+        match[1] + match[2];
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+
+    /* --------------------------------------------------------
+       「1-A」「2-B」「3-G」
+       -------------------------------------------------------- */
+
+    match =
+      value.match(
+        /([123])[-_ー－]([abcdefg])/
+      );
+
+
+    if(match){
+
+      const id =
+        match[1] + match[2];
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+
+    return "";
+
+  }
+
+
+
+  /* ==========================================================
+     onclick属性からID取得
+     ========================================================== */
+
+  function getIdFromOnclick(element){
+
+    if(!element){
+
+      return "";
+
+    }
+
+
+    const onclick =
+      element.getAttribute("onclick");
+
+
+    if(!onclick){
+
+      return "";
+
+    }
+
+
+    let match =
+      onclick.match(
+        /openFestivalModal\s*\(\s*['"]([^'"]+)['"]\s*\)/i
+      );
+
+
+    if(match){
+
+      const id =
+        normalizeId(match[1]);
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+    match =
+      onclick.match(
+        /openModal\s*\(\s*['"]([^'"]+)['"]\s*\)/i
+      );
+
+
+    if(match){
+
+      const id =
+        normalizeId(match[1]);
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+
+  /* ==========================================================
+     要素からIDを取得
+     ========================================================== */
+
+  function getElementId(element){
+
+    if(!element){
+
+      return "";
+
+    }
+
+
+
+    /* data-modal */
+
+    if(element.dataset){
+
+      if(element.dataset.modal){
+
+        const id =
+          normalizeId(
+            element.dataset.modal
+          );
+
+        if(isValidId(id)){
+
+          return id;
+
+        }
+
+      }
+
+
+      /* data-modal-id */
+
+      if(element.dataset.modalId){
+
+        const id =
+          normalizeId(
+            element.dataset.modalId
+          );
+
+        if(isValidId(id)){
+
+          return id;
+
+        }
+
+      }
+
+
+      /* data-event-id */
+
+      if(element.dataset.eventId){
+
+        const id =
+          normalizeId(
+            element.dataset.eventId
+          );
+
+        if(isValidId(id)){
+
+          return id;
+
+        }
+
+      }
+
+
+      /* data-event */
+
+      if(element.dataset.event){
+
+        const id =
+          normalizeId(
+            element.dataset.event
+          );
+
+        if(isValidId(id)){
+
+          return id;
+
+        }
+
+      }
+
+    }
+
+
+
+    /* ID属性 */
+
+    if(element.id){
+
+      const id =
+        normalizeId(
+          element.id
+        );
+
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+
+    /* onclick */
+
+    const onclickId =
+      getIdFromOnclick(
+        element
+      );
+
+
+    if(onclickId){
+
+      return onclickId;
+
+    }
+
+
+
+    /* href */
+
+    const href =
+      element.getAttribute &&
+      element.getAttribute("href");
+
+
+    if(href){
+
+      try{
+
+        const url =
+          new URL(
+            href,
+            window.location.href
+          );
+
+
+        const modalId =
+          url.searchParams.get("modal");
+
+
+        if(modalId){
+
+          const id =
+            normalizeId(modalId);
+
+
+          if(isValidId(id)){
+
+            return id;
+
+          }
+
+        }
+
+      }catch(error){
+
+        /* 無効なURLは無視 */
+
+      }
+
+    }
+
+
+
+    /* 要素内テキスト */
+
+    const text =
+      element.textContent || "";
+
+
+    const textId =
+      detectIdFromText(text);
+
+
+    if(textId){
+
+      return textId;
+
+    }
+
+
+
+    return "";
+
+  }
+
+
+
+  /* ==========================================================
+     クリックされた場所から企画IDを徹底的に探索
+     ========================================================== */
+
+  function findFestivalId(target){
+
+    if(!target){
+
+      return "";
+
+    }
+
+
+
+    let current =
+      target;
+
+
+
+    /*
+      最大20階層まで上方向に探索。
+    */
+
+    for(
+      let i = 0;
+      i < 20 && current;
+      i++
+    ){
+
+      /*
+        モーダル内部は除外
+      */
+
+      if(
+        current.id === "modal" ||
+        (
+          current.closest &&
+          current.closest("#modal")
+        )
+      ){
+
+        return "";
+
+      }
+
+
+
+      const id =
+        getElementId(current);
+
+
+      if(id){
+
+        return id;
+
+      }
+
+
+      current =
+        current.parentElement;
+
+    }
+
+
+
+    return "";
+
+  }
+
 
 
   /* ==========================================================
@@ -1123,14 +1555,11 @@
 
   function openModal(id){
 
-    id = normalizeId(id);
+    id =
+      normalizeId(id);
 
 
     if(!id){
-
-      console.warn(
-        "モーダルIDが空です。"
-      );
 
       return false;
 
@@ -1143,22 +1572,25 @@
       );
 
 
-    if(!data){
+    const modal =
+      getModal();
 
-      console.warn(
-        "モーダルデータが見つかりません:",
-        id
+
+    if(!data || !modal){
+
+      console.error(
+        "モーダルを開けません:",
+        {
+          id:id,
+          data:!!data,
+          modal:!!modal
+        }
       );
 
       return false;
 
     }
 
-
-    const modal =
-      document.getElementById(
-        "modal"
-      );
 
 
     const modalImg =
@@ -1185,15 +1617,40 @@
       );
 
 
-    if(!modal){
 
-      console.error(
-        "#modal が見つかりません。"
-      );
+    /* ========================================================
+       キャッチコピー
+       ======================================================== */
 
-      return false;
+    if(modalCatchcopy){
+
+      modalCatchcopy.textContent =
+        data.dataset.catchcopy || "準備中";
+
+      modalCatchcopy.style.display =
+        "block";
+
+      modalCatchcopy.style.visibility =
+        "visible";
+
+      modalCatchcopy.style.opacity =
+        "1";
 
     }
+
+
+
+    /* ========================================================
+       開催場所
+       ======================================================== */
+
+    if(modalPlace){
+
+      modalPlace.textContent =
+        data.dataset.place || "";
+
+    }
+
 
 
     /* ========================================================
@@ -1206,18 +1663,9 @@
         data.dataset.img || "";
 
 
-      modalImg.src =
-        image;
+      modalImg.style.visibility =
+        "visible";
 
-
-      modalImg.alt =
-        "企画画像";
-
-
-      /*
-        画像が存在しない場合でも
-        壊れた画像表示を極力防ぐ。
-      */
 
       modalImg.onerror =
         function(){
@@ -1236,56 +1684,17 @@
 
         };
 
-    }
+
+      modalImg.src =
+        image;
 
 
-    /* ========================================================
-       キャッチコピー
-       ======================================================== */
-
-    if(modalCatchcopy){
-
-      const catchcopy =
-        data.dataset.catchcopy || "";
-
-
-      modalCatchcopy.textContent =
-        catchcopy;
-
-
-      modalCatchcopy.style.setProperty(
-        "display",
-        "block",
-        "important"
-      );
-
-
-      modalCatchcopy.style.setProperty(
-        "visibility",
-        "visible",
-        "important"
-      );
-
-
-      modalCatchcopy.style.setProperty(
-        "opacity",
-        "1",
-        "important"
-      );
+      modalImg.alt =
+        data.dataset.catchcopy ||
+        "企画画像";
 
     }
 
-
-    /* ========================================================
-       開催場所
-       ======================================================== */
-
-    if(modalPlace){
-
-      modalPlace.textContent =
-        data.dataset.place || "";
-
-    }
 
 
     /* ========================================================
@@ -1301,6 +1710,7 @@
     }
 
 
+
     /* ========================================================
        モーダル表示
        ======================================================== */
@@ -1308,28 +1718,31 @@
     modal.style.display =
       "flex";
 
-
     modal.setAttribute(
       "aria-hidden",
       "false"
     );
 
+    document.body.classList.add(
+      "festival-modal-open"
+    );
 
     document.body.style.overflow =
       "hidden";
 
 
+
     /* ========================================================
-       モーダルを先頭へ
+       スクロール位置
        ======================================================== */
 
-    const modalBox =
+    const box =
       getModalBox();
 
 
-    if(modalBox){
+    if(box){
 
-      modalBox.scrollTop = 0;
+      box.scrollTop = 0;
 
     }
 
@@ -1339,14 +1752,9 @@
   }
 
 
+
   /* ==========================================================
      グローバル公開
-
-     これがあることでカード側から
-
-     onclick="openFestivalModal('1a')"
-
-     と呼び出せる。
      ========================================================== */
 
   window.openFestivalModal =
@@ -1374,10 +1782,14 @@
     modal.style.display =
       "none";
 
-
     modal.setAttribute(
       "aria-hidden",
       "true"
+    );
+
+
+    document.body.classList.remove(
+      "festival-modal-open"
     );
 
 
@@ -1387,480 +1799,112 @@
   }
 
 
+
   window.closeFestivalModal =
     closeModal;
 
 
 
   /* ==========================================================
-     文字から企画IDを判定
+     ★カードクリック
+     ==========================================================
+
+     window + capture
+
+     できるだけ早い段階でクリックを取得する。
+
+     他のカード用JavaScriptがあっても、
+     モーダル対象なら先に処理する。
      ========================================================== */
 
-  function detectIdFromText(text){
+  function handleCardClick(event){
 
-    if(!text){
+    const target =
+      event.target;
 
-      return "";
-
-    }
-
-
-    const normalized =
-      String(text)
-        .replace(/\s+/g,"")
-        .toLowerCase();
-
-
-    /*
-      1年A組
-      1年A
-      1A組
-      1a
-    */
-
-    let match =
-      normalized.match(
-        /([123])年?([abcdefg])組?/
-      );
-
-
-    if(match){
-
-      return (
-        match[1] +
-        match[2]
-      );
-
-    }
-
-
-    /*
-      1a のような表記
-    */
-
-    match =
-      normalized.match(
-        /\b([123])([abcdefg])\b/
-      );
-
-
-    if(match){
-
-      return (
-        match[1] +
-        match[2]
-      );
-
-    }
-
-
-    return "";
-
-  }
-
-
-
-  /* ==========================================================
-     カードから企画IDを取得
-     ========================================================== */
-
-  function getCardId(card){
-
-    if(!card){
-
-      return "";
-
-    }
-
-
-    /* ========================================================
-       ① data-modal
-       ======================================================== */
-
-    if(card.dataset.modal){
-
-      return normalizeId(
-        card.dataset.modal
-      );
-
-    }
-
-
-    /* ========================================================
-       ② data-modal-id
-       ======================================================== */
-
-    if(card.dataset.modalId){
-
-      return normalizeId(
-        card.dataset.modalId
-      );
-
-    }
-
-
-    /* ========================================================
-       ③ data-event-id
-       ======================================================== */
-
-    if(card.dataset.eventId){
-
-      return normalizeId(
-        card.dataset.eventId
-      );
-
-    }
-
-
-    /* ========================================================
-       ④ data-event
-       ======================================================== */
-
-    if(card.dataset.event){
-
-      return normalizeId(
-        card.dataset.event
-      );
-
-    }
-
-
-    /* ========================================================
-       ⑤ id属性
-       ======================================================== */
-
-    if(card.id){
-
-      const id =
-        normalizeId(
-          card.id
-        );
-
-
-      if(
-        document.getElementById(
-          "modal-data-" + id
-        )
-      ){
-
-        return id;
-
-      }
-
-    }
-
-
-    /* ========================================================
-       ⑥ onclick属性
-       ======================================================== */
-
-    const onclick =
-      card.getAttribute(
-        "onclick"
-      );
-
-
-    if(onclick){
-
-      const match =
-        onclick.match(
-          /openFestivalModal\s*\(\s*['"]([^'"]+)['"]\s*\)/
-        );
-
-
-      if(match){
-
-        return normalizeId(
-          match[1]
-        );
-
-      }
-
-
-      const match2 =
-        onclick.match(
-          /openModal\s*\(\s*['"]([^'"]+)['"]\s*\)/
-        );
-
-
-      if(match2){
-
-        return normalizeId(
-          match2[1]
-        );
-
-      }
-
-    }
-
-
-    /* ========================================================
-       ⑦ hrefの ?modal=1a
-       ======================================================== */
-
-    const link =
-      card.getAttribute(
-        "href"
-      );
-
-
-    if(link){
-
-      try{
-
-        const url =
-          new URL(
-            link,
-            window.location.href
-          );
-
-
-        const modalParam =
-          url.searchParams.get(
-            "modal"
-          );
-
-
-        if(modalParam){
-
-          return normalizeId(
-            modalParam
-          );
-
-        }
-
-      }catch(error){
-
-        /* 無効なURLなら無視 */
-
-      }
-
-    }
-
-
-    /* ========================================================
-       ⑧ カード内のテキストから判定
-       ======================================================== */
-
-    const text =
-      card.textContent || "";
-
-
-    const textId =
-      detectIdFromText(
-        text
-      );
-
-
-    if(textId){
-
-      if(
-        document.getElementById(
-          "modal-data-" + textId
-        )
-      ){
-
-        return textId;
-
-      }
-
-    }
-
-
-    return "";
-
-  }
-
-
-
-  /* ==========================================================
-     イベントカードを自動認識
-     ========================================================== */
-
-  function findCardFromTarget(target){
 
     if(!target){
 
-      return null;
+      return;
 
     }
+
+
+
+    /* --------------------------------------------------------
+       モーダル内部なら何もしない
+       -------------------------------------------------------- */
+
+    if(
+      target.closest &&
+      target.closest("#modal")
+    ){
+
+      return;
+
+    }
+
+
+
+    /* --------------------------------------------------------
+       企画IDを探索
+       -------------------------------------------------------- */
+
+    const id =
+      findFestivalId(target);
+
+
+    if(!id){
+
+      return;
+
+    }
+
+
+
+    /* --------------------------------------------------------
+       モーダルを開く
+       -------------------------------------------------------- */
+
+    const opened =
+      openModal(id);
+
+
+    if(!opened){
+
+      return;
+
+    }
+
 
 
     /*
-      よくあるイベントカードのクラスを
-      順番に探す。
+      カードに<a>があっても
+      ページ遷移させない。
     */
 
-    const selectors = [
+    event.preventDefault();
 
-      "[data-modal]",
-
-      "[data-modal-id]",
-
-      "[data-event-id]",
-
-      "[data-event]",
-
-      ".event-card",
-
-      ".event-item",
-
-      ".event-list-item",
-
-      ".event-content",
-
-      ".企画-card",
-
-      ".card"
-
-    ];
-
-
-    for(
-      let i = 0;
-      i < selectors.length;
-      i++
-    ){
-
-      const card =
-        target.closest(
-          selectors[i]
-        );
-
-
-      if(card){
-
-        const id =
-          getCardId(card);
-
-
-        if(id){
-
-          return {
-            card:card,
-            id:id
-          };
-
-        }
-
-      }
-
-    }
-
-
-    /*
-      最後に親要素を最大10階層まで調査。
-
-      クラス名が独自の場合でも
-      「1年A組」などの文字から判定する。
-    */
-
-    let current =
-      target;
-
-
-    for(
-      let i = 0;
-      i < 10 && current;
-      i++
-    ){
-
-      const id =
-        getCardId(current);
-
-
-      if(id){
-
-        return {
-          card:current,
-          id:id
-        };
-
-      }
-
-
-      current =
-        current.parentElement;
-
-    }
-
-
-    return null;
+    event.stopPropagation();
 
   }
 
 
 
   /* ==========================================================
-     カードクリック
-
-     CAPTUREフェーズで取得することで、
-     他のクリック処理より先にモーダルを開く。
+     ★クリックをwindowのcaptureで取得
      ========================================================== */
 
-  function initializeCardClick(){
-
-    document.addEventListener(
-      "click",
-      function(event){
-
-        const modal =
-          getModal();
-
-
-        /*
-          モーダル内部のクリックは
-          カードクリックとして扱わない。
-        */
-
-        if(
-          event.target.closest(
-            "#modal"
-          )
-        ){
-
-          return;
-
-        }
-
-
-        const result =
-          findCardFromTarget(
-            event.target
-          );
-
-
-        if(!result){
-
-          return;
-
-        }
-
-
-        /*
-          モーダルが開くべきカードなら
-          通常のリンク遷移を止める。
-        */
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-
-        openModal(
-          result.id
-        );
-
-      },
-      true
-    );
-
-  }
+  window.addEventListener(
+    "click",
+    handleCardClick,
+    true
+  );
 
 
 
   /* ==========================================================
-     閉じるボタン
+     ×ボタン
      ========================================================== */
 
   function initializeCloseButton(){
@@ -1971,9 +2015,7 @@
 
 
   /* ==========================================================
-     URLパラメータ
-     
-     event.html?modal=1a
+     URLからモーダル表示
      ========================================================== */
 
   function initializeUrlModal(){
@@ -1985,16 +2027,43 @@
 
 
     const modalId =
-      params.get(
-        "modal"
-      );
+      params.get("modal");
 
 
     if(modalId){
 
-      openModal(
-        modalId
-      );
+      /*
+        DOMが完成していない場合にも
+        少し待ってから実行。
+      */
+
+      const execute =
+        function(){
+
+          openModal(
+            modalId
+          );
+
+        };
+
+
+      if(
+        document.getElementById(
+          "modal-data-" +
+          normalizeId(modalId)
+        )
+      ){
+
+        execute();
+
+      }else{
+
+        setTimeout(
+          execute,
+          50
+        );
+
+      }
 
     }
 
@@ -2007,8 +2076,6 @@
      ========================================================== */
 
   function initialize(){
-
-    initializeCardClick();
 
     initializeCloseButton();
 
@@ -2023,12 +2090,11 @@
 
 
   /* ==========================================================
-     DOM読み込み後に初期化
+     DOM読み込み
      ========================================================== */
 
   if(
-    document.readyState ===
-    "loading"
+    document.readyState === "loading"
   ){
 
     document.addEventListener(
@@ -2044,6 +2110,7 @@
     initialize();
 
   }
+
 
 
 })();
