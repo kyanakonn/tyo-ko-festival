@@ -186,44 +186,23 @@
 
 
 /* ============================================================
-   タイトル
-   ============================================================ */
-
-#modal-title{
-  margin:0;
-
-  padding:0 8px;
-
-  color:#202020;
-
-  font-size:clamp(22px,5.2vw,27px);
-
-  font-weight:900;
-
-  line-height:1.25;
-
-  letter-spacing:0.02em;
-}
-
-
-/* ============================================================
    キャッチコピー
    ============================================================ */
 
 #modal-catchcopy{
   display:block !important;
 
-  visibility:visible !important;
+  width:100%;
 
-  opacity:1 !important;
+  box-sizing:border-box;
 
-  margin:7px 8px 0;
+  margin:8px 0 0;
 
-  padding:0;
+  padding:0 12px;
 
   color:#202020;
 
-  font-size:clamp(17px,4.2vw,21px);
+  font-size:clamp(20px,5vw,24px);
 
   font-weight:900;
 
@@ -231,7 +210,11 @@
 
   letter-spacing:0.02em;
 
-  min-height:1.4em;
+  text-align:center;
+
+  visibility:visible !important;
+
+  opacity:1 !important;
 }
 
 
@@ -246,7 +229,7 @@
 
   height:4px;
 
-  margin:8px auto 8px;
+  margin:9px auto 9px;
 
   background:#2a9d8f;
 
@@ -268,21 +251,6 @@
   font-weight:900;
 
   line-height:1.4;
-}
-
-
-/* ============================================================
-   説明
-   ============================================================ */
-
-#modal-desc{
-  margin:5px 8px 0;
-
-  color:#555555;
-
-  font-size:14px;
-
-  line-height:1.55;
 }
 
 
@@ -449,27 +417,22 @@
   }
 
 
-  #modal-title{
-    font-size:21px;
-
-    line-height:1.25;
-  }
-
-
   #modal-catchcopy{
     display:block !important;
+
+    width:100%;
+
+    margin-top:7px;
+
+    padding:0 10px;
+
+    font-size:20px;
+
+    line-height:1.4;
 
     visibility:visible !important;
 
     opacity:1 !important;
-
-    font-size:17px;
-
-    margin-top:6px;
-
-    line-height:1.35;
-
-    min-height:1.35em;
   }
 
 
@@ -478,24 +441,15 @@
 
     height:4px;
 
-    margin-top:7px;
-    margin-bottom:7px;
+    margin-top:8px;
+    margin-bottom:8px;
   }
 
 
   #modal-place{
-    font-size:14px;
+    font-size:15px;
 
     line-height:1.35;
-  }
-
-
-  #modal-desc{
-    font-size:13px;
-
-    margin-top:5px;
-
-    line-height:1.5;
   }
 
 
@@ -535,43 +489,33 @@
   }
 
 
-  #modal-title{
-    font-size:19px;
-
-    line-height:1.2;
-  }
-
-
   #modal-catchcopy{
     display:block !important;
+
+    width:100%;
+
+    margin-top:6px;
+
+    padding:0 8px;
+
+    font-size:18px;
+
+    line-height:1.35;
 
     visibility:visible !important;
 
     opacity:1 !important;
-
-    font-size:16px;
-
-    line-height:1.3;
-
-    min-height:1.3em;
   }
 
 
   .modal-divider{
-    margin-top:6px;
-    margin-bottom:6px;
+    margin-top:7px;
+    margin-bottom:7px;
   }
 
 
   #modal-place{
-    font-size:13px;
-  }
-
-
-  #modal-desc{
-    font-size:12px;
-
-    line-height:1.45;
+    font-size:14px;
   }
 
 
@@ -617,7 +561,7 @@
     class="modal-box"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="modal-title"
+    aria-labelledby="modal-catchcopy"
   >
 
 
@@ -641,14 +585,16 @@
     >
 
 
-    <!-- 「◯年◯組　タイトル」 -->
-
-    <h2 id="modal-title"></h2>
-
-
     <!-- キャッチコピー -->
 
-    <p id="modal-catchcopy"></p>
+    <p
+      id="modal-catchcopy"
+      style="
+        display:block !important;
+        visibility:visible !important;
+        opacity:1 !important;
+      "
+    ></p>
 
 
     <!-- 装飾 -->
@@ -661,14 +607,7 @@
     <p id="modal-place"></p>
 
 
-    <!-- 説明 -->
-
-    <p id="modal-desc"></p>
-
-
-    <!-- ========================================================
-         一番下のフロアマップボタン
-         ======================================================== -->
+    <!-- フロアマップボタン -->
 
     <a
       id="modal-link"
@@ -706,7 +645,6 @@
     data-title="1年A組　タイトル"
     data-catchcopy="テスト"
     data-place="1棟　4階 1A教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -720,7 +658,6 @@
     data-title="1年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1B教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -734,7 +671,6 @@
     data-title="1年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1C教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -748,7 +684,6 @@
     data-title="1年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1D教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -762,7 +697,6 @@
     data-title="1年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1E教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -776,7 +710,6 @@
     data-title="1年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1F教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -790,7 +723,6 @@
     data-title="1年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　4階 1G教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -810,7 +742,6 @@
     data-title="2年A組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2A教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -824,7 +755,6 @@
     data-title="2年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2B教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -838,7 +768,6 @@
     data-title="2年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2C教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -852,7 +781,6 @@
     data-title="2年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2D教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -866,7 +794,6 @@
     data-title="2年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2E教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -880,7 +807,6 @@
     data-title="2年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2F教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -894,7 +820,6 @@
     data-title="2年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　3階 2G教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -914,7 +839,6 @@
     data-title="3年A組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3A教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -928,7 +852,6 @@
     data-title="3年B組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3B教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -942,7 +865,6 @@
     data-title="3年C組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3C教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -956,7 +878,6 @@
     data-title="3年D組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3D教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -970,7 +891,6 @@
     data-title="3年E組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3E教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -984,7 +904,6 @@
     data-title="3年F組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3F教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -998,7 +917,6 @@
     data-title="3年G組　タイトル"
     data-catchcopy="ここにキャッチコピーが入ります"
     data-place="1棟　2階 3G教室"
-    data-desc="準備中"
     data-img="1a.jpg"
     data-link="map.html"
   ></div>
@@ -1037,20 +955,12 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("modal-img");
 
 
-  const modalTitle =
-    document.getElementById("modal-title");
-
-
   const modalCatchcopy =
     document.getElementById("modal-catchcopy");
 
 
   const modalPlace =
     document.getElementById("modal-place");
-
-
-  const modalDesc =
-    document.getElementById("modal-desc");
 
 
   const modalLink =
@@ -1097,29 +1007,38 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     /* ========================================================
-       タイトル
-       ======================================================== */
-
-    modalTitle.textContent =
-      data.dataset.title || "";
-
-
-
-    /* ========================================================
        キャッチコピー
        ======================================================== */
 
-    modalCatchcopy.textContent =
+    const catchcopy =
       data.dataset.catchcopy || "";
+
+
+    modalCatchcopy.textContent =
+      catchcopy;
 
 
     /*
       キャッチコピーを確実に表示
     */
 
-    modalCatchcopy.style.display = "block";
-    modalCatchcopy.style.visibility = "visible";
-    modalCatchcopy.style.opacity = "1";
+    modalCatchcopy.style.setProperty(
+      "display",
+      "block",
+      "important"
+    );
+
+    modalCatchcopy.style.setProperty(
+      "visibility",
+      "visible",
+      "important"
+    );
+
+    modalCatchcopy.style.setProperty(
+      "opacity",
+      "1",
+      "important"
+    );
 
 
 
@@ -1129,15 +1048,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
     modalPlace.textContent =
       data.dataset.place || "";
-
-
-
-    /* ========================================================
-       説明
-       ======================================================== */
-
-    modalDesc.textContent =
-      data.dataset.desc || "";
 
 
 
