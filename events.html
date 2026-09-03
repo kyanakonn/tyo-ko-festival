@@ -103,10 +103,6 @@ body{
 .grid{
   display:grid;
 
-  /*
-   * PC
-   * 4列
-   */
   grid-template-columns:repeat(4, minmax(0, 1fr));
 
   gap:16px;
@@ -119,7 +115,6 @@ body{
 
 /* ==================================================
    カード
-   ※画像のデザインに合わせたカード
 ================================================== */
 
 .card{
@@ -148,9 +143,6 @@ body{
 
   cursor:pointer;
 
-  /*
-   * 1枚表示時の位置ずれ防止
-   */
   margin-left:0;
   margin-right:0;
 
@@ -197,7 +189,7 @@ body{
 
 
 /* ==================================================
-   「クラス企画」
+   クラス企画
 ================================================== */
 
 .card::before{
@@ -222,7 +214,7 @@ body{
 
 
 /* ==================================================
-   右上「教室」
+   右上 教室
 ================================================== */
 
 .card::after{
@@ -265,7 +257,6 @@ body{
 
 /* ==================================================
    元画像は非表示
-   ※モーダルで使用する画像データはそのまま
 ================================================== */
 
 .card img{
@@ -378,7 +369,6 @@ body{
 
 /* ==================================================
    非表示
-   ※変更なし
 ================================================== */
 
 .hidden{
@@ -401,7 +391,6 @@ body{
 
 /* ==================================================
    スマートフォン
-   ※ここでは2列
 ================================================== */
 
 @media (max-width:700px){
@@ -496,7 +485,6 @@ body{
 
 /* ==================================================
    小さいスマートフォン
-   ※ここから1列表示
 ================================================== */
 
 @media (max-width:480px){
@@ -508,33 +496,20 @@ body{
 
   .grid{
 
-    /*
-     * 画面が小さい場合は
-     * 横1枚にする
-     */
     grid-template-columns:minmax(0, 1fr);
 
     gap:12px;
 
-    /*
-     * グリッド自体も幅を正確に合わせる
-     */
     width:100%;
 
     box-sizing:border-box;
 
-    /*
-     * 1枚だけの場合も中央配置
-     */
     justify-items:center;
 
   }
 
   .card{
 
-    /*
-     * カードをグリッドの中央に配置
-     */
     width:100%;
 
     max-width:none;
@@ -553,9 +528,6 @@ body{
 
   }
 
-  /*
-   * 1枚だけのカードを確実に中央配置
-   */
   .grid .card:only-child{
 
     width:100%;
@@ -731,7 +703,6 @@ body{
 
 /* ==================================================
    フェードイン
-   ※元の機能を維持
 ================================================== */
 
 .card{
@@ -753,7 +724,6 @@ body{
   transform:translateY(0);
 }
 
-
 </style>
 
 </head>
@@ -764,7 +734,6 @@ body{
 
 <!-- ==================================================
      背景図形
-     ※変更なし
 ================================================== -->
 
 <div class="bg-shapes">
@@ -805,29 +774,40 @@ fetch("header.html")
       document.querySelector(".nav");
 
 
-    /* 開閉 */
+    if(btn && nav){
 
-    btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", (e) => {
 
-      e.stopPropagation();
+        e.stopPropagation();
 
-      nav.classList.toggle("active");
+        nav.classList.toggle("active");
 
-    });
+      });
 
 
-    document.addEventListener("click", (e) => {
+      document.addEventListener("click", (e) => {
 
-      if(
-        !nav.contains(e.target) &&
-        !btn.contains(e.target)
-      ){
+        if(
+          !nav.contains(e.target) &&
+          !btn.contains(e.target)
+        ){
 
-        nav.classList.remove("active");
+          nav.classList.remove("active");
 
-      }
+        }
 
-    });
+      });
+
+    }
+
+  })
+
+  .catch(error => {
+
+    console.error(
+      "header.htmlの読み込みエラー:",
+      error
+    );
 
   });
 
@@ -914,10 +894,7 @@ fetch("header.html")
     <div class="grid">
 
 
-      <div
-        class="card"
-        data-modal-id="1a"
-      >
+      <div class="card" data-modal-id="1a">
 
         <img src="1a.jpg">
 
@@ -929,17 +906,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年A組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -952,10 +925,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1b"
-      >
+      <div class="card" data-modal-id="1b">
 
         <img src="1a.jpg">
 
@@ -967,17 +937,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年B組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -990,10 +956,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1c"
-      >
+      <div class="card" data-modal-id="1c">
 
         <img src="1a.jpg">
 
@@ -1005,17 +968,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年C組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1028,10 +987,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1d"
-      >
+      <div class="card" data-modal-id="1d">
 
         <img src="1a.jpg">
 
@@ -1043,17 +999,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年D組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               食堂
@@ -1066,10 +1018,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1e"
-      >
+      <div class="card" data-modal-id="1e">
 
         <img src="1a.jpg">
 
@@ -1081,17 +1030,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年E組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1104,10 +1049,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1f"
-      >
+      <div class="card" data-modal-id="1f">
 
         <img src="1a.jpg">
 
@@ -1119,17 +1061,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年F組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1142,10 +1080,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="1g"
-      >
+      <div class="card" data-modal-id="1g">
 
         <img src="1a.jpg">
 
@@ -1157,17 +1092,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               1年G組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -1202,10 +1133,7 @@ fetch("header.html")
     <div class="grid">
 
 
-      <div
-        class="card"
-        data-modal-id="2a"
-      >
+      <div class="card" data-modal-id="2a">
 
         <img src="1a.jpg">
 
@@ -1217,17 +1145,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年A組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -1240,10 +1164,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2b"
-      >
+      <div class="card" data-modal-id="2b">
 
         <img src="1a.jpg">
 
@@ -1255,17 +1176,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年B組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -1278,10 +1195,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2c"
-      >
+      <div class="card" data-modal-id="2c">
 
         <img src="1a.jpg">
 
@@ -1293,17 +1207,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年C組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -1316,10 +1226,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2d"
-      >
+      <div class="card" data-modal-id="2d">
 
         <img src="1a.jpg">
 
@@ -1331,17 +1238,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年D組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -1354,10 +1257,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2e"
-      >
+      <div class="card" data-modal-id="2e">
 
         <img src="1a.jpg">
 
@@ -1369,17 +1269,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年E組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -1392,10 +1288,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2f"
-      >
+      <div class="card" data-modal-id="2f">
 
         <img src="1a.jpg">
 
@@ -1407,17 +1300,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年F組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1430,10 +1319,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="2g"
-      >
+      <div class="card" data-modal-id="2g">
 
         <img src="1a.jpg">
 
@@ -1445,17 +1331,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               2年G組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -1490,10 +1372,7 @@ fetch("header.html")
     <div class="grid">
 
 
-      <div
-        class="card"
-        data-modal-id="3a"
-      >
+      <div class="card" data-modal-id="3a">
 
         <img src="1a.jpg">
 
@@ -1505,17 +1384,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年A組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -1528,10 +1403,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3b"
-      >
+      <div class="card" data-modal-id="3b">
 
         <img src="1a.jpg">
 
@@ -1543,17 +1415,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年B組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               3棟3階 ①講義室
@@ -1566,10 +1434,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3c"
-      >
+      <div class="card" data-modal-id="3c">
 
         <img src="1a.jpg">
 
@@ -1581,17 +1446,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年C組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟4階
@@ -1604,10 +1465,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3d"
-      >
+      <div class="card" data-modal-id="3d">
 
         <img src="1a.jpg">
 
@@ -1619,17 +1477,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年D組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               3棟2階 ①講義室
@@ -1642,10 +1496,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3e"
-      >
+      <div class="card" data-modal-id="3e">
 
         <img src="1a.jpg">
 
@@ -1657,17 +1508,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年E組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1680,10 +1527,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3f"
-      >
+      <div class="card" data-modal-id="3f">
 
         <img src="1a.jpg">
 
@@ -1695,17 +1539,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年F組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟3階
@@ -1718,10 +1558,7 @@ fetch("header.html")
       </div>
 
 
-      <div
-        class="card"
-        data-modal-id="3g"
-      >
+      <div class="card" data-modal-id="3g">
 
         <img src="1a.jpg">
 
@@ -1733,17 +1570,13 @@ fetch("header.html")
 
           <div class="card-info">
 
-            <div class="card-label">
-              クラス
-            </div>
+            <div class="card-label">クラス</div>
 
             <div class="card-value">
               3年G組
             </div>
 
-            <div class="card-label">
-              開催場所
-            </div>
+            <div class="card-label">開催場所</div>
 
             <div class="card-value">
               1棟2階
@@ -1762,7 +1595,7 @@ fetch("header.html")
 
 
   <!-- ==================================================
-       部活
+       部活動・同好会
   ================================================== -->
 
   <div
@@ -1877,7 +1710,6 @@ fetch("header.html")
 
   <!-- ==================================================
        共通モーダル
-       ※変更なし
   ================================================== -->
 
   <div id="modal-container"></div>
@@ -1888,136 +1720,457 @@ fetch("header.html")
 
 <script>
 
-/* ==================================================
-   共通モーダル読み込み
-================================================== */
+/* =========================================================
+   長高祭2026 イベントページ
+   モーダル制御
+========================================================= */
 
-let modalReady = false;
+(function(){
 
-
-/*
- * modal.htmlを読み込む
- */
-
-fetch("modal.html")
-
-  .then(res => {
-
-    if(!res.ok){
-
-      throw new Error(
-        "modal.htmlを読み込めませんでした"
-      );
-
-    }
-
-    return res.text();
-
-  })
-
-  .then(data => {
-
-    document
-      .getElementById("modal-container")
-      .innerHTML = data;
-
-    modalReady = true;
-
-    setupModal();
+  "use strict";
 
 
-    /*
-     * URLに ?modal=1a などがある場合
-     * 自動的にモーダルを開く
-     */
+  /* =======================================================
+     モーダル関連変数
+  ======================================================= */
 
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
+  let modalReady = false;
 
-    const modalId =
-      params.get("modal");
+  let modal = null;
+  let modalImg = null;
+  let modalCatchcopy = null;
+  let modalPlace = null;
+  let modalLink = null;
+  let closeBtn = null;
 
 
-    if(modalId){
+  /* =======================================================
+     ID正規化
+  ======================================================= */
 
-      openModal(modalId);
+  function normalizeModalId(id){
+
+    if(!id){
+
+      return "";
 
     }
 
-  })
 
-  .catch(error => {
+    return String(id)
+      .trim()
+      .toLowerCase()
+      .replace(/^modal-data-/,"")
+      .replace(/^modal-/,"");
 
-    console.error(
-      "共通モーダルの読み込みエラー:",
-      error
+  }
+
+
+  /* =======================================================
+     モーダル要素取得
+  ======================================================= */
+
+  function setupModalElements(){
+
+    modal =
+      document.getElementById("modal");
+
+    modalImg =
+      document.getElementById("modal-img");
+
+    modalCatchcopy =
+      document.getElementById("modal-catchcopy");
+
+    modalPlace =
+      document.getElementById("modal-place");
+
+    modalLink =
+      document.getElementById("modal-link");
+
+    closeBtn =
+      document.getElementById("modal-close");
+
+
+    if(!modal){
+
+      console.error(
+        "モーダル本体 #modal が見つかりません。"
+      );
+
+      return false;
+
+    }
+
+
+    if(!closeBtn){
+
+      console.error(
+        "閉じるボタン #modal-close が見つかりません。"
+      );
+
+      return false;
+
+    }
+
+
+    /* =====================================================
+       閉じるボタン
+    ===================================================== */
+
+    closeBtn.addEventListener(
+      "click",
+      function(event){
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        closeModal();
+
+      }
     );
 
-  });
+
+    /* =====================================================
+       背景クリック
+    ===================================================== */
+
+    modal.addEventListener(
+      "click",
+      function(event){
+
+        if(
+          event.target === modal
+        ){
+
+          closeModal();
+
+        }
+
+      }
+    );
 
 
-/* ==================================================
-   モーダル変数
-================================================== */
+    /* =====================================================
+       初期状態
+    ===================================================== */
 
-let modal = null;
-let modalImg = null;
-let modalTitle = null;
-let modalPlace = null;
-let modalDesc = null;
-let modalLink = null;
-let closeBtn = null;
+    modal.style.display = "none";
 
-
-/* ==================================================
-   モーダル初期設定
-================================================== */
-
-function setupModal(){
-
-  modal =
-    document.getElementById("modal");
-
-  modalImg =
-    document.getElementById("modal-img");
-
-  modalTitle =
-    document.getElementById("modal-title");
-
-  modalPlace =
-    document.getElementById("modal-place");
-
-  modalDesc =
-    document.getElementById("modal-desc");
-
-  modalLink =
-    document.getElementById("modal-link");
-
-  closeBtn =
-    document.getElementById("modal-close");
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
 
 
-  /*
-   * 閉じるボタン
-   */
+    return true;
 
-  closeBtn.addEventListener(
-    "click",
-    closeModal
-  );
+  }
 
 
-  /*
-   * モーダル外クリック
-   */
+  /* =======================================================
+     モーダルを開く
+  ======================================================= */
 
-  modal.addEventListener(
-    "click",
-    (e) => {
+  function openModal(id){
 
-      if(e.target === modal){
+    id =
+      normalizeModalId(id);
+
+
+    if(!id){
+
+      console.warn(
+        "モーダルIDが空です。"
+      );
+
+      return false;
+
+    }
+
+
+    /* =====================================================
+       モーダルHTMLがまだ読み込まれていない場合
+    ===================================================== */
+
+    if(!modalReady){
+
+      console.warn(
+        "モーダルHTMLの読み込みが完了していません。"
+      );
+
+      return false;
+
+    }
+
+
+    /* =====================================================
+       モーダル要素を念のため再取得
+    ===================================================== */
+
+    if(!modal){
+
+      setupModalElements();
+
+    }
+
+
+    if(!modal){
+
+      console.error(
+        "#modal が存在しません。"
+      );
+
+      return false;
+
+    }
+
+
+    /* =====================================================
+       データ取得
+    ===================================================== */
+
+    const data =
+      document.getElementById(
+        "modal-data-" + id
+      );
+
+
+    if(!data){
+
+      console.error(
+        "モーダルデータが見つかりません:",
+        id
+      );
+
+      return false;
+
+    }
+
+
+    /* =====================================================
+       画像
+    ===================================================== */
+
+    if(modalImg){
+
+      const image =
+        data.dataset.img || "";
+
+
+      modalImg.style.visibility =
+        "visible";
+
+
+      modalImg.src =
+        image;
+
+
+      modalImg.alt =
+        "企画画像";
+
+
+      modalImg.onerror =
+        function(){
+
+          this.style.visibility =
+            "hidden";
+
+        };
+
+
+      modalImg.onload =
+        function(){
+
+          this.style.visibility =
+            "visible";
+
+        };
+
+    }
+
+
+    /* =====================================================
+       キャッチコピー
+       
+       modal.html側は
+       #modal-catchcopy
+       を使用しているため、
+       こちらに正しく入れる。
+    ===================================================== */
+
+    if(modalCatchcopy){
+
+      modalCatchcopy.textContent =
+        data.dataset.catchcopy || "";
+
+
+      modalCatchcopy.style.setProperty(
+        "display",
+        "block",
+        "important"
+      );
+
+
+      modalCatchcopy.style.setProperty(
+        "visibility",
+        "visible",
+        "important"
+      );
+
+
+      modalCatchcopy.style.setProperty(
+        "opacity",
+        "1",
+        "important"
+      );
+
+    }
+
+
+    /* =====================================================
+       開催場所
+    ===================================================== */
+
+    if(modalPlace){
+
+      modalPlace.textContent =
+        data.dataset.place || "";
+
+    }
+
+
+    /* =====================================================
+       フロアマップ
+    ===================================================== */
+
+    if(modalLink){
+
+      modalLink.href =
+        data.dataset.link ||
+        "map.html";
+
+    }
+
+
+    /* =====================================================
+       モーダル表示
+       
+       ここを最後に実行することで、
+       上記のデータ設定中にエラーが起きても
+       表示処理まで確実に到達できる構造にしている。
+    ===================================================== */
+
+    modal.style.display =
+      "flex";
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+    /* =====================================================
+       背景スクロール禁止
+    ===================================================== */
+
+    document.body.style.overflow =
+      "hidden";
+
+
+    /* =====================================================
+       モーダル内部を先頭へ
+    ===================================================== */
+
+    const modalBox =
+      modal.querySelector(
+        ".modal-box"
+      );
+
+
+    if(modalBox){
+
+      modalBox.scrollTop = 0;
+
+    }
+
+
+    return true;
+
+  }
+
+
+  /* =======================================================
+     グローバル公開
+     
+     HTML側から
+     onclick="openFestivalModal('1a')"
+     と呼んでも動くようにする。
+  ======================================================= */
+
+  window.openFestivalModal =
+    openModal;
+
+
+  window.openModal =
+    openModal;
+
+
+  /* =======================================================
+     モーダルを閉じる
+  ======================================================= */
+
+  function closeModal(){
+
+    if(!modal){
+
+      return;
+
+    }
+
+
+    modal.style.display =
+      "none";
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    document.body.style.overflow =
+      "";
+
+  }
+
+
+  window.closeFestivalModal =
+    closeModal;
+
+
+  /* =======================================================
+     ESCキー
+  ======================================================= */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key !== "Escape"
+      ){
+
+        return;
+
+      }
+
+
+      if(
+        modal &&
+        modal.style.display === "flex"
+      ){
 
         closeModal();
 
@@ -2026,217 +2179,304 @@ function setupModal(){
     }
   );
 
-}
+
+  /* =======================================================
+     カードクリック
+     
+     イベント委譲方式にする。
+     
+     これにより、
+     タブ切り替え後でも
+     カードが確実に反応する。
+  ======================================================= */
+
+  document.addEventListener(
+    "click",
+    function(event){
+
+      const card =
+        event.target.closest(
+          ".card[data-modal-id]"
+        );
 
 
-/* ==================================================
-   モーダルを開く
-================================================== */
+      if(!card){
 
-function openModal(id){
+        return;
 
-  if(!modalReady){
-
-    return;
-
-  }
+      }
 
 
-  const data =
-    document.getElementById(
-      "modal-data-" + id
+      /* ================================================
+         モーダル内部をクリックした場合は無視
+      ================================================= */
+
+      if(
+        event.target.closest("#modal")
+      ){
+
+        return;
+
+      }
+
+
+      const id =
+        card.getAttribute(
+          "data-modal-id"
+        );
+
+
+      if(!id){
+
+        return;
+
+      }
+
+
+      /* ================================================
+         カードの通常動作を停止
+      ================================================= */
+
+      event.preventDefault();
+
+      event.stopPropagation();
+
+
+      /* ================================================
+         モーダルを開く
+      ================================================= */
+
+      openModal(id);
+
+    },
+    true
+  );
+
+
+  /* =======================================================
+     URLからモーダルを開く
+     
+     event.html?modal=1a
+  ======================================================= */
+
+  function openModalFromUrl(){
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const modalId =
+      params.get("modal");
+
+
+    if(!modalId){
+
+      return;
+
+    }
+
+
+    /*
+     * モーダルHTMLが読み込まれてから開く。
+     */
+
+    openModal(
+      modalId
     );
 
-
-  if(!data){
-
-    console.warn(
-      "モーダルデータが見つかりません:",
-      id
-    );
-
-    return;
-
   }
 
 
-  /*
-   * 画像
-   */
+  /* =======================================================
+     モーダルHTML読み込み
+  ======================================================= */
 
-  modalImg.src =
-    data.dataset.img;
+  fetch("modal.html")
 
+    .then(function(response){
 
-  /*
-   * タイトル
-   */
+      if(!response.ok){
 
-  modalTitle.innerText =
-    data.dataset.title;
+        throw new Error(
+          "modal.htmlを読み込めませんでした。HTTP " +
+          response.status
+        );
 
-
-  /*
-   * 場所
-   */
-
-  modalPlace.innerText =
-    data.dataset.place;
+      }
 
 
-  /*
-   * 説明
-   */
+      return response.text();
 
-  modalDesc.innerText =
-    data.dataset.desc;
+    })
 
 
-  /*
-   * フロアマップリンク
-   */
+    .then(function(html){
 
-  modalLink.href =
-    data.dataset.link;
-
-
-  /*
-   * 表示
-   */
-
-  modal.style.display = "flex";
-
-}
+      const container =
+        document.getElementById(
+          "modal-container"
+        );
 
 
-/* ==================================================
-   モーダルを閉じる
-================================================== */
+      if(!container){
 
-function closeModal(){
+        throw new Error(
+          "#modal-container が見つかりません。"
+        );
 
-  if(!modal){
-
-    return;
-
-  }
-
-  modal.style.display = "none";
-
-}
+      }
 
 
-/* ==================================================
-   カードクリック
-================================================== */
+      /*
+       * modal.htmlの内容を挿入
+       */
 
-function setupCardModal(){
+      container.innerHTML =
+        html;
 
-  document
-    .querySelectorAll(
-      ".card[data-modal-id]"
-    )
-    .forEach(card => {
 
-      card.addEventListener(
-        "click",
-        () => {
+      /*
+       * モーダル要素取得
+       */
 
-          openModal(
-            card.dataset.modalId
-          );
+      const success =
+        setupModalElements();
 
-        }
+
+      if(!success){
+
+        throw new Error(
+          "モーダル要素の初期化に失敗しました。"
+        );
+
+      }
+
+
+      /*
+       * 読み込み完了
+       */
+
+      modalReady =
+        true;
+
+
+      console.log(
+        "長高祭2026 モーダル読み込み完了"
+      );
+
+
+      /*
+       * URLパラメータがあれば開く
+       */
+
+      openModalFromUrl();
+
+    })
+
+
+    .catch(function(error){
+
+      console.error(
+        "共通モーダルの読み込みエラー:",
+        error
       );
 
     });
 
-}
+
+  /* =======================================================
+     タブ切り替え
+  ======================================================= */
+
+  const tabs =
+    document.querySelectorAll(
+      ".tab"
+    );
 
 
-setupCardModal();
+  const groups =
+    document.querySelectorAll(
+      ".group"
+    );
 
 
-/* ==================================================
-   タブ切り替え
-================================================== */
+  tabs.forEach(function(tab){
 
-const tabs =
-  document.querySelectorAll(".tab");
+    tab.addEventListener(
+      "click",
+      function(){
 
-const groups =
-  document.querySelectorAll(".group");
+        tabs.forEach(function(t){
 
-
-tabs.forEach(tab => {
-
-  tab.addEventListener(
-    "click",
-    () => {
-
-      tabs.forEach(t => {
-
-        t.classList.remove("active");
-
-      });
-
-
-      tab.classList.add("active");
-
-
-      const cat =
-        tab.dataset.cat;
-
-
-      groups.forEach(group => {
-
-        if(cat === "all"){
-
-          group.style.display =
-            "block";
-
-        }else{
-
-          group.style.display =
-            group.dataset.cat === cat
-              ? "block"
-              : "none";
-
-        }
-
-
-        /*
-         * フェードインをリセット
-         */
-
-        const cards =
-          group.querySelectorAll(".card");
-
-
-        cards.forEach(card => {
-
-          card.classList.remove("show");
+          t.classList.remove(
+            "active"
+          );
 
         });
 
-      });
+
+        tab.classList.add(
+          "active"
+        );
 
 
-      setupScrollAnimation();
-
-    }
-  );
-
-});
+        const cat =
+          tab.dataset.cat;
 
 
-/* ==================================================
-   初期ロード
-================================================== */
+        groups.forEach(function(group){
 
-window.addEventListener(
-  "DOMContentLoaded",
-  () => {
+          if(cat === "all"){
+
+            group.style.display =
+              "block";
+
+          }else{
+
+            group.style.display =
+              group.dataset.cat === cat
+                ? "block"
+                : "none";
+
+          }
+
+
+          /*
+           * フェードインをリセット
+           */
+
+          const cards =
+            group.querySelectorAll(
+              ".card"
+            );
+
+
+          cards.forEach(function(card){
+
+            card.classList.remove(
+              "show"
+            );
+
+          });
+
+        });
+
+
+        setupScrollAnimation();
+
+      }
+    );
+
+  });
+
+
+  /* =======================================================
+     初期ロード
+  ======================================================= */
+
+  function initializeFromUrl(){
 
     const params =
       new URLSearchParams(
@@ -2248,76 +2488,125 @@ window.addEventListener(
       params.get("cat");
 
 
-    if(cat){
+    if(!cat){
 
-      tabs.forEach(t => {
+      setupScrollAnimation();
 
-        t.classList.remove("active");
-
-
-        if(t.dataset.cat === cat){
-
-          t.classList.add("active");
-
-        }
-
-      });
-
-
-      groups.forEach(group => {
-
-        group.style.display =
-          group.dataset.cat === cat
-            ? "block"
-            : "none";
-
-
-        const cards =
-          group.querySelectorAll(".card");
-
-
-        cards.forEach(card => {
-
-          card.classList.remove("show");
-
-        });
-
-      });
+      return;
 
     }
+
+
+    tabs.forEach(function(tab){
+
+      tab.classList.remove(
+        "active"
+      );
+
+
+      if(
+        tab.dataset.cat === cat
+      ){
+
+        tab.classList.add(
+          "active"
+        );
+
+      }
+
+    });
+
+
+    groups.forEach(function(group){
+
+      group.style.display =
+        group.dataset.cat === cat
+          ? "block"
+          : "none";
+
+
+      const cards =
+        group.querySelectorAll(
+          ".card"
+        );
+
+
+      cards.forEach(function(card){
+
+        card.classList.remove(
+          "show"
+        );
+
+      });
+
+    });
 
 
     setupScrollAnimation();
 
   }
-);
 
 
-/* ==================================================
-   スクロールアニメーション
-================================================== */
+  /* =======================================================
+     スクロールアニメーション
+  ======================================================= */
 
-function setupScrollAnimation(){
+  function setupScrollAnimation(){
 
-  const cards =
-    document.querySelectorAll(".card");
+    const cards =
+      document.querySelectorAll(
+        ".card"
+      );
 
 
-  const observer =
-    new IntersectionObserver(
-      (entries) => {
+    /*
+     * IntersectionObserverが使えない環境でも
+     * カードを表示できるようにする。
+     */
 
-        entries.forEach(entry => {
+    if(
+      !("IntersectionObserver" in window)
+    ){
 
-          if(entry.isIntersecting){
+      cards.forEach(function(card){
+
+        card.classList.add(
+          "show"
+        );
+
+      });
+
+      return;
+
+    }
+
+
+    const observer =
+      new IntersectionObserver(
+        function(entries){
+
+          entries.forEach(function(entry){
+
+            if(!entry.isIntersecting){
+
+              return;
+
+            }
+
 
             const card =
               entry.target;
 
 
             if(
-              card.classList.contains("show")
+              card.classList.contains(
+                "show"
+              )
             ){
+
+              observer.unobserve(
+                card
+              );
 
               return;
 
@@ -2325,10 +2614,20 @@ function setupScrollAnimation(){
 
 
             const group =
-              card.closest(".group");
+              card.closest(
+                ".group"
+              );
 
 
             if(!group){
+
+              card.classList.add(
+                "show"
+              );
+
+              observer.unobserve(
+                card
+              );
 
               return;
 
@@ -2337,86 +2636,136 @@ function setupScrollAnimation(){
 
             const cardsInGroup =
               Array.from(
-                group.querySelectorAll(".card")
+                group.querySelectorAll(
+                  ".card"
+                )
               );
 
 
             const index =
-              cardsInGroup.indexOf(card);
+              cardsInGroup.indexOf(
+                card
+              );
 
 
             setTimeout(
-              () => {
+              function(){
 
-                card.classList.add("show");
+                card.classList.add(
+                  "show"
+                );
 
               },
-              index * 80
+              Math.max(
+                0,
+                index * 80
+              )
             );
 
 
-            observer.unobserve(card);
+            observer.unobserve(
+              card
+            );
+
+          });
+
+        },
+        {
+          threshold:0.1
+        }
+      );
+
+
+    cards.forEach(function(card){
+
+      observer.observe(
+        card
+      );
+
+    });
+
+
+    /*
+     * 初期表示対策
+     */
+
+    setTimeout(
+      function(){
+
+        let delay = 0;
+
+
+        cards.forEach(function(card){
+
+          if(
+            card.classList.contains(
+              "show"
+            )
+          ){
+
+            return;
+
+          }
+
+
+          const rect =
+            card.getBoundingClientRect();
+
+
+          if(
+            rect.top <
+            window.innerHeight &&
+            rect.bottom > 0
+          ){
+
+            setTimeout(
+              function(){
+
+                card.classList.add(
+                  "show"
+                );
+
+              },
+              delay
+            );
+
+
+            delay += 80;
 
           }
 
         });
 
       },
+      100
+    );
+
+  }
+
+
+  /* =======================================================
+     初期化
+  ======================================================= */
+
+  if(
+    document.readyState === "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeFromUrl,
       {
-        threshold:0.1
+        once:true
       }
     );
 
+  }else{
 
-  cards.forEach(card => {
+    initializeFromUrl();
 
-    observer.observe(card);
+  }
 
-  });
-
-
-  /*
-   * 初期表示対策
-   */
-
-  setTimeout(
-    () => {
-
-      let delay = 0;
-
-
-      cards.forEach(card => {
-
-        const rect =
-          card.getBoundingClientRect();
-
-
-        if(
-          rect.top <
-          window.innerHeight
-        ){
-
-          setTimeout(
-            () => {
-
-              card.classList.add("show");
-
-            },
-            delay
-          );
-
-
-          delay += 80;
-
-        }
-
-      });
-
-    },
-    100
-  );
-
-}
+})();
 
 </script>
 
