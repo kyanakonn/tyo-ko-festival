@@ -1083,21 +1083,21 @@
 
   function isValidId(id){
 
-    id = normalizeId(id);
+  id = normalizeId(id);
 
+  if(
+    !/^(?:[123][abcdefg]|club\d+|other\d+)$/.test(id)
+  ){
 
-    if(!/^[123][abcdefg]$/.test(id)){
-
-      return false;
-
-    }
-
-
-    return !!document.getElementById(
-      "modal-data-" + id
-    );
+    return false;
 
   }
+
+  return !!document.getElementById(
+    "modal-data-" + id
+  );
+
+}
 
 
 
