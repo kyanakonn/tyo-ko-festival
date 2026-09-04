@@ -31,30 +31,204 @@ body{
 
 
 /* ==================================================
-   タブ
+   絞り込みエリア
 ================================================== */
 
-.tabs{
+.filter-area{
+
+  width:100%;
+
+  padding:0 20px 5px;
+
+  box-sizing:border-box;
+
+}
+
+
+/* ==================================================
+   バッジ絞り込み
+================================================== */
+
+.badge-filter-area{
+
   display:flex;
-  overflow-x:auto;
-  border-bottom:2px solid #2a9d8f;
+
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:9px;
+
+  margin-bottom:12px;
+
 }
 
-.tab{
-  flex:0 0 auto;
-  padding:12px 18px;
-  border:2px solid #2a9d8f;
-  border-bottom:none;
-  cursor:pointer;
-  font-weight:bold;
-  color:#2a9d8f;
+
+.badge-filter-title{
+
+  font-size:14px;
+
+  font-weight:700;
+
+  color:#59677f;
+
+  margin-right:3px;
+
+}
+
+
+.badge-filter{
+
+  appearance:none;
+
+  border:1.5px solid #d7e4ff;
+
   background:#fff;
+
+  color:#59677f;
+
+  border-radius:999px;
+
+  padding:8px 16px;
+
+  font-family:inherit;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
 }
 
-.tab.active{
-  background:#2a9d8f;
-  color:#fff;
+
+.badge-filter:hover{
+
+  border-color:#a9c4ff;
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 3px 10px rgba(82,110,170,0.08);
+
 }
+
+
+.badge-filter.active{
+
+  background:#2864ff;
+
+  border-color:#2864ff;
+
+  color:#fff;
+
+  box-shadow:
+    0 4px 10px rgba(40,100,255,0.15);
+
+}
+
+
+/* ==================================================
+   階数絞り込み
+================================================== */
+
+.floor-filter-area{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:9px;
+
+  margin-bottom:20px;
+
+}
+
+
+.floor-filter-title{
+
+  font-size:14px;
+
+  font-weight:700;
+
+  color:#59677f;
+
+  margin-right:3px;
+
+}
+
+
+.floor-filter{
+
+  appearance:none;
+
+  border:1.5px solid #d7e4ff;
+
+  background:#fff;
+
+  color:#59677f;
+
+  border-radius:999px;
+
+  padding:8px 17px;
+
+  font-family:inherit;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+
+.floor-filter:hover{
+
+  border-color:#a9c4ff;
+
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 3px 10px rgba(82,110,170,0.08);
+
+}
+
+
+.floor-filter.active{
+
+  background:#2a9d8f;
+
+  border-color:#2a9d8f;
+
+  color:#fff;
+
+  box-shadow:
+    0 4px 10px rgba(42,157,143,0.15);
+
+}
+
+
+/* ==================================================
+   タブ
+   ※旧タブは削除
+================================================== */
 
 
 /* ==================================================
@@ -96,11 +270,18 @@ body{
 ================================================== */
 
 .grid{
+
   display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
   gap:16px;
+
   width:100%;
+
   box-sizing:border-box;
+
 }
 
 
@@ -109,10 +290,15 @@ body{
 ================================================== */
 
 .card{
+
   position:relative;
+
   background:#fff;
+
   border:1.5px solid #d7e4ff;
+
   border-radius:10px;
+
   overflow:hidden;
 
   box-shadow:
@@ -141,6 +327,18 @@ body{
     transform 0.6s ease,
     box-shadow 0.25s ease,
     border-color 0.25s ease;
+
+}
+
+
+/* ==================================================
+   非表示カード
+================================================== */
+
+.card.filter-hidden{
+
+  display:none !important;
+
 }
 
 
@@ -149,8 +347,11 @@ body{
 ================================================== */
 
 .card.show{
+
   opacity:1;
+
   transform:translateY(0);
+
 }
 
 
@@ -169,19 +370,22 @@ body{
 
 }
 
+
 .card.show:hover{
+
   transform:translateY(-3px);
+
 }
 
 
 /* ==================================================
-   左上ラベル
-   data-card-type の内容を表示
+   左上カードバッジ
+   data-badgeの値をJavaScriptで表示
 ================================================== */
 
 .card::before{
 
-  content:attr(data-card-type);
+  content:attr(data-badge);
 
   position:absolute;
 
@@ -197,17 +401,18 @@ body{
   line-height:1.4;
 
   pointer-events:none;
+
 }
 
 
 /* ==================================================
-   右上ラベル
-   data-card-badge の内容を表示
+   右上カードバッジ
+   data-place-badgeの値をJavaScriptで表示
 ================================================== */
 
 .card::after{
 
-  content:attr(data-card-badge);
+  content:attr(data-place-badge);
 
   position:absolute;
 
@@ -217,6 +422,7 @@ body{
   display:flex;
 
   align-items:center;
+
   justify-content:center;
 
   min-width:50px;
@@ -240,6 +446,7 @@ body{
   white-space:nowrap;
 
   pointer-events:none;
+
 }
 
 
@@ -248,7 +455,9 @@ body{
 ================================================== */
 
 .card img{
+
   display:none;
+
 }
 
 
@@ -257,7 +466,9 @@ body{
 ================================================== */
 
 .card-content{
+
   margin-top:65px;
+
 }
 
 
@@ -284,6 +495,7 @@ body{
   letter-spacing:0.01em;
 
   word-break:break-word;
+
 }
 
 
@@ -300,6 +512,7 @@ body{
   row-gap:14px;
 
   align-items:center;
+
 }
 
 
@@ -318,6 +531,7 @@ body{
   color:#ff4597;
 
   white-space:nowrap;
+
 }
 
 
@@ -336,6 +550,7 @@ body{
   color:#59677f;
 
   word-break:break-word;
+
 }
 
 
@@ -344,20 +559,16 @@ body{
 ================================================== */
 
 .card:active{
+
   transform:translateY(-1px);
+
 }
+
 
 .card.show:active{
+
   transform:translateY(-1px);
-}
 
-
-/* ==================================================
-   非表示
-================================================== */
-
-.hidden{
-  display:none;
 }
 
 
@@ -368,7 +579,10 @@ body{
 @media (max-width:1100px){
 
   .grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
   }
 
 }
@@ -380,16 +594,68 @@ body{
 
 @media (max-width:700px){
 
-  .content{
-    padding:15px;
+  .filter-area{
+
+    padding:
+      0
+      15px
+      5px;
+
   }
 
-  .grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:12px;
-    width:100%;
-    box-sizing:border-box;
+
+  .badge-filter-area,
+  .floor-filter-area{
+
+    gap:7px;
+
   }
+
+
+  .badge-filter-title,
+  .floor-filter-title{
+
+    width:100%;
+
+    margin-bottom:1px;
+
+    font-size:13px;
+
+  }
+
+
+  .badge-filter,
+  .floor-filter{
+
+    padding:
+      7px
+      13px;
+
+    font-size:12px;
+
+  }
+
+
+  .content{
+
+    padding:15px;
+
+  }
+
+
+  .grid{
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:12px;
+
+    width:100%;
+
+    box-sizing:border-box;
+
+  }
+
 
   .card{
 
@@ -402,6 +668,7 @@ body{
 
   }
 
+
   .card::before{
 
     top:18px;
@@ -410,6 +677,7 @@ body{
     font-size:13px;
 
   }
+
 
   .card::after{
 
@@ -426,9 +694,13 @@ body{
 
   }
 
+
   .card-content{
+
     margin-top:56px;
+
   }
+
 
   .card-title{
 
@@ -440,20 +712,28 @@ body{
 
   }
 
+
   .card-info{
 
-    grid-template-columns:58px 1fr;
+    grid-template-columns:
+      58px 1fr;
 
     row-gap:12px;
 
   }
 
+
   .card-label{
+
     font-size:12px;
+
   }
 
+
   .card-value{
+
     font-size:13px;
+
   }
 
 }
@@ -465,14 +745,29 @@ body{
 
 @media (max-width:480px){
 
-  .content{
-    padding:12px;
-    box-sizing:border-box;
+  .filter-area{
+
+    padding:
+      0
+      12px
+      5px;
+
   }
+
+
+  .content{
+
+    padding:12px;
+
+    box-sizing:border-box;
+
+  }
+
 
   .grid{
 
-    grid-template-columns:minmax(0, 1fr);
+    grid-template-columns:
+      minmax(0, 1fr);
 
     gap:12px;
 
@@ -484,6 +779,7 @@ body{
 
   }
 
+
   .card{
 
     width:100%;
@@ -491,6 +787,7 @@ body{
     max-width:none;
 
     margin-left:auto;
+
     margin-right:auto;
 
     min-height:220px;
@@ -504,14 +801,17 @@ body{
 
   }
 
+
   .grid .card:only-child{
 
     width:100%;
 
     margin-left:auto;
+
     margin-right:auto;
 
   }
+
 
   .card::before{
 
@@ -521,6 +821,7 @@ body{
     font-size:13px;
 
   }
+
 
   .card::after{
 
@@ -535,9 +836,13 @@ body{
 
   }
 
+
   .card-content{
+
     margin-top:57px;
+
   }
+
 
   .card-title{
 
@@ -549,20 +854,28 @@ body{
 
   }
 
+
   .card-info{
 
-    grid-template-columns:65px 1fr;
+    grid-template-columns:
+      65px 1fr;
 
     row-gap:13px;
 
   }
 
+
   .card-label{
+
     font-size:13px;
+
   }
 
+
   .card-value{
+
     font-size:14px;
+
   }
 
 }
@@ -574,26 +887,43 @@ body{
 
 @media (max-width:360px){
 
-  .content{
-    padding:10px;
-    box-sizing:border-box;
+  .filter-area{
+
+    padding:
+      0
+      10px
+      5px;
+
   }
+
+
+  .content{
+
+    padding:10px;
+
+    box-sizing:border-box;
+
+  }
+
 
   .grid{
 
     width:100%;
 
-    grid-template-columns:minmax(0, 1fr);
+    grid-template-columns:
+      minmax(0, 1fr);
 
     justify-items:center;
 
   }
+
 
   .card{
 
     width:100%;
 
     margin-left:auto;
+
     margin-right:auto;
 
     min-height:210px;
@@ -605,14 +935,17 @@ body{
 
   }
 
+
   .grid .card:only-child{
 
     width:100%;
 
     margin-left:auto;
+
     margin-right:auto;
 
   }
+
 
   .card::before{
 
@@ -622,6 +955,7 @@ body{
     font-size:12px;
 
   }
+
 
   .card::after{
 
@@ -636,9 +970,13 @@ body{
 
   }
 
+
   .card-content{
+
     margin-top:53px;
+
   }
+
 
   .card-title{
 
@@ -648,18 +986,26 @@ body{
 
   }
 
+
   .card-info{
 
-    grid-template-columns:62px 1fr;
+    grid-template-columns:
+      62px 1fr;
 
   }
+
 
   .card-label{
+
     font-size:12px;
+
   }
 
+
   .card-value{
+
     font-size:13px;
+
   }
 
 }
@@ -670,6 +1016,7 @@ body{
 ================================================== */
 
 .card{
+
   opacity:0;
 
   transform:translateY(30px);
@@ -679,13 +1026,16 @@ body{
     transform 0.6s ease,
     box-shadow 0.25s ease,
     border-color 0.25s ease;
+
 }
 
 
 .card.show{
+
   opacity:1;
 
   transform:translateY(0);
+
 }
 
 </style>
@@ -779,51 +1129,80 @@ fetch("header.html")
 
 
 <!-- ==================================================
-     タブ
+     絞り込み
+     
+     JavaScriptでカードのバッジを調べて
+     自動的にボタンを作成する。
 ================================================== -->
 
-<div class="tabs">
+<div class="filter-area">
 
-  <div
-    class="tab active"
-    data-cat="all"
-  >
-    全て
+
+  <!-- ==================================================
+       バッジ絞り込み
+  ================================================== -->
+
+  <div class="badge-filter-area">
+
+    <span class="badge-filter-title">
+      企画
+    </span>
+
+    <div id="badge-filters"></div>
+
   </div>
 
-  <div
-    class="tab"
-    data-cat="1"
-  >
-    1学年
-  </div>
 
-  <div
-    class="tab"
-    data-cat="2"
-  >
-    2学年
-  </div>
+  <!-- ==================================================
+       階数絞り込み
+  ================================================== -->
 
-  <div
-    class="tab"
-    data-cat="3"
-  >
-    3学年
-  </div>
+  <div class="floor-filter-area">
 
-  <div
-    class="tab"
-    data-cat="club"
-  >
-    部活動・同好会
-  </div>
+    <span class="floor-filter-title">
+      階数
+    </span>
 
-  <div
-    class="tab"
-    data-cat="other"
-  >
-    その他
+    <button
+      type="button"
+      class="floor-filter active"
+      data-floor-filter="all"
+    >
+      全て
+    </button>
+
+    <button
+      type="button"
+      class="floor-filter"
+      data-floor-filter="1"
+    >
+      1階
+    </button>
+
+    <button
+      type="button"
+      class="floor-filter"
+      data-floor-filter="2"
+    >
+      2階
+    </button>
+
+    <button
+      type="button"
+      class="floor-filter"
+      data-floor-filter="3"
+    >
+      3階
+    </button>
+
+    <button
+      type="button"
+      class="floor-filter"
+      data-floor-filter="4"
+    >
+      4階
+    </button>
+
   </div>
 
 </div>
@@ -836,1037 +1215,1138 @@ fetch("header.html")
 <div class="content">
 
 
-<!-- ==================================================
-     1年
-================================================== -->
+  <!-- ==================================================
+       1年
+       ※グループ分け自体は表示上残す
+       絞り込みには使用しない
+  ================================================== -->
 
-<div
-  class="group"
-  data-cat="1"
->
-
-  <h2 class="group-title">
-    1学年
-  </h2>
+  <div class="group">
 
 
-  <div class="grid">
+    <h2 class="group-title">
+      1学年
+    </h2>
 
 
-    <div
-      class="card"
-      data-modal-id="1a"
-      data-card-type="クラス企画"
-      data-card-badge="縁日"
-    >
+    <div class="grid">
 
-      <img src="1a.jpg">
 
-      <div class="card-content">
+      <div
+        class="card"
+        data-modal-id="1a"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-        <div class="card-title">
-          1年A組
-        </div>
+        <img src="1a.jpg">
 
-        <div class="card-info">
+        <div class="card-content">
 
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年A組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1b"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1b"
-      data-card-type="クラス企画"
-      data-card-badge="アイス"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年B組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年B組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1c"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1c"
-      data-card-type="クラス企画"
-      data-card-badge="脱出ゲーム"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年C組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年C組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1d"
+        data-badge="クラス企画"
+        data-place-badge="食堂"
+        data-floor="1"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1d"
-      data-card-type="クラス企画"
-      data-card-badge="飲食"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年D組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年D組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1階 食堂
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1階 食堂
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1e"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1e"
-      data-card-type="クラス企画"
-      data-card-badge="脱出ゲーム"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年E組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年E組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1f"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1f"
-      data-card-type="クラス企画"
-      data-card-badge="飲食"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年F組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年F組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="1g"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="1g"
-      data-card-type="クラス企画"
-      data-card-badge="飲食"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          1年G組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             1年G組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              1年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+    </div>
 
   </div>
 
-</div>
+
+  <!-- ==================================================
+       2年
+  ================================================== -->
+
+  <div class="group">
 
 
-<!-- ==================================================
-     2年
-================================================== -->
-
-<div
-  class="group"
-  data-cat="2"
->
-
-  <h2 class="group-title">
-    2学年
-  </h2>
+    <h2 class="group-title">
+      2学年
+    </h2>
 
 
-  <div class="grid">
+    <div class="grid">
 
 
-    <div
-      class="card"
-      data-modal-id="2a"
-      data-card-type="クラス企画"
-      data-card-badge="フォトスポット"
-    >
+      <div
+        class="card"
+        data-modal-id="2a"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-      <img src="1a.jpg">
+        <img src="1a.jpg">
 
-      <div class="card-content">
+        <div class="card-content">
 
-        <div class="card-title">
-          2年A組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年A組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2b"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2b"
-      data-card-type="クラス企画"
-      data-card-badge="映画"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年B組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年B組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2c"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2c"
-      data-card-type="クラス企画"
-      data-card-badge="迷路"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年C組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年C組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2d"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2d"
-      data-card-type="クラス企画"
-      data-card-badge="体験型"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年D組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年D組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2e"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2e"
-      data-card-type="クラス企画"
-      data-card-badge="迷路"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年E組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年E組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2f"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2f"
-      data-card-type="クラス企画"
-      data-card-badge="体験型"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年F組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年F組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="2g"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="2g"
-      data-card-type="クラス企画"
-      data-card-badge="体験型"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          2年G組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             2年G組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              2年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+    </div>
 
   </div>
 
-</div>
+
+  <!-- ==================================================
+       3年
+  ================================================== -->
+
+  <div class="group">
 
 
-<!-- ==================================================
-     3年
-================================================== -->
-
-<div
-  class="group"
-  data-cat="3"
->
-
-  <h2 class="group-title">
-    3学年
-  </h2>
+    <h2 class="group-title">
+      3学年
+    </h2>
 
 
-  <div class="grid">
+    <div class="grid">
 
 
-    <div
-      class="card"
-      data-modal-id="3a"
-      data-card-type="クラス企画"
-      data-card-badge="飲食"
-    >
+      <div
+        class="card"
+        data-modal-id="3a"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-      <img src="1a.jpg">
+        <img src="1a.jpg">
 
-      <div class="card-content">
+        <div class="card-content">
 
-        <div class="card-title">
-          3年A組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年A組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年A組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3b"
+        data-badge="クラス企画"
+        data-place-badge="講義室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3b"
-      data-card-type="クラス企画"
-      data-card-badge="お化け屋敷"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年B組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年B組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            3棟3階 ①講義室
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年B組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3棟3階 ①講義室
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3c"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="4"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3c"
-      data-card-type="クラス企画"
-      data-card-badge="お化け屋敷"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年C組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年C組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟4階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年C組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟4階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3d"
+        data-badge="クラス企画"
+        data-place-badge="講義室"
+        data-floor="2"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3d"
-      data-card-type="クラス企画"
-      data-card-badge="お化け屋敷"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年D組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年D組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            3棟2階 ①講義室
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年D組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              3棟2階 ①講義室
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3e"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3e"
-      data-card-type="クラス企画"
-      data-card-badge="飲食"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年E組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年E組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年E組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3f"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="3"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3f"
-      data-card-type="クラス企画"
-      data-card-badge="カジノ"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年F組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年F組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟3階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年F組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟3階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="3g"
+        data-badge="クラス企画"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-    <div
-      class="card"
-      data-modal-id="3g"
-      data-card-type="クラス企画"
-      data-card-badge="カジノ"
-    >
+        <img src="1a.jpg">
 
-      <img src="1a.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          3年G組
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">クラス</div>
-
-          <div class="card-value">
+          <div class="card-title">
             3年G組
           </div>
 
-          <div class="card-label">開催場所</div>
+          <div class="card-info">
 
-          <div class="card-value">
-            1棟2階
+            <div class="card-label">
+              クラス
+            </div>
+
+            <div class="card-value">
+              3年G組
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              1棟2階
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+    </div>
 
   </div>
 
-</div>
+
+  <!-- ==================================================
+       部活動・同好会
+  ================================================== -->
+
+  <div class="group">
 
 
-<!-- ==================================================
-     部活動・同好会
-================================================== -->
-
-<div
-  class="group"
-  data-cat="club"
->
-
-  <h2 class="group-title">
-    部活動・同好会
-  </h2>
+    <h2 class="group-title">
+      部活動・同好会
+    </h2>
 
 
-  <div class="grid">
+    <div class="grid">
 
 
-    <div
-      class="card"
-      data-modal-id="club1"
-      data-card-type="部活動"
-      data-card-badge="飲食"
-    >
+      <div
+        class="card"
+        data-modal-id="club1"
+        data-badge="部活動"
+        data-place-badge="教室"
+        data-floor="1"
+      >
 
-      <img src="club1.jpg">
+        <img src="club1.jpg">
 
-      <div class="card-content">
+        <div class="card-content">
 
-        <div class="card-title">
-          茶道部
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">
-            団体
-          </div>
-
-          <div class="card-value">
+          <div class="card-title">
             茶道部
           </div>
 
-          <div class="card-label">
-            開催場所
-          </div>
+          <div class="card-info">
 
-          <div class="card-value">
-            2棟1階 礼法室
+            <div class="card-label">
+              団体
+            </div>
+
+            <div class="card-value">
+              茶道部
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2棟1階 礼法室
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="club2"
+        data-badge="部活動"
+        data-place-badge="教室"
+        data-floor="2"
+      >
 
-    <div
-      class="card"
-      data-modal-id="club2"
-      data-card-type="部活動"
-      data-card-badge="鑑賞"
-    >
+        <img src="club2.jpg">
 
-      <img src="club2.jpg">
+        <div class="card-content">
 
-      <div class="card-content">
-
-        <div class="card-title">
-          美術部
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">
-            団体
-          </div>
-
-          <div class="card-value">
+          <div class="card-title">
             美術部
           </div>
 
-          <div class="card-label">
-            開催場所
-          </div>
+          <div class="card-info">
 
-          <div class="card-value">
-            2棟2階 美術室
+            <div class="card-label">
+              団体
+            </div>
+
+            <div class="card-value">
+              美術部
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              2棟2階 美術室
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+    </div>
 
   </div>
 
-</div>
+
+  <!-- ==================================================
+       その他
+  ================================================== -->
+
+  <div class="group">
 
 
-<!-- ==================================================
-     その他
-================================================== -->
-
-<div
-  class="group"
-  data-cat="other"
->
-
-  <h2 class="group-title">
-    その他
-  </h2>
+    <h2 class="group-title">
+      その他
+    </h2>
 
 
-  <div class="grid">
+    <div class="grid">
 
 
-    <div
-      class="card"
-      data-modal-id="other1"
-      data-card-type="特別企画"
-      data-card-badge="販売"
-    >
+      <div
+        class="card"
+        data-modal-id="other1"
+        data-badge="その他企画"
+        data-place-badge="販売"
+        data-floor="1"
+      >
 
-      <img src="other1.jpg">
+        <img src="other1.jpg">
 
-      <div class="card-content">
+        <div class="card-content">
 
-        <div class="card-title">
-          大網白里特別支援学校
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">
-            内容
+          <div class="card-title">
+            大網白里特別支援学校
           </div>
 
-          <div class="card-value">
-            販売
-          </div>
+          <div class="card-info">
 
-          <div class="card-label">
-            販売場所
-          </div>
+            <div class="card-label">
+              内容
+            </div>
 
-          <div class="card-value">
-            1階渡り廊下
-          </div>
+            <div class="card-value">
+              販売
+            </div>
 
-        </div>
+            <div class="card-label">
+              販売場所
+            </div>
 
-      </div>
+            <div class="card-value">
+              1階渡り廊下
+            </div>
 
-    </div>
-
-
-    <div
-      class="card"
-      data-modal-id="other2"
-      data-card-type="特別企画"
-      data-card-badge="体育館"
-    >
-
-      <img src="other2.jpg">
-
-      <div class="card-content">
-
-        <div class="card-title">
-          体育館企画
-        </div>
-
-        <div class="card-info">
-
-          <div class="card-label">
-            企画
-          </div>
-
-          <div class="card-value">
-            体育館で色々
-          </div>
-
-          <div class="card-label">
-            開催場所
-          </div>
-
-          <div class="card-value">
-            体育館
           </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <div
+        class="card"
+        data-modal-id="other2"
+        data-badge="その他企画"
+        data-place-badge="体育館"
+        data-floor="1"
+      >
+
+        <img src="other2.jpg">
+
+        <div class="card-content">
+
+          <div class="card-title">
+            体育館企画
+          </div>
+
+          <div class="card-info">
+
+            <div class="card-label">
+              企画
+            </div>
+
+            <div class="card-value">
+              体育館で色々
+            </div>
+
+            <div class="card-label">
+              開催場所
+            </div>
+
+            <div class="card-value">
+              体育館
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
 
   </div>
 
-</div>
 
+  <!-- ==================================================
+       共通モーダル
+  ================================================== -->
 
-<!-- ==================================================
-     共通モーダル
-================================================== -->
-
-<div id="modal-container"></div>
+  <div id="modal-container"></div>
 
 
 </div>
@@ -1905,8 +2385,11 @@ fetch("header.html")
   function normalizeModalId(id){
 
     if(!id){
+
       return "";
+
     }
+
 
     return String(id)
       .trim()
@@ -2069,10 +2552,6 @@ fetch("header.html")
     }
 
 
-    /* =====================================================
-       データ取得
-    ===================================================== */
-
     const data =
       document.getElementById(
         "modal-data-" + id
@@ -2205,17 +2684,9 @@ fetch("header.html")
     );
 
 
-    /* =====================================================
-       背景スクロール禁止
-    ===================================================== */
-
     document.body.style.overflow =
       "hidden";
 
-
-    /* =====================================================
-       モーダル内部を先頭へ
-    ===================================================== */
 
     const modalBox =
       modal.querySelector(
@@ -2477,125 +2948,367 @@ fetch("header.html")
 
 
   /* =======================================================
-     タブ切り替え
+     バッジ絞り込み
   ======================================================= */
 
-  const tabs =
-    document.querySelectorAll(
-      ".tab"
-    );
+  let selectedBadge =
+    "all";
 
 
-  const groups =
-    document.querySelectorAll(
-      ".group"
-    );
+  let selectedFloor =
+    "all";
 
 
-  tabs.forEach(function(tab){
+  function setupBadgeFilters(){
 
-    tab.addEventListener(
-      "click",
-      function(){
-
-        tabs.forEach(function(t){
-
-          t.classList.remove(
-            "active"
-          );
-
-        });
-
-
-        tab.classList.add(
-          "active"
-        );
-
-
-        const cat =
-          tab.dataset.cat;
-
-
-        groups.forEach(function(group){
-
-          if(cat === "all"){
-
-            group.style.display =
-              "block";
-
-          }else{
-
-            group.style.display =
-              group.dataset.cat === cat
-                ? "block"
-                : "none";
-
-          }
-
-
-          const cards =
-            group.querySelectorAll(
-              ".card"
-            );
-
-
-          cards.forEach(function(card){
-
-            card.classList.remove(
-              "show"
-            );
-
-          });
-
-        });
-
-
-        setupScrollAnimation();
-
-      }
-    );
-
-  });
-
-
-  /* =======================================================
-     初期ロード
-  ======================================================= */
-
-  function initializeFromUrl(){
-
-    const params =
-      new URLSearchParams(
-        window.location.search
+    const filterContainer =
+      document.getElementById(
+        "badge-filters"
       );
 
 
-    const cat =
-      params.get("cat");
-
-
-    if(!cat){
-
-      setupScrollAnimation();
+    if(!filterContainer){
 
       return;
 
     }
 
 
-    tabs.forEach(function(tab){
-
-      tab.classList.remove(
-        "active"
+    const cards =
+      Array.from(
+        document.querySelectorAll(
+          ".card[data-badge]"
+        )
       );
 
 
+    const badgeCounts =
+      {};
+
+
+    cards.forEach(function(card){
+
+      const badge =
+        (
+          card.dataset.badge || ""
+        ).trim();
+
+
+      if(!badge){
+
+        return;
+
+      }
+
+
       if(
-        tab.dataset.cat === cat
+        !badgeCounts[badge]
       ){
 
-        tab.classList.add(
-          "active"
+        badgeCounts[badge] = 0;
+
+      }
+
+
+      badgeCounts[badge]++;
+
+    });
+
+
+    filterContainer.innerHTML =
+      "";
+
+
+    /*
+     * 「全て」
+     */
+
+    const allButton =
+      document.createElement(
+        "button"
+      );
+
+
+    allButton.type =
+      "button";
+
+    allButton.className =
+      "badge-filter active";
+
+    allButton.dataset.badgeFilter =
+      "all";
+
+    allButton.textContent =
+      "全て";
+
+
+    filterContainer.appendChild(
+      allButton
+    );
+
+
+    /*
+     * 2個以上あるバッジ
+     */
+
+    const commonBadges =
+      Object.keys(
+        badgeCounts
+      ).filter(function(badge){
+
+        return badgeCounts[badge] >= 2;
+
+      });
+
+
+    commonBadges.forEach(function(badge){
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+      button.className =
+        "badge-filter";
+
+      button.dataset.badgeFilter =
+        badge;
+
+      button.textContent =
+        badge;
+
+
+      filterContainer.appendChild(
+        button
+      );
+
+    });
+
+
+    /*
+     * 1個しかないバッジ
+     * → 「その他」にまとめる
+     */
+
+    const hasOther =
+      Object.keys(
+        badgeCounts
+      ).some(function(badge){
+
+        return badgeCounts[badge] === 1;
+
+      });
+
+
+    if(hasOther){
+
+      const otherButton =
+        document.createElement(
+          "button"
+        );
+
+
+      otherButton.type =
+        "button";
+
+      otherButton.className =
+        "badge-filter";
+
+      otherButton.dataset.badgeFilter =
+        "other";
+
+      otherButton.textContent =
+        "その他";
+
+
+      filterContainer.appendChild(
+        otherButton
+      );
+
+    }
+
+
+    filterContainer
+      .querySelectorAll(
+        ".badge-filter"
+      )
+      .forEach(function(button){
+
+        button.addEventListener(
+          "click",
+          function(){
+
+            filterContainer
+              .querySelectorAll(
+                ".badge-filter"
+              )
+              .forEach(function(item){
+
+                item.classList.remove(
+                  "active"
+                );
+
+              });
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            selectedBadge =
+              button.dataset.badgeFilter;
+
+
+            applyFilters();
+
+          }
+        );
+
+      });
+
+  }
+
+
+  /* =======================================================
+     カード絞り込み処理
+  ======================================================= */
+
+  function applyFilters(){
+
+    const cards =
+      document.querySelectorAll(
+        ".card"
+      );
+
+
+    cards.forEach(function(card){
+
+      const badge =
+        (
+          card.dataset.badge || ""
+        ).trim();
+
+
+      const floor =
+        (
+          card.dataset.floor || ""
+        ).trim();
+
+
+      /* =================================================
+         バッジ判定
+      ================================================= */
+
+      let badgeMatch =
+        false;
+
+
+      if(
+        selectedBadge === "all"
+      ){
+
+        badgeMatch =
+          true;
+
+      }else if(
+        selectedBadge === "other"
+      ){
+
+        /*
+         * 1個しかないバッジか判定
+         */
+
+        const sameBadgeCards =
+          Array.from(
+            cards
+          ).filter(function(otherCard){
+
+            return (
+              (
+                otherCard.dataset.badge || ""
+              ).trim() === badge
+            );
+
+          });
+
+
+        badgeMatch =
+          sameBadgeCards.length === 1;
+
+      }else{
+
+        badgeMatch =
+          badge === selectedBadge;
+
+      }
+
+
+      /* =================================================
+         階数判定
+      ================================================= */
+
+      let floorMatch =
+        false;
+
+
+      if(
+        selectedFloor === "all"
+      ){
+
+        floorMatch =
+          true;
+
+      }else{
+
+        floorMatch =
+          floor === selectedFloor;
+
+      }
+
+
+      /* =================================================
+         両方一致したカードだけ表示
+      ================================================= */
+
+      if(
+        badgeMatch &&
+        floorMatch
+      ){
+
+        card.classList.remove(
+          "filter-hidden"
+        );
+
+        card.classList.remove(
+          "show"
+        );
+
+
+        /*
+         * 再表示時にフェードイン
+         */
+
+        setTimeout(function(){
+
+          card.classList.add(
+            "show"
+          );
+
+        }, 20);
+
+      }else{
+
+        card.classList.add(
+          "filter-hidden"
+        );
+
+        card.classList.remove(
+          "show"
         );
 
       }
@@ -2603,32 +3316,84 @@ fetch("header.html")
     });
 
 
-    groups.forEach(function(group){
+    /*
+     * カードが全部非表示になったグループは
+     * 見出しも非表示にする。
+     */
 
-      group.style.display =
-        group.dataset.cat === cat
-          ? "block"
-          : "none";
+    document
+      .querySelectorAll(".group")
+      .forEach(function(group){
+
+        const visibleCards =
+          group.querySelectorAll(
+            ".card:not(.filter-hidden)"
+          );
 
 
-      const cards =
-        group.querySelectorAll(
-          ".card"
-        );
+        if(
+          visibleCards.length === 0
+        ){
 
+          group.style.display =
+            "none";
 
-      cards.forEach(function(card){
+        }else{
 
-        card.classList.remove(
-          "show"
-        );
+          group.style.display =
+            "block";
+
+        }
 
       });
 
+  }
+
+
+  /* =======================================================
+     階数フィルター
+  ======================================================= */
+
+  function setupFloorFilters(){
+
+    const buttons =
+      document.querySelectorAll(
+        ".floor-filter"
+      );
+
+
+    buttons.forEach(function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          buttons.forEach(
+            function(item){
+
+              item.classList.remove(
+                "active"
+              );
+
+            }
+          );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          selectedFloor =
+            button.dataset.floorFilter;
+
+
+          applyFilters();
+
+        }
+      );
+
     });
-
-
-    setupScrollAnimation();
 
   }
 
@@ -2641,7 +3406,7 @@ fetch("header.html")
 
     const cards =
       document.querySelectorAll(
-        ".card"
+        ".card:not(.filter-hidden)"
       );
 
 
@@ -2718,7 +3483,7 @@ fetch("header.html")
             const cardsInGroup =
               Array.from(
                 group.querySelectorAll(
-                  ".card"
+                  ".card:not(.filter-hidden)"
                 )
               );
 
@@ -2766,9 +3531,9 @@ fetch("header.html")
     });
 
 
-    /* =====================================================
-       初期表示対策
-    ===================================================== */
+    /*
+     * 初期表示対策
+     */
 
     setTimeout(
       function(){
@@ -2828,13 +3593,53 @@ fetch("header.html")
      初期化
   ======================================================= */
 
+  function initializePage(){
+
+    /*
+     * バッジ絞り込みボタンを生成
+     */
+
+    setupBadgeFilters();
+
+
+    /*
+     * 階数絞り込みを設定
+     */
+
+    setupFloorFilters();
+
+
+    /*
+     * 初期状態
+     */
+
+    selectedBadge =
+      "all";
+
+
+    selectedFloor =
+      "all";
+
+
+    applyFilters();
+
+
+    /*
+     * スクロールアニメーション
+     */
+
+    setupScrollAnimation();
+
+  }
+
+
   if(
     document.readyState === "loading"
   ){
 
     document.addEventListener(
       "DOMContentLoaded",
-      initializeFromUrl,
+      initializePage,
       {
         once:true
       }
@@ -2842,7 +3647,7 @@ fetch("header.html")
 
   }else{
 
-    initializeFromUrl();
+    initializePage();
 
   }
 
