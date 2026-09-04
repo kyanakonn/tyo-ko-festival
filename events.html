@@ -31,14 +31,53 @@ body{
 
 
 /* ==================================================
+   背景図形
+   絞り込み・コンテンツより背面に配置
+================================================== */
+
+.bg-shapes{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+}
+
+
+/* ==================================================
+   ヘッダー
+================================================== */
+
+#header{
+
+  position:relative;
+
+  z-index:100;
+
+}
+
+
+/* ==================================================
    絞り込みエリア
+   背景図形より前面に配置
 ================================================== */
 
 .filter-area{
 
+  position:relative;
+
+  z-index:20;
+
   width:100%;
 
-  padding:0 20px 5px;
+  padding:
+    0
+    20px
+    5px;
 
   box-sizing:border-box;
 
@@ -73,6 +112,19 @@ body{
   color:#59677f;
 
   margin-right:3px;
+
+}
+
+
+#badge-filters{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:9px;
 
 }
 
@@ -171,11 +223,11 @@ body{
 
   appearance:none;
 
-  border:1.5px solid #d7e4ff;
+  border:1.5px solid #f2a65a;
 
   background:#fff;
 
-  color:#59677f;
+  color:#c66a16;
 
   border-radius:999px;
 
@@ -199,36 +251,42 @@ body{
 }
 
 
+/* ==================================================
+   階数ボタン ホバー
+================================================== */
+
 .floor-filter:hover{
 
-  border-color:#a9c4ff;
+  background:#fff3e3;
+
+  border-color:#e88a2e;
+
+  color:#b85d0c;
 
   transform:translateY(-1px);
 
   box-shadow:
-    0 3px 10px rgba(82,110,170,0.08);
-
-}
-
-
-.floor-filter.active{
-
-  background:#2a9d8f;
-
-  border-color:#2a9d8f;
-
-  color:#fff;
-
-  box-shadow:
-    0 4px 10px rgba(42,157,143,0.15);
+    0 3px 10px rgba(232,138,46,0.16);
 
 }
 
 
 /* ==================================================
-   タブ
-   ※旧タブは削除
+   階数ボタン 選択中
 ================================================== */
+
+.floor-filter.active{
+
+  background:#f28c28;
+
+  border-color:#f28c28;
+
+  color:#fff;
+
+  box-shadow:
+    0 4px 12px rgba(242,140,40,0.24);
+
+}
 
 
 /* ==================================================
@@ -236,7 +294,13 @@ body{
 ================================================== */
 
 .content{
+
+  position:relative;
+
+  z-index:10;
+
   padding:20px;
+
 }
 
 
@@ -245,8 +309,11 @@ body{
 ================================================== */
 
 .group{
+
   width:100%;
+
   margin-bottom:40px;
+
 }
 
 
@@ -255,13 +322,21 @@ body{
 ================================================== */
 
 .group-title{
+
   display:inline-block;
+
   margin:20px 0 15px;
+
   font-size:20px;
+
   border-left:5px solid #2a9d8f;
+
   padding:6px 14px;
+
   background:#fff;
+
   border-radius:6px;
+
 }
 
 
@@ -316,6 +391,7 @@ body{
   cursor:pointer;
 
   margin-left:0;
+
   margin-right:0;
 
   opacity:0;
@@ -380,7 +456,6 @@ body{
 
 /* ==================================================
    左上カードバッジ
-   data-badgeの値をJavaScriptで表示
 ================================================== */
 
 .card::before{
@@ -390,6 +465,7 @@ body{
   position:absolute;
 
   top:22px;
+
   left:22px;
 
   font-size:15px;
@@ -407,7 +483,6 @@ body{
 
 /* ==================================================
    右上カードバッジ
-   data-place-badgeの値をJavaScriptで表示
 ================================================== */
 
 .card::after{
@@ -417,6 +492,7 @@ body{
   position:absolute;
 
   top:18px;
+
   right:18px;
 
   display:flex;
@@ -596,6 +672,10 @@ body{
 
   .filter-area{
 
+    position:relative;
+
+    z-index:20;
+
     padding:
       0
       15px
@@ -624,6 +704,13 @@ body{
   }
 
 
+  #badge-filters{
+
+    gap:7px;
+
+  }
+
+
   .badge-filter,
   .floor-filter{
 
@@ -637,6 +724,10 @@ body{
 
 
   .content{
+
+    position:relative;
+
+    z-index:10;
 
     padding:15px;
 
@@ -672,6 +763,7 @@ body{
   .card::before{
 
     top:18px;
+
     left:16px;
 
     font-size:13px;
@@ -682,6 +774,7 @@ body{
   .card::after{
 
     top:15px;
+
     right:14px;
 
     min-width:44px;
@@ -747,6 +840,10 @@ body{
 
   .filter-area{
 
+    position:relative;
+
+    z-index:20;
+
     padding:
       0
       12px
@@ -756,6 +853,10 @@ body{
 
 
   .content{
+
+    position:relative;
+
+    z-index:10;
 
     padding:12px;
 
@@ -816,6 +917,7 @@ body{
   .card::before{
 
     top:18px;
+
     left:17px;
 
     font-size:13px;
@@ -826,6 +928,7 @@ body{
   .card::after{
 
     top:15px;
+
     right:14px;
 
     min-width:44px;
@@ -889,6 +992,10 @@ body{
 
   .filter-area{
 
+    position:relative;
+
+    z-index:20;
+
     padding:
       0
       10px
@@ -898,6 +1005,10 @@ body{
 
 
   .content{
+
+    position:relative;
+
+    z-index:10;
 
     padding:10px;
 
@@ -950,6 +1061,7 @@ body{
   .card::before{
 
     top:16px;
+
     left:15px;
 
     font-size:12px;
@@ -960,6 +1072,7 @@ body{
   .card::after{
 
     top:13px;
+
     right:12px;
 
     min-width:42px;
@@ -1130,9 +1243,6 @@ fetch("header.html")
 
 <!-- ==================================================
      絞り込み
-     
-     JavaScriptでカードのバッジを調べて
-     自動的にボタンを作成する。
 ================================================== -->
 
 <div class="filter-area">
@@ -1217,17 +1327,13 @@ fetch("header.html")
 
   <!-- ==================================================
        1年
-       ※グループ分け自体は表示上残す
-       絞り込みには使用しない
   ================================================== -->
 
   <div class="group">
 
-
     <h2 class="group-title">
       1学年
     </h2>
-
 
     <div class="grid">
 
@@ -1530,11 +1636,9 @@ fetch("header.html")
 
   <div class="group">
 
-
     <h2 class="group-title">
       2学年
     </h2>
-
 
     <div class="grid">
 
@@ -1837,11 +1941,9 @@ fetch("header.html")
 
   <div class="group">
 
-
     <h2 class="group-title">
       3学年
     </h2>
-
 
     <div class="grid">
 
@@ -2144,11 +2246,9 @@ fetch("header.html")
 
   <div class="group">
 
-
     <h2 class="group-title">
       部活動・同好会
     </h2>
-
 
     <div class="grid">
 
@@ -2246,11 +2346,9 @@ fetch("header.html")
 
   <div class="group">
 
-
     <h2 class="group-title">
       その他
     </h2>
-
 
     <div class="grid">
 
@@ -2447,10 +2545,6 @@ fetch("header.html")
     }
 
 
-    /* =====================================================
-       閉じるボタン
-    ===================================================== */
-
     closeBtn.addEventListener(
       "click",
       function(event){
@@ -2464,10 +2558,6 @@ fetch("header.html")
       }
     );
 
-
-    /* =====================================================
-       背景クリック
-    ===================================================== */
 
     modal.addEventListener(
       "click",
@@ -2484,10 +2574,6 @@ fetch("header.html")
       }
     );
 
-
-    /* =====================================================
-       初期状態
-    ===================================================== */
 
     modal.style.display = "none";
 
@@ -2570,10 +2656,6 @@ fetch("header.html")
     }
 
 
-    /* =====================================================
-       画像
-    ===================================================== */
-
     if(modalImg){
 
       const image =
@@ -2612,10 +2694,6 @@ fetch("header.html")
     }
 
 
-    /* =====================================================
-       キャッチコピー
-    ===================================================== */
-
     if(modalCatchcopy){
 
       modalCatchcopy.textContent =
@@ -2645,10 +2723,6 @@ fetch("header.html")
     }
 
 
-    /* =====================================================
-       開催場所
-    ===================================================== */
-
     if(modalPlace){
 
       modalPlace.textContent =
@@ -2656,10 +2730,6 @@ fetch("header.html")
 
     }
 
-
-    /* =====================================================
-       フロアマップ
-    ===================================================== */
 
     if(modalLink){
 
@@ -2669,10 +2739,6 @@ fetch("header.html")
 
     }
 
-
-    /* =====================================================
-       モーダル表示
-    ===================================================== */
 
     modal.style.display =
       "flex";
@@ -3019,10 +3085,6 @@ fetch("header.html")
       "";
 
 
-    /*
-     * 「全て」
-     */
-
     const allButton =
       document.createElement(
         "button"
@@ -3046,10 +3108,6 @@ fetch("header.html")
       allButton
     );
 
-
-    /*
-     * 2個以上あるバッジ
-     */
 
     const commonBadges =
       Object.keys(
@@ -3088,11 +3146,6 @@ fetch("header.html")
 
     });
 
-
-    /*
-     * 1個しかないバッジ
-     * → 「その他」にまとめる
-     */
 
     const hasOther =
       Object.keys(
@@ -3200,10 +3253,6 @@ fetch("header.html")
         ).trim();
 
 
-      /* =================================================
-         バッジ判定
-      ================================================= */
-
       let badgeMatch =
         false;
 
@@ -3218,10 +3267,6 @@ fetch("header.html")
       }else if(
         selectedBadge === "other"
       ){
-
-        /*
-         * 1個しかないバッジか判定
-         */
 
         const sameBadgeCards =
           Array.from(
@@ -3248,10 +3293,6 @@ fetch("header.html")
       }
 
 
-      /* =================================================
-         階数判定
-      ================================================= */
-
       let floorMatch =
         false;
 
@@ -3271,10 +3312,6 @@ fetch("header.html")
       }
 
 
-      /* =================================================
-         両方一致したカードだけ表示
-      ================================================= */
-
       if(
         badgeMatch &&
         floorMatch
@@ -3289,17 +3326,13 @@ fetch("header.html")
         );
 
 
-        /*
-         * 再表示時にフェードイン
-         */
-
         setTimeout(function(){
 
           card.classList.add(
             "show"
           );
 
-        }, 20);
+        },20);
 
       }else{
 
@@ -3315,11 +3348,6 @@ fetch("header.html")
 
     });
 
-
-    /*
-     * カードが全部非表示になったグループは
-     * 見出しも非表示にする。
-     */
 
     document
       .querySelectorAll(".group")
@@ -3531,10 +3559,6 @@ fetch("header.html")
     });
 
 
-    /*
-     * 初期表示対策
-     */
-
     setTimeout(
       function(){
 
@@ -3595,23 +3619,10 @@ fetch("header.html")
 
   function initializePage(){
 
-    /*
-     * バッジ絞り込みボタンを生成
-     */
-
     setupBadgeFilters();
-
-
-    /*
-     * 階数絞り込みを設定
-     */
 
     setupFloorFilters();
 
-
-    /*
-     * 初期状態
-     */
 
     selectedBadge =
       "all";
@@ -3623,10 +3634,6 @@ fetch("header.html")
 
     applyFilters();
 
-
-    /*
-     * スクロールアニメーション
-     */
 
     setupScrollAnimation();
 
