@@ -23,6 +23,7 @@ html,
 body {
   width: 100%;
   min-height: 100%;
+
   margin: 0;
   padding: 0;
 
@@ -39,7 +40,8 @@ body {
 
 
 /* =========================================
-   背景図形
+   背景
+   TOPページと統一
 ========================================= */
 
 .bg-shapes {
@@ -50,9 +52,7 @@ body {
 
   width: 100%;
 
-  height: 100%;
-
-  min-height: max(100vh, 1100px);
+  height: max(100vh, 1100px);
 
   z-index: 0 !important;
 
@@ -64,170 +64,15 @@ body {
 }
 
 
+/*
+   背景装飾を表示しない
+   白い図形などがstyle.cssから
+   出てくる場合も無効化
+*/
+
 .bg-shapes .shape {
-  position: absolute;
-
-  display: block;
-
-  opacity: 1;
-
-  border: none;
+  display: none !important;
 }
-
-
-.bg-shapes .s1 {
-  top: 16%;
-  left: 6%;
-
-  width: 150px;
-  height: 610px;
-
-  background: #06254f;
-
-  clip-path: polygon(
-    35% 0,
-    100% 16%,
-    100% 100%,
-    0 94%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s2 {
-  top: 30%;
-  left: 39%;
-
-  width: 315px;
-  height: 470px;
-
-  background: #ff9d1c;
-
-  clip-path: polygon(
-    10% 0,
-    100% 8%,
-    82% 100%,
-    0 96%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s3 {
-  top: 26%;
-  right: 10%;
-
-  width: 330px;
-  height: 500px;
-
-  background: #15929e;
-
-  clip-path: polygon(
-    55% 0,
-    100% 100%,
-    0 100%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s4 {
-  top: 5%;
-  left: 3%;
-
-  width: 90px;
-  height: 90px;
-
-  background: #f0444d;
-
-  clip-path: polygon(
-    42% 0,
-    100% 100%,
-    0 100%
-  );
-
-  transform: rotate(-14deg);
-}
-
-
-.bg-shapes .s5 {
-  top: -1%;
-  right: 4%;
-
-  width: 170px;
-  height: 170px;
-
-  background: #650006;
-
-  clip-path: polygon(
-    100% 0,
-    100% 100%,
-    0 35%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s6 {
-  top: 36%;
-  left: 2%;
-
-  width: 65px;
-  height: 65px;
-
-  background: #8f5bd0;
-
-  clip-path: polygon(
-    70% 0,
-    100% 100%,
-    0 70%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s7 {
-  top: 35%;
-  right: 10%;
-
-  width: 65px;
-  height: 65px;
-
-  background: #ff991d;
-
-  clip-path: polygon(
-    15% 0,
-    100% 55%,
-    0 100%
-  );
-
-  transform: rotate(0deg);
-}
-
-
-.bg-shapes .s8 {
-  top: 47%;
-  right: 4%;
-
-  width: 80px;
-  height: 105px;
-
-  background: #087b84;
-
-  clip-path: polygon(
-    100% 0,
-    100% 100%,
-    0 62%
-  );
-
-  transform: rotate(0deg);
-}
-
 
 .bg-shapes::before,
 .bg-shapes::after {
@@ -422,7 +267,6 @@ body {
 
 .hotspot-cha {
 
-  /* 1階：茶道部の部屋全体 */
   left: 63.2%;
   top: 43.5%;
 
@@ -433,7 +277,6 @@ body {
 
 .hotspot-science-kagaku {
 
-  /* 1階：サイエンス部 化学班の部屋全体 */
   left: 28.4%;
   top: 43.5%;
 
@@ -441,7 +284,7 @@ body {
   height: 26.8%;
 }
 
-/* 1階：華道部（赤文字のある図形全体） */
+
 .hotspot-kado {
   left: 49.5%;
   top: 47.3%;
@@ -449,7 +292,7 @@ body {
   height: 19.8%;
 }
 
-/* 1階：大網白里特別支援学校（赤文字部分） */
+
 .hotspot-oami-special {
   left: 46.5%;
   top: 65.9%;
@@ -464,7 +307,6 @@ body {
 
 .hotspot-art {
 
-  /* 2階：美術部の部屋全体 */
   left: 87.9%;
   top: 43.5%;
 
@@ -475,7 +317,6 @@ body {
 
 .hotspot-science-butsuri {
 
-  /* 2階：サイエンス部 物理班の部屋全体 */
   left: 28.4%;
   top: 43.5%;
 
@@ -486,7 +327,6 @@ body {
 
 .hotspot-shogi {
 
-  /* 2階：将棋部の部屋全体 */
   left: 0%;
   top: 43.5%;
 
@@ -494,7 +334,7 @@ body {
   height: 26.8%;
 }
 
-/* 2階：写真部（赤文字のある図形全体） */
+
 .hotspot-photo {
   left: 48.0%;
   top: 43.5%;
@@ -509,7 +349,6 @@ body {
 
 .hotspot-science-seibutsu {
 
-  /* 3階：サイエンス部 生物班の部屋全体 */
   left: 28.4%;
   top: 43.5%;
 
@@ -524,7 +363,6 @@ body {
 
 .hotspot-science-chigaku {
 
-  /* 4階：サイエンス部 地学班の部屋全体 */
   left: 28.4%;
   top: 43.5%;
 
@@ -532,7 +370,7 @@ body {
   height: 26.8%;
 }
 
-/* 4階：サイエンス部 数学班の部屋全体 */
+
 .hotspot-science-sugaku {
   left: 72.9%;
   top: 43.5%;
@@ -892,10 +730,6 @@ body {
 }
 
 
-/* =========================================
-   赤い文字タップアイコン
-========================================= */
-
 .help-icon.gesture-red-square {
 
   width: 34px;
@@ -909,10 +743,6 @@ body {
   font-size: 0;
 }
 
-
-/* =========================================
-   2本指アイコン部分
-========================================= */
 
 .help-icon.gesture-square {
 
@@ -928,10 +758,6 @@ body {
 }
 
 
-/* =========================================
-   1本指移動アイコン部分
-========================================= */
-
 .help-icon.gesture-pan-square {
 
   width: 34px;
@@ -945,10 +771,6 @@ body {
   font-size: 0;
 }
 
-
-/* =========================================
-   操作説明テキスト
-========================================= */
 
 .help-text {
 
@@ -1265,110 +1087,15 @@ body {
   }
 
 
+  /* -------------------------
+     背景
+  ------------------------- */
+
   .bg-shapes {
 
-    height: 100%;
+    width: 100%;
 
-    min-height: 1050px;
-  }
-
-
-  .bg-shapes .s1 {
-
-    left: -15px;
-    top: 18%;
-
-    width: 90px;
-    height: 390px;
-  }
-
-
-  .bg-shapes .s2 {
-
-    left: 36%;
-    top: 33%;
-
-    width: 180px;
-    height: 300px;
-  }
-
-
-  .bg-shapes .s3 {
-
-    right: 1%;
-    top: 31%;
-
-    width: 170px;
-    height: 290px;
-  }
-
-
-  .bg-shapes .s4 {
-
-    top: 6%;
-    left: 2%;
-
-    width: 55px;
-    height: 55px;
-  }
-
-
-  .bg-shapes .s5 {
-
-    top: 0;
-    right: 0;
-
-    width: 95px;
-    height: 95px;
-  }
-
-
-  .bg-shapes .s6 {
-
-    top: 37%;
-    left: 1%;
-
-    width: 42px;
-    height: 42px;
-  }
-
-
-  .bg-shapes .s7 {
-
-    top: 37%;
-    right: 4%;
-
-    width: 42px;
-    height: 42px;
-  }
-
-
-  .bg-shapes .s8 {
-
-    top: 49%;
-    right: 0;
-
-    width: 50px;
-    height: 65px;
-  }
-
-
-  /* =====================================
-     スマホ用当たり判定
-     ※透ける紫色を維持
-  ====================================== */
-
-  .map-hotspot {
-
-    border-radius: 6px;
-
-    border-width: 2px;
-
-    background: rgba(143, 91, 208, 0.28);
-
-    border-color: rgba(143, 91, 208, 0.78);
-
-    box-shadow: none;
+    height: max(100vh, 1050px);
   }
 
 }
@@ -1592,6 +1319,7 @@ fetch("header.html")
           type="button"
         ></button>
 
+
         <button
           class="map-hotspot hotspot-kado"
           data-floor="0"
@@ -1600,6 +1328,7 @@ fetch("header.html")
           title="華道部"
           type="button"
         ></button>
+
 
         <button
           class="map-hotspot hotspot-oami-special"
@@ -1640,6 +1369,7 @@ fetch("header.html")
           type="button"
         ></button>
 
+
         <button
           class="map-hotspot hotspot-photo"
           data-floor="1"
@@ -1668,6 +1398,7 @@ fetch("header.html")
           title="サイエンス部 地学班"
           type="button"
         ></button>
+
 
         <button
           class="map-hotspot hotspot-science-sugaku"
