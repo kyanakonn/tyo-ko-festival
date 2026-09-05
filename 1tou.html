@@ -46,14 +46,12 @@ body {
 ========================================= */
 
 .bg-shapes {
-  position: absolute !important;
+  position: fixed !important;
 
-  top: 0;
-  left: 0;
+  inset: 0;
 
   width: 100%;
-
-  height: max(100vh, 1100px);
+  height: 100%;
 
   z-index: 0 !important;
 
@@ -61,23 +59,235 @@ body {
 
   overflow: hidden;
 
-  opacity: 1 !important;
+  /* TOPページと同じように透けて表示 */
+  opacity: 0.24 !important;
+
+  /* 背景として少し馴染ませる */
+  filter: blur(1px);
+
+  transform: translateZ(0);
 }
 
 
-/*
-   背景装飾を表示しない
-   白い図形などがstyle.cssから
-   出てくる場合も無効化
-*/
+/* 背景図形 */
 
 .bg-shapes .shape {
-  display: none !important;
+  display: block !important;
+
+  position: absolute;
 }
+
+
+/* =========================================
+   三角形
+========================================= */
+
+.s1 {
+  top: 5%;
+  left: -50px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 90px solid transparent;
+  border-right: 90px solid transparent;
+  border-bottom: 170px solid #c96d80;
+
+  transform: rotate(-25deg);
+}
+
+.s2 {
+  top: 25%;
+  left: -35px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #8870a8;
+
+  transform: rotate(20deg);
+}
+
+.s3 {
+  bottom: 5%;
+  left: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 180px solid #cfb25a;
+
+  transform: rotate(12deg);
+}
+
+.s4 {
+  bottom: 28%;
+  left: 20px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 120px solid #65a6ae;
+
+  transform: rotate(-15deg);
+}
+
+.s5 {
+  top: 12%;
+  right: -80px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 260px solid #6aa8ad;
+
+  transform: rotate(30deg);
+}
+
+.s6 {
+  bottom: -40px;
+  right: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 190px solid #c96d80;
+
+  transform: rotate(-15deg);
+}
+
+.s7 {
+  top: 8%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 55px solid transparent;
+  border-right: 55px solid transparent;
+  border-bottom: 100px solid #8870a8;
+
+  transform: rotate(35deg);
+}
+
+.s8 {
+  bottom: 20%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #cfb25a;
+
+  transform: rotate(-20deg);
+}
+
+
+/* =========================================
+   四角形
+========================================= */
 
 .bg-shapes::before,
 .bg-shapes::after {
-  display: none !important;
+  content: "";
+
+  position: absolute;
+
+  display: block;
+}
+
+
+.bg-shapes::before {
+  width: 85px;
+  height: 150px;
+
+  left: 7%;
+  top: 45%;
+
+  background: #a57999;
+
+  transform: rotate(28deg);
+}
+
+
+.bg-shapes::after {
+  width: 110px;
+  height: 70px;
+
+  right: 4%;
+  top: 55%;
+
+  background: #65a0a8;
+
+  transform: rotate(-20deg);
+}
+
+
+/* =========================================
+   追加四角形
+========================================= */
+
+.s9 {
+  top: 38%;
+  left: 12%;
+
+  width: 90px;
+  height: 55px;
+
+  background: #c87382;
+
+  transform: rotate(-18deg);
+}
+
+
+.s10 {
+  top: 70%;
+  left: 18%;
+
+  width: 65px;
+  height: 100px;
+
+  background: #766990;
+
+  transform: rotate(25deg);
+}
+
+
+.s11 {
+  top: 32%;
+  right: 15%;
+
+  width: 75px;
+  height: 75px;
+
+  background: #c8a75a;
+
+  transform: rotate(18deg);
+}
+
+
+.s12 {
+  bottom: 10%;
+  right: 20%;
+
+  width: 100px;
+  height: 55px;
+
+  background: #609da4;
+
+  transform: rotate(-30deg);
 }
 
 
@@ -909,13 +1119,18 @@ body {
 
   /* -------------------------
      背景
+     TOPページと同じように
+     スマホではさらに控えめ
   ------------------------- */
 
   .bg-shapes {
 
     width: 100%;
+    height: 100%;
 
-    height: max(100vh, 1050px);
+    opacity: 0.18 !important;
+
+    filter: blur(1px);
   }
 
 }
@@ -1259,6 +1474,11 @@ body {
   <div class="shape s6"></div>
   <div class="shape s7"></div>
   <div class="shape s8"></div>
+
+  <div class="shape s9"></div>
+  <div class="shape s10"></div>
+  <div class="shape s11"></div>
+  <div class="shape s12"></div>
 
 </div>
 
