@@ -30,6 +30,17 @@
     rel="stylesheet"
   >
 
+  <!--
+    events.html と同じ共通CSS
+    ヘッダーのデザイン・サイズもここから取得
+  -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!--
+    events.html と同じ共通JavaScript
+  -->
+  <script src="script.js" defer></script>
+
 
   <style>
 
@@ -54,9 +65,10 @@
       --white: #fff;
 
       /*
-       * 企画一覧ページと同じヘッダーサイズ
+       * ヘッダーの高さは
+       * css/style.css 側の値を使用するため、
+       * ここでは指定しない
        */
-      --header-height: 58px;
 
       --content-width: 1120px;
 
@@ -75,8 +87,7 @@
 
       scroll-behavior: smooth;
 
-      scroll-padding-top:
-        calc(var(--header-height) + 25px);
+      scroll-padding-top: 75px;
 
     }
 
@@ -84,7 +95,11 @@
     body {
 
       margin: 0;
-      padding: 0;
+
+      /*
+       * ヘッダーのpadding-topは
+       * css/style.css側に任せる
+       */
 
       background: var(--bg);
 
@@ -284,307 +299,6 @@
 
 
     /* =========================================================
-       ヘッダー
-       
-       企画一覧ページと同じサイズ
-       
-       PC
-       高さ       : 58px
-       左右余白   : 34px
-       ロゴ文字   : 19px
-       ナビ文字   : 16px
-       
-       スマホ
-       高さ       : 54px
-       左右余白   : 18px
-       ロゴ文字   : 17px
-    ========================================================= */
-
-    header {
-
-      position: fixed;
-
-      top: 0;
-      left: 0;
-
-      width: 100%;
-
-      height: var(--header-height);
-
-      background:
-        rgba(255, 255, 255, 0.96);
-
-      border-bottom:
-        1px solid rgba(0, 0, 0, 0.04);
-
-      z-index: 1000;
-
-    }
-
-
-    .header-inner {
-
-      width: 100%;
-
-      height: 100%;
-
-      padding:
-        0 34px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-    }
-
-
-    /*
-     * header.html では h1 を使用
-     */
-
-    .header-inner h1 {
-
-      margin: 0;
-
-      color: #f04e78;
-
-      font-size: 19px;
-
-      font-weight: 900;
-
-      line-height: 1;
-
-      white-space: nowrap;
-
-    }
-
-
-    /* =========================================================
-       上部メインナビ
-    ========================================================= */
-
-    .top-nav {
-
-      position: absolute;
-
-      left: 50%;
-      top: 50%;
-
-      transform:
-        translate(-50%, -50%);
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 34px;
-
-    }
-
-
-    .top-nav a {
-
-      position: relative;
-
-      font-size: 16px;
-
-      font-weight: 900;
-
-      color: #333;
-
-      transition:
-        color 0.25s ease,
-        transform 0.25s ease;
-
-    }
-
-
-    .top-nav a:hover {
-
-      color: var(--pink);
-
-      transform:
-        translateY(-1px);
-
-    }
-
-
-    /* =========================================================
-       ハンバーガーメニュー
-    ========================================================= */
-
-    .menu-btn {
-
-      width: 32px;
-      height: 32px;
-
-      padding: 0;
-
-      border: none;
-
-      background: transparent;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      gap: 7px;
-
-      cursor: pointer;
-
-      z-index: 1100;
-
-    }
-
-
-    .menu-btn span {
-
-      width: 30px;
-      height: 2px;
-
-      background: #f04e78;
-
-      display: block;
-
-      transition:
-        transform 0.3s ease,
-        opacity 0.3s ease;
-
-    }
-
-
-    /* =========================================================
-       メニューが開いた状態
-    ========================================================= */
-
-    .menu-btn.active span:nth-child(1) {
-
-      transform:
-        translateY(9px)
-        rotate(45deg);
-
-    }
-
-
-    .menu-btn.active span:nth-child(2) {
-
-      opacity: 0;
-
-    }
-
-
-    .menu-btn.active span:nth-child(3) {
-
-      transform:
-        translateY(-9px)
-        rotate(-45deg);
-
-    }
-
-
-    /* =========================================================
-       ハンバーガーから開くメニュー
-    ========================================================= */
-
-    .nav {
-
-      position: fixed;
-
-      top: var(--header-height);
-
-      right: 25px;
-
-      width: 250px;
-
-      padding: 20px;
-
-      background:
-        rgba(255, 255, 255, 0.98);
-
-      box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.12);
-
-      border:
-        1px solid rgba(0, 0, 0, 0.08);
-
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 0;
-
-      opacity: 0;
-
-      visibility: hidden;
-
-      transform:
-        translateY(-10px);
-
-      transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease,
-        transform 0.25s ease;
-
-      z-index: 1050;
-
-    }
-
-
-    .nav.active {
-
-      opacity: 1;
-
-      visibility: visible;
-
-      transform:
-        translateY(0);
-
-    }
-
-
-    .nav a {
-
-      display: block;
-
-      padding: 15px 8px;
-
-      color: #333;
-
-      font-size: 15px;
-
-      font-weight: 800;
-
-      border-bottom:
-        1px solid rgba(0, 0, 0, 0.08);
-
-      transition:
-        color 0.2s ease,
-        padding-left 0.2s ease;
-
-    }
-
-
-    .nav a:last-child {
-
-      border-bottom: none;
-
-    }
-
-
-    .nav a:hover {
-
-      color: var(--pink);
-
-      padding-left: 14px;
-
-    }
-
-
-    /* =========================================================
        メイン
     ========================================================= */
 
@@ -592,8 +306,11 @@
 
       width: 100%;
 
-      padding-top:
-        calc(var(--header-height) + 135px);
+      /*
+       * 共通ヘッダーの下に
+       * ページ内容を配置
+       */
+      padding-top: 135px;
 
       padding-bottom: 120px;
 
@@ -639,6 +356,11 @@
       box-shadow: var(--shadow);
 
       overflow: hidden;
+
+      /*
+       * スクロール先がヘッダーに隠れないようにする
+       */
+      scroll-margin-top: 75px;
 
     }
 
@@ -926,9 +648,9 @@
 
     /* =========================================================
        本文
-
-       キャラクター枠を削除して
-       ページ全体を使用
+       
+       ページ3・4・5は
+       キャラクター用の余白なし
     ========================================================= */
 
     .guide-text {
@@ -998,9 +720,8 @@
 
     /* =========================================================
        最後のページ
-
-       最後のページだけ
-       キャラクター用スペースを残す
+       
+       最後だけキャラクター用スペースを残す
     ========================================================= */
 
     .ending-page {
@@ -1241,69 +962,13 @@
 
     /* =========================================================
        スマートフォン
-
-       ※企画一覧ページと同じヘッダーサイズ
     ========================================================= */
 
     @media (max-width: 900px) {
 
-      :root {
-
-        --header-height: 54px;
-
-      }
-
-
-      .header-inner {
-
-        padding:
-          0 18px;
-
-      }
-
-
-      /*
-       * 企画一覧ページと同じ
-       * スマホでは上部ナビを非表示
-       */
-
-      .top-nav {
-
-        display: none;
-
-      }
-
-
-      /*
-       * スマホの長高祭文字
-       */
-
-      .header-inner h1 {
-
-        font-size: 17px;
-
-      }
-
-
-      .nav {
-
-        top:
-          var(--header-height);
-
-        right: 12px;
-
-        width:
-          calc(100% - 24px);
-
-        max-width: 360px;
-
-      }
-
-
       main {
 
-        padding-top:
-          calc(var(--header-height) + 65px);
+        padding-top: 65px;
 
         padding-bottom: 70px;
 
@@ -1326,6 +991,8 @@
         margin-bottom: 35px;
 
         min-height: auto;
+
+        scroll-margin-top: 70px;
 
       }
 
@@ -1408,8 +1075,8 @@
 
 
       /*
-       * キャラクター枠は
-       * 最後のページ以外には存在しない
+       * ページ3・4・5は
+       * キャラクター用の余白なし
        */
 
       .guide-text {
@@ -1655,10 +1322,9 @@
 
 
   <!-- =======================================================
-       ヘッダー
-
-       header.html を実際に読み込む
-       これにより全ページで同じヘッダーを使用
+       共通ヘッダー
+       
+       events.html と全く同じ header.html を使用
   ======================================================== -->
 
   <div id="header"></div>
@@ -1725,9 +1391,10 @@
 
           <div class="toc-grid">
 
+
             <!--
-              「ロゴ紹介」は削除済み
-              「◯ページ目」表記も削除済み
+              ロゴ紹介は削除
+              ページ番号表記も削除
             -->
 
 
@@ -1772,7 +1439,7 @@
 
       <!-- ===================================================
            駐車・送迎について / ご来場方法について
-
+           
            キャラクター枠なし
       ==================================================== -->
 
@@ -1854,7 +1521,7 @@
 
       <!-- ===================================================
            校内での注意事項1
-
+           
            キャラクター枠なし
       ==================================================== -->
 
@@ -1931,7 +1598,7 @@
 
       <!-- ===================================================
            校内での注意事項2
-
+           
            キャラクター枠なし
       ==================================================== -->
 
@@ -2000,7 +1667,7 @@
 
       <!-- ===================================================
            最後のページ
-
+           
            このページだけキャラクター用スペースを残す
       ==================================================== -->
 
@@ -2020,7 +1687,7 @@
 
           <!--
             最後のページだけ
-            ここに3人の透明キャラクターを配置できます。
+            ここにキャラクターを配置できます。
 
             例：
 
@@ -2073,11 +1740,8 @@
   <script>
 
     /* =========================================================
-       header.html 読み込み
-       
-       重要：
-       ヘッダーを guide.html に直接書かず、
-       共通の header.html を使用する。
+       events.html と同じ方法で
+       header.htmlを読み込む
     ========================================================= */
 
     fetch("header.html")
@@ -2087,7 +1751,7 @@
         if (!response.ok) {
 
           throw new Error(
-            "header.htmlを読み込めませんでした。HTTP " +
+            "header.htmlの読み込みに失敗しました。HTTP " +
             response.status
           );
 
@@ -2098,31 +1762,66 @@
       })
 
 
-      .then(function(html) {
+      .then(function(data) {
 
-        const headerContainer =
+        const header =
           document.getElementById("header");
 
 
-        if (!headerContainer) {
+        if (!header) {
 
-          throw new Error(
-            "#header が見つかりません。"
-          );
+          return;
 
         }
 
 
-        headerContainer.innerHTML =
-          html;
+        header.innerHTML = data;
 
 
         /*
-         * header.html 読み込み後に
-         * ハンバーガーメニューを初期化
+         * events.html と同じ
+         * ハンバーガーメニュー処理
          */
 
-        setupHeaderMenu();
+        const btn =
+          document.querySelector(".menu-btn");
+
+
+        const nav =
+          document.querySelector(".nav");
+
+
+        if (btn && nav) {
+
+          btn.addEventListener(
+            "click",
+            function(event) {
+
+              event.stopPropagation();
+
+              nav.classList.toggle("active");
+
+            }
+          );
+
+
+          document.addEventListener(
+            "click",
+            function(event) {
+
+              if (
+                !nav.contains(event.target) &&
+                !btn.contains(event.target)
+              ) {
+
+                nav.classList.remove("active");
+
+              }
+
+            }
+          );
+
+        }
 
       })
 
@@ -2135,140 +1834,6 @@
         );
 
       });
-
-
-    /* =========================================================
-       ハンバーガーメニュー
-    ========================================================= */
-
-    function setupHeaderMenu() {
-
-      const btn =
-        document.querySelector(
-          ".menu-btn"
-        );
-
-
-      const nav =
-        document.querySelector(
-          ".nav"
-        );
-
-
-      if (!btn || !nav) {
-
-        console.warn(
-          ".menu-btn または .nav が見つかりません。"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * クリック
-       */
-
-      btn.addEventListener(
-        "click",
-        function(event) {
-
-          event.stopPropagation();
-
-          nav.classList.toggle(
-            "active"
-          );
-
-          btn.classList.toggle(
-            "active"
-          );
-
-        }
-      );
-
-
-      /*
-       * メニュー外をクリックしたら閉じる
-       */
-
-      document.addEventListener(
-        "click",
-        function(event) {
-
-          if (
-            !nav.contains(event.target) &&
-            !btn.contains(event.target)
-          ) {
-
-            nav.classList.remove(
-              "active"
-            );
-
-            btn.classList.remove(
-              "active"
-            );
-
-          }
-
-        }
-      );
-
-
-      /*
-       * メニュー内リンクをクリックしたら閉じる
-       */
-
-      nav.querySelectorAll("a")
-        .forEach(function(link) {
-
-          link.addEventListener(
-            "click",
-            function() {
-
-              nav.classList.remove(
-                "active"
-              );
-
-              btn.classList.remove(
-                "active"
-              );
-
-            }
-          );
-
-        });
-
-
-      /*
-       * キーボード操作
-       */
-
-      btn.addEventListener(
-        "keydown",
-        function(event) {
-
-          if (
-            event.key === "Enter" ||
-            event.key === " "
-          ) {
-
-            event.preventDefault();
-
-            nav.classList.toggle(
-              "active"
-            );
-
-            btn.classList.toggle(
-              "active"
-            );
-
-          }
-
-        }
-      );
-
-    }
 
 
     /* =========================================================
@@ -2287,6 +1852,7 @@
 
       const observer =
         new IntersectionObserver(
+
           function(entries, observer) {
 
             entries.forEach(
@@ -2314,12 +1880,16 @@
             );
 
           },
+
           {
+
             threshold: 0.12,
 
             rootMargin:
               "0px 0px -40px 0px"
+
           }
+
         );
 
 
@@ -2358,80 +1928,86 @@
 
     document
       .querySelectorAll(
-        'a[href^="#"]'
+        '.toc-item[href^="#"]'
       )
-      .forEach(function(link) {
+      .forEach(
+        function(link) {
 
-        link.addEventListener(
-          "click",
-          function(event) {
+          link.addEventListener(
+            "click",
+            function(event) {
 
-            const targetId =
-              link.getAttribute(
-                "href"
-              );
+              const targetId =
+                link.getAttribute(
+                  "href"
+                );
 
 
-            if (
-              !targetId ||
-              targetId === "#"
-            ) {
+              if (
+                !targetId ||
+                targetId === "#"
+              ) {
 
-              return;
+                return;
+
+              }
+
+
+              const target =
+                document.querySelector(
+                  targetId
+                );
+
+
+              if (!target) {
+
+                return;
+
+              }
+
+
+              event.preventDefault();
+
+
+              /*
+               * 共通headerの高さを取得
+               */
+
+              const header =
+                document.querySelector(
+                  "#header header"
+                );
+
+
+              const headerHeight =
+                header
+                  ? header.offsetHeight
+                  : 48;
+
+
+              const targetPosition =
+                target.getBoundingClientRect().top
+                +
+                window.scrollY
+                -
+                headerHeight
+                -
+                20;
+
+
+              window.scrollTo({
+
+                top: targetPosition,
+
+                behavior: "smooth"
+
+              });
 
             }
+          );
 
-
-            const target =
-              document.querySelector(
-                targetId
-              );
-
-
-            if (!target) {
-
-              return;
-
-            }
-
-
-            event.preventDefault();
-
-
-            const header =
-              document.querySelector(
-                "header"
-              );
-
-
-            const headerHeight =
-              header
-                ? header.offsetHeight
-                : 58;
-
-
-            const targetPosition =
-              target.getBoundingClientRect().top
-              +
-              window.scrollY
-              -
-              headerHeight
-              -
-              20;
-
-
-            window.scrollTo({
-
-              top: targetPosition,
-
-              behavior: "smooth"
-
-            });
-
-          }
-        );
-
-      });
+        }
+      );
 
 
     /* =========================================================
@@ -2445,7 +2021,9 @@
 
 
     window.addEventListener(
+
       "scroll",
+
       function() {
 
         if (
@@ -2465,14 +2043,18 @@
         }
 
       },
+
       {
         passive: true
       }
+
     );
 
 
     backToTop.addEventListener(
+
       "click",
+
       function() {
 
         window.scrollTo({
@@ -2484,6 +2066,7 @@
         });
 
       }
+
     );
 
 
@@ -2492,7 +2075,9 @@
     ========================================================= */
 
     document.addEventListener(
+
       "keydown",
+
       function(event) {
 
         if (
@@ -2505,14 +2090,8 @@
 
 
         const nav =
-          document.getElementById(
-            "nav"
-          );
-
-
-        const menuButton =
           document.querySelector(
-            ".menu-btn"
+            ".nav"
           );
 
 
@@ -2524,16 +2103,8 @@
 
         }
 
-
-        if (menuButton) {
-
-          menuButton.classList.remove(
-            "active"
-          );
-
-        }
-
       }
+
     );
 
   </script>
