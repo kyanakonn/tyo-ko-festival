@@ -2,6 +2,7 @@
 <html lang="ja">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -18,11 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap"
@@ -36,6 +33,7 @@
     ========================================================= */
 
     :root {
+
       --pink: #e25b82;
       --pink-light: #e46b8c;
 
@@ -50,7 +48,10 @@
       --bg: #eeeeed;
       --white: #fff;
 
-      --header-height: 58px;
+      /*
+        ヘッダーの高さ
+      */
+      --header-height: 80px;
 
       --content-width: 1120px;
 
@@ -65,6 +66,7 @@
 
 
     html {
+
       scroll-behavior: smooth;
 
       scroll-padding-top:
@@ -73,6 +75,7 @@
 
 
     body {
+
       margin: 0;
       padding: 0;
 
@@ -95,18 +98,23 @@
 
 
     img {
+
       max-width: 100%;
+
       display: block;
     }
 
 
     a {
+
       color: inherit;
+
       text-decoration: none;
     }
 
 
     button {
+
       font: inherit;
     }
 
@@ -117,6 +125,7 @@
     ========================================================= */
 
     .background-shapes {
+
       position: fixed;
 
       inset: 0;
@@ -133,12 +142,15 @@
 
 
     .shape {
+
       position: absolute;
+
       opacity: 0.92;
     }
 
 
     .shape-pink-1 {
+
       width: 230px;
       height: 260px;
 
@@ -156,6 +168,7 @@
 
 
     .shape-purple-1 {
+
       width: 130px;
       height: 190px;
 
@@ -173,6 +186,7 @@
 
 
     .shape-teal-1 {
+
       width: 190px;
       height: 360px;
 
@@ -191,6 +205,7 @@
 
 
     .shape-yellow-1 {
+
       width: 180px;
       height: 250px;
 
@@ -209,6 +224,7 @@
 
 
     .shape-purple-2 {
+
       width: 130px;
       height: 160px;
 
@@ -226,6 +242,7 @@
 
 
     .shape-pink-2 {
+
       width: 190px;
       height: 250px;
 
@@ -246,16 +263,11 @@
     /* =========================================================
        ヘッダー
        
-       header.html と同じ構成
+       提供していただいた header.html の構造をそのまま使用
     ========================================================= */
 
-    #header {
-      position: relative;
-      z-index: 1000;
-    }
-
-
     header {
+
       position: fixed;
 
       top: 0;
@@ -275,11 +287,13 @@
 
 
     .header-inner {
+
       width: 100%;
 
       height: 100%;
 
-      padding: 0 34px;
+      padding:
+        0 34px;
 
       display: flex;
 
@@ -289,26 +303,43 @@
     }
 
 
+    /*
+      header.html
+
+      <h1>長高祭</h1>
+    */
+
     .header-inner h1 {
+
       margin: 0;
 
-      color: #f04e78;
+      padding: 0;
 
-      font-size: 19px;
+      color: #e25b82;
 
-      font-weight: 900;
+      font-size: 24px;
 
       line-height: 1;
+
+      font-weight: 900;
 
       white-space: nowrap;
     }
 
 
-    /* =========================================================
-       上部メインナビ
-    ========================================================= */
+    /*
+      header.html
+
+      <nav class="top-nav">
+        TOP
+        EVENTS
+        MAP
+        VISITOR
+      </nav>
+    */
 
     .top-nav {
+
       position: absolute;
 
       left: 50%;
@@ -321,18 +352,27 @@
 
       align-items: center;
 
-      gap: 34px;
+      justify-content: center;
+
+      gap: 38px;
+
+      white-space: nowrap;
     }
 
 
     .top-nav a {
+
       position: relative;
 
-      font-size: 16px;
+      display: block;
+
+      color: #222;
+
+      font-size: 15px;
+
+      line-height: 1;
 
       font-weight: 900;
-
-      color: #333;
 
       transition:
         color 0.25s ease,
@@ -340,26 +380,66 @@
     }
 
 
+    .top-nav a::after {
+
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      right: 0;
+
+      bottom: -8px;
+
+      height: 2px;
+
+      background: #e25b82;
+
+      transform:
+        scaleX(0);
+
+      transform-origin:
+        center;
+
+      transition:
+        transform 0.25s ease;
+    }
+
+
     .top-nav a:hover {
-      color: var(--pink);
+
+      color: #e25b82;
 
       transform:
         translateY(-1px);
     }
 
 
+    .top-nav a:hover::after {
+
+      transform:
+        scaleX(1);
+    }
+
+
 
     /* =========================================================
-       ハンバーガーメニュー
+       header.html の menu-btn
     ========================================================= */
 
     .menu-btn {
-      width: 32px;
-      height: 32px;
+
+      width: 34px;
+
+      height: 34px;
 
       padding: 0;
 
-      border: none;
+      margin: 0;
+
+      border: 0;
+
+      outline: none;
 
       background: transparent;
 
@@ -367,31 +447,54 @@
 
       flex-direction: column;
 
+      align-items: flex-end;
+
       justify-content: center;
 
-      gap: 7px;
+      gap: 6px;
 
       cursor: pointer;
 
+      flex-shrink: 0;
+
       z-index: 1100;
+
+      -webkit-tap-highlight-color: transparent;
     }
 
 
     .menu-btn span {
-      width: 30px;
-      height: 2px;
-
-      background: #f04e78;
 
       display: block;
 
+      width: 30px;
+
+      height: 3px;
+
+      border-radius: 0;
+
+      background: #e25b82;
+
       transition:
-        transform 0.3s ease,
-        opacity 0.3s ease;
+        transform 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+
+    .menu-btn span:nth-child(2) {
+
+      width: 30px;
+    }
+
+
+    .menu-btn span:nth-child(3) {
+
+      width: 30px;
     }
 
 
     .menu-btn.active span:nth-child(1) {
+
       transform:
         translateY(9px)
         rotate(45deg);
@@ -399,11 +502,13 @@
 
 
     .menu-btn.active span:nth-child(2) {
+
       opacity: 0;
     }
 
 
     .menu-btn.active span:nth-child(3) {
+
       transform:
         translateY(-9px)
         rotate(-45deg);
@@ -412,37 +517,41 @@
 
 
     /* =========================================================
-       ハンバーガーから開くメニュー
+       header.html の nav
+
+       このサイトについて / 導入を見る
     ========================================================= */
 
     .nav {
+
       position: fixed;
 
       top: var(--header-height);
 
-      right: 25px;
+      right: 34px;
 
-      width: 250px;
+      width: 260px;
 
-      padding: 20px;
+      padding: 10px 0;
 
-      background: rgba(255, 255, 255, 0.98);
-
-      box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.12);
+      background:
+        rgba(255, 255, 255, 0.98);
 
       border:
-        1px solid rgba(0, 0, 0, 0.08);
+        1px solid rgba(0, 0, 0, 0.06);
+
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.12);
 
       display: flex;
 
       flex-direction: column;
 
-      gap: 0;
-
       opacity: 0;
 
       visibility: hidden;
+
+      pointer-events: none;
 
       transform:
         translateY(-10px);
@@ -457,9 +566,12 @@
 
 
     .nav.active {
+
       opacity: 1;
 
       visibility: visible;
+
+      pointer-events: auto;
 
       transform:
         translateY(0);
@@ -467,34 +579,43 @@
 
 
     .nav a {
+
       display: block;
 
-      padding: 15px 8px;
+      width: 100%;
 
-      color: #333;
+      padding:
+        15px 20px;
 
-      font-size: 15px;
+      color: #222;
+
+      font-size: 14px;
+
+      line-height: 1.5;
 
       font-weight: 800;
 
       border-bottom:
-        1px solid rgba(0, 0, 0, 0.08);
+        1px solid rgba(0, 0, 0, 0.06);
 
       transition:
-        color 0.2s ease,
-        padding-left 0.2s ease;
+        background 0.2s ease,
+        color 0.2s ease;
     }
 
 
     .nav a:last-child {
+
       border-bottom: none;
     }
 
 
     .nav a:hover {
-      color: var(--pink);
 
-      padding-left: 14px;
+      color: #e25b82;
+
+      background:
+        rgba(226, 91, 130, 0.06);
     }
 
 
@@ -504,6 +625,7 @@
     ========================================================= */
 
     main {
+
       width: 100%;
 
       padding-top:
@@ -514,6 +636,7 @@
 
 
     .guide-wrapper {
+
       width:
         min(
           calc(100% - 50px),
@@ -530,6 +653,7 @@
     ========================================================= */
 
     .guide-page {
+
       position: relative;
 
       width: 100%;
@@ -559,6 +683,7 @@
     ========================================================= */
 
     .intro-page {
+
       min-height: 620px;
 
       padding-top: 35px;
@@ -566,6 +691,7 @@
 
 
     .main-heading {
+
       margin: 0 0 65px;
 
       font-size:
@@ -578,6 +704,7 @@
 
 
     .festival-title-area {
+
       text-align: center;
 
       margin-bottom: 62px;
@@ -585,6 +712,7 @@
 
 
     .festival-small-title {
+
       display: inline-flex;
 
       align-items: center;
@@ -599,6 +727,7 @@
 
 
     .festival-small-title::before {
+
       content: "";
 
       width: 12px;
@@ -611,6 +740,7 @@
 
 
     .festival-title {
+
       margin: 0;
 
       font-size:
@@ -623,6 +753,7 @@
 
 
     .intro-description {
+
       text-align: center;
 
       font-size:
@@ -643,6 +774,7 @@
     ========================================================= */
 
     .toc-title {
+
       margin: 0 0 34px;
 
       font-size: 29px;
@@ -652,6 +784,7 @@
 
 
     .toc-grid {
+
       display: grid;
 
       grid-template-columns:
@@ -662,6 +795,7 @@
 
 
     .toc-item {
+
       position: relative;
 
       display: inline-flex;
@@ -686,6 +820,7 @@
 
 
     .toc-item::after {
+
       content: "";
 
       position: absolute;
@@ -708,43 +843,51 @@
 
 
     .toc-item:hover {
+
       transform:
         translateY(-3px);
     }
 
 
     .toc-item:hover::after {
+
       transform:
         scaleX(0.65);
     }
 
 
     .toc-pink {
+
       color: var(--magenta);
     }
 
 
     .toc-pink::after {
+
       background: var(--magenta);
     }
 
 
     .toc-yellow {
+
       color: var(--yellow);
     }
 
 
     .toc-yellow::after {
+
       background: var(--yellow);
     }
 
 
     .toc-blue {
+
       color: var(--blue);
     }
 
 
     .toc-blue::after {
+
       background: var(--blue);
     }
 
@@ -755,6 +898,7 @@
     ========================================================= */
 
     .section-title {
+
       display: inline-block;
 
       margin:
@@ -775,16 +919,19 @@
 
 
     .title-pink {
+
       background: var(--magenta);
     }
 
 
     .title-yellow {
+
       background: var(--yellow);
     }
 
 
     .title-blue {
+
       background: var(--blue);
     }
 
@@ -792,12 +939,10 @@
 
     /* =========================================================
        本文
-       
-       キャラクター用スペースは
-       最後のページ以外すべて削除
     ========================================================= */
 
     .guide-text {
+
       position: relative;
 
       width: 100%;
@@ -814,17 +959,20 @@
 
 
     .guide-text p {
+
       margin:
         0 0 31px;
     }
 
 
     .guide-text p:last-child {
+
       margin-bottom: 0;
     }
 
 
     .red-text {
+
       color: #f00000;
     }
 
@@ -835,16 +983,19 @@
     ========================================================= */
 
     .caution-page {
+
       min-height: 700px;
     }
 
 
     .caution-page .guide-text {
+
       max-width: 100%;
     }
 
 
     .caution-page .guide-text p {
+
       margin-bottom: 43px;
     }
 
@@ -852,12 +1003,10 @@
 
     /* =========================================================
        最後のページ
-       
-       ※最後のページだけ
-       キャラクター用スペースを残す
     ========================================================= */
 
     .ending-page {
+
       min-height: 620px;
 
       display: flex;
@@ -876,6 +1025,7 @@
 
 
     .ending-message {
+
       margin: 0;
 
       font-size:
@@ -890,6 +1040,7 @@
 
 
     .ending-character-space {
+
       position: relative;
 
       width:
@@ -905,6 +1056,7 @@
 
 
     .character-image {
+
       position: absolute;
 
       left: 50%;
@@ -928,6 +1080,7 @@
     ========================================================= */
 
     .fade-text {
+
       opacity: 0;
 
       transform:
@@ -940,6 +1093,7 @@
 
 
     .fade-text.is-visible {
+
       opacity: 1;
 
       transform:
@@ -948,21 +1102,25 @@
 
 
     .fade-text.delay-1 {
+
       transition-delay: 0.08s;
     }
 
 
     .fade-text.delay-2 {
+
       transition-delay: 0.16s;
     }
 
 
     .fade-text.delay-3 {
+
       transition-delay: 0.24s;
     }
 
 
     .fade-text.delay-4 {
+
       transition-delay: 0.32s;
     }
 
@@ -973,6 +1131,7 @@
     ========================================================= */
 
     .page-arrow {
+
       position: absolute;
 
       top: 50%;
@@ -995,11 +1154,13 @@
 
 
     .page-arrow.left {
+
       left: 15px;
     }
 
 
     .page-arrow.right {
+
       right: 15px;
     }
 
@@ -1010,6 +1171,7 @@
     ========================================================= */
 
     .back-to-top {
+
       position: fixed;
 
       right: 22px;
@@ -1052,6 +1214,7 @@
 
 
     .back-to-top.show {
+
       opacity: 1;
 
       visibility: visible;
@@ -1063,44 +1226,77 @@
 
 
     /* =========================================================
-       スマートフォン
+       タブレット・スマートフォン
     ========================================================= */
 
     @media (max-width: 900px) {
 
       :root {
-        --header-height: 54px;
+
+        --header-height: 72px;
       }
 
 
       .header-inner {
-        padding: 0 18px;
+
+        padding:
+          0 34px;
       }
 
 
+      /*
+        重要：
+        ここでは top-nav を消さない。
+
+        header.html と同じ構造を維持するため、
+        TOP / EVENTS / MAP / VISITOR を表示する。
+      */
+
       .top-nav {
-        display: none;
+
+        gap: 22px;
+      }
+
+
+      .top-nav a {
+
+        font-size: 13px;
       }
 
 
       .header-inner h1 {
-        font-size: 17px;
+
+        font-size: 21px;
+      }
+
+
+      .menu-btn {
+
+        width: 32px;
+
+        height: 32px;
+      }
+
+
+      .menu-btn span {
+
+        width: 28px;
+
+        height: 3px;
       }
 
 
       .nav {
-        top: var(--header-height);
 
-        right: 12px;
+        right: 18px;
 
         width:
-          calc(100% - 24px);
-
-        max-width: 360px;
+          min(260px, calc(100% - 36px));
       }
 
 
       main {
+
         padding-top:
           calc(var(--header-height) + 65px);
 
@@ -1109,12 +1305,14 @@
 
 
       .guide-wrapper {
+
         width:
           calc(100% - 24px);
       }
 
 
       .guide-page {
+
         padding:
           30px 22px 45px;
 
@@ -1125,11 +1323,13 @@
 
 
       .intro-page {
+
         min-height: auto;
       }
 
 
       .main-heading {
+
         margin-bottom: 45px;
 
         font-size: 31px;
@@ -1137,27 +1337,32 @@
 
 
       .festival-title-area {
+
         margin-bottom: 42px;
       }
 
 
       .festival-small-title {
+
         font-size: 17px;
       }
 
 
       .festival-small-title::before {
+
         width: 8px;
         height: 38px;
       }
 
 
       .festival-title {
+
         font-size: 42px;
       }
 
 
       .intro-description {
+
         font-size: 14px;
 
         line-height: 1.9;
@@ -1165,11 +1370,13 @@
 
 
       .toc-title {
+
         font-size: 25px;
       }
 
 
       .toc-grid {
+
         grid-template-columns: 1fr;
 
         gap: 24px;
@@ -1177,11 +1384,13 @@
 
 
       .toc-item {
+
         font-size: 18px;
       }
 
 
       .guide-text {
+
         width: 100%;
 
         max-width: none;
@@ -1193,16 +1402,19 @@
 
 
       .guide-text p {
+
         margin-bottom: 27px;
       }
 
 
       .caution-page .guide-text p {
+
         margin-bottom: 34px;
       }
 
 
       .section-title {
+
         font-size: 22px;
 
         margin-bottom: 28px;
@@ -1210,11 +1422,13 @@
 
 
       .page-arrow {
+
         display: none;
       }
 
 
       .ending-page {
+
         min-height: 500px;
 
         padding:
@@ -1223,40 +1437,47 @@
 
 
       .ending-message {
+
         font-size: 38px;
       }
 
 
       .ending-character-space {
+
         height: 210px;
       }
 
 
       .shape-pink-1 {
+
         width: 120px;
         height: 150px;
       }
 
 
       .shape-purple-1 {
+
         width: 80px;
         height: 130px;
       }
 
 
       .shape-teal-1 {
+
         width: 100px;
         height: 220px;
       }
 
 
       .shape-yellow-1 {
+
         width: 110px;
         height: 170px;
       }
 
 
       .shape-purple-2 {
+
         width: 75px;
         height: 100px;
 
@@ -1265,6 +1486,7 @@
 
 
       .shape-pink-2 {
+
         width: 110px;
         height: 150px;
       }
@@ -1274,48 +1496,122 @@
 
 
     /* =========================================================
-       さらに小さいスマートフォン
+       スマートフォン
     ========================================================= */
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+
+      :root {
+
+        --header-height: 68px;
+      }
+
+
+      .header-inner {
+
+        padding:
+          0 34px;
+      }
+
+
+      /*
+        スマートフォンでは
+        元の header.html のハンバーガー構成に合わせる。
+      */
+
+      .top-nav {
+
+        display: none;
+      }
+
+
+      .header-inner h1 {
+
+        font-size: 22px;
+      }
+
+
+      .menu-btn {
+
+        width: 32px;
+
+        height: 32px;
+      }
+
+
+      .menu-btn span {
+
+        width: 30px;
+
+        height: 3px;
+      }
+
+
+      .nav {
+
+        top: var(--header-height);
+
+        right: 15px;
+
+        width:
+          calc(100% - 30px);
+
+        max-width: 340px;
+      }
+
+
+      main {
+
+        padding-top:
+          calc(var(--header-height) + 65px);
+      }
+
 
       .guide-page {
-        padding-left: 18px;
-        padding-right: 18px;
+
+        padding:
+          30px 18px 45px;
       }
 
 
       .main-heading {
+
         font-size: 27px;
       }
 
 
       .festival-title {
+
         font-size: 35px;
       }
 
 
       .festival-small-title {
+
         font-size: 15px;
       }
 
 
       .intro-description {
+
         font-size: 13px;
       }
 
 
       .guide-text {
+
         font-size: 14px;
       }
 
 
       .section-title {
+
         font-size: 20px;
       }
 
 
       .ending-message {
+
         font-size: 32px;
       }
 
@@ -1330,11 +1626,13 @@
     @media (prefers-reduced-motion: reduce) {
 
       html {
+
         scroll-behavior: auto;
       }
 
 
       .fade-text {
+
         opacity: 1;
 
         transform: none;
@@ -1379,11 +1677,71 @@
 
   <!-- =======================================================
        ヘッダー
-       
-       header.html を読み込みます
+
+       ここはユーザー提供の header.html と同じHTML構造
   ======================================================== -->
 
-  <div id="header"></div>
+  <header>
+
+    <div class="header-inner">
+
+      <h1>長高祭</h1>
+
+
+      <nav
+        class="top-nav"
+        aria-label="メインナビゲーション"
+      >
+
+        <a href="index.html">
+          TOP
+        </a>
+
+        <a href="events.html">
+          EVENTS
+        </a>
+
+        <a href="map.html">
+          MAP
+        </a>
+
+        <a href="guide.html">
+          VISITOR
+        </a>
+
+      </nav>
+
+
+      <nav
+        class="nav"
+        id="nav"
+      >
+
+        <a href="about.html">
+          このサイトについて
+        </a>
+
+        <a href="festival-intro.html">
+          導入を見る
+        </a>
+
+      </nav>
+
+
+      <div
+        class="menu-btn"
+        onclick="toggleMenu()"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+  </header>
 
 
 
@@ -1430,9 +1788,7 @@
 
 
 
-        <!-- =================================================
-             目次
-        ================================================== -->
+        <!-- 目次 -->
 
         <div class="toc-area">
 
@@ -1442,6 +1798,7 @@
 
 
           <div class="toc-grid">
+
 
             <a
               href="#parking"
@@ -1467,6 +1824,7 @@
               終わりに
             </a>
 
+
           </div>
 
         </div>
@@ -1484,9 +1842,7 @@
 
 
       <!-- ===================================================
-           駐車・送迎について / ご来場方法について
-           
-           キャラクター枠なし
+           駐車・送迎について
       ==================================================== -->
 
       <section
@@ -1554,8 +1910,6 @@
 
       <!-- ===================================================
            校内での注意事項1
-           
-           キャラクター枠なし
       ==================================================== -->
 
       <section
@@ -1620,8 +1974,6 @@
 
       <!-- ===================================================
            校内での注意事項2
-           
-           キャラクター枠なし
       ==================================================== -->
 
       <section
@@ -1680,8 +2032,6 @@
 
       <!-- ===================================================
            最後のページ
-           
-           このページだけキャラクター用スペースを残す
       ==================================================== -->
 
       <section
@@ -1695,33 +2045,6 @@
 
 
         <div class="ending-character-space">
-
-          <!--
-            ここに3人の透明キャラクターを配置できます。
-
-            例：
-
-            <img
-              class="character-image"
-              src="images/red-character.png"
-              alt=""
-              style="left: 25%;"
-            >
-
-            <img
-              class="character-image"
-              src="images/blue-character.png"
-              alt=""
-              style="left: 50%;"
-            >
-
-            <img
-              class="character-image"
-              src="images/green-character.png"
-              alt=""
-              style="left: 75%;"
-            >
-          -->
 
         </div>
 
@@ -1752,200 +2075,7 @@
   <script>
 
     /* =========================================================
-       header.html を読み込む
-    ========================================================= */
-
-    fetch("header.html")
-      .then(response => {
-
-        if (!response.ok) {
-          throw new Error(
-            "header.htmlの読み込みに失敗しました"
-          );
-        }
-
-        return response.text();
-
-      })
-      .then(data => {
-
-        document
-          .getElementById("header")
-          .innerHTML = data;
-
-        initializeHeader();
-
-      })
-      .catch(error => {
-
-        console.error(
-          "ヘッダーの読み込みエラー:",
-          error
-        );
-
-      });
-
-
-
-    /* =========================================================
-       ヘッダーの初期化
-    ========================================================= */
-
-    function initializeHeader() {
-
-      const menuButton =
-        document.querySelector(".menu-btn");
-
-      const nav =
-        document.getElementById("nav");
-
-
-      if (!menuButton || !nav) {
-        console.error(
-          "header.html内に.menu-btnまたは#navがありません"
-        );
-
-        return;
-      }
-
-
-      /* キーボード操作 */
-
-      menuButton.addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Enter" ||
-            event.key === " "
-          ) {
-
-            event.preventDefault();
-
-            toggleMenu();
-
-          }
-
-        }
-      );
-
-
-      /* メニュー内リンクをクリックしたら閉じる */
-
-      nav
-        .querySelectorAll("a")
-        .forEach(link => {
-
-          link.addEventListener(
-            "click",
-            () => {
-
-              nav.classList.remove("active");
-
-              menuButton.classList.remove("active");
-
-            }
-          );
-
-        });
-
-
-      /* 外側クリックで閉じる */
-
-      document.addEventListener(
-        "click",
-        event => {
-
-          const clickedInsideMenu =
-            nav.contains(event.target);
-
-          const clickedButton =
-            menuButton.contains(event.target);
-
-
-          if (
-            !clickedInsideMenu &&
-            !clickedButton
-          ) {
-
-            nav.classList.remove("active");
-
-            menuButton.classList.remove("active");
-
-          }
-
-        }
-      );
-
-    }
-
-
-
-    /* =========================================================
-       ハンバーガーメニュー
-       
-       header.html の onclick="toggleMenu()"
-       からも呼び出せます
-    ========================================================= */
-
-    function toggleMenu() {
-
-      const nav =
-        document.getElementById("nav");
-
-      const menuButton =
-        document.querySelector(".menu-btn");
-
-
-      if (!nav || !menuButton) {
-        return;
-      }
-
-
-      nav.classList.toggle("active");
-
-      menuButton.classList.toggle("active");
-
-    }
-
-
-
-    /* =========================================================
-       Escapeキーでメニューを閉じる
-    ========================================================= */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (event.key !== "Escape") {
-          return;
-        }
-
-
-        const nav =
-          document.getElementById("nav");
-
-        const menuButton =
-          document.querySelector(".menu-btn");
-
-
-        if (!nav || !menuButton) {
-          return;
-        }
-
-
-        nav.classList.remove("active");
-
-        menuButton.classList.remove("active");
-
-      }
-    );
-
-
-
-    /* =========================================================
-       スクロール時のフェードイン
+       フェードイン
     ========================================================= */
 
     const fadeElements =
@@ -1991,7 +2121,7 @@
 
 
     /* =========================================================
-       目次クリック時のスムーススクロール
+       目次
     ========================================================= */
 
     document
@@ -2012,7 +2142,6 @@
             ) {
 
               return;
-
             }
 
 
@@ -2023,6 +2152,7 @@
 
 
             if (!target) {
+
               return;
             }
 
@@ -2031,15 +2161,11 @@
 
 
             const header =
-              document.querySelector(
-                "header"
-              );
+              document.querySelector("header");
 
 
             const headerHeight =
-              header
-                ? header.offsetHeight
-                : 0;
+              header.offsetHeight;
 
 
             const targetPosition =
@@ -2057,15 +2183,14 @@
 
             });
 
-          }
-        );
+          });
 
       });
 
 
 
     /* =========================================================
-       ページトップボタン
+       ページトップ
     ========================================================= */
 
     const backToTop =
@@ -2110,6 +2235,114 @@
           behavior: "smooth"
 
         });
+
+      }
+    );
+
+
+
+    /* =========================================================
+       ハンバーガーメニュー
+    ========================================================= */
+
+    function toggleMenu() {
+
+      const nav =
+        document.getElementById("nav");
+
+      const menuButton =
+        document.querySelector(".menu-btn");
+
+
+      nav.classList.toggle("active");
+
+      menuButton.classList.toggle("active");
+
+    }
+
+
+
+    /* =========================================================
+       メニューリンククリック時
+    ========================================================= */
+
+    document
+      .querySelectorAll("#nav a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            const nav =
+              document.getElementById("nav");
+
+            const menuButton =
+              document.querySelector(".menu-btn");
+
+
+            nav.classList.remove(
+              "active"
+            );
+
+            menuButton.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       キーボード操作
+    ========================================================= */
+
+    document
+      .querySelector(".menu-btn")
+      .addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+
+            event.preventDefault();
+
+            toggleMenu();
+
+          }
+
+        }
+      );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Escape") {
+
+          const nav =
+            document.getElementById("nav");
+
+          const menuButton =
+            document.querySelector(".menu-btn");
+
+
+          nav.classList.remove(
+            "active"
+          );
+
+          menuButton.classList.remove(
+            "active"
+          );
+
+        }
 
       }
     );
