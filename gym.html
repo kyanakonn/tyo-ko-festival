@@ -98,6 +98,7 @@ button {
 
 /* =========================================================
    背景の図形
+   ※サイトの世界観は残しつつ、かなり控えめに調整
 ========================================================= */
 
 .bg-shapes {
@@ -112,7 +113,14 @@ button {
 
   overflow: hidden;
 
-  opacity: 0.85;
+  /*
+    前回よりかなり薄くして、
+    コンテンツを主役にする
+  */
+
+  opacity: 0.28;
+
+  filter: saturate(0.78);
 
 }
 
@@ -636,6 +644,7 @@ button {
 
 /* =========================================================
    メイン
+   ※ヘッダー直下の余白を必要最小限に調整
 ========================================================= */
 
 .schedule-page {
@@ -648,9 +657,16 @@ button {
 
   margin: 0 auto;
 
-  padding:
-
+  /*
+    前回：
     calc(var(--header-height) + 55px)
+
+    今回：
+    ヘッダーの直下に適度な余白だけ残す
+  */
+
+  padding:
+    calc(var(--header-height) + 18px)
     24px
     100px;
 
@@ -665,12 +681,27 @@ button {
 
   position: relative;
 
-  margin-bottom: 38px;
+  margin: 0 0 30px;
 
-  padding: 8px 0 8px 25px;
+  /*
+    左側の縦棒をタイトル全体に対応させるため、
+    上下の余白をなくす
+  */
+
+  padding: 0 0 0 25px;
 
 }
 
+
+/*
+   ★重要
+   タイトル2行すべてを覆う縦棒
+
+   height: 100% ではなく
+   top: 0 / bottom: 0
+   にすることで、
+   タイトル全体の高さにぴったり対応
+*/
 
 .schedule-heading::before {
 
@@ -679,27 +710,31 @@ button {
   position: absolute;
 
   left: 0;
-  top: 5px;
+
+  top: 0;
+  bottom: 0;
 
   width: 9px;
-  height: 78px;
 
-  background: linear-gradient(
-    180deg,
-    var(--pink),
-    var(--purple)
-  );
+  background:
+    linear-gradient(
+      180deg,
+      var(--pink),
+      var(--purple)
+    );
 
-  transform: skewY(-15deg);
+  transform: skewY(-8deg);
 
   border-radius: 6px;
 
 }
 
 
+/* 英字 */
+
 .schedule-heading-en {
 
-  margin: 0 0 7px;
+  margin: 0 0 5px;
 
   font-size: 13px;
 
@@ -707,14 +742,26 @@ button {
 
   letter-spacing: 0.18em;
 
-  color: #666;
+  /*
+    タイトルの文字は黒系統
+  */
+
+  color: #171717;
 
 }
 
 
+/* メインタイトル */
+
 .schedule-heading h1 {
 
   margin: 0;
+
+  /*
+    ★タイトルを完全に黒
+  */
+
+  color: #171717;
 
   font-size: clamp(31px, 5vw, 54px);
 
@@ -730,6 +777,8 @@ button {
 .schedule-heading h1 span {
 
   display: inline-block;
+
+  color: #171717;
 
 }
 
@@ -1095,10 +1144,6 @@ button {
 }
 
 
-/* =========================================================
-   カラフルな左アクセント
-========================================================= */
-
 .schedule-item::before {
 
   content: "";
@@ -1118,7 +1163,9 @@ button {
 }
 
 
-/* 11日 */
+/* =========================================================
+   11日 カラー
+========================================================= */
 
 #schedule-11 .schedule-item:nth-child(1)::before {
 
@@ -1141,7 +1188,9 @@ button {
 }
 
 
-/* 12日 */
+/* =========================================================
+   12日 カラー
+========================================================= */
 
 #schedule-12 .schedule-item:nth-child(1)::before {
 
@@ -1222,8 +1271,6 @@ button {
 
 }
 
-
-/* 時間の小さな装飾 */
 
 .schedule-time::before {
 
@@ -1340,8 +1387,6 @@ button {
 
 }
 
-
-/* 内容側の丸装飾 */
 
 .schedule-content::after {
 
@@ -1539,6 +1584,21 @@ button {
 
 
 /* =========================================================
+   コンテンツを背景図形より前面へ
+========================================================= */
+
+main,
+section,
+article {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+
+/* =========================================================
    スマートフォン
 ========================================================= */
 
@@ -1594,6 +1654,7 @@ button {
 
   /* -------------------------
      メイン
+     ヘッダーとの距離を縮小
   ------------------------- */
 
   .schedule-page {
@@ -1601,7 +1662,7 @@ button {
     width: 100%;
 
     padding:
-      calc(var(--header-height) + 38px)
+      calc(var(--header-height) + 15px)
       16px
       70px;
 
@@ -1614,20 +1675,35 @@ button {
 
   .schedule-heading {
 
-    margin-bottom: 28px;
+    margin:
+      0
+      0
+      25px;
 
-    padding-left: 18px;
+    padding:
+      0
+      0
+      0
+      18px;
 
   }
 
+
+  /*
+     スマホでもタイトル全体に
+     縦棒を対応させる
+  */
 
   .schedule-heading::before {
 
     width: 6px;
 
-    height: 62px;
+    top: 0;
+    bottom: 0;
 
-    top: 4px;
+    height: auto;
+
+    transform: skewY(-7deg);
 
   }
 
@@ -1638,6 +1714,8 @@ button {
 
     margin-bottom: 5px;
 
+    color: #171717;
+
   }
 
 
@@ -1646,6 +1724,15 @@ button {
     font-size: 29px;
 
     line-height: 1.18;
+
+    color: #171717;
+
+  }
+
+
+  .schedule-heading h1 span {
+
+    color: #171717;
 
   }
 
@@ -1886,101 +1973,14 @@ button {
 
 
   /* -------------------------
-     背景図形
+     背景図形をさらに薄く
   ------------------------- */
 
-  .s1 {
+  .bg-shapes {
 
-    top: 5%;
-    left: -50px;
+    opacity: 0.18;
 
-    border-left-width: 90px;
-    border-right-width: 90px;
-    border-bottom-width: 170px;
-
-  }
-
-
-  .s2 {
-
-    top: 25%;
-    left: -35px;
-
-    border-left-width: 70px;
-    border-right-width: 70px;
-    border-bottom-width: 130px;
-
-  }
-
-
-  .s3 {
-
-    bottom: 5%;
-    left: -30px;
-
-    border-left-width: 100px;
-    border-right-width: 100px;
-    border-bottom-width: 180px;
-
-  }
-
-
-  .s4 {
-
-    bottom: 28%;
-    left: 20px;
-
-    border-left-width: 60px;
-    border-right-width: 60px;
-    border-bottom-width: 120px;
-
-  }
-
-
-  .s5 {
-
-    top: 12%;
-    right: -80px;
-
-    border-left-width: 150px;
-    border-right-width: 150px;
-    border-bottom-width: 260px;
-
-  }
-
-
-  .s6 {
-
-    bottom: -40px;
-    right: -30px;
-
-    border-left-width: 100px;
-    border-right-width: 100px;
-    border-bottom-width: 190px;
-
-  }
-
-
-  .s7 {
-
-    top: 8%;
-    right: 40px;
-
-    border-left-width: 55px;
-    border-right-width: 55px;
-    border-bottom-width: 100px;
-
-  }
-
-
-  .s8 {
-
-    bottom: 20%;
-    right: 40px;
-
-    border-left-width: 70px;
-    border-right-width: 70px;
-    border-bottom-width: 130px;
+    filter: saturate(0.65);
 
   }
 
@@ -2016,9 +2016,23 @@ button {
   }
 
 
+  .schedule-heading {
+
+    padding-left: 17px;
+
+  }
+
+
   .schedule-heading h1 {
 
     font-size: 26px;
+
+  }
+
+
+  .schedule-heading::before {
+
+    width: 5px;
 
   }
 
@@ -2063,54 +2077,46 @@ button {
 
 
 /* =========================================================
-   コンテンツを背景図形より前面へ
+   背景をさらに邪魔させないための調整
 ========================================================= */
 
-main,
-section,
-article {
+.bg-shapes .shape {
 
-  position: relative;
+  /*
+    図形そのものを少しぼかして
+    背景として馴染ませる
+  */
+
+  filter: blur(0.3px);
+
+}
+
+
+/* =========================================================
+   ヘッダー固定時のレイヤー
+========================================================= */
+
+#header {
+
+  z-index: 10000;
+
+}
+
+
+#header header {
+
+  z-index: 10001;
+
+}
+
+
+/* =========================================================
+   メインのレイヤー
+========================================================= */
+
+.schedule-page {
 
   z-index: 1;
-
-}
-
-
-/* =========================================================
-   ヘッダー固定分
-========================================================= */
-
-body {
-
-  padding-top: 0;
-
-}
-
-
-/* =========================================================
-   背景図形の視認性を少し抑える
-   カードを主役にするため
-========================================================= */
-
-.bg-shapes {
-
-  opacity: 0.72;
-
-}
-
-
-/* =========================================================
-   モバイルでは背景を少し控えめに
-========================================================= */
-
-@media (max-width: 768px) {
-
-  .bg-shapes {
-
-    opacity: 0.55;
-
-  }
 
 }
 
@@ -2645,7 +2651,7 @@ dateButtons.forEach((button) => {
 
 
 /* =========================================================
-   キーボードでもメニューを開けるようにする
+   キーボードでもメニューを開ける
 ========================================================= */
 
 const menuButton =
