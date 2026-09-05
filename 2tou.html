@@ -441,6 +441,22 @@ body {
   height: 26.8%;
 }
 
+/* 1階：華道部（赤文字のある図形全体） */
+.hotspot-kado {
+  left: 49.5%;
+  top: 47.3%;
+  width: 4.0%;
+  height: 19.8%;
+}
+
+/* 1階：大網白里特別支援学校（赤文字部分） */
+.hotspot-oami-special {
+  left: 46.5%;
+  top: 65.9%;
+  width: 2.2%;
+  height: 34.1%;
+}
+
 
 /* =========================================
    2棟2階
@@ -478,6 +494,14 @@ body {
   height: 26.8%;
 }
 
+/* 2階：写真部（赤文字のある図形全体） */
+.hotspot-photo {
+  left: 48.0%;
+  top: 43.5%;
+  width: 3.8%;
+  height: 26.8%;
+}
+
 
 /* =========================================
    2棟3階
@@ -505,6 +529,14 @@ body {
   top: 43.5%;
 
   width: 18.0%;
+  height: 26.8%;
+}
+
+/* 4階：サイエンス部 数学班の部屋全体 */
+.hotspot-science-sugaku {
+  left: 72.9%;
+  top: 43.5%;
+  width: 15.0%;
   height: 26.8%;
 }
 
@@ -1560,6 +1592,24 @@ fetch("header.html")
           type="button"
         ></button>
 
+        <button
+          class="map-hotspot hotspot-kado"
+          data-floor="0"
+          data-modal-type="room-kado"
+          aria-label="華道部の詳細を表示"
+          title="華道部"
+          type="button"
+        ></button>
+
+        <button
+          class="map-hotspot hotspot-oami-special"
+          data-floor="0"
+          data-modal-type="room-oami-special"
+          aria-label="大網白里特別支援学校の詳細を表示"
+          title="大網白里特別支援学校"
+          type="button"
+        ></button>
+
 
         <button
           class="map-hotspot hotspot-art"
@@ -1590,6 +1640,15 @@ fetch("header.html")
           type="button"
         ></button>
 
+        <button
+          class="map-hotspot hotspot-photo"
+          data-floor="1"
+          data-modal-type="room-photo"
+          aria-label="写真部の詳細を表示"
+          title="写真部"
+          type="button"
+        ></button>
+
 
         <button
           class="map-hotspot hotspot-science-seibutsu"
@@ -1607,6 +1666,15 @@ fetch("header.html")
           data-modal-type="room-science-chigaku"
           aria-label="サイエンス部 地学班の詳細を表示"
           title="サイエンス部 地学班"
+          type="button"
+        ></button>
+
+        <button
+          class="map-hotspot hotspot-science-sugaku"
+          data-floor="3"
+          data-modal-type="room-science-sugaku"
+          aria-label="サイエンス部 数学班の詳細を表示"
+          title="サイエンス部 数学班"
           type="button"
         ></button>
 
