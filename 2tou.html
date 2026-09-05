@@ -360,8 +360,7 @@ body {
 
 
 /* =========================================
-   透ける紫の当たり判定
-   ※見た目は完全透明
+   透ける紫色の当たり判定
 ========================================= */
 
 .map-hotspots {
@@ -387,9 +386,9 @@ body {
 
   border-radius: 8px;
 
-  background: transparent;
+  background: rgba(143, 91, 208, 0.28);
 
-  border: 2px solid transparent;
+  border: 2px solid rgba(143, 91, 208, 0.78);
 
   box-shadow: none;
 
@@ -403,10 +402,17 @@ body {
 }
 
 
-.map-hotspot:active {
-  background: transparent;
+.map-hotspot:hover {
+  background: rgba(143, 91, 208, 0.36);
 
-  border-color: transparent;
+  border-color: rgba(143, 91, 208, 0.92);
+}
+
+
+.map-hotspot:active {
+  background: rgba(143, 91, 208, 0.46);
+
+  border-color: rgba(143, 91, 208, 1);
 }
 
 
@@ -416,21 +422,23 @@ body {
 
 .hotspot-cha {
 
-  left: 34.3%;
+  /* 1階：茶道部の部屋全体 */
+  left: 63.2%;
   top: 43.5%;
 
-  width: 11.4%;
-  height: 24.8%;
+  width: 12.3%;
+  height: 26.8%;
 }
 
 
 .hotspot-science-kagaku {
 
-  left: 63.7%;
+  /* 1階：サイエンス部 化学班の部屋全体 */
+  left: 28.4%;
   top: 43.5%;
 
-  width: 10.7%;
-  height: 24.8%;
+  width: 18.0%;
+  height: 26.8%;
 }
 
 
@@ -440,31 +448,34 @@ body {
 
 .hotspot-art {
 
-  left: 8.7%;
-  top: 42.0%;
+  /* 2階：美術部の部屋全体 */
+  left: 87.9%;
+  top: 43.5%;
 
-  width: 13.8%;
-  height: 24.0%;
+  width: 12.0%;
+  height: 26.8%;
 }
 
 
 .hotspot-science-butsuri {
 
-  left: 64.4%;
-  top: 42.0%;
+  /* 2階：サイエンス部 物理班の部屋全体 */
+  left: 28.4%;
+  top: 43.5%;
 
-  width: 12.0%;
-  height: 24.0%;
+  width: 18.0%;
+  height: 26.8%;
 }
 
 
 .hotspot-shogi {
 
-  left: 84.8%;
-  top: 42.0%;
+  /* 2階：将棋部の部屋全体 */
+  left: 0%;
+  top: 43.5%;
 
-  width: 10.8%;
-  height: 24.0%;
+  width: 18.0%;
+  height: 26.8%;
 }
 
 
@@ -474,11 +485,12 @@ body {
 
 .hotspot-science-seibutsu {
 
-  left: 64.4%;
-  top: 30.0%;
+  /* 3階：サイエンス部 生物班の部屋全体 */
+  left: 28.4%;
+  top: 43.5%;
 
-  width: 11.4%;
-  height: 24.2%;
+  width: 18.0%;
+  height: 26.8%;
 }
 
 
@@ -488,11 +500,12 @@ body {
 
 .hotspot-science-chigaku {
 
-  left: 57.6%;
-  top: 32.0%;
+  /* 4階：サイエンス部 地学班の部屋全体 */
+  left: 28.4%;
+  top: 43.5%;
 
-  width: 14.5%;
-  height: 27.0%;
+  width: 18.0%;
+  height: 26.8%;
 }
 
 
@@ -1310,7 +1323,7 @@ body {
 
   /* =====================================
      スマホ用当たり判定
-     ※完全透明
+     ※透ける紫色を維持
   ====================================== */
 
   .map-hotspot {
@@ -1319,9 +1332,9 @@ body {
 
     border-width: 2px;
 
-    background: transparent;
+    background: rgba(143, 91, 208, 0.28);
 
-    border-color: transparent;
+    border-color: rgba(143, 91, 208, 0.78);
 
     box-shadow: none;
   }
