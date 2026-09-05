@@ -56,9 +56,10 @@
       --text: #111;
 
       /*
-       * 背景色を少し透明感のある色に変更
+       * 背景を透明に近づけ、
+       * 背景のカラフルな図形が見えるようにする
        */
-      --bg: rgba(238, 238, 237, 0.62);
+      --bg: rgba(238, 238, 237, 0.18);
 
       --white: #fff;
 
@@ -89,8 +90,8 @@
       margin: 0;
 
       /*
-       * 背景色を透明にして、
-       * background-shapes が見えるようにする
+       * body自体は透明
+       * 背景図形をそのまま表示
        */
       background: transparent;
 
@@ -156,10 +157,10 @@
       z-index: -1;
 
       /*
-       * 背景全体に薄い色を敷く
-       * カラーポリゴンを邪魔しない濃さ
+       * 白いフィルターをかなり薄くして
+       * 背景の図形がしっかり見えるようにする
        */
-      background: rgba(238, 238, 237, 0.58);
+      background: rgba(238, 238, 237, 0.10);
 
     }
 
@@ -334,14 +335,11 @@
       width: 100%;
 
       /*
-       * 以前：
-       * rgba(255,255,255,0.98)
-       *
-       * ↓
-       * 背景の図形が見えるように変更
+       * 背景を透けさせて
+       * 背景図形が見えるようにする
        */
       background:
-        rgba(255, 255, 255, 0.72);
+        rgba(255, 255, 255, 0.48);
 
       border:
         1px solid rgba(85, 85, 85, 0.65);
@@ -365,7 +363,8 @@
     /* =========================================================
        1ページ目
        
-       白い背景を完全に削除
+       「来校上のお願い」「目次」の後ろに
+       白い背景を付けない
     ========================================================= */
 
     .intro-page {
@@ -375,8 +374,7 @@
       padding-top: 35px;
 
       /*
-       * 「来校上のお願い」「目次」の後ろの
-       * 白い図形を削除
+       * ページ全体の白背景を削除
        */
       background: transparent;
 
@@ -484,6 +482,11 @@
       font-size: 29px;
 
       font-weight: 900;
+
+      /*
+       * 背景色は付けない
+       */
+      background: transparent;
 
     }
 
@@ -726,57 +729,53 @@
 
     /* =========================================================
        最後のページ
+       
+       ページ全体を画像配置用の枠にする
     ========================================================= */
 
     .ending-page {
 
       min-height: 620px;
 
-      display: flex;
+      position: relative;
 
-      flex-direction: column;
+      display: block;
 
-      justify-content: center;
+      padding: 0;
 
-      align-items: center;
+      /*
+       * 最後のページ自体は
+       * 背景図形が透ける状態
+       */
+      background:
+        rgba(255, 255, 255, 0.38);
 
       text-align: center;
 
-      padding:
-        60px 40px;
-
     }
 
 
-    .ending-message {
+    /*
+     * 「ご来場お待ちしてます！」は削除し、
+     * ページ全体を画像用エリアにする
+     */
+    .ending-character-space {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+
+      height: 100%;
 
       margin: 0;
 
-      font-size:
-        clamp(38px, 6vw, 78px);
-
-      line-height: 1.25;
-
-      font-weight: 900;
-
-      letter-spacing: 0.02em;
-
-    }
-
-
-    .ending-character-space {
-
-      position: relative;
-
-      width:
-        min(900px, 100%);
-
-      height: 260px;
-
-      margin-top: 45px;
-
       border:
-        1px dashed rgba(0, 0, 0, 0.18);
+        1px dashed rgba(0, 0, 0, 0.22);
+
+      background:
+        transparent;
 
     }
 
@@ -994,10 +993,10 @@
         scroll-margin-top: 70px;
 
         /*
-         * スマホでは少しだけ透明度を上げる
+         * 背景図形が見えるように透明度を調整
          */
         background:
-          rgba(255, 255, 255, 0.68);
+          rgba(255, 255, 255, 0.44);
 
       }
 
@@ -1069,6 +1068,8 @@
 
         font-size: 25px;
 
+        background: transparent;
+
       }
 
 
@@ -1131,26 +1132,31 @@
       }
 
 
+      /*
+       * 最後のページも
+       * ページ全体を画像枠にする
+       */
       .ending-page {
 
         min-height: 500px;
 
-        padding:
-          50px 20px;
+        padding: 0;
 
-      }
-
-
-      .ending-message {
-
-        font-size: 38px;
+        background:
+          rgba(255, 255, 255, 0.36);
 
       }
 
 
       .ending-character-space {
 
-        height: 210px;
+        inset: 0;
+
+        width: 100%;
+
+        height: 100%;
+
+        margin: 0;
 
       }
 
@@ -1264,9 +1270,9 @@
       }
 
 
-      .ending-message {
+      .ending-page {
 
-        font-size: 32px;
+        padding: 0;
 
       }
 
@@ -1680,18 +1686,14 @@
         id="ending"
       >
 
-        <p class="ending-message fade-text">
-
-          ご来場お待ちしてます！
-
-        </p>
-
-
+        <!--
+          最後のページ全体が
+          画像配置用の枠
+        -->
         <div class="ending-character-space">
 
           <!--
-            最後のページだけ
-            ここにキャラクターを配置できます。
+            ここに最後のページ用画像を配置できます。
           -->
 
         </div>
