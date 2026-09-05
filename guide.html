@@ -53,7 +53,8 @@
 
     body {
 
-      background: #ffffff;
+      /* 背景色をTOP・1棟ページと合わせる */
+      background: #eeedeb;
 
       font-family:
         "Yu Gothic",
@@ -114,13 +115,23 @@
 
       overflow: hidden;
 
-      opacity: 0.85;
+      /*
+        背景全体を薄く透けさせる
+      */
+      opacity: 0.55;
 
     }
 
 
     .shape {
+
       position: absolute;
+
+      /*
+        個々の図形も透けさせる
+      */
+      opacity: 0.45;
+
     }
 
 
