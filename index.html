@@ -162,6 +162,35 @@ body {
   animation: none !important;
 }
 
+
+/* =========================================
+   見出しの白い背景を削除
+========================================= */
+
+/*
+  「お知らせ」
+  「アクセス」
+  の白い背景・角丸・影を削除
+*/
+
+h2 {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/*
+  「企画・イベント」
+  の白い背景・角丸・影も削除
+*/
+
+.events-title {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
 </style>
 
 
@@ -2186,9 +2215,7 @@ for(
   );
 
 
-  dots.appendChild(
-    d
-  );
+  dots.appendChild(d);
 
 }
 
