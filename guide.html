@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -16,19 +18,27 @@
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
   >
 
+
   <style>
+
     /* =========================================================
        基本設定
     ========================================================= */
 
     :root {
+
       --pink: #e25b82;
       --pink-light: #e46b8c;
 
@@ -47,7 +57,8 @@
 
       --content-width: 1120px;
 
-      --shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+      --shadow:
+        0 10px 35px rgba(0, 0, 0, 0.06);
     }
 
 
@@ -57,16 +68,21 @@
 
 
     html {
+
       scroll-behavior: smooth;
-      scroll-padding-top: calc(var(--header-height) + 25px);
+
+      scroll-padding-top:
+        calc(var(--header-height) + 25px);
     }
 
 
     body {
+
       margin: 0;
       padding: 0;
 
       background: var(--bg);
+
       color: var(--text);
 
       font-family:
@@ -84,35 +100,43 @@
 
 
     img {
+
       max-width: 100%;
+
       display: block;
     }
 
 
     a {
+
       color: inherit;
+
       text-decoration: none;
     }
 
 
     button {
+
       font: inherit;
     }
 
 
+
     /* =========================================================
        背景のカラーポリゴン
-       画像の雰囲気に合わせた装飾
     ========================================================= */
 
     .background-shapes {
+
       position: fixed;
+
       inset: 0;
 
       width: 100%;
       height: 100%;
 
       pointer-events: none;
+
       overflow: hidden;
 
       z-index: -1;
@@ -120,12 +144,15 @@
 
 
     .shape {
+
       position: absolute;
+
       opacity: 0.92;
     }
 
 
     .shape-pink-1 {
+
       width: 230px;
       height: 260px;
 
@@ -143,6 +170,7 @@
 
 
     .shape-purple-1 {
+
       width: 130px;
       height: 190px;
 
@@ -160,6 +188,7 @@
 
 
     .shape-teal-1 {
+
       width: 190px;
       height: 360px;
 
@@ -178,6 +207,7 @@
 
 
     .shape-yellow-1 {
+
       width: 180px;
       height: 250px;
 
@@ -196,6 +226,7 @@
 
 
     .shape-purple-2 {
+
       width: 130px;
       height: 160px;
 
@@ -213,6 +244,7 @@
 
 
     .shape-pink-2 {
+
       width: 190px;
       height: 250px;
 
@@ -229,57 +261,78 @@
     }
 
 
+
     /* =========================================================
        ヘッダー
+       提供していただいた header.html に合わせた構成
     ========================================================= */
 
     header {
+
       position: fixed;
+
       top: 0;
       left: 0;
 
       width: 100%;
+
       height: var(--header-height);
 
       background: rgba(255, 255, 255, 0.96);
 
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      border-bottom:
+        1px solid rgba(0, 0, 0, 0.04);
 
       z-index: 1000;
     }
 
 
     .header-inner {
+
       width: 100%;
+
       height: 100%;
 
       padding: 0 34px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
     }
 
 
-    .site-logo {
+    .header-inner h1 {
+
+      margin: 0;
+
       color: #f04e78;
 
       font-size: 19px;
+
       font-weight: 900;
+
+      line-height: 1;
 
       white-space: nowrap;
     }
 
 
+    /* 上部メインナビ */
+
     .top-nav {
+
       position: absolute;
 
       left: 50%;
       top: 50%;
 
-      transform: translate(-50%, -50%);
+      transform:
+        translate(-50%, -50%);
 
       display: flex;
+
       align-items: center;
 
       gap: 34px;
@@ -287,9 +340,11 @@
 
 
     .top-nav a {
+
       position: relative;
 
       font-size: 16px;
+
       font-weight: 900;
 
       color: #333;
@@ -301,37 +356,174 @@
 
 
     .top-nav a:hover {
+
       color: var(--pink);
-      transform: translateY(-1px);
+
+      transform:
+        translateY(-1px);
     }
 
 
-    .menu-button {
+    /* =========================================================
+       ハンバーガーメニュー
+    ========================================================= */
+
+    .menu-btn {
+
       width: 32px;
       height: 32px;
 
       padding: 0;
 
       border: none;
+
       background: transparent;
 
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
+
       gap: 7px;
 
       cursor: pointer;
+
+      z-index: 1100;
     }
 
 
-    .menu-button span {
+    .menu-btn span {
+
       width: 30px;
+
       height: 2px;
 
       background: #f04e78;
 
       display: block;
+
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
     }
+
+
+    /* メニューが開いた状態 */
+
+    .menu-btn.active span:nth-child(1) {
+
+      transform:
+        translateY(9px)
+        rotate(45deg);
+    }
+
+
+    .menu-btn.active span:nth-child(2) {
+
+      opacity: 0;
+    }
+
+
+    .menu-btn.active span:nth-child(3) {
+
+      transform:
+        translateY(-9px)
+        rotate(-45deg);
+    }
+
+
+    /* =========================================================
+       ハンバーガーから開くメニュー
+    ========================================================= */
+
+    .nav {
+
+      position: fixed;
+
+      top: var(--header-height);
+
+      right: 25px;
+
+      width: 250px;
+
+      padding: 20px;
+
+      background: rgba(255, 255, 255, 0.98);
+
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+
+      border:
+        1px solid rgba(0, 0, 0, 0.08);
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 0;
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transform:
+        translateY(-10px);
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease;
+
+      z-index: 1050;
+    }
+
+
+    .nav.active {
+
+      opacity: 1;
+
+      visibility: visible;
+
+      transform:
+        translateY(0);
+    }
+
+
+    .nav a {
+
+      display: block;
+
+      padding: 15px 8px;
+
+      color: #333;
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      border-bottom:
+        1px solid rgba(0, 0, 0, 0.08);
+
+      transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+    }
+
+
+    .nav a:last-child {
+
+      border-bottom: none;
+    }
+
+
+    .nav a:hover {
+
+      color: var(--pink);
+
+      padding-left: 14px;
+    }
+
 
 
     /* =========================================================
@@ -339,21 +531,27 @@
     ========================================================= */
 
     main {
+
       width: 100%;
 
-      padding-top: calc(var(--header-height) + 135px);
+      padding-top:
+        calc(var(--header-height) + 135px);
+
       padding-bottom: 120px;
     }
 
 
     .guide-wrapper {
-      width: min(
-        calc(100% - 50px),
-        var(--content-width)
-      );
+
+      width:
+        min(
+          calc(100% - 50px),
+          var(--content-width)
+        );
 
       margin: 0 auto;
     }
+
 
 
     /* =========================================================
@@ -361,15 +559,19 @@
     ========================================================= */
 
     .guide-page {
+
       position: relative;
 
       width: 100%;
 
-      background: rgba(255, 255, 255, 0.98);
+      background:
+        rgba(255, 255, 255, 0.98);
 
-      border: 1px solid #555;
+      border:
+        1px solid #555;
 
-      padding: 42px 52px 60px;
+      padding:
+        42px 52px 60px;
 
       margin-bottom: 70px;
 
@@ -381,11 +583,13 @@
     }
 
 
+
     /* =========================================================
        1ページ目
     ========================================================= */
 
     .intro-page {
+
       min-height: 620px;
 
       padding-top: 35px;
@@ -393,9 +597,11 @@
 
 
     .main-heading {
+
       margin: 0 0 65px;
 
-      font-size: clamp(32px, 4vw, 52px);
+      font-size:
+        clamp(32px, 4vw, 52px);
 
       line-height: 1.35;
 
@@ -404,6 +610,7 @@
 
 
     .festival-title-area {
+
       text-align: center;
 
       margin-bottom: 62px;
@@ -411,18 +618,22 @@
 
 
     .festival-small-title {
+
       display: inline-flex;
+
       align-items: center;
 
       gap: 13px;
 
-      font-size: clamp(18px, 2vw, 25px);
+      font-size:
+        clamp(18px, 2vw, 25px);
 
       margin-bottom: 8px;
     }
 
 
     .festival-small-title::before {
+
       content: "";
 
       width: 12px;
@@ -435,9 +646,11 @@
 
 
     .festival-title {
+
       margin: 0;
 
-      font-size: clamp(42px, 5.5vw, 68px);
+      font-size:
+        clamp(42px, 5.5vw, 68px);
 
       line-height: 1.2;
 
@@ -446,16 +659,20 @@
 
 
     .intro-description {
+
       text-align: center;
 
-      font-size: clamp(15px, 1.7vw, 20px);
+      font-size:
+        clamp(15px, 1.7vw, 20px);
 
       line-height: 2;
 
-      margin: 0 auto 54px;
+      margin:
+        0 auto 54px;
 
       max-width: 900px;
     }
+
 
 
     /* =========================================================
@@ -463,6 +680,7 @@
     ========================================================= */
 
     .toc-title {
+
       margin: 0 0 34px;
 
       font-size: 29px;
@@ -472,6 +690,7 @@
 
 
     .toc-grid {
+
       display: grid;
 
       grid-template-columns:
@@ -482,16 +701,19 @@
 
 
     .toc-item {
+
       position: relative;
 
       display: inline-flex;
+
       flex-direction: column;
 
       align-items: flex-start;
 
       width: fit-content;
 
-      font-size: clamp(17px, 2vw, 22px);
+      font-size:
+        clamp(17px, 2vw, 22px);
 
       line-height: 1.6;
 
@@ -504,6 +726,7 @@
 
 
     .toc-item::after {
+
       content: "";
 
       position: absolute;
@@ -514,51 +737,66 @@
       width: 100%;
       height: 3px;
 
-      transform-origin: left center;
-      transform: scaleX(1);
+      transform-origin:
+        left center;
 
-      transition: transform 0.25s ease;
+      transform:
+        scaleX(1);
+
+      transition:
+        transform 0.25s ease;
     }
 
 
     .toc-item:hover {
-      transform: translateY(-3px);
+
+      transform:
+        translateY(-3px);
     }
 
 
     .toc-item:hover::after {
-      transform: scaleX(0.65);
+
+      transform:
+        scaleX(0.65);
     }
 
 
     .toc-pink {
+
       color: var(--magenta);
     }
 
 
     .toc-pink::after {
+
       background: var(--magenta);
     }
 
 
     .toc-yellow {
+
       color: var(--yellow);
     }
 
 
     .toc-yellow::after {
+
       background: var(--yellow);
     }
 
 
     .toc-blue {
+
       color: var(--blue);
     }
 
 
     .toc-blue::after {
+
       background: var(--blue);
     }
+
 
 
     /* =========================================================
@@ -566,15 +804,19 @@
     ========================================================= */
 
     .section-title {
+
       display: inline-block;
 
-      margin: 0 0 38px;
+      margin:
+        0 0 38px;
 
-      padding: 4px 9px 6px;
+      padding:
+        4px 9px 6px;
 
       color: #fff;
 
-      font-size: clamp(23px, 3vw, 31px);
+      font-size:
+        clamp(23px, 3vw, 31px);
 
       line-height: 1.25;
 
@@ -583,26 +825,40 @@
 
 
     .title-pink {
+
       background: var(--magenta);
     }
 
 
     .title-yellow {
+
       background: var(--yellow);
     }
 
 
     .title-blue {
+
       background: var(--blue);
     }
 
 
+    /* =========================================================
+       本文
+
+       キャラクター用スペースを削除したため、
+       ページ全体を使って文章を配置
+    ========================================================= */
+
     .guide-text {
+
       position: relative;
 
-      max-width: 760px;
+      width: 100%;
 
-      font-size: clamp(15px, 1.8vw, 21px);
+      max-width: 100%;
+
+      font-size:
+        clamp(15px, 1.8vw, 21px);
 
       line-height: 2;
 
@@ -611,96 +867,23 @@
 
 
     .guide-text p {
-      margin: 0 0 31px;
+
+      margin:
+        0 0 31px;
     }
 
 
     .guide-text p:last-child {
+
       margin-bottom: 0;
     }
 
 
     .red-text {
+
       color: #f00000;
     }
 
-
-    /* =========================================================
-       キャラクター用スペース
-    ========================================================= */
-
-    .character-space {
-      position: absolute;
-
-      right: 45px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      width: 235px;
-      height: 430px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      pointer-events: none;
-    }
-
-
-    .character-frame {
-      position: relative;
-
-      width: 100%;
-      height: 100%;
-
-      border: 1px dashed rgba(0, 0, 0, 0.18);
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.35),
-          rgba(255, 255, 255, 0.04)
-        );
-    }
-
-
-    /*
-      キャラクター画像を入れる場合は、
-
-      <img
-        class="character-image"
-        src="images/character-blue.png"
-        alt=""
-      >
-
-      のように character-frame の中へ配置してください。
-
-      PNGなど背景透明の画像を想定しています。
-    */
-
-    .character-image {
-      position: absolute;
-
-      left: 50%;
-      bottom: 0;
-
-      transform: translateX(-50%);
-
-      width: auto;
-      height: 94%;
-
-      object-fit: contain;
-    }
-
-
-    /* =========================================================
-       文章とキャラクターが重ならないようにする
-    ========================================================= */
-
-    .with-character {
-      padding-right: 310px;
-    }
 
 
     /* =========================================================
@@ -708,43 +891,55 @@
     ========================================================= */
 
     .caution-page {
+
       min-height: 700px;
     }
 
 
     .caution-page .guide-text {
-      max-width: 850px;
+
+      max-width: 100%;
     }
 
 
     .caution-page .guide-text p {
+
       margin-bottom: 43px;
     }
 
 
+
     /* =========================================================
        最後のページ
+
+       ※最後のページだけキャラクター用スペースを残す
     ========================================================= */
 
     .ending-page {
+
       min-height: 620px;
 
       display: flex;
+
       flex-direction: column;
 
       justify-content: center;
+
       align-items: center;
 
       text-align: center;
 
-      padding: 60px 40px;
+      padding:
+        60px 40px;
     }
 
 
     .ending-message {
+
       margin: 0;
 
-      font-size: clamp(38px, 6vw, 78px);
+      font-size:
+        clamp(38px, 6vw, 78px);
 
       line-height: 1.25;
 
@@ -755,16 +950,65 @@
 
 
     .ending-character-space {
+
       position: relative;
 
-      width: min(900px, 100%);
+      width:
+        min(900px, 100%);
 
       height: 260px;
 
       margin-top: 45px;
 
-      border: 1px dashed rgba(0, 0, 0, 0.18);
+      border:
+        1px dashed rgba(0, 0, 0, 0.18);
     }
+
+
+    /*
+      最後のページのキャラクター画像を入れる場合
+
+      <img
+        class="character-image"
+        src="images/red-character.png"
+        alt=""
+        style="left: 25%;"
+      >
+
+      <img
+        class="character-image"
+        src="images/blue-character.png"
+        alt=""
+        style="left: 50%;"
+      >
+
+      <img
+        class="character-image"
+        src="images/green-character.png"
+        alt=""
+        style="left: 75%;"
+      >
+    */
+
+
+    .character-image {
+
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 0;
+
+      transform:
+        translateX(-50%);
+
+      width: auto;
+
+      height: 94%;
+
+      object-fit: contain;
+    }
+
 
 
     /* =========================================================
@@ -772,9 +1016,11 @@
     ========================================================= */
 
     .fade-text {
+
       opacity: 0;
 
-      transform: translateY(28px);
+      transform:
+        translateY(28px);
 
       transition:
         opacity 0.9s ease,
@@ -783,30 +1029,37 @@
 
 
     .fade-text.is-visible {
+
       opacity: 1;
 
-      transform: translateY(0);
+      transform:
+        translateY(0);
     }
 
 
     .fade-text.delay-1 {
+
       transition-delay: 0.08s;
     }
 
 
     .fade-text.delay-2 {
+
       transition-delay: 0.16s;
     }
 
 
     .fade-text.delay-3 {
+
       transition-delay: 0.24s;
     }
 
 
     .fade-text.delay-4 {
+
       transition-delay: 0.32s;
     }
+
 
 
     /* =========================================================
@@ -814,11 +1067,13 @@
     ========================================================= */
 
     .page-arrow {
+
       position: absolute;
 
       top: 50%;
 
-      transform: translateY(-50%);
+      transform:
+        translateY(-50%);
 
       font-size: 65px;
 
@@ -835,13 +1090,16 @@
 
 
     .page-arrow.left {
+
       left: 15px;
     }
 
 
     .page-arrow.right {
+
       right: 15px;
     }
+
 
 
     /* =========================================================
@@ -849,6 +1107,7 @@
     ========================================================= */
 
     .back-to-top {
+
       position: fixed;
 
       right: 22px;
@@ -861,10 +1120,13 @@
 
       background: #fff;
 
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+      box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.12);
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       font-size: 21px;
@@ -872,23 +1134,31 @@
       cursor: pointer;
 
       opacity: 0;
+
       visibility: hidden;
 
-      transform: translateY(10px);
+      transform:
+        translateY(10px);
 
       transition:
         opacity 0.25s ease,
         visibility 0.25s ease,
         transform 0.25s ease;
+
+      z-index: 900;
     }
 
 
     .back-to-top.show {
+
       opacity: 1;
+
       visibility: visible;
 
-      transform: translateY(0);
+      transform:
+        translateY(0);
     }
+
 
 
     /* =========================================================
@@ -898,38 +1168,62 @@
     @media (max-width: 900px) {
 
       :root {
+
         --header-height: 54px;
       }
 
 
       .header-inner {
+
         padding: 0 18px;
       }
 
 
       .top-nav {
+
         display: none;
       }
 
 
-      .site-logo {
+      .header-inner h1 {
+
         font-size: 17px;
       }
 
 
+      .nav {
+
+        top: var(--header-height);
+
+        right: 12px;
+
+        width:
+          calc(100% - 24px);
+
+        max-width: 360px;
+      }
+
+
       main {
-        padding-top: calc(var(--header-height) + 65px);
+
+        padding-top:
+          calc(var(--header-height) + 65px);
+
         padding-bottom: 70px;
       }
 
 
       .guide-wrapper {
-        width: calc(100% - 24px);
+
+        width:
+          calc(100% - 24px);
       }
 
 
       .guide-page {
-        padding: 30px 22px 45px;
+
+        padding:
+          30px 22px 45px;
 
         margin-bottom: 35px;
 
@@ -938,11 +1232,13 @@
 
 
       .intro-page {
+
         min-height: auto;
       }
 
 
       .main-heading {
+
         margin-bottom: 45px;
 
         font-size: 31px;
@@ -950,27 +1246,32 @@
 
 
       .festival-title-area {
+
         margin-bottom: 42px;
       }
 
 
       .festival-small-title {
+
         font-size: 17px;
       }
 
 
       .festival-small-title::before {
+
         width: 8px;
         height: 38px;
       }
 
 
       .festival-title {
+
         font-size: 42px;
       }
 
 
       .intro-description {
+
         font-size: 14px;
 
         line-height: 1.9;
@@ -978,11 +1279,13 @@
 
 
       .toc-title {
+
         font-size: 25px;
       }
 
 
       .toc-grid {
+
         grid-template-columns: 1fr;
 
         gap: 24px;
@@ -990,38 +1293,15 @@
 
 
       .toc-item {
+
         font-size: 18px;
       }
 
 
-      .with-character {
-        padding-right: 0;
-      }
-
-
-      .character-space {
-        position: relative;
-
-        right: auto;
-        top: auto;
-
-        transform: none;
+      .guide-text {
 
         width: 100%;
-        height: 260px;
 
-        margin-top: 35px;
-      }
-
-
-      .character-frame {
-        width: 190px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-
-      .guide-text {
         max-width: none;
 
         font-size: 15px;
@@ -1031,16 +1311,19 @@
 
 
       .guide-text p {
+
         margin-bottom: 27px;
       }
 
 
       .caution-page .guide-text p {
+
         margin-bottom: 34px;
       }
 
 
       .section-title {
+
         font-size: 22px;
 
         margin-bottom: 28px;
@@ -1048,52 +1331,62 @@
 
 
       .page-arrow {
+
         display: none;
       }
 
 
       .ending-page {
+
         min-height: 500px;
 
-        padding: 50px 20px;
+        padding:
+          50px 20px;
       }
 
 
       .ending-message {
+
         font-size: 38px;
       }
 
 
       .ending-character-space {
+
         height: 210px;
       }
 
 
       .shape-pink-1 {
+
         width: 120px;
         height: 150px;
       }
 
 
       .shape-purple-1 {
+
         width: 80px;
         height: 130px;
       }
 
 
       .shape-teal-1 {
+
         width: 100px;
         height: 220px;
       }
 
 
       .shape-yellow-1 {
+
         width: 110px;
         height: 170px;
       }
 
 
       .shape-purple-2 {
+
         width: 75px;
         height: 100px;
 
@@ -1102,11 +1395,13 @@
 
 
       .shape-pink-2 {
+
         width: 110px;
         height: 150px;
       }
 
     }
+
 
 
     /* =========================================================
@@ -1116,46 +1411,56 @@
     @media (max-width: 480px) {
 
       .guide-page {
+
         padding-left: 18px;
+
         padding-right: 18px;
       }
 
 
       .main-heading {
+
         font-size: 27px;
       }
 
 
       .festival-title {
+
         font-size: 35px;
       }
 
 
       .festival-small-title {
+
         font-size: 15px;
       }
 
 
       .intro-description {
+
         font-size: 13px;
       }
 
 
       .guide-text {
+
         font-size: 14px;
       }
 
 
       .section-title {
+
         font-size: 20px;
       }
 
 
       .ending-message {
+
         font-size: 32px;
       }
 
     }
+
 
 
     /* =========================================================
@@ -1165,12 +1470,15 @@
     @media (prefers-reduced-motion: reduce) {
 
       html {
+
         scroll-behavior: auto;
       }
 
 
       .fade-text {
+
         opacity: 1;
+
         transform: none;
 
         transition: none;
@@ -1179,16 +1487,21 @@
     }
 
   </style>
+
 </head>
 
 
 <body>
 
+
   <!-- =======================================================
        背景装飾
   ======================================================== -->
 
-  <div class="background-shapes" aria-hidden="true">
+  <div
+    class="background-shapes"
+    aria-hidden="true"
+  >
 
     <div class="shape shape-pink-1"></div>
 
@@ -1205,56 +1518,87 @@
   </div>
 
 
+
   <!-- =======================================================
        ヘッダー
+
+       提供していただいた header.html と同じ構成
   ======================================================== -->
 
   <header>
 
     <div class="header-inner">
 
-      <a
-        href="index.html"
-        class="site-logo"
+
+      <h1>長高祭</h1>
+
+
+      <nav
+        class="top-nav"
+        aria-label="メインナビゲーション"
       >
-        長高祭
-      </a>
-
-
-      <nav class="top-nav">
 
         <a href="index.html">
           TOP
         </a>
 
-        <a href="exhibition.html">
-          EXHIBITION
+
+        <a href="events.html">
+          EVENTS
         </a>
+
 
         <a href="map.html">
           MAP
         </a>
 
-        <a href="visitor.html">
+
+        <a href="guide.html">
           VISITOR
         </a>
 
       </nav>
 
 
-      <button
-        class="menu-button"
-        type="button"
-        aria-label="メニュー"
+      <nav
+        class="nav"
+        id="nav"
+        aria-label="サブナビゲーション"
       >
+
+        <a href="about.html">
+          このサイトについて
+        </a>
+
+
+        <a href="festival-intro.html">
+          導入を見る
+        </a>
+
+      </nav>
+
+
+      <div
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="メニュー"
+        role="button"
+        tabindex="0"
+      >
+
         <span></span>
+
         <span></span>
+
         <span></span>
-      </button>
+
+      </div>
+
 
     </div>
 
   </header>
+
 
 
   <!-- =======================================================
@@ -1275,6 +1619,7 @@
         id="guide-top"
       >
 
+
         <h1 class="main-heading fade-text">
           ご来場の皆様へ
         </h1>
@@ -1282,43 +1627,64 @@
 
         <div class="festival-title-area">
 
+
           <div class="festival-small-title fade-text delay-1">
+
             2026年度 長生高校文化祭
+
           </div>
 
 
           <h2 class="festival-title fade-text delay-2">
+
             来校上のお願い
+
           </h2>
+
 
         </div>
 
 
         <p class="intro-description fade-text delay-3">
+
           こちらは2025年度のものを参考に作成したものです。今年度版の情報が発表され次第随時更新していきます。
+
         </p>
 
 
-        <!-- 目次 -->
+
+        <!-- =================================================
+             目次
+        ================================================== -->
 
         <div class="toc-area">
 
+
           <h2 class="toc-title fade-text">
+
             目次
+
           </h2>
 
 
           <div class="toc-grid">
 
-            <!-- 2ページ目 ロゴ紹介は削除 -->
+
+            <!--
+              「ロゴ紹介」は削除済み
+              「◯ページ目」表記も削除済み
+            -->
 
 
             <a
               href="#parking"
               class="toc-item toc-pink fade-text delay-1"
             >
+
               駐車・送迎について、および<br>
+
               来場方法
+
             </a>
 
 
@@ -1326,7 +1692,9 @@
               href="#caution1"
               class="toc-item toc-yellow fade-text delay-2"
             >
+
               校内での注意事項1
+
             </a>
 
 
@@ -1334,24 +1702,34 @@
               href="#ending"
               class="toc-item toc-blue fade-text delay-3"
             >
+
               終わりに
+
             </a>
+
 
           </div>
 
         </div>
 
 
-        <span class="page-arrow right" aria-hidden="true">
+        <span
+          class="page-arrow right"
+          aria-hidden="true"
+        >
           ›
         </span>
+
 
       </section>
 
 
 
       <!-- ===================================================
-           3ページ目
+           駐車・送迎について / ご来場方法について
+           
+           キャラクター枠を削除し、
+           本文がページ全体を使用するように変更
       ==================================================== -->
 
       <section
@@ -1359,87 +1737,86 @@
         id="parking"
       >
 
-        <span class="page-arrow left" aria-hidden="true">
+
+        <span
+          class="page-arrow left"
+          aria-hidden="true"
+        >
           ‹
         </span>
 
 
-        <span class="page-arrow right" aria-hidden="true">
+        <span
+          class="page-arrow right"
+          aria-hidden="true"
+        >
           ›
         </span>
 
 
-        <div class="with-character">
+        <h2 class="section-title title-pink fade-text">
 
-          <h2 class="section-title title-pink fade-text">
-            駐車・送迎について
+          駐車・送迎について
+
+        </h2>
+
+
+        <div class="guide-text">
+
+
+          <p class="fade-text">
+
+            近隣のセブンイレブンの駐車場は利用しないでください。
+
+          </p>
+
+
+          <p class="fade-text delay-1">
+
+            学校前での車の送迎・停車はご遠慮ください。
+
+          </p>
+
+
+          <h2 class="section-title title-pink fade-text delay-2">
+
+            ご来場方法について
+
           </h2>
 
 
-          <div class="guide-text">
+          <p class="fade-text delay-2">
 
-            <p class="fade-text">
-              近隣のセブンイレブンの駐車場は利用しないでください。
-            </p>
+            公共交通機関、徒歩、自転車でのご来場にご協力ください。
 
-
-            <p class="fade-text delay-1">
-              学校前での車の送迎・停車はご遠慮ください。
-            </p>
+          </p>
 
 
-            <h2 class="section-title title-pink fade-text delay-2">
-              ご来場方法について
-            </h2>
+          <p class="fade-text delay-3">
+
+            校舎内は土足禁止です。<span class="red-text">上履き（スリッパ等）と靴を入れる袋をご持参ください。</span>
+
+          </p>
 
 
-            <p class="fade-text delay-2">
-              公共交通機関、徒歩、自転車でのご来場にご協力ください。
-            </p>
+          <p class="fade-text delay-4">
 
+            ご来校の際は、正門または指定された受付で受付を行ってください。
 
-            <p class="fade-text delay-3">
-              校舎内は土足禁止です。<span class="red-text">上履き（スリッパ等）と靴を入れる袋をご持参ください。</span>
-            </p>
+          </p>
 
-
-            <p class="fade-text delay-4">
-              ご来校の際は、正門または指定された受付で受付を行ってください。
-            </p>
-
-          </div>
 
         </div>
 
-
-        <!-- 透明キャラクター用スペース -->
-
-        <div class="character-space">
-
-          <div class="character-frame">
-
-            <!--
-              ここに透明PNGのキャラクターを配置できます。
-
-              例：
-
-              <img
-                class="character-image"
-                src="images/blue-character.png"
-                alt=""
-              >
-            -->
-
-          </div>
-
-        </div>
 
       </section>
 
 
 
       <!-- ===================================================
-           4ページ目
+           校内での注意事項1
+           
+           キャラクター枠を削除
       ==================================================== -->
 
       <section
@@ -1447,76 +1824,83 @@
         id="caution1"
       >
 
-        <span class="page-arrow left" aria-hidden="true">
+
+        <span
+          class="page-arrow left"
+          aria-hidden="true"
+        >
           ‹
         </span>
 
 
-        <span class="page-arrow right" aria-hidden="true">
+        <span
+          class="page-arrow right"
+          aria-hidden="true"
+        >
           ›
         </span>
 
 
-        <div class="with-character">
+        <h2 class="section-title title-yellow fade-text">
 
-          <h2 class="section-title title-yellow fade-text">
-            校内での注意事項1
-          </h2>
+          校内での注意事項1
 
-
-          <div class="guide-text">
-
-            <p class="fade-text">
-              無許可での写真・動画撮影や、生徒の顔が映る撮影・SNS等への投稿は禁止です。<br>
-              撮影可能な企画では、指示に従ってください。
-            </p>
+        </h2>
 
 
-            <p class="fade-text delay-1">
-              飲食物の持ち込みは原則ご遠慮ください。購入した飲食物は指定の<br>
-              飲食スペースでお召し上がりください。
-            </p>
+        <div class="guide-text">
 
 
-            <p class="fade-text delay-2">
-              ゴミは指定の場所へ分別して捨ててください。
-            </p>
+          <p class="fade-text">
+
+            無許可での写真・動画撮影や、生徒の顔が映る撮影・SNS等への投稿は禁止です。<br>
+
+            撮影可能な企画では、指示に従ってください。
+
+          </p>
 
 
-            <p class="fade-text delay-3">
-              展示物や校内の備品には、許可なく触れないでください。
-            </p>
+          <p class="fade-text delay-1">
+
+            飲食物の持ち込みは原則ご遠慮ください。購入した飲食物は指定の<br>
+
+            飲食スペースでお召し上がりください。
+
+          </p>
 
 
-            <p class="fade-text delay-4 red-text">
-              校内は全面禁煙です。
-            </p>
+          <p class="fade-text delay-2">
 
-          </div>
+            ゴミは指定の場所へ分別して捨ててください。
 
-        </div>
+          </p>
 
 
-        <!-- 透明キャラクター用スペース -->
+          <p class="fade-text delay-3">
 
-        <div class="character-space">
+            展示物や校内の備品には、許可なく触れないでください。
 
-          <div class="character-frame">
+          </p>
 
-            <!--
-              透明PNGのキャラクターを配置する場所
-            -->
 
-          </div>
+          <p class="fade-text delay-4 red-text">
+
+            校内は全面禁煙です。
+
+          </p>
+
 
         </div>
+
 
       </section>
 
 
 
       <!-- ===================================================
-           5ページ目
+           校内での注意事項2
+           
+           キャラクター枠を削除
       ==================================================== -->
 
       <section
@@ -1524,70 +1908,74 @@
         id="caution2"
       >
 
-        <span class="page-arrow left" aria-hidden="true">
+
+        <span
+          class="page-arrow left"
+          aria-hidden="true"
+        >
           ‹
         </span>
 
 
-        <span class="page-arrow right" aria-hidden="true">
+        <span
+          class="page-arrow right"
+          aria-hidden="true"
+        >
           ›
         </span>
 
 
-        <div class="with-character">
+        <h2 class="section-title title-yellow fade-text">
 
-          <h2 class="section-title title-yellow fade-text">
-            校内での注意事項2
-          </h2>
+          校内での注意事項2
 
-
-          <div class="guide-text">
-
-            <p class="fade-text">
-              廊下・階段・出入口付近では立ち止まらず、混雑時も周囲に配慮して通行してください。
-            </p>
+        </h2>
 
 
-            <p class="fade-text delay-1">
-              貴重品は各自で管理してください。盗難・紛失について、本校では責任を負いかねます。<br>
-              忘れ物は本部で管理しています。
-            </p>
+        <div class="guide-text">
 
 
-            <p class="fade-text delay-2">
-              体調が悪くなった場合は、教員または生徒スタッフへお声がけください。
-            </p>
+          <p class="fade-text">
+
+            廊下・階段・出入口付近では立ち止まらず、混雑時も周囲に配慮して通行してください。
+
+          </p>
 
 
-            <p class="fade-text delay-3">
-              緊急時は、教員や生徒スタッフの指示に従ってください。
-            </p>
+          <p class="fade-text delay-1">
 
-          </div>
+            貴重品は各自で管理してください。盗難・紛失について、本校では責任を負いかねます。<br>
 
-        </div>
+            忘れ物は本部で管理しています。
+
+          </p>
 
 
-        <!-- 透明キャラクター用スペース -->
+          <p class="fade-text delay-2">
 
-        <div class="character-space">
+            体調が悪くなった場合は、教員または生徒スタッフへお声がけください。
 
-          <div class="character-frame">
+          </p>
 
-            <!--
-              透明PNGのキャラクターを配置する場所
-            -->
 
-          </div>
+          <p class="fade-text delay-3">
+
+            緊急時は、教員や生徒スタッフの指示に従ってください。
+
+          </p>
+
 
         </div>
+
 
       </section>
 
 
 
       <!-- ===================================================
-           6ページ目
+           最後のページ
+
+           このページだけキャラクター用スペースを残す
       ==================================================== -->
 
       <section
@@ -1595,15 +1983,20 @@
         id="ending"
       >
 
+
         <p class="ending-message fade-text">
+
           ご来場お待ちしてます！
+
         </p>
 
 
         <div class="ending-character-space">
 
+
           <!--
             ここに3人の透明キャラクターを配置できます。
+
 
             例：
 
@@ -1614,12 +2007,14 @@
               style="left: 25%;"
             >
 
+
             <img
               class="character-image"
               src="images/blue-character.png"
               alt=""
               style="left: 50%;"
             >
+
 
             <img
               class="character-image"
@@ -1629,7 +2024,9 @@
             >
           -->
 
+
         </div>
+
 
       </section>
 
@@ -1650,12 +2047,15 @@
     type="button"
     aria-label="ページ上部へ戻る"
   >
+
     ↑
+
   </button>
 
 
 
   <script>
+
 
     /* =========================================================
        スクロール時のフェードイン
@@ -1673,9 +2073,13 @@
 
             if (entry.isIntersecting) {
 
-              entry.target.classList.add("is-visible");
+              entry.target.classList.add(
+                "is-visible"
+              );
 
-              observer.unobserve(entry.target);
+              observer.unobserve(
+                entry.target
+              );
 
             }
 
@@ -1685,13 +2089,16 @@
         {
           threshold: 0.12,
 
-          rootMargin: "0px 0px -40px 0px"
+          rootMargin:
+            "0px 0px -40px 0px"
         }
       );
 
 
     fadeElements.forEach(element => {
+
       observer.observe(element);
+
     });
 
 
@@ -1704,50 +2111,60 @@
       .querySelectorAll('a[href^="#"]')
       .forEach(link => {
 
-        link.addEventListener("click", event => {
+        link.addEventListener(
+          "click",
+          event => {
 
-          const targetId =
-            link.getAttribute("href");
-
-
-          if (
-            !targetId ||
-            targetId === "#"
-          ) {
-            return;
-          }
+            const targetId =
+              link.getAttribute("href");
 
 
-          const target =
-            document.querySelector(targetId);
+            if (
+              !targetId ||
+              targetId === "#"
+            ) {
+
+              return;
+            }
 
 
-          if (!target) {
-            return;
-          }
+            const target =
+              document.querySelector(
+                targetId
+              );
 
 
-          event.preventDefault();
+            if (!target) {
+
+              return;
+            }
 
 
-          const headerHeight =
-            document.querySelector("header")
-              .offsetHeight;
+            event.preventDefault();
 
 
-          const targetPosition =
-            target.getBoundingClientRect().top
-            + window.scrollY
-            - headerHeight
-            - 20;
+            const headerHeight =
+              document
+                .querySelector("header")
+                .offsetHeight;
 
 
-          window.scrollTo({
-            top: targetPosition,
-            behavior: "smooth"
+            const targetPosition =
+              target.getBoundingClientRect().top
+              + window.scrollY
+              - headerHeight
+              - 20;
+
+
+            window.scrollTo({
+
+              top: targetPosition,
+
+              behavior: "smooth"
+
+            });
+
           });
-
-        });
 
       });
 
@@ -1758,7 +2175,9 @@
     ========================================================= */
 
     const backToTop =
-      document.getElementById("backToTop");
+      document.getElementById(
+        "backToTop"
+      );
 
 
     window.addEventListener(
@@ -1767,11 +2186,15 @@
 
         if (window.scrollY > 600) {
 
-          backToTop.classList.add("show");
+          backToTop.classList.add(
+            "show"
+          );
 
         } else {
 
-          backToTop.classList.remove("show");
+          backToTop.classList.remove(
+            "show"
+          );
 
         }
 
@@ -1787,8 +2210,11 @@
       () => {
 
         window.scrollTo({
+
           top: 0,
+
           behavior: "smooth"
+
         });
 
       }
@@ -1797,28 +2223,123 @@
 
 
     /* =========================================================
-       ヘッダーのハンバーガーボタン
-       現在のデザインを崩さないため、
-       ここではクリック時の挙動を持たせない
+       ヘッダーのハンバーガーメニュー
     ========================================================= */
 
-    const menuButton =
-      document.querySelector(".menu-button");
+    function toggleMenu() {
+
+      const nav =
+        document.getElementById("nav");
+
+      const menuButton =
+        document.querySelector(".menu-btn");
 
 
-    menuButton.addEventListener(
-      "click",
-      () => {
+      nav.classList.toggle("active");
 
-        /*
-          既存サイトのメニュー処理を使用する場合は、
-          ここに既存の処理を追加してください。
-        */
+      menuButton.classList.toggle("active");
+
+    }
+
+
+
+    /* =========================================================
+       ハンバーガーメニュー内リンクをクリックしたら閉じる
+    ========================================================= */
+
+    document
+      .querySelectorAll("#nav a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            const nav =
+              document.getElementById(
+                "nav"
+              );
+
+            const menuButton =
+              document.querySelector(
+                ".menu-btn"
+              );
+
+
+            nav.classList.remove(
+              "active"
+            );
+
+            menuButton.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       キーボード操作
+    ========================================================= */
+
+    document
+      .querySelector(".menu-btn")
+      .addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+
+            event.preventDefault();
+
+            toggleMenu();
+
+          }
+
+        }
+      );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Escape") {
+
+          const nav =
+            document.getElementById(
+              "nav"
+            );
+
+          const menuButton =
+            document.querySelector(
+              ".menu-btn"
+            );
+
+
+          nav.classList.remove(
+            "active"
+          );
+
+          menuButton.classList.remove(
+            "active"
+          );
+
+        }
 
       }
     );
 
+
   </script>
 
+
 </body>
+
 </html>
