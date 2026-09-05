@@ -1,1030 +1,2724 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
+>
 
-  <title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
+<title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
 
-  <!-- 共通CSS -->
-  <link rel="stylesheet" href="css/style.css">
+<style>
 
+/* ============================================================
+   長高祭2026
+   VISITOR GUIDE
+   完全スタンドアロン版
+   ============================================================ */
 
-  <style>
 
-    /* =========================================
-       基本設定
-    ========================================= */
+/* ============================================================
+   基本設定
+   ============================================================ */
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+*{
+  box-sizing:border-box;
+}
 
 
-    :root {
-      --main-color: #d96b8a;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
 
-    html,
-    body {
+body{
 
-      width: 100%;
+  margin:0;
 
-      min-height: 100%;
+  min-height:100vh;
 
-      margin: 0;
-      padding: 0;
+  font-family:
+    "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "YuGothic",
+    Meiryo,
+    sans-serif;
 
-      overflow-x: hidden;
-      overflow-y: auto;
+  color:#111;
 
-      overscroll-behavior-x: none;
+  background:#eeeeec;
 
-    }
+  overflow-x:hidden;
 
+}
 
-    body {
 
-      /* 背景色をTOP・1棟ページと合わせる */
-      background: #eeedeb;
+/* ============================================================
+   背景
+   ============================================================ */
 
-      font-family:
-        "Yu Gothic",
-        "Hiragino Sans",
-        sans-serif;
+.festival-background{
 
-      /*
-        重要：
+  position:fixed;
 
-        ブラウザにタッチ操作を勝手に
-        スクロール・ズーム処理させず、
-        このページではJS側で操作を管理する。
-      */
-      touch-action: none;
+  inset:0;
 
-      -webkit-user-select: none;
-      user-select: none;
+  width:100%;
 
-    }
+  height:100%;
 
+  overflow:hidden;
 
-    /* =========================================
-       ヘッダー
-    ========================================= */
+  pointer-events:none;
 
-    #header {
+  z-index:-10;
 
-      position: relative;
+  background:#eeeeec;
 
-      z-index: 10000;
+}
 
-      width: 100%;
 
-      /*
-        ヘッダー自体は通常操作可能
-      */
-      touch-action: manipulation;
+/* ------------------------------------------------------------
+   背景図形共通
+   ------------------------------------------------------------ */
 
-      -webkit-user-select: none;
-      user-select: none;
+.bg-shape{
 
-    }
+  position:absolute;
 
+  display:block;
 
-    /* =========================================
-       背景図形
-    ========================================= */
+  pointer-events:none;
 
-    .bg-shapes {
+  opacity:.88;
 
-      position: fixed;
+}
 
-      inset: 0;
 
-      z-index: 0;
+/* 左上 ピンク */
 
-      pointer-events: none;
+.bg-pink-1{
 
-      overflow: hidden;
+  width:240px;
 
-      /*
-        背景全体を薄く透けさせる
-      */
-      opacity: 0.55;
+  height:210px;
 
-    }
+  left:-95px;
 
+  top:150px;
 
-    .shape {
+  background:#ca7189;
 
-      position: absolute;
+  clip-path:polygon(
+    0 0,
+    100% 60%,
+    15% 100%
+  );
 
-      /*
-        個々の図形も透けさせる
-      */
-      opacity: 0.45;
+}
 
-    }
 
+/* 左上 紫 */
 
-    /* =========================================
-       三角形
-    ========================================= */
+.bg-purple-1{
 
-    .s1 {
+  width:150px;
 
-      top: 5%;
-      left: -50px;
+  height:190px;
 
-      width: 0;
-      height: 0;
+  left:-45px;
 
-      border-left: 90px solid transparent;
-      border-right: 90px solid transparent;
-      border-bottom: 170px solid #c85c72;
+  top:380px;
 
-      transform: rotate(-25deg);
+  background:#8b72ad;
 
-    }
+  clip-path:polygon(
+    55% 0,
+    100% 100%,
+    0 78%
+  );
 
+}
 
-    .s2 {
 
-      top: 25%;
-      left: -35px;
+/* 左中央 水色 */
 
-      width: 0;
-      height: 0;
+.bg-cyan-1{
 
-      border-left: 70px solid transparent;
-      border-right: 70px solid transparent;
-      border-bottom: 130px solid #8060a8;
+  width:155px;
 
-      transform: rotate(20deg);
+  height:185px;
 
-    }
+  left:20px;
 
+  top:625px;
 
-    .s3 {
+  background:#55aab5;
 
-      bottom: 5%;
-      left: -30px;
+  clip-path:polygon(
+    40% 0,
+    100% 88%,
+    0 100%
+  );
 
-      width: 0;
-      height: 0;
+}
 
-      border-left: 100px solid transparent;
-      border-right: 100px solid transparent;
-      border-bottom: 180px solid #d1a92f;
 
-      transform: rotate(12deg);
+/* 左下 黄色 */
 
-    }
+.bg-yellow-1{
 
+  width:190px;
 
-    .s4 {
+  height:190px;
 
-      bottom: 28%;
-      left: 20px;
+  left:-20px;
 
-      width: 0;
-      height: 0;
+  bottom:-35px;
 
-      border-left: 60px solid transparent;
-      border-right: 60px solid transparent;
-      border-bottom: 120px solid #3f9da9;
+  background:#d9b447;
 
-      transform: rotate(-15deg);
+  clip-path:polygon(
+    65% 0,
+    100% 100%,
+    0 80%
+  );
 
-    }
+}
 
 
-    .s5 {
+/* 左中央 紫 */
 
-      top: 12%;
-      right: -80px;
+.bg-purple-2{
 
-      width: 0;
-      height: 0;
+  width:120px;
 
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 260px solid #4f9fa5;
+  height:210px;
 
-      transform: rotate(30deg);
+  left:100px;
 
-    }
+  top:530px;
 
+  background:#a2779c;
 
-    .s6 {
+  clip-path:polygon(
+    35% 0,
+    100% 20%,
+    40% 100%,
+    0 55%
+  );
 
-      bottom: -40px;
-      right: -30px;
+}
 
-      width: 0;
-      height: 0;
 
-      border-left: 100px solid transparent;
-      border-right: 100px solid transparent;
-      border-bottom: 190px solid #c85c72;
+/* 右上 紫 */
 
-      transform: rotate(-15deg);
+.bg-purple-3{
 
-    }
+  width:175px;
 
+  height:155px;
 
-    .s7 {
+  right:70px;
 
-      top: 8%;
-      right: 40px;
+  top:170px;
 
-      width: 0;
-      height: 0;
+  background:#8b72ad;
 
-      border-left: 55px solid transparent;
-      border-right: 55px solid transparent;
-      border-bottom: 100px solid #8060a8;
+  clip-path:polygon(
+    0 40%,
+    100% 0,
+    85% 100%
+  );
 
-      transform: rotate(35deg);
+}
 
-    }
 
+/* 右上 水色 */
 
-    .s8 {
+.bg-cyan-2{
 
-      bottom: 20%;
-      right: 40px;
+  width:175px;
 
-      width: 0;
-      height: 0;
+  height:375px;
 
-      border-left: 70px solid transparent;
-      border-right: 70px solid transparent;
-      border-bottom: 130px solid #d1a92f;
+  right:-5px;
 
-      transform: rotate(-20deg);
+  top:280px;
 
-    }
+  background:#5faab1;
 
+  clip-path:polygon(
+    45% 0,
+    100% 0,
+    100% 100%,
+    0 70%
+  );
 
-    /* =========================================
-       メイン
-    ========================================= */
+}
 
-    .visitor-container {
 
-      position: relative;
+/* 右中央 水色 */
 
-      z-index: 1;
+.bg-cyan-3{
 
-      width: 100%;
+  width:130px;
 
-      height: auto;
+  height:155px;
 
-      min-height: 0;
+  right:70px;
 
-      padding: 0;
+  top:610px;
 
-      margin-top: 0;
+  background:#4f9fac;
 
-      display: flex;
+  clip-path:polygon(
+    0 25%,
+    75% 0,
+    100% 75%,
+    20% 100%
+  );
 
-      flex-direction: column;
+}
 
-      align-items: center;
 
-      overflow: visible;
+/* 右下 黄色 */
 
-    }
+.bg-yellow-2{
 
+  width:165px;
 
-    /* =========================================
-       スライダー全体
-    ========================================= */
+  height:150px;
 
-    .slider-wrapper {
+  right:50px;
 
-      position: relative;
+  top:730px;
 
-      width: 100%;
+  background:#d9b447;
 
-      height: auto;
+  clip-path:polygon(
+    0 20%,
+    70% 0,
+    100% 100%,
+    20% 75%
+  );
 
-      min-height: 0;
+}
 
-      max-width: 1400px;
 
-      display: flex;
+/* 右下 ピンク */
 
-      flex-direction: column;
+.bg-pink-2{
 
-      align-items: center;
+  width:190px;
 
-      justify-content: flex-start;
+  height:220px;
 
-      overflow: visible;
+  right:-35px;
 
-    }
+  bottom:-55px;
 
+  background:#ca7189;
 
-    /* =========================================
-       画像エリア
-    ========================================= */
+  clip-path:polygon(
+    35% 0,
+    100% 15%,
+    70% 100%,
+    0 80%
+  );
 
-    .slider {
+}
 
-      position: relative;
 
-      width: 100%;
+/* ============================================================
+   ヘッダー
+   ============================================================ */
 
-      height: auto;
+.site-header{
 
-      flex: none;
+  position:sticky;
 
-      min-height: 0;
+  top:0;
 
-      overflow: visible;
+  z-index:1000;
 
-      /*
-        ★重要
+  width:100%;
 
-        touch-action:none にすることで、
-        ピンチ中にSafariが勝手に
-        gesture / pointercancel を発生させる
-        ことを防ぐ。
+  height:58px;
 
-        縦スクロールはJSで処理する。
-      */
-      touch-action: none;
+  background:rgba(255,255,255,.96);
 
-      -webkit-user-select: none;
-      user-select: none;
+  border-bottom:1px solid #e5e5e5;
 
-      -webkit-touch-callout: none;
+  backdrop-filter:blur(10px);
 
-      overscroll-behavior: none;
+  -webkit-backdrop-filter:blur(10px);
 
-    }
+}
 
 
-    /* =========================================
-       スライド全体
-    ========================================= */
+.header-inner{
 
-    .slides {
+  width:100%;
 
-      display: flex;
+  height:100%;
 
-      width: 100%;
+  max-width:1400px;
 
-      height: auto;
+  margin:0 auto;
 
-      flex-shrink: 0;
+  padding:0 30px;
 
-      transition:
-        transform 0.3s ease-out;
+  display:flex;
 
-      will-change: transform;
+  align-items:center;
 
-      /*
-        slides自身もブラウザの
-        タッチ操作を受けない
-      */
-      touch-action: none;
+  justify-content:space-between;
 
-    }
+}
 
 
-    /* =========================================
-       各ページ
-    ========================================= */
+.site-logo{
 
-    .slide {
+  margin:0;
 
-      position: relative;
+  color:#ef4666;
 
-      flex: 0 0 100%;
+  font-size:18px;
 
-      width: 100%;
+  font-weight:900;
 
-      min-height: calc(
-        100vh - var(--header-height, 70px)
-      );
+  letter-spacing:.02em;
 
-      height: auto;
+}
 
-      display: flex;
 
-      justify-content: center;
+.top-nav{
 
-      align-items: center;
+  display:flex;
 
-      padding: 0;
+  align-items:center;
 
-      overflow: visible;
+  gap:34px;
 
-      touch-action: none;
+}
 
-    }
 
+.top-nav a{
 
-    /* =========================================
-       画像
-    ========================================= */
+  color:#333;
 
-    .slide img {
+  text-decoration:none;
 
-      display: block;
+  font-size:15px;
 
-      width: 100%;
+  font-weight:900;
 
-      height: auto;
+  letter-spacing:.03em;
 
-      max-width: none;
+  transition:opacity .2s ease;
 
-      max-height: none;
+}
 
-      object-fit: contain;
 
-      object-position: center center;
+.top-nav a:hover{
 
-      border-radius: 0;
+  opacity:.55;
 
-      background: transparent;
+}
 
-      cursor: default;
 
-      user-select: none;
+.menu-button{
 
-      -webkit-user-select: none;
+  width:36px;
 
-      -webkit-user-drag: none;
+  height:36px;
 
-      -webkit-touch-callout: none;
+  border:0;
 
-      /*
-        ★重要
-        画像自身もブラウザへ
-        タッチ操作を渡さない
-      */
-      touch-action: none;
+  padding:0;
 
-      transform:
-        translate3d(0, 0, 0)
-        scale(1);
+  background:transparent;
 
-      transform-origin: center center;
+  display:flex;
 
-      will-change: transform;
+  flex-direction:column;
 
-      transition: none;
+  justify-content:center;
 
-    }
+  gap:6px;
 
+  cursor:pointer;
 
-    /* =========================================
-       左右ボタン
-    ========================================= */
+}
 
-    .slider-controls {
 
-      position: absolute;
+.menu-button span{
 
-      top: 0;
-      left: 0;
+  display:block;
 
-      width: 100%;
+  width:30px;
 
-      height: 100%;
+  height:2px;
 
-      display: flex;
+  background:#ef4666;
 
-      align-items: center;
+}
 
-      justify-content: space-between;
 
-      padding: 0;
+/* ============================================================
+   メイン
+   ============================================================ */
 
-      pointer-events: none;
+.page{
 
-      z-index: 100;
+  width:100%;
 
-    }
+  min-height:calc(100vh - 58px);
 
+  padding:90px 20px 100px;
 
-    /* =========================================
-       ボタン本体
-    ========================================= */
+}
 
-    .slider-btn {
 
-      width: auto;
+/* ============================================================
+   ページタイトル
+   ============================================================ */
 
-      height: auto;
+.page-heading{
 
-      min-width: 52px;
+  width:min(1120px,100%);
 
-      min-height: 90px;
+  margin:0 auto 42px;
 
-      padding: 0 6px;
+  text-align:center;
 
-      margin: 0;
+}
 
-      border: none;
 
-      border-radius: 0;
+.page-heading-en{
 
-      background: transparent;
+  margin:0 0 5px;
 
-      color: var(--main-color);
+  color:#777;
 
-      font-size: 76px;
+  font-size:12px;
 
-      font-family:
-        Arial,
-        "Helvetica Neue",
-        sans-serif;
+  font-weight:800;
 
-      font-weight: 300;
+  letter-spacing:.18em;
 
-      line-height: 1;
+}
 
-      cursor: pointer;
 
-      display: flex;
+.page-heading h1{
 
-      align-items: center;
+  margin:0;
 
-      justify-content: center;
+  font-size:clamp(30px,5vw,54px);
 
-      flex-shrink: 0;
+  font-weight:900;
 
-      pointer-events: auto;
+  letter-spacing:.02em;
 
-      -webkit-tap-highlight-color: transparent;
+}
 
-      touch-action: manipulation;
 
-      box-shadow: none;
+.page-heading-line{
 
-      outline: none;
+  width:60px;
 
-      text-shadow:
-        0 2px 6px rgba(255, 255, 255, 0.85);
+  height:5px;
 
-      transition:
-        transform 0.12s ease,
-        opacity 0.12s ease;
+  margin:17px auto 0;
 
-    }
+  background:#ef4666;
 
+  transform:skewX(-20deg);
 
-    .slider-btn:hover {
+}
 
-      background: transparent;
 
-      box-shadow: none;
+/* ============================================================
+   ガイド全体
+   ============================================================ */
 
-      transform: scale(1.08);
+.guide-wrapper{
 
-    }
+  width:min(1120px,100%);
 
+  margin:0 auto;
 
-    .slider-btn:active {
+}
 
-      background: transparent;
 
-      box-shadow: none;
+/* ============================================================
+   ページ表示エリア
+   ============================================================ */
 
-      transform: scale(0.9);
+.guide-view{
 
-    }
+  position:relative;
 
+  width:100%;
 
-    .slider-btn:focus {
+}
 
-      outline: none;
 
-      background: transparent;
+/* ============================================================
+   案内ページ本体
+   ============================================================ */
 
-    }
+.guide-page{
 
+  position:relative;
 
-    /* =========================================
-       スマホ
-    ========================================= */
+  display:none;
 
-    @media (max-width: 768px) {
+  width:100%;
 
-      .visitor-container {
+  min-height:650px;
 
-        height: auto;
+  padding:48px 52px 42px;
 
-        min-height: 0;
+  background:#fff;
 
-        padding: 0;
+  border:1px solid #242424;
 
-        overflow: visible;
+  box-shadow:
+    10px 10px 0 rgba(30,30,30,.9);
 
-      }
+  overflow:hidden;
 
+}
 
-      .slider-wrapper {
 
-        width: 100%;
+.guide-page.active{
 
-        height: auto;
+  display:block;
 
-        min-height: 0;
+  animation:guidePageIn .28s ease;
 
-        overflow: visible;
+}
 
-      }
 
+@keyframes guidePageIn{
 
-      .slider {
+  from{
 
-        width: 100%;
+    opacity:0;
 
-        height: auto;
+    transform:translateX(12px);
 
-        flex: none;
+  }
 
-        min-height: 0;
+  to{
 
-        overflow: visible;
+    opacity:1;
 
-        touch-action: none;
+    transform:translateX(0);
 
-      }
+  }
 
+}
 
-      .slides {
 
-        width: 100%;
+/* ============================================================
+   ページ番号
+   ============================================================ */
 
-        height: auto;
+.page-number{
 
-        transition:
-          transform 0.3s ease-out;
+  position:absolute;
 
-        touch-action: none;
+  right:12px;
 
-      }
+  bottom:8px;
 
+  color:#111;
 
-      .slide {
+  font-size:14px;
 
-        width: 100%;
+  font-weight:500;
 
-        min-height: calc(
-          100vh - var(--header-height, 60px)
-        );
+}
 
-        height: auto;
 
-        align-items: center;
+/* ============================================================
+   大見出し
+   ============================================================ */
 
-        justify-content: center;
+.guide-title{
 
-        padding: 0;
+  margin:0;
 
-        overflow: visible;
+  color:#111;
 
-        touch-action: none;
+  font-size:clamp(28px,4vw,48px);
 
-      }
+  font-weight:900;
 
+  line-height:1.2;
 
-      .slide img {
+  letter-spacing:.01em;
 
-        width: 100%;
+}
 
-        height: auto;
 
-        max-width: none;
+.guide-title-sub{
 
-        max-height: none;
+  margin-top:28px;
 
-        object-fit: contain;
+  display:inline-block;
 
-        object-position: center center;
+  padding:7px 13px;
 
-        touch-action: none;
+  color:#fff;
 
-        transition: none;
+  background:#ef4666;
 
-      }
+  font-size:clamp(19px,2.5vw,28px);
 
+  font-weight:900;
 
-      .slider-controls {
+  line-height:1.2;
 
-        width: 100%;
+}
 
-        height: 100%;
 
-        padding: 0;
+/* ============================================================
+   タイトルカラー
+   ============================================================ */
 
-      }
+.title-pink{
 
+  background:#df56c9;
 
-      .slider-btn {
+}
 
-        min-width: 44px;
 
-        min-height: 76px;
+.title-yellow{
 
-        padding: 0 3px;
+  background:#eeb400;
 
-        font-size: 62px;
+}
 
-        font-weight: 300;
 
-        text-shadow:
-          0 2px 5px rgba(255, 255, 255, 0.9);
+.title-green{
 
-      }
+  background:#4caf50;
 
-    }
+}
 
 
-    /* =========================================
-       横向きスマホ
-    ========================================= */
+.title-blue{
 
-    @media (max-width: 768px) and (orientation: landscape) {
+  background:#35a6d5;
 
-      .visitor-container {
+}
 
-        height: auto;
 
-        min-height: 0;
+/* ============================================================
+   表紙
+   ============================================================ */
 
-      }
+.cover-page{
 
+  min-height:650px;
 
-      .slider {
+  display:flex;
 
-        height: auto;
+  flex-direction:column;
 
-        flex: none;
+}
 
-      }
 
+.cover-top{
 
-      .slide {
+  position:relative;
 
-        min-height: calc(
-          100vh - var(--header-height, 55px)
-        );
+  z-index:2;
 
-      }
+}
 
 
-      .slider-btn {
+.cover-small-title{
 
-        min-width: 38px;
+  display:flex;
 
-        min-height: 58px;
+  align-items:center;
 
-        font-size: 48px;
+  gap:10px;
 
-        padding: 0 2px;
+  margin-top:65px;
 
-      }
+  margin-bottom:12px;
 
-    }
+  font-size:20px;
 
+  font-weight:800;
 
-    /* =========================================
-       非常に小さい画面
-    ========================================= */
+}
 
-    @media (max-height: 650px) {
 
-      .slider-btn {
+.cover-small-title::before{
 
-        min-width: 40px;
+  content:"";
 
-        min-height: 62px;
+  display:block;
 
-        font-size: 52px;
+  width:10px;
 
-      }
+  height:52px;
 
-    }
+  background:#4ac95b;
 
-  </style>
+}
+
+
+.cover-main-title{
+
+  margin:0 0 20px;
+
+  text-align:center;
+
+  font-size:clamp(40px,6vw,72px);
+
+  font-weight:900;
+
+  line-height:1.1;
+
+}
+
+
+.cover-description{
+
+  margin:0;
+
+  text-align:center;
+
+  font-size:clamp(14px,2vw,20px);
+
+  font-weight:800;
+
+  line-height:1.8;
+
+}
+
+
+/* ============================================================
+   目次
+   ============================================================ */
+
+.guide-index{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:25px;
+
+  margin-top:45px;
+
+}
+
+
+.index-item{
+
+  position:relative;
+
+  padding:10px 5px 5px;
+
+}
+
+
+.index-number{
+
+  margin-bottom:5px;
+
+  font-size:20px;
+
+  font-weight:900;
+
+}
+
+
+.index-text{
+
+  font-size:16px;
+
+  font-weight:900;
+
+  line-height:1.55;
+
+}
+
+
+.index-green{
+
+  color:#438f3b;
+
+}
+
+
+.index-pink{
+
+  color:#d94ac8;
+
+}
+
+
+.index-yellow{
+
+  color:#e4ae00;
+
+}
+
+
+.index-blue{
+
+  color:#219aca;
+
+}
+
+
+/* ============================================================
+   本文
+   ============================================================ */
+
+.guide-content{
+
+  position:relative;
+
+  z-index:2;
+
+  max-width:800px;
+
+}
+
+
+.guide-text{
+
+  margin:28px 0 0;
+
+  font-size:clamp(15px,2vw,21px);
+
+  font-weight:800;
+
+  line-height:1.8;
+
+}
+
+
+.guide-text + .guide-text{
+
+  margin-top:28px;
+
+}
+
+
+.warning-text{
+
+  color:#ed2424;
+
+  font-weight:900;
+
+}
+
+
+/* ============================================================
+   箇条書き
+   ============================================================ */
+
+.guide-list{
+
+  margin:28px 0 0;
+
+  padding:0;
+
+  list-style:none;
+
+}
+
+
+.guide-list li{
+
+  position:relative;
+
+  margin:0 0 24px;
+
+  padding-left:24px;
+
+  font-size:clamp(15px,2vw,20px);
+
+  font-weight:800;
+
+  line-height:1.75;
+
+}
+
+
+.guide-list li::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  top:.72em;
+
+  width:8px;
+
+  height:8px;
+
+  background:#ef4666;
+
+  transform:rotate(45deg);
+
+}
+
+
+/* ============================================================
+   キャラクターエリア
+   ============================================================ */
+
+/*
+  透明PNGキャラクターを置く場所。
+
+  例：
+
+  <div class="character-frame character-blue">
+    <img
+      src="images/guide/blue.png"
+      alt=""
+    >
+  </div>
+
+  背景透過PNGをそのまま配置できます。
+*/
+
+
+.character-frame{
+
+  position:absolute;
+
+  right:42px;
+
+  bottom:25px;
+
+  width:245px;
+
+  height:460px;
+
+  display:flex;
+
+  align-items:flex-end;
+
+  justify-content:center;
+
+  z-index:3;
+
+  /*
+    キャラクターの「置き場所」を
+    視覚的に確認できる枠。
+  */
+
+  border:2px dashed rgba(40,40,40,.28);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.55),
+      rgba(245,245,245,.25)
+    );
+
+  overflow:hidden;
+
+}
+
+
+/* 枠のラベル */
+
+.character-frame::before{
+
+  content:"CHARACTER";
+
+  position:absolute;
+
+  top:8px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  padding:3px 8px;
+
+  color:#777;
+
+  background:rgba(255,255,255,.9);
+
+  border:1px solid #ddd;
+
+  font-size:9px;
+
+  font-weight:900;
+
+  letter-spacing:.14em;
+
+  z-index:5;
+
+}
+
+
+/* キャラクター画像 */
+
+.character-frame img{
+
+  display:block;
+
+  width:auto;
+
+  height:94%;
+
+  max-width:100%;
+
+  object-fit:contain;
+
+  object-position:center bottom;
+
+}
+
+
+/* ------------------------------------------------------------
+   青キャラクター
+   ------------------------------------------------------------ */
+
+.character-blue{
+
+  border-color:rgba(50,130,220,.35);
+
+}
+
+
+/* ------------------------------------------------------------
+   緑キャラクター
+   ------------------------------------------------------------ */
+
+.character-green{
+
+  border-color:rgba(70,170,90,.35);
+
+}
+
+
+/* ------------------------------------------------------------
+   赤キャラクター
+   ------------------------------------------------------------ */
+
+.character-red{
+
+  border-color:rgba(230,70,70,.35);
+
+}
+
+
+/* ============================================================
+   キャラクター無しページ
+   ============================================================ */
+
+.character-space{
+
+  width:245px;
+
+  height:460px;
+
+}
+
+
+/* ============================================================
+   キャラクター配置ページの本文幅
+   ============================================================ */
+
+.has-character .guide-content{
+
+  max-width:calc(100% - 290px);
+
+}
+
+
+/* ============================================================
+   ページ送り
+   ============================================================ */
+
+.guide-navigation{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:20px;
+
+  margin-top:35px;
+
+}
+
+
+.guide-nav-button{
+
+  width:52px;
+
+  height:52px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border:2px solid #202020;
+
+  background:#fff;
+
+  color:#202020;
+
+  font-size:27px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  box-shadow:
+    4px 4px 0 #202020;
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+
+}
+
+
+.guide-nav-button:hover{
+
+  transform:translate(2px,2px);
+
+  box-shadow:
+    2px 2px 0 #202020;
+
+}
+
+
+.guide-nav-button:active{
+
+  transform:translate(4px,4px);
+
+  box-shadow:
+    0 0 0 #202020;
+
+}
+
+
+.guide-nav-button:disabled{
+
+  opacity:.3;
+
+  cursor:not-allowed;
+
+  transform:none;
+
+  box-shadow:
+    4px 4px 0 #202020;
+
+}
+
+
+/* ============================================================
+   ページインジケーター
+   ============================================================ */
+
+.page-indicator{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+}
+
+
+.page-dot{
+
+  width:9px;
+
+  height:9px;
+
+  border-radius:50%;
+
+  background:#ccc;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+
+}
+
+
+.page-dot.active{
+
+  background:#ef4666;
+
+  transform:scale(1.3);
+
+}
+
+
+/* ============================================================
+   スクロールヒント
+   ============================================================ */
+
+.scroll-hint{
+
+  margin-top:26px;
+
+  text-align:center;
+
+  color:#777;
+
+  font-size:11px;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+}
+
+
+/* ============================================================
+   モーダル
+   ============================================================ */
+
+.modal{
+
+  display:none;
+
+  position:fixed;
+
+  inset:0;
+
+  width:100%;
+
+  height:100%;
+
+  padding:12px;
+
+  box-sizing:border-box;
+
+  background:rgba(20,20,20,.58);
+
+  justify-content:center;
+
+  align-items:center;
+
+  z-index:999999;
+
+  backdrop-filter:blur(5px);
+
+  -webkit-backdrop-filter:blur(5px);
+
+}
+
+
+.modal-box{
+
+  width:100%;
+
+  max-width:440px;
+
+  max-height:80vh;
+
+  overflow-y:auto;
+
+  position:relative;
+
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border:3px solid #202020;
+
+  border-radius:18px;
+
+  padding:8px 12px 11px;
+
+  text-align:center;
+
+  box-shadow:
+    7px 7px 0 #202020;
+
+  animation:modalFadeIn .25s ease-out;
+
+}
+
+
+.modal-box::before{
+
+  content:"";
+
+  display:block;
+
+  position:absolute;
+
+  top:0;
+
+  left:0;
+
+  width:100%;
+
+  height:7px;
+
+  background:#ef4666;
+
+  border-radius:15px 15px 0 0;
+
+  pointer-events:none;
+
+}
+
+
+.modal-box img{
+
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:16 / 7.5;
+
+  object-fit:cover;
+
+  border-radius:12px;
+
+  margin:3px 0 10px;
+
+  background:#f2f2f2;
+
+  border:2px solid #202020;
+
+}
+
+
+#modal-close{
+
+  position:absolute;
+
+  top:17px;
+
+  right:17px;
+
+  width:34px;
+
+  height:34px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:0;
+
+  border:2px solid #202020;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  color:#202020;
+
+  font-family:Arial,sans-serif;
+
+  font-size:21px;
+
+  font-weight:bold;
+
+  line-height:1;
+
+  cursor:pointer;
+
+  z-index:10;
+
+  box-shadow:
+    3px 3px 0 #202020;
+
+}
+
+
+#modal-catchcopy{
+
+  display:block !important;
+
+  visibility:visible !important;
+
+  opacity:1 !important;
+
+  width:100%;
+
+  box-sizing:border-box;
+
+  margin:8px 0 0;
+
+  padding:0 12px;
+
+  color:#202020;
+
+  font-size:clamp(20px,5vw,24px);
+
+  font-weight:900;
+
+  line-height:1.4;
+
+  letter-spacing:.02em;
+
+}
+
+
+.modal-divider{
+
+  width:52px;
+
+  height:4px;
+
+  margin:9px auto;
+
+  background:#ef4666;
+
+  transform:skewX(-25deg);
+
+}
+
+
+#modal-place{
+
+  margin:0 8px;
+
+  color:#ef4666;
+
+  font-size:17px;
+
+  font-weight:900;
+
+  line-height:1.5;
+
+}
+
+
+.map-btn{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  width:calc(100% - 16px);
+
+  min-height:44px;
+
+  box-sizing:border-box;
+
+  margin:13px 8px 0;
+
+  padding:9px 16px;
+
+  background:#ef4666;
+
+  color:#fff;
+
+  text-decoration:none;
+
+  border:2px solid #202020;
+
+  border-radius:9px;
+
+  font-size:15px;
+
+  font-weight:900;
+
+  letter-spacing:.04em;
+
+  box-shadow:
+    4px 4px 0 #202020;
+
+}
+
+
+/* ============================================================
+   モーダルデータ
+   ============================================================ */
+
+.modal-data{
+
+  display:none !important;
+
+}
+
+
+/* ============================================================
+   モーダルアニメーション
+   ============================================================ */
+
+@keyframes modalFadeIn{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(8px)
+      scale(.97);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+  }
+
+}
+
+
+/* ============================================================
+   スマートフォン
+   ============================================================ */
+
+@media(max-width:800px){
+
+  .top-nav{
+
+    gap:18px;
+
+  }
+
+
+  .top-nav a{
+
+    font-size:13px;
+
+  }
+
+
+  .header-inner{
+
+    padding:0 16px;
+
+  }
+
+
+  .page{
+
+    padding:55px 12px 70px;
+
+  }
+
+
+  .page-heading{
+
+    margin-bottom:28px;
+
+  }
+
+
+  .guide-page{
+
+    min-height:620px;
+
+    padding:30px 24px 36px;
+
+    box-shadow:
+      6px 6px 0 rgba(30,30,30,.9);
+
+  }
+
+
+  .guide-index{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:20px;
+
+  }
+
+
+  .has-character .guide-content{
+
+    max-width:calc(100% - 205px);
+
+  }
+
+
+  .character-frame{
+
+    right:18px;
+
+    width:175px;
+
+    height:360px;
+
+  }
+
+
+  .character-frame img{
+
+    height:92%;
+
+  }
+
+}
+
+
+@media(max-width:600px){
+
+  .site-header{
+
+    height:54px;
+
+  }
+
+
+  .top-nav{
+
+    display:none;
+
+  }
+
+
+  .site-logo{
+
+    font-size:16px;
+
+  }
+
+
+  .menu-button{
+
+    width:34px;
+
+  }
+
+
+  .page{
+
+    padding:38px 9px 60px;
+
+  }
+
+
+  .page-heading h1{
+
+    font-size:30px;
+
+  }
+
+
+  .guide-page{
+
+    min-height:650px;
+
+    padding:26px 19px 35px;
+
+    box-shadow:
+      5px 5px 0 rgba(30,30,30,.9);
+
+  }
+
+
+  .guide-title{
+
+    font-size:29px;
+
+  }
+
+
+  .guide-title-sub{
+
+    font-size:20px;
+
+  }
+
+
+  .guide-text{
+
+    font-size:14px;
+
+    line-height:1.8;
+
+  }
+
+
+  .guide-list li{
+
+    font-size:14px;
+
+  }
+
+
+  .cover-page{
+
+    min-height:650px;
+
+  }
+
+
+  .cover-small-title{
+
+    margin-top:55px;
+
+    font-size:15px;
+
+  }
+
+
+  .cover-small-title::before{
+
+    width:7px;
+
+    height:40px;
+
+  }
+
+
+  .cover-main-title{
+
+    font-size:39px;
+
+  }
+
+
+  .cover-description{
+
+    font-size:13px;
+
+  }
+
+
+  .guide-index{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:18px 10px;
+
+    margin-top:32px;
+
+  }
+
+
+  .index-number{
+
+    font-size:15px;
+
+  }
+
+
+  .index-text{
+
+    font-size:13px;
+
+  }
+
+
+  /*
+    スマホではキャラクターを
+    右側にコンパクトに配置
+  */
+
+  .has-character .guide-content{
+
+    max-width:100%;
+
+    padding-right:125px;
+
+  }
+
+
+  .character-frame{
+
+    right:10px;
+
+    bottom:20px;
+
+    width:110px;
+
+    height:245px;
+
+  }
+
+
+  .character-frame::before{
+
+    font-size:7px;
+
+    padding:2px 4px;
+
+  }
+
+
+  .character-frame img{
+
+    height:90%;
+
+  }
+
+
+  .guide-navigation{
+
+    margin-top:25px;
+
+  }
+
+
+  .guide-nav-button{
+
+    width:46px;
+
+    height:46px;
+
+  }
+
+
+  .page-dot{
+
+    width:8px;
+
+    height:8px;
+
+  }
+
+
+  .bg-pink-1{
+
+    width:150px;
+
+    height:140px;
+
+    left:-75px;
+
+    top:120px;
+
+  }
+
+
+  .bg-purple-1{
+
+    width:100px;
+
+    height:140px;
+
+    left:-35px;
+
+    top:300px;
+
+  }
+
+
+  .bg-cyan-1{
+
+    width:100px;
+
+    height:130px;
+
+    left:-10px;
+
+    top:500px;
+
+  }
+
+
+  .bg-purple-3{
+
+    width:110px;
+
+    height:110px;
+
+    right:-20px;
+
+    top:120px;
+
+  }
+
+
+  .bg-cyan-2{
+
+    width:105px;
+
+    height:250px;
+
+    right:-5px;
+
+    top:230px;
+
+  }
+
+
+  .bg-yellow-2{
+
+    width:100px;
+
+    height:100px;
+
+    right:0;
+
+    top:520px;
+
+  }
+
+}
+
+
+/* ============================================================
+   極小スマホ
+   ============================================================ */
+
+@media(max-width:380px){
+
+  .guide-page{
+
+    padding:22px 15px 30px;
+
+  }
+
+
+  .cover-main-title{
+
+    font-size:33px;
+
+  }
+
+
+  .has-character .guide-content{
+
+    padding-right:105px;
+
+  }
+
+
+  .character-frame{
+
+    width:95px;
+
+    height:225px;
+
+  }
+
+
+  .guide-title-sub{
+
+    font-size:18px;
+
+  }
+
+}
+
+
+/* ============================================================
+   モーション軽減
+   ============================================================ */
+
+@media(prefers-reduced-motion:reduce){
+
+  html{
+
+    scroll-behavior:auto;
+
+  }
+
+
+  .guide-page{
+
+    animation:none;
+
+  }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =========================================
-       共通ヘッダー
-  ========================================= -->
+<!-- ============================================================
+     背景
+     ============================================================ -->
 
-  <div id="header"></div>
+<div class="festival-background">
 
+  <span class="bg-shape bg-pink-1"></span>
 
-  <script>
+  <span class="bg-shape bg-purple-1"></span>
 
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => {
+  <span class="bg-shape bg-cyan-1"></span>
 
-        document.getElementById("header").innerHTML = data;
+  <span class="bg-shape bg-yellow-1"></span>
 
-        const btn =
-          document.querySelector(".menu-btn");
+  <span class="bg-shape bg-purple-2"></span>
 
-        const nav =
-          document.querySelector(".nav");
+  <span class="bg-shape bg-purple-3"></span>
 
+  <span class="bg-shape bg-cyan-2"></span>
 
-        /*
-          実際のヘッダー高さを取得
-        */
+  <span class="bg-shape bg-cyan-3"></span>
 
-        const headerElement =
-          document.querySelector(
-            "#header header"
-          );
+  <span class="bg-shape bg-yellow-2"></span>
+
+  <span class="bg-shape bg-pink-2"></span>
+
+</div>
 
 
-        if (headerElement) {
 
-          const headerHeight =
-            headerElement.getBoundingClientRect().height;
+<!-- ============================================================
+     ヘッダー
+     ============================================================ -->
 
+<header class="site-header">
 
-          document.documentElement.style.setProperty(
-            "--header-height",
-            `${headerHeight}px`
-          );
+  <div class="header-inner">
 
-        }
+    <a
+      href="index.html"
+      style="
+        text-decoration:none;
+      "
+    >
 
+      <h1 class="site-logo">
+        長高祭
+      </h1>
 
-        if (btn && nav) {
-
-          btn.addEventListener(
-            "click",
-            (e) => {
-
-              e.stopPropagation();
-
-              nav.classList.toggle("active");
-
-            }
-          );
+    </a>
 
 
-          document.addEventListener(
-            "click",
-            (e) => {
+    <nav
+      class="top-nav"
+      aria-label="メインナビゲーション"
+    >
 
-              if (
-                !nav.contains(e.target) &&
-                !btn.contains(e.target)
-              ) {
+      <a href="index.html">
+        TOP
+      </a>
 
-                nav.classList.remove("active");
+      <a href="events.html">
+        EXHIBITION
+      </a>
 
-              }
+      <a href="map.html">
+        MAP
+      </a>
 
-            }
-          );
+      <a href="guide.html">
+        VISITOR
+      </a>
 
-        }
-
-      });
-
-  </script>
+    </nav>
 
 
-  <!-- =========================================
-       背景図形
-  ========================================= -->
+    <button
+      class="menu-button"
+      type="button"
+      aria-label="メニュー"
+    >
 
-  <div class="bg-shapes">
+      <span></span>
+      <span></span>
+      <span></span>
 
-    <div class="shape s1"></div>
-    <div class="shape s2"></div>
-    <div class="shape s3"></div>
-    <div class="shape s4"></div>
-    <div class="shape s5"></div>
-    <div class="shape s6"></div>
-    <div class="shape s7"></div>
-    <div class="shape s8"></div>
+    </button>
 
   </div>
 
+</header>
 
-  <!-- =========================================
-       メイン
-  ========================================= -->
 
-  <main class="visitor-container">
 
-    <div class="slider-wrapper">
+<!-- ============================================================
+     メイン
+     ============================================================ -->
 
-      <!-- =====================================
-           画像スライダー
-      ====================================== -->
+<main class="page">
 
-      <div
-        class="slider"
-        id="slider"
+
+  <!-- ==========================================================
+       ページタイトル
+       ========================================================== -->
+
+  <section class="page-heading">
+
+    <p class="page-heading-en">
+      VISITOR INFORMATION
+    </p>
+
+    <h1>
+      ご来場の皆様へ
+    </h1>
+
+    <div class="page-heading-line"></div>
+
+  </section>
+
+
+
+  <!-- ==========================================================
+       ガイド
+       ========================================================== -->
+
+  <section class="guide-wrapper">
+
+
+    <div class="guide-view">
+
+
+      <!-- ======================================================
+           PAGE 1
+           ====================================================== -->
+
+      <article
+        class="guide-page cover-page active"
+        data-page="1"
       >
 
+        <div class="cover-top">
+
+          <h2 class="guide-title">
+            ご来場の皆様へ
+          </h2>
+
+        </div>
+
+
         <div
-          class="slides"
-          id="slides"
+          style="
+            margin-top:15px;
+            text-align:center;
+          "
         >
 
-          <!-- 1ページ目 -->
+          <div class="cover-small-title">
 
-          <div class="slide">
-
-            <img
-              src="images/visitor1.jpeg"
-              alt="来校案内 1ページ目"
-              draggable="false"
-            >
+            <span>
+              2026年度 長生高校文化祭
+            </span>
 
           </div>
 
 
-          <!-- 2ページ目 -->
-
-          <div class="slide">
-
-            <img
-              src="images/visitor2.jpeg"
-              alt="来校案内 2ページ目"
-              draggable="false"
-            >
-
-          </div>
+          <h3 class="cover-main-title">
+            来校上のお願い
+          </h3>
 
 
-          <!-- 3ページ目 -->
+          <p class="cover-description">
+            こちらは2025年度のものを参考に作成したものです。<br>
+            今年度版の情報が発表され次第更新していきます。
+          </p>
 
-          <div class="slide">
-
-            <img
-              src="images/visitor3.jpeg"
-              alt="来校案内 3ページ目"
-              draggable="false"
-            >
-
-          </div>
+        </div>
 
 
-          <!-- 4ページ目 -->
+        <div class="guide-index">
 
-          <div class="slide">
+          <div class="index-item">
 
-            <img
-              src="images/visitor4.jpeg"
-              alt="来校案内 4ページ目"
-              draggable="false"
-            >
+            <div class="index-number index-green">
+              2ページ目
+            </div>
+
+            <div class="index-text">
+              口元紹介
+            </div>
 
           </div>
 
 
-          <!-- 5ページ目 -->
+          <div class="index-item">
 
-          <div class="slide">
+            <div class="index-number index-pink">
+              3ページ目
+            </div>
 
-            <img
-              src="images/visitor5.jpeg"
-              alt="来校案内 5ページ目"
-              draggable="false"
-            >
+            <div class="index-text">
+              駐車・送迎について、および<br>
+              来場方法
+            </div>
 
           </div>
 
 
-          <!-- 6ページ目 -->
+          <div class="index-item">
 
-          <div class="slide">
+            <div class="index-number index-yellow">
+              4・5ページ目
+            </div>
+
+            <div class="index-text">
+              校内での注意事項
+            </div>
+
+          </div>
+
+
+          <div class="index-item">
+
+            <div class="index-number index-blue">
+              6ページ目
+            </div>
+
+            <div class="index-text">
+              終わりに
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <span class="page-number">
+          1
+        </span>
+
+      </article>
+
+
+
+      <!-- ======================================================
+           PAGE 2
+           ====================================================== -->
+
+      <article
+        class="guide-page has-character"
+        data-page="2"
+      >
+
+        <div class="guide-content">
+
+          <h2 class="guide-title">
+            口元紹介
+          </h2>
+
+
+          <div class="guide-title-sub title-green">
+            長高祭へようこそ！
+          </div>
+
+
+          <p class="guide-text">
+            長生高校文化祭「長高祭」へお越しいただき、
+            ありがとうございます。
+          </p>
+
+
+          <p class="guide-text">
+            ご来場の皆様が安全に、そして楽しく文化祭を
+            お楽しみいただけるよう、いくつかのお願いがあります。
+          </p>
+
+
+          <p class="guide-text">
+            以下の内容をご確認いただき、
+            皆様で気持ちよく文化祭を楽しみましょう。
+          </p>
+
+        </div>
+
+
+        <!-- ====================================================
+             透明キャラクター配置スペース
+             ==================================================== -->
+
+        <div class="character-frame character-blue">
+
+          <!--
+            ここに背景透過PNGを配置
+
+            例：
+            images/guide/blue.png
+
+            背景透過PNGなら、そのまま人物だけ表示されます。
+          -->
+
+          <img
+            src="images/guide/blue.png"
+            alt=""
+            onerror="this.style.display='none';"
+          >
+
+        </div>
+
+
+        <span class="page-number">
+          2
+        </span>
+
+      </article>
+
+
+
+      <!-- ======================================================
+           PAGE 3
+           ====================================================== -->
+
+      <article
+        class="guide-page has-character"
+        data-page="3"
+      >
+
+        <div class="guide-content">
+
+
+          <div class="guide-title-sub title-pink">
+            駐車・送迎について
+          </div>
+
+
+          <p class="guide-text">
+            近隣のセブンイレブンの駐車場は利用しないでください。
+          </p>
+
+
+          <p class="guide-text">
+            学校前での車の送迎・停車はご遠慮ください。
+          </p>
+
+
+          <div class="guide-title-sub title-pink">
+            ご来場方法について
+          </div>
+
+
+          <p class="guide-text">
+            公共交通機関、徒歩、自転車でのご来場にご協力ください。
+          </p>
+
+
+          <p class="guide-text">
+            校舎内は土足禁止です。
+            <span class="warning-text">
+              上履き（スリッパ等）と靴を入れる袋をご持参ください。
+            </span>
+          </p>
+
+
+          <p class="guide-text">
+            ご来校の際は、正門または指定された受付で
+            受付を行ってください。
+          </p>
+
+        </div>
+
+
+        <!-- 青キャラクター -->
+
+        <div class="character-frame character-blue">
+
+          <img
+            src="images/guide/blue.png"
+            alt=""
+            onerror="this.style.display='none';"
+          >
+
+        </div>
+
+
+        <span class="page-number">
+          3
+        </span>
+
+      </article>
+
+
+
+      <!-- ======================================================
+           PAGE 4
+           ====================================================== -->
+
+      <article
+        class="guide-page has-character"
+        data-page="4"
+      >
+
+        <div class="guide-content">
+
+
+          <div class="guide-title-sub title-yellow">
+            校内での注意事項1
+          </div>
+
+
+          <ul class="guide-list">
+
+            <li>
+              無許可での写真・動画撮影や、
+              生徒の顔が映る撮影・SNS等への投稿は禁止です。
+              撮影可能な企画では、指示に従ってください。
+            </li>
+
+
+            <li>
+              飲食物の持ち込みは原則ご遠慮ください。
+              購入した飲食物は指定の飲食スペースでお召し上がりください。
+            </li>
+
+
+            <li>
+              ゴミは指定の場所へ分別して捨ててください。
+            </li>
+
+
+            <li>
+              展示物や校内の備品には、
+              許可なく触れないでください。
+            </li>
+
+          </ul>
+
+
+          <p class="guide-text warning-text">
+            校内は全面禁煙です。
+          </p>
+
+        </div>
+
+
+        <!-- 緑キャラクター -->
+
+        <div class="character-frame character-green">
+
+          <img
+            src="images/guide/green.png"
+            alt=""
+            onerror="this.style.display='none';"
+          >
+
+        </div>
+
+
+        <span class="page-number">
+          4
+        </span>
+
+      </article>
+
+
+
+      <!-- ======================================================
+           PAGE 5
+           ====================================================== -->
+
+      <article
+        class="guide-page has-character"
+        data-page="5"
+      >
+
+        <div class="guide-content">
+
+
+          <div class="guide-title-sub title-yellow">
+            校内での注意事項2
+          </div>
+
+
+          <ul class="guide-list">
+
+            <li>
+              廊下・階段・出入口付近では立ち止まらず、
+              混雑時も周囲に配慮して通行してください。
+            </li>
+
+
+            <li>
+              貴重品は各自で管理してください。
+              盗難・紛失について、本校では責任を負いかねます。
+              忘れ物は本部で管理しています。
+            </li>
+
+
+            <li>
+              体調が悪くなった場合は、
+              教員または生徒スタッフへお声がけください。
+            </li>
+
+
+            <li>
+              緊急時は、教員や生徒スタッフの指示に従ってください。
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        <!-- 赤キャラクター -->
+
+        <div class="character-frame character-red">
+
+          <img
+            src="images/guide/red.png"
+            alt=""
+            onerror="this.style.display='none';"
+          >
+
+        </div>
+
+
+        <span class="page-number">
+          5
+        </span>
+
+      </article>
+
+
+
+      <!-- ======================================================
+           PAGE 6
+           ====================================================== -->
+
+      <article
+        class="guide-page has-character"
+        data-page="6"
+      >
+
+        <div class="guide-content">
+
+
+          <div class="guide-title-sub title-blue">
+            最後に
+          </div>
+
+
+          <h2
+            class="guide-title"
+            style="
+              margin-top:25px;
+            "
+          >
+            ご来場お待ちしています！
+          </h2>
+
+
+          <p class="guide-text">
+            長高祭2026をみなさんで楽しめるよう、
+            ご理解とご協力をお願いいたします。
+          </p>
+
+
+          <p class="guide-text">
+            当日は校内が大変混雑することが予想されます。
+            周囲の方へのご配慮をお願いいたします。
+          </p>
+
+
+          <p
+            class="guide-text"
+            style="
+              margin-top:42px;
+              font-size:clamp(18px,3vw,27px);
+            "
+          >
+            それでは、
+            <br>
+            長高祭をお楽しみください！
+          </p>
+
+        </div>
+
+
+        <!-- ====================================================
+             3人配置用スペース
+             ==================================================== -->
+
+        <div
+          class="character-frame"
+          style="
+            right:30px;
+            width:280px;
+          "
+        >
+
+          <div
+            style="
+              width:100%;
+              height:100%;
+              display:flex;
+              align-items:flex-end;
+              justify-content:center;
+              gap:0;
+            "
+          >
+
+            <!-- 赤 -->
 
             <img
-              src="images/visitor6.jpeg"
-              alt="来校案内 6ページ目"
-              draggable="false"
+              src="images/guide/red.png"
+              alt=""
+              style="
+                width:34%;
+                height:78%;
+                object-fit:contain;
+                object-position:center bottom;
+              "
+              onerror="this.style.display='none';"
+            >
+
+
+            <!-- 青 -->
+
+            <img
+              src="images/guide/blue.png"
+              alt=""
+              style="
+                width:38%;
+                height:90%;
+                object-fit:contain;
+                object-position:center bottom;
+              "
+              onerror="this.style.display='none';"
+            >
+
+
+            <!-- 緑 -->
+
+            <img
+              src="images/guide/green.png"
+              alt=""
+              style="
+                width:34%;
+                height:78%;
+                object-fit:contain;
+                object-position:center bottom;
+              "
+              onerror="this.style.display='none';"
             >
 
           </div>
@@ -1032,2156 +2726,1268 @@
         </div>
 
 
-        <!-- =====================================
-             左右ボタン
-        ====================================== -->
+        <span class="page-number">
+          6
+        </span>
 
-        <div class="slider-controls">
+      </article>
 
-          <button
-            type="button"
-            class="slider-btn"
-            id="prevBtn"
-            aria-label="前のページ"
-          >
-            ‹
-          </button>
-
-
-          <button
-            type="button"
-            class="slider-btn"
-            id="nextBtn"
-            aria-label="次のページ"
-          >
-            ›
-          </button>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </main>
 
 
-  <!-- =========================================
-       JavaScript
-  ========================================= -->
+    <!-- ========================================================
+         ページ操作
+         ======================================================== -->
 
-  <script>
+    <div class="guide-navigation">
 
-    /* =========================================
-       要素取得
-    ========================================= */
 
-    const slider =
-      document.getElementById("slider");
+      <button
+        id="guide-prev"
+        class="guide-nav-button"
+        type="button"
+        aria-label="前のページ"
+      >
+        ‹
+      </button>
 
 
-    const slides =
-      document.getElementById("slides");
+      <div
+        id="page-indicator"
+        class="page-indicator"
+      ></div>
 
 
-    const prevBtn =
-      document.getElementById("prevBtn");
+      <button
+        id="guide-next"
+        class="guide-nav-button"
+        type="button"
+        aria-label="次のページ"
+      >
+        ›
+      </button>
 
 
-    const nextBtn =
-      document.getElementById("nextBtn");
+    </div>
 
 
-    const images =
-      Array.from(
-        document.querySelectorAll(
-          ".slide img"
-        )
-      );
+    <p class="scroll-hint">
+      SWIPE OR TAP ARROWS
+    </p>
 
 
-    /* =========================================
-       ページ数
-    ========================================= */
+  </section>
 
-    const totalPages =
-      images.length;
+</main>
 
 
-    /* =========================================
-       現在のページ
-    ========================================= */
 
-    let currentPage = 0;
+<!-- ============================================================
+     共通モーダル本体
+     ============================================================ -->
 
+<div
+  id="modal"
+  class="modal"
+  aria-hidden="true"
+>
 
-    /* =========================================
-       拡大設定
-    ========================================= */
+  <div
+    class="modal-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-catchcopy"
+  >
 
-    const MAX_ZOOM = 4;
+    <button
+      id="modal-close"
+      type="button"
+      aria-label="閉じる"
+    >
+      ×
+    </button>
 
-    const MIN_ZOOM = 1;
 
+    <img
+      id="modal-img"
+      src=""
+      alt=""
+    >
 
-    let zoomScale = 1;
 
-    let panX = 0;
+    <p
+      id="modal-catchcopy"
+    ></p>
 
-    let panY = 0;
 
+    <div class="modal-divider"></div>
 
-    /* =========================================
-       ポインター情報
-    ========================================= */
 
-    const activePointers =
-      new Map();
+    <p
+      id="modal-place"
+    ></p>
 
 
-    /* =========================================
-       1本指操作
-    ========================================= */
+    <a
+      id="modal-link"
+      class="map-btn"
+      href="map.html"
+    >
 
-    let singlePointerId = null;
-
-    let lastPointerX = 0;
-
-    let lastPointerY = 0;
-
-    let swipeStartX = 0;
-
-    let swipeStartY = 0;
-
-
-    /*
-      縦スクロール判定
-    */
-
-    let isVerticalGesture = false;
-
-
-    /*
-      横スワイプ判定
-    */
-
-    let isHorizontalGesture = false;
-
-
-    /*
-      画像ドラッグ
-    */
-
-    let isDragging = false;
-
-
-    /*
-      ピンチ中
-    */
-
-    let isPinching = false;
-
-
-    /*
-      ピンチ終了直後
-    */
-
-    let pinchJustEnded = false;
-
-
-    /* =========================================
-       ピンチ開始情報
-    ========================================= */
-
-    let pinchStartDistance = 0;
-
-    let pinchStartScale = 1;
-
-    let pinchStartCenterX = 0;
-
-    let pinchStartCenterY = 0;
-
-    let pinchStartPanX = 0;
-
-    let pinchStartPanY = 0;
-
-    let pinchContentX = 0;
-
-    let pinchContentY = 0;
-
-    let pinchLayoutCenterX = 0;
-
-    let pinchLayoutCenterY = 0;
-
-
-    /* =========================================
-       縦スクロール用
-    ========================================= */
-
-    let lastScrollY = 0;
-
-
-    /* =========================================
-       しきい値
-    ========================================= */
-
-    const SWIPE_DISTANCE = 45;
-
-    const DIRECTION_THRESHOLD = 8;
-
-    const DRAG_THRESHOLD = 4;
-
-
-    /* =========================================
-       現在の画像
-    ========================================= */
-
-    function getCurrentImage() {
-
-      return images[currentPage];
-
-    }
-
-
-    /* =========================================
-       拡大率制限
-    ========================================= */
-
-    function clampZoom(value) {
-
-      return Math.max(
-        MIN_ZOOM,
-        Math.min(
-          MAX_ZOOM,
-          value
-        )
-      );
-
-    }
-
-
-    /* =========================================
-       ポインター距離
-    ========================================= */
-
-    function getPointerDistance() {
-
-      const points =
-        Array.from(
-          activePointers.values()
-        );
-
-
-      if (
-        points.length < 2
-      ) {
-
-        return 0;
-
-      }
-
-
-      const dx =
-        points[0].x -
-        points[1].x;
-
-
-      const dy =
-        points[0].y -
-        points[1].y;
-
-
-      return Math.hypot(
-        dx,
-        dy
-      );
-
-    }
-
-
-    /* =========================================
-       2本指中心
-    ========================================= */
-
-    function getPointerCenter() {
-
-      const points =
-        Array.from(
-          activePointers.values()
-        );
-
-
-      if (
-        points.length < 2
-      ) {
-
-        return {
-          x: 0,
-          y: 0
-        };
-
-      }
-
-
-      return {
-
-        x:
-          (
-            points[0].x +
-            points[1].x
-          ) / 2,
-
-        y:
-          (
-            points[0].y +
-            points[1].y
-          ) / 2
-
-      };
-
-    }
-
-
-    /* =========================================
-       画像のレイアウト上の中心
-       
-       transformの影響を除いた中心
-    ========================================= */
-
-    function getImageLayoutCenter() {
-
-      const image =
-        getCurrentImage();
-
-
-      if (!image) {
-
-        return {
-
-          x:
-            window.innerWidth / 2,
-
-          y:
-            window.innerHeight / 2
-
-        };
-
-      }
-
-
-      const rect =
-        image.getBoundingClientRect();
-
-
-      /*
-        現在のtranslate分を
-        rectから除く
-      */
-
-      return {
-
-        x:
-          rect.left +
-          rect.width / 2 -
-          panX,
-
-        y:
-          rect.top +
-          rect.height / 2 -
-          panY
-
-      };
-
-    }
-
-
-    /* =========================================
-       画像の移動範囲
-    ========================================= */
-
-    function limitPan() {
-
-      const image =
-        getCurrentImage();
-
-
-      if (!image) {
-        return;
-      }
-
-
-      if (
-        zoomScale <= 1
-      ) {
-
-        panX = 0;
-
-        panY = 0;
-
-        return;
-
-      }
-
-
-      /*
-        現在のrectは
-        scale後のサイズなので、
-        そこから元サイズを算出。
-      */
-
-      const transformedRect =
-        image.getBoundingClientRect();
-
-
-      const baseWidth =
-        transformedRect.width /
-        Math.max(
-          zoomScale,
-          0.0001
-        );
-
-
-      const baseHeight =
-        transformedRect.height /
-        Math.max(
-          zoomScale,
-          0.0001
-        );
-
-
-      const scaledWidth =
-        baseWidth *
-        zoomScale;
-
-
-      const scaledHeight =
-        baseHeight *
-        zoomScale;
-
-
-      /*
-        実際の表示領域
-      */
-
-      const viewportWidth =
-        slider.clientWidth;
-
-
-      /*
-        画面上の表示領域。
-        slider自身の高さが画像高さより
-        大きい場合も考慮する。
-      */
-
-      const viewportHeight =
-        Math.max(
-          slider.clientHeight,
-          window.innerHeight
-        );
-
-
-      /*
-        横方向の移動可能量
-      */
-
-      const maxPanX =
-        Math.max(
-          0,
-          (
-            scaledWidth -
-            viewportWidth
-          ) / 2
-        );
-
-
-      /*
-        縦方向の移動可能量
-      */
-
-      const maxPanY =
-        Math.max(
-          0,
-          (
-            scaledHeight -
-            viewportHeight
-          ) / 2
-        );
-
-
-      panX =
-        Math.max(
-          -maxPanX,
-          Math.min(
-            maxPanX,
-            panX
-          )
-        );
-
-
-      panY =
-        Math.max(
-          -maxPanY,
-          Math.min(
-            maxPanY,
-            panY
-          )
-        );
-
-    }
-
-
-    /* =========================================
-       transform適用
-    ========================================= */
-
-    function applyZoomTransform() {
-
-      const image =
-        getCurrentImage();
-
-
-      if (!image) {
-        return;
-      }
-
-
-      image.style.transform =
-        `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
-
-    }
-
-
-    /* =========================================
-       拡大状態を完全リセット
-    ========================================= */
-
-    function resetZoomPosition() {
-
-      zoomScale = 1;
-
-      panX = 0;
-
-      panY = 0;
-
-
-      images.forEach(
-        (image) => {
-
-          image.style.transform =
-            "translate3d(0, 0, 0) scale(1)";
-
-        }
-      );
-
-    }
-
-
-    /* =========================================
-       ページ更新
-    ========================================= */
-
-    function updateSlider(
-      animate = true
-    ) {
-
-      if (animate) {
-
-        slides.style.transition =
-          "transform 0.3s ease-out";
-
-      }
-
-      else {
-
-        slides.style.transition =
-          "none";
-
-      }
-
-
-      slides.style.transform =
-        `translate3d(-${currentPage * 100}%, 0, 0)`;
-
-
-      /*
-        ページ切り替え時のみ
-        拡大解除。
-
-        ★以前の問題：
-        pointercancel等でも
-        updateSlider() が呼ばれ、
-        拡大が解除されることがあった。
-
-        今回はpointercancelでは
-        安易にupdateSlider()を呼ばない。
-      */
-
-      resetZoomPosition();
-
-    }
-
-
-    /* =========================================
-       次ページ
-    ========================================= */
-
-    function nextPage() {
-
-      if (
-        totalPages <= 0
-      ) {
-        return;
-      }
-
-
-      if (
-        currentPage <
-        totalPages - 1
-      ) {
-
-        currentPage++;
-
-      }
-
-      else {
-
-        currentPage = 0;
-
-      }
-
-
-      updateSlider(true);
-
-    }
-
-
-    /* =========================================
-       前ページ
-    ========================================= */
-
-    function previousPage() {
-
-      if (
-        totalPages <= 0
-      ) {
-        return;
-      }
-
-
-      if (
-        currentPage > 0
-      ) {
-
-        currentPage--;
-
-      }
-
-      else {
-
-        currentPage =
-          totalPages - 1;
-
-      }
-
-
-      updateSlider(true);
-
-    }
-
-
-    /* =========================================
-       ボタン
-    ========================================= */
-
-    prevBtn.addEventListener(
+      <span>
+        フロアマップで確認する
+      </span>
+
+      <span>
+        →
+      </span>
+
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<!-- ============================================================
+     モーダルデータ
+     ============================================================ -->
+
+<div class="modal-data-container">
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1a"
+    data-title="1年A組"
+    data-catchcopy="寄ってらっしゃい見てらっしゃい！"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1b"
+    data-title="1年B組"
+    data-catchcopy="謎解きはスナックの後で"
+    data-place="1棟　4階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1c"
+    data-title="1年C組"
+    data-catchcopy="インカルセレイテッドの生存戦略"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1d"
+    data-title="1年D組"
+    data-catchcopy="無限のびチーズの彼方へ！"
+    data-place="1階 食堂"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1e"
+    data-title="1年E組"
+    data-catchcopy="それは「ヤベー」な！！"
+    data-place="1棟　4階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1f"
+    data-title="1年F組"
+    data-catchcopy="−40度の体温泥棒"
+    data-place="1棟　4階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-1g"
+    data-title="1年G組"
+    data-catchcopy="メイドいるって聞いたんですけど、、、"
+    data-place="1棟　4階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2a"
+    data-title="2年A組"
+    data-catchcopy="至高の「1枚」を求めて"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2b"
+    data-title="2年B組"
+    data-catchcopy="テレレレレン、テレレレレン"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2c"
+    data-title="2年C組"
+    data-catchcopy="ひ、ひぃ！捕まっちゃうよ！"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2d"
+    data-title="2年D組"
+    data-catchcopy="恐竜にこんにちは、そしてさようなら"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2e"
+    data-title="2年E組"
+    data-catchcopy="星空のラビリンス"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2f"
+    data-title="2年F組"
+    data-catchcopy="いつやるか？今でしょ！"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-2g"
+    data-title="2年G組"
+    data-catchcopy="ドンッと一発"
+    data-place="1棟　3階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3a"
+    data-title="3年A組"
+    data-catchcopy="ヨーソロー"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3b"
+    data-title="3年B組"
+    data-catchcopy="災挑戦"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3c"
+    data-title="3年C組"
+    data-catchcopy="悪夢に舞う道化師"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3d"
+    data-title="3年D組"
+    data-catchcopy="キチガイ博士にはご注意を"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3e"
+    data-title="3年E組"
+    data-catchcopy="ニンニクはお断り"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3f"
+    data-title="3年F組"
+    data-catchcopy="止められない、止まらない"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-3g"
+    data-title="3年G組"
+    data-catchcopy="その瞬間へ夢を見る"
+    data-place="1棟　2階"
+    data-img="1a.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-club1"
+    data-title="茶道部"
+    data-catchcopy="茶道部の礼儀を魅せましょう"
+    data-place="2棟　1階　礼法室"
+    data-img="club1.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-club2"
+    data-title="美術部"
+    data-catchcopy="芸術があなたをいろどる"
+    data-place="2棟　2階　美術室"
+    data-img="club2.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-other1"
+    data-title="大網白里特別支援学校"
+    data-catchcopy="展示・販売"
+    data-place="1階　中央廊下"
+    data-img="other1.jpg"
+    data-link="map.html"
+  ></div>
+
+
+  <div
+    class="modal-data"
+    id="modal-data-other2"
+    data-title="体育館イベント一覧"
+    data-catchcopy="あなたの声は声援となる"
+    data-place="体育館"
+    data-img="other2.jpg"
+    data-link="map.html"
+  ></div>
+
+</div>
+
+
+
+<script>
+
+/* ============================================================
+   来場案内ページ切り替え
+   ============================================================ */
+
+(function(){
+
+  "use strict";
+
+
+  const pages =
+    Array.from(
+      document.querySelectorAll(".guide-page")
+    );
+
+
+  const prevButton =
+    document.getElementById("guide-prev");
+
+
+  const nextButton =
+    document.getElementById("guide-next");
+
+
+  const indicator =
+    document.getElementById("page-indicator");
+
+
+  let currentPage = 0;
+
+
+  /* ----------------------------------------------------------
+     インジケーター生成
+     ---------------------------------------------------------- */
+
+  pages.forEach(function(page,index){
+
+    const dot =
+      document.createElement("button");
+
+    dot.type = "button";
+
+    dot.className = "page-dot";
+
+    dot.setAttribute(
+      "aria-label",
+      (index + 1) + "ページ目"
+    );
+
+    dot.addEventListener(
       "click",
-      (e) => {
+      function(){
 
-        e.preventDefault();
-
-        e.stopPropagation();
-
-        previousPage();
+        showPage(index);
 
       }
     );
 
+    indicator.appendChild(dot);
 
-    nextBtn.addEventListener(
+  });
+
+
+  const dots =
+    Array.from(
+      indicator.querySelectorAll(".page-dot")
+    );
+
+
+  /* ----------------------------------------------------------
+     ページ表示
+     ---------------------------------------------------------- */
+
+  function showPage(index){
+
+    if(index < 0){
+
+      index = 0;
+
+    }
+
+
+    if(index >= pages.length){
+
+      index = pages.length - 1;
+
+    }
+
+
+    currentPage = index;
+
+
+    pages.forEach(function(page,i){
+
+      page.classList.toggle(
+        "active",
+        i === currentPage
+      );
+
+    });
+
+
+    dots.forEach(function(dot,i){
+
+      dot.classList.toggle(
+        "active",
+        i === currentPage
+      );
+
+    });
+
+
+    prevButton.disabled =
+      currentPage === 0;
+
+
+    nextButton.disabled =
+      currentPage === pages.length - 1;
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+
+  /* ----------------------------------------------------------
+     前へ
+     ---------------------------------------------------------- */
+
+  prevButton.addEventListener(
+    "click",
+    function(){
+
+      showPage(
+        currentPage - 1
+      );
+
+    }
+  );
+
+
+  /* ----------------------------------------------------------
+     次へ
+     ---------------------------------------------------------- */
+
+  nextButton.addEventListener(
+    "click",
+    function(){
+
+      showPage(
+        currentPage + 1
+      );
+
+    }
+  );
+
+
+  /* ----------------------------------------------------------
+     キーボード
+     ---------------------------------------------------------- */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(event.key === "ArrowLeft"){
+
+        showPage(
+          currentPage - 1
+        );
+
+      }
+
+
+      if(event.key === "ArrowRight"){
+
+        showPage(
+          currentPage + 1
+        );
+
+      }
+
+    }
+  );
+
+
+  /* ----------------------------------------------------------
+     スワイプ
+     ---------------------------------------------------------- */
+
+  let touchStartX = 0;
+
+  let touchStartY = 0;
+
+
+  const guideView =
+    document.querySelector(".guide-view");
+
+
+  guideView.addEventListener(
+    "touchstart",
+    function(event){
+
+      const touch =
+        event.changedTouches[0];
+
+      touchStartX =
+        touch.clientX;
+
+      touchStartY =
+        touch.clientY;
+
+    },
+    {
+      passive:true
+    }
+  );
+
+
+  guideView.addEventListener(
+    "touchend",
+    function(event){
+
+      const touch =
+        event.changedTouches[0];
+
+      const diffX =
+        touch.clientX - touchStartX;
+
+      const diffY =
+        touch.clientY - touchStartY;
+
+
+      /*
+        横方向の移動が
+        縦方向より大きい場合のみページ変更
+      */
+
+      if(
+        Math.abs(diffX) > 50 &&
+        Math.abs(diffX) > Math.abs(diffY)
+      ){
+
+        if(diffX < 0){
+
+          showPage(
+            currentPage + 1
+          );
+
+        }else{
+
+          showPage(
+            currentPage - 1
+          );
+
+        }
+
+      }
+
+    },
+    {
+      passive:true
+    }
+  );
+
+
+  showPage(0);
+
+})();
+
+
+
+/* ============================================================
+   長高祭 共通モーダル
+   ============================================================ */
+
+(function(){
+
+  "use strict";
+
+
+  function normalizeId(id){
+
+    if(id === null || id === undefined){
+
+      return "";
+
+    }
+
+
+    return String(id)
+      .trim()
+      .toLowerCase()
+      .replace(/^modal-data[-_]/,"")
+      .replace(/^modal[-_]/,"")
+      .replace(/\s+/g,"");
+
+  }
+
+
+  function isValidId(id){
+
+    id =
+      normalizeId(id);
+
+
+    return !!document.getElementById(
+      "modal-data-" + id
+    );
+
+  }
+
+
+  function detectIdFromText(text){
+
+    if(!text){
+
+      return "";
+
+    }
+
+
+    const value =
+      String(text)
+        .replace(/\u3000/g," ")
+        .replace(/\s+/g,"")
+        .toLowerCase();
+
+
+    let match =
+      value.match(
+        /([123])年([abcdefg])(?:組)?/
+      );
+
+
+    if(match){
+
+      const id =
+        match[1] + match[2];
+
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+    match =
+      value.match(
+        /([123])[-_ー－]([abcdefg])/
+      );
+
+
+    if(match){
+
+      const id =
+        match[1] + match[2];
+
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+  function getIdFromOnclick(element){
+
+    if(!element){
+
+      return "";
+
+    }
+
+
+    const onclick =
+      element.getAttribute("onclick");
+
+
+    if(!onclick){
+
+      return "";
+
+    }
+
+
+    let match =
+      onclick.match(
+        /openFestivalModal\s*\(\s*['"]([^'"]+)['"]\s*\)/i
+      );
+
+
+    if(!match){
+
+      match =
+        onclick.match(
+          /openModal\s*\(\s*['"]([^'"]+)['"]\s*\)/i
+        );
+
+    }
+
+
+    if(match){
+
+      const id =
+        normalizeId(match[1]);
+
+
+      if(isValidId(id)){
+
+        return id;
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+  function getElementId(element){
+
+    if(!element){
+
+      return "";
+
+    }
+
+
+    if(element.dataset){
+
+      const values = [
+
+        element.dataset.modal,
+
+        element.dataset.modalId,
+
+        element.dataset.eventId,
+
+        element.dataset.event
+
+      ];
+
+
+      for(const value of values){
+
+        if(value){
+
+          const id =
+            normalizeId(value);
+
+
+          if(isValidId(id)){
+
+            return id;
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+    const onclickId =
+      getIdFromOnclick(element);
+
+
+    if(onclickId){
+
+      return onclickId;
+
+    }
+
+
+    const href =
+      element.getAttribute &&
+      element.getAttribute("href");
+
+
+    if(href){
+
+      try{
+
+        const url =
+          new URL(
+            href,
+            window.location.href
+          );
+
+
+        const modalId =
+          url.searchParams.get("modal");
+
+
+        if(modalId){
+
+          const id =
+            normalizeId(modalId);
+
+
+          if(isValidId(id)){
+
+            return id;
+
+          }
+
+        }
+
+      }catch(error){}
+
+    }
+
+
+    const textId =
+      detectIdFromText(
+        element.textContent || ""
+      );
+
+
+    if(textId){
+
+      return textId;
+
+    }
+
+
+    return "";
+
+  }
+
+
+  function findFestivalId(target){
+
+    let current =
+      target;
+
+
+    for(
+      let i=0;
+      i<20 && current;
+      i++
+    ){
+
+      if(
+        current.id === "modal" ||
+        (
+          current.closest &&
+          current.closest("#modal")
+        )
+      ){
+
+        return "";
+
+      }
+
+
+      const id =
+        getElementId(current);
+
+
+      if(id){
+
+        return id;
+
+      }
+
+
+      current =
+        current.parentElement;
+
+    }
+
+
+    return "";
+
+  }
+
+
+  function openModal(id){
+
+    id =
+      normalizeId(id);
+
+
+    const data =
+      document.getElementById(
+        "modal-data-" + id
+      );
+
+
+    const modal =
+      document.getElementById("modal");
+
+
+    if(!data || !modal){
+
+      return false;
+
+    }
+
+
+    const img =
+      document.getElementById(
+        "modal-img"
+      );
+
+
+    const catchcopy =
+      document.getElementById(
+        "modal-catchcopy"
+      );
+
+
+    const place =
+      document.getElementById(
+        "modal-place"
+      );
+
+
+    const link =
+      document.getElementById(
+        "modal-link"
+      );
+
+
+    catchcopy.textContent =
+      data.dataset.catchcopy || "準備中";
+
+
+    place.textContent =
+      data.dataset.place || "";
+
+
+    img.src =
+      data.dataset.img || "";
+
+
+    img.alt =
+      data.dataset.catchcopy ||
+      "企画画像";
+
+
+    link.href =
+      data.dataset.link ||
+      "map.html";
+
+
+    modal.style.display =
+      "flex";
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+    document.body.style.overflow =
+      "hidden";
+
+
+    return true;
+
+  }
+
+
+  window.openFestivalModal =
+    openModal;
+
+
+  function closeModal(){
+
+    const modal =
+      document.getElementById("modal");
+
+
+    if(!modal){
+
+      return;
+
+    }
+
+
+    modal.style.display =
+      "none";
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    document.body.style.overflow =
+      "";
+
+  }
+
+
+  window.closeFestivalModal =
+    closeModal;
+
+
+  window.addEventListener(
+    "click",
+    function(event){
+
+      const target =
+        event.target;
+
+
+      if(
+        target.closest &&
+        target.closest("#modal")
+      ){
+
+        return;
+
+      }
+
+
+      const id =
+        findFestivalId(target);
+
+
+      if(!id){
+
+        return;
+
+      }
+
+
+      if(
+        openModal(id)
+      ){
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+      }
+
+    },
+    true
+  );
+
+
+  document
+    .getElementById("modal-close")
+    .addEventListener(
       "click",
-      (e) => {
+      function(){
 
-        e.preventDefault();
-
-        e.stopPropagation();
-
-        nextPage();
+        closeModal();
 
       }
     );
 
 
-    prevBtn.addEventListener(
-      "pointerdown",
-      (e) => {
+  document
+    .getElementById("modal")
+    .addEventListener(
+      "click",
+      function(event){
 
-        e.stopPropagation();
+        if(
+          event.target === this
+        ){
 
-      }
-    );
+          closeModal();
 
-
-    nextBtn.addEventListener(
-      "pointerdown",
-      (e) => {
-
-        e.stopPropagation();
+        }
 
       }
     );
 
 
-    /* =========================================
-       ピンチ開始
-    ========================================= */
+  document.addEventListener(
+    "keydown",
+    function(event){
 
-    function startPinch() {
-
-      if (
-        activePointers.size < 2
-      ) {
+      if(event.key !== "Escape"){
 
         return;
 
       }
 
 
-      const image =
-        getCurrentImage();
+      const modal =
+        document.getElementById("modal");
 
 
-      if (!image) {
-        return;
-      }
+      if(
+        modal &&
+        modal.style.display === "flex"
+      ){
 
-
-      /*
-        ★ここからピンチ状態
-      */
-
-      isPinching = true;
-
-      isDragging = false;
-
-      isHorizontalGesture = false;
-
-      isVerticalGesture = false;
-
-
-      /*
-        現在の距離
-      */
-
-      pinchStartDistance =
-        getPointerDistance();
-
-
-      if (
-        pinchStartDistance <= 0
-      ) {
-
-        return;
+        closeModal();
 
       }
-
-
-      /*
-        2本指中心
-      */
-
-      const center =
-        getPointerCenter();
-
-
-      pinchStartCenterX =
-        center.x;
-
-      pinchStartCenterY =
-        center.y;
-
-
-      /*
-        開始時の倍率
-      */
-
-      pinchStartScale =
-        zoomScale;
-
-
-      /*
-        開始時のpan
-      */
-
-      pinchStartPanX =
-        panX;
-
-      pinchStartPanY =
-        panY;
-
-
-      /*
-        transform前の画像中心
-      */
-
-      const rect =
-        image.getBoundingClientRect();
-
-
-      pinchLayoutCenterX =
-        rect.left +
-        rect.width / 2 -
-        panX;
-
-
-      pinchLayoutCenterY =
-        rect.top +
-        rect.height / 2 -
-        panY;
-
-
-      /*
-        指が画像上のどこを
-        掴んでいるかを保存
-      */
-
-      pinchContentX =
-        (
-          pinchStartCenterX -
-          pinchLayoutCenterX -
-          pinchStartPanX
-        ) /
-        Math.max(
-          pinchStartScale,
-          0.0001
-        );
-
-
-      pinchContentY =
-        (
-          pinchStartCenterY -
-          pinchLayoutCenterY -
-          pinchStartPanY
-        ) /
-        Math.max(
-          pinchStartScale,
-          0.0001
-        );
 
     }
+  );
 
 
-    /* =========================================
-       pointerdown
-    ========================================= */
-
-    slider.addEventListener(
-      "pointerdown",
-      (e) => {
-
-        /*
-          ボタンは無視
-        */
-
-        if (
-          e.target.closest(
-            ".slider-btn"
-          )
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-          マウスは左クリックのみ
-        */
-
-        if (
-          e.pointerType === "mouse" &&
-          e.button !== 0
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-          ポインター登録
-        */
-
-        activePointers.set(
-          e.pointerId,
-          {
-
-            x: e.clientX,
-
-            y: e.clientY
-
-          }
-        );
-
-
-        /*
-          pointer capture
-
-          ★重要
-          ピンチ中に指が少し画像の外へ
-          出てもイベントを維持する。
-        */
-
-        try {
-
-          slider.setPointerCapture(
-            e.pointerId
-          );
-
-        }
-
-        catch (error) {
-
-          // Safari等では無視
-
-        }
-
-
-        /* =====================================
-           2本目
-        ===================================== */
-
-        if (
-          activePointers.size >= 2
-        ) {
-
-          startPinch();
-
-          return;
-
-        }
-
-
-        /* =====================================
-           1本目
-        ===================================== */
-
-        singlePointerId =
-          e.pointerId;
-
-
-        lastPointerX =
-          e.clientX;
-
-        lastPointerY =
-          e.clientY;
-
-
-        swipeStartX =
-          e.clientX;
-
-        swipeStartY =
-          e.clientY;
-
-
-        lastScrollY =
-          window.scrollY;
-
-
-        isDragging = false;
-
-        isHorizontalGesture = false;
-
-        isVerticalGesture = false;
-
-      }
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
 
-    /* =========================================
-       pointermove
-    ========================================= */
+  const modalId =
+    params.get("modal");
 
-    slider.addEventListener(
-      "pointermove",
-      (e) => {
 
-        /*
-          ポインター位置更新
-        */
+  if(modalId){
 
-        if (
-          activePointers.has(
-            e.pointerId
-          )
-        ) {
+    setTimeout(
+      function(){
 
-          activePointers.set(
-            e.pointerId,
-            {
-
-              x: e.clientX,
-
-              y: e.clientY
-
-            }
-          );
-
-        }
-
-
-        /* =====================================
-           2本指ピンチ
-        ===================================== */
-
-        if (
-          isPinching &&
-          activePointers.size >= 2
-        ) {
-
-          /*
-            ★絶対にブラウザ側へ渡さない
-          */
-
-          e.preventDefault();
-
-
-          const currentDistance =
-            getPointerDistance();
-
-
-          if (
-            pinchStartDistance <= 0
-          ) {
-
-            return;
-
-          }
-
-
-          /*
-            距離比
-          */
-
-          const ratio =
-            currentDistance /
-            pinchStartDistance;
-
-
-          /*
-            新倍率
-          */
-
-          const newScale =
-            clampZoom(
-              pinchStartScale *
-              ratio
-            );
-
-
-          /*
-            現在の2本指中心
-          */
-
-          const center =
-            getPointerCenter();
-
-
-          /*
-            指の位置を維持したまま
-            拡大・縮小
-          */
-
-          panX =
-            center.x -
-            pinchLayoutCenterX -
-            pinchContentX *
-              newScale;
-
-
-          panY =
-            center.y -
-            pinchLayoutCenterY -
-            pinchContentY *
-              newScale;
-
-
-          zoomScale =
-            newScale;
-
-
-          /*
-            1倍以下にはしない
-          */
-
-          if (
-            zoomScale <= 1
-          ) {
-
-            zoomScale = 1;
-
-            panX = 0;
-
-            panY = 0;
-
-          }
-
-
-          /*
-            移動範囲
-          */
-
-          limitPan();
-
-
-          /*
-            即時反映
-          */
-
-          applyZoomTransform();
-
-
-          return;
-
-        }
-
-
-        /* =====================================
-           1本指以外
-        ===================================== */
-
-        if (
-          e.pointerId !==
-          singlePointerId
-        ) {
-
-          return;
-
-        }
-
-
-        const moveX =
-          e.clientX -
-          lastPointerX;
-
-
-        const moveY =
-          e.clientY -
-          lastPointerY;
-
-
-        const totalX =
-          e.clientX -
-          swipeStartX;
-
-
-        const totalY =
-          e.clientY -
-          swipeStartY;
-
-
-        /* =====================================
-           拡大中
-        ===================================== */
-
-        if (
-          zoomScale > 1
-        ) {
-
-          e.preventDefault();
-
-
-          if (
-            Math.abs(totalX) >
-              DRAG_THRESHOLD ||
-            Math.abs(totalY) >
-              DRAG_THRESHOLD
-          ) {
-
-            isDragging = true;
-
-          }
-
-
-          if (
-            isDragging
-          ) {
-
-            panX += moveX;
-
-            panY += moveY;
-
-
-            limitPan();
-
-            applyZoomTransform();
-
-          }
-
-
-          lastPointerX =
-            e.clientX;
-
-          lastPointerY =
-            e.clientY;
-
-
-          return;
-
-        }
-
-
-        /* =====================================
-           等倍時
-        ===================================== */
-
-        const absX =
-          Math.abs(totalX);
-
-
-        const absY =
-          Math.abs(totalY);
-
-
-        /*
-          方向決定
-        */
-
-        if (
-          !isHorizontalGesture &&
-          !isVerticalGesture &&
-          absX > DIRECTION_THRESHOLD &&
-          absX > absY
-        ) {
-
-          /*
-            横方向
-          */
-
-          isHorizontalGesture = true;
-
-          isDragging = true;
-
-        }
-
-
-        else if (
-          !isHorizontalGesture &&
-          !isVerticalGesture &&
-          absY > DIRECTION_THRESHOLD &&
-          absY > absX
-        ) {
-
-          /*
-            縦方向
-          */
-
-          isVerticalGesture = true;
-
-        }
-
-
-        /* =====================================
-           横スワイプ
-        ===================================== */
-
-        if (
-          isHorizontalGesture
-        ) {
-
-          e.preventDefault();
-
-
-          const sliderWidth =
-            slider.clientWidth;
-
-
-          if (
-            sliderWidth <= 0
-          ) {
-
-            return;
-
-          }
-
-
-          let dragX =
-            totalX;
-
-
-          const MAX_DRAG =
-            sliderWidth * 0.35;
-
-
-          dragX =
-            Math.max(
-              -MAX_DRAG,
-              Math.min(
-                MAX_DRAG,
-                dragX
-              )
-            );
-
-
-          const basePercent =
-            currentPage * -100;
-
-
-          const dragPercent =
-            (
-              dragX /
-              sliderWidth
-            ) *
-            100;
-
-
-          slides.style.transition =
-            "none";
-
-
-          slides.style.transform =
-            `translate3d(calc(${basePercent}% + ${dragPercent}%), 0, 0)`;
-
-        }
-
-
-        /* =====================================
-           縦スクロール
-           
-           touch-action:noneなので
-           JSでスクロールさせる
-        ===================================== */
-
-        else if (
-          isVerticalGesture
-        ) {
-
-          e.preventDefault();
-
-
-          /*
-            指が上へ動く
-            → ページを下へ
-
-            指が下へ動く
-            → ページを上へ
-          */
-
-          window.scrollBy(
-            0,
-            -moveY
-          );
-
-
-          lastScrollY =
-            window.scrollY;
-
-        }
-
-
-        lastPointerX =
-          e.clientX;
-
-        lastPointerY =
-          e.clientY;
+        openModal(modalId);
 
       },
-      {
-        passive: false
-      }
+      50
     );
 
+  }
 
-    /* =========================================
-       ピンチ終了後
-       1本指へ移行
-    ========================================= */
+})();
 
-    function continueSingleFingerAfterPinch() {
-
-      if (
-        activePointers.size !== 1
-      ) {
-
-        return;
-
-      }
-
-
-      const remaining =
-        Array.from(
-          activePointers.entries()
-        )[0];
-
-
-      if (!remaining) {
-        return;
-      }
-
-
-      singlePointerId =
-        remaining[0];
-
-
-      lastPointerX =
-        remaining[1].x;
-
-      lastPointerY =
-        remaining[1].y;
-
-
-      swipeStartX =
-        remaining[1].x;
-
-      swipeStartY =
-        remaining[1].y;
-
-
-      /*
-        ピンチ終了直後に
-        ページ切り替えを起こさない
-      */
-
-      isDragging = false;
-
-      isHorizontalGesture = false;
-
-      isVerticalGesture = false;
-
-
-      /*
-        重要：
-        拡大率・panX・panYは
-        ここでは一切変更しない。
-      */
-
-    }
-
-
-    /* =========================================
-       pointerup
-    ========================================= */
-
-    slider.addEventListener(
-      "pointerup",
-      (e) => {
-
-        /*
-          ポインター削除
-        */
-
-        activePointers.delete(
-          e.pointerId
-        );
-
-
-        /* =====================================
-           ピンチ中
-        ===================================== */
-
-        if (
-          isPinching
-        ) {
-
-          /*
-            まだ2本以上なら継続
-          */
-
-          if (
-            activePointers.size >= 2
-          ) {
-
-            return;
-
-          }
-
-
-          /*
-            ピンチ終了
-          */
-
-          isPinching = false;
-
-          pinchJustEnded = true;
-
-
-          /*
-            1本残った場合
-          */
-
-          if (
-            activePointers.size === 1
-          ) {
-
-            continueSingleFingerAfterPinch();
-
-          }
-
-          else {
-
-            singlePointerId =
-              null;
-
-          }
-
-
-          /*
-            ★ここで
-            resetZoomPosition() を
-            絶対に呼ばない。
-
-            これが今回の重要ポイント。
-          */
-
-          return;
-
-        }
-
-
-        /* =====================================
-           1本指以外
-        ===================================== */
-
-        if (
-          e.pointerId !==
-          singlePointerId
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-          ピンチ直後なら
-          何もしない
-        */
-
-        if (
-          pinchJustEnded
-        ) {
-
-          pinchJustEnded = false;
-
-          isDragging = false;
-
-          isHorizontalGesture = false;
-
-          isVerticalGesture = false;
-
-          singlePointerId = null;
-
-          return;
-
-        }
-
-
-        const deltaX =
-          e.clientX -
-          swipeStartX;
-
-
-        const deltaY =
-          e.clientY -
-          swipeStartY;
-
-
-        /* =====================================
-           拡大中
-        ===================================== */
-
-        if (
-          zoomScale > 1
-        ) {
-
-          /*
-            拡大状態を維持
-          */
-
-          isDragging = false;
-
-          isHorizontalGesture = false;
-
-          isVerticalGesture = false;
-
-          singlePointerId = null;
-
-          return;
-
-        }
-
-
-        /* =====================================
-           縦スクロール
-        ===================================== */
-
-        if (
-          isVerticalGesture
-        ) {
-
-          isVerticalGesture = false;
-
-          isHorizontalGesture = false;
-
-          isDragging = false;
-
-          singlePointerId = null;
-
-          return;
-
-        }
-
-
-        /* =====================================
-           横スワイプ
-        ===================================== */
-
-        if (
-          isHorizontalGesture
-        ) {
-
-          const isSwipe =
-            Math.abs(deltaX) >=
-              SWIPE_DISTANCE &&
-            Math.abs(deltaX) >
-              Math.abs(deltaY);
-
-
-          if (
-            isSwipe
-          ) {
-
-            if (
-              deltaX < 0
-            ) {
-
-              /*
-                左
-                → 次ページ
-              */
-
-              nextPage();
-
-            }
-
-            else {
-
-              /*
-                右
-                → 前ページ
-              */
-
-              previousPage();
-
-            }
-
-          }
-
-          else {
-
-            /*
-              スワイプ不足
-              → 現在ページへ戻す
-            */
-
-            slides.style.transition =
-              "transform 0.3s ease-out";
-
-
-            slides.style.transform =
-              `translate3d(-${currentPage * 100}%, 0, 0)`;
-
-          }
-
-        }
-
-
-        /*
-          状態リセット
-        */
-
-        isDragging = false;
-
-        isHorizontalGesture = false;
-
-        isVerticalGesture = false;
-
-        singlePointerId = null;
-
-      }
-    );
-
-
-    /* =========================================
-       pointercancel
-       
-       ★重要
-       ここで拡大解除しない
-    ========================================= */
-
-    slider.addEventListener(
-      "pointercancel",
-      (e) => {
-
-        activePointers.delete(
-          e.pointerId
-        );
-
-
-        /*
-          ピンチ中にSafari等が
-          cancelしてしまった場合でも、
-          拡大状態を維持する。
-        */
-
-        if (
-          isPinching
-        ) {
-
-          if (
-            activePointers.size >= 2
-          ) {
-
-            return;
-
-          }
-
-
-          isPinching = false;
-
-          pinchJustEnded = true;
-
-
-          if (
-            activePointers.size === 1
-          ) {
-
-            continueSingleFingerAfterPinch();
-
-          }
-
-          else {
-
-            singlePointerId =
-              null;
-
-          }
-
-
-          /*
-            ★ここでは
-            updateSlider()
-            resetZoomPosition()
-            を呼ばない
-          */
-
-          return;
-
-        }
-
-
-        /*
-          通常の1本指操作の
-          cancelでもページを
-          リセットしない。
-
-          特にSafariでは、
-          ジェスチャー途中の
-          cancelが発生することがあるため。
-        */
-
-        if (
-          activePointers.size === 0
-        ) {
-
-          isDragging = false;
-
-          isHorizontalGesture = false;
-
-          isVerticalGesture = false;
-
-          singlePointerId = null;
-
-          /*
-            拡大状態はそのまま維持
-          */
-
-          if (
-            zoomScale > 1
-          ) {
-
-            limitPan();
-
-            applyZoomTransform();
-
-          }
-
-          else {
-
-            slides.style.transition =
-              "transform 0.3s ease-out";
-
-            slides.style.transform =
-              `translate3d(-${currentPage * 100}%, 0, 0)`;
-
-          }
-
-        }
-
-        else if (
-          activePointers.size === 1
-        ) {
-
-          continueSingleFingerAfterPinch();
-
-        }
-
-      },
-      {
-        passive: false
-      }
-    );
-
-
-    /* =========================================
-       pointerout / pointerleave
-       
-       pointer capture中は基本不要だが、
-       念のため何もしない。
-    ========================================= */
-
-    slider.addEventListener(
-      "pointerleave",
-      (e) => {
-
-        /*
-          何もしない。
-
-          指が外に出ても
-          pointer captureを維持する。
-        */
-
-      }
-    );
-
-
-    /* =========================================
-       マウスホイール拡大
-       
-       Ctrl + ホイール
-    ========================================= */
-
-    slider.addEventListener(
-      "wheel",
-      (e) => {
-
-        if (
-          !e.ctrlKey
-        ) {
-
-          /*
-            通常ホイールは
-            ブラウザ標準スクロール
-          */
-
-          return;
-
-        }
-
-
-        e.preventDefault();
-
-
-        const image =
-          getCurrentImage();
-
-
-        if (!image) {
-          return;
-        }
-
-
-        const rect =
-          image.getBoundingClientRect();
-
-
-        const mouseX =
-          e.clientX;
-
-
-        const mouseY =
-          e.clientY;
-
-
-        const layoutCenterX =
-          rect.left +
-          rect.width / 2 -
-          panX;
-
-
-        const layoutCenterY =
-          rect.top +
-          rect.height / 2 -
-          panY;
-
-
-        const contentX =
-          (
-            mouseX -
-            layoutCenterX -
-            panX
-          ) /
-          Math.max(
-            zoomScale,
-            0.0001
-          );
-
-
-        const contentY =
-          (
-            mouseY -
-            layoutCenterY -
-            panY
-          ) /
-          Math.max(
-            zoomScale,
-            0.0001
-          );
-
-
-        const zoomStep =
-          e.deltaY < 0
-            ? 1.12
-            : 0.88;
-
-
-        const newScale =
-          clampZoom(
-            zoomScale *
-            zoomStep
-          );
-
-
-        panX =
-          mouseX -
-          layoutCenterX -
-          contentX *
-            newScale;
-
-
-        panY =
-          mouseY -
-          layoutCenterY -
-          contentY *
-            newScale;
-
-
-        zoomScale =
-          newScale;
-
-
-        if (
-          zoomScale <= 1
-        ) {
-
-          zoomScale = 1;
-
-          panX = 0;
-
-          panY = 0;
-
-        }
-
-
-        limitPan();
-
-        applyZoomTransform();
-
-      },
-      {
-        passive: false
-      }
-    );
-
-
-    /* =========================================
-       画像ドラッグ防止
-    ========================================= */
-
-    images.forEach(
-      (img) => {
-
-        img.addEventListener(
-          "dragstart",
-          (e) => {
-
-            e.preventDefault();
-
-          }
-        );
-
-
-        img.addEventListener(
-          "contextmenu",
-          (e) => {
-
-            if (
-              zoomScale > 1
-            ) {
-
-              e.preventDefault();
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-    /* =========================================
-       キーボード操作
-    ========================================= */
-
-    document.addEventListener(
-      "keydown",
-      (e) => {
-
-        /*
-          左
-        */
-
-        if (
-          e.key === "ArrowLeft"
-        ) {
-
-          e.preventDefault();
-
-          previousPage();
-
-        }
-
-
-        /*
-          右
-        */
-
-        if (
-          e.key === "ArrowRight"
-        ) {
-
-          e.preventDefault();
-
-          nextPage();
-
-        }
-
-
-        /*
-          Escape
-          → 拡大解除
-        */
-
-        if (
-          e.key === "Escape"
-        ) {
-
-          if (
-            zoomScale > 1
-          ) {
-
-            resetZoomPosition();
-
-          }
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       画面サイズ変更
-    ========================================= */
-
-    window.addEventListener(
-      "resize",
-      () => {
-
-        if (
-          zoomScale > 1
-        ) {
-
-          /*
-            少し待ってから
-            レイアウト確定後に補正
-          */
-
-          requestAnimationFrame(
-            () => {
-
-              limitPan();
-
-              applyZoomTransform();
-
-            }
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       orientationchange
-    ========================================= */
-
-    window.addEventListener(
-      "orientationchange",
-      () => {
-
-        if (
-          zoomScale > 1
-        ) {
-
-          setTimeout(
-            () => {
-
-              limitPan();
-
-              applyZoomTransform();
-
-            },
-            150
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       初期表示
-    ========================================= */
-
-    resetZoomPosition();
-
-    updateSlider(false);
-
-  </script>
+</script>
 
 
 </body>
+
 </html>
