@@ -30,15 +30,8 @@
     rel="stylesheet"
   >
 
-  <!--
-    events.html と同じ共通CSS
-    ヘッダーのデザイン・サイズもここから取得
-  -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!--
-    events.html と同じ共通JavaScript
-  -->
   <script src="script.js" defer></script>
 
 
@@ -61,14 +54,13 @@
       --blue: #239dcc;
 
       --text: #111;
-      --bg: #eeeeed;
-      --white: #fff;
 
       /*
-       * ヘッダーの高さは
-       * css/style.css 側の値を使用するため、
-       * ここでは指定しない
+       * 背景色を少し透明感のある色に変更
        */
+      --bg: rgba(238, 238, 237, 0.62);
+
+      --white: #fff;
 
       --content-width: 1120px;
 
@@ -97,11 +89,10 @@
       margin: 0;
 
       /*
-       * ヘッダーのpadding-topは
-       * css/style.css側に任せる
+       * 背景色を透明にして、
+       * background-shapes が見えるようにする
        */
-
-      background: var(--bg);
+      background: transparent;
 
       color: var(--text);
 
@@ -146,7 +137,7 @@
 
 
     /* =========================================================
-       背景のカラーポリゴン
+       背景
     ========================================================= */
 
     .background-shapes {
@@ -163,6 +154,12 @@
       overflow: hidden;
 
       z-index: -1;
+
+      /*
+       * 背景全体に薄い色を敷く
+       * カラーポリゴンを邪魔しない濃さ
+       */
+      background: rgba(238, 238, 237, 0.58);
 
     }
 
@@ -306,10 +303,6 @@
 
       width: 100%;
 
-      /*
-       * 共通ヘッダーの下に
-       * ページ内容を配置
-       */
       padding-top: 135px;
 
       padding-bottom: 120px;
@@ -340,11 +333,18 @@
 
       width: 100%;
 
+      /*
+       * 以前：
+       * rgba(255,255,255,0.98)
+       *
+       * ↓
+       * 背景の図形が見えるように変更
+       */
       background:
-        rgba(255, 255, 255, 0.98);
+        rgba(255, 255, 255, 0.72);
 
       border:
-        1px solid #555;
+        1px solid rgba(85, 85, 85, 0.65);
 
       padding:
         42px 52px 60px;
@@ -357,9 +357,6 @@
 
       overflow: hidden;
 
-      /*
-       * スクロール先がヘッダーに隠れないようにする
-       */
       scroll-margin-top: 75px;
 
     }
@@ -367,6 +364,8 @@
 
     /* =========================================================
        1ページ目
+       
+       白い背景を完全に削除
     ========================================================= */
 
     .intro-page {
@@ -374,6 +373,16 @@
       min-height: 620px;
 
       padding-top: 35px;
+
+      /*
+       * 「来校上のお願い」「目次」の後ろの
+       * 白い図形を削除
+       */
+      background: transparent;
+
+      border-color: transparent;
+
+      box-shadow: none;
 
     }
 
@@ -648,9 +657,6 @@
 
     /* =========================================================
        本文
-       
-       ページ3・4・5は
-       キャラクター用の余白なし
     ========================================================= */
 
     .guide-text {
@@ -720,8 +726,6 @@
 
     /* =========================================================
        最後のページ
-       
-       最後だけキャラクター用スペースを残す
     ========================================================= */
 
     .ending-page {
@@ -776,11 +780,6 @@
 
     }
 
-
-    /*
-     * 最後のページだけ
-     * キャラクター画像を配置可能
-     */
 
     .character-image {
 
@@ -994,12 +993,27 @@
 
         scroll-margin-top: 70px;
 
+        /*
+         * スマホでは少しだけ透明度を上げる
+         */
+        background:
+          rgba(255, 255, 255, 0.68);
+
       }
 
 
+      /*
+       * 1ページ目は完全透明
+       */
       .intro-page {
 
         min-height: auto;
+
+        background: transparent;
+
+        border-color: transparent;
+
+        box-shadow: none;
 
       }
 
@@ -1073,11 +1087,6 @@
 
       }
 
-
-      /*
-       * ページ3・4・5は
-       * キャラクター用の余白なし
-       */
 
       .guide-text {
 
@@ -1323,8 +1332,6 @@
 
   <!-- =======================================================
        共通ヘッダー
-       
-       events.html と全く同じ header.html を使用
   ======================================================== -->
 
   <div id="header"></div>
@@ -1392,12 +1399,6 @@
           <div class="toc-grid">
 
 
-            <!--
-              ロゴ紹介は削除
-              ページ番号表記も削除
-            -->
-
-
             <a
               href="#parking"
               class="toc-item toc-pink fade-text delay-1"
@@ -1411,13 +1412,21 @@
               href="#caution1"
               class="toc-item toc-yellow fade-text delay-2"
             >
-              校内での注意事項
+              校内での注意事項1
+            </a>
+
+
+            <a
+              href="#caution2"
+              class="toc-item toc-yellow fade-text delay-3"
+            >
+              校内での注意事項2
             </a>
 
 
             <a
               href="#ending"
-              class="toc-item toc-blue fade-text delay-3"
+              class="toc-item toc-blue fade-text delay-4"
             >
               終わりに
             </a>
@@ -1439,8 +1448,6 @@
 
       <!-- ===================================================
            駐車・送迎について / ご来場方法について
-           
-           キャラクター枠なし
       ==================================================== -->
 
       <section
@@ -1503,7 +1510,10 @@
 
           <p class="fade-text delay-3">
 
-            校舎内は土足禁止です。<span class="red-text">上履き（スリッパ等）と靴を入れる袋をご持参ください。</span>
+            校舎内は土足禁止です。
+            <span class="red-text">
+              上履き（スリッパ等）と靴を入れる袋をご持参ください。
+            </span>
 
           </p>
 
@@ -1521,8 +1531,6 @@
 
       <!-- ===================================================
            校内での注意事項1
-           
-           キャラクター枠なし
       ==================================================== -->
 
       <section
@@ -1549,7 +1557,7 @@
         <h2
           class="section-title title-yellow fade-text"
         >
-          校内での注意事項
+          校内での注意事項1
         </h2>
 
 
@@ -1598,8 +1606,6 @@
 
       <!-- ===================================================
            校内での注意事項2
-           
-           キャラクター枠なし
       ==================================================== -->
 
       <section
@@ -1626,7 +1632,7 @@
         <h2
           class="section-title title-yellow fade-text"
         >
-          校内での注意事項
+          校内での注意事項2
         </h2>
 
 
@@ -1667,8 +1673,6 @@
 
       <!-- ===================================================
            最後のページ
-           
-           このページだけキャラクター用スペースを残す
       ==================================================== -->
 
       <section
@@ -1688,29 +1692,6 @@
           <!--
             最後のページだけ
             ここにキャラクターを配置できます。
-
-            例：
-
-            <img
-              class="character-image"
-              src="images/red-character.png"
-              alt=""
-              style="left: 25%;"
-            >
-
-            <img
-              class="character-image"
-              src="images/blue-character.png"
-              alt=""
-              style="left: 50%;"
-            >
-
-            <img
-              class="character-image"
-              src="images/green-character.png"
-              alt=""
-              style="left: 75%;"
-            >
           -->
 
         </div>
@@ -1740,8 +1721,7 @@
   <script>
 
     /* =========================================================
-       events.html と同じ方法で
-       header.htmlを読み込む
+       header.html読み込み
     ========================================================= */
 
     fetch("header.html")
@@ -1777,11 +1757,6 @@
 
         header.innerHTML = data;
 
-
-        /*
-         * events.html と同じ
-         * ハンバーガーメニュー処理
-         */
 
         const btn =
           document.querySelector(".menu-btn");
@@ -1905,10 +1880,6 @@
 
     } else {
 
-      /*
-       * IntersectionObserver非対応時
-       */
-
       fadeElements.forEach(
         function(element) {
 
@@ -1968,10 +1939,6 @@
 
               event.preventDefault();
 
-
-              /*
-               * 共通headerの高さを取得
-               */
 
               const header =
                 document.querySelector(
