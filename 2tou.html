@@ -60,23 +60,25 @@ body {
 
   overflow: hidden;
 
-  opacity: 1 !important;
+  opacity: 0.55 !important;
 }
 
 
 /*
-   背景装飾を表示しない
-   白い図形などがstyle.cssから
-   出てくる場合も無効化
+   背景図形を表示
+   TOPページと同じ図形を
+   薄く透けるように表示
 */
 
 .bg-shapes .shape {
-  display: none !important;
+  display: block !important;
+
+  opacity: 0.45;
 }
 
 .bg-shapes::before,
 .bg-shapes::after {
-  display: none !important;
+  display: block;
 }
 
 
@@ -1096,6 +1098,14 @@ body {
     width: 100%;
 
     height: max(100vh, 1050px);
+
+    opacity: 0.55 !important;
+  }
+
+
+  .bg-shapes .shape {
+    display: block !important;
+    opacity: 0.45;
   }
 
 }
