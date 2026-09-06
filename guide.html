@@ -56,10 +56,9 @@
       --text: #111;
 
       /*
-       * 背景を透明に近づけ、
-       * 背景のカラフルな図形が見えるようにする
+       * 背景を完全透明にする
        */
-      --bg: rgba(238, 238, 237, 0.18);
+      --bg: transparent;
 
       --white: #fff;
 
@@ -90,8 +89,7 @@
       margin: 0;
 
       /*
-       * body自体は透明
-       * 背景図形をそのまま表示
+       * body自体を完全透明
        */
       background: transparent;
 
@@ -157,10 +155,9 @@
       z-index: -1;
 
       /*
-       * 白いフィルターをかなり薄くして
-       * 背景の図形がしっかり見えるようにする
+       * 背景色・白いフィルターを完全に削除
        */
-      background: rgba(238, 238, 237, 0.10);
+      background: transparent;
 
     }
 
@@ -335,11 +332,10 @@
       width: 100%;
 
       /*
-       * 背景を透けさせて
-       * 背景図形が見えるようにする
+       * ページ背景を完全透明
+       * 背景図形をそのまま表示
        */
-      background:
-        rgba(255, 255, 255, 0.48);
+      background: transparent;
 
       border:
         1px solid rgba(85, 85, 85, 0.65);
@@ -362,9 +358,6 @@
 
     /* =========================================================
        1ページ目
-       
-       「来校上のお願い」「目次」の後ろに
-       白い背景を付けない
     ========================================================= */
 
     .intro-page {
@@ -374,7 +367,7 @@
       padding-top: 35px;
 
       /*
-       * ページ全体の白背景を削除
+       * 1ページ目も完全透明
        */
       background: transparent;
 
@@ -483,9 +476,6 @@
 
       font-weight: 900;
 
-      /*
-       * 背景色は付けない
-       */
       background: transparent;
 
     }
@@ -729,8 +719,6 @@
 
     /* =========================================================
        最後のページ
-       
-       ページ全体を画像配置用の枠にする
     ========================================================= */
 
     .ending-page {
@@ -744,21 +732,15 @@
       padding: 0;
 
       /*
-       * 最後のページ自体は
-       * 背景図形が透ける状態
+       * 最後のページも完全透明
        */
-      background:
-        rgba(255, 255, 255, 0.38);
+      background: transparent;
 
       text-align: center;
 
     }
 
 
-    /*
-     * 「ご来場お待ちしてます！」は削除し、
-     * ページ全体を画像用エリアにする
-     */
     .ending-character-space {
 
       position: absolute;
@@ -774,8 +756,7 @@
       border:
         1px dashed rgba(0, 0, 0, 0.22);
 
-      background:
-        transparent;
+      background: transparent;
 
     }
 
@@ -993,10 +974,9 @@
         scroll-margin-top: 70px;
 
         /*
-         * 背景図形が見えるように透明度を調整
+         * スマートフォンでも完全透明
          */
-        background:
-          rgba(255, 255, 255, 0.44);
+        background: transparent;
 
       }
 
@@ -1004,6 +984,7 @@
       /*
        * 1ページ目は完全透明
        */
+
       .intro-page {
 
         min-height: auto;
@@ -1133,17 +1114,16 @@
 
 
       /*
-       * 最後のページも
-       * ページ全体を画像枠にする
+       * 最後のページも完全透明
        */
+
       .ending-page {
 
         min-height: 500px;
 
         padding: 0;
 
-        background:
-          rgba(255, 255, 255, 0.36);
+        background: transparent;
 
       }
 
@@ -1690,6 +1670,7 @@
           最後のページ全体が
           画像配置用の枠
         -->
+
         <div class="ending-character-space">
 
           <!--
