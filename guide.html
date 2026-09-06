@@ -669,7 +669,11 @@
 
       padding: 0;
 
-      display: block;
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
 
       overflow: hidden;
     }
@@ -683,9 +687,15 @@
 
       min-height: 620px;
 
-      height: 100%;
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
 
       overflow: hidden;
+
+      background: #fff;
     }
 
 
@@ -695,13 +705,15 @@
 
       width: 100%;
 
-      height: 100%;
+      height: auto;
 
-      min-height: 620px;
+      max-width: 1920px;
 
-      object-fit: cover;
+      object-fit: contain;
 
       object-position: center;
+
+      flex: 0 0 auto;
     }
 
     /* =========================================================
@@ -753,45 +765,8 @@
       transition-delay: 0.32s;
     }
 
-
-
     /* =========================================================
-       ページ間の矢印
-    ========================================================= */
-
-    .page-arrow {
-
-      position: absolute;
-
-      top: 50%;
-
-      transform:
-        translateY(-50%);
-
-      font-size: 65px;
-
-      line-height: 1;
-
-      color: var(--pink-light);
-
-      font-weight: 300;
-
-      user-select: none;
-
-      pointer-events: none;
-    }
-
-
-    .page-arrow.left {
-
-      left: 15px;
-    }
-
-
-    .page-arrow.right {
-
-      right: 15px;
-    }
+       スクロールトップ
 
 
 
@@ -990,15 +965,7 @@
 
         margin-bottom: 28px;
       }
-
-
-      .page-arrow {
-
-        display: none;
-      }
-
-
-      .ending-page {
+.ending-page {
 
         min-height: 500px;
 
@@ -1014,7 +981,9 @@
 
       .ending-full-image {
 
-        min-height: 500px;
+        width: 100%;
+
+        height: auto;
       }
 
 
@@ -1319,16 +1288,6 @@
           </div>
 
         </div>
-
-
-        <span
-          class="page-arrow right"
-          aria-hidden="true"
-        >
-          ›
-        </span>
-
-
       </section>
 
 
@@ -1344,25 +1303,7 @@
         class="guide-page"
         id="parking"
       >
-
-
-        <span
-          class="page-arrow left"
-          aria-hidden="true"
-        >
-          ‹
-        </span>
-
-
-        <span
-          class="page-arrow right"
-          aria-hidden="true"
-        >
-          ›
-        </span>
-
-
-        <h2 class="section-title title-pink fade-text">
+<h2 class="section-title title-pink fade-text">
 
           駐車・送迎について
 
@@ -1431,25 +1372,7 @@
         class="guide-page caution-page"
         id="caution1"
       >
-
-
-        <span
-          class="page-arrow left"
-          aria-hidden="true"
-        >
-          ‹
-        </span>
-
-
-        <span
-          class="page-arrow right"
-          aria-hidden="true"
-        >
-          ›
-        </span>
-
-
-        <h2 class="section-title title-yellow fade-text">
+<h2 class="section-title title-yellow fade-text">
 
           校内での注意事項1
 
@@ -1515,25 +1438,7 @@
         class="guide-page caution-page"
         id="caution2"
       >
-
-
-        <span
-          class="page-arrow left"
-          aria-hidden="true"
-        >
-          ‹
-        </span>
-
-
-        <span
-          class="page-arrow right"
-          aria-hidden="true"
-        >
-          ›
-        </span>
-
-
-        <h2 class="section-title title-yellow fade-text">
+<h2 class="section-title title-yellow fade-text">
 
           校内での注意事項2
 
@@ -1592,13 +1497,11 @@
       >
 <div class="ending-image-area">
 
-          <div class="ending-image-area">
-  <img
-    class="ending-full-image"
-    src="images/ending.jpg"
-    alt="長高祭2026"
-  >
-          </div>
+          <img
+            class="ending-full-image"
+            src="images/ending.jpg"
+            alt="長高祭2026"
+          >
 
         </div>
 
