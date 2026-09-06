@@ -278,8 +278,11 @@
 
       width: 100%;
 
+      /*
+        ヘッダー直下の余白を必要最小限に調整
+      */
       padding-top:
-        calc(var(--header-height) + 135px);
+        calc(var(--header-height) + 45px);
 
       padding-bottom: 120px;
     }
@@ -302,7 +305,10 @@
 
 
     /* =========================================================
-       共通ページカード
+       共通ページ
+       
+       カード表示を削除し、
+       文字を直接表示するレイアウトに変更
     ========================================================= */
 
     .guide-page {
@@ -311,21 +317,23 @@
 
       width: 100%;
 
-      background: #fff;
+      /*
+        カード背景・枠線・影を削除
+      */
+      background: transparent;
 
-      border:
-        1px solid #555;
+      border: none;
 
       padding:
-        42px 52px 60px;
+        0;
 
-      margin-bottom: 70px;
+      margin-bottom: 100px;
 
-      min-height: 620px;
+      min-height: auto;
 
-      box-shadow: var(--shadow);
+      box-shadow: none;
 
-      overflow: hidden;
+      overflow: visible;
     }
 
 
@@ -336,15 +344,17 @@
 
     .intro-page {
 
-      min-height: 620px;
+      min-height: auto;
 
-      padding-top: 35px;
+      padding-top: 0;
+
+      margin-bottom: 100px;
     }
 
 
     .main-heading {
 
-      margin: 0 0 65px;
+      margin: 0 0 55px;
 
       font-size:
         clamp(32px, 4vw, 52px);
@@ -359,7 +369,7 @@
 
       text-align: center;
 
-      margin-bottom: 62px;
+      margin-bottom: 55px;
     }
 
 
@@ -404,19 +414,14 @@
     }
 
 
+    /*
+      2025年度参考表記を削除したため、
+      intro-description自体は使用しない
+    */
+
     .intro-description {
 
-      text-align: center;
-
-      font-size:
-        clamp(15px, 1.7vw, 20px);
-
-      line-height: 2;
-
-      margin:
-        0 auto 54px;
-
-      max-width: 900px;
+      display: none;
     }
 
 
@@ -588,11 +593,9 @@
     }
 
 
+
     /* =========================================================
        本文
-
-       キャラクター用スペースを削除したため、
-       ページ全体を使って文章を配置
     ========================================================= */
 
     .guide-text {
@@ -638,7 +641,9 @@
 
     .caution-page {
 
-      min-height: 700px;
+      min-height: auto;
+
+      margin-bottom: 100px;
     }
 
 
@@ -657,15 +662,11 @@
 
     /* =========================================================
        最後のページ
-
-       「ご来場お待ちしてます！」は削除し、
-       カード全体を画像表示エリアとして使用
     ========================================================= */
-
 
     .ending-page {
 
-      min-height: 620px;
+      min-height: auto;
 
       padding: 0;
 
@@ -676,6 +677,8 @@
       justify-content: center;
 
       overflow: hidden;
+
+      margin-bottom: 0;
     }
 
 
@@ -715,6 +718,8 @@
 
       flex: 0 0 auto;
     }
+
+
 
     /* =========================================================
        フェードイン
@@ -764,9 +769,6 @@
 
       transition-delay: 0.32s;
     }
-
-    /* =========================================================
-       スクロールトップ
 
 
 
@@ -843,8 +845,11 @@
 
       main {
 
+        /*
+          ヘッダーとの余白を縮小
+        */
         padding-top:
-          calc(var(--header-height) + 65px);
+          calc(var(--header-height) + 35px);
 
         padding-bottom: 70px;
       }
@@ -859,10 +864,12 @@
 
       .guide-page {
 
-        padding:
-          30px 22px 45px;
+        /*
+          カードの余白を削除
+        */
+        padding: 0;
 
-        margin-bottom: 35px;
+        margin-bottom: 65px;
 
         min-height: auto;
       }
@@ -871,12 +878,14 @@
       .intro-page {
 
         min-height: auto;
+
+        margin-bottom: 65px;
       }
 
 
       .main-heading {
 
-        margin-bottom: 45px;
+        margin-bottom: 40px;
 
         font-size: 31px;
       }
@@ -884,7 +893,7 @@
 
       .festival-title-area {
 
-        margin-bottom: 42px;
+        margin-bottom: 38px;
       }
 
 
@@ -909,9 +918,7 @@
 
       .intro-description {
 
-        font-size: 14px;
-
-        line-height: 1.9;
+        display: none;
       }
 
 
@@ -965,9 +972,11 @@
 
         margin-bottom: 28px;
       }
-.ending-page {
 
-        min-height: 500px;
+
+      .ending-page {
+
+        min-height: auto;
 
         padding: 0;
       }
@@ -1042,15 +1051,17 @@
 
       .guide-page {
 
-        padding-left: 18px;
+        padding-left: 0;
 
-        padding-right: 18px;
+        padding-right: 0;
       }
 
 
       .main-heading {
 
         font-size: 27px;
+
+        margin-bottom: 35px;
       }
 
 
@@ -1068,7 +1079,7 @@
 
       .intro-description {
 
-        font-size: 13px;
+        display: none;
       }
 
 
@@ -1082,9 +1093,6 @@
 
         font-size: 20px;
       }
-
-
-
 
     }
 
@@ -1113,9 +1121,7 @@
 
     }
 
-  
-
-</style>
+  </style>
 
 </head>
 
@@ -1124,25 +1130,28 @@
 
   <!-- =======================================================
        背景装飾ポリゴン
-       白いカードの外側から見えるように背景レイヤーとして配置
   ======================================================== -->
+
   <div class="background-shapes" aria-hidden="true">
+
     <div class="shape shape-pink-1"></div>
+
     <div class="shape shape-purple-1"></div>
+
     <div class="shape shape-teal-1"></div>
+
     <div class="shape shape-yellow-1"></div>
+
     <div class="shape shape-purple-2"></div>
+
     <div class="shape shape-pink-2"></div>
+
   </div>
 
 
   <!-- =======================================================
-       背景装飾
+       ヘッダー
   ======================================================== -->
-
-
-
-
 
   <div id="header"></div>
 
@@ -1157,25 +1166,49 @@
 
         document.getElementById("header").innerHTML = data;
 
-        const btn = document.querySelector(".menu-btn");
-        const nav = document.querySelector(".nav");
+        const btn =
+          document.querySelector(".menu-btn");
 
-        if(btn && nav){
+        const nav =
+          document.querySelector(".nav");
+
+        if (btn && nav) {
+
           btn.addEventListener("click", (e) => {
+
             e.stopPropagation();
+
             nav.classList.toggle("active");
+
           });
+
 
           document.addEventListener("click", (e) => {
-            if(!nav.contains(e.target) && !btn.contains(e.target)){
+
+            if (
+              !nav.contains(e.target) &&
+              !btn.contains(e.target)
+            ) {
+
               nav.classList.remove("active");
+
             }
+
           });
+
         }
+
       })
-      .catch(error => console.error("header.htmlの読み込みエラー:", error));
+
+      .catch(error =>
+        console.error(
+          "header.htmlの読み込みエラー:",
+          error
+        )
+      );
 
   </script>
+
 
 
   <!-- =======================================================
@@ -1222,12 +1255,9 @@
         </div>
 
 
-        <p class="intro-description fade-text delay-3">
-
-          こちらは2025年度のものを参考に作成したものです。今年度版の情報が発表され次第随時更新していきます。
-
-        </p>
-
+        <!--
+          2025年度参考表記は削除
+        -->
 
 
         <!-- =================================================
@@ -1248,8 +1278,8 @@
 
 
             <!--
-              「ロゴ紹介」は削除済み
-              「◯ページ目」表記も削除済み
+                「ロゴ紹介」は削除済み
+                「◯ページ目」表記も削除済み
             -->
 
 
@@ -1288,22 +1318,21 @@
           </div>
 
         </div>
+
       </section>
 
 
 
       <!-- ===================================================
            駐車・送迎について / ご来場方法について
-           
-           キャラクター枠を削除し、
-           本文がページ全体を使用するように変更
       ==================================================== -->
 
       <section
         class="guide-page"
         id="parking"
       >
-<h2 class="section-title title-pink fade-text">
+
+        <h2 class="section-title title-pink fade-text">
 
           駐車・送迎について
 
@@ -1364,15 +1393,14 @@
 
       <!-- ===================================================
            校内での注意事項1
-           
-           キャラクター枠を削除
       ==================================================== -->
 
       <section
         class="guide-page caution-page"
         id="caution1"
       >
-<h2 class="section-title title-yellow fade-text">
+
+        <h2 class="section-title title-yellow fade-text">
 
           校内での注意事項1
 
@@ -1430,15 +1458,14 @@
 
       <!-- ===================================================
            校内での注意事項2
-           
-           キャラクター枠を削除
       ==================================================== -->
 
       <section
         class="guide-page caution-page"
         id="caution2"
       >
-<h2 class="section-title title-yellow fade-text">
+
+        <h2 class="section-title title-yellow fade-text">
 
           校内での注意事項2
 
@@ -1487,15 +1514,14 @@
 
       <!-- ===================================================
            最後のページ
-
-           このページだけキャラクター用スペースを残す
       ==================================================== -->
 
       <section
         class="guide-page ending-page"
         id="ending"
       >
-<div class="ending-image-area">
+
+        <div class="ending-image-area">
 
           <img
             class="ending-full-image"
@@ -1545,6 +1571,7 @@
 
     const observer =
       new IntersectionObserver(
+
         (entries, observer) => {
 
           entries.forEach(entry => {
@@ -1555,6 +1582,7 @@
                 "is-visible"
               );
 
+
               observer.unobserve(
                 entry.target
               );
@@ -1564,12 +1592,14 @@
           });
 
         },
+
         {
           threshold: 0.12,
 
           rootMargin:
             "0px 0px -40px 0px"
         }
+
       );
 
 
@@ -1603,6 +1633,7 @@
             ) {
 
               return;
+
             }
 
 
@@ -1615,16 +1646,21 @@
             if (!target) {
 
               return;
+
             }
 
 
             event.preventDefault();
 
 
+            const header =
+              document.querySelector("header");
+
+
             const headerHeight =
-              document
-                .querySelector("header")
-                .offsetHeight;
+              header
+                ? header.offsetHeight
+                : 0;
 
 
             const targetPosition =
@@ -1642,7 +1678,9 @@
 
             });
 
-          });
+          }
+
+        );
 
       });
 
@@ -1677,9 +1715,11 @@
         }
 
       },
+
       {
         passive: true
       }
+
     );
 
 
