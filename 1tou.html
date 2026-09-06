@@ -626,6 +626,7 @@ body {
   background: rgba(6, 37, 79, 0.55);
 
   backdrop-filter: blur(5px);
+
   -webkit-backdrop-filter: blur(5px);
 }
 
@@ -1345,6 +1346,16 @@ body {
   height: 27.7%;
 }
 
+
+/* 1E 2つ目のクリック範囲
+   モーダルの種類は1つ目と同じ room-1e */
+.map-hotspot.room-1e-second {
+  left: 69.4%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
+
 .map-hotspot.room-1e-right {
   left: 69.4%;
   top: 72.6%;
@@ -1615,7 +1626,8 @@ fetch("header.html")
 
       <button class="map-hotspot room-1f floor-3-hotspot" data-modal-type="room-1f" type="button" aria-label="1F ディッピンドッツの詳細を表示" title="1F ディッピンドッツ"></button>
       <button class="map-hotspot room-2f floor-3-hotspot" data-modal-type="room-2f" type="button" aria-label="2F 体験型の詳細を表示" title="2F 体験型"></button>
-      <button class="map-hotspot room-1e floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
+
+      <button class="map-hotspot room-1e-second floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
 
       <button class="map-hotspot room-3b floor-3-hotspot" data-modal-type="room-3b" type="button" aria-label="3B お化け屋敷の詳細を表示" title="3B お化け屋敷"></button>
 
