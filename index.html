@@ -191,6 +191,337 @@ h2 {
   box-shadow: none !important;
 }
 
+
+/* =========================================
+   お知らせ
+========================================= */
+
+#notices {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.notice-slider {
+  width: calc(100% - 30px);
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 154, 158, 0.95),
+      rgba(250, 208, 196, 0.95)
+    );
+
+  box-shadow:
+    0 10px 30px rgba(120, 50, 100, 0.16);
+
+  touch-action: pan-y;
+
+  cursor: grab;
+}
+
+
+.notice-slider:active {
+  cursor: grabbing;
+}
+
+
+.notice-track {
+  display: flex;
+  width: max-content;
+
+  transform: translateX(0);
+
+  will-change: transform;
+}
+
+
+.notice-item {
+  width: min(78vw, 700px);
+  min-width: min(78vw, 700px);
+
+  box-sizing: border-box;
+
+  padding: 22px 26px;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  text-decoration: none;
+  color: #333;
+
+  border-right: 2px solid rgba(255,255,255,0.7);
+
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+
+.notice-item:nth-child(1) {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 210, 220, 0.95),
+      rgba(255, 238, 188, 0.95)
+    );
+}
+
+
+.notice-item:nth-child(2) {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(200, 235, 255, 0.95),
+      rgba(220, 205, 255, 0.95)
+    );
+}
+
+
+.notice-item:nth-child(3) {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(210, 250, 220, 0.95),
+      rgba(255, 240, 190, 0.95)
+    );
+}
+
+
+.notice-date {
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 82px;
+
+  text-align: center;
+
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+
+.notice-year {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+
+.notice-day {
+  margin-top: 3px;
+
+  font-size: 22px;
+  font-weight: 900;
+}
+
+
+.notice-content {
+  min-width: 0;
+  flex: 1;
+}
+
+
+.notice-label {
+  display: inline-block;
+
+  margin-bottom: 7px;
+  padding: 3px 9px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.72);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+
+.notice-title {
+  margin: 0;
+
+  font-size: clamp(14px, 2.2vw, 18px);
+  font-weight: 700;
+  line-height: 1.6;
+
+  word-break: break-word;
+}
+
+
+.notice-arrow {
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.65);
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+
+.notice-button-wrap {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+
+.notice-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-width: 230px;
+
+  padding: 12px 22px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
+
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  box-shadow:
+    0 7px 18px rgba(130, 80, 150, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.notice-all-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(130, 80, 150, 0.28);
+}
+
+
+.notice-all-btn .arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+.notice-hint {
+  margin: 10px 0 0;
+
+  text-align: center;
+
+  font-size: 11px;
+
+  color: rgba(60, 40, 70, 0.6);
+}
+
+
+@media (max-width: 600px){
+
+  .notice-slider {
+    width: calc(100% - 24px);
+    border-radius: 18px;
+  }
+
+
+  .notice-item {
+    width: calc(100vw - 24px);
+    min-width: calc(100vw - 24px);
+
+    padding: 18px 17px;
+
+    gap: 12px;
+  }
+
+
+  .notice-date {
+    width: 58px;
+  }
+
+
+  .notice-year {
+    font-size: 10px;
+  }
+
+
+  .notice-day {
+    font-size: 18px;
+  }
+
+
+  .notice-label {
+    margin-bottom: 5px;
+
+    padding: 2px 7px;
+
+    font-size: 9px;
+  }
+
+
+  .notice-title {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+
+  .notice-arrow {
+    width: 28px;
+    height: 28px;
+
+    font-size: 15px;
+  }
+
+
+  .notice-all-btn {
+    min-width: 210px;
+
+    padding: 11px 18px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================
+   お知らせ・企画セクション
+========================================= */
+
+#notices,
+#about,
+#events,
+#access {
+  box-sizing: border-box;
+}
+
 </style>
 
 
@@ -413,6 +744,174 @@ class="hero-front"
 </div>
 
   </div>
+
+</section>
+
+
+<!-- =========================================
+     お知らせ
+========================================= -->
+
+<section id="notices">
+
+<h2>
+  \ お知らせ /
+</h2>
+
+
+<div
+  class="notice-slider"
+  id="noticeSlider"
+>
+
+  <div
+    class="notice-track"
+    id="noticeTrack"
+  >
+
+
+<a
+  href="notices.html#notice-1"
+  class="notice-item"
+>
+
+  <div class="notice-date">
+
+    <span class="notice-year">
+      2026
+    </span>
+
+    <span class="notice-day">
+      09.06
+    </span>
+
+  </div>
+
+
+  <div class="notice-content">
+
+    <span class="notice-label">
+      仮のお知らせ
+    </span>
+
+    <h3 class="notice-title">
+      【仮】長高祭2026 一般公開についてのお知らせ
+    </h3>
+
+  </div>
+
+
+  <div class="notice-arrow">
+    →
+  </div>
+
+</a>
+
+
+<a
+  href="notices.html#notice-2"
+  class="notice-item"
+>
+
+  <div class="notice-date">
+
+    <span class="notice-year">
+      2026
+    </span>
+
+    <span class="notice-day">
+      09.04
+    </span>
+
+  </div>
+
+
+  <div class="notice-content">
+
+    <span class="notice-label">
+      仮のお知らせ
+    </span>
+
+    <h3 class="notice-title">
+      【仮】当日の来場についてのお知らせ
+    </h3>
+
+  </div>
+
+
+  <div class="notice-arrow">
+    →
+  </div>
+
+</a>
+
+
+<a
+  href="notices.html#notice-3"
+  class="notice-item"
+>
+
+  <div class="notice-date">
+
+    <span class="notice-year">
+      2026
+    </span>
+
+    <span class="notice-day">
+      09.01
+    </span>
+
+  </div>
+
+
+  <div class="notice-content">
+
+    <span class="notice-label">
+      仮のお知らせ
+    </span>
+
+    <h3 class="notice-title">
+      【仮】企画・イベント情報を公開しました
+    </h3>
+
+  </div>
+
+
+  <div class="notice-arrow">
+    →
+  </div>
+
+</a>
+
+
+  </div>
+
+</div>
+
+
+<div class="notice-button-wrap">
+
+<a
+  href="notices.html"
+  class="notice-all-btn"
+>
+
+  <span>
+    全てのお知らせを見る
+  </span>
+
+  <span class="arrow">
+    →
+  </span>
+
+</a>
+
+</div>
+
+
+<p class="notice-hint">
+  左右にスワイプしてお知らせを確認できます
+</p>
 
 </section>
 
@@ -657,7 +1156,7 @@ const ticker =
 
 const introSections =
   document.querySelectorAll(
-    ".banner-section, #about, #events, #access"
+    ".banner-section, #notices, #about, #events, #access"
   );
 
 
@@ -1132,7 +1631,7 @@ startInitialAnimation();
 
 gsap.utils
   .toArray(
-    ".banner-section, #about, #events, #access"
+    ".banner-section, #notices, #about, #events, #access"
   )
   .forEach(sec => {
 
@@ -1228,6 +1727,451 @@ gsap.utils
     });
 
   });
+
+
+/* =========================================
+   お知らせ スライダー
+========================================= */
+
+const noticeSlider =
+  document.getElementById(
+    "noticeSlider"
+  );
+
+const noticeTrack =
+  document.getElementById(
+    "noticeTrack"
+  );
+
+
+let noticeStartX = 0;
+let noticeCurrentX = 0;
+
+let noticeDragging = false;
+let noticeMoved = false;
+
+let noticeStartTranslate = 0;
+
+
+/*
+  現在のtranslateX取得
+*/
+
+function getNoticeTranslate(){
+
+  const style =
+    window.getComputedStyle(
+      noticeTrack
+    );
+
+  const matrix =
+    new DOMMatrixReadOnly(
+      style.transform
+    );
+
+  return matrix.m41 || 0;
+
+}
+
+
+/*
+  最大移動量
+*/
+
+function getNoticeMaxTranslate(){
+
+  const max =
+    noticeTrack.scrollWidth -
+    noticeSlider.clientWidth;
+
+  return Math.max(
+    0,
+    max
+  );
+
+}
+
+
+/*
+  指定位置へ移動
+*/
+
+function setNoticePosition(
+  value,
+  animate = false
+){
+
+  const max =
+    getNoticeMaxTranslate();
+
+
+  const limited =
+    Math.max(
+      -max,
+      Math.min(
+        0,
+        value
+      )
+    );
+
+
+  noticeTrack.style.transition =
+    animate
+      ? "transform 0.45s ease"
+      : "none";
+
+
+  noticeTrack.style.transform =
+    `translateX(${limited}px)`;
+
+}
+
+
+/*
+  タッチ開始
+*/
+
+noticeSlider.addEventListener(
+  "touchstart",
+  (e) => {
+
+    if(
+      !e.touches ||
+      !e.touches.length
+    ){
+
+      return;
+
+    }
+
+
+    noticeStartX =
+      e.touches[0].clientX;
+
+
+    noticeCurrentX =
+      noticeStartX;
+
+
+    noticeStartTranslate =
+      getNoticeTranslate();
+
+
+    noticeDragging =
+      true;
+
+
+    noticeMoved =
+      false;
+
+
+    noticeTrack.style.transition =
+      "none";
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/*
+  タッチ移動
+*/
+
+noticeSlider.addEventListener(
+  "touchmove",
+  (e) => {
+
+    if(!noticeDragging)
+      return;
+
+
+    if(
+      !e.touches ||
+      !e.touches.length
+    ){
+
+      return;
+
+    }
+
+
+    const x =
+      e.touches[0].clientX;
+
+
+    noticeCurrentX =
+      x;
+
+
+    const distance =
+      x - noticeStartX;
+
+
+    if(
+      Math.abs(distance) > 8
+    ){
+
+      noticeMoved =
+        true;
+
+    }
+
+
+    setNoticePosition(
+      noticeStartTranslate +
+      distance,
+      false
+    );
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/*
+  タッチ終了
+*/
+
+noticeSlider.addEventListener(
+  "touchend",
+  () => {
+
+    if(!noticeDragging)
+      return;
+
+
+    noticeDragging =
+      false;
+
+
+    const distance =
+      noticeCurrentX -
+      noticeStartX;
+
+
+    const current =
+      getNoticeTranslate();
+
+
+    if(
+      Math.abs(distance) >= 50
+    ){
+
+      setNoticePosition(
+        current,
+        true
+      );
+
+    }else{
+
+      setNoticePosition(
+        current,
+        true
+      );
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/*
+  タッチキャンセル
+*/
+
+noticeSlider.addEventListener(
+  "touchcancel",
+  () => {
+
+    if(!noticeDragging)
+      return;
+
+
+    noticeDragging =
+      false;
+
+
+    setNoticePosition(
+      getNoticeTranslate(),
+      true
+    );
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/* =========================================
+   PCドラッグ
+========================================= */
+
+noticeSlider.addEventListener(
+  "mousedown",
+  (e) => {
+
+    noticeStartX =
+      e.clientX;
+
+
+    noticeCurrentX =
+      noticeStartX;
+
+
+    noticeStartTranslate =
+      getNoticeTranslate();
+
+
+    noticeDragging =
+      true;
+
+
+    noticeMoved =
+      false;
+
+
+    noticeTrack.style.transition =
+      "none";
+
+  }
+);
+
+
+noticeSlider.addEventListener(
+  "mousemove",
+  (e) => {
+
+    if(!noticeDragging)
+      return;
+
+
+    const x =
+      e.clientX;
+
+
+    noticeCurrentX =
+      x;
+
+
+    const distance =
+      x - noticeStartX;
+
+
+    if(
+      Math.abs(distance) > 5
+    ){
+
+      noticeMoved =
+        true;
+
+    }
+
+
+    setNoticePosition(
+      noticeStartTranslate +
+      distance,
+      false
+    );
+
+  }
+);
+
+
+noticeSlider.addEventListener(
+  "mouseup",
+  () => {
+
+    if(!noticeDragging)
+      return;
+
+
+    noticeDragging =
+      false;
+
+
+    setNoticePosition(
+      getNoticeTranslate(),
+      true
+    );
+
+  }
+);
+
+
+noticeSlider.addEventListener(
+  "mouseleave",
+  () => {
+
+    if(!noticeDragging)
+      return;
+
+
+    noticeDragging =
+      false;
+
+
+    setNoticePosition(
+      getNoticeTranslate(),
+      true
+    );
+
+  }
+);
+
+
+/*
+  クリック時に
+  ドラッグ操作による誤リンクを防止
+*/
+
+noticeTrack
+  .querySelectorAll(
+    ".notice-item"
+  )
+  .forEach(item => {
+
+    item.addEventListener(
+      "click",
+      (e) => {
+
+        if(noticeMoved){
+
+          e.preventDefault();
+
+        }
+
+        noticeMoved =
+          false;
+
+      }
+    );
+
+  });
+
+
+/*
+  リサイズ対応
+*/
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    setNoticePosition(
+      getNoticeTranslate(),
+      false
+    );
+
+  }
+);
 
 
 /* =========================================
