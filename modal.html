@@ -57,7 +57,8 @@
 
   box-sizing:border-box;
 
-  background:rgba(0,0,0,0.58);
+  background:
+    rgba(32,32,32,0.62);
 
   justify-content:center;
 
@@ -65,9 +66,9 @@
 
   z-index:999999;
 
-  backdrop-filter:blur(3px);
+  backdrop-filter:blur(5px);
 
-  -webkit-backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(5px);
 }
 
 
@@ -88,26 +89,34 @@
 
   box-sizing:border-box;
 
-  background:#ffffff;
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #fffdf9 55%,
+      #f8f3fb 100%
+    );
 
   border:3px solid #202020;
 
-  border-radius:18px;
+  border-radius:20px;
 
-  padding:8px 12px 11px;
+  padding:12px 14px 16px;
 
   text-align:center;
 
   box-shadow:
-    7px 7px 0 #202020;
+    8px 8px 0 #202020;
 
   animation:
     modalFadeIn 0.25s ease-out;
+
+  isolation:isolate;
 }
 
 
 /* ============================================================
-   上部アクセント
+   モーダル幾何学アクセント
    ============================================================ */
 
 .modal-box::before{
@@ -124,15 +133,59 @@
 
   width:100%;
 
-  height:7px;
+  height:8px;
 
-  background:#2a9d8f;
+  background:
+    linear-gradient(
+      90deg,
+      #d94b67 0%,
+      #d94b67 25%,
+      #8060a8 25%,
+      #8060a8 50%,
+      #4f9fa5 50%,
+      #4f9fa5 75%,
+      #d1a92f 75%,
+      #d1a92f 100%
+    );
 
   border-radius:
-    15px 15px 0 0;
+    17px 17px 0 0;
 
   pointer-events:none;
 
+  z-index:2;
+}
+
+
+/* ============================================================
+   左下の幾何学装飾
+   ============================================================ */
+
+.modal-box::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:-25px;
+
+  bottom:25px;
+
+  width:80px;
+
+  height:80px;
+
+  background:
+    #d94b67;
+
+  opacity:0.10;
+
+  transform:
+    rotate(25deg);
+
+  pointer-events:none;
+
+  z-index:-1;
 }
 
 
@@ -150,14 +203,16 @@
 
   object-fit:cover;
 
-  border-radius:12px;
+  border-radius:13px;
 
-  margin:3px 0 10px;
+  margin:4px 0 11px;
 
   background:#f2f2f2;
 
   border:2px solid #202020;
 
+  box-shadow:
+    4px 4px 0 rgba(32,32,32,0.12);
 }
 
 
@@ -169,13 +224,13 @@
 
   position:absolute;
 
-  top:17px;
+  top:18px;
 
-  right:17px;
+  right:18px;
 
-  width:34px;
+  width:35px;
 
-  height:34px;
+  height:35px;
 
   display:flex;
 
@@ -210,12 +265,15 @@
 
   transition:
     transform 0.15s ease,
-    box-shadow 0.15s ease;
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 
 }
 
 
 #modal-close:hover{
+
+  background:#f7d9e1;
 
   transform:
     translate(2px,2px);
@@ -282,13 +340,19 @@
 
   position:relative;
 
-  width:52px;
+  width:58px;
 
-  height:4px;
+  height:5px;
 
-  margin:9px auto 9px;
+  margin:10px auto 10px;
 
-  background:#2a9d8f;
+  background:
+    linear-gradient(
+      90deg,
+      #d94b67 0%,
+      #8060a8 50%,
+      #4f9fa5 100%
+    );
 
   transform:skewX(-25deg);
 
@@ -303,7 +367,7 @@
 
   margin:0 8px;
 
-  color:#2a9d8f;
+  color:#8060a8;
 
   font-size:17px;
 
@@ -326,19 +390,26 @@
 
   justify-content:center;
 
-  gap:8px;
+  gap:9px;
 
   width:calc(100% - 16px);
 
-  min-height:44px;
+  min-height:46px;
 
   box-sizing:border-box;
 
-  margin:13px 8px 0;
+  margin:14px auto 0;
 
-  padding:9px 16px;
+  padding:10px 18px;
 
-  background:#2a9d8f;
+  background:
+    linear-gradient(
+      135deg,
+      #d94b67 0%,
+      #c85c72 28%,
+      #8060a8 65%,
+      #4f9fa5 100%
+    );
 
   color:#ffffff;
 
@@ -346,7 +417,7 @@
 
   border:2px solid #202020;
 
-  border-radius:9px;
+  border-radius:10px;
 
   font-size:15px;
 
@@ -360,14 +431,16 @@
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease,
-    background 0.15s ease;
+    filter 0.15s ease;
 
 }
 
 
 .map-btn:hover{
 
-  background:#238b7e;
+  filter:
+    brightness(1.08)
+    saturate(1.08);
 
   transform:
     translate(2px,2px);
@@ -461,22 +534,22 @@
 
     max-height:82vh;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    padding:7px 10px 10px;
+    padding:9px 11px 13px;
 
     box-shadow:
-      5px 5px 0 #202020;
+      6px 6px 0 #202020;
 
   }
 
 
   .modal-box::before{
 
-    height:6px;
+    height:7px;
 
     border-radius:
-      13px 13px 0 0;
+      15px 15px 0 0;
 
   }
 
@@ -485,7 +558,7 @@
 
     aspect-ratio:16 / 7.5;
 
-    border-radius:10px;
+    border-radius:11px;
 
     margin-bottom:9px;
 
@@ -494,9 +567,9 @@
 
   #modal-close{
 
-    top:14px;
+    top:15px;
 
-    right:14px;
+    right:15px;
 
     width:32px;
 
@@ -531,7 +604,7 @@
 
   .modal-divider{
 
-    width:46px;
+    width:48px;
 
     height:4px;
 
@@ -553,9 +626,12 @@
 
   .map-btn{
 
-    min-height:42px;
+    width:calc(100% - 16px);
 
-    margin-top:11px;
+    min-height:43px;
+
+    margin:
+      11px auto 0;
 
     padding:8px 14px;
 
@@ -579,7 +655,7 @@
 
     max-height:85vh;
 
-    padding:6px 9px 9px;
+    padding:8px 10px 11px;
 
   }
 
@@ -632,9 +708,12 @@
 
   .map-btn{
 
-    min-height:40px;
+    width:calc(100% - 14px);
 
-    margin-top:9px;
+    min-height:41px;
+
+    margin:
+      9px auto 0;
 
     font-size:13px;
 
@@ -1232,6 +1311,8 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
+
+
   <!-- ==========================================================
        その他
        ========================================================== -->
