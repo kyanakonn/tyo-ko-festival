@@ -217,12 +217,9 @@ h2 {
 }
 
 
-/*
-  お知らせスライダー外枠
-
-  グラデーションなし。
-  ローポリ風の平面的な色＋段差のある影。
-*/
+/* =========================================
+   お知らせスライダー外枠
+========================================= */
 
 .notice-slider {
   width: calc(100% - 30px);
@@ -230,28 +227,28 @@ h2 {
 
   margin: 0 auto;
 
-  padding: 6px;
+  padding: 5px;
 
   box-sizing: border-box;
 
   overflow: hidden;
 
-  background: #8f78b8;
+  border-radius: 22px;
 
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.48);
 
   box-shadow:
-    6px 6px 0 #5d4b7c,
-    0 10px 20px rgba(70, 50, 90, 0.16);
+    0 10px 30px rgba(120, 50, 100, 0.13);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 
 /*
   横スクロール部分
 
-  JavaScriptによるドラッグではなく、
   ブラウザ標準の横スクロールを使用。
-
   scroll-snapによってカードごとに
   滑らかに止まる。
 */
@@ -271,9 +268,7 @@ h2 {
 
   scrollbar-width: none;
 
-  background: #ffffff;
-
-  border-radius: 2px;
+  border-radius: 18px;
 
   overscroll-behavior-x: contain;
 
@@ -293,36 +288,39 @@ h2 {
 }
 
 
+/* =========================================
+   お知らせカード
+========================================= */
+
 /*
-  お知らせカード
+  画面幅より18pxだけ小さくすることで、
+  次のカードの端が常に18px見える。
 
-  1カード＝画面いっぱい。
-
-  左右にスワイプすると、
-  次のお知らせへ滑らかに移動。
+  margin-rightは設定しない。
+  width + marginで100%になってしまうのを防ぐ。
 */
 
 .notice-item {
-  flex: 0 0 100%;
-  min-width: 100%;
+  flex: 0 0 calc(100% - 18px);
+  min-width: calc(100% - 18px);
 
   box-sizing: border-box;
 
   min-height: 105px;
 
-  padding: 22px 26px;
+  margin-right: 0;
+
+  padding: 22px 24px;
 
   display: flex;
   align-items: center;
 
-  gap: 20px;
+  gap: 18px;
 
   text-decoration: none;
   color: #333;
 
-  background: #fff;
-
-  border-right: 3px solid #d8cde5;
+  border-radius: 18px;
 
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -330,45 +328,78 @@ h2 {
   user-select: none;
   -webkit-user-drag: none;
 
+  box-shadow:
+    0 6px 18px rgba(100, 70, 120, 0.10);
+
   transition:
-    background 0.15s ease;
-}
-
-
-.notice-item:last-child {
-  border-right: none;
-}
-
-
-.notice-item:active {
-  background: #f2edf7;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 
 /*
-  カードごとに平面的な色を設定
+  最後のカードにも右側の余白を残す。
+  これにより最後まで移動した場合も
+  レイアウトが崩れない。
+*/
 
-  グラデーションは使用しない。
+.notice-item:last-child {
+  margin-right: 0;
+}
+
+
+/*
+  カードごとの柔らかい色
 */
 
 .notice-item:nth-child(1) {
-  background: #ffe0e8;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 224, 232, 0.96),
+      rgba(255, 239, 210, 0.96)
+    );
 }
 
 
 .notice-item:nth-child(2) {
-  background: #dceeff;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 238, 255, 0.96),
+      rgba(232, 224, 255, 0.96)
+    );
 }
 
 
 .notice-item:nth-child(3) {
-  background: #dff5e5;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(222, 246, 229, 0.96),
+      rgba(255, 242, 207, 0.96)
+    );
 }
 
 
 /*
-  日付
+  タップ時
 */
+
+.notice-item:active {
+  transform: scale(0.985);
+
+  box-shadow:
+    0 4px 12px rgba(100, 70, 120, 0.08);
+
+  filter: brightness(0.98);
+}
+
+
+/* =========================================
+   日付
+========================================= */
 
 .notice-date {
   flex-shrink: 0;
@@ -381,14 +412,15 @@ h2 {
 
   width: 82px;
 
-  padding-right: 18px;
+  padding-right: 16px;
 
   text-align: center;
 
   font-weight: 700;
   line-height: 1.25;
 
-  border-right: 2px solid rgba(110, 90, 130, 0.18);
+  border-right:
+    1px solid rgba(100, 70, 120, 0.14);
 }
 
 
@@ -397,7 +429,7 @@ h2 {
 
   letter-spacing: 0.08em;
 
-  color: #705b8f;
+  color: rgba(80, 60, 100, 0.68);
 }
 
 
@@ -412,9 +444,9 @@ h2 {
 }
 
 
-/*
-  お知らせ本文
-*/
+/* =========================================
+   お知らせ本文
+========================================= */
 
 .notice-content {
   min-width: 0;
@@ -424,9 +456,7 @@ h2 {
 
 
 /*
-  仮のお知らせラベル
-
-  ローポリ風の角張った形。
+  お知らせラベル
 */
 
 .notice-label {
@@ -434,13 +464,15 @@ h2 {
 
   margin-bottom: 7px;
 
-  padding: 4px 9px;
+  padding: 4px 10px;
 
-  border-radius: 2px;
+  border-radius: 999px;
 
-  background: #ef7f9a;
+  background:
+    rgba(255, 255, 255, 0.68);
 
-  color: #fff;
+  color:
+    rgba(90, 65, 110, 0.78);
 
   font-size: 11px;
 
@@ -449,7 +481,7 @@ h2 {
   letter-spacing: 0.08em;
 
   box-shadow:
-    3px 3px 0 #b95770;
+    0 2px 8px rgba(100, 70, 120, 0.08);
 }
 
 
@@ -463,14 +495,14 @@ h2 {
   line-height: 1.6;
 
   word-break: break-word;
+
+  color: #333;
 }
 
 
-/*
-  右矢印
-
-  丸ではなくローポリ風の角張った形。
-*/
+/* =========================================
+   右矢印
+========================================= */
 
 .notice-arrow {
   flex-shrink: 0;
@@ -482,24 +514,26 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  border-radius: 3px;
+  border-radius: 50%;
 
-  background: #8069a8;
+  background:
+    rgba(255, 255, 255, 0.70);
 
-  color: #fff;
+  color:
+    rgba(100, 75, 125, 0.85);
 
   font-size: 18px;
 
   font-weight: 900;
 
   box-shadow:
-    3px 3px 0 #514267;
+    0 3px 10px rgba(100, 70, 120, 0.10);
 }
 
 
-/*
-  ボタン配置
-*/
+/* =========================================
+   全てのお知らせを見る
+========================================= */
 
 .notice-button-wrap {
   display: flex;
@@ -509,13 +543,6 @@ h2 {
   margin-top: 20px;
 }
 
-
-/*
-  全てのお知らせを見る
-
-  グラデーションなし。
-  ローポリ風の角張ったボタン。
-*/
 
 .notice-all-btn {
   display: inline-flex;
@@ -527,13 +554,18 @@ h2 {
 
   min-width: 230px;
 
-  padding: 13px 25px;
+  padding: 12px 22px;
 
   box-sizing: border-box;
 
-  border-radius: 3px;
+  border-radius: 999px;
 
-  background: #8069a8;
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
 
   color: #fff;
 
@@ -544,29 +576,30 @@ h2 {
   font-weight: 700;
 
   box-shadow:
-    5px 5px 0 #514267;
+    0 7px 18px rgba(130, 80, 150, 0.20);
 
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 
 .notice-all-btn:hover {
-  transform: translate(2px, 2px);
+  transform: translateY(-2px);
 
   box-shadow:
-    3px 3px 0 #514267;
+    0 10px 24px rgba(130, 80, 150, 0.25);
 
-  background: #8c75b5;
+  filter: brightness(1.03);
 }
 
 
 .notice-all-btn:active {
-  transform: translate(5px, 5px);
+  transform: translateY(1px);
 
-  box-shadow: none;
+  box-shadow:
+    0 4px 10px rgba(130, 80, 150, 0.16);
 }
 
 
@@ -577,9 +610,9 @@ h2 {
 }
 
 
-/*
-  スワイプ案内
-*/
+/* =========================================
+   スワイプ案内
+========================================= */
 
 .notice-hint {
   margin: 12px 0 0;
@@ -588,7 +621,8 @@ h2 {
 
   font-size: 11px;
 
-  color: rgba(60, 40, 70, 0.6);
+  color:
+    rgba(60, 40, 70, 0.55);
 }
 
 
@@ -614,30 +648,38 @@ h2 {
 
     padding: 5px;
 
-    border-radius: 4px;
+    border-radius: 18px;
 
     box-shadow:
-      4px 4px 0 #5d4b7c,
-      0 8px 16px rgba(70, 50, 90, 0.14);
+      0 8px 22px rgba(120, 50, 100, 0.12);
   }
 
 
   .notice-track {
-    border-radius: 2px;
+    border-radius: 14px;
 
     scroll-snap-type: x mandatory;
   }
 
 
+  /*
+    スマホでも次のカードを
+    18px見えるようにする
+  */
+
   .notice-item {
-    flex: 0 0 100%;
-    min-width: 100%;
+    flex: 0 0 calc(100% - 18px);
+    min-width: calc(100% - 18px);
 
     min-height: 115px;
+
+    margin-right: 0;
 
     padding: 18px 15px;
 
     gap: 12px;
+
+    border-radius: 14px;
 
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -664,12 +706,11 @@ h2 {
   .notice-label {
     margin-bottom: 5px;
 
-    padding: 3px 7px;
+    padding: 3px 8px;
 
     font-size: 9px;
 
-    box-shadow:
-      2px 2px 0 #b95770;
+    border-radius: 999px;
   }
 
 
@@ -684,33 +725,31 @@ h2 {
     width: 28px;
     height: 28px;
 
-    border-radius: 2px;
+    border-radius: 50%;
 
     font-size: 15px;
-
-    box-shadow:
-      2px 2px 0 #514267;
   }
 
 
   .notice-all-btn {
     min-width: 210px;
 
-    padding: 12px 20px;
+    padding: 11px 18px;
 
-    border-radius: 3px;
+    border-radius: 999px;
 
     font-size: 13px;
 
     box-shadow:
-      4px 4px 0 #514267;
+      0 6px 15px rgba(130, 80, 150, 0.18);
   }
 
 
   .notice-all-btn:active {
-    transform: translate(4px, 4px);
+    transform: translateY(1px);
 
-    box-shadow: none;
+    box-shadow:
+      0 3px 8px rgba(130, 80, 150, 0.14);
   }
 
 }
