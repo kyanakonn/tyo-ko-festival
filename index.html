@@ -202,117 +202,202 @@ h2 {
 }
 
 
+/*
+  お知らせ見出しを常に中央に配置
+*/
+
+#notices h2 {
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+}
+
+
+/*
+  お知らせスライダー外枠
+
+  グラデーションなし。
+  ローポリ風の平面的な色＋段差のある影。
+*/
+
 .notice-slider {
   width: calc(100% - 30px);
   max-width: 900px;
+
   margin: 0 auto;
+
+  padding: 6px;
+
+  box-sizing: border-box;
+
   overflow: hidden;
 
-  border-radius: 22px;
+  background: #8f78b8;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 154, 158, 0.95),
-      rgba(250, 208, 196, 0.95)
-    );
+  border-radius: 5px;
 
   box-shadow:
-    0 10px 30px rgba(120, 50, 100, 0.16);
+    6px 6px 0 #5d4b7c,
+    0 10px 20px rgba(70, 50, 90, 0.16);
+}
 
-  touch-action: pan-y;
+
+/*
+  横スクロール部分
+
+  JavaScriptによるドラッグではなく、
+  ブラウザ標準の横スクロールを使用。
+
+  scroll-snapによってカードごとに
+  滑らかに止まる。
+*/
+
+.notice-track {
+  display: flex;
+
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  -webkit-overflow-scrolling: touch;
+
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+
+  scrollbar-width: none;
+
+  background: #ffffff;
+
+  border-radius: 2px;
+
+  overscroll-behavior-x: contain;
+
+  touch-action: pan-x;
 
   cursor: grab;
 }
 
 
-.notice-slider:active {
+.notice-track:active {
   cursor: grabbing;
 }
 
 
-.notice-track {
-  display: flex;
-  width: max-content;
-
-  transform: translateX(0);
-
-  will-change: transform;
+.notice-track::-webkit-scrollbar {
+  display: none;
 }
 
 
+/*
+  お知らせカード
+
+  1カード＝画面いっぱい。
+
+  左右にスワイプすると、
+  次のお知らせへ滑らかに移動。
+*/
+
 .notice-item {
-  width: min(78vw, 700px);
-  min-width: min(78vw, 700px);
+  flex: 0 0 100%;
+  min-width: 100%;
 
   box-sizing: border-box;
+
+  min-height: 105px;
 
   padding: 22px 26px;
 
   display: flex;
   align-items: center;
+
   gap: 20px;
 
   text-decoration: none;
   color: #333;
 
-  border-right: 2px solid rgba(255,255,255,0.7);
+  background: #fff;
+
+  border-right: 3px solid #d8cde5;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 
   user-select: none;
   -webkit-user-drag: none;
+
+  transition:
+    background 0.15s ease;
 }
 
 
+.notice-item:last-child {
+  border-right: none;
+}
+
+
+.notice-item:active {
+  background: #f2edf7;
+}
+
+
+/*
+  カードごとに平面的な色を設定
+
+  グラデーションは使用しない。
+*/
+
 .notice-item:nth-child(1) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 210, 220, 0.95),
-      rgba(255, 238, 188, 0.95)
-    );
+  background: #ffe0e8;
 }
 
 
 .notice-item:nth-child(2) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(200, 235, 255, 0.95),
-      rgba(220, 205, 255, 0.95)
-    );
+  background: #dceeff;
 }
 
 
 .notice-item:nth-child(3) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(210, 250, 220, 0.95),
-      rgba(255, 240, 190, 0.95)
-    );
+  background: #dff5e5;
 }
 
+
+/*
+  日付
+*/
 
 .notice-date {
   flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
+
   align-items: center;
   justify-content: center;
 
   width: 82px;
 
+  padding-right: 18px;
+
   text-align: center;
 
   font-weight: 700;
   line-height: 1.25;
+
+  border-right: 2px solid rgba(110, 90, 130, 0.18);
 }
 
 
 .notice-year {
   font-size: 13px;
+
   letter-spacing: 0.08em;
+
+  color: #705b8f;
 }
 
 
@@ -320,29 +405,51 @@ h2 {
   margin-top: 3px;
 
   font-size: 22px;
+
   font-weight: 900;
+
+  color: #333;
 }
 
+
+/*
+  お知らせ本文
+*/
 
 .notice-content {
   min-width: 0;
+
   flex: 1;
 }
 
+
+/*
+  仮のお知らせラベル
+
+  ローポリ風の角張った形。
+*/
 
 .notice-label {
   display: inline-block;
 
   margin-bottom: 7px;
-  padding: 3px 9px;
 
-  border-radius: 999px;
+  padding: 4px 9px;
 
-  background: rgba(255,255,255,0.72);
+  border-radius: 2px;
+
+  background: #ef7f9a;
+
+  color: #fff;
 
   font-size: 11px;
+
   font-weight: 700;
+
   letter-spacing: 0.08em;
+
+  box-shadow:
+    3px 3px 0 #b95770;
 }
 
 
@@ -350,12 +457,20 @@ h2 {
   margin: 0;
 
   font-size: clamp(14px, 2.2vw, 18px);
+
   font-weight: 700;
+
   line-height: 1.6;
 
   word-break: break-word;
 }
 
+
+/*
+  右矢印
+
+  丸ではなくローポリ風の角張った形。
+*/
 
 .notice-arrow {
   flex-shrink: 0;
@@ -367,74 +482,107 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
+  border-radius: 3px;
 
-  background: rgba(255,255,255,0.65);
+  background: #8069a8;
+
+  color: #fff;
 
   font-size: 18px;
+
   font-weight: 900;
+
+  box-shadow:
+    3px 3px 0 #514267;
 }
 
 
+/*
+  ボタン配置
+*/
+
 .notice-button-wrap {
   display: flex;
+
   justify-content: center;
 
   margin-top: 20px;
 }
 
 
+/*
+  全てのお知らせを見る
+
+  グラデーションなし。
+  ローポリ風の角張ったボタン。
+*/
+
 .notice-all-btn {
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
+
   gap: 12px;
 
   min-width: 230px;
 
-  padding: 12px 22px;
+  padding: 13px 25px;
 
-  border-radius: 999px;
+  box-sizing: border-box;
 
-  background:
-    linear-gradient(
-      135deg,
-      #ff8fab,
-      #a98bff
-    );
+  border-radius: 3px;
+
+  background: #8069a8;
 
   color: #fff;
 
   text-decoration: none;
 
   font-size: 14px;
+
   font-weight: 700;
 
   box-shadow:
-    0 7px 18px rgba(130, 80, 150, 0.22);
+    5px 5px 0 #514267;
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
 
 .notice-all-btn:hover {
-  transform: translateY(-2px);
+  transform: translate(2px, 2px);
 
   box-shadow:
-    0 10px 24px rgba(130, 80, 150, 0.28);
+    3px 3px 0 #514267;
+
+  background: #8c75b5;
+}
+
+
+.notice-all-btn:active {
+  transform: translate(5px, 5px);
+
+  box-shadow: none;
 }
 
 
 .notice-all-btn .arrow {
   font-size: 18px;
+
   line-height: 1;
 }
 
 
+/*
+  スワイプ案内
+*/
+
 .notice-hint {
-  margin: 10px 0 0;
+  margin: 12px 0 0;
 
   text-align: center;
 
@@ -444,26 +592,62 @@ h2 {
 }
 
 
+/* =========================================
+   スマートフォン
+========================================= */
+
 @media (max-width: 600px){
+
+  /*
+    お知らせ見出しも常に中央
+  */
+
+  #notices h2 {
+    width: 100%;
+
+    text-align: center;
+  }
+
 
   .notice-slider {
     width: calc(100% - 24px);
-    border-radius: 18px;
+
+    padding: 5px;
+
+    border-radius: 4px;
+
+    box-shadow:
+      4px 4px 0 #5d4b7c,
+      0 8px 16px rgba(70, 50, 90, 0.14);
+  }
+
+
+  .notice-track {
+    border-radius: 2px;
+
+    scroll-snap-type: x mandatory;
   }
 
 
   .notice-item {
-    width: calc(100vw - 24px);
-    min-width: calc(100vw - 24px);
+    flex: 0 0 100%;
+    min-width: 100%;
 
-    padding: 18px 17px;
+    min-height: 115px;
+
+    padding: 18px 15px;
 
     gap: 12px;
+
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
 
   .notice-date {
     width: 58px;
+
+    padding-right: 10px;
   }
 
 
@@ -480,14 +664,18 @@ h2 {
   .notice-label {
     margin-bottom: 5px;
 
-    padding: 2px 7px;
+    padding: 3px 7px;
 
     font-size: 9px;
+
+    box-shadow:
+      2px 2px 0 #b95770;
   }
 
 
   .notice-title {
     font-size: 13px;
+
     line-height: 1.55;
   }
 
@@ -496,16 +684,33 @@ h2 {
     width: 28px;
     height: 28px;
 
+    border-radius: 2px;
+
     font-size: 15px;
+
+    box-shadow:
+      2px 2px 0 #514267;
   }
 
 
   .notice-all-btn {
     min-width: 210px;
 
-    padding: 11px 18px;
+    padding: 12px 20px;
+
+    border-radius: 3px;
 
     font-size: 13px;
+
+    box-shadow:
+      4px 4px 0 #514267;
+  }
+
+
+  .notice-all-btn:active {
+    transform: translate(4px, 4px);
+
+    box-shadow: none;
   }
 
 }
@@ -1727,451 +1932,6 @@ gsap.utils
     });
 
   });
-
-
-/* =========================================
-   お知らせ スライダー
-========================================= */
-
-const noticeSlider =
-  document.getElementById(
-    "noticeSlider"
-  );
-
-const noticeTrack =
-  document.getElementById(
-    "noticeTrack"
-  );
-
-
-let noticeStartX = 0;
-let noticeCurrentX = 0;
-
-let noticeDragging = false;
-let noticeMoved = false;
-
-let noticeStartTranslate = 0;
-
-
-/*
-  現在のtranslateX取得
-*/
-
-function getNoticeTranslate(){
-
-  const style =
-    window.getComputedStyle(
-      noticeTrack
-    );
-
-  const matrix =
-    new DOMMatrixReadOnly(
-      style.transform
-    );
-
-  return matrix.m41 || 0;
-
-}
-
-
-/*
-  最大移動量
-*/
-
-function getNoticeMaxTranslate(){
-
-  const max =
-    noticeTrack.scrollWidth -
-    noticeSlider.clientWidth;
-
-  return Math.max(
-    0,
-    max
-  );
-
-}
-
-
-/*
-  指定位置へ移動
-*/
-
-function setNoticePosition(
-  value,
-  animate = false
-){
-
-  const max =
-    getNoticeMaxTranslate();
-
-
-  const limited =
-    Math.max(
-      -max,
-      Math.min(
-        0,
-        value
-      )
-    );
-
-
-  noticeTrack.style.transition =
-    animate
-      ? "transform 0.45s ease"
-      : "none";
-
-
-  noticeTrack.style.transform =
-    `translateX(${limited}px)`;
-
-}
-
-
-/*
-  タッチ開始
-*/
-
-noticeSlider.addEventListener(
-  "touchstart",
-  (e) => {
-
-    if(
-      !e.touches ||
-      !e.touches.length
-    ){
-
-      return;
-
-    }
-
-
-    noticeStartX =
-      e.touches[0].clientX;
-
-
-    noticeCurrentX =
-      noticeStartX;
-
-
-    noticeStartTranslate =
-      getNoticeTranslate();
-
-
-    noticeDragging =
-      true;
-
-
-    noticeMoved =
-      false;
-
-
-    noticeTrack.style.transition =
-      "none";
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-/*
-  タッチ移動
-*/
-
-noticeSlider.addEventListener(
-  "touchmove",
-  (e) => {
-
-    if(!noticeDragging)
-      return;
-
-
-    if(
-      !e.touches ||
-      !e.touches.length
-    ){
-
-      return;
-
-    }
-
-
-    const x =
-      e.touches[0].clientX;
-
-
-    noticeCurrentX =
-      x;
-
-
-    const distance =
-      x - noticeStartX;
-
-
-    if(
-      Math.abs(distance) > 8
-    ){
-
-      noticeMoved =
-        true;
-
-    }
-
-
-    setNoticePosition(
-      noticeStartTranslate +
-      distance,
-      false
-    );
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-/*
-  タッチ終了
-*/
-
-noticeSlider.addEventListener(
-  "touchend",
-  () => {
-
-    if(!noticeDragging)
-      return;
-
-
-    noticeDragging =
-      false;
-
-
-    const distance =
-      noticeCurrentX -
-      noticeStartX;
-
-
-    const current =
-      getNoticeTranslate();
-
-
-    if(
-      Math.abs(distance) >= 50
-    ){
-
-      setNoticePosition(
-        current,
-        true
-      );
-
-    }else{
-
-      setNoticePosition(
-        current,
-        true
-      );
-
-    }
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-/*
-  タッチキャンセル
-*/
-
-noticeSlider.addEventListener(
-  "touchcancel",
-  () => {
-
-    if(!noticeDragging)
-      return;
-
-
-    noticeDragging =
-      false;
-
-
-    setNoticePosition(
-      getNoticeTranslate(),
-      true
-    );
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-/* =========================================
-   PCドラッグ
-========================================= */
-
-noticeSlider.addEventListener(
-  "mousedown",
-  (e) => {
-
-    noticeStartX =
-      e.clientX;
-
-
-    noticeCurrentX =
-      noticeStartX;
-
-
-    noticeStartTranslate =
-      getNoticeTranslate();
-
-
-    noticeDragging =
-      true;
-
-
-    noticeMoved =
-      false;
-
-
-    noticeTrack.style.transition =
-      "none";
-
-  }
-);
-
-
-noticeSlider.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if(!noticeDragging)
-      return;
-
-
-    const x =
-      e.clientX;
-
-
-    noticeCurrentX =
-      x;
-
-
-    const distance =
-      x - noticeStartX;
-
-
-    if(
-      Math.abs(distance) > 5
-    ){
-
-      noticeMoved =
-        true;
-
-    }
-
-
-    setNoticePosition(
-      noticeStartTranslate +
-      distance,
-      false
-    );
-
-  }
-);
-
-
-noticeSlider.addEventListener(
-  "mouseup",
-  () => {
-
-    if(!noticeDragging)
-      return;
-
-
-    noticeDragging =
-      false;
-
-
-    setNoticePosition(
-      getNoticeTranslate(),
-      true
-    );
-
-  }
-);
-
-
-noticeSlider.addEventListener(
-  "mouseleave",
-  () => {
-
-    if(!noticeDragging)
-      return;
-
-
-    noticeDragging =
-      false;
-
-
-    setNoticePosition(
-      getNoticeTranslate(),
-      true
-    );
-
-  }
-);
-
-
-/*
-  クリック時に
-  ドラッグ操作による誤リンクを防止
-*/
-
-noticeTrack
-  .querySelectorAll(
-    ".notice-item"
-  )
-  .forEach(item => {
-
-    item.addEventListener(
-      "click",
-      (e) => {
-
-        if(noticeMoved){
-
-          e.preventDefault();
-
-        }
-
-        noticeMoved =
-          false;
-
-      }
-    );
-
-  });
-
-
-/*
-  リサイズ対応
-*/
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    setNoticePosition(
-      getNoticeTranslate(),
-      false
-    );
-
-  }
-);
 
 
 /* =========================================
