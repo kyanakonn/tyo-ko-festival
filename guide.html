@@ -30,10 +30,6 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="css/style.css">
-
-  <script src="script.js" defer></script>
-
 
   <style>
 
@@ -54,19 +50,15 @@
       --blue: #239dcc;
 
       --text: #111;
-
-      /*
-       * 背景を完全透明にする
-       */
-      --bg: transparent;
-
+      --bg: #fad0c4;
       --white: #fff;
+
+      --header-height: 58px;
 
       --content-width: 1120px;
 
       --shadow:
         0 10px 35px rgba(0, 0, 0, 0.06);
-
     }
 
 
@@ -79,19 +71,17 @@
 
       scroll-behavior: smooth;
 
-      scroll-padding-top: 75px;
-
+      scroll-padding-top:
+        calc(var(--header-height) + 25px);
     }
 
 
     body {
 
       margin: 0;
+      padding: 0;
 
-      /*
-       * body自体を完全透明
-       */
-      background: transparent;
+      background: #f7f7f5;
 
       color: var(--text);
 
@@ -106,7 +96,6 @@
       font-weight: 700;
 
       overflow-x: hidden;
-
     }
 
 
@@ -115,7 +104,6 @@
       max-width: 100%;
 
       display: block;
-
     }
 
 
@@ -124,22 +112,23 @@
       color: inherit;
 
       text-decoration: none;
-
     }
 
 
     button {
 
       font: inherit;
-
     }
 
 
+
     /* =========================================================
-       背景
+       背景のカラーポリゴン
     ========================================================= */
 
     .background-shapes {
+
+      display: block;
 
       position: fixed;
 
@@ -152,13 +141,7 @@
 
       overflow: hidden;
 
-      z-index: -1;
-
-      /*
-       * 背景色・白いフィルターを完全に削除
-       */
-      background: transparent;
-
+      z-index: 0;
     }
 
 
@@ -167,7 +150,6 @@
       position: absolute;
 
       opacity: 0.92;
-
     }
 
 
@@ -181,13 +163,11 @@
 
       background: #ce7284;
 
-      clip-path:
-        polygon(
-          0 0,
-          100% 50%,
-          0 100%
-        );
-
+      clip-path: polygon(
+        0 0,
+        100% 50%,
+        0 100%
+      );
     }
 
 
@@ -201,13 +181,11 @@
 
       background: #8c72ad;
 
-      clip-path:
-        polygon(
-          50% 0,
-          100% 100%,
-          0 80%
-        );
-
+      clip-path: polygon(
+        50% 0,
+        100% 100%,
+        0 80%
+      );
     }
 
 
@@ -221,14 +199,12 @@
 
       background: #67abb0;
 
-      clip-path:
-        polygon(
-          100% 0,
-          100% 100%,
-          0 75%,
-          25% 45%
-        );
-
+      clip-path: polygon(
+        100% 0,
+        100% 100%,
+        0 75%,
+        25% 45%
+      );
     }
 
 
@@ -242,14 +218,12 @@
 
       background: #d5b34b;
 
-      clip-path:
-        polygon(
-          0 40%,
-          100% 0,
-          75% 100%,
-          0 85%
-        );
-
+      clip-path: polygon(
+        0 40%,
+        100% 0,
+        75% 100%,
+        0 85%
+      );
     }
 
 
@@ -263,13 +237,11 @@
 
       background: #8d72ad;
 
-      clip-path:
-        polygon(
-          100% 0,
-          90% 100%,
-          0 45%
-        );
-
+      clip-path: polygon(
+        100% 0,
+        90% 100%,
+        0 45%
+      );
     }
 
 
@@ -283,14 +255,277 @@
 
       background: #ce7284;
 
-      clip-path:
-        polygon(
-          50% 0,
-          100% 100%,
-          0 80%
-        );
-
+      clip-path: polygon(
+        50% 0,
+        100% 100%,
+        0 80%
+      );
     }
+
+
+
+    /* =========================================================
+       ヘッダー
+       提供していただいた header.html に合わせた構成
+    ========================================================= */
+
+    header {
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+
+      height: var(--header-height);
+
+      background: rgba(255, 255, 255, 0.96);
+
+      border-bottom:
+        1px solid rgba(0, 0, 0, 0.04);
+
+      z-index: 1000;
+    }
+
+
+    .header-inner {
+
+      width: 100%;
+
+      height: 100%;
+
+      padding: 0 34px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+    }
+
+
+    .header-inner h1 {
+
+      margin: 0;
+
+      color: #f04e78;
+
+      font-size: 19px;
+
+      font-weight: 900;
+
+      line-height: 1;
+
+      white-space: nowrap;
+    }
+
+
+    /* 上部メインナビ */
+
+    .top-nav {
+
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 34px;
+    }
+
+
+    .top-nav a {
+
+      position: relative;
+
+      font-size: 16px;
+
+      font-weight: 900;
+
+      color: #333;
+
+      transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+
+    .top-nav a:hover {
+
+      color: var(--pink);
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    /* =========================================================
+       ハンバーガーメニュー
+    ========================================================= */
+
+    .menu-btn {
+
+      width: 32px;
+      height: 32px;
+
+      padding: 0;
+
+      border: none;
+
+      background: #fff;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      gap: 7px;
+
+      cursor: pointer;
+
+      z-index: 1100;
+    }
+
+
+    .menu-btn span {
+
+      width: 30px;
+
+      height: 2px;
+
+      background: #f04e78;
+
+      display: block;
+
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+
+    /* メニューが開いた状態 */
+
+    .menu-btn.active span:nth-child(1) {
+
+      transform:
+        translateY(9px)
+        rotate(45deg);
+    }
+
+
+    .menu-btn.active span:nth-child(2) {
+
+      opacity: 0;
+    }
+
+
+    .menu-btn.active span:nth-child(3) {
+
+      transform:
+        translateY(-9px)
+        rotate(-45deg);
+    }
+
+
+    /* =========================================================
+       ハンバーガーから開くメニュー
+    ========================================================= */
+
+    .nav {
+
+      position: fixed;
+
+      top: var(--header-height);
+
+      right: 25px;
+
+      width: 250px;
+
+      padding: 20px;
+
+      background: rgba(255, 255, 255, 0.98);
+
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+
+      border:
+        1px solid rgba(0, 0, 0, 0.08);
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 0;
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transform:
+        translateY(-10px);
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease;
+
+      z-index: 1050;
+    }
+
+
+    .nav.active {
+
+      opacity: 1;
+
+      visibility: visible;
+
+      transform:
+        translateY(0);
+    }
+
+
+    .nav a {
+
+      display: block;
+
+      padding: 15px 8px;
+
+      color: #333;
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      border-bottom:
+        1px solid rgba(0, 0, 0, 0.08);
+
+      transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+    }
+
+
+    .nav a:last-child {
+
+      border-bottom: none;
+    }
+
+
+    .nav a:hover {
+
+      color: var(--pink);
+
+      padding-left: 14px;
+    }
+
 
 
     /* =========================================================
@@ -299,16 +534,22 @@
 
     main {
 
+      position: relative;
+      z-index: 1;
+
       width: 100%;
 
-      padding-top: 135px;
+      padding-top:
+        calc(var(--header-height) + 135px);
 
       padding-bottom: 120px;
-
     }
 
 
     .guide-wrapper {
+
+      position: relative;
+      z-index: 1;
 
       width:
         min(
@@ -317,8 +558,8 @@
         );
 
       margin: 0 auto;
-
     }
+
 
 
     /* =========================================================
@@ -331,14 +572,10 @@
 
       width: 100%;
 
-      /*
-       * ページ背景を完全透明
-       * 背景図形をそのまま表示
-       */
-      background: transparent;
+      background: #fff;
 
       border:
-        1px solid rgba(85, 85, 85, 0.65);
+        1px solid #555;
 
       padding:
         42px 52px 60px;
@@ -350,10 +587,8 @@
       box-shadow: var(--shadow);
 
       overflow: hidden;
-
-      scroll-margin-top: 75px;
-
     }
+
 
 
     /* =========================================================
@@ -365,23 +600,12 @@
       min-height: 620px;
 
       padding-top: 35px;
-
-      /*
-       * 1ページ目も完全透明
-       */
-      background: transparent;
-
-      border-color: transparent;
-
-      box-shadow: none;
-
     }
 
 
     .main-heading {
 
-      margin:
-        0 0 65px;
+      margin: 0 0 65px;
 
       font-size:
         clamp(32px, 4vw, 52px);
@@ -389,7 +613,6 @@
       line-height: 1.35;
 
       font-weight: 900;
-
     }
 
 
@@ -398,7 +621,6 @@
       text-align: center;
 
       margin-bottom: 62px;
-
     }
 
 
@@ -414,7 +636,6 @@
         clamp(18px, 2vw, 25px);
 
       margin-bottom: 8px;
-
     }
 
 
@@ -428,7 +649,6 @@
       background: var(--green);
 
       display: block;
-
     }
 
 
@@ -442,7 +662,6 @@
       line-height: 1.2;
 
       font-weight: 900;
-
     }
 
 
@@ -459,8 +678,8 @@
         0 auto 54px;
 
       max-width: 900px;
-
     }
+
 
 
     /* =========================================================
@@ -469,15 +688,11 @@
 
     .toc-title {
 
-      margin:
-        0 0 34px;
+      margin: 0 0 34px;
 
       font-size: 29px;
 
       font-weight: 900;
-
-      background: transparent;
-
     }
 
 
@@ -489,7 +704,6 @@
         repeat(3, 1fr);
 
       gap: 25px;
-
     }
 
 
@@ -515,7 +729,6 @@
       transition:
         opacity 0.25s ease,
         transform 0.25s ease;
-
     }
 
 
@@ -539,7 +752,6 @@
 
       transition:
         transform 0.25s ease;
-
     }
 
 
@@ -547,7 +759,6 @@
 
       transform:
         translateY(-3px);
-
     }
 
 
@@ -555,50 +766,44 @@
 
       transform:
         scaleX(0.65);
-
     }
 
 
     .toc-pink {
 
       color: var(--magenta);
-
     }
 
 
     .toc-pink::after {
 
       background: var(--magenta);
-
     }
 
 
     .toc-yellow {
 
       color: var(--yellow);
-
     }
 
 
     .toc-yellow::after {
 
       background: var(--yellow);
-
     }
 
 
     .toc-blue {
 
       color: var(--blue);
-
     }
 
 
     .toc-blue::after {
 
       background: var(--blue);
-
     }
+
 
 
     /* =========================================================
@@ -623,33 +828,32 @@
       line-height: 1.25;
 
       font-weight: 900;
-
     }
 
 
     .title-pink {
 
       background: var(--magenta);
-
     }
 
 
     .title-yellow {
 
       background: var(--yellow);
-
     }
 
 
     .title-blue {
 
       background: var(--blue);
-
     }
 
 
     /* =========================================================
        本文
+
+       キャラクター用スペースを削除したため、
+       ページ全体を使って文章を配置
     ========================================================= */
 
     .guide-text {
@@ -666,7 +870,6 @@
       line-height: 2;
 
       font-weight: 800;
-
     }
 
 
@@ -674,22 +877,20 @@
 
       margin:
         0 0 31px;
-
     }
 
 
     .guide-text p:last-child {
 
       margin-bottom: 0;
-
     }
 
 
     .red-text {
 
       color: #f00000;
-
     }
+
 
 
     /* =========================================================
@@ -699,66 +900,102 @@
     .caution-page {
 
       min-height: 700px;
-
     }
 
 
     .caution-page .guide-text {
 
       max-width: 100%;
-
     }
 
 
     .caution-page .guide-text p {
 
       margin-bottom: 43px;
-
     }
+
 
 
     /* =========================================================
        最後のページ
+
+       ※最後のページだけキャラクター用スペースを残す
     ========================================================= */
 
     .ending-page {
 
       min-height: 620px;
 
-      position: relative;
+      display: flex;
 
-      display: block;
+      flex-direction: column;
 
-      padding: 0;
+      justify-content: center;
 
-      /*
-       * 最後のページも完全透明
-       */
-      background: transparent;
+      align-items: center;
 
       text-align: center;
 
+      padding:
+        60px 40px;
+    }
+
+
+    .ending-message {
+
+      margin: 0;
+
+      font-size:
+        clamp(38px, 6vw, 78px);
+
+      line-height: 1.25;
+
+      font-weight: 900;
+
+      letter-spacing: 0.02em;
     }
 
 
     .ending-character-space {
 
-      position: absolute;
+      position: relative;
 
-      inset: 0;
+      width:
+        min(900px, 100%);
 
-      width: 100%;
+      height: 260px;
 
-      height: 100%;
-
-      margin: 0;
+      margin-top: 45px;
 
       border:
-        1px dashed rgba(0, 0, 0, 0.22);
-
-      background: transparent;
-
+        1px dashed rgba(0, 0, 0, 0.18);
     }
+
+
+    /*
+      最後のページのキャラクター画像を入れる場合
+
+      <img
+        class="character-image"
+        src="images/red-character.png"
+        alt=""
+        style="left: 25%;"
+      >
+
+      <img
+        class="character-image"
+        src="images/blue-character.png"
+        alt=""
+        style="left: 50%;"
+      >
+
+      <img
+        class="character-image"
+        src="images/green-character.png"
+        alt=""
+        style="left: 75%;"
+      >
+    */
 
 
     .character-image {
@@ -777,8 +1014,8 @@
       height: 94%;
 
       object-fit: contain;
-
     }
+
 
 
     /* =========================================================
@@ -795,7 +1032,6 @@
       transition:
         opacity 0.9s ease,
         transform 0.9s ease;
-
     }
 
 
@@ -805,36 +1041,32 @@
 
       transform:
         translateY(0);
-
     }
 
 
     .fade-text.delay-1 {
 
       transition-delay: 0.08s;
-
     }
 
 
     .fade-text.delay-2 {
 
       transition-delay: 0.16s;
-
     }
 
 
     .fade-text.delay-3 {
 
       transition-delay: 0.24s;
-
     }
 
 
     .fade-text.delay-4 {
 
       transition-delay: 0.32s;
-
     }
+
 
 
     /* =========================================================
@@ -861,26 +1093,24 @@
       user-select: none;
 
       pointer-events: none;
-
     }
 
 
     .page-arrow.left {
 
       left: 15px;
-
     }
 
 
     .page-arrow.right {
 
       right: 15px;
-
     }
 
 
+
     /* =========================================================
-       ページトップ
+       スクロールトップ
     ========================================================= */
 
     .back-to-top {
@@ -923,7 +1153,6 @@
         transform 0.25s ease;
 
       z-index: 900;
-
     }
 
 
@@ -935,8 +1164,8 @@
 
       transform:
         translateY(0);
-
     }
+
 
 
     /* =========================================================
@@ -945,12 +1174,49 @@
 
     @media (max-width: 900px) {
 
+      :root {
+
+        --header-height: 54px;
+      }
+
+
+      .header-inner {
+
+        padding: 0 18px;
+      }
+
+
+      .top-nav {
+
+        display: none;
+      }
+
+
+      .header-inner h1 {
+
+        font-size: 17px;
+      }
+
+
+      .nav {
+
+        top: var(--header-height);
+
+        right: 12px;
+
+        width:
+          calc(100% - 24px);
+
+        max-width: 360px;
+      }
+
+
       main {
 
-        padding-top: 65px;
+        padding-top:
+          calc(var(--header-height) + 65px);
 
         padding-bottom: 70px;
-
       }
 
 
@@ -958,7 +1224,6 @@
 
         width:
           calc(100% - 24px);
-
       }
 
 
@@ -970,31 +1235,12 @@
         margin-bottom: 35px;
 
         min-height: auto;
-
-        scroll-margin-top: 70px;
-
-        /*
-         * スマートフォンでも完全透明
-         */
-        background: transparent;
-
       }
 
-
-      /*
-       * 1ページ目は完全透明
-       */
 
       .intro-page {
 
         min-height: auto;
-
-        background: transparent;
-
-        border-color: transparent;
-
-        box-shadow: none;
-
       }
 
 
@@ -1003,21 +1249,18 @@
         margin-bottom: 45px;
 
         font-size: 31px;
-
       }
 
 
       .festival-title-area {
 
         margin-bottom: 42px;
-
       }
 
 
       .festival-small-title {
 
         font-size: 17px;
-
       }
 
 
@@ -1025,14 +1268,12 @@
 
         width: 8px;
         height: 38px;
-
       }
 
 
       .festival-title {
 
         font-size: 42px;
-
       }
 
 
@@ -1041,16 +1282,12 @@
         font-size: 14px;
 
         line-height: 1.9;
-
       }
 
 
       .toc-title {
 
         font-size: 25px;
-
-        background: transparent;
-
       }
 
 
@@ -1059,14 +1296,12 @@
         grid-template-columns: 1fr;
 
         gap: 24px;
-
       }
 
 
       .toc-item {
 
         font-size: 18px;
-
       }
 
 
@@ -1079,21 +1314,18 @@
         font-size: 15px;
 
         line-height: 1.95;
-
       }
 
 
       .guide-text p {
 
         margin-bottom: 27px;
-
       }
 
 
       .caution-page .guide-text p {
 
         margin-bottom: 34px;
-
       }
 
 
@@ -1102,42 +1334,33 @@
         font-size: 22px;
 
         margin-bottom: 28px;
-
       }
 
 
       .page-arrow {
 
         display: none;
-
       }
 
-
-      /*
-       * 最後のページも完全透明
-       */
 
       .ending-page {
 
         min-height: 500px;
 
-        padding: 0;
+        padding:
+          50px 20px;
+      }
 
-        background: transparent;
 
+      .ending-message {
+
+        font-size: 38px;
       }
 
 
       .ending-character-space {
 
-        inset: 0;
-
-        width: 100%;
-
-        height: 100%;
-
-        margin: 0;
-
+        height: 210px;
       }
 
 
@@ -1145,7 +1368,6 @@
 
         width: 120px;
         height: 150px;
-
       }
 
 
@@ -1153,7 +1375,6 @@
 
         width: 80px;
         height: 130px;
-
       }
 
 
@@ -1161,7 +1382,6 @@
 
         width: 100px;
         height: 220px;
-
       }
 
 
@@ -1169,7 +1389,6 @@
 
         width: 110px;
         height: 170px;
-
       }
 
 
@@ -1179,7 +1398,6 @@
         height: 100px;
 
         right: 20px;
-
       }
 
 
@@ -1187,10 +1405,10 @@
 
         width: 110px;
         height: 150px;
-
       }
 
     }
+
 
 
     /* =========================================================
@@ -1204,59 +1422,52 @@
         padding-left: 18px;
 
         padding-right: 18px;
-
       }
 
 
       .main-heading {
 
         font-size: 27px;
-
       }
 
 
       .festival-title {
 
         font-size: 35px;
-
       }
 
 
       .festival-small-title {
 
         font-size: 15px;
-
       }
 
 
       .intro-description {
 
         font-size: 13px;
-
       }
 
 
       .guide-text {
 
         font-size: 14px;
-
       }
 
 
       .section-title {
 
         font-size: 20px;
-
       }
 
 
-      .ending-page {
+      .ending-message {
 
-        padding: 0;
-
+        font-size: 32px;
       }
 
     }
+
 
 
     /* =========================================================
@@ -1268,7 +1479,6 @@
       html {
 
         scroll-behavior: auto;
-
       }
 
 
@@ -1279,48 +1489,121 @@
         transform: none;
 
         transition: none;
-
       }
 
     }
 
-  </style>
+  
+
+</style>
 
 </head>
 
 
 <body>
 
+  <!-- =======================================================
+       背景装飾ポリゴン
+       白いカードの外側から見えるように背景レイヤーとして配置
+  ======================================================== -->
+  <div class="background-shapes" aria-hidden="true">
+    <div class="shape shape-pink-1"></div>
+    <div class="shape shape-purple-1"></div>
+    <div class="shape shape-teal-1"></div>
+    <div class="shape shape-yellow-1"></div>
+    <div class="shape shape-purple-2"></div>
+    <div class="shape shape-pink-2"></div>
+  </div>
+
 
   <!-- =======================================================
        背景装飾
   ======================================================== -->
 
-  <div
-    class="background-shapes"
-    aria-hidden="true"
-  >
 
-    <div class="shape shape-pink-1"></div>
 
-    <div class="shape shape-purple-1"></div>
-
-    <div class="shape shape-teal-1"></div>
-
-    <div class="shape shape-yellow-1"></div>
-
-    <div class="shape shape-purple-2"></div>
-
-    <div class="shape shape-pink-2"></div>
-
-  </div>
 
 
   <!-- =======================================================
-       共通ヘッダー
+       ヘッダー
+
+       提供していただいた header.html と同じ構成
   ======================================================== -->
 
-  <div id="header"></div>
+  <header>
+
+    <div class="header-inner">
+
+
+      <h1>長高祭</h1>
+
+
+      <nav
+        class="top-nav"
+        aria-label="メインナビゲーション"
+      >
+
+        <a href="index.html">
+          TOP
+        </a>
+
+
+        <a href="events.html">
+          EVENTS
+        </a>
+
+
+        <a href="map.html">
+          MAP
+        </a>
+
+
+        <a href="guide.html">
+          VISITOR
+        </a>
+
+      </nav>
+
+
+      <nav
+        class="nav"
+        id="nav"
+        aria-label="サブナビゲーション"
+      >
+
+        <a href="about.html">
+          このサイトについて
+        </a>
+
+
+        <a href="festival-intro.html">
+          導入を見る
+        </a>
+
+      </nav>
+
+
+      <div
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="メニュー"
+        role="button"
+        tabindex="0"
+      >
+
+        <span></span>
+
+        <span></span>
+
+        <span></span>
+
+      </div>
+
+
+    </div>
+
+  </header>
+
 
 
   <!-- =======================================================
@@ -1341,6 +1624,7 @@
         id="guide-top"
       >
 
+
         <h1 class="main-heading fade-text">
           ご来場の皆様へ
         </h1>
@@ -1348,27 +1632,30 @@
 
         <div class="festival-title-area">
 
-          <div
-            class="festival-small-title fade-text delay-1"
-          >
+
+          <div class="festival-small-title fade-text delay-1">
+
             2026年度 長生高校文化祭
+
           </div>
 
 
-          <h2
-            class="festival-title fade-text delay-2"
-          >
+          <h2 class="festival-title fade-text delay-2">
+
             来校上のお願い
+
           </h2>
+
 
         </div>
 
 
-        <p
-          class="intro-description fade-text delay-3"
-        >
-          こちらは2025年度版を参考に作成したものです。
+        <p class="intro-description fade-text delay-3">
+
+          こちらは2025年度のものを参考に作成したものです。今年度版の情報が発表され次第随時更新していきます。
+
         </p>
+
 
 
         <!-- =================================================
@@ -1377,20 +1664,32 @@
 
         <div class="toc-area">
 
+
           <h2 class="toc-title fade-text">
+
             目次
+
           </h2>
 
 
           <div class="toc-grid">
 
 
+            <!--
+              「ロゴ紹介」は削除済み
+              「◯ページ目」表記も削除済み
+            -->
+
+
             <a
               href="#parking"
               class="toc-item toc-pink fade-text delay-1"
             >
-              駐車・送迎について<br>
+
+              駐車・送迎について、および<br>
+
               来場方法
+
             </a>
 
 
@@ -1398,24 +1697,21 @@
               href="#caution1"
               class="toc-item toc-yellow fade-text delay-2"
             >
+
               校内での注意事項1
-            </a>
 
-
-            <a
-              href="#caution2"
-              class="toc-item toc-yellow fade-text delay-3"
-            >
-              校内での注意事項2
             </a>
 
 
             <a
               href="#ending"
-              class="toc-item toc-blue fade-text delay-4"
+              class="toc-item toc-blue fade-text delay-3"
             >
+
               終わりに
+
             </a>
+
 
           </div>
 
@@ -1429,17 +1725,23 @@
           ›
         </span>
 
+
       </section>
+
 
 
       <!-- ===================================================
            駐車・送迎について / ご来場方法について
+           
+           キャラクター枠を削除し、
+           本文がページ全体を使用するように変更
       ==================================================== -->
 
       <section
         class="guide-page"
         id="parking"
       >
+
 
         <span
           class="page-arrow left"
@@ -1457,14 +1759,15 @@
         </span>
 
 
-        <h2
-          class="section-title title-pink fade-text"
-        >
+        <h2 class="section-title title-pink fade-text">
+
           駐車・送迎について
+
         </h2>
 
 
         <div class="guide-text">
+
 
           <p class="fade-text">
 
@@ -1480,10 +1783,10 @@
           </p>
 
 
-          <h2
-            class="section-title title-pink fade-text delay-2"
-          >
+          <h2 class="section-title title-pink fade-text delay-2">
+
             ご来場方法について
+
           </h2>
 
 
@@ -1496,10 +1799,7 @@
 
           <p class="fade-text delay-3">
 
-            校舎内は土足禁止です。
-            <span class="red-text">
-              上履き（スリッパ等）と靴を入れる袋をご持参ください。
-            </span>
+            校舎内は土足禁止です。<span class="red-text">上履き（スリッパ等）と靴を入れる袋をご持参ください。</span>
 
           </p>
 
@@ -1510,19 +1810,25 @@
 
           </p>
 
+
         </div>
+
 
       </section>
 
 
+
       <!-- ===================================================
            校内での注意事項1
+           
+           キャラクター枠を削除
       ==================================================== -->
 
       <section
         class="guide-page caution-page"
         id="caution1"
       >
+
 
         <span
           class="page-arrow left"
@@ -1540,18 +1846,20 @@
         </span>
 
 
-        <h2
-          class="section-title title-yellow fade-text"
-        >
+        <h2 class="section-title title-yellow fade-text">
+
           校内での注意事項1
+
         </h2>
 
 
         <div class="guide-text">
 
+
           <p class="fade-text">
 
             無許可での写真・動画撮影や、生徒の顔が映る撮影・SNS等への投稿は禁止です。<br>
+
             撮影可能な企画では、指示に従ってください。
 
           </p>
@@ -1560,6 +1868,7 @@
           <p class="fade-text delay-1">
 
             飲食物の持ち込みは原則ご遠慮ください。購入した飲食物は指定の<br>
+
             飲食スペースでお召し上がりください。
 
           </p>
@@ -1585,19 +1894,25 @@
 
           </p>
 
+
         </div>
+
 
       </section>
 
 
+
       <!-- ===================================================
            校内での注意事項2
+           
+           キャラクター枠を削除
       ==================================================== -->
 
       <section
         class="guide-page caution-page"
         id="caution2"
       >
+
 
         <span
           class="page-arrow left"
@@ -1615,14 +1930,15 @@
         </span>
 
 
-        <h2
-          class="section-title title-yellow fade-text"
-        >
+        <h2 class="section-title title-yellow fade-text">
+
           校内での注意事項2
+
         </h2>
 
 
         <div class="guide-text">
+
 
           <p class="fade-text">
 
@@ -1634,6 +1950,7 @@
           <p class="fade-text delay-1">
 
             貴重品は各自で管理してください。盗難・紛失について、本校では責任を負いかねます。<br>
+
             忘れ物は本部で管理しています。
 
           </p>
@@ -1652,13 +1969,18 @@
 
           </p>
 
+
         </div>
+
 
       </section>
 
 
+
       <!-- ===================================================
            最後のページ
+
+           このページだけキャラクター用スペースを残す
       ==================================================== -->
 
       <section
@@ -1666,18 +1988,50 @@
         id="ending"
       >
 
-        <!--
-          最後のページ全体が
-          画像配置用の枠
-        -->
+
+        <p class="ending-message fade-text">
+
+          ご来場お待ちしてます！
+
+        </p>
+
 
         <div class="ending-character-space">
 
+
           <!--
-            ここに最後のページ用画像を配置できます。
+            ここに3人の透明キャラクターを配置できます。
+
+
+            例：
+
+            <img
+              class="character-image"
+              src="images/red-character.png"
+              alt=""
+              style="left: 25%;"
+            >
+
+
+            <img
+              class="character-image"
+              src="images/blue-character.png"
+              alt=""
+              style="left: 50%;"
+            >
+
+
+            <img
+              class="character-image"
+              src="images/green-character.png"
+              alt=""
+              style="left: 75%;"
+            >
           -->
 
+
         </div>
+
 
       </section>
 
@@ -1685,6 +2039,7 @@
     </div>
 
   </main>
+
 
 
   <!-- =======================================================
@@ -1697,101 +2052,14 @@
     type="button"
     aria-label="ページ上部へ戻る"
   >
+
     ↑
+
   </button>
 
 
+
   <script>
-
-    /* =========================================================
-       header.html読み込み
-    ========================================================= */
-
-    fetch("header.html")
-
-      .then(function(response) {
-
-        if (!response.ok) {
-
-          throw new Error(
-            "header.htmlの読み込みに失敗しました。HTTP " +
-            response.status
-          );
-
-        }
-
-        return response.text();
-
-      })
-
-
-      .then(function(data) {
-
-        const header =
-          document.getElementById("header");
-
-
-        if (!header) {
-
-          return;
-
-        }
-
-
-        header.innerHTML = data;
-
-
-        const btn =
-          document.querySelector(".menu-btn");
-
-
-        const nav =
-          document.querySelector(".nav");
-
-
-        if (btn && nav) {
-
-          btn.addEventListener(
-            "click",
-            function(event) {
-
-              event.stopPropagation();
-
-              nav.classList.toggle("active");
-
-            }
-          );
-
-
-          document.addEventListener(
-            "click",
-            function(event) {
-
-              if (
-                !nav.contains(event.target) &&
-                !btn.contains(event.target)
-              ) {
-
-                nav.classList.remove("active");
-
-              }
-
-            }
-          );
-
-        }
-
-      })
-
-
-      .catch(function(error) {
-
-        console.error(
-          "header.htmlの読み込みエラー:",
-          error
-        );
-
-      });
 
 
     /* =========================================================
@@ -1799,81 +2067,45 @@
     ========================================================= */
 
     const fadeElements =
-      document.querySelectorAll(
-        ".fade-text"
-      );
+      document.querySelectorAll(".fade-text");
 
 
-    if (
-      "IntersectionObserver" in window
-    ) {
+    const observer =
+      new IntersectionObserver(
+        (entries, observer) => {
 
-      const observer =
-        new IntersectionObserver(
+          entries.forEach(entry => {
 
-          function(entries, observer) {
+            if (entry.isIntersecting) {
 
-            entries.forEach(
-              function(entry) {
+              entry.target.classList.add(
+                "is-visible"
+              );
 
-                if (
-                  !entry.isIntersecting
-                ) {
+              observer.unobserve(
+                entry.target
+              );
 
-                  return;
+            }
 
-                }
+          });
 
+        },
+        {
+          threshold: 0.12,
 
-                entry.target.classList.add(
-                  "is-visible"
-                );
-
-
-                observer.unobserve(
-                  entry.target
-                );
-
-              }
-            );
-
-          },
-
-          {
-
-            threshold: 0.12,
-
-            rootMargin:
-              "0px 0px -40px 0px"
-
-          }
-
-        );
-
-
-      fadeElements.forEach(
-        function(element) {
-
-          observer.observe(
-            element
-          );
-
+          rootMargin:
+            "0px 0px -40px 0px"
         }
       );
 
-    } else {
 
-      fadeElements.forEach(
-        function(element) {
+    fadeElements.forEach(element => {
 
-          element.classList.add(
-            "is-visible"
-          );
+      observer.observe(element);
 
-        }
-      );
+    });
 
-    }
 
 
     /* =========================================================
@@ -1881,83 +2113,66 @@
     ========================================================= */
 
     document
-      .querySelectorAll(
-        '.toc-item[href^="#"]'
-      )
-      .forEach(
-        function(link) {
+      .querySelectorAll('a[href^="#"]')
+      .forEach(link => {
 
-          link.addEventListener(
-            "click",
-            function(event) {
+        link.addEventListener(
+          "click",
+          event => {
 
-              const targetId =
-                link.getAttribute(
-                  "href"
-                );
+            const targetId =
+              link.getAttribute("href");
 
 
-              if (
-                !targetId ||
-                targetId === "#"
-              ) {
+            if (
+              !targetId ||
+              targetId === "#"
+            ) {
 
-                return;
-
-              }
-
-
-              const target =
-                document.querySelector(
-                  targetId
-                );
-
-
-              if (!target) {
-
-                return;
-
-              }
-
-
-              event.preventDefault();
-
-
-              const header =
-                document.querySelector(
-                  "#header header"
-                );
-
-
-              const headerHeight =
-                header
-                  ? header.offsetHeight
-                  : 48;
-
-
-              const targetPosition =
-                target.getBoundingClientRect().top
-                +
-                window.scrollY
-                -
-                headerHeight
-                -
-                20;
-
-
-              window.scrollTo({
-
-                top: targetPosition,
-
-                behavior: "smooth"
-
-              });
-
+              return;
             }
-          );
 
-        }
-      );
+
+            const target =
+              document.querySelector(
+                targetId
+              );
+
+
+            if (!target) {
+
+              return;
+            }
+
+
+            event.preventDefault();
+
+
+            const headerHeight =
+              document
+                .querySelector("header")
+                .offsetHeight;
+
+
+            const targetPosition =
+              target.getBoundingClientRect().top
+              + window.scrollY
+              - headerHeight
+              - 20;
+
+
+            window.scrollTo({
+
+              top: targetPosition,
+
+              behavior: "smooth"
+
+            });
+
+          });
+
+      });
+
 
 
     /* =========================================================
@@ -1971,14 +2186,10 @@
 
 
     window.addEventListener(
-
       "scroll",
+      () => {
 
-      function() {
-
-        if (
-          window.scrollY > 600
-        ) {
+        if (window.scrollY > 600) {
 
           backToTop.classList.add(
             "show"
@@ -1993,19 +2204,15 @@
         }
 
       },
-
       {
         passive: true
       }
-
     );
 
 
     backToTop.addEventListener(
-
       "click",
-
-      function() {
+      () => {
 
         window.scrollTo({
 
@@ -2016,46 +2223,124 @@
         });
 
       }
-
     );
 
 
+
     /* =========================================================
-       Escapeキーでメニューを閉じる
+       ヘッダーのハンバーガーメニュー
     ========================================================= */
 
-    document.addEventListener(
+    function toggleMenu() {
 
-      "keydown",
+      const nav =
+        document.getElementById("nav");
 
-      function(event) {
+      const menuButton =
+        document.querySelector(".menu-btn");
 
-        if (
-          event.key !== "Escape"
-        ) {
 
-          return;
+      nav.classList.toggle("active");
+
+      menuButton.classList.toggle("active");
+
+    }
+
+
+
+    /* =========================================================
+       ハンバーガーメニュー内リンクをクリックしたら閉じる
+    ========================================================= */
+
+    document
+      .querySelectorAll("#nav a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            const nav =
+              document.getElementById(
+                "nav"
+              );
+
+            const menuButton =
+              document.querySelector(
+                ".menu-btn"
+              );
+
+
+            nav.classList.remove(
+              "active"
+            );
+
+            menuButton.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       キーボード操作
+    ========================================================= */
+
+    document
+      .querySelector(".menu-btn")
+      .addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+
+            event.preventDefault();
+
+            toggleMenu();
+
+          }
 
         }
+      );
 
 
-        const nav =
-          document.querySelector(
-            ".nav"
-          );
+    document.addEventListener(
+      "keydown",
+      event => {
 
+        if (event.key === "Escape") {
 
-        if (nav) {
+          const nav =
+            document.getElementById(
+              "nav"
+            );
+
+          const menuButton =
+            document.querySelector(
+              ".menu-btn"
+            );
+
 
           nav.classList.remove(
+            "active"
+          );
+
+          menuButton.classList.remove(
             "active"
           );
 
         }
 
       }
-
     );
+
 
   </script>
 
