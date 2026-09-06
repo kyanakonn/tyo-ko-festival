@@ -378,21 +378,60 @@
       text-align: center;
 
       margin-bottom: 48px;
+
+      /*
+        「2026年度 長生高校文化祭」と
+        「来校上のお願い」を必ず縦に並べる
+      */
+      display: block;
+
+      /*
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      padding: 0;
     }
 
 
     .festival-small-title {
 
-      display: inline-flex;
+      /*
+        必ず独立した行にする
+      */
+      display: flex;
 
       align-items: center;
 
+      justify-content: center;
+
       gap: 13px;
+
+      width: 100%;
 
       font-size:
         clamp(18px, 2vw, 25px);
 
       margin-bottom: 8px;
+
+      /*
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      padding: 0;
     }
 
 
@@ -406,10 +445,20 @@
       background: var(--green);
 
       display: block;
+
+      flex-shrink: 0;
     }
 
 
     .festival-title {
+
+      /*
+        必ず「2026年度 長生高校文化祭」の
+        下の行に表示
+      */
+      display: block;
+
+      width: 100%;
 
       margin: 0;
 
@@ -419,6 +468,19 @@
       line-height: 1.2;
 
       font-weight: 900;
+
+      /*
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      padding: 0;
     }
 
 
@@ -444,6 +506,37 @@
       font-size: 29px;
 
       font-weight: 900;
+
+      /*
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      padding: 0;
+    }
+
+
+    .toc-area {
+
+      /*
+        目次全体に付いている
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
+
+      padding: 0;
     }
 
 
@@ -480,6 +573,17 @@
       transition:
         opacity 0.25s ease,
         transform 0.25s ease;
+
+      /*
+        白い角丸背景を削除
+      */
+      background: transparent;
+
+      border: none;
+
+      border-radius: 0;
+
+      box-shadow: none;
     }
 
 
@@ -912,12 +1016,26 @@
       .festival-title-area {
 
         margin-bottom: 35px;
+
+        /*
+          スマホでも縦並びを維持
+        */
+        display: block;
       }
 
 
       .festival-small-title {
 
         font-size: 17px;
+
+        /*
+          1行目として固定
+        */
+        display: flex;
+
+        width: 100%;
+
+        justify-content: center;
       }
 
 
@@ -929,6 +1047,13 @@
 
 
       .festival-title {
+
+        /*
+          2行目として固定
+        */
+        display: block;
+
+        width: 100%;
 
         font-size: 42px;
       }
@@ -1133,6 +1258,15 @@
       .festival-small-title {
 
         font-size: 15px;
+
+        /*
+          小さい画面でも必ず
+          「2026年度 長生高校文化祭」
+          の下に来校上のお願いを表示
+        */
+        display: flex;
+
+        width: 100%;
       }
 
 
@@ -1410,6 +1544,7 @@
 
           </div>
 
+
         </div>
 
 
@@ -1652,6 +1787,7 @@
 
 
     </div>
+
 
   </main>
 
