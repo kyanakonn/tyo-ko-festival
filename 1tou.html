@@ -1201,7 +1201,7 @@ body {
 
 /* =========================================
    赤文字エリアのクリック判定
-   ※透ける紫色で表示
+   ※クリック判定のみ。表示は完全透明
 ========================================= */
 
 .map-hotspot {
@@ -1210,9 +1210,9 @@ body {
   display: block;
   padding: 0;
   margin: 0;
-  border: 2px solid rgba(143, 91, 208, 0.72);
+  border: 2px solid transparent;
   border-radius: 10px;
-  background: rgba(143, 91, 208, 0.28);
+  background: transparent;
   box-shadow: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -1222,13 +1222,13 @@ body {
 }
 
 .map-hotspot:hover {
-  background: rgba(143, 91, 208, 0.36);
-  border-color: rgba(143, 91, 208, 0.85);
+  background: transparent;
+  border-color: transparent;
 }
 
 .map-hotspot:active {
-  background: rgba(143, 91, 208, 0.42);
-  border-color: rgba(143, 91, 208, 0.95);
+  background: transparent;
+  border-color: transparent;
   transform: none;
 }
 
