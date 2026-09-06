@@ -129,6 +129,8 @@ body {
 }
 
 
+/* index.htmlのお知らせタイトルと同じ色 */
+
 .notice-page-title h1::before,
 .notice-page-title h1::after {
 
@@ -136,12 +138,7 @@ body {
 
   margin: 0 12px;
 
-  color: rgba(
-    100,
-    70,
-    120,
-    0.65
-  );
+  color: #ff8fab;
 
   font-weight: 700;
 
@@ -816,40 +813,6 @@ body {
 
 
 /* =========================================================
-   フッター
-========================================================= */
-
-.notice-footer {
-
-  width: 100%;
-
-  padding: 25px 20px 35px;
-
-  box-sizing: border-box;
-
-  text-align: center;
-
-}
-
-
-.notice-footer p {
-
-  margin: 0;
-
-  font-size: 11px;
-
-  color:
-    rgba(
-      60,
-      40,
-      70,
-      0.50
-    );
-
-}
-
-
-/* =========================================================
    スマートフォン
 ========================================================= */
 
@@ -1087,10 +1050,6 @@ body {
 
 <script>
 
-/* =========================================================
-   header.html読み込み
-========================================================= */
-
 fetch("header.html")
 
   .then(res => res.text())
@@ -1100,35 +1059,25 @@ fetch("header.html")
     const headerContainer =
       document.getElementById("header");
 
-
     headerContainer.innerHTML =
       data;
-
 
     const header =
       headerContainer.querySelector("header");
 
-
     const btn =
       headerContainer.querySelector(".menu-btn");
-
 
     const nav =
       headerContainer.querySelector(".nav");
 
 
-    /*
-      ヘッダー高さを取得
-    */
-
     function updateHeaderHeight() {
 
       if (!header) return;
 
-
       const height =
         header.getBoundingClientRect().height;
-
 
       document.documentElement.style.setProperty(
         "--header-height",
@@ -1146,10 +1095,6 @@ fetch("header.html")
       updateHeaderHeight
     );
 
-
-    /*
-      ハンバーガーメニュー
-    */
 
     if (btn && nav) {
 
@@ -1189,7 +1134,6 @@ fetch("header.html")
 
   });
 
-
 </script>
 
 
@@ -1199,10 +1143,6 @@ fetch("header.html")
 
 <main class="notice-page">
 
-
-  <!-- =======================================================
-       タイトル
-  ======================================================== -->
 
   <div class="notice-page-title">
 
@@ -1220,16 +1160,10 @@ fetch("header.html")
   </div>
 
 
-  <!-- =======================================================
-       お知らせ一覧
-  ======================================================== -->
-
   <div class="notice-list">
 
 
-    <!-- =====================================================
-         お知らせ 1
-    ====================================================== -->
+    <!-- お知らせ 1 -->
 
     <article
       class="notice-accordion"
@@ -1313,9 +1247,7 @@ fetch("header.html")
     </article>
 
 
-    <!-- =====================================================
-         お知らせ 2
-    ====================================================== -->
+    <!-- お知らせ 2 -->
 
     <article
       class="notice-accordion"
@@ -1400,9 +1332,7 @@ fetch("header.html")
     </article>
 
 
-    <!-- =====================================================
-         お知らせ 3
-    ====================================================== -->
+    <!-- お知らせ 3 -->
 
     <article
       class="notice-accordion"
@@ -1479,9 +1409,7 @@ fetch("header.html")
     </article>
 
 
-    <!-- =====================================================
-         お知らせ 4
-    ====================================================== -->
+    <!-- お知らせ 4 -->
 
     <article
       class="notice-accordion"
@@ -1563,9 +1491,7 @@ fetch("header.html")
     </article>
 
 
-    <!-- =====================================================
-         お知らせ 5
-    ====================================================== -->
+    <!-- お知らせ 5 -->
 
     <article
       class="notice-accordion"
@@ -1645,9 +1571,7 @@ fetch("header.html")
   </div>
 
 
-  <!-- =======================================================
-       TOPへ戻る
-  ======================================================== -->
+  <!-- TOPへ戻る -->
 
   <div class="notice-back-wrap">
 
@@ -1673,27 +1597,10 @@ fetch("header.html")
 
 
 <!-- =========================================================
-     Footer
-========================================================= -->
-
-<footer class="notice-footer">
-
-  <p>
-    ©長高祭サイト
-  </p>
-
-</footer>
-
-
-<!-- =========================================================
      JavaScript
 ========================================================= -->
 
 <script>
-
-/* =========================================================
-   ローディング
-========================================================= */
 
 window.addEventListener(
   "load",
@@ -1702,13 +1609,10 @@ window.addEventListener(
     const loader =
       document.getElementById("loader");
 
-
     if (!loader) return;
-
 
     loader.style.opacity =
       "0";
-
 
     setTimeout(
       () => {
@@ -1724,28 +1628,16 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   GSAP
-========================================================= */
-
 gsap.registerPlugin(
   ScrollTrigger
 );
 
-
-/* =========================================================
-   お知らせアコーディオン
-========================================================= */
 
 const noticeAccordions =
   document.querySelectorAll(
     ".notice-accordion"
   );
 
-
-/*
-  お知らせを開く
-*/
 
 function openNotice(
   accordion,
@@ -1780,10 +1672,6 @@ function openNotice(
   );
 
 
-  /*
-    矢印
-  */
-
   const arrow =
     accordion.querySelector(
       ".notice-arrow"
@@ -1793,10 +1681,6 @@ function openNotice(
   arrow.textContent =
     "↑";
 
-
-  /*
-    URLハッシュを変更
-  */
 
   if (
     scrollToNotice
@@ -1812,10 +1696,6 @@ function openNotice(
 
 }
 
-
-/*
-  お知らせを閉じる
-*/
 
 function closeNotice(
   accordion
@@ -1849,10 +1729,6 @@ function closeNotice(
   );
 
 
-  /*
-    矢印
-  */
-
   const arrow =
     accordion.querySelector(
       ".notice-arrow"
@@ -1864,10 +1740,6 @@ function closeNotice(
 
 }
 
-
-/*
-  開閉
-*/
 
 function toggleNotice(
   accordion
@@ -1895,10 +1767,6 @@ function toggleNotice(
 }
 
 
-/*
-  各カードにイベントを設定
-*/
-
 noticeAccordions.forEach(
   accordion => {
 
@@ -1907,10 +1775,6 @@ noticeAccordions.forEach(
         ".notice-item"
       );
 
-
-    /*
-      タップ・クリック
-    */
 
     item.addEventListener(
       "click",
@@ -1923,10 +1787,6 @@ noticeAccordions.forEach(
       }
     );
 
-
-    /*
-      キーボード対応
-    */
 
     item.addEventListener(
       "keydown",
@@ -1951,10 +1811,6 @@ noticeAccordions.forEach(
   }
 );
 
-
-/* =========================================================
-   URLハッシュ対応
-========================================================= */
 
 function openHashNotice(){
 
@@ -1987,11 +1843,6 @@ function openHashNotice(){
   }
 
 
-  /*
-    少し待ってから開く
-    ページ読み込み時の位置ズレ防止
-  */
-
   setTimeout(
     () => {
 
@@ -2000,11 +1851,6 @@ function openHashNotice(){
         false
       );
 
-
-      /*
-        ヘッダー高さを考慮して
-        少し上に余裕を持たせる
-      */
 
       const header =
         document.querySelector(
@@ -2052,10 +1898,6 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   スクロールアニメーション
-========================================================= */
-
 noticeAccordions.forEach(
   accordion => {
 
@@ -2097,10 +1939,6 @@ noticeAccordions.forEach(
 );
 
 
-/* =========================================================
-   ページタイトルアニメーション
-========================================================= */
-
 gsap.fromTo(
 
   ".notice-page-title",
@@ -2123,10 +1961,6 @@ gsap.fromTo(
 
 );
 
-
-/* =========================================================
-   リサイズ時
-========================================================= */
 
 window.addEventListener(
   "resize",
