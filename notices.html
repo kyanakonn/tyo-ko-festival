@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+>
+
+<title>お知らせ | 長高祭2026</title>
+
+<meta
+  name="description"
+  content="長高祭2026のお知らせ一覧です。"
+/>
+
+
+<!-- =========================================
+     Google Fonts
+========================================= -->
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap"
+  rel="stylesheet"
+>
+
+
+<!-- =========================================
+     共通CSS
+========================================= -->
+
+<link
+  rel="stylesheet"
+  href="css/style.css"
+>
+
+
+<!-- =========================================
+     GSAP
+========================================= -->
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
+</script>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
+</script>
+
+
+<style>
+
+/* =========================================================
+   基本設定
+========================================================= */
+
+html,
+body {
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  touch-action: pan-y;
+
+  -webkit-overflow-scrolling: touch;
+
+}
+
+
+/* =========================================================
+   ページ全体
+========================================================= */
+
+.notice-page {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding-top: 35px;
+
+  padding-bottom: 80px;
+
+}
+
+
+/* =========================================================
+   ページタイトル
+========================================================= */
+
+.notice-page-title {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  margin: 0 auto 30px;
+
+  padding: 0 20px;
+
+  text-align: center;
+
+}
+
+
+.notice-page-title h1 {
+
+  display: inline-block;
+
+  margin: 0;
+
+  font-size: clamp(
+    24px,
+    5vw,
+    38px
+  );
+
+  font-weight: 900;
+
+  line-height: 1.4;
+
+  letter-spacing: 0.04em;
+
+  color: #333;
+
+}
+
+
+.notice-page-title h1::before,
+.notice-page-title h1::after {
+
+  display: inline-block;
+
+  margin: 0 12px;
+
+  color: rgba(
+    100,
+    70,
+    120,
+    0.65
+  );
+
+  font-weight: 700;
+
+}
+
+
+.notice-page-title h1::before {
+
+  content: "\\";
+
+}
+
+
+.notice-page-title h1::after {
+
+  content: "/";
+
+}
+
+
+/* =========================================================
+   説明文
+========================================================= */
+
+.notice-page-description {
+
+  max-width: 650px;
+
+  margin: 12px auto 0;
+
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  line-height: 1.8;
+
+  color: rgba(
+    60,
+    40,
+    70,
+    0.62
+  );
+
+}
+
+
+/* =========================================================
+   お知らせ一覧
+========================================================= */
+
+.notice-list {
+
+  width: calc(100% - 30px);
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   お知らせアコーディオン
+========================================================= */
+
+.notice-accordion {
+
+  width: 100%;
+
+  margin-bottom: 16px;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 6px 18px rgba(
+      100,
+      70,
+      120,
+      0.10
+    );
+
+}
+
+
+/* =========================================================
+   お知らせカード
+========================================================= */
+
+.notice-item {
+
+  width: 100%;
+
+  min-height: 105px;
+
+  box-sizing: border-box;
+
+  padding: 22px 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  position: relative;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease;
+
+}
+
+
+/* =========================================================
+   カードカラー
+========================================================= */
+
+.notice-accordion:nth-child(1)
+.notice-item {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 224, 232, 0.96),
+      rgba(255, 239, 210, 0.96)
+    );
+
+}
+
+
+.notice-accordion:nth-child(2)
+.notice-item {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 238, 255, 0.96),
+      rgba(232, 224, 255, 0.96)
+    );
+
+}
+
+
+.notice-accordion:nth-child(3)
+.notice-item {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(222, 246, 229, 0.96),
+      rgba(255, 242, 207, 0.96)
+    );
+
+}
+
+
+.notice-accordion:nth-child(4)
+.notice-item {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(244, 230, 255, 0.96),
+      rgba(255, 225, 239, 0.96)
+    );
+
+}
+
+
+.notice-accordion:nth-child(5)
+.notice-item {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(225, 242, 255, 0.96),
+      rgba(226, 249, 238, 0.96)
+    );
+
+}
+
+
+/* =========================================================
+   タップ時
+========================================================= */
+
+.notice-item:active {
+
+  transform: scale(0.99);
+
+  filter: brightness(0.98);
+
+}
+
+
+/* =========================================================
+   日付
+========================================================= */
+
+.notice-date {
+
+  flex-shrink: 0;
+
+  width: 82px;
+
+  padding-right: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  line-height: 1.25;
+
+  font-weight: 700;
+
+  border-right:
+    1px solid rgba(
+      100,
+      70,
+      120,
+      0.14
+    );
+
+}
+
+
+.notice-year {
+
+  font-size: 13px;
+
+  letter-spacing: 0.08em;
+
+  color:
+    rgba(
+      80,
+      60,
+      100,
+      0.68
+    );
+
+}
+
+
+.notice-day {
+
+  margin-top: 3px;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  color: #333;
+
+}
+
+
+/* =========================================================
+   本文
+========================================================= */
+
+.notice-content {
+
+  min-width: 0;
+
+  flex: 1;
+
+}
+
+
+.notice-label {
+
+  display: inline-block;
+
+  margin-bottom: 7px;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  color:
+    rgba(
+      90,
+      65,
+      110,
+      0.78
+    );
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  box-shadow:
+    0 2px 8px rgba(
+      100,
+      70,
+      120,
+      0.08
+    );
+
+}
+
+
+.notice-title {
+
+  margin: 0;
+
+  font-size:
+    clamp(
+      14px,
+      2.2vw,
+      18px
+    );
+
+  font-weight: 700;
+
+  line-height: 1.6;
+
+  word-break: break-word;
+
+  color: #333;
+
+}
+
+
+/* =========================================================
+   矢印
+========================================================= */
+
+.notice-arrow {
+
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.70
+    );
+
+  color:
+    rgba(
+      100,
+      75,
+      125,
+      0.85
+    );
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 3px 10px rgba(
+      100,
+      70,
+      120,
+      0.10
+    );
+
+  transition:
+    transform 0.3s ease;
+
+}
+
+
+.notice-accordion.open
+.notice-arrow {
+
+  transform:
+    rotate(180deg);
+
+}
+
+
+/* =========================================================
+   詳細部分
+========================================================= */
+
+.notice-detail {
+
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  transition:
+    grid-template-rows 0.45s ease;
+
+}
+
+
+/*
+  開いた状態
+*/
+
+.notice-accordion.open
+.notice-detail {
+
+  grid-template-rows: 1fr;
+
+}
+
+
+/* =========================================================
+   詳細内部
+========================================================= */
+
+.notice-detail-inner {
+
+  min-height: 0;
+
+  overflow: hidden;
+
+}
+
+
+/* =========================================================
+   詳細本文
+========================================================= */
+
+.notice-detail-content {
+
+  padding: 0 24px 25px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.78
+    );
+
+  box-sizing: border-box;
+
+}
+
+
+/*
+  上部の境界線
+*/
+
+.notice-detail-border {
+
+  height: 1px;
+
+  margin-bottom: 22px;
+
+  background:
+    rgba(
+      100,
+      70,
+      120,
+      0.12
+    );
+
+}
+
+
+/* =========================================================
+   詳細見出し
+========================================================= */
+
+.notice-detail-content h4 {
+
+  margin: 0 0 12px;
+
+  font-size: 16px;
+
+  font-weight: 900;
+
+  color: #333;
+
+}
+
+
+.notice-detail-content p {
+
+  margin: 0 0 14px;
+
+  font-size: 14px;
+
+  line-height: 2;
+
+  color:
+    rgba(
+      50,
+      45,
+      55,
+      0.82
+    );
+
+}
+
+
+.notice-detail-content p:last-child {
+
+  margin-bottom: 0;
+
+}
+
+
+/* =========================================================
+   注意事項
+========================================================= */
+
+.notice-important {
+
+  margin-top: 18px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(
+      255,
+      240,
+      240,
+      0.85
+    );
+
+  color:
+    rgba(
+      120,
+      55,
+      65,
+      0.88
+    );
+
+  font-size: 13px;
+
+  line-height: 1.8;
+
+}
+
+
+/* =========================================================
+   戻るボタン
+========================================================= */
+
+.notice-back-wrap {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 32px;
+
+}
+
+
+.notice-back-btn {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  min-width: 210px;
+
+  padding: 12px 22px;
+
+  box-sizing: border-box;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
+
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 7px 18px rgba(
+      130,
+      80,
+      150,
+      0.20
+    );
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+}
+
+
+.notice-back-btn:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(
+      130,
+      80,
+      150,
+      0.25
+    );
+
+  filter:
+    brightness(1.03);
+
+}
+
+
+.notice-back-btn:active {
+
+  transform:
+    translateY(1px);
+
+}
+
+
+/* =========================================================
+   フッター
+========================================================= */
+
+.notice-footer {
+
+  width: 100%;
+
+  padding: 25px 20px 35px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+}
+
+
+.notice-footer p {
+
+  margin: 0;
+
+  font-size: 11px;
+
+  color:
+    rgba(
+      60,
+      40,
+      70,
+      0.50
+    );
+
+}
+
+
+/* =========================================================
+   スマートフォン
+========================================================= */
+
+@media (max-width: 600px) {
+
+
+  .notice-page {
+
+    padding-top: 25px;
+
+    padding-bottom: 60px;
+
+  }
+
+
+  .notice-page-title {
+
+    margin-bottom: 25px;
+
+    padding: 0 15px;
+
+  }
+
+
+  .notice-page-title h1 {
+
+    font-size: 25px;
+
+  }
+
+
+  .notice-page-title h1::before,
+  .notice-page-title h1::after {
+
+    margin: 0 7px;
+
+  }
+
+
+  .notice-page-description {
+
+    padding: 0 22px;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+
+  }
+
+
+  .notice-list {
+
+    width: calc(100% - 24px);
+
+  }
+
+
+  .notice-accordion {
+
+    margin-bottom: 13px;
+
+    border-radius: 15px;
+
+  }
+
+
+  .notice-item {
+
+    min-height: 115px;
+
+    padding: 18px 15px;
+
+    gap: 12px;
+
+    border-radius: 15px;
+
+  }
+
+
+  .notice-date {
+
+    width: 58px;
+
+    padding-right: 10px;
+
+  }
+
+
+  .notice-year {
+
+    font-size: 10px;
+
+  }
+
+
+  .notice-day {
+
+    font-size: 18px;
+
+  }
+
+
+  .notice-label {
+
+    margin-bottom: 5px;
+
+    padding: 3px 8px;
+
+    font-size: 9px;
+
+  }
+
+
+  .notice-title {
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+  }
+
+
+  .notice-arrow {
+
+    width: 28px;
+
+    height: 28px;
+
+    font-size: 15px;
+
+  }
+
+
+  .notice-detail-content {
+
+    padding:
+      0 15px 20px;
+
+  }
+
+
+  .notice-detail-border {
+
+    margin-bottom: 17px;
+
+  }
+
+
+  .notice-detail-content h4 {
+
+    font-size: 14px;
+
+  }
+
+
+  .notice-detail-content p {
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+  }
+
+
+  .notice-important {
+
+    padding: 12px 13px;
+
+    font-size: 12px;
+
+  }
+
+
+  .notice-back-btn {
+
+    min-width: 200px;
+
+    padding: 11px 18px;
+
+    font-size: 13px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     背景
+========================================================= -->
+
+<div class="bg-shapes">
+
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+  <div class="shape s5"></div>
+  <div class="shape s6"></div>
+  <div class="shape s7"></div>
+  <div class="shape s8"></div>
+  <div class="shape s9"></div>
+  <div class="shape s10"></div>
+  <div class="shape s11"></div>
+  <div class="shape s12"></div>
+
+</div>
+
+
+<!-- =========================================================
+     ローディング
+========================================================= -->
+
+<div id="loader">
+
+  <div class="loader-text">
+    LOADING...
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     ヘッダー
+========================================================= -->
+
+<div id="header"></div>
+
+
+<script>
+
+/* =========================================================
+   header.html読み込み
+========================================================= */
+
+fetch("header.html")
+
+  .then(res => res.text())
+
+  .then(data => {
+
+    const headerContainer =
+      document.getElementById("header");
+
+
+    headerContainer.innerHTML =
+      data;
+
+
+    const header =
+      headerContainer.querySelector("header");
+
+
+    const btn =
+      headerContainer.querySelector(".menu-btn");
+
+
+    const nav =
+      headerContainer.querySelector(".nav");
+
+
+    /*
+      ヘッダー高さを取得
+    */
+
+    function updateHeaderHeight() {
+
+      if (!header) return;
+
+
+      const height =
+        header.getBoundingClientRect().height;
+
+
+      document.documentElement.style.setProperty(
+        "--header-height",
+        height + "px"
+      );
+
+    }
+
+
+    updateHeaderHeight();
+
+
+    window.addEventListener(
+      "resize",
+      updateHeaderHeight
+    );
+
+
+    /*
+      ハンバーガーメニュー
+    */
+
+    if (btn && nav) {
+
+      btn.addEventListener(
+        "click",
+        (e) => {
+
+          e.stopPropagation();
+
+          nav.classList.toggle(
+            "active"
+          );
+
+        }
+      );
+
+
+      document.addEventListener(
+        "click",
+        (e) => {
+
+          if (
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ) {
+
+            nav.classList.remove(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+  });
+
+
+</script>
+
+
+<!-- =========================================================
+     お知らせページ
+========================================================= -->
+
+<main class="notice-page">
+
+
+  <!-- =======================================================
+       タイトル
+  ======================================================== -->
+
+  <div class="notice-page-title">
+
+    <h1>
+      お知らせ
+    </h1>
+
+    <p class="notice-page-description">
+
+      長高祭2026に関する最新のお知らせを掲載しています。<br>
+      気になるお知らせをタップすると詳しい内容を確認できます。
+
+    </p>
+
+  </div>
+
+
+  <!-- =======================================================
+       お知らせ一覧
+  ======================================================== -->
+
+  <div class="notice-list">
+
+
+    <!-- =====================================================
+         お知らせ 1
+    ====================================================== -->
+
+    <article
+      class="notice-accordion"
+      id="notice-1"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.06
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            準備中
+          </span>
+
+          <h3 class="notice-title">
+            1棟トイレ工事に伴うトイレの利用制限についてのお知らせ
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              1棟トイレ工事について
+            </h4>
+
+            <p>
+              現在、1棟のトイレ工事を予定しています。
+              工事に伴い、文化祭当日は一部のトイレが利用できない場合があります。
+            </p>
+
+            <p>
+              ご来場の皆様にはご不便をおかけしますが、
+              利用可能なトイレをご利用いただきますようお願いいたします。
+            </p>
+
+            <div class="notice-important">
+
+              ※詳しい利用場所については、当日公開予定のフロアマップをご確認ください。
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         お知らせ 2
+    ====================================================== -->
+
+    <article
+      class="notice-accordion"
+      id="notice-2"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.06
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            準備中
+          </span>
+
+          <h3 class="notice-title">
+            9月11日(校内発表)の保護者様のご来場についてのお知らせ
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              9月11日の校内発表について
+            </h4>
+
+            <p>
+              9月11日(金)に実施する校内発表について、
+              保護者の皆様のご来場に関する情報を掲載します。
+            </p>
+
+            <p>
+              入場方法や時間などの詳細については、
+              内容が確定次第こちらでお知らせします。
+            </p>
+
+            <div class="notice-important">
+
+              ※一般公開日は9月12日(土)です。<br>
+              校内発表日の入場条件とは異なる場合がありますのでご注意ください。
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         お知らせ 3
+    ====================================================== -->
+
+    <article
+      class="notice-accordion"
+      id="notice-3"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.05
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            準備中
+          </span>
+
+          <h3 class="notice-title">
+            企画内容・体育館発表の情報を公開しました
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              企画・体育館発表について
+            </h4>
+
+            <p>
+              長高祭2026の各学年の企画や、
+              体育館で行われる発表についての情報を公開しました。
+            </p>
+
+            <p>
+              詳しい内容は「企画・イベント」ページからも確認できます。
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         お知らせ 4
+    ====================================================== -->
+
+    <article
+      class="notice-accordion"
+      id="notice-4"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.04
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            ご案内
+          </span>
+
+          <h3 class="notice-title">
+            長高祭2026の一般公開について
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              一般公開について
+            </h4>
+
+            <p>
+              長高祭2026は9月12日(土)に一般公開を行います。
+            </p>
+
+            <p>
+              一般公開時間は9:30から13:00までを予定しています。
+            </p>
+
+            <div class="notice-important">
+
+              ※ご来場の際は「来校上のお願い」を事前にご確認ください。
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         お知らせ 5
+    ====================================================== -->
+
+    <article
+      class="notice-accordion"
+      id="notice-5"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.01
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            お知らせ
+          </span>
+
+          <h3 class="notice-title">
+            長高祭2026公式サイトを公開しました
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              公式サイト公開のお知らせ
+            </h4>
+
+            <p>
+              長高祭2026の公式サイトを公開しました。
+            </p>
+
+            <p>
+              企画一覧、フロアマップ、アクセス、
+              来校上のお願いなど、文化祭に関する情報を順次公開していきます。
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       TOPへ戻る
+  ======================================================== -->
+
+  <div class="notice-back-wrap">
+
+    <a
+      href="index.html"
+      class="notice-back-btn"
+    >
+
+      <span>
+        TOPページへ戻る
+      </span>
+
+      <span>
+        →
+      </span>
+
+    </a>
+
+  </div>
+
+
+</main>
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="notice-footer">
+
+  <p>
+    ©長高祭サイト
+  </p>
+
+</footer>
+
+
+<!-- =========================================================
+     JavaScript
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   ローディング
+========================================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    const loader =
+      document.getElementById("loader");
+
+
+    if (!loader) return;
+
+
+    loader.style.opacity =
+      "0";
+
+
+    setTimeout(
+      () => {
+
+        loader.style.display =
+          "none";
+
+      },
+      500
+    );
+
+  }
+);
+
+
+/* =========================================================
+   GSAP
+========================================================= */
+
+gsap.registerPlugin(
+  ScrollTrigger
+);
+
+
+/* =========================================================
+   お知らせアコーディオン
+========================================================= */
+
+const noticeAccordions =
+  document.querySelectorAll(
+    ".notice-accordion"
+  );
+
+
+/*
+  お知らせを開く
+*/
+
+function openNotice(
+  accordion,
+  scrollToNotice = false
+){
+
+  if (
+    accordion.classList.contains(
+      "open"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const item =
+    accordion.querySelector(
+      ".notice-item"
+    );
+
+
+  accordion.classList.add(
+    "open"
+  );
+
+
+  item.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+
+  /*
+    矢印
+  */
+
+  const arrow =
+    accordion.querySelector(
+      ".notice-arrow"
+    );
+
+
+  arrow.textContent =
+    "↑";
+
+
+  /*
+    URLハッシュを変更
+  */
+
+  if (
+    scrollToNotice
+  ){
+
+    history.replaceState(
+      null,
+      "",
+      "#" + accordion.id
+    );
+
+  }
+
+}
+
+
+/*
+  お知らせを閉じる
+*/
+
+function closeNotice(
+  accordion
+){
+
+  if (
+    !accordion.classList.contains(
+      "open"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const item =
+    accordion.querySelector(
+      ".notice-item"
+    );
+
+
+  accordion.classList.remove(
+    "open"
+  );
+
+
+  item.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+
+  /*
+    矢印
+  */
+
+  const arrow =
+    accordion.querySelector(
+      ".notice-arrow"
+    );
+
+
+  arrow.textContent =
+    "→";
+
+}
+
+
+/*
+  開閉
+*/
+
+function toggleNotice(
+  accordion
+){
+
+  if (
+    accordion.classList.contains(
+      "open"
+    )
+  ){
+
+    closeNotice(
+      accordion
+    );
+
+  }else{
+
+    openNotice(
+      accordion,
+      true
+    );
+
+  }
+
+}
+
+
+/*
+  各カードにイベントを設定
+*/
+
+noticeAccordions.forEach(
+  accordion => {
+
+    const item =
+      accordion.querySelector(
+        ".notice-item"
+      );
+
+
+    /*
+      タップ・クリック
+    */
+
+    item.addEventListener(
+      "click",
+      () => {
+
+        toggleNotice(
+          accordion
+        );
+
+      }
+    );
+
+
+    /*
+      キーボード対応
+    */
+
+    item.addEventListener(
+      "keydown",
+      (e) => {
+
+        if (
+          e.key === "Enter" ||
+          e.key === " "
+        ){
+
+          e.preventDefault();
+
+          toggleNotice(
+            accordion
+          );
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   URLハッシュ対応
+========================================================= */
+
+function openHashNotice(){
+
+  const hash =
+    window.location.hash;
+
+
+  if (!hash){
+
+    return;
+
+  }
+
+
+  const target =
+    document.querySelector(
+      hash
+    );
+
+
+  if (
+    !target ||
+    !target.classList.contains(
+      "notice-accordion"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  /*
+    少し待ってから開く
+    ページ読み込み時の位置ズレ防止
+  */
+
+  setTimeout(
+    () => {
+
+      openNotice(
+        target,
+        false
+      );
+
+
+      /*
+        ヘッダー高さを考慮して
+        少し上に余裕を持たせる
+      */
+
+      const header =
+        document.querySelector(
+          "#header header"
+        );
+
+
+      const headerHeight =
+        header
+          ? header.getBoundingClientRect().height
+          : 0;
+
+
+      const top =
+        target.getBoundingClientRect().top +
+        window.scrollY -
+        headerHeight -
+        15;
+
+
+      window.scrollTo({
+
+        top: top,
+
+        behavior: "smooth"
+
+      });
+
+    },
+    350
+  );
+
+}
+
+
+window.addEventListener(
+  "load",
+  openHashNotice
+);
+
+
+window.addEventListener(
+  "hashchange",
+  openHashNotice
+);
+
+
+/* =========================================================
+   スクロールアニメーション
+========================================================= */
+
+noticeAccordions.forEach(
+  accordion => {
+
+    gsap.fromTo(
+
+      accordion,
+
+      {
+        opacity: 0,
+        y: 25
+      },
+
+      {
+        opacity: 1,
+        y: 0,
+
+        duration: 0.8,
+
+        ease:
+          "power2.out",
+
+        scrollTrigger: {
+
+          trigger:
+            accordion,
+
+          start:
+            "top 88%",
+
+          once: true
+
+        }
+
+      }
+
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ページタイトルアニメーション
+========================================================= */
+
+gsap.fromTo(
+
+  ".notice-page-title",
+
+  {
+    opacity: 0,
+    y: 20
+  },
+
+  {
+    opacity: 1,
+    y: 0,
+
+    duration: 0.9,
+
+    ease:
+      "power2.out"
+
+  }
+
+);
+
+
+/* =========================================================
+   リサイズ時
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    ScrollTrigger.refresh();
+
+  }
+);
+
+</script>
+
+
+</body>
+
+</html>
