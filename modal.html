@@ -402,7 +402,7 @@
 
   padding:10px 18px;
 
-  background:#d94b67;
+  background:#e2768a;
 
   color:#ffffff;
 
@@ -432,7 +432,8 @@
 .map-btn:hover{
 
   filter:
-    brightness(1.08);
+    brightness(1.08)
+    saturate(1.08);
 
   transform:
     translate(2px,2px);
@@ -1089,7 +1090,6 @@
     data-link="map.html"
   ></div>
 
-
   <!-- ==========================================================
        部活動・同好会
        ========================================================== -->
@@ -1115,7 +1115,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club3"
@@ -1125,7 +1124,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1137,7 +1135,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club5"
@@ -1147,7 +1144,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1159,7 +1155,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club7"
@@ -1169,7 +1164,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1181,7 +1175,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club9"
@@ -1191,7 +1184,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1203,7 +1195,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club11"
@@ -1213,7 +1204,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1225,7 +1215,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club13"
@@ -1235,7 +1224,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1247,7 +1235,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club15"
@@ -1257,7 +1244,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1269,7 +1255,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club17"
@@ -1279,7 +1264,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1291,7 +1275,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club19"
@@ -1302,7 +1285,6 @@
     data-link="map.html"
   ></div>
 
-
   <div
     class="modal-data"
     id="modal-data-club20"
@@ -1312,7 +1294,6 @@
     data-img="club2.jpg"
     data-link="map.html"
   ></div>
-
 
   <div
     class="modal-data"
@@ -1350,6 +1331,7 @@
     data-link="map.html"
   ></div>
 
+  
 
 </div>
 
@@ -1415,21 +1397,21 @@
 
   function isValidId(id){
 
-    id = normalizeId(id);
+  id = normalizeId(id);
 
-    if(
-      !/^(?:[123][abcdefg]|club\d+|other\d+)$/.test(id)
-    ){
+  if(
+    !/^(?:[123][abcdefg]|club\d+|other\d+)$/.test(id)
+  ){
 
-      return false;
-
-    }
-
-    return !!document.getElementById(
-      "modal-data-" + id
-    );
+    return false;
 
   }
+
+  return !!document.getElementById(
+    "modal-data-" + id
+  );
+
+}
 
 
 
