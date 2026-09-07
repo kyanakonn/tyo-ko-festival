@@ -581,14 +581,11 @@ main{
 
 .status-display{
   position:relative;
-  z-index:1;
-  display:grid;
-  grid-template-columns:auto minmax(0,1fr);
-  grid-template-rows:auto auto;
-  column-gap:10px;
-  row-gap:4px;
+  display:flex;
+  align-items:center;
+  gap:10px;
   min-height:72px;
-  padding:14px 15px 10px;
+  padding:14px 15px 28px;
   background:#f6f5f2;
   border-left:5px solid var(--teal);
 }
@@ -598,9 +595,6 @@ main{
   height:13px;
   flex-shrink:0;
   border-radius:50%;
-  grid-column:1;
-  grid-row:1;
-  margin-top:2px;
 }
 
 .status-dot.empty{
@@ -623,37 +617,28 @@ main{
 }
 
 .status-text{
-  min-width:0;
-  grid-column:2;
-  grid-row:1;
+  flex:1;
   font-size:14px;
   font-weight:900;
   color:#555;
-  line-height:1.5;
-  overflow-wrap:anywhere;
 }
 
 .status-time{
   display:block;
-  grid-column:1 / -1;
-  grid-row:2;
   width:100%;
-  min-height:16px;
-  margin:0;
-  padding:0;
+  margin-top:7px;
+  padding:0 2px;
   text-align:right;
   white-space:nowrap;
   font-family:'Noto Sans JP',sans-serif;
   font-size:10px;
-  line-height:1.4;
+  line-height:1.5;
   font-weight:500;
   color:#8c95a5;
   background:transparent;
   border:0;
   box-shadow:none;
-  overflow:visible;
 }
-
 
 
 /* =========================================
@@ -1161,7 +1146,22 @@ main{
 </head>
 
 
-<body>
+<body class="crowd-page-only-hidden">
+<script>
+/* crowd.html 専用ページ判定
+   TOPページ(index.html / /)などでは混雑情報ページを表示しない */
+(function(){
+  const path = window.location.pathname.toLowerCase();
+  const isCrowdPage =
+    path.endsWith('/crowd.html') ||
+    path.endsWith('/crowd.htm');
+
+  if(isCrowdPage){
+    document.body.classList.remove('crowd-page-only-hidden');
+  }
+})();
+</script>
+
 
 
 <div class="bg-shapes">
@@ -1727,38 +1727,151 @@ function safeValue(
 
 function safeDateValue(value){
 
-  if(value === undefined || value === null || value === "") return null;
+  if(
+    value === undefined ||
+    value === null ||
+    value === ""
+  ){
 
-  if(value instanceof Date){
-    return Number.isNaN(value.getTime()) ? null : value.toISOString();
+    return null;
+
   }
 
-  if(typeof value === "number" || /^\d+(\.\d+)?$/.test(String(value).trim())){
 
-    let timestamp = Number(value);
+  /*
+    数値のタイムスタンプに対応
+  */
 
-    if(!Number.isFinite(timestamp)) return null;
+  if(
+    typeof value === "number"
+  ){
 
-    if(timestamp < 100000000000){
-      timestamp *= 1000;
+    let timestamp =
+      value;
+
+
+    /*
+      秒単位の場合はミリ秒に変換
+    */
+
+    if(
+      timestamp < 100000000000
+    ){
+
+      timestamp =
+        timestamp * 1000;
+
     }
 
-    const timestampDate = new Date(timestamp);
 
-    return Number.isNaN(timestampDate.getTime())
-      ? null
-      : timestampDate.toISOString();
+    const date =
+      new Date(
+        timestamp
+      );
+
+
+    if(
+      !Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      return date.toISOString();
+
+    }
+
   }
 
-  const safe = String(value).trim();
 
-  if(!safe) return null;
+  const safe =
+    safeValue(
+      value,
+      ""
+    );
 
-  const date = new Date(safe);
 
-  if(Number.isNaN(date.getTime())) return null;
+  if(
+    !safe
+  ){
+
+    return null;
+
+  }
+
+
+  /*
+    数字だけの場合は
+    Unixタイムスタンプとして処理
+  */
+
+  if(
+    /^\d+$/.test(
+      safe
+    )
+  ){
+
+    let timestamp =
+      Number(
+        safe
+      );
+
+
+    /*
+      10桁程度のUnix秒の場合
+    */
+
+    if(
+      timestamp < 100000000000
+    ){
+
+      timestamp =
+        timestamp * 1000;
+
+    }
+
+
+    const timestampDate =
+      new Date(
+        timestamp
+      );
+
+
+    if(
+      !Number.isNaN(
+        timestampDate.getTime()
+      )
+    ){
+
+      return timestampDate.toISOString();
+
+    }
+
+  }
+
+
+  /*
+    ISO形式など通常の日時文字列
+  */
+
+  const date =
+    new Date(
+      safe
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return null;
+
+  }
+
 
   return date.toISOString();
+
 }
 
 
@@ -2297,124 +2410,244 @@ async function loadEvents(){
 
 async function loadCrowdStatus(){
 
-  if(!API_URL){
+  if(
+    !API_URL
+  ){
+
     return;
+
   }
+
 
   try{
 
-    const response = await fetch(
-      API_URL + "/api/crowd",
-      { cache:"no-store" }
-    );
-
-    if(!response.ok){
-      throw new Error("混雑情報の取得に失敗しました");
-    }
-
-    const crowdData = await response.json();
-
-    console.log("取得した混雑情報:", crowdData);
-
-    if(!crowdData || typeof crowdData !== "object") return;
-
-    eventsData.forEach(event => {
-
-      let saved = null;
-
-      const containers = [
-        crowdData,
-        crowdData.data,
-        crowdData.events,
-        crowdData.crowd,
-        crowdData.results
-      ];
-
-      for(const container of containers){
-        if(!container) continue;
-
-        if(Array.isArray(container)){
-          saved = container.find(item =>
-            item &&
-            safeValue(item.id, "") === safeValue(event.id, "")
-          );
+    const response =
+      await fetch(
+        API_URL +
+        "/api/crowd",
+        {
+          cache:"no-store"
         }
-        else if(typeof container === "object" && container[event.id]){
-          saved = container[event.id];
-        }
-
-        if(saved && typeof saved === "object") break;
-      }
-
-      if(!saved || typeof saved !== "object"){
-        event.status = "unknown";
-        event.updatedAt = null;
-        return;
-      }
-
-      event.status = safeStatus(
-        saved.status ||
-        saved.crowdStatus ||
-        saved.crowd_status
       );
 
-      const rawUpdatedAt = getUpdatedAtValue(saved);
-      const safeUpdatedAt = safeDateValue(rawUpdatedAt);
 
-      event.updatedAt = safeUpdatedAt;
+    if(
+      !response.ok
+    ){
 
-      console.log("企画の混雑情報:", {
-        id:event.id,
-        status:event.status,
-        rawUpdatedAt:rawUpdatedAt,
-        updatedAt:event.updatedAt
-      });
+      throw new Error(
+        "混雑情報の取得に失敗しました"
+      );
 
-    });
+    }
+
+
+    const crowdData =
+      await response.json();
+
+
+    console.log(
+      "取得した混雑情報:",
+      crowdData
+    );
+
+
+    /*
+      APIからデータが返ってこなかった場合
+    */
+
+    if(
+      !crowdData
+    ){
+
+      return;
+
+    }
+
+
+    eventsData.forEach(
+      event => {
+
+        let saved =
+          null;
+
+
+        /*
+          形式1
+
+          {
+            "event-id":{
+              status:"empty",
+              updatedAt:"..."
+            }
+          }
+        */
+
+        if(
+          typeof crowdData ===
+          "object" &&
+
+          !Array.isArray(
+            crowdData
+          )
+        ){
+
+          saved =
+            crowdData[
+              event.id
+            ];
+
+
+          /*
+            dataの中に情報がある場合
+          */
+
+          if(
+            !saved &&
+            crowdData.data &&
+            typeof crowdData.data ===
+            "object"
+          ){
+
+            saved =
+              crowdData.data[
+                event.id
+              ];
+
+          }
+
+        }
+
+
+        /*
+          形式2
+
+          [
+            {
+              id:"event-id",
+              status:"empty",
+              updatedAt:"..."
+            }
+          ]
+        */
+
+        if(
+          Array.isArray(
+            crowdData
+          )
+        ){
+
+          saved =
+            crowdData.find(
+              item =>
+                safeValue(
+                  item.id,
+                  ""
+                ) ===
+                safeValue(
+                  event.id,
+                  ""
+                )
+            );
+
+        }
+
+
+        /*
+          データが存在しない場合
+        */
+
+        if(
+          !saved ||
+          typeof saved !==
+          "object"
+        ){
+
+          event.status =
+            "unknown";
+
+
+          event.updatedAt =
+            null;
+
+
+          return;
+
+        }
+
+
+        /*
+          ステータス取得
+        */
+
+        event.status =
+          safeStatus(
+            saved.status ||
+            saved.crowdStatus ||
+            saved.crowd_status
+          );
+
+
+        /*
+          APIから返される可能性のある
+          すべての更新日時名に対応
+        */
+
+        const rawUpdatedAt =
+
+          saved.updatedAt ||
+
+          saved.updated_at ||
+
+          saved.updated_time ||
+
+          saved.updatedTime ||
+
+          saved.timestamp ||
+
+          saved.time ||
+
+          saved.createdAt ||
+
+          saved.created_at ||
+
+          null;
+
+
+        /*
+          更新日時を安全に変換
+        */
+
+        event.updatedAt =
+          safeDateValue(
+            rawUpdatedAt
+          );
+
+
+        console.log(
+          "企画の混雑情報:",
+          {
+            id:event.id,
+            status:event.status,
+            rawUpdatedAt:rawUpdatedAt,
+            updatedAt:event.updatedAt
+          }
+        );
+
+      }
+    );
 
   }
+
   catch(error){
-    console.error("混雑情報の取得に失敗しました", error);
+
+    console.error(
+      "混雑情報の取得に失敗しました",
+      error
+    );
+
   }
 
-}
-
-
-/* =========================================
-   更新日時を統一して取得
-========================================= */
-
-function getUpdatedAtValue(record){
-
-  if(!record || typeof record !== "object") return null;
-
-  const directKeys = [
-    "updatedAt",
-    "updated_at",
-    "updated_time",
-    "updatedTime",
-    "timestamp",
-    "time",
-    "createdAt",
-    "created_at"
-  ];
-
-  for(const key of directKeys){
-    if(record[key] !== undefined && record[key] !== null && record[key] !== ""){
-      return record[key];
-    }
-  }
-
-  const nestedKeys = ["data", "event", "crowd", "result"];
-
-  for(const key of nestedKeys){
-    if(record[key] && typeof record[key] === "object"){
-      const nestedValue = getUpdatedAtValue(record[key]);
-      if(nestedValue) return nestedValue;
-    }
-  }
-
-  return null;
 }
 
 
@@ -2657,10 +2890,14 @@ function renderEvents(){
             </span>
 
 
-            <div
-              class="status-time"
-              aria-live="polite"
-            >${escapeHtml(timeText)}</div>
+          </div>
+
+
+          <div class="status-time">
+
+            ${escapeHtml(
+              timeText
+            )}
 
           </div>
 
@@ -2766,43 +3003,131 @@ function renderEvents(){
 
 function getTimeText(updatedAt){
 
-  const safeUpdatedAt = safeDateValue(updatedAt);
+  const safeUpdatedAt =
+    safeDateValue(
+      updatedAt
+    );
 
-  if(!safeUpdatedAt){
-    return "最終更新: 情報なし";
+
+  if(
+    !safeUpdatedAt
+  ){
+
+    return
+      "最終更新: 情報なし";
+
   }
 
-  const date = new Date(safeUpdatedAt);
 
-  if(Number.isNaN(date.getTime())){
-    return "最終更新: 情報なし";
+  const date =
+    new Date(
+      safeUpdatedAt
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return
+      "最終更新: 情報なし";
+
   }
 
-  const now = new Date();
-  const diffMs = Math.max(0, now.getTime() - date.getTime());
-  const diffMinutes = Math.floor(diffMs / 1000 / 60);
 
-  if(diffMinutes < 1){
-    return "最終更新: たった今";
+  const now =
+    new Date();
+
+
+  const diffMs =
+    Math.max(
+      0,
+      now.getTime() -
+      date.getTime()
+    );
+
+
+  const diffMinutes =
+    Math.floor(
+      diffMs /
+      1000 /
+      60
+    );
+
+
+  if(
+    diffMinutes < 1
+  ){
+
+    return
+      "最終更新: たった今";
+
   }
 
-  if(diffMinutes < 60){
-    return `最終更新: ${diffMinutes}分前`;
+
+  if(
+    diffMinutes < 60
+  ){
+
+    return
+      `最終更新: ${diffMinutes}分前`;
+
   }
 
-  const diffHours = Math.floor(diffMinutes / 60);
 
-  if(diffHours < 24){
-    return `最終更新: ${diffHours}時間前`;
+  const diffHours =
+    Math.floor(
+      diffMinutes /
+      60
+    );
+
+
+  if(
+    diffHours < 24
+  ){
+
+    return
+      `最終更新: ${diffHours}時間前`;
+
   }
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = String(date.getHours()).padStart(2, "0");
-  const minute = String(date.getMinutes()).padStart(2, "0");
 
-  return `最終更新: ${year}/${month}/${day} ${hour}:${minute}`;
+  const year =
+    date.getFullYear();
+
+
+  const month =
+    date.getMonth() +
+    1;
+
+
+  const day =
+    date.getDate();
+
+
+  const hour =
+    String(
+      date.getHours()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const minute =
+    String(
+      date.getMinutes()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return
+    `最終更新: ${year}/${month}/${day} ${hour}:${minute}`;
+
 }
 
 
@@ -3271,21 +3596,56 @@ submitBtn.addEventListener(
       */
 
       const rawUpdatedAt =
-        getUpdatedAtValue(result) ||
-        new Date().toISOString();
+
+        result.updatedAt ||
+
+        result.updated_at ||
+
+        result.updated_time ||
+
+        result.updatedTime ||
+
+        result.timestamp ||
+
+        result.time ||
+
+        result.createdAt ||
+
+        result.created_at ||
+
+        null;
 
 
       const safeUpdatedAt =
-        safeDateValue(rawUpdatedAt);
+        safeDateValue(
+          rawUpdatedAt
+        );
 
 
       /*
         APIが日時を返した場合
       */
 
-      selectedEvent.updatedAt =
-        safeUpdatedAt ||
-        new Date().toISOString();
+      if(
+        safeUpdatedAt
+      ){
+
+        selectedEvent.updatedAt =
+          safeUpdatedAt;
+
+      }
+
+      /*
+        APIが日時を返さない場合は
+        投稿直後だけ現在時刻を表示
+      */
+
+      else{
+
+        selectedEvent.updatedAt =
+          new Date().toISOString();
+
+      }
 
 
       closeShareModal();
