@@ -1203,7 +1203,7 @@ main{
 
     <p>
       各企画・教室の現在の混雑状況を確認できます。<br>
-      ぜひ情報共有にご協力ください。
+      現在の状況を知っている場合は、ぜひ情報共有にご協力ください。
     </p>
 
   </section>
@@ -1216,8 +1216,8 @@ main{
     </strong>
 
     <span>
-      混雑情報は利用者から共有された情報をもとに表示されます。<br>
-      実際の混雑状況と異なる場合がありますので、参考程度にご利用ください。
+      混雑情報は利用者から共有された情報をもとに表示します。<br>
+      実際の混雑状況と異なる場合がありますので、参考情報としてご利用ください。
     </span>
 
   </div>
@@ -1685,6 +1685,72 @@ let floorFilter =
 
 let keywordFilter =
   "";
+
+
+/* =========================================
+   クラス・団体名の個別設定
+
+   events.html側に「クラス」「クラス・団体」「団体」の
+   情報がない企画だけ、ここにIDと名前を追加できます。
+
+   例：
+   "other1": "○○部",
+   "other2": "○年○組"
+
+   ここに設定した名前は、元のクラス・団体名が
+   空欄・「-」・「－」などの場合だけ使用されます。
+   既存のクラス・団体名があるカードには影響しません。
+========================================= */
+
+const classNameOverrides = {
+
+  "other1": "",
+
+  "other2": ""
+
+};
+
+
+/* =========================================
+   クラス・団体名が未設定か判定
+========================================= */
+
+function isMissingClassName(value){
+
+  const normalized =
+    safeValue(value, "")
+      .replace(/\s+/g, "")
+      .toLowerCase();
+
+  return (
+    !normalized ||
+    normalized === "-" ||
+    normalized === "－" ||
+    normalized === "−" ||
+    normalized === "―" ||
+    normalized === "—"
+  );
+}
+
+
+/* =========================================
+   個別設定を反映したクラス・団体名を取得
+========================================= */
+
+function getClassName(id, value){
+
+  const original =
+    safeValue(value, "");
+
+  if(!isMissingClassName(original)){
+    return original;
+  }
+
+  return safeValue(
+    classNameOverrides[id],
+    ""
+  );
+}
 
 
 /* =========================================
@@ -2198,7 +2264,10 @@ async function loadEvents(){
                     "クラス" ||
 
                   labelText ===
-                    "クラス・団体"
+                    "クラス・団体" ||
+
+                  labelText ===
+                    "団体"
                 ){
 
                   className =
@@ -2219,6 +2288,13 @@ async function loadEvents(){
 
               }
             );
+
+
+            className =
+              getClassName(
+                id,
+                className
+              );
 
 
             eventList.push({
@@ -3545,7 +3621,7 @@ submitBtn.addEventListener(
 
 
       showToast(
-        "Thank you!"
+        "混雑状況を共有しました。次の共有は5分後から可能です。"
       );
 
 
