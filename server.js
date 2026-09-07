@@ -40,11 +40,11 @@ app.use(express.json());
 
 const STATUS_SCORES = {
 
-  empty:0,
+  empty: 0,
 
-  normal:50,
+  normal: 50,
 
-  crowded:100
+  crowded: 100
 
 };
 
@@ -142,7 +142,6 @@ const CONFIDENCE_SCALE =
   同じ投稿者が同じ企画へ
   短時間に大量投稿することを防ぐ。
 
-  クライアント側だけでなく、
   サーバー側でもチェックする。
 */
 
@@ -151,18 +150,15 @@ const VOTER_POST_INTERVAL_MS =
 
 
 /*
-  投稿者情報を保持する。
+  投稿者履歴。
 
-  voterIdは個人情報ではなく、
-  ブラウザで生成した匿名ランダムID。
+  key:
 
-  例：
+    voterId + "::" + 企画ID
 
-  voterId
-  +
-  企画ID
+  value:
 
-  の組み合わせで制限する。
+    最後に投稿した時刻
 */
 
 const voterPostHistory =
@@ -181,11 +177,13 @@ const voterPostHistory =
 
       {
         status:"empty",
+        voterId:"xxxxxxxx",
         updatedAt:"2026-09-07T..."
       },
 
       {
         status:"crowded",
+        voterId:"yyyyyyyy",
         updatedAt:"2026-09-07T..."
       }
 
@@ -193,6 +191,7 @@ const voterPostHistory =
   }
 
 */
+
 
 const crowdData = {};
 
@@ -257,6 +256,16 @@ function cleanOldData(){
       crowdData[id] =
         crowdData[id].filter(
           item => {
+
+            if(
+              !item ||
+              typeof item !== "object"
+            ){
+
+              return false;
+
+            }
+
 
             const postTime =
               new Date(
@@ -341,6 +350,170 @@ function cleanVoterHistory(){
 
 
 /* =========================================
+   同一投稿者の重複投稿整理
+========================================= */
+
+/*
+  同じ voterId が同じ企画へ
+  複数回投稿している場合、
+
+  「その人の最新の1票だけ」
+
+  を混雑スコア計算に使用する。
+
+  これにより、
+
+  1人が5分ごとに
+
+  混雑
+  ↓
+  混雑
+  ↓
+  混雑
+  ↓
+  混雑
+
+  と何度も送信しても、
+
+  その人が4人分の票を
+  持っているような状態にはならない。
+*/
+
+function getLatestVotesByVoter(posts){
+
+  if(
+    !Array.isArray(posts)
+  ){
+
+    return [];
+
+  }
+
+
+  const latestByVoter =
+    new Map();
+
+
+  posts.forEach(
+    post => {
+
+      if(
+        !post ||
+        typeof post !== "object"
+      ){
+
+        return;
+
+      }
+
+
+      const voterId =
+        typeof post.voterId === "string"
+          ? post.voterId
+          : "";
+
+
+      /*
+        voterIdが存在しない古い形式の
+        データについては、
+
+        投稿そのものを1票として扱う。
+
+        現在のPOSTでは必ず
+        voterIdが保存される。
+      */
+
+      if(
+        !voterId
+      ){
+
+        const anonymousKey =
+          "__anonymous__" +
+          Math.random()
+            .toString(36)
+            .slice(2);
+
+
+        latestByVoter.set(
+          anonymousKey,
+          post
+        );
+
+
+        return;
+
+      }
+
+
+      const existing =
+        latestByVoter.get(
+          voterId
+        );
+
+
+      /*
+        同じユーザーの場合、
+        投稿日時が新しいものだけ残す。
+      */
+
+      if(
+        !existing
+      ){
+
+        latestByVoter.set(
+          voterId,
+          post
+        );
+
+        return;
+
+      }
+
+
+      const currentTime =
+        new Date(
+          post.updatedAt
+        ).getTime();
+
+
+      const existingTime =
+        new Date(
+          existing.updatedAt
+        ).getTime();
+
+
+      if(
+        Number.isFinite(
+          currentTime
+        ) &&
+        (
+          !Number.isFinite(
+            existingTime
+          ) ||
+          currentTime >
+            existingTime
+        )
+      ){
+
+        latestByVoter.set(
+          voterId,
+          post
+        );
+
+      }
+
+    }
+  );
+
+
+  return Array.from(
+    latestByVoter.values()
+  );
+
+}
+
+
+/* =========================================
    混雑状況計算
 ========================================= */
 
@@ -380,6 +553,19 @@ function calculateCrowdStatus(posts){
     Date.now();
 
 
+  /*
+    同じユーザーの複数投稿がある場合、
+    最新の1票だけを使用する。
+
+    これが大量連投対策の中心。
+  */
+
+  const latestVotes =
+    getLatestVotesByVoter(
+      posts
+    );
+
+
   let weightedScore =
     PRIOR_SCORE *
     PRIOR_WEIGHT;
@@ -401,7 +587,7 @@ function calculateCrowdStatus(posts){
     null;
 
 
-  posts.forEach(
+  latestVotes.forEach(
     post => {
 
       if(
@@ -449,7 +635,7 @@ function calculateCrowdStatus(posts){
 
       /*
         60分より古いものは
-        念のため計算から除外。
+        計算から除外。
       */
 
       if(
@@ -539,9 +725,13 @@ function calculateCrowdStatus(posts){
   );
 
 
+  /*
+    実際に使用できる投票が
+    1票もない場合。
+  */
+
   if(
-    totalWeight <=
-    PRIOR_WEIGHT
+    voteCount === 0
   ){
 
     return {
@@ -600,7 +790,9 @@ function calculateCrowdStatus(posts){
     有効投票数が増えるほど
     100%へ近づく。
 
-    ただし「正解率」ではない。
+    これは正解率ではなく、
+    「どれだけ情報が集まっているか」
+    の目安。
   */
 
   const rawConfidence =
@@ -898,6 +1090,9 @@ app.post(
 
       status:
         status,
+
+      voterId:
+        voterId,
 
       updatedAt:
         updatedAt
