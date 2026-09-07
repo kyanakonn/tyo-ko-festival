@@ -1146,61 +1146,7 @@ main{
 </head>
 
 
-<body class="crowd-page-only-hidden">
-<script>
-/* =========================================
-   混雑情報ページをTOPページから完全分離
-
-   ・crowd.html / crowd.htm のときだけ表示
-   ・TOPページ(index.html / /)では絶対に表示しない
-   ・TOPページからiframe等で呼び出された場合も表示しない
-   ・crowd.htmlの内容がTOPへ誤って読み込まれた場合も非表示
-========================================= */
-(function(){
-
-  const currentPath =
-    window.location.pathname.toLowerCase();
-
-  let topPath = currentPath;
-
-  try{
-    topPath =
-      window.top.location.pathname.toLowerCase();
-  }
-  catch(error){
-    topPath = currentPath;
-  }
-
-  const isCrowdPath =
-    currentPath.endsWith('/crowd.html') ||
-    currentPath.endsWith('/crowd.htm');
-
-  const isTopPath =
-    topPath === '/' ||
-    topPath === '/index.html' ||
-    topPath.endsWith('/index.html') ||
-    topPath.endsWith('/index.htm');
-
-  /*
-    TOPページ自身、またはTOPページ内から呼び出された場合は
-    bodyを表示しない。
-  */
-  if(
-    isTopPath ||
-    !isCrowdPath
-  ){
-    document.body.style.display = 'none';
-    document.documentElement.style.display = 'none';
-  }
-  else{
-    document.body.classList.remove(
-      'crowd-page-only-hidden'
-    );
-  }
-
-})();
-</script>
-
+<body>
 
 
 <div class="bg-shapes">
