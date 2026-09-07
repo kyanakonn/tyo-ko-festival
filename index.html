@@ -292,14 +292,6 @@ h2 {
    お知らせカード
 ========================================= */
 
-/*
-  画面幅より18pxだけ小さくすることで、
-  次のカードの端が常に18px見える。
-
-  margin-rightは設定しない。
-  width + marginで100%になってしまうのを防ぐ。
-*/
-
 .notice-item {
   flex: 0 0 calc(100% - 18px);
   min-width: calc(100% - 18px);
@@ -771,12 +763,6 @@ h2 {
    企画一覧 → アクセス間の余白を縮小
 ========================================= */
 
-/*
-  「企画一覧をみる」ボタンから
-  「アクセス」セクションまでの
-  大きな縦の隙間を少し縮める。
-*/
-
 #events {
   margin-bottom: 0 !important;
   padding-bottom: 20px !important;
@@ -807,6 +793,204 @@ h2 {
 
   #access {
     margin-top: 0 !important;
+  }
+
+}
+
+
+/* =========================================
+   画面が小さい場合の縦余白調整
+   =========================================
+
+   デザイン・機能・画像サイズなどは変更せず、
+   セクション間に発生する不要な縦方向の
+   余白だけを縮小する。
+========================================= */
+
+@media (max-width: 600px){
+
+  /*
+    セクション同士の不要な外側余白を削除
+  */
+
+  #notices,
+  #about,
+  #events,
+  #access {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+
+  /*
+    お知らせ
+  */
+
+  #notices {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+
+  /*
+    ピックアップ
+  */
+
+  #about {
+    padding-top: 25px !important;
+    padding-bottom: 20px !important;
+  }
+
+
+  /*
+    企画・イベント
+  */
+
+  #events {
+    padding-top: 20px !important;
+    padding-bottom: 15px !important;
+  }
+
+
+  /*
+    アクセス
+  */
+
+  #access {
+    padding-top: 20px !important;
+    padding-bottom: 30px !important;
+  }
+
+
+  /*
+    各見出しの上下にある
+    必要以上の余白を縮小
+  */
+
+  #notices h2,
+  #about h2,
+  #events h2,
+  #access h2 {
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+  }
+
+
+  /*
+    バナーセクションの上下余白
+  */
+
+  .banner-section {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+
+
+  /*
+    お知らせボタン周辺
+  */
+
+  .notice-button-wrap {
+    margin-top: 15px !important;
+    margin-bottom: 0 !important;
+  }
+
+
+  /*
+    スワイプ案内
+  */
+
+  .notice-hint {
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+  }
+
+
+  /*
+    ピックアップ内の画像リンク周辺
+    余白が設定されている場合のみ縮小
+  */
+
+  .info-links {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+
+  /*
+    イベントスライダー周辺
+  */
+
+  #events .slider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+
+  /*
+    アクセス内容周辺
+  */
+
+  .access-row {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+}
+
+
+/* =========================================
+   さらに小さい画面
+   =========================================
+
+   480px以下では余白をもう一段だけ縮小。
+   コンテンツそのもののサイズは変更しない。
+========================================= */
+
+@media (max-width: 480px){
+
+  #about {
+    padding-top: 20px !important;
+    padding-bottom: 15px !important;
+  }
+
+
+  #events {
+    padding-top: 15px !important;
+    padding-bottom: 10px !important;
+  }
+
+
+  #access {
+    padding-top: 15px !important;
+    padding-bottom: 25px !important;
+  }
+
+
+  #notices h2,
+  #about h2,
+  #events h2,
+  #access h2 {
+    margin-bottom: 12px !important;
+  }
+
+
+  .banner-section {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+
+
+  .notice-button-wrap {
+    margin-top: 12px !important;
+  }
+
+
+  .notice-hint {
+    margin-top: 6px !important;
   }
 
 }
