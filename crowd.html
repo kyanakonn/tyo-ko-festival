@@ -67,6 +67,7 @@ body{
   color:var(--text);
   touch-action:pan-y;
   -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
 }
 
 body{
@@ -197,7 +198,7 @@ main{
   padding:
     calc(var(--header-height) + 42px)
     20px
-    80px;
+    100px;
 }
 
 
@@ -221,14 +222,10 @@ main{
   font-weight:900;
   letter-spacing:.05em;
   color:var(--pink);
-
-  /*
-    白い角丸背景を削除
-  */
-
-  background:none;
-  box-shadow:none;
-  border-radius:0;
+  background:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  border:none!important;
 }
 
 .page-heading p{
@@ -434,6 +431,7 @@ main{
   overflow:hidden;
   background:#fff;
   border:2px solid rgba(36,36,42,.12);
+  border-radius:0!important;
   box-shadow:8px 8px 0 rgba(0,0,0,.08);
 
   transition:
@@ -496,18 +494,40 @@ main{
 
 /* =========================================
    カードタイトル
+   白い角丸背景を完全に削除
 ========================================= */
 
 .crowd-card-title{
   position:relative;
   z-index:1;
-  margin:34px 0 20px;
-  padding-right:10px;
+  display:block!important;
+  margin:34px 0 20px!important;
+  padding:0 10px 0 0!important;
   font-size:20px;
   line-height:1.55;
   font-weight:900;
   color:var(--text);
   word-break:break-word;
+
+  background:none!important;
+  background-color:transparent!important;
+  border:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+.crowd-card-title::before,
+.crowd-card-title::after{
+  content:none!important;
+  display:none!important;
+}
+
+.crowd-card-title *{
+  background:none!important;
+  background-color:transparent!important;
+  border:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
 }
 
 
@@ -525,7 +545,7 @@ main{
 
 .info-row{
   display:grid;
-  grid-template-columns:75px 1fr;
+  grid-template-columns:90px 1fr;
   gap:8px;
   margin-top:8px;
   font-size:13px;
@@ -603,6 +623,8 @@ main{
 }
 
 .status-time{
+  display:block;
+  min-height:18px;
   margin-top:8px;
   text-align:right;
   font-size:10px;
@@ -909,6 +931,74 @@ main{
 
 
 /* =========================================
+   ページ最上部へ戻るボタン
+========================================= */
+
+#backToTop{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:9000;
+
+  width:46px;
+  height:46px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+  border-radius:50%;
+
+  background:#1e1e2f;
+  color:#fff;
+
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:24px;
+  font-weight:700;
+  line-height:1;
+
+  cursor:pointer;
+
+  box-shadow:
+    3px 3px 0
+    rgba(255,77,109,.45);
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:
+    translateY(15px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease,
+    transform .25s ease,
+    box-shadow .2s ease;
+}
+
+#backToTop.show{
+  opacity:.92;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+#backToTop:hover{
+  opacity:1;
+  transform:
+    translateY(-2px);
+}
+
+#backToTop:active{
+  transform:
+    translateY(1px);
+  box-shadow:
+    1px 1px 0
+    rgba(255,77,109,.45);
+}
+
+
+/* =========================================
    タブレット
 ========================================= */
 
@@ -936,7 +1026,7 @@ main{
     padding:
       calc(var(--header-height) + 28px)
       12px
-      70px;
+      90px;
   }
 
   .page-heading{
@@ -1005,7 +1095,7 @@ main{
   }
 
   .crowd-card-title{
-    margin:32px 0 17px;
+    margin:32px 0 17px!important;
     font-size:18px;
   }
 
@@ -1030,6 +1120,14 @@ main{
 
   .modal-btn{
     width:100%;
+  }
+
+  #backToTop{
+    right:14px;
+    bottom:16px;
+    width:43px;
+    height:43px;
+    font-size:22px;
   }
 
 }
@@ -1090,8 +1188,6 @@ main{
   <section class="filter-area">
 
 
-    <!-- キーワード検索 -->
-
     <div class="filter-group">
 
       <div class="filter-title">
@@ -1102,14 +1198,12 @@ main{
         type="search"
         id="keywordSearch"
         class="keyword-search"
-        placeholder="企画名・クラス・開催場所を検索"
+        placeholder="企画名・クラス・団体・開催場所を検索"
         autocomplete="off"
       >
 
     </div>
 
-
-    <!-- カテゴリ -->
 
     <div class="filter-group">
 
@@ -1161,8 +1255,6 @@ main{
 
     </div>
 
-
-    <!-- 階数 -->
 
     <div class="filter-group">
 
@@ -1348,6 +1440,19 @@ main{
 </div>
 
 
+<!-- =========================================
+     ページ最上部へ戻るボタン
+========================================= -->
+
+<button
+  id="backToTop"
+  type="button"
+  aria-label="ページの一番上へ戻る"
+>
+  ↑
+</button>
+
+
 <script>
 
 
@@ -1499,10 +1604,6 @@ const POST_INTERVAL_MS =
   5 * 60 * 1000;
 
 
-/*
-  ブラウザ内に保存するキー
-*/
-
 const LAST_POST_KEY =
   "chosei_fes_crowd_last_post_at";
 
@@ -1556,6 +1657,12 @@ const toast =
 const keywordSearch =
   document.getElementById(
     "keywordSearch"
+  );
+
+
+const backToTop =
+  document.getElementById(
+    "backToTop"
   );
 
 
@@ -1966,7 +2073,9 @@ async function loadEvents(){
 
                 if(
                   labelText ===
-                  "クラス"
+                    "クラス" ||
+                  labelText ===
+                    "クラス・団体"
                 ){
 
                   className =
@@ -2088,7 +2197,10 @@ async function loadCrowdStatus(){
     const response =
       await fetch(
         API_URL +
-        "/api/crowd"
+        "/api/crowd",
+        {
+          cache:"no-store"
+        }
       );
 
 
@@ -2177,8 +2289,6 @@ function renderEvents(){
     event => {
 
 
-      /* カテゴリ */
-
       const categoryMatch =
         categoryFilter ===
         "all" ||
@@ -2186,8 +2296,6 @@ function renderEvents(){
         event.category ===
         categoryFilter;
 
-
-      /* 階数 */
 
       const floorMatch =
         floorFilter ===
@@ -2200,8 +2308,6 @@ function renderEvents(){
           floorFilter
         );
 
-
-      /* キーワード検索 */
 
       const searchTarget =
         (
@@ -2298,7 +2404,7 @@ function renderEvents(){
           <div class="info-row">
 
             <div class="info-label">
-              クラス
+              クラス・団体
             </div>
 
             <div class="info-value">
@@ -2494,67 +2600,87 @@ function getTimeText(updatedAt){
     new Date();
 
 
-  const diff =
+  const diffMs =
     Math.max(
       0,
-      Math.floor(
-        (
-          now -
-          date
-        ) /
-        1000 /
-        60
-      )
+      now.getTime() -
+      date.getTime()
     );
 
 
-  if(
-    diff < 1
-  ){
-
-    return
-      "更新: たった今";
-
-  }
-
-
-  if(
-    diff < 60
-  ){
-
-    return
-      `更新: ${diff}分前`;
-
-  }
-
-
-  const hours =
+  const diffMinutes =
     Math.floor(
-      diff / 60
+      diffMs /
+      1000 /
+      60
     );
 
 
   if(
-    hours < 24
+    diffMinutes < 1
   ){
 
     return
-      `更新: ${hours}時間前`;
+      "最終更新: たった今";
 
   }
+
+
+  if(
+    diffMinutes < 60
+  ){
+
+    return
+      `最終更新: ${diffMinutes}分前`;
+
+  }
+
+
+  const diffHours =
+    Math.floor(
+      diffMinutes / 60
+    );
+
+
+  if(
+    diffHours < 24
+  ){
+
+    return
+      `最終更新: ${diffHours}時間前`;
+
+  }
+
+
+  const month =
+    date.getMonth() +
+    1;
+
+
+  const day =
+    date.getDate();
+
+
+  const hour =
+    String(
+      date.getHours()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const minute =
+    String(
+      date.getMinutes()
+    ).padStart(
+      2,
+      "0"
+    );
 
 
   return
-    "更新: " +
-    date.toLocaleString(
-      "ja-JP",
-      {
-        month:"numeric",
-        day:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
+    `最終更新: ${month}/${day} ${hour}:${minute}`;
 
 }
 
@@ -3003,11 +3129,6 @@ submitBtn.addEventListener(
         await response.json();
 
 
-      /*
-        投稿成功時だけ
-        5分間の制限を開始
-      */
-
       localStorage.setItem(
         LAST_POST_KEY,
         String(
@@ -3015,11 +3136,6 @@ submitBtn.addEventListener(
         )
       );
 
-
-      /*
-        Renderから返された
-        計算後の状態を反映
-      */
 
       selectedEvent.status =
         result.status ||
@@ -3117,10 +3233,6 @@ function showToast(message){
    投稿制限ボタンの定期更新
 ========================================= */
 
-/*
-  1秒ごとにボタンの残り時間を更新
-*/
-
 setInterval(
   () => {
 
@@ -3160,10 +3272,64 @@ setInterval(
 
 
 /* =========================================
+   最上部へ戻るボタン
+========================================= */
+
+function updateBackToTopButton(){
+
+  if(
+    window.scrollY > 300
+  ){
+
+    backToTop.classList.add(
+      "show"
+    );
+
+  }
+
+  else{
+
+    backToTop.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+window.addEventListener(
+  "scroll",
+  updateBackToTopButton,
+  {
+    passive:true
+  }
+);
+
+
+backToTop.addEventListener(
+  "click",
+  () => {
+
+    window.scrollTo(
+      {
+        top:0,
+        behavior:"smooth"
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
    初期読み込み
 ========================================= */
 
 loadEvents();
+
+
+updateBackToTopButton();
 
 
 /* =========================================
