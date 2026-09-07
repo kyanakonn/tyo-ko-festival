@@ -2870,41 +2870,99 @@ window.addEventListener(
 <script>
 /* =========================================
    混雑状況表示
-   ※ JavaScriptはstyleタグの外で実行
+   crowd.html と同じ /api/crowd の最新値を取得
+   ※ map=1tou は付けず、crowd.html と同じ取得方法に統一
 ========================================= */
 (function(){
-  const CROWD_API_URL = "https://chosei-fes.onrender.com";
-  const CROWD_STORAGE_KEY = "choko_crowd_map_visible";
+
+  const CROWD_API_URL =
+    "https://chosei-fes.onrender.com";
+
+  const CROWD_STORAGE_KEY =
+    "choko_crowd_map_visible";
+
+  const CROWD_REFRESH_MS =
+    15000;
 
   let crowdDisplayEnabled =
     localStorage.getItem(CROWD_STORAGE_KEY) !== "false";
 
-  function getToggleButton(){
-    return document.getElementById("crowdToggleButton");
-  }
+  let crowdRequestController = null;
 
+
+  /* -----------------------------------------
+     混雑状態を統一
+  ----------------------------------------- */
   function normalizeCrowdStatus(value){
-    const status = String(value ?? "").trim().toLowerCase();
 
-    if (["empty", "low", "free", "空いている", "比較的空いている"].includes(status)) {
+    const status =
+      String(value ?? "")
+        .trim()
+        .toLowerCase();
+
+    if([
+      "empty",
+      "low",
+      "free",
+      "空いている",
+      "比較的空いている"
+    ].includes(status)){
       return "empty";
     }
 
-    if (["normal", "medium", "moderate", "やや混雑している"].includes(status)) {
+    if([
+      "normal",
+      "medium",
+      "moderate",
+      "やや混雑している"
+    ].includes(status)){
       return "normal";
     }
 
-    if (["crowded", "high", "busy", "混雑している"].includes(status)) {
+    if([
+      "crowded",
+      "high",
+      "busy",
+      "混雑している"
+    ].includes(status)){
       return "crowded";
     }
 
     return "unknown";
   }
 
-  function getCrowdRecord(crowdData, targetId){
-    if(!crowdData || !targetId){
+
+  /* -----------------------------------------
+     企画IDを安全に文字列化
+  ----------------------------------------- */
+  function normalizeId(value){
+
+    return String(value ?? "")
+      .trim();
+  }
+
+
+  /* -----------------------------------------
+     APIレスポンスから企画情報を取得
+
+     crowd.html と同じ形式を基本にしつつ、
+     配列形式・オブジェクト形式の両方に対応。
+  ----------------------------------------- */
+  function getCrowdRecord(
+    crowdData,
+    targetId
+  ){
+
+    const id =
+      normalizeId(targetId);
+
+    if(
+      !crowdData ||
+      !id
+    ){
       return null;
     }
+
 
     const containers = [
       crowdData,
@@ -2914,30 +2972,108 @@ window.addEventListener(
       crowdData.results
     ];
 
-    for(const container of containers){
+
+    for(
+      const container of containers
+    ){
+
       if(!container){
         continue;
       }
 
+
+      /* 配列形式 */
       if(Array.isArray(container)){
-        const found = container.find(item =>
-          item && String(item.id ?? item.eventId ?? "").trim() === targetId
-        );
+
+        const found =
+          container.find(
+            item => {
+
+              if(
+                !item ||
+                typeof item !== "object"
+              ){
+                return false;
+              }
+
+              const itemId =
+                normalizeId(
+                  item.id ??
+                  item.eventId ??
+                  item.event_id
+                );
+
+              return itemId === id;
+            }
+          );
+
         if(found){
           return found;
         }
-      }else if(typeof container === "object"){
-        if(container[targetId] && typeof container[targetId] === "object"){
-          return container[targetId];
+
+        continue;
+      }
+
+
+      /* オブジェクト形式
+         {
+           "room-2d": {
+             status: "crowded"
+           }
+         }
+      */
+      if(
+        typeof container === "object"
+      ){
+
+        const direct =
+          container[id];
+
+        if(
+          direct &&
+          typeof direct === "object"
+        ){
+          return direct;
+        }
+
+
+        /* 念のためID表記ゆれにも対応 */
+        const foundKey =
+          Object.keys(container)
+            .find(
+              key =>
+                normalizeId(key) === id
+            );
+
+        if(foundKey){
+
+          const found =
+            container[foundKey];
+
+          if(
+            found &&
+            typeof found === "object"
+          ){
+            return found;
+          }
         }
       }
     }
 
+
     return null;
   }
 
+
+  /* -----------------------------------------
+     レコードから混雑状態を取得
+  ----------------------------------------- */
   function getStatusFromRecord(record){
-    if(!record){
+
+    if(
+      !record ||
+      typeof record !== "object"
+    ){
       return "unknown";
     }
 
@@ -2950,12 +3086,23 @@ window.addEventListener(
     );
   }
 
-  function applyCrowdVisual(hotspot, status){
+
+  /* -----------------------------------------
+     透ける色を反映
+  ----------------------------------------- */
+  function applyCrowdVisual(
+    hotspot,
+    status
+  ){
+
     if(!hotspot){
       return;
     }
 
-    const safeStatus = normalizeCrowdStatus(status);
+
+    const safeStatus =
+      normalizeCrowdStatus(status);
+
 
     hotspot.classList.remove(
       "crowd-empty",
@@ -2965,143 +3112,477 @@ window.addEventListener(
       "crowd-visible"
     );
 
-    hotspot.classList.add("crowd-" + safeStatus);
 
-    // 「情報なし」も灰色で表示する。
+    hotspot.classList.add(
+      "crowd-" + safeStatus
+    );
+
+
     if(crowdDisplayEnabled){
-      hotspot.classList.add("crowd-visible");
+
+      hotspot.classList.add(
+        "crowd-visible"
+      );
+
     }
+
   }
 
+
+  /* -----------------------------------------
+     表示ON/OFFボタン
+  ----------------------------------------- */
+  function getToggleButton(){
+
+    return document.getElementById(
+      "crowdToggleButton"
+    );
+
+  }
+
+
   function updateToggleButton(){
-    const button = getToggleButton();
+
+    const button =
+      getToggleButton();
+
     if(!button){
       return;
     }
 
-    button.classList.toggle("off", !crowdDisplayEnabled);
-    button.setAttribute("aria-pressed", String(crowdDisplayEnabled));
+
+    button.classList.toggle(
+      "off",
+      !crowdDisplayEnabled
+    );
+
+
+    button.setAttribute(
+      "aria-pressed",
+      String(crowdDisplayEnabled)
+    );
+
+
     button.innerHTML =
       '<span class="crowd-toggle-dot"></span>' +
-      (crowdDisplayEnabled ? "混雑表示：ON" : "混雑表示：OFF");
+      (
+        crowdDisplayEnabled
+          ? "混雑表示：ON"
+          : "混雑表示：OFF"
+      );
+
   }
 
+
+  /* -----------------------------------------
+     現在保持している状態を再表示
+  ----------------------------------------- */
   function refreshCrowdVisibility(){
-    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-      applyCrowdVisual(
-        hotspot,
-        hotspot.dataset.crowdStatus || "unknown"
+
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(
+        hotspot => {
+
+          applyCrowdVisual(
+            hotspot,
+            hotspot.dataset.crowdStatus ||
+              "unknown"
+          );
+
+        }
       );
-    });
+
 
     updateToggleButton();
+
   }
 
-  async function loadCrowdMapStatus(){
-    const hotspots = document.querySelectorAll(".map-hotspot");
 
-    // API取得前も「情報なし」として灰色表示にする。
-    hotspots.forEach(hotspot => {
-      if(!hotspot.dataset.crowdStatus){
-        hotspot.dataset.crowdStatus = "unknown";
-      }
-      applyCrowdVisual(hotspot, hotspot.dataset.crowdStatus);
-    });
+  /* -----------------------------------------
+     混雑レイヤー生成
+  ----------------------------------------- */
+  function setupCrowdLayers(){
 
-    try{
-      const response = await fetch(
-        CROWD_API_URL + "/api/crowd?map=1tou&_=" + Date.now(),
-        {
-          cache: "no-store",
-          headers: {"Accept": "application/json"}
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(
+        hotspot => {
+
+          if(
+            hotspot.querySelector(
+              ":scope > .crowd-visual-layer"
+            )
+          ){
+            return;
+          }
+
+
+          const layer =
+            document.createElement(
+              "span"
+            );
+
+
+          layer.className =
+            "crowd-visual-layer";
+
+
+          layer.setAttribute(
+            "aria-hidden",
+            "true"
+          );
+
+
+          hotspot.appendChild(
+            layer
+          );
+
         }
       );
 
-      if(!response.ok){
-        throw new Error("HTTP " + response.status);
-      }
+  }
 
-      const crowdData = await response.json();
 
-      hotspots.forEach(hotspot => {
-        let targetId = hotspot.dataset.modalType || "";
+  /* -----------------------------------------
+     最新の混雑情報を取得
+
+     crowd.html と同じ
+       GET /api/crowd
+     を使用する。
+     map=1tou を付けないことで、
+     crowd.html と1棟マップで同じ
+     サーバー結果を参照する。
+  ----------------------------------------- */
+  async function loadCrowdMapStatus(){
+
+    const hotspots =
+      Array.from(
+        document.querySelectorAll(
+          ".map-hotspot"
+        )
+      );
+
+
+    if(!hotspots.length){
+      return;
+    }
+
+
+    /* API取得前は現在の状態を維持。
+       初回だけ情報なし。 */
+    hotspots.forEach(
+      hotspot => {
 
         if(
-          targetId === "gymnasium" ||
-          targetId === "gymnasium-performance"
+          !hotspot.dataset.crowdStatus
         ){
-          targetId = "gymnasium-performance";
+
+          hotspot.dataset.crowdStatus =
+            "unknown";
+
         }
 
-        const saved = getCrowdRecord(crowdData, targetId);
-        hotspot.dataset.crowdStatus = getStatusFromRecord(saved);
 
         applyCrowdVisual(
           hotspot,
           hotspot.dataset.crowdStatus
         );
-      });
-    }catch(error){
-      console.error("混雑情報の取得に失敗しました", error);
-      // 取得できない場合は全て「情報なし」=灰色。
-      hotspots.forEach(hotspot => {
-        hotspot.dataset.crowdStatus = "unknown";
-        applyCrowdVisual(hotspot, "unknown");
-      });
+
+      }
+    );
+
+
+    /* 前回の通信が残っていた場合は中止 */
+    if(crowdRequestController){
+
+      try{
+        crowdRequestController.abort();
+      }catch(error){
+        /* no-op */
+      }
+
     }
 
+
+    crowdRequestController =
+      new AbortController();
+
+
+    try{
+
+      /*
+        crowd.html と完全に同じAPIを取得。
+        timestampを付けてブラウザ・CDNの
+        古いレスポンスを使わないようにする。
+      */
+      const response =
+        await fetch(
+          CROWD_API_URL +
+          "/api/crowd?_=" +
+          Date.now(),
+          {
+            method: "GET",
+            cache: "no-store",
+            signal:
+              crowdRequestController.signal,
+            headers: {
+              "Accept":
+                "application/json",
+              "Cache-Control":
+                "no-cache"
+            }
+          }
+        );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const crowdData =
+        await response.json();
+
+
+      if(
+        !crowdData ||
+        typeof crowdData !== "object"
+      ){
+
+        throw new Error(
+          "混雑情報の形式が正しくありません"
+        );
+
+      }
+
+
+      console.log(
+        "1棟マップ：最新の混雑情報を取得しました",
+        crowdData
+      );
+
+
+      /*
+        APIから取得した最新値を
+        全ホットスポットへ反映。
+      */
+      hotspots.forEach(
+        hotspot => {
+
+          let targetId =
+            normalizeId(
+              hotspot.dataset.modalType
+            );
+
+
+          /*
+            体育館は crowd.html と同じ
+            gymnasium-performance に統一。
+          */
+          if(
+            targetId === "gymnasium" ||
+            targetId ===
+              "gymnasium-performance"
+          ){
+
+            targetId =
+              "gymnasium-performance";
+
+          }
+
+
+          const saved =
+            getCrowdRecord(
+              crowdData,
+              targetId
+            );
+
+
+          const status =
+            getStatusFromRecord(
+              saved
+            );
+
+
+          hotspot.dataset.crowdStatus =
+            status;
+
+
+          applyCrowdVisual(
+            hotspot,
+            status
+          );
+
+        }
+      );
+
+
+    }catch(error){
+
+      /*
+        AbortControllerによる中止は
+        エラー扱いにしない。
+      */
+      if(
+        error &&
+        error.name === "AbortError"
+      ){
+        return;
+      }
+
+
+      console.error(
+        "1棟マップの混雑情報取得に失敗しました",
+        error
+      );
+
+
+      /*
+        通信失敗時は既存の表示を維持。
+        一時的な通信エラーで、表示中の
+        混雑色が突然灰色へ戻らないようにする。
+      */
+    }
+
+
     refreshCrowdVisibility();
+
   }
 
+
+  /* -----------------------------------------
+     混雑表示ON/OFF
+  ----------------------------------------- */
   function setupCrowdToggle(){
-    const button = getToggleButton();
+
+    const button =
+      getToggleButton();
+
     if(!button){
       return;
     }
 
-    button.addEventListener("click", function(event){
-      event.preventDefault();
-      event.stopPropagation();
 
-      crowdDisplayEnabled = !crowdDisplayEnabled;
+    button.addEventListener(
+      "click",
+      function(event){
 
-      localStorage.setItem(
-        CROWD_STORAGE_KEY,
-        String(crowdDisplayEnabled)
-      );
+        event.preventDefault();
+        event.stopPropagation();
 
-      refreshCrowdVisibility();
-    });
+
+        crowdDisplayEnabled =
+          !crowdDisplayEnabled;
+
+
+        localStorage.setItem(
+          CROWD_STORAGE_KEY,
+          String(
+            crowdDisplayEnabled
+          )
+        );
+
+
+        refreshCrowdVisibility();
+
+      }
+    );
+
 
     updateToggleButton();
+
   }
 
-  function setupCrowdLayers(){
-    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-      if(hotspot.querySelector(":scope > .crowd-visual-layer")){
-        return;
-      }
 
-      const layer = document.createElement("span");
-      layer.className = "crowd-visual-layer";
-      layer.setAttribute("aria-hidden", "true");
-      hotspot.appendChild(layer);
-    });
-  }
-
+  /* -----------------------------------------
+     初期化
+  ----------------------------------------- */
   function setup(){
+
     setupCrowdLayers();
+
     setupCrowdToggle();
+
     refreshCrowdVisibility();
+
+    /*
+      ページを開いた直後に取得。
+    */
     loadCrowdMapStatus();
-    setInterval(loadCrowdMapStatus, 15000);
+
+    /*
+      crowd.html と同じ15秒間隔で
+      最新状態を自動更新。
+    */
+    setInterval(
+      loadCrowdMapStatus,
+      CROWD_REFRESH_MS
+    );
+
+
+    /*
+      タブへ戻ってきた時も即時更新。
+      15秒待たずに最新状態を反映。
+    */
+    document.addEventListener(
+      "visibilitychange",
+      function(){
+
+        if(
+          document.visibilityState ===
+          "visible"
+        ){
+
+          loadCrowdMapStatus();
+
+        }
+
+      }
+    );
+
+
+    /*
+      ネットワーク復帰時にも更新。
+    */
+    window.addEventListener(
+      "online",
+      function(){
+
+        loadCrowdMapStatus();
+
+      }
+    );
+
   }
 
-  if(document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setup, {once:true});
-  } else {
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setup,
+      {once:true}
+    );
+
+  }else{
+
     setup();
+
   }
+
 })();
 </script>
 
