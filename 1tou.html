@@ -1621,162 +1621,49 @@ body {
    混雑状況表示
 ========================================= */
 
-const CROWD_API_URL =
-  "https://chosei-fes.onrender.com";
-
-let crowdDisplayEnabled =
-  localStorage.getItem("choko_crowd_map_visible") !== "false";
-
-const crowdToggleButton =
-  document.getElementById("crowdToggleButton");
-
-function normalizeCrowdStatus(value){
-  const status = String(value || "").trim();
-  return ["empty","normal","crowded"].includes(status)
-    ? status
-    : "unknown";
+/* 混雑表示レイヤー */
+.map-hotspot .crowd-visual-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+  box-sizing: border-box;
+  z-index: 2;
 }
 
-function getCrowdRecord(crowdData, targetId){
-  if(!crowdData || !targetId){
-    return null;
-  }
-
-  const containers = [
-    crowdData,
-    crowdData.data,
-    crowdData.events,
-    crowdData.crowd,
-    crowdData.results
-  ];
-
-  for(const container of containers){
-    if(!container){
-      continue;
-    }
-
-    if(Array.isArray(container)){
-      const found = container.find(item =>
-        item && String(item.id || "").trim() === targetId
-      );
-      if(found){
-        return found;
-      }
-    }else if(
-      typeof container === "object" &&
-      container[targetId] &&
-      typeof container[targetId] === "object"
-    ){
-      return container[targetId];
-    }
-  }
-
-  return null;
+.map-hotspot.crowd-visible .crowd-visual-layer {
+  opacity: 1;
+  visibility: visible;
 }
 
-function applyCrowdVisual(hotspot, status){
-  if(!hotspot){
-    return;
-  }
-
-  hotspot.classList.remove(
-    "crowd-empty",
-    "crowd-normal",
-    "crowd-crowded",
-    "crowd-unknown",
-    "crowd-visible"
-  );
-
-  const safeStatus = normalizeCrowdStatus(status);
-  hotspot.classList.add("crowd-" + safeStatus);
-
-  if(crowdDisplayEnabled && safeStatus !== "unknown"){
-    hotspot.classList.add("crowd-visible");
-  }
+.map-hotspot.crowd-empty .crowd-visual-layer {
+  background: rgba(79,157,105,.38);
+  border: 1px solid rgba(79,157,105,.68);
 }
 
-function refreshCrowdVisibility(){
-  document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-    const status =
-      hotspot.dataset.crowdStatus || "unknown";
-    applyCrowdVisual(hotspot, status);
-  });
-
-  if(crowdToggleButton){
-    crowdToggleButton.classList.toggle("off", !crowdDisplayEnabled);
-    crowdToggleButton.setAttribute(
-      "aria-pressed",
-      String(crowdDisplayEnabled)
-    );
-    crowdToggleButton.innerHTML =
-      '<span class="crowd-toggle-dot"></span>' +
-      (crowdDisplayEnabled ? "混雑表示：ON" : "混雑表示：OFF");
-  }
+.map-hotspot.crowd-normal .crowd-visual-layer {
+  background: rgba(215,168,61,.38);
+  border: 1px solid rgba(215,168,61,.68);
 }
 
-async function loadCrowdMapStatus(){
-  try{
-    const response = await fetch(
-      CROWD_API_URL + "/api/crowd",
-      {cache:"no-store"}
-    );
-
-    if(!response.ok){
-      throw new Error("混雑情報の取得に失敗しました");
-    }
-
-    const crowdData = await response.json();
-
-    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-      let targetId =
-        hotspot.dataset.modalType || "";
-
-      if(targetId === "gymnasium" || targetId === "gymnasium-performance"){
-        targetId = "gymnasium-performance";
-      }
-
-      const saved = getCrowdRecord(crowdData, targetId);
-      const status = saved
-        ? normalizeCrowdStatus(
-            saved.status ||
-            saved.crowdStatus ||
-            saved.crowd_status
-          )
-        : "unknown";
-
-      hotspot.dataset.crowdStatus = status;
-      applyCrowdVisual(hotspot, status);
-    });
-  }catch(error){
-    console.error("混雑情報の取得に失敗しました", error);
-  }
-
-  refreshCrowdVisibility();
+.map-hotspot.crowd-crowded .crowd-visual-layer {
+  background: rgba(212,91,88,.38);
+  border: 1px solid rgba(212,91,88,.68);
 }
 
-if(crowdToggleButton){
-  crowdToggleButton.addEventListener("click", () => {
-    crowdDisplayEnabled = !crowdDisplayEnabled;
-    localStorage.setItem(
-      "choko_crowd_map_visible",
-      String(crowdDisplayEnabled)
-    );
-    refreshCrowdVisibility();
-  });
+.map-hotspot.crowd-unknown .crowd-visual-layer {
+  background: rgba(120,120,120,.30);
+  border: 1px solid rgba(100,100,100,.50);
 }
 
-// 当たり判定の中に、クリックを邪魔しない表示レイヤーを追加。
-document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-  const layer = document.createElement("span");
-  layer.className = "crowd-visual-layer";
-  layer.setAttribute("aria-hidden", "true");
-  hotspot.appendChild(layer);
-});
-
-refreshCrowdVisibility();
-loadCrowdMapStatus();
-setInterval(loadCrowdMapStatus, 15000);
-
+.crowd-legend-color.unknown {
+  background: rgba(120,120,120,.42);
+  border: 1px solid rgba(100,100,100,.68);
+}
 
 /* =========================================
    場所詳細モーダル
@@ -1937,6 +1824,10 @@ fetch("header.html")
         <span class="crowd-legend-item">
           <i class="crowd-legend-color crowded"></i>
           <span>混雑している</span>
+        </span>
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color unknown"></i>
+          <span>情報なし</span>
         </span>
       </div>
 
@@ -2974,6 +2865,244 @@ window.addEventListener(
   }
 );
 
+</script>
+
+<script>
+/* =========================================
+   混雑状況表示
+   ※ JavaScriptはstyleタグの外で実行
+========================================= */
+(function(){
+  const CROWD_API_URL = "https://chosei-fes.onrender.com";
+  const CROWD_STORAGE_KEY = "choko_crowd_map_visible";
+
+  let crowdDisplayEnabled =
+    localStorage.getItem(CROWD_STORAGE_KEY) !== "false";
+
+  function getToggleButton(){
+    return document.getElementById("crowdToggleButton");
+  }
+
+  function normalizeCrowdStatus(value){
+    const status = String(value ?? "").trim().toLowerCase();
+
+    if (["empty", "low", "free", "空いている", "比較的空いている"].includes(status)) {
+      return "empty";
+    }
+
+    if (["normal", "medium", "moderate", "やや混雑している"].includes(status)) {
+      return "normal";
+    }
+
+    if (["crowded", "high", "busy", "混雑している"].includes(status)) {
+      return "crowded";
+    }
+
+    return "unknown";
+  }
+
+  function getCrowdRecord(crowdData, targetId){
+    if(!crowdData || !targetId){
+      return null;
+    }
+
+    const containers = [
+      crowdData,
+      crowdData.data,
+      crowdData.events,
+      crowdData.crowd,
+      crowdData.results
+    ];
+
+    for(const container of containers){
+      if(!container){
+        continue;
+      }
+
+      if(Array.isArray(container)){
+        const found = container.find(item =>
+          item && String(item.id ?? item.eventId ?? "").trim() === targetId
+        );
+        if(found){
+          return found;
+        }
+      }else if(typeof container === "object"){
+        if(container[targetId] && typeof container[targetId] === "object"){
+          return container[targetId];
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function getStatusFromRecord(record){
+    if(!record){
+      return "unknown";
+    }
+
+    return normalizeCrowdStatus(
+      record.status ??
+      record.crowdStatus ??
+      record.crowd_status ??
+      record.state ??
+      record.level
+    );
+  }
+
+  function applyCrowdVisual(hotspot, status){
+    if(!hotspot){
+      return;
+    }
+
+    const safeStatus = normalizeCrowdStatus(status);
+
+    hotspot.classList.remove(
+      "crowd-empty",
+      "crowd-normal",
+      "crowd-crowded",
+      "crowd-unknown",
+      "crowd-visible"
+    );
+
+    hotspot.classList.add("crowd-" + safeStatus);
+
+    // 「情報なし」も灰色で表示する。
+    if(crowdDisplayEnabled){
+      hotspot.classList.add("crowd-visible");
+    }
+  }
+
+  function updateToggleButton(){
+    const button = getToggleButton();
+    if(!button){
+      return;
+    }
+
+    button.classList.toggle("off", !crowdDisplayEnabled);
+    button.setAttribute("aria-pressed", String(crowdDisplayEnabled));
+    button.innerHTML =
+      '<span class="crowd-toggle-dot"></span>' +
+      (crowdDisplayEnabled ? "混雑表示：ON" : "混雑表示：OFF");
+  }
+
+  function refreshCrowdVisibility(){
+    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+      applyCrowdVisual(
+        hotspot,
+        hotspot.dataset.crowdStatus || "unknown"
+      );
+    });
+
+    updateToggleButton();
+  }
+
+  async function loadCrowdMapStatus(){
+    const hotspots = document.querySelectorAll(".map-hotspot");
+
+    // API取得前も「情報なし」として灰色表示にする。
+    hotspots.forEach(hotspot => {
+      if(!hotspot.dataset.crowdStatus){
+        hotspot.dataset.crowdStatus = "unknown";
+      }
+      applyCrowdVisual(hotspot, hotspot.dataset.crowdStatus);
+    });
+
+    try{
+      const response = await fetch(
+        CROWD_API_URL + "/api/crowd?map=1tou&_=" + Date.now(),
+        {
+          cache: "no-store",
+          headers: {"Accept": "application/json"}
+        }
+      );
+
+      if(!response.ok){
+        throw new Error("HTTP " + response.status);
+      }
+
+      const crowdData = await response.json();
+
+      hotspots.forEach(hotspot => {
+        let targetId = hotspot.dataset.modalType || "";
+
+        if(
+          targetId === "gymnasium" ||
+          targetId === "gymnasium-performance"
+        ){
+          targetId = "gymnasium-performance";
+        }
+
+        const saved = getCrowdRecord(crowdData, targetId);
+        hotspot.dataset.crowdStatus = getStatusFromRecord(saved);
+
+        applyCrowdVisual(
+          hotspot,
+          hotspot.dataset.crowdStatus
+        );
+      });
+    }catch(error){
+      console.error("混雑情報の取得に失敗しました", error);
+      // 取得できない場合は全て「情報なし」=灰色。
+      hotspots.forEach(hotspot => {
+        hotspot.dataset.crowdStatus = "unknown";
+        applyCrowdVisual(hotspot, "unknown");
+      });
+    }
+
+    refreshCrowdVisibility();
+  }
+
+  function setupCrowdToggle(){
+    const button = getToggleButton();
+    if(!button){
+      return;
+    }
+
+    button.addEventListener("click", function(event){
+      event.preventDefault();
+      event.stopPropagation();
+
+      crowdDisplayEnabled = !crowdDisplayEnabled;
+
+      localStorage.setItem(
+        CROWD_STORAGE_KEY,
+        String(crowdDisplayEnabled)
+      );
+
+      refreshCrowdVisibility();
+    });
+
+    updateToggleButton();
+  }
+
+  function setupCrowdLayers(){
+    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+      if(hotspot.querySelector(":scope > .crowd-visual-layer")){
+        return;
+      }
+
+      const layer = document.createElement("span");
+      layer.className = "crowd-visual-layer";
+      layer.setAttribute("aria-hidden", "true");
+      hotspot.appendChild(layer);
+    });
+  }
+
+  function setup(){
+    setupCrowdLayers();
+    setupCrowdToggle();
+    refreshCrowdVisibility();
+    loadCrowdMapStatus();
+    setInterval(loadCrowdMapStatus, 15000);
+  }
+
+  if(document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup, {once:true});
+  } else {
+    setup();
+  }
+})();
 </script>
 
 </body>
