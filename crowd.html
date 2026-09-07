@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+  混雑情報｜長高祭2026
+</title>
+
+<meta
+  name="description"
+  content="長高祭2026の各企画・教室の混雑情報を確認・共有できます。"
+>
+
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+  rel="stylesheet"
+>
+
+
+<link
+  rel="stylesheet"
+  href="css/style.css"
+>
+
+
+<style>
+
+/* =========================================
+   基本設定
+========================================= */
+
+:root{
+
+  --pink:#ff8fab;
+  --pink-dark:#ff4597;
+
+  --purple:#a98bff;
+
+  --text:#17213a;
+  --sub-text:#59677f;
+
+  --header-height:70px;
+
+}
+
+
+*{
+  box-sizing:border-box;
+}
+
+
+html,
+body{
+
+  margin:0;
+  padding:0;
+
+  overflow-x:hidden;
+
+  font-family:
+    "Noto Sans JP",
+    sans-serif;
+
+  color:var(--text);
+
+}
+
+
+body{
+
+  min-height:100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff8fc 0%,
+      #f8f5ff 45%,
+      #fff9fc 100%
+    );
+
+}
+
+
+/* =========================================
+   背景図形
+========================================= */
+
+.bg-shapes{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:-1;
+
+  overflow:hidden;
+
+  pointer-events:none;
+
+}
+
+
+.bg-shapes .shape{
+
+  position:absolute;
+
+  opacity:0.18;
+
+  border-radius:35px;
+
+  transform:rotate(25deg);
+
+}
+
+
+.bg-shapes .s1{
+
+  width:140px;
+  height:140px;
+
+  top:8%;
+  left:-70px;
+
+  background:#ff8fab;
+
+}
+
+
+.bg-shapes .s2{
+
+  width:110px;
+  height:110px;
+
+  top:18%;
+  right:-45px;
+
+  background:#a98bff;
+
+}
+
+
+.bg-shapes .s3{
+
+  width:70px;
+  height:70px;
+
+  top:42%;
+  left:8%;
+
+  background:#ffd166;
+
+}
+
+
+.bg-shapes .s4{
+
+  width:130px;
+  height:130px;
+
+  top:58%;
+  right:-65px;
+
+  background:#8fd3ff;
+
+}
+
+
+.bg-shapes .s5{
+
+  width:90px;
+  height:90px;
+
+  top:78%;
+  left:-40px;
+
+  background:#c3f0ca;
+
+}
+
+
+/* =========================================
+   ヘッダー読み込み領域
+========================================= */
+
+#header{
+
+  position:relative;
+
+  z-index:1000;
+
+}
+
+
+/* =========================================
+   メイン
+========================================= */
+
+main{
+
+  width:100%;
+
+  padding:
+    calc(var(--header-height) + 35px)
+    15px
+    80px;
+
+}
+
+
+/* =========================================
+   ページタイトル
+========================================= */
+
+.page-heading{
+
+  width:100%;
+
+  max-width:1050px;
+
+  margin:
+    0 auto
+    30px;
+
+  text-align:center;
+
+}
+
+
+.page-heading h1{
+
+  margin:0;
+
+  font-size:
+    clamp(30px, 6vw, 48px);
+
+  font-weight:900;
+
+  letter-spacing:0.05em;
+
+  color:#ff4597;
+
+}
+
+
+.page-heading p{
+
+  margin:
+    14px auto
+    0;
+
+  max-width:600px;
+
+  font-size:
+    clamp(13px, 2vw, 16px);
+
+  line-height:1.9;
+
+  font-weight:500;
+
+  color:var(--sub-text);
+
+}
+
+
+/* =========================================
+   お知らせボックス
+========================================= */
+
+.notice-box{
+
+  width:100%;
+
+  max-width:850px;
+
+  margin:
+    0 auto
+    35px;
+
+  padding:20px 24px;
+
+  border-radius:22px;
+
+  background:
+    rgba(255,255,255,0.68);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.8);
+
+  box-shadow:
+    0 10px 30px
+    rgba(120,50,100,0.10);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  text-align:center;
+
+}
+
+
+.notice-box strong{
+
+  display:block;
+
+  margin-bottom:6px;
+
+  color:#ff4597;
+
+  font-size:15px;
+
+}
+
+
+.notice-box span{
+
+  font-size:12px;
+
+  line-height:1.8;
+
+  color:#59677f;
+
+}
+
+
+/* =========================================
+   フィルターエリア
+========================================= */
+
+.filter-area{
+
+  width:100%;
+
+  max-width:1050px;
+
+  margin:
+    0 auto
+    35px;
+
+  padding:25px;
+
+  border-radius:25px;
+
+  background:
+    rgba(255,255,255,0.58);
+
+  box-shadow:
+    0 10px 30px
+    rgba(120,50,100,0.10);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+}
+
+
+.filter-group{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+
+.filter-group + .filter-group{
+
+  margin-top:18px;
+
+}
+
+
+.filter-title{
+
+  width:100%;
+
+  margin-bottom:2px;
+
+  font-size:14px;
+
+  font-weight:900;
+
+  color:#ff4597;
+
+}
+
+
+/* =========================================
+   フィルターボタン
+========================================= */
+
+.filter-btn{
+
+  appearance:none;
+
+  border:none;
+
+  cursor:pointer;
+
+  padding:
+    9px
+    16px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,0.85);
+
+  color:#59677f;
+
+  font-family:inherit;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  box-shadow:
+    0 4px 12px
+    rgba(100,70,120,0.08);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+
+.filter-btn:hover{
+
+  transform:
+    translateY(-2px);
+
+}
+
+
+.filter-btn.active{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
+
+  box-shadow:
+    0 6px 16px
+    rgba(160,100,180,0.22);
+
+}
+
+
+/* =========================================
+   企画数
+========================================= */
+
+.result-info{
+
+  width:100%;
+
+  max-width:1050px;
+
+  margin:
+    0 auto
+    18px;
+
+  padding:0 5px;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  color:#59677f;
+
+}
+
+
+.result-info strong{
+
+  color:#ff4597;
+
+}
+
+
+/* =========================================
+   カード一覧
+========================================= */
+
+.crowd-grid{
+
+  width:100%;
+
+  max-width:1050px;
+
+  margin:0 auto;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0,1fr)
+    );
+
+  gap:20px;
+
+}
+
+
+/* =========================================
+   混雑情報カード
+========================================= */
+
+.crowd-card{
+
+  position:relative;
+
+  display:flex;
+
+  flex-direction:column;
+
+  min-height:390px;
+
+  padding:22px;
+
+  border-radius:24px;
+
+  overflow:hidden;
+
+  background:
+    rgba(255,255,255,0.82);
+
+  box-shadow:
+    0 10px 26px
+    rgba(100,70,120,0.12);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.95);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+}
+
+
+.crowd-card:hover{
+
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 16px 34px
+    rgba(100,70,120,0.17);
+
+}
+
+
+.crowd-card.hidden{
+
+  display:none;
+
+}
+
+
+/* =========================================
+   カテゴリバッジ
+========================================= */
+
+.category-badge{
+
+  position:absolute;
+
+  top:18px;
+  right:18px;
+
+  padding:
+    6px
+    11px;
+
+  border-radius:999px;
+
+  background:#f1f6fd;
+
+  color:#5d6d86;
+
+  font-size:11px;
+
+  font-weight:700;
+
+}
+
+
+/* =========================================
+   タイトル
+========================================= */
+
+.crowd-card-title{
+
+  margin:
+    35px 0
+    20px;
+
+  padding-right:10px;
+
+  font-size:20px;
+
+  line-height:1.55;
+
+  font-weight:900;
+
+  color:var(--text);
+
+  word-break:break-word;
+
+}
+
+
+/* =========================================
+   企画情報
+========================================= */
+
+.place-info{
+
+  margin-bottom:18px;
+
+  padding-bottom:18px;
+
+  border-bottom:
+    1px solid
+    rgba(100,80,120,0.12);
+
+}
+
+
+.info-row{
+
+  display:grid;
+
+  grid-template-columns:
+    75px
+    1fr;
+
+  gap:8px;
+
+  margin-top:8px;
+
+  font-size:13px;
+
+}
+
+
+.info-label{
+
+  color:#ff4597;
+
+  font-weight:700;
+
+}
+
+
+.info-value{
+
+  color:#59677f;
+
+  font-weight:500;
+
+  word-break:break-word;
+
+}
+
+
+/* =========================================
+   混雑状況
+========================================= */
+
+.status-area{
+
+  margin-top:auto;
+
+}
+
+
+.status-label{
+
+  margin-bottom:8px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  color:#59677f;
+
+}
+
+
+.status-display{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:
+    14px
+    15px;
+
+  border-radius:16px;
+
+  background:
+    rgba(248,248,252,0.8);
+
+}
+
+
+.status-dot{
+
+  width:13px;
+  height:13px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+}
+
+
+.status-dot.empty{
+
+  background:#55c78a;
+
+  box-shadow:
+    0 0 10px
+    rgba(85,199,138,0.45);
+
+}
+
+
+.status-dot.normal{
+
+  background:#f3b83e;
+
+  box-shadow:
+    0 0 10px
+    rgba(243,184,62,0.4);
+
+}
+
+
+.status-dot.crowded{
+
+  background:#f05a68;
+
+  box-shadow:
+    0 0 10px
+    rgba(240,90,104,0.4);
+
+}
+
+
+.status-dot.unknown{
+
+  background:#a8afbc;
+
+}
+
+
+.status-text{
+
+  flex:1;
+
+  font-size:14px;
+
+  font-weight:900;
+
+  color:#59677f;
+
+}
+
+
+.status-time{
+
+  margin-top:8px;
+
+  text-align:right;
+
+  font-size:10px;
+
+  color:#8c95a5;
+
+}
+
+
+/* =========================================
+   共有ボタン
+========================================= */
+
+.share-btn{
+
+  width:100%;
+
+  margin-top:16px;
+
+  padding:
+    13px
+    15px;
+
+  border:none;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
+
+  color:#fff;
+
+  font-family:inherit;
+
+  font-size:13px;
+
+  font-weight:900;
+
+  box-shadow:
+    0 7px 18px
+    rgba(130,80,150,0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+
+.share-btn:hover{
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 24px
+    rgba(130,80,150,0.25);
+
+}
+
+
+.share-btn:active{
+
+  transform:
+    translateY(1px);
+
+}
+
+
+/* =========================================
+   ローディング
+========================================= */
+
+.loading{
+
+  width:100%;
+
+  grid-column:1 / -1;
+
+  padding:70px 20px;
+
+  text-align:center;
+
+  color:#59677f;
+
+}
+
+
+.loading-spinner{
+
+  width:38px;
+  height:38px;
+
+  margin:
+    0 auto
+    15px;
+
+  border-radius:50%;
+
+  border:
+    4px solid
+    rgba(169,139,255,0.18);
+
+  border-top-color:
+    #ff8fab;
+
+  animation:
+    loadingRotate
+    0.8s
+    linear
+    infinite;
+
+}
+
+
+@keyframes loadingRotate{
+
+  to{
+
+    transform:
+      rotate(360deg);
+
+  }
+
+}
+
+
+/* =========================================
+   エラー
+========================================= */
+
+.error-message{
+
+  width:100%;
+
+  grid-column:1 / -1;
+
+  padding:50px 20px;
+
+  border-radius:22px;
+
+  background:
+    rgba(255,255,255,0.75);
+
+  text-align:center;
+
+  color:#59677f;
+
+}
+
+
+.error-message strong{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#ff4597;
+
+}
+
+
+/* =========================================
+   モーダル
+========================================= */
+
+.modal-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:5000;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  background:
+    rgba(25,20,40,0.42);
+
+  backdrop-filter:
+    blur(6px);
+
+  -webkit-backdrop-filter:
+    blur(6px);
+
+}
+
+
+.modal-overlay.active{
+
+  display:flex;
+
+}
+
+
+.share-modal{
+
+  width:100%;
+
+  max-width:440px;
+
+  padding:28px;
+
+  border-radius:28px;
+
+  background:
+    rgba(255,255,255,0.96);
+
+  box-shadow:
+    0 20px 50px
+    rgba(30,20,50,0.28);
+
+  animation:
+    modalIn
+    0.25s
+    ease;
+
+}
+
+
+@keyframes modalIn{
+
+  from{
+
+    opacity:0;
+
+    transform:
+      translateY(20px)
+      scale(0.97);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+  }
+
+}
+
+
+.modal-title{
+
+  margin:0;
+
+  text-align:center;
+
+  font-size:20px;
+
+  font-weight:900;
+
+  color:#17213a;
+
+}
+
+
+.modal-place{
+
+  margin:
+    8px 0
+    25px;
+
+  text-align:center;
+
+  font-size:13px;
+
+  color:#59677f;
+
+}
+
+
+.status-options{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+
+}
+
+
+.status-option{
+
+  width:100%;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  padding:
+    15px
+    16px;
+
+  border:
+    2px solid
+    rgba(100,80,120,0.08);
+
+  border-radius:18px;
+
+  cursor:pointer;
+
+  background:#fff;
+
+  font-family:inherit;
+
+  text-align:left;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+
+}
+
+
+.status-option:hover{
+
+  transform:
+    translateY(-2px);
+
+}
+
+
+.status-option.selected{
+
+  border-color:
+    #ff8fab;
+
+  background:
+    rgba(255,143,171,0.08);
+
+}
+
+
+.option-circle{
+
+  width:14px;
+  height:14px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+}
+
+
+.option-circle.empty{
+
+  background:#55c78a;
+
+}
+
+
+.option-circle.normal{
+
+  background:#f3b83e;
+
+}
+
+
+.option-circle.crowded{
+
+  background:#f05a68;
+
+}
+
+
+.option-text{
+
+  font-size:14px;
+
+  font-weight:700;
+
+  color:#59677f;
+
+}
+
+
+/* =========================================
+   モーダルボタン
+========================================= */
+
+.modal-actions{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-top:24px;
+
+}
+
+
+.modal-btn{
+
+  flex:1;
+
+  border:none;
+
+  padding:
+    13px
+    15px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+
+  font-family:inherit;
+
+  font-size:13px;
+
+  font-weight:900;
+
+}
+
+
+.cancel-btn{
+
+  background:
+    #f0f1f5;
+
+  color:#687386;
+
+}
+
+
+.submit-btn{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff8fab,
+      #a98bff
+    );
+
+  color:#fff;
+
+  box-shadow:
+    0 7px 18px
+    rgba(130,80,150,0.18);
+
+}
+
+
+.submit-btn:disabled{
+
+  opacity:0.45;
+
+  cursor:not-allowed;
+
+}
+
+
+/* =========================================
+   完了メッセージ
+========================================= */
+
+.toast{
+
+  position:fixed;
+
+  left:50%;
+  bottom:25px;
+
+  z-index:6000;
+
+  width:
+    min(
+      calc(100% - 30px),
+      420px
+    );
+
+  padding:
+    14px
+    20px;
+
+  border-radius:18px;
+
+  background:
+    rgba(40,45,60,0.92);
+
+  color:#fff;
+
+  text-align:center;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  transform:
+    translateX(-50%)
+    translateY(100px);
+
+  opacity:0;
+
+  pointer-events:none;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+
+}
+
+
+.toast.show{
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+
+  opacity:1;
+
+}
+
+
+/* =========================================
+   タブレット
+========================================= */
+
+@media(max-width:900px){
+
+  .crowd-grid{
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+
+  }
+
+}
+
+
+/* =========================================
+   スマートフォン
+========================================= */
+
+@media(max-width:600px){
+
+  main{
+
+    padding:
+      calc(var(--header-height) + 25px)
+      12px
+      70px;
+
+  }
+
+
+  .page-heading{
+
+    margin-bottom:25px;
+
+  }
+
+
+  .notice-box{
+
+    padding:
+      17px
+      18px;
+
+    border-radius:20px;
+
+  }
+
+
+  .notice-box strong{
+
+    font-size:13px;
+
+  }
+
+
+  .notice-box span{
+
+    font-size:11px;
+
+  }
+
+
+  .filter-area{
+
+    padding:
+      20px
+      15px;
+
+    border-radius:20px;
+
+  }
+
+
+  .filter-group{
+
+    gap:7px;
+
+  }
+
+
+  .filter-btn{
+
+    padding:
+      8px
+      12px;
+
+    font-size:11px;
+
+  }
+
+
+  .crowd-grid{
+
+    grid-template-columns:
+      1fr;
+
+    gap:15px;
+
+  }
+
+
+  .crowd-card{
+
+    min-height:auto;
+
+    padding:20px;
+
+    border-radius:21px;
+
+  }
+
+
+  .crowd-card:hover{
+
+    transform:none;
+
+  }
+
+
+  .crowd-card-title{
+
+    margin:
+      32px 0
+      17px;
+
+    font-size:18px;
+
+  }
+
+
+  .share-modal{
+
+    padding:23px 18px;
+
+    border-radius:24px;
+
+  }
+
+
+  .modal-title{
+
+    font-size:18px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     背景図形
+========================================= -->
+
+<div class="bg-shapes">
+
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+  <div class="shape s5"></div>
+
+</div>
+
+
+<!-- =========================================
+     ヘッダー
+========================================= -->
+
+<div id="header"></div>
+
+
+<!-- =========================================
+     メイン
+========================================= -->
+
+<main>
+
+
+  <!-- ページタイトル -->
+
+  <section class="page-heading">
+
+    <h1>
+      ＼ 混雑情報 ／
+    </h1>
+
+    <p>
+      各企画・教室の現在の混雑状況を確認できます。<br>
+      現在の状況を知っている場合は、ぜひ情報共有にご協力ください。
+    </p>
+
+  </section>
+
+
+  <!-- 注意書き -->
+
+  <div class="notice-box">
+
+    <strong>
+      みんなで最新の情報を共有しよう！
+    </strong>
+
+    <span>
+      混雑情報は利用者から共有された情報をもとに表示します。<br>
+      実際の混雑状況と異なる場合がありますので、参考情報としてご利用ください。
+    </span>
+
+  </div>
+
+
+  <!-- =========================================
+       フィルター
+  ========================================= -->
+
+  <section class="filter-area">
+
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        カテゴリから探す
+      </div>
+
+
+      <button
+        class="filter-btn active"
+        data-category="all"
+      >
+        すべて
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-category="1学年"
+      >
+        1学年
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-category="2学年"
+      >
+        2学年
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-category="3学年"
+      >
+        3学年
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-category="部活動"
+      >
+        部活動
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-category="その他"
+      >
+        その他
+      </button>
+
+    </div>
+
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        階数から探す
+      </div>
+
+
+      <button
+        class="filter-btn active"
+        data-floor-filter="all"
+      >
+        すべて
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-floor-filter="1"
+      >
+        1階
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-floor-filter="2"
+      >
+        2階
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-floor-filter="3"
+      >
+        3階
+      </button>
+
+
+      <button
+        class="filter-btn"
+        data-floor-filter="4"
+      >
+        4階
+      </button>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- 件数 -->
+
+  <div class="result-info">
+
+    <strong id="resultCount">
+      0
+    </strong>
+    件の企画を表示中
+
+  </div>
+
+
+  <!-- =========================================
+       企画一覧
+  ========================================= -->
+
+  <section
+    class="crowd-grid"
+    id="crowdGrid"
+  >
+
+    <div class="loading">
+
+      <div class="loading-spinner"></div>
+
+      企画情報を読み込んでいます...
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================
+     共有モーダル
+========================================= -->
+
+<div
+  class="modal-overlay"
+  id="modalOverlay"
+>
+
+
+  <div
+    class="share-modal"
+    id="shareModal"
+  >
+
+
+    <h2 class="modal-title">
+      混雑状況を共有
+    </h2>
+
+
+    <p
+      class="modal-place"
+      id="modalPlace"
+    >
+    </p>
+
+
+    <div class="status-options">
+
+
+      <button
+        class="status-option"
+        data-status="empty"
+      >
+
+        <span
+          class="option-circle empty"
+        ></span>
+
+        <span class="option-text">
+          比較的空いている
+        </span>
+
+      </button>
+
+
+      <button
+        class="status-option"
+        data-status="normal"
+      >
+
+        <span
+          class="option-circle normal"
+        ></span>
+
+        <span class="option-text">
+          やや混雑している
+        </span>
+
+      </button>
+
+
+      <button
+        class="status-option"
+        data-status="crowded"
+      >
+
+        <span
+          class="option-circle crowded"
+        ></span>
+
+        <span class="option-text">
+          混雑している
+        </span>
+
+      </button>
+
+
+    </div>
+
+
+    <div class="modal-actions">
+
+
+      <button
+        class="modal-btn cancel-btn"
+        id="cancelBtn"
+      >
+        キャンセル
+      </button>
+
+
+      <button
+        class="modal-btn submit-btn"
+        id="submitBtn"
+        disabled
+      >
+        共有する
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     トースト
+========================================= -->
+
+<div
+  class="toast"
+  id="toast"
+>
+</div>
+
+
+<!-- =========================================
+     JavaScript
+========================================= -->
+
+<script>
+
+
+/* =========================================
+   ヘッダー読み込み
+========================================= */
+
+fetch("header.html")
+
+  .then(
+    res => res.text()
+  )
+
+  .then(
+    data => {
+
+      const headerContainer =
+        document.getElementById(
+          "header"
+        );
+
+
+      headerContainer.innerHTML =
+        data;
+
+
+      const header =
+        headerContainer.querySelector(
+          "header"
+        );
+
+
+      const btn =
+        headerContainer.querySelector(
+          ".menu-btn"
+        );
+
+
+      const nav =
+        headerContainer.querySelector(
+          ".nav"
+        );
+
+
+      function updateHeaderHeight(){
+
+        if(!header) return;
+
+
+        const height =
+          header.getBoundingClientRect().height;
+
+
+        document.documentElement.style.setProperty(
+          "--header-height",
+          height + "px"
+        );
+
+      }
+
+
+      updateHeaderHeight();
+
+
+      window.addEventListener(
+        "resize",
+        updateHeaderHeight
+      );
+
+
+      if(btn && nav){
+
+        btn.addEventListener(
+          "click",
+          e => {
+
+            e.stopPropagation();
+
+
+            nav.classList.toggle(
+              "active"
+            );
+
+          }
+        );
+
+
+        document.addEventListener(
+          "click",
+          e => {
+
+            if(
+              !nav.contains(e.target) &&
+              !btn.contains(e.target)
+            ){
+
+              nav.classList.remove(
+                "active"
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+    }
+  )
+
+  .catch(
+    error => {
+
+      console.error(
+        "ヘッダーの読み込みに失敗しました",
+        error
+      );
+
+    }
+  );
+
+
+/* =========================================
+   設定
+========================================= */
+
+/*
+  Renderを設定した後、
+  ここにRenderのURLを設定します。
+
+  例：
+  const API_URL =
+    "https://○○○○.onrender.com";
+*/
+
+
+const API_URL = "";
+
+
+/* =========================================
+   DOM
+========================================= */
+
+const crowdGrid =
+  document.getElementById(
+    "crowdGrid"
+  );
+
+
+const resultCount =
+  document.getElementById(
+    "resultCount"
+  );
+
+
+const modalOverlay =
+  document.getElementById(
+    "modalOverlay"
+  );
+
+
+const modalPlace =
+  document.getElementById(
+    "modalPlace"
+  );
+
+
+const submitBtn =
+  document.getElementById(
+    "submitBtn"
+  );
+
+
+const cancelBtn =
+  document.getElementById(
+    "cancelBtn"
+  );
+
+
+const toast =
+  document.getElementById(
+    "toast"
+  );
+
+
+/* =========================================
+   状態
+========================================= */
+
+let eventsData = [];
+
+
+let selectedEvent = null;
+
+
+let selectedStatus = null;
+
+
+let categoryFilter =
+  "all";
+
+
+let floorFilter =
+  "all";
+
+
+/* =========================================
+   状態表示
+========================================= */
+
+const statusData = {
+
+  empty:{
+    text:
+      "比較的空いています"
+  },
+
+  normal:{
+    text:
+      "やや混雑しています"
+  },
+
+  crowded:{
+    text:
+      "混雑しています"
+  },
+
+  unknown:{
+    text:
+      "まだ情報がありません"
+  }
+
+};
+
+
+/* =========================================
+   events.htmlから企画を取得
+========================================= */
+
+async function loadEvents(){
+
+
+  try{
+
+
+    const response =
+      await fetch(
+        "events.html"
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "events.htmlを読み込めませんでした"
+      );
+
+    }
+
+
+    const html =
+      await response.text();
+
+
+    const parser =
+      new DOMParser();
+
+
+    const documentData =
+      parser.parseFromString(
+        html,
+        "text/html"
+      );
+
+
+    /*
+      groupごとに確認することで、
+      現在のevents.htmlの
+      「1学年」「2学年」などを取得
+    */
+
+    const groups =
+      documentData.querySelectorAll(
+        ".group"
+      );
+
+
+    const eventList = [];
+
+
+    groups.forEach(
+      group => {
+
+
+        const groupTitleElement =
+          group.querySelector(
+            ".group-title"
+          );
+
+
+        if(!groupTitleElement){
+
+          return;
+
+        }
+
+
+        const groupTitle =
+          groupTitleElement
+            .textContent
+            .trim();
+
+
+        let category =
+          "その他";
+
+
+        if(
+          groupTitle.includes("1学年")
+        ){
+
+          category =
+            "1学年";
+
+        }
+
+        else if(
+          groupTitle.includes("2学年")
+        ){
+
+          category =
+            "2学年";
+
+        }
+
+        else if(
+          groupTitle.includes("3学年")
+        ){
+
+          category =
+            "3学年";
+
+        }
+
+        else if(
+          groupTitle.includes("部活動") ||
+          groupTitle.includes("同好会")
+        ){
+
+          category =
+            "部活動";
+
+        }
+
+
+        const cards =
+          group.querySelectorAll(
+            ".card"
+          );
+
+
+        cards.forEach(
+          card => {
+
+
+            const id =
+              card.dataset.modalId;
+
+
+            const titleElement =
+              card.querySelector(
+                ".card-title"
+              );
+
+
+            if(
+              !id ||
+              !titleElement
+            ){
+
+              return;
+
+            }
+
+
+            const title =
+              titleElement
+                .textContent
+                .trim();
+
+
+            const badge =
+              card.dataset.placeBadge ||
+              "";
+
+
+            const floor =
+              card.dataset.floor ||
+              "";
+
+
+            /*
+              card-infoから
+              クラス・開催場所を取得
+            */
+
+            const labels =
+              card.querySelectorAll(
+                ".card-label"
+              );
+
+
+            let className =
+              "";
+
+
+            let location =
+              "";
+
+
+            labels.forEach(
+              label => {
+
+
+                const value =
+                  label.nextElementSibling;
+
+
+                if(!value){
+
+                  return;
+
+                }
+
+
+                const labelText =
+                  label.textContent
+                    .trim();
+
+
+                const valueText =
+                  value.textContent
+                    .trim();
+
+
+                if(
+                  labelText ===
+                  "クラス"
+                ){
+
+                  className =
+                    valueText;
+
+                }
+
+
+                if(
+                  labelText ===
+                  "開催場所"
+                ){
+
+                  location =
+                    valueText;
+
+                }
+
+              }
+            );
+
+
+            eventList.push({
+
+              id,
+              title,
+              category,
+              badge,
+              floor,
+              className,
+              location,
+
+              /*
+                最初は未登録
+              */
+
+              status:
+                "unknown",
+
+              updatedAt:
+                null
+
+            });
+
+          }
+        );
+
+      }
+    );
+
+
+    eventsData =
+      eventList;
+
+
+    /*
+      Render APIが完成した後は
+      ここで現在の混雑情報を取得する
+    */
+
+    await loadCrowdStatus();
+
+
+    renderEvents();
+
+
+  }
+
+  catch(error){
+
+
+    console.error(
+      error
+    );
+
+
+    crowdGrid.innerHTML = `
+
+      <div class="error-message">
+
+        <strong>
+          企画情報を読み込めませんでした
+        </strong>
+
+        <span>
+          ページを再読み込みしてください。
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   Renderから混雑情報を取得
+========================================= */
+
+async function loadCrowdStatus(){
+
+
+  /*
+    Render未設定の場合は
+    現在は未登録状態で表示
+  */
+
+  if(!API_URL){
+
+    return;
+
+  }
+
+
+  try{
+
+
+    const response =
+      await fetch(
+        API_URL +
+        "/api/crowd"
+      );
+
+
+    if(!response.ok){
+
+      return;
+
+    }
+
+
+    const crowdData =
+      await response.json();
+
+
+    eventsData.forEach(
+      event => {
+
+
+        const saved =
+          crowdData[event.id];
+
+
+        if(!saved){
+
+          return;
+
+        }
+
+
+        event.status =
+          saved.status ||
+          "unknown";
+
+
+        event.updatedAt =
+          saved.updatedAt ||
+          null;
+
+      }
+    );
+
+
+  }
+
+  catch(error){
+
+
+    console.error(
+      "混雑情報の取得に失敗しました",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   カード表示
+========================================= */
+
+function renderEvents(){
+
+
+  crowdGrid.innerHTML =
+    "";
+
+
+  let visibleCount =
+    0;
+
+
+  eventsData.forEach(
+    event => {
+
+
+      /*
+        カテゴリ判定
+      */
+
+      const categoryMatch =
+        categoryFilter === "all" ||
+        event.category === categoryFilter;
+
+
+      /*
+        階数判定
+      */
+
+      const floorMatch =
+        floorFilter === "all" ||
+        String(event.floor) ===
+        String(floorFilter);
+
+
+      if(
+        !categoryMatch ||
+        !floorMatch
+      ){
+
+        return;
+
+      }
+
+
+      visibleCount++;
+
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "crowd-card";
+
+
+      card.dataset.eventId =
+        event.id;
+
+
+      const status =
+        statusData[
+          event.status
+        ] ||
+        statusData.unknown;
+
+
+      const timeText =
+        getTimeText(
+          event.updatedAt
+        );
+
+
+      card.innerHTML = `
+
+        <div class="category-badge">
+
+          ${escapeHtml(
+            event.category
+          )}
+
+        </div>
+
+
+        <h2
+          class="crowd-card-title"
+        >
+
+          ${escapeHtml(
+            event.title
+          )}
+
+        </h2>
+
+
+        <div class="place-info">
+
+
+          <div class="info-row">
+
+            <div
+              class="info-label"
+            >
+              クラス
+            </div>
+
+
+            <div
+              class="info-value"
+            >
+
+              ${
+                escapeHtml(
+                  event.className
+                ) ||
+                "－"
+              }
+
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <div
+              class="info-label"
+            >
+              開催場所
+            </div>
+
+
+            <div
+              class="info-value"
+            >
+
+              ${
+                escapeHtml(
+                  event.location
+                ) ||
+                "－"
+              }
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="status-area">
+
+
+          <div
+            class="status-label"
+          >
+            現在の混雑状況
+          </div>
+
+
+          <div
+            class="status-display"
+          >
+
+
+            <span
+              class="
+                status-dot
+                ${event.status}
+              "
+            ></span>
+
+
+            <span
+              class="status-text"
+            >
+
+              ${status.text}
+
+            </span>
+
+
+          </div>
+
+
+          <div
+            class="status-time"
+          >
+
+            ${timeText}
+
+          </div>
+
+
+          <button
+            class="share-btn"
+            type="button"
+          >
+
+            混雑状況を共有する
+
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      const shareButton =
+        card.querySelector(
+          ".share-btn"
+        );
+
+
+      shareButton.addEventListener(
+        "click",
+        () => {
+
+          openShareModal(
+            event
+          );
+
+        }
+      );
+
+
+      crowdGrid.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  resultCount.textContent =
+    visibleCount;
+
+
+  if(
+    visibleCount === 0
+  ){
+
+    crowdGrid.innerHTML = `
+
+      <div class="error-message">
+
+        <strong>
+          条件に一致する企画がありません
+        </strong>
+
+        <span>
+          別の条件で検索してください。
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   時間表示
+========================================= */
+
+function getTimeText(updatedAt){
+
+
+  if(!updatedAt){
+
+    return
+      "まだ混雑情報が共有されていません";
+
+  }
+
+
+  const date =
+    new Date(updatedAt);
+
+
+  const now =
+    new Date();
+
+
+  const diff =
+    Math.floor(
+      (
+        now - date
+      ) / 1000 / 60
+    );
+
+
+  if(diff < 1){
+
+    return
+      "たった今更新";
+
+  }
+
+
+  if(diff < 60){
+
+    return
+      `${diff}分前に更新`;
+
+  }
+
+
+  return
+    date.toLocaleString(
+      "ja-JP",
+      {
+        month:"numeric",
+        day:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    ) +
+    "に更新";
+
+}
+
+
+/* =========================================
+   HTMLエスケープ
+========================================= */
+
+function escapeHtml(value){
+
+
+  if(!value){
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   フィルター
+========================================= */
+
+document
+  .querySelectorAll(
+    "[data-category]"
+  )
+  .forEach(
+    button => {
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+
+          categoryFilter =
+            button.dataset.category;
+
+
+          document
+            .querySelectorAll(
+              "[data-category]"
+            )
+            .forEach(
+              item => {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          renderEvents();
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    "[data-floor-filter]"
+  )
+  .forEach(
+    button => {
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+
+          floorFilter =
+            button.dataset.floorFilter;
+
+
+          document
+            .querySelectorAll(
+              "[data-floor-filter]"
+            )
+            .forEach(
+              item => {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          renderEvents();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   モーダルを開く
+========================================= */
+
+function openShareModal(event){
+
+
+  selectedEvent =
+    event;
+
+
+  selectedStatus =
+    null;
+
+
+  submitBtn.disabled =
+    true;
+
+
+  document
+    .querySelectorAll(
+      ".status-option"
+    )
+    .forEach(
+      option => {
+
+        option.classList.remove(
+          "selected"
+        );
+
+      }
+    );
+
+
+  modalPlace.textContent =
+    event.title;
+
+
+  modalOverlay.classList.add(
+    "active"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* =========================================
+   モーダルを閉じる
+========================================= */
+
+function closeShareModal(){
+
+
+  modalOverlay.classList.remove(
+    "active"
+  );
+
+
+  document.body.style.overflow =
+    "";
+
+
+  selectedEvent =
+    null;
+
+
+  selectedStatus =
+    null;
+
+}
+
+
+/* =========================================
+   状況選択
+========================================= */
+
+document
+  .querySelectorAll(
+    ".status-option"
+  )
+  .forEach(
+    option => {
+
+
+      option.addEventListener(
+        "click",
+        () => {
+
+
+          selectedStatus =
+            option.dataset.status;
+
+
+          document
+            .querySelectorAll(
+              ".status-option"
+            )
+            .forEach(
+              item => {
+
+                item.classList.remove(
+                  "selected"
+                );
+
+              }
+            );
+
+
+          option.classList.add(
+            "selected"
+          );
+
+
+          submitBtn.disabled =
+            false;
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   キャンセル
+========================================= */
+
+cancelBtn.addEventListener(
+  "click",
+  closeShareModal
+);
+
+
+/* =========================================
+   モーダル外クリック
+========================================= */
+
+modalOverlay.addEventListener(
+  "click",
+  event => {
+
+
+    if(
+      event.target ===
+      modalOverlay
+    ){
+
+      closeShareModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   混雑情報を共有
+========================================= */
+
+submitBtn.addEventListener(
+  "click",
+  async () => {
+
+
+    if(
+      !selectedEvent ||
+      !selectedStatus
+    ){
+
+      return;
+
+    }
+
+
+    submitBtn.disabled =
+      true;
+
+
+    submitBtn.textContent =
+      "共有中...";
+
+
+    try{
+
+
+      /*
+        Render未設定の場合
+      */
+
+      if(!API_URL){
+
+        /*
+          動作確認用。
+          実際の共有はRender接続後。
+        */
+
+        selectedEvent.status =
+          selectedStatus;
+
+
+        selectedEvent.updatedAt =
+          new Date().toISOString();
+
+
+        closeShareModal();
+
+
+        renderEvents();
+
+
+        showToast(
+          "混雑状況を共有しました"
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+        Render APIへ送信
+      */
+
+      const response =
+        await fetch(
+          API_URL +
+          "/api/crowd",
+          {
+
+            method:
+              "POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                id:
+                  selectedEvent.id,
+
+                status:
+                  selectedStatus
+
+              })
+
+          }
+        );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          "情報の共有に失敗しました"
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      selectedEvent.status =
+        result.status;
+
+
+      selectedEvent.updatedAt =
+        result.updatedAt;
+
+
+      closeShareModal();
+
+
+      renderEvents();
+
+
+      showToast(
+        "混雑状況を共有しました"
+      );
+
+
+    }
+
+    catch(error){
+
+
+      console.error(
+        error
+      );
+
+
+      showToast(
+        "共有に失敗しました。もう一度お試しください。"
+      );
+
+
+    }
+
+    finally{
+
+
+      submitBtn.disabled =
+        false;
+
+
+      submitBtn.textContent =
+        "共有する";
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   トースト
+========================================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3000
+    );
+
+}
+
+
+/* =========================================
+   初期読み込み
+========================================= */
+
+loadEvents();
+
+
+/* =========================================
+   定期的に混雑情報を更新
+
+   Render設定後、
+   60秒ごとに最新情報を取得
+========================================= */
+
+setInterval(
+  async () => {
+
+
+    if(!API_URL){
+
+      return;
+
+    }
+
+
+    await loadCrowdStatus();
+
+
+    renderEvents();
+
+
+  },
+  60000
+);
+
+
+</script>
+
+
+</body>
+
+</html>
