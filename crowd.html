@@ -1712,6 +1712,46 @@ const classNameOverrides = {
 
 
 /* =========================================
+   階数の個別設定
+
+   events.html側の階数が実際の開催場所と異なる
+   企画だけ、ここで正しい階数に変更します。
+
+   写真部「写真展示」は開催場所が2階中央廊下のため
+   2階として扱います。
+========================================= */
+
+const floorOverrides = {
+
+  "club21": "2"
+
+};
+
+
+/* =========================================
+   個別設定を反映した階数を取得
+========================================= */
+
+function getFloor(id, value){
+
+  const override =
+    safeValue(
+      floorOverrides[id],
+      ""
+    );
+
+  if(override){
+    return override;
+  }
+
+  return safeValue(
+    value,
+    ""
+  );
+}
+
+
+/* =========================================
    クラス・団体名が未設定か判定
 ========================================= */
 
@@ -2209,9 +2249,9 @@ async function loadEvents(){
 
 
             const floor =
-              safeValue(
-                card.dataset.floor,
-                ""
+              getFloor(
+                id,
+                card.dataset.floor
               );
 
 
