@@ -1702,6 +1702,62 @@ function safeValue(
 
 function safeDateValue(value){
 
+  if(
+    value === undefined ||
+    value === null ||
+    value === ""
+  ){
+
+    return null;
+
+  }
+
+
+  /*
+    数値のタイムスタンプに対応
+  */
+
+  if(
+    typeof value === "number"
+  ){
+
+    let timestamp =
+      value;
+
+
+    /*
+      秒単位の場合はミリ秒に変換
+    */
+
+    if(
+      timestamp < 100000000000
+    ){
+
+      timestamp =
+        timestamp * 1000;
+
+    }
+
+
+    const date =
+      new Date(
+        timestamp
+      );
+
+
+    if(
+      !Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      return date.toISOString();
+
+    }
+
+  }
+
+
   const safe =
     safeValue(
       value,
@@ -1717,6 +1773,60 @@ function safeDateValue(value){
 
   }
 
+
+  /*
+    数字だけの場合は
+    Unixタイムスタンプとして処理
+  */
+
+  if(
+    /^\d+$/.test(
+      safe
+    )
+  ){
+
+    let timestamp =
+      Number(
+        safe
+      );
+
+
+    /*
+      10桁程度のUnix秒の場合
+    */
+
+    if(
+      timestamp < 100000000000
+    ){
+
+      timestamp =
+        timestamp * 1000;
+
+    }
+
+
+    const timestampDate =
+      new Date(
+        timestamp
+      );
+
+
+    if(
+      !Number.isNaN(
+        timestampDate.getTime()
+      )
+    ){
+
+      return timestampDate.toISOString();
+
+    }
+
+  }
+
+
+  /*
+    ISO形式など通常の日時文字列
+  */
 
   const date =
     new Date(
@@ -1735,7 +1845,7 @@ function safeDateValue(value){
   }
 
 
-  return safe;
+  return date.toISOString();
 
 }
 
@@ -2311,14 +2421,18 @@ async function loadCrowdStatus(){
       await response.json();
 
 
+    console.log(
+      "取得した混雑情報:",
+      crowdData
+    );
+
+
     /*
-      APIから予想外の値が返ってきた場合
+      APIからデータが返ってこなかった場合
     */
 
     if(
-      !crowdData ||
-      typeof crowdData !==
-      "object"
+      !crowdData
     ){
 
       return;
@@ -2329,14 +2443,93 @@ async function loadCrowdStatus(){
     eventsData.forEach(
       event => {
 
-        const saved =
-          crowdData[
-            event.id
-          ];
+        let saved =
+          null;
 
 
         /*
-          まだ一度も投稿されていない場合
+          形式1
+
+          {
+            "event-id":{
+              status:"empty",
+              updatedAt:"..."
+            }
+          }
+        */
+
+        if(
+          typeof crowdData ===
+          "object" &&
+
+          !Array.isArray(
+            crowdData
+          )
+        ){
+
+          saved =
+            crowdData[
+              event.id
+            ];
+
+
+          /*
+            dataの中に情報がある場合
+          */
+
+          if(
+            !saved &&
+            crowdData.data &&
+            typeof crowdData.data ===
+            "object"
+          ){
+
+            saved =
+              crowdData.data[
+                event.id
+              ];
+
+          }
+
+        }
+
+
+        /*
+          形式2
+
+          [
+            {
+              id:"event-id",
+              status:"empty",
+              updatedAt:"..."
+            }
+          ]
+        */
+
+        if(
+          Array.isArray(
+            crowdData
+          )
+        ){
+
+          saved =
+            crowdData.find(
+              item =>
+                safeValue(
+                  item.id,
+                  ""
+                ) ===
+                safeValue(
+                  event.id,
+                  ""
+                )
+            );
+
+        }
+
+
+        /*
+          データが存在しない場合
         */
 
         if(
@@ -2358,16 +2551,63 @@ async function loadCrowdStatus(){
         }
 
 
+        /*
+          ステータス取得
+        */
+
         event.status =
           safeStatus(
-            saved.status
+            saved.status ||
+            saved.crowdStatus ||
+            saved.crowd_status
           );
 
+
+        /*
+          APIから返される可能性のある
+          すべての更新日時名に対応
+        */
+
+        const rawUpdatedAt =
+
+          saved.updatedAt ||
+
+          saved.updated_at ||
+
+          saved.updated_time ||
+
+          saved.updatedTime ||
+
+          saved.timestamp ||
+
+          saved.time ||
+
+          saved.createdAt ||
+
+          saved.created_at ||
+
+          null;
+
+
+        /*
+          更新日時を安全に変換
+        */
 
         event.updatedAt =
           safeDateValue(
-            saved.updatedAt
+            rawUpdatedAt
           );
+
+
+        console.log(
+          "企画の混雑情報:",
+          {
+            id:event.id,
+            status:event.status,
+            rawUpdatedAt:rawUpdatedAt,
+            updatedAt:event.updatedAt
+          }
+        );
 
       }
     );
@@ -2630,10 +2870,7 @@ function renderEvents(){
           <div class="status-time">
 
             ${escapeHtml(
-              safeValue(
-                timeText,
-                "最終更新: 情報なし"
-              )
+              timeText
             )}
 
           </div>
@@ -2739,10 +2976,6 @@ function renderEvents(){
 ========================================= */
 
 function getTimeText(updatedAt){
-
-  /*
-    undefined・null・空文字を完全に防止
-  */
 
   const safeUpdatedAt =
     safeDateValue(
@@ -3319,29 +3552,53 @@ submitBtn.addEventListener(
 
 
       /*
-        ステータスを安全に更新
+        ステータスを更新
       */
 
       selectedEvent.status =
         safeStatus(
           result.status ||
+          result.crowdStatus ||
+          result.crowd_status ||
           selectedStatus
         );
 
 
       /*
-        updatedAtが正常に返された場合は使用
-        返されなかった場合は現在時刻を使用
-
-        これによりundefinedを
-        絶対に画面へ表示しない
+        APIから返される可能性のある
+        すべての日時プロパティに対応
       */
+
+      const rawUpdatedAt =
+
+        result.updatedAt ||
+
+        result.updated_at ||
+
+        result.updated_time ||
+
+        result.updatedTime ||
+
+        result.timestamp ||
+
+        result.time ||
+
+        result.createdAt ||
+
+        result.created_at ||
+
+        null;
+
 
       const safeUpdatedAt =
         safeDateValue(
-          result.updatedAt
+          rawUpdatedAt
         );
 
+
+      /*
+        APIが日時を返した場合
+      */
 
       if(
         safeUpdatedAt
@@ -3351,6 +3608,11 @@ submitBtn.addEventListener(
           safeUpdatedAt;
 
       }
+
+      /*
+        APIが日時を返さない場合は
+        投稿直後だけ現在時刻を表示
+      */
 
       else{
 
@@ -3368,6 +3630,23 @@ submitBtn.addEventListener(
 
       showToast(
         "混雑状況を共有しました。次の共有は5分後から可能です。"
+      );
+
+
+      /*
+        投稿直後にサーバーから
+        最新情報を再取得
+      */
+
+      setTimeout(
+        async () => {
+
+          await loadCrowdStatus();
+
+          renderEvents();
+
+        },
+        1000
       );
 
     }
