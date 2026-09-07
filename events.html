@@ -34,229 +34,109 @@ body{
    絞り込みエリア
 ================================================== */
 
+/* ==================================================
+   絞り込みエリア
+   ※混雑情報ページと同じデザイン
+================================================== */
 .filter-area{
-
   width:100%;
-
-  padding:0 20px 5px;
-
+  max-width:1050px;
+  margin:0 auto 30px;
+  padding:24px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:8px 8px 0 rgba(0,0,0,.07);
   box-sizing:border-box;
-
-  /*
-   * 背景図形より前面に表示
-   */
   position:relative;
-
   z-index:10;
-
 }
 
-
-/* ==================================================
-   バッジ絞り込み
-================================================== */
-
-.badge-filter-area{
-
+.filter-group{
   display:flex;
-
   flex-wrap:wrap;
-
   align-items:center;
-
-  gap:9px;
-
-  margin-bottom:12px;
-
+  gap:10px;
 }
 
-
-.badge-filter-title{
-
-  font-size:16px;
-
-  font-weight:800;
-
-  color:#263957;
-
-  margin-right:3px;
-
-  /*
-   * 背景図形より見やすくする
-   */
-  position:relative;
-
-  z-index:11;
-
+.filter-group + .filter-group{
+  margin-top:20px;
 }
 
+.filter-title{
+  width:100%;
+  margin-bottom:2px;
+  font-size:14px;
+  font-weight:900;
+  color:#e2022e;
+}
 
-.badge-filter{
-
-  appearance:none;
-
-  border:1.5px solid #d7e4ff;
-
+.keyword-search{
+  width:100%;
+  padding:12px 15px;
+  border:2px solid rgba(36,36,42,.12);
+  border-radius:0;
+  outline:none;
   background:#fff;
-
-  color:#59677f;
-
-  border-radius:999px;
-
-  padding:8px 16px;
-
+  color:#24242a;
   font-family:inherit;
-
-  font-size:13px;
-
-  font-weight:700;
-
-  cursor:pointer;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
+  font-size:14px;
+  box-shadow:4px 4px 0 rgba(0,0,0,.07);
 }
 
-
-.badge-filter:hover{
-
-  border-color:#a9c4ff;
-
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 3px 10px rgba(82,110,170,0.08);
-
+.keyword-search:focus{
+  border-color:#ff4d6d;
 }
 
-
-.badge-filter.active{
-
-  background:#2864ff;
-
-  border-color:#2864ff;
-
-  color:#fff;
-
-  box-shadow:
-    0 4px 10px rgba(40,100,255,0.15);
-
+.keyword-search::placeholder{
+  color:#999;
 }
 
-
-/* ==================================================
-   階数絞り込み
-================================================== */
-
-.floor-filter-area{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  align-items:center;
-
-  gap:9px;
-
-  margin-bottom:20px;
-
-}
-
-
-.floor-filter-title{
-
-  font-size:16px;
-
-  font-weight:800;
-
-  color:#263957;
-
-  margin-right:3px;
-
-  /*
-   * 背景図形より見やすくする
-   */
-  position:relative;
-
-  z-index:11;
-
-}
-
-
-.floor-filter{
-
+.filter-btn{
   appearance:none;
-
-  border:1.5px solid #e5a24a;
-
-  background:#fff8ed;
-
-  color:#b86600;
-
-  border-radius:999px;
-
-  padding:8px 17px;
-
-  font-family:inherit;
-
-  font-size:13px;
-
-  font-weight:700;
-
+  border:2px solid rgba(36,36,42,.12);
   cursor:pointer;
-
+  padding:9px 16px;
+  border-radius:0;
+  background:#fff;
+  color:#555;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:700;
+  box-shadow:4px 4px 0 rgba(0,0,0,.09);
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    color .18s ease;
 }
 
-
-.floor-filter:hover{
-
-  border-color:#d8891c;
-
-  background:#fff2dc;
-
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 3px 10px rgba(210,140,40,0.12);
-
+.filter-btn:hover{
+  transform:translate(-1px,-1px);
+  box-shadow:6px 6px 0 rgba(0,0,0,.09);
 }
 
+.filter-btn:active{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 rgba(0,0,0,.09);
+}
 
-.floor-filter.active{
-
-  background:#e88724;
-
-  border-color:#e88724;
-
+.filter-btn.active{
   color:#fff;
-
-  box-shadow:
-    0 4px 10px rgba(232,135,36,0.22);
-
+  border-color:#ff4d6d;
+  background:#ff4d6d;
 }
 
+#categoryFilters .filter-btn:not([data-category="all"]){
+  color:var(--genre-filter-text,#555);
+  border-color:var(--genre-filter-border,rgba(36,36,42,.12));
+  background:var(--genre-filter-bg,#fff);
+}
 
-/* ==================================================
-   タブ
-   ※旧タブは削除
-================================================== */
-
-
-/* ==================================================
-   コンテンツ
-================================================== */
+#categoryFilters .filter-btn:not([data-category="all"]).active{
+  color:#fff;
+  border-color:var(--genre-filter-text,#555);
+  background:var(--genre-filter-text,#555);
+}
 
 .content{
   padding:20px;
@@ -1072,6 +952,31 @@ body{
 #back-to-top:focus-visible{outline:3px solid #facc15;outline-offset:3px;}
 @media(max-width:700px){#back-to-top{right:14px;bottom:14px;width:48px;height:48px;font-size:28px;}}
 
+
+/* ==================================================
+   絞り込みレスポンシブ
+   ※混雑情報ページと同じ調整
+================================================== */
+@media(max-width:600px){
+  .filter-area{
+    padding:20px 15px;
+  }
+
+  .filter-group{
+    gap:7px;
+  }
+
+  .filter-btn{
+    padding:8px 12px;
+    font-size:11px;
+  }
+
+  .keyword-search{
+    font-size:13px;
+    padding:11px 12px;
+  }
+}
+
 </style>
 
 </head>
@@ -1169,45 +1074,64 @@ fetch("header.html")
      自動的にボタンを作成する。
 ================================================== -->
 
-<div class="filter-area">
+<section class="filter-area">
 
+  <div class="filter-group">
 
-  <!-- ==================================================
-       バッジ絞り込み
-  ================================================== -->
+    <div class="filter-title">
+      キーワードから探す
+    </div>
 
-  <div class="badge-filter-area">
-
-    <span class="badge-filter-title">
-      企画
-    </span>
-
-    <div id="badge-filters"></div>
+    <input
+      type="search"
+      id="keywordSearch"
+      class="keyword-search"
+      placeholder="企画名・クラス・団体・開催場所を検索"
+      autocomplete="off"
+    >
 
   </div>
 
 
-  <!-- ==================================================
-       階数絞り込み
-  ================================================== -->
+  <div class="filter-group">
 
-  <div class="floor-filter-area">
+    <div class="filter-title">
+      カテゴリから探す
+    </div>
 
-    <span class="floor-filter-title">
-      階数
-    </span>
+    <div
+      id="categoryFilters"
+      style="display:flex;flex-wrap:wrap;gap:10px;width:100%;"
+    >
+      <button
+        type="button"
+        class="filter-btn active"
+        data-category="all"
+      >
+        すべて
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="filter-group">
+
+    <div class="filter-title">
+      階数から探す
+    </div>
 
     <button
       type="button"
-      class="floor-filter active"
+      class="filter-btn active"
       data-floor-filter="all"
     >
-      全て
+      すべて
     </button>
 
     <button
       type="button"
-      class="floor-filter"
+      class="filter-btn"
       data-floor-filter="1"
     >
       1階
@@ -1215,7 +1139,7 @@ fetch("header.html")
 
     <button
       type="button"
-      class="floor-filter"
+      class="filter-btn"
       data-floor-filter="2"
     >
       2階
@@ -1223,7 +1147,7 @@ fetch("header.html")
 
     <button
       type="button"
-      class="floor-filter"
+      class="filter-btn"
       data-floor-filter="3"
     >
       3階
@@ -1231,7 +1155,7 @@ fetch("header.html")
 
     <button
       type="button"
-      class="floor-filter"
+      class="filter-btn"
       data-floor-filter="4"
     >
       4階
@@ -1239,7 +1163,7 @@ fetch("header.html")
 
   </div>
 
-</div>
+</section>
 
 
 <!-- ==================================================
@@ -3751,504 +3675,182 @@ fetch("header.html")
 
 
   /* =======================================================
-     バッジ絞り込み
-     
-     ★ data-place-badge を使用
+     ジャンル・キーワード・階数フィルター
+     ※混雑情報ページと同じ仕様
   ======================================================= */
 
-  let selectedBadge =
-    "all";
-
-
-  let selectedFloor =
-    "all";
-
-
-  function setupBadgeFilters(){
-
-    const filterContainer =
-      document.getElementById(
-        "badge-filters"
-      );
-
-
-    if(!filterContainer){
-
-      return;
-
-    }
-
-
-    /*
-     * ★ data-place-badge を持つカードを取得
-     */
-
-    const cards =
-      Array.from(
-        document.querySelectorAll(
-          ".card[data-place-badge]"
-        )
-      );
-
-
-    const badgeCounts =
-      {};
-
-
-    /*
-     * ★ data-place-badge の数を数える
-     */
-
-    cards.forEach(function(card){
-
-      const badge =
-        (
-          card.dataset.placeBadge || ""
-        ).trim();
-
-
-      if(!badge){
-
-        return;
-
-      }
-
-
-      if(
-        !badgeCounts[badge]
-      ){
-
-        badgeCounts[badge] = 0;
-
-      }
-
-
-      badgeCounts[badge]++;
-
-    });
-
-
-    filterContainer.innerHTML =
-      "";
-
-
-    /*
-     * 「全て」
-     */
-
-    const allButton =
-      document.createElement(
-        "button"
-      );
-
-
-    allButton.type =
-      "button";
-
-    allButton.className =
-      "badge-filter active";
-
-    allButton.dataset.badgeFilter =
-      "all";
-
-    allButton.textContent =
-      "全て";
-
-
-    filterContainer.appendChild(
-      allButton
-    );
-
-
-    /*
-     * 2個以上ある
-     * data-place-badge
-     */
-
-    const commonBadges =
-      Object.keys(
-        badgeCounts
-      ).filter(function(badge){
-
-        return badgeCounts[badge] >= 2;
-
-      });
-
-
-    commonBadges.forEach(function(badge){
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.type =
-        "button";
-
-      button.className =
-        "badge-filter";
-
-      button.dataset.badgeFilter =
-        badge;
-
-      button.textContent =
-        badge;
-
-
-      filterContainer.appendChild(
-        button
-      );
-
-    });
-
-
-    /*
-     * 1個しかない
-     * data-place-badge
-     *
-     * → 「その他」にまとめる
-     */
-
-    const hasOther =
-      Object.keys(
-        badgeCounts
-      ).some(function(badge){
-
-        return badgeCounts[badge] === 1;
-
-      });
-
-
-    if(hasOther){
-
-      const otherButton =
-        document.createElement(
-          "button"
-        );
-
-
-      otherButton.type =
-        "button";
-
-      otherButton.className =
-        "badge-filter";
-
-      otherButton.dataset.badgeFilter =
-        "other";
-
-      otherButton.textContent =
-        "その他";
-
-
-      filterContainer.appendChild(
-        otherButton
-      );
-
-    }
-
-
-    /*
-     * ボタンイベント
-     */
-
-    filterContainer
-      .querySelectorAll(
-        ".badge-filter"
-      )
-      .forEach(function(button){
-
-        button.addEventListener(
-          "click",
-          function(){
-
-            filterContainer
-              .querySelectorAll(
-                ".badge-filter"
-              )
-              .forEach(function(item){
-
-                item.classList.remove(
-                  "active"
-                );
-
-              });
-
-
-            button.classList.add(
-              "active"
-            );
-
-
-            selectedBadge =
-              button.dataset.badgeFilter;
-
-
-            applyFilters();
-
-          }
-        );
-
-      });
-
+  let selectedCategory = "all";
+  let selectedFloor = "all";
+  let keywordFilter = "";
+
+  const keywordSearch =
+    document.getElementById("keywordSearch");
+
+  const categoryFilters =
+    document.getElementById("categoryFilters");
+
+
+  const genreColors = {
+    "お化け屋敷":{bg:"#f8dfe5",border:"#d77b8e",text:"#8f3048"},
+    "迷路":{bg:"#dfe8f8",border:"#7294c7",text:"#35578d"},
+    "脱出ゲーム":{bg:"#e5e0f7",border:"#8b7cc2",text:"#55478f"},
+    "体験型":{bg:"#dff1eb",border:"#6eaf9c",text:"#367463"},
+    "飲食":{bg:"#faead5",border:"#d49a58",text:"#8c5a20"},
+    "フォトスポット":{bg:"#f5e0f1",border:"#bd78ad",text:"#82456f"},
+    "映画":{bg:"#e2e5e8",border:"#7d8792",text:"#4d5660"},
+    "展示":{bg:"#e3eef5",border:"#75a1bc",text:"#416b83"},
+    "配布":{bg:"#eee7d5",border:"#b69d58",text:"#746128"},
+    "販売":{bg:"#f3e2d9",border:"#c48768",text:"#814b36"},
+    "サイエンス":{bg:"#dcecef",border:"#68a4ae",text:"#356f79"},
+    "縁日":{bg:"#f8e2c9",border:"#d48b45",text:"#8c531f"},
+    "カジノ":{bg:"#e3dfec",border:"#8e7ba9",text:"#5a486f"},
+    "体育館":{bg:"#e0ece0",border:"#77a477",text:"#477047"},
+    "English":{bg:"#e0e8f5",border:"#7896c0",text:"#425f8a"}
+  };
+
+  function getGenreFilterColor(genre){
+    return genreColors[String(genre || "").trim()] || {
+      bg:"#f2edf8",
+      border:"rgba(136,112,168,.28)",
+      text:"#66547d"
+    };
   }
 
 
-  /* =======================================================
-     カード絞り込み処理
-  ======================================================= */
+  function setupCategoryFilters(){
+    if(!categoryFilters){
+      return;
+    }
+
+    const cards = Array.from(
+      document.querySelectorAll(".card[data-place-badge]")
+    );
+
+    const genres = [...new Set(
+      cards
+        .map(card => (card.dataset.placeBadge || "").trim())
+        .filter(Boolean)
+    )];
+
+    categoryFilters.innerHTML = `
+      <button
+        type="button"
+        class="filter-btn active"
+        data-category="all"
+      >
+        すべて
+      </button>
+    `;
+
+    genres.forEach(function(genre){
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "filter-btn";
+      button.dataset.category = genre;
+      button.textContent = genre;
+
+      const color = getGenreFilterColor(genre);
+      button.style.setProperty("--genre-filter-bg", color.bg);
+      button.style.setProperty("--genre-filter-border", color.border);
+      button.style.setProperty("--genre-filter-text", color.text);
+
+      categoryFilters.appendChild(button);
+    });
+
+    categoryFilters
+      .querySelectorAll("[data-category]")
+      .forEach(function(button){
+        button.addEventListener("click", function(){
+          selectedCategory = button.dataset.category || "all";
+
+          categoryFilters
+            .querySelectorAll("[data-category]")
+            .forEach(function(item){
+              item.classList.remove("active");
+            });
+
+          button.classList.add("active");
+          applyFilters();
+        });
+      });
+  }
+
+
+  function setupFloorFilters(){
+    document
+      .querySelectorAll("[data-floor-filter]")
+      .forEach(function(button){
+        button.addEventListener("click", function(){
+          selectedFloor = button.dataset.floorFilter || "all";
+
+          document
+            .querySelectorAll("[data-floor-filter]")
+            .forEach(function(item){
+              item.classList.remove("active");
+            });
+
+          button.classList.add("active");
+          applyFilters();
+        });
+      });
+  }
+
 
   function applyFilters(){
-
-    const cards =
-      document.querySelectorAll(
-        ".card"
-      );
-
-
-    /*
-     * data-place-badge の出現回数を
-     * あらかじめ計算
-     */
-
-    const badgeCounts =
-      {};
-
+    const cards = document.querySelectorAll(".card");
 
     cards.forEach(function(card){
+      const category = (card.dataset.placeBadge || "").trim();
+      const floor = (card.dataset.floor || "").trim();
 
-      const badge =
-        (
-          card.dataset.placeBadge || ""
-        ).trim();
+      const cardText = (card.textContent || "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
 
+      const categoryMatch =
+        selectedCategory === "all" ||
+        category === selectedCategory;
 
-      if(!badge){
+      const floorMatch =
+        selectedFloor === "all" ||
+        floor === selectedFloor;
 
-        return;
+      const keywordMatch =
+        !keywordFilter ||
+        cardText.includes(keywordFilter.toLowerCase());
 
-      }
-
-
-      if(
-        !badgeCounts[badge]
-      ){
-
-        badgeCounts[badge] = 0;
-
-      }
-
-
-      badgeCounts[badge]++;
-
-    });
-
-
-    cards.forEach(function(card){
-
-      /*
-       * ★ data-place-badge を使用
-       */
-
-      const badge =
-        (
-          card.dataset.placeBadge || ""
-        ).trim();
-
-
-      const floor =
-        (
-          card.dataset.floor || ""
-        ).trim();
-
-
-      /* =================================================
-         バッジ判定
-      ================================================= */
-
-      let badgeMatch =
-        false;
-
-
-      if(
-        selectedBadge === "all"
-      ){
-
-        badgeMatch =
-          true;
-
-      }else if(
-        selectedBadge === "other"
-      ){
-
-        /*
-         * data-place-badge が
-         * 1個しかないカード
-         */
-
-        badgeMatch =
-          badgeCounts[badge] === 1;
-
-      }else{
-
-        /*
-         * 選択された
-         * data-place-badge と一致
-         */
-
-        badgeMatch =
-          badge === selectedBadge;
-
-      }
-
-
-      /* =================================================
-         階数判定
-      ================================================= */
-
-      let floorMatch =
-        false;
-
-
-      if(
-        selectedFloor === "all"
-      ){
-
-        floorMatch =
-          true;
-
-      }else{
-
-        floorMatch =
-          floor === selectedFloor;
-
-      }
-
-
-      /* =================================================
-         両方一致したカードだけ表示
-      ================================================= */
-
-      if(
-        badgeMatch &&
-        floorMatch
-      ){
-
-        card.classList.remove(
-          "filter-hidden"
-        );
-
-        card.classList.remove(
-          "show"
-        );
-
-
-        /*
-         * 再表示時にフェードイン
-         */
+      if(categoryMatch && floorMatch && keywordMatch){
+        card.classList.remove("filter-hidden");
+        card.classList.remove("show");
 
         setTimeout(function(){
-
-          card.classList.add(
-            "show"
-          );
-
+          card.classList.add("show");
         }, 20);
-
       }else{
-
-        card.classList.add(
-          "filter-hidden"
-        );
-
-        card.classList.remove(
-          "show"
-        );
-
+        card.classList.add("filter-hidden");
+        card.classList.remove("show");
       }
-
     });
-
-
-    /*
-     * カードが全部非表示になったグループは
-     * 見出しも非表示にする。
-     */
 
     document
       .querySelectorAll(".group")
       .forEach(function(group){
+        const visibleCards = group.querySelectorAll(
+          ".card:not(.filter-hidden)"
+        );
 
-        const visibleCards =
-          group.querySelectorAll(
-            ".card:not(.filter-hidden)"
-          );
-
-
-        if(
-          visibleCards.length === 0
-        ){
-
-          group.style.display =
-            "none";
-
-        }else{
-
-          group.style.display =
-            "block";
-
-        }
-
+        group.style.display =
+          visibleCards.length === 0 ? "none" : "block";
       });
-
   }
 
 
-  /* =======================================================
-     階数フィルター
-  ======================================================= */
-
-  function setupFloorFilters(){
-
-    const buttons =
-      document.querySelectorAll(
-        ".floor-filter"
-      );
-
-
-    buttons.forEach(function(button){
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          buttons.forEach(
-            function(item){
-
-              item.classList.remove(
-                "active"
-              );
-
-            }
-          );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          selectedFloor =
-            button.dataset.floorFilter;
-
-
-          applyFilters();
-
-        }
-      );
-
+  if(keywordSearch){
+    keywordSearch.addEventListener("input", function(){
+      keywordFilter = keywordSearch.value.trim();
+      applyFilters();
     });
-
   }
 
 
@@ -4455,7 +4057,7 @@ fetch("header.html")
      * ★ data-place-badge を使用
      */
 
-    setupBadgeFilters();
+    setupCategoryFilters();
 
 
     /*
@@ -4469,7 +4071,7 @@ fetch("header.html")
      * 初期状態
      */
 
-    selectedBadge =
+    selectedCategory =
       "all";
 
 
