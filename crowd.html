@@ -1704,7 +1704,7 @@ let keywordFilter =
 
 const classNameOverrides = {
 
-  "other1": "",
+  "other1": "大網白里特別支援学校",
 
   "other2": ""
 
@@ -1788,6 +1788,39 @@ function getClassName(id, value){
 
   return safeValue(
     classNameOverrides[id],
+    ""
+  );
+}
+
+
+/* =========================================
+   開催場所の個別設定
+
+   大網白里特別支援学校は events.html側の
+   ラベルが「販売場所」のため、混雑情報ページでは
+   「開催場所」として表示するために個別設定します。
+========================================= */
+
+const locationOverrides = {
+
+  "other1": "1階中央廊下"
+
+};
+
+function getLocation(id, value){
+
+  const override =
+    safeValue(
+      locationOverrides[id],
+      ""
+    );
+
+  if(override){
+    return override;
+  }
+
+  return safeValue(
+    value,
     ""
   );
 }
@@ -2334,6 +2367,13 @@ async function loadEvents(){
               getClassName(
                 id,
                 className
+              );
+
+
+            location =
+              getLocation(
+                id,
+                location
               );
 
 
