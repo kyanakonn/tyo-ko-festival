@@ -13,7 +13,8 @@ const app = express();
    基本設定
 ========================================= */
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+  process.env.PORT || 3000;
 
 
 /* =========================================
@@ -26,29 +27,146 @@ app.use(express.json());
 
 
 /* =========================================
-   設定
+   混雑スコア設定
 ========================================= */
 
 /*
-  古い情報の影響を減らす時間
+  ステータスの基本点
 
-  1時間経過すると、
-  その投稿の影響力は半分になります。
+  empty   = 0
+  normal  = 50
+  crowded = 100
+*/
+
+const STATUS_SCORES = {
+
+  empty:0,
+
+  normal:50,
+
+  crowded:100
+
+};
+
+
+/*
+  時間減衰の半減期
+
+  15分で重みが50%になる。
+
+  例：
+
+  0分   → 100%
+  5分   → 約79%
+  10分  → 約63%
+  15分  → 50%
+  20分  → 約40%
+  30分  → 25%
+  45分  → 約13%
+  60分  → 約6%
+
 */
 
 const SCORE_HALF_LIFE_MS =
+  15 * 60 * 1000;
+
+
+/*
+  60分より古い投稿は
+  混雑度の計算から除外する。
+*/
+
+const MAX_DATA_AGE_MS =
   60 * 60 * 1000;
 
 
 /*
-  投稿を保持する最大時間
+  少数票補正用の基準値。
 
-  6時間より古い投稿は
-  スコア計算に使用しません。
+  投票が少ない場合は
+  「やや混雑」= 50点側へ
+  少し引っ張る。
+
+  これにより、
+
+  1人だけが「混雑」と投稿
+
+  ↓
+
+  いきなり100点
+
+  という現象を防ぐ。
 */
 
-const MAX_DATA_AGE_MS =
-  6 * 60 * 60 * 1000;
+const PRIOR_SCORE =
+  50;
+
+
+/*
+  基準値を何票分として扱うか。
+
+  2.5にすることで、
+  1票程度では極端な値にならず、
+  投票数が増えると実際の投票結果へ
+  徐々に近づく。
+*/
+
+const PRIOR_WEIGHT =
+  2.5;
+
+
+/*
+  信頼度計算の係数。
+
+  有効投票数が増えるほど
+  信頼度が高くなる。
+
+  おおよその目安：
+
+  1有効票  → 約20%
+  5有効票  → 約67%
+  10有効票 → 約89%
+  20有効票 → 約99%
+
+*/
+
+const CONFIDENCE_SCALE =
+  4.5;
+
+
+/* =========================================
+   投稿制限
+========================================= */
+
+/*
+  同じ投稿者が同じ企画へ
+  短時間に大量投稿することを防ぐ。
+
+  クライアント側だけでなく、
+  サーバー側でもチェックする。
+*/
+
+const VOTER_POST_INTERVAL_MS =
+  5 * 60 * 1000;
+
+
+/*
+  投稿者情報を保持する。
+
+  voterIdは個人情報ではなく、
+  ブラウザで生成した匿名ランダムID。
+
+  例：
+
+  voterId
+  +
+  企画ID
+
+  の組み合わせで制限する。
+*/
+
+const voterPostHistory =
+  new Map();
 
 
 /* =========================================
@@ -59,61 +177,57 @@ const MAX_DATA_AGE_MS =
   データ形式
 
   {
-    "modal1": [
+    "modal1":[
+
       {
-        status: "empty",
-        updatedAt: "2026-09-07T..."
+        status:"empty",
+        updatedAt:"2026-09-07T..."
       },
+
       {
-        status: "crowded",
-        updatedAt: "2026-09-07T..."
+        status:"crowded",
+        updatedAt:"2026-09-07T..."
       }
+
     ]
   }
+
 */
 
 const crowdData = {};
 
 
 /* =========================================
-   ステータスをスコアに変換
+   ステータス → スコア
 ========================================= */
 
 function statusToScore(status){
 
-  const scores = {
-
-    empty:
-      0,
-
-    normal:
-      50,
-
-    crowded:
-      100
-
-  };
-
-
-  return scores[status];
+  return STATUS_SCORES[
+    status
+  ];
 
 }
 
 
 /* =========================================
-   スコアからステータスを決定
+   スコア → ステータス
 ========================================= */
 
 function scoreToStatus(score){
 
-  if(score < 34){
+  if(
+    score < 34
+  ){
 
     return "empty";
 
   }
 
 
-  if(score < 67){
+  if(
+    score < 67
+  ){
 
     return "normal";
 
@@ -126,7 +240,7 @@ function scoreToStatus(score){
 
 
 /* =========================================
-   古いデータを削除
+   古いデータ削除
 ========================================= */
 
 function cleanOldData(){
@@ -140,21 +254,36 @@ function cleanOldData(){
   ).forEach(
     id => {
 
-
       crowdData[id] =
         crowdData[id].filter(
           item => {
 
-
-            const age =
-              now -
+            const postTime =
               new Date(
                 item.updatedAt
               ).getTime();
 
 
-            return age <=
-              MAX_DATA_AGE_MS;
+            if(
+              !Number.isFinite(
+                postTime
+              )
+            ){
+
+              return false;
+
+            }
+
+
+            const age =
+              now -
+              postTime;
+
+
+            return (
+              age >= 0 &&
+              age <= MAX_DATA_AGE_MS
+            );
 
           }
         );
@@ -175,13 +304,50 @@ function cleanOldData(){
 
 
 /* =========================================
-   企画ごとの混雑状況を計算
+   投稿者履歴の掃除
+========================================= */
+
+function cleanVoterHistory(){
+
+  const now =
+    Date.now();
+
+
+  for(
+    const [
+      key,
+      timestamp
+    ]
+    of voterPostHistory
+  ){
+
+    if(
+      !Number.isFinite(
+        timestamp
+      ) ||
+      now - timestamp >
+        VOTER_POST_INTERVAL_MS
+    ){
+
+      voterPostHistory.delete(
+        key
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================
+   混雑状況計算
 ========================================= */
 
 function calculateCrowdStatus(posts){
 
   if(
-    !posts ||
+    !Array.isArray(posts) ||
     posts.length === 0
   ){
 
@@ -194,7 +360,16 @@ function calculateCrowdStatus(posts){
         null,
 
       score:
-        null
+        null,
+
+      confidence:
+        0,
+
+      voteCount:
+        0,
+
+      effectiveVotes:
+        0
 
     };
 
@@ -206,10 +381,19 @@ function calculateCrowdStatus(posts){
 
 
   let weightedScore =
-    0;
+    PRIOR_SCORE *
+    PRIOR_WEIGHT;
 
 
   let totalWeight =
+    PRIOR_WEIGHT;
+
+
+  let effectiveVotes =
+    0;
+
+
+  let voteCount =
     0;
 
 
@@ -220,6 +404,15 @@ function calculateCrowdStatus(posts){
   posts.forEach(
     post => {
 
+      if(
+        !post ||
+        typeof post !== "object"
+      ){
+
+        return;
+
+      }
+
 
       const postTime =
         new Date(
@@ -227,26 +420,46 @@ function calculateCrowdStatus(posts){
         ).getTime();
 
 
+      if(
+        !Number.isFinite(
+          postTime
+        )
+      ){
+
+        return;
+
+      }
+
+
       const age =
+        now -
+        postTime;
+
+
+      /*
+        未来時刻は0分として扱う。
+      */
+
+      const safeAge =
         Math.max(
           0,
-          now - postTime
+          age
         );
 
 
       /*
-        時間が経過するほど
-        重みを小さくする
-
-        1時間で影響力が半分
+        60分より古いものは
+        念のため計算から除外。
       */
 
-      const weight =
-        Math.pow(
-          0.5,
-          age /
-          SCORE_HALF_LIFE_MS
-        );
+      if(
+        safeAge >
+        MAX_DATA_AGE_MS
+      ){
+
+        return;
+
+      }
 
 
       const score =
@@ -256,8 +469,36 @@ function calculateCrowdStatus(posts){
 
 
       if(
-        typeof score !==
-        "number"
+        typeof score !== "number"
+      ){
+
+        return;
+
+      }
+
+
+      /*
+        15分半減期の指数減衰。
+
+        weight =
+        0.5 ^ (経過時間 / 15分)
+      */
+
+      const weight =
+        Math.pow(
+          0.5,
+          safeAge /
+          SCORE_HALF_LIFE_MS
+        );
+
+
+      /*
+        重みが極端に小さくなった
+        投稿は実質的に無視する。
+      */
+
+      if(
+        weight < 0.01
       ){
 
         return;
@@ -266,11 +507,19 @@ function calculateCrowdStatus(posts){
 
 
       weightedScore +=
-        score * weight;
+        score *
+        weight;
 
 
       totalWeight +=
         weight;
+
+
+      effectiveVotes +=
+        weight;
+
+
+      voteCount++;
 
 
       if(
@@ -291,7 +540,8 @@ function calculateCrowdStatus(posts){
 
 
   if(
-    totalWeight === 0
+    totalWeight <=
+    PRIOR_WEIGHT
   ){
 
     return {
@@ -303,32 +553,101 @@ function calculateCrowdStatus(posts){
         null,
 
       score:
-        null
+        null,
+
+      confidence:
+        0,
+
+      voteCount:
+        0,
+
+      effectiveVotes:
+        0
 
     };
 
   }
 
 
+  /*
+    加重平均。
+
+    PRIOR_WEIGHT分の50点を
+    最初から入れているため、
+    少数票で極端なスコアになりにくい。
+  */
+
   const averageScore =
     weightedScore /
     totalWeight;
+
+
+  const finalScore =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(
+          averageScore
+        )
+      )
+    );
+
+
+  /*
+    信頼度。
+
+    有効投票数が増えるほど
+    100%へ近づく。
+
+    ただし「正解率」ではない。
+  */
+
+  const rawConfidence =
+    1 -
+    Math.exp(
+      -effectiveVotes /
+      CONFIDENCE_SCALE
+    );
+
+
+  const confidence =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(
+          rawConfidence *
+          100
+        )
+      )
+    );
 
 
   return {
 
     status:
       scoreToStatus(
-        averageScore
+        finalScore
       ),
 
     updatedAt:
       newestTime,
 
     score:
+      finalScore,
+
+    confidence:
+      confidence,
+
+    voteCount:
+      voteCount,
+
+    effectiveVotes:
       Math.round(
-        averageScore
-      )
+        effectiveVotes *
+        100
+      ) / 100
 
   };
 
@@ -337,15 +656,16 @@ function calculateCrowdStatus(posts){
 
 /* =========================================
    GET
-   現在の全混雑情報を取得
+   全混雑情報取得
 ========================================= */
 
 app.get(
   "/api/crowd",
   (req, res) => {
 
-
     cleanOldData();
+
+    cleanVoterHistory();
 
 
     const result = {};
@@ -356,7 +676,6 @@ app.get(
     ).forEach(
       id => {
 
-
         result[id] =
           calculateCrowdStatus(
             crowdData[id]
@@ -366,9 +685,11 @@ app.get(
     );
 
 
-    res.status(200).json(
-      result
-    );
+    res
+      .status(200)
+      .json(
+        result
+      );
 
   }
 );
@@ -376,7 +697,7 @@ app.get(
 
 /* =========================================
    POST
-   混雑状況を共有
+   混雑状況共有
 ========================================= */
 
 app.post(
@@ -386,8 +707,10 @@ app.post(
 
     const {
       id,
-      status
-    } = req.body;
+      status,
+      voterId
+    } =
+      req.body;
 
 
     /* =====================================
@@ -399,24 +722,28 @@ app.post(
       typeof id !== "string"
     ){
 
-      return res.status(400).json({
+      return res
+        .status(400)
+        .json({
 
-        error:
-          "企画IDが正しくありません"
+          error:
+            "企画IDが正しくありません"
 
-      });
+        });
 
     }
 
 
     /* =====================================
-       状態確認
+       ステータス確認
     ===================================== */
 
     const allowedStatuses = [
 
       "empty",
+
       "normal",
+
       "crowded"
 
     ];
@@ -428,40 +755,141 @@ app.post(
       )
     ){
 
-      return res.status(400).json({
+      return res
+        .status(400)
+        .json({
 
-        error:
-          "混雑状況が正しくありません"
+          error:
+            "混雑状況が正しくありません"
 
-      });
+        });
 
     }
 
 
     /* =====================================
-       古いデータを削除
+       投稿者ID確認
+    ===================================== */
+
+    if(
+      !voterId ||
+      typeof voterId !== "string" ||
+      voterId.length < 10 ||
+      voterId.length > 200
+    ){
+
+      return res
+        .status(400)
+        .json({
+
+          error:
+            "投稿者情報を確認できませんでした。ページを再読み込みしてください。"
+
+        });
+
+    }
+
+
+    /* =====================================
+       古いデータ整理
     ===================================== */
 
     cleanOldData();
 
+    cleanVoterHistory();
+
 
     /* =====================================
-       更新日時
+       サーバー側投稿制限
+    ===================================== */
+
+    const voterKey =
+      voterId +
+      "::" +
+      id;
+
+
+    const lastPostTime =
+      voterPostHistory.get(
+        voterKey
+      );
+
+
+    if(
+      Number.isFinite(
+        lastPostTime
+      )
+    ){
+
+      const elapsed =
+        Date.now() -
+        lastPostTime;
+
+
+      const remaining =
+        VOTER_POST_INTERVAL_MS -
+        elapsed;
+
+
+      if(
+        remaining > 0
+      ){
+
+        const remainingSeconds =
+          Math.ceil(
+            remaining /
+            1000
+          );
+
+
+        return res
+          .status(429)
+          .json({
+
+            error:
+              "同じ企画への共有は5分に1回までです。あと" +
+              remainingSeconds +
+              "秒お待ちください。",
+
+            remainingMs:
+              remaining
+
+          });
+
+      }
+
+    }
+
+
+    /* =====================================
+       投稿日時
     ===================================== */
 
     const updatedAt =
-      new Date().toISOString();
+      new Date()
+        .toISOString();
 
 
     /* =====================================
-       投稿データを追加
+       投稿者履歴記録
+    ===================================== */
+
+    voterPostHistory.set(
+      voterKey,
+      Date.now()
+    );
+
+
+    /* =====================================
+       データ追加
     ===================================== */
 
     if(
       !crowdData[id]
     ){
 
-      crowdData[id] = [];
+      crowdData[id] =
+        [];
 
     }
 
@@ -478,7 +906,7 @@ app.post(
 
 
     /* =====================================
-       現在の計算結果
+       現在のスコア計算
     ===================================== */
 
     const calculated =
@@ -488,43 +916,56 @@ app.post(
 
 
     /* =====================================
-       更新結果を返す
+       結果返却
     ===================================== */
 
-    res.status(200).json({
+    res
+      .status(200)
+      .json({
 
-      id:
-        id,
+        id:
+          id,
 
-      status:
-        calculated.status,
+        status:
+          calculated.status,
 
-      updatedAt:
-        calculated.updatedAt,
+        score:
+          calculated.score,
 
-      score:
-        calculated.score
+        confidence:
+          calculated.confidence,
 
-    });
+        voteCount:
+          calculated.voteCount,
+
+        effectiveVotes:
+          calculated.effectiveVotes,
+
+        updatedAt:
+          calculated.updatedAt
+
+      });
 
   }
 );
 
 
 /* =========================================
-   動作確認用
+   動作確認
 ========================================= */
 
 app.get(
   "/",
   (req, res) => {
 
-    res.status(200).json({
+    res
+      .status(200)
+      .json({
 
-      message:
-        "長高祭2026 混雑情報APIは正常に動作しています"
+        message:
+          "長高祭2026 混雑情報APIは正常に動作しています"
 
-    });
+      });
 
   }
 );
@@ -538,12 +979,14 @@ app.get(
   "/health",
   (req, res) => {
 
-    res.status(200).json({
+    res
+      .status(200)
+      .json({
 
-      status:
-        "ok"
+        status:
+          "ok"
 
-    });
+      });
 
   }
 );
@@ -556,12 +999,14 @@ app.get(
 app.use(
   (req, res) => {
 
-    res.status(404).json({
+    res
+      .status(404)
+      .json({
 
-      error:
-        "ページが見つかりません"
+        error:
+          "ページが見つかりません"
 
-    });
+      });
 
   }
 );
