@@ -1061,6 +1061,69 @@ body{
 
 }
 
+
+/* ==================================================
+   ページ上部へ戻るボタン
+================================================== */
+
+#back-to-top{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:52px;
+  height:52px;
+  border:none;
+  border-radius:50%;
+  background:rgba(40,100,255,0.92);
+  color:#fff;
+  font-size:24px;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(40,100,255,0.25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(12px);
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  z-index:1000;
+}
+
+#back-to-top.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+#back-to-top:hover{
+  transform:translateY(-3px);
+  box-shadow:0 7px 18px rgba(40,100,255,0.32);
+}
+
+#back-to-top:active{
+  transform:translateY(0);
+}
+
+#back-to-top:focus-visible{
+  outline:3px solid rgba(40,100,255,0.35);
+  outline-offset:3px;
+}
+
+@media (max-width:700px){
+  #back-to-top{
+    right:15px;
+    bottom:15px;
+    width:46px;
+    height:46px;
+    font-size:21px;
+  }
+}
+
 </style>
 
 </head>
@@ -4498,8 +4561,79 @@ fetch("header.html")
 
 })();
 
+
+
+  /* =======================================================
+     ページ上部へ戻るボタン
+  ======================================================= */
+
+  const backToTopButton =
+    document.getElementById(
+      "back-to-top"
+    );
+
+
+  function updateBackToTopButton(){
+
+    if(
+      window.scrollY > 400
+    ){
+
+      backToTopButton.classList.add(
+        "show"
+      );
+
+    }else{
+
+      backToTopButton.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+
+
+  window.addEventListener(
+    "scroll",
+    updateBackToTopButton,
+    {
+      passive:true
+    }
+  );
+
+
+  updateBackToTopButton();
+
+
+  backToTopButton.addEventListener(
+    "click",
+    function(){
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    }
+  );
+
 </script>
 
+
+
+<!-- ==================================================
+     ページ上部へ戻るボタン
+================================================== -->
+
+<button
+  type="button"
+  id="back-to-top"
+  aria-label="ページ上部へ戻る"
+  title="ページ上部へ戻る"
+>
+  ↑
+</button>
 
 </body>
 
