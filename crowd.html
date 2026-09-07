@@ -624,30 +624,20 @@ main{
 }
 
 .status-time{
-  display:block!important;
-  visibility:visible!important;
-  opacity:1!important;
-  position:absolute!important;
-  right:10px!important;
-  bottom:5px!important;
-  z-index:999!important;
-  min-width:0!important;
-  min-height:16px!important;
-  width:auto!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:visible!important;
-  text-align:right!important;
-  white-space:nowrap!important;
-  font-family:'Noto Sans JP',sans-serif!important;
-  font-size:10px!important;
-  line-height:1.4!important;
-  font-weight:500!important;
-  color:#8c95a5!important;
-  background:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
+  display:block;
+  width:100%;
+  margin-top:7px;
+  padding:0 2px;
+  text-align:right;
+  white-space:nowrap;
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:10px;
+  line-height:1.5;
+  font-weight:500;
+  color:#8c95a5;
+  background:transparent;
+  border:0;
+  box-shadow:none;
 }
 
 
@@ -1156,7 +1146,61 @@ main{
 </head>
 
 
-<body>
+<body class="crowd-page-only-hidden">
+<script>
+/* =========================================
+   混雑情報ページをTOPページから完全分離
+
+   ・crowd.html / crowd.htm のときだけ表示
+   ・TOPページ(index.html / /)では絶対に表示しない
+   ・TOPページからiframe等で呼び出された場合も表示しない
+   ・crowd.htmlの内容がTOPへ誤って読み込まれた場合も非表示
+========================================= */
+(function(){
+
+  const currentPath =
+    window.location.pathname.toLowerCase();
+
+  let topPath = currentPath;
+
+  try{
+    topPath =
+      window.top.location.pathname.toLowerCase();
+  }
+  catch(error){
+    topPath = currentPath;
+  }
+
+  const isCrowdPath =
+    currentPath.endsWith('/crowd.html') ||
+    currentPath.endsWith('/crowd.htm');
+
+  const isTopPath =
+    topPath === '/' ||
+    topPath === '/index.html' ||
+    topPath.endsWith('/index.html') ||
+    topPath.endsWith('/index.htm');
+
+  /*
+    TOPページ自身、またはTOPページ内から呼び出された場合は
+    bodyを表示しない。
+  */
+  if(
+    isTopPath ||
+    !isCrowdPath
+  ){
+    document.body.style.display = 'none';
+    document.documentElement.style.display = 'none';
+  }
+  else{
+    document.body.classList.remove(
+      'crowd-page-only-hidden'
+    );
+  }
+
+})();
+</script>
+
 
 
 <div class="bg-shapes">
@@ -1576,7 +1620,7 @@ fetch("header.html")
 ========================================= */
 
 const API_URL =
-  "https://https://chosei-fes.onrender.com";
+  "https://chosei-fes.onrender.com";
 
 
 /* =========================================
@@ -2885,13 +2929,14 @@ function renderEvents(){
             </span>
 
 
-            <span class="status-time">
+          </div>
 
-              ${escapeHtml(
-                timeText
-              )}
 
-            </span>
+          <div class="status-time">
+
+            ${escapeHtml(
+              timeText
+            )}
 
           </div>
 
