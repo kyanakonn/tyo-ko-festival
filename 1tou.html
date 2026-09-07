@@ -442,33 +442,36 @@ body {
 ========================================= */
 
 .back-to-map {
-
-  border: none;
-
-  background: #06254f;
-
-  color: #fff;
-
-  padding: 6px 13px;
-
-  border-radius: 8px;
-
-  font-size: 15px;
-  font-weight: 700;
-
-  letter-spacing: 0.04em;
-
+  border: 1px solid rgba(6,37,79,0.16);
+  background: rgba(255,255,255,0.94);
+  color: #06254f;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   white-space: nowrap;
-
   cursor: pointer;
-
-  box-shadow: none;
-
+  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
   -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.back-to-map::before {
+  content: "↩";
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.back-to-map:hover {
+  transform: translateY(-1px);
+  background: #fff;
+  box-shadow: 0 5px 14px rgba(6,37,79,0.14);
 }
 
 .back-to-map:active {
-  opacity: 0.65;
+  transform: translateY(0);
+  opacity: 0.72;
 }
 
 
@@ -477,32 +480,181 @@ body {
 ========================================= */
 
 .help-button {
-
-  border: none;
-
-  background: #15929e;
-
+  border: 1px solid rgba(21,146,158,0.18);
+  background: rgba(21,146,158,0.95);
   color: #fff;
-
-  padding: 6px 13px;
-
-  border-radius: 8px;
-
-  font-size: 15px;
-  font-weight: 700;
-
-  letter-spacing: 0.04em;
-
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   white-space: nowrap;
-
   cursor: pointer;
-
+  box-shadow: 0 3px 10px rgba(21,146,158,0.16);
   -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.help-button::before {
+  content: "?";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  border: 1px solid rgba(255,255,255,0.75);
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.help-button:hover {
+  transform: translateY(-1px);
+  background: #12818c;
+  box-shadow: 0 5px 14px rgba(21,146,158,0.20);
 }
 
 .help-button:active {
-  opacity: 0.65;
+  transform: translateY(0);
+  opacity: 0.72;
 }
+
+/* =========================================
+   混雑表示コントロール
+========================================= */
+
+.crowd-toggle-button {
+  border: 1px solid rgba(6,37,79,0.18);
+  background: rgba(255,255,255,0.92);
+  color: #06254f;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
+  -webkit-tap-highlight-color: transparent;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.crowd-toggle-button:hover {
+  transform: translateY(-1px);
+}
+
+.crowd-toggle-button:active {
+  transform: translateY(0);
+  opacity: 0.75;
+}
+
+.crowd-toggle-button.off {
+  background: rgba(238,237,235,0.94);
+  color: #666;
+}
+
+.crowd-toggle-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #4f9d69;
+  vertical-align: 1px;
+}
+
+.crowd-toggle-button.off .crowd-toggle-dot {
+  background: #aaa;
+}
+
+.crowd-legend {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(6,37,79,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.90);
+  box-shadow: 0 4px 14px rgba(6,37,79,0.10);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 60;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.crowd-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #333;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.crowd-legend-color {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.crowd-legend-color.empty {
+  background: rgba(79,157,105,.48);
+  border: 1px solid rgba(79,157,105,.70);
+}
+
+.crowd-legend-color.normal {
+  background: rgba(215,168,61,.48);
+  border: 1px solid rgba(215,168,61,.70);
+}
+
+.crowd-legend-color.crowded {
+  background: rgba(212,91,88,.48);
+  border: 1px solid rgba(212,91,88,.70);
+}
+
+/* 当たり判定の上に重ねる混雑表示。内部レイヤーはクリックを邪魔しない。 */
+.map-hotspot .crowd-visual-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.map-hotspot.crowd-visible .crowd-visual-layer {
+  opacity: 1;
+}
+
+.map-hotspot.crowd-empty .crowd-visual-layer {
+  background: rgba(79,157,105,.34);
+  border: 1px solid rgba(79,157,105,.55);
+}
+
+.map-hotspot.crowd-normal .crowd-visual-layer {
+  background: rgba(215,168,61,.34);
+  border: 1px solid rgba(215,168,61,.55);
+}
+
+.map-hotspot.crowd-crowded .crowd-visual-layer {
+  background: rgba(212,91,88,.34);
+  border: 1px solid rgba(212,91,88,.55);
+}
+
+.map-hotspot.crowd-unknown .crowd-visual-layer {
+  background: transparent;
+  border: 1px solid transparent;
+}
+
 
 
 /* =========================================
@@ -971,6 +1123,28 @@ body {
     padding: 5px 10px;
 
     border-radius: 7px;
+  }
+
+  .crowd-toggle-button {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+
+  .crowd-legend {
+    top: calc(100% + 6px);
+    max-width: 96vw;
+    gap: 5px;
+    padding: 6px 7px;
+  }
+
+  .crowd-legend-item {
+    font-size: 9px;
+    gap: 3px;
+  }
+
+  .crowd-legend-color {
+    width: 10px;
+    height: 10px;
   }
 
 
@@ -1444,6 +1618,167 @@ body {
 
 
 /* =========================================
+   混雑状況表示
+========================================= */
+
+const CROWD_API_URL =
+  "https://chosei-fes.onrender.com";
+
+let crowdDisplayEnabled =
+  localStorage.getItem("choko_crowd_map_visible") !== "false";
+
+const crowdToggleButton =
+  document.getElementById("crowdToggleButton");
+
+function normalizeCrowdStatus(value){
+  const status = String(value || "").trim();
+  return ["empty","normal","crowded"].includes(status)
+    ? status
+    : "unknown";
+}
+
+function getCrowdRecord(crowdData, targetId){
+  if(!crowdData || !targetId){
+    return null;
+  }
+
+  const containers = [
+    crowdData,
+    crowdData.data,
+    crowdData.events,
+    crowdData.crowd,
+    crowdData.results
+  ];
+
+  for(const container of containers){
+    if(!container){
+      continue;
+    }
+
+    if(Array.isArray(container)){
+      const found = container.find(item =>
+        item && String(item.id || "").trim() === targetId
+      );
+      if(found){
+        return found;
+      }
+    }else if(
+      typeof container === "object" &&
+      container[targetId] &&
+      typeof container[targetId] === "object"
+    ){
+      return container[targetId];
+    }
+  }
+
+  return null;
+}
+
+function applyCrowdVisual(hotspot, status){
+  if(!hotspot){
+    return;
+  }
+
+  hotspot.classList.remove(
+    "crowd-empty",
+    "crowd-normal",
+    "crowd-crowded",
+    "crowd-unknown",
+    "crowd-visible"
+  );
+
+  const safeStatus = normalizeCrowdStatus(status);
+  hotspot.classList.add("crowd-" + safeStatus);
+
+  if(crowdDisplayEnabled && safeStatus !== "unknown"){
+    hotspot.classList.add("crowd-visible");
+  }
+}
+
+function refreshCrowdVisibility(){
+  document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+    const status =
+      hotspot.dataset.crowdStatus || "unknown";
+    applyCrowdVisual(hotspot, status);
+  });
+
+  if(crowdToggleButton){
+    crowdToggleButton.classList.toggle("off", !crowdDisplayEnabled);
+    crowdToggleButton.setAttribute(
+      "aria-pressed",
+      String(crowdDisplayEnabled)
+    );
+    crowdToggleButton.innerHTML =
+      '<span class="crowd-toggle-dot"></span>' +
+      (crowdDisplayEnabled ? "混雑表示：ON" : "混雑表示：OFF");
+  }
+}
+
+async function loadCrowdMapStatus(){
+  try{
+    const response = await fetch(
+      CROWD_API_URL + "/api/crowd",
+      {cache:"no-store"}
+    );
+
+    if(!response.ok){
+      throw new Error("混雑情報の取得に失敗しました");
+    }
+
+    const crowdData = await response.json();
+
+    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+      let targetId =
+        hotspot.dataset.modalType || "";
+
+      if(targetId === "gymnasium" || targetId === "gymnasium-performance"){
+        targetId = "gymnasium-performance";
+      }
+
+      const saved = getCrowdRecord(crowdData, targetId);
+      const status = saved
+        ? normalizeCrowdStatus(
+            saved.status ||
+            saved.crowdStatus ||
+            saved.crowd_status
+          )
+        : "unknown";
+
+      hotspot.dataset.crowdStatus = status;
+      applyCrowdVisual(hotspot, status);
+    });
+  }catch(error){
+    console.error("混雑情報の取得に失敗しました", error);
+  }
+
+  refreshCrowdVisibility();
+}
+
+if(crowdToggleButton){
+  crowdToggleButton.addEventListener("click", () => {
+    crowdDisplayEnabled = !crowdDisplayEnabled;
+    localStorage.setItem(
+      "choko_crowd_map_visible",
+      String(crowdDisplayEnabled)
+    );
+    refreshCrowdVisibility();
+  });
+}
+
+// 当たり判定の中に、クリックを邪魔しない表示レイヤーを追加。
+document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+  const layer = document.createElement("span");
+  layer.className = "crowd-visual-layer";
+  layer.setAttribute("aria-hidden", "true");
+  hotspot.appendChild(layer);
+});
+
+refreshCrowdVisibility();
+loadCrowdMapStatus();
+setInterval(loadCrowdMapStatus, 15000);
+
+
+/* =========================================
    場所詳細モーダル
 ========================================= */
 
@@ -1573,6 +1908,37 @@ fetch("header.html")
       >
         操作説明
       </button>
+
+
+      <button
+        class="crowd-toggle-button"
+        id="crowdToggleButton"
+        type="button"
+        aria-pressed="true"
+      >
+        <span class="crowd-toggle-dot"></span>
+        混雑表示：ON
+      </button>
+
+
+      <div
+        class="crowd-legend"
+        id="crowdLegend"
+        aria-label="混雑状況の凡例"
+      >
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color empty"></i>
+          <span>比較的空いている</span>
+        </span>
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color normal"></i>
+          <span>やや混雑している</span>
+        </span>
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color crowded"></i>
+          <span>混雑している</span>
+        </span>
+      </div>
 
     </div>
 
