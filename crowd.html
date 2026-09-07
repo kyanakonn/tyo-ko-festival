@@ -34,1465 +34,507 @@
 
 
 <style>
-
 /* =========================================
    基本設定
 ========================================= */
-
 :root{
-
-  --pink:#ff8fab;
-  --pink-dark:#ff4597;
-
-  --purple:#a98bff;
-
-  --text:#17213a;
-  --sub-text:#59677f;
-
-  --header-height:70px;
-
+  --header-height:48px;
+  --pink:#ff4d6d;
+  --pink-deep:#e2022e;
+  --purple:#8870a8;
+  --gold:#cfb25a;
+  --teal:#65a6ae;
+  --bg:#f1f1ef;
+  --text:#24242a;
+  --sub:#66636b;
 }
 
+*{margin:0;padding:0;box-sizing:border-box;}
 
-*{
-  box-sizing:border-box;
-}
-
-
-html,
-body{
-
-  margin:0;
-  padding:0;
-
+html,body{
+  width:100%;
+  max-width:100%;
   overflow-x:hidden;
-
-  font-family:
-    "Noto Sans JP",
-    sans-serif;
-
+  background:var(--bg)!important;
+  font-family:'Noto Sans JP',sans-serif;
   color:var(--text);
-
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
 }
 
-
-body{
-
-  min-height:100vh;
-
-  background:
-    linear-gradient(
-      180deg,
-      #fff8fc 0%,
-      #f8f5ff 45%,
-      #fff9fc 100%
-    );
-
-}
-
+body{min-height:100vh;}
 
 /* =========================================
-   背景図形
+   背景のローポリ風図形
 ========================================= */
-
 .bg-shapes{
-
   position:fixed;
-
   inset:0;
-
-  z-index:-1;
-
-  overflow:hidden;
-
+  z-index:0;
   pointer-events:none;
-
+  overflow:hidden;
+  opacity:.24;
+  filter:blur(1px);
 }
 
-
-.bg-shapes .shape{
-
-  position:absolute;
-
-  opacity:0.18;
-
-  border-radius:35px;
-
-  transform:rotate(25deg);
-
-}
-
+.bg-shapes .shape{position:absolute;}
 
 .bg-shapes .s1{
-
-  width:140px;
-  height:140px;
-
-  top:8%;
-  left:-70px;
-
-  background:#ff8fab;
-
+  top:5%;left:-50px;width:0;height:0;
+  border-left:90px solid transparent;border-right:90px solid transparent;
+  border-bottom:170px solid #c96d80;transform:rotate(-25deg);
 }
-
-
 .bg-shapes .s2{
-
-  width:110px;
-  height:110px;
-
-  top:18%;
-  right:-45px;
-
-  background:#a98bff;
-
+  top:25%;left:-35px;width:0;height:0;
+  border-left:70px solid transparent;border-right:70px solid transparent;
+  border-bottom:130px solid #8870a8;transform:rotate(20deg);
 }
-
-
 .bg-shapes .s3{
-
-  width:70px;
-  height:70px;
-
-  top:42%;
-  left:8%;
-
-  background:#ffd166;
-
+  bottom:5%;left:-30px;width:0;height:0;
+  border-left:100px solid transparent;border-right:100px solid transparent;
+  border-bottom:180px solid #cfb25a;transform:rotate(12deg);
 }
-
-
 .bg-shapes .s4{
-
-  width:130px;
-  height:130px;
-
-  top:58%;
-  right:-65px;
-
-  background:#8fd3ff;
-
+  bottom:28%;left:20px;width:0;height:0;
+  border-left:60px solid transparent;border-right:60px solid transparent;
+  border-bottom:120px solid #65a6ae;transform:rotate(-15deg);
 }
-
-
 .bg-shapes .s5{
-
-  width:90px;
-  height:90px;
-
-  top:78%;
-  left:-40px;
-
-  background:#c3f0ca;
-
+  top:12%;right:-80px;width:0;height:0;
+  border-left:150px solid transparent;border-right:150px solid transparent;
+  border-bottom:260px solid #6aa8ad;transform:rotate(30deg);
 }
 
+.bg-shapes::before,
+.bg-shapes::after{
+  content:"";position:absolute;display:block;
+}
+.bg-shapes::before{
+  width:85px;height:150px;left:7%;top:45%;
+  background:#a57999;transform:rotate(28deg);
+}
+.bg-shapes::after{
+  width:110px;height:70px;right:4%;top:55%;
+  background:#65a0a8;transform:rotate(-20deg);
+}
 
 /* =========================================
-   ヘッダー読み込み領域
+   ヘッダー
 ========================================= */
-
 #header{
-
-  position:relative;
-
-  z-index:1000;
-
+  position:fixed!important;
+  top:0;left:0;width:100%;
+  z-index:10000!important;
 }
-
 
 /* =========================================
    メイン
 ========================================= */
-
 main{
-
+  position:relative;
+  z-index:1;
   width:100%;
-
-  padding:
-    calc(var(--header-height) + 35px)
-    15px
-    80px;
-
+  padding:calc(var(--header-height) + 42px) 20px 80px;
 }
-
 
 /* =========================================
    ページタイトル
 ========================================= */
-
 .page-heading{
-
+  position:relative;
   width:100%;
-
   max-width:1050px;
-
-  margin:
-    0 auto
-    30px;
-
+  margin:0 auto 28px;
   text-align:center;
-
 }
-
 
 .page-heading h1{
-
+  display:inline-block;
   margin:0;
-
-  font-size:
-    clamp(30px, 6vw, 48px);
-
+  padding:10px 24px;
+  font-size:clamp(30px,6vw,48px);
   font-weight:900;
-
-  letter-spacing:0.05em;
-
-  color:#ff4597;
-
+  letter-spacing:.05em;
+  color:var(--pink);
+  background:rgba(255,255,255,.72);
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  border-radius:10px;
 }
-
 
 .page-heading p{
-
-  margin:
-    14px auto
-    0;
-
-  max-width:600px;
-
-  font-size:
-    clamp(13px, 2vw, 16px);
-
+  margin:18px auto 0;
+  max-width:680px;
+  font-size:clamp(13px,2vw,16px);
   line-height:1.9;
-
   font-weight:500;
-
-  color:var(--sub-text);
-
+  color:var(--sub);
 }
-
 
 /* =========================================
-   お知らせボックス
+   お知らせ
 ========================================= */
-
 .notice-box{
-
+  position:relative;
   width:100%;
-
   max-width:850px;
-
-  margin:
-    0 auto
-    35px;
-
+  margin:0 auto 32px;
   padding:20px 24px;
-
-  border-radius:22px;
-
-  background:
-    rgba(255,255,255,0.68);
-
-  border:
-    1px solid
-    rgba(255,255,255,0.8);
-
-  box-shadow:
-    0 10px 30px
-    rgba(120,50,100,0.10);
-
-  backdrop-filter:
-    blur(12px);
-
-  -webkit-backdrop-filter:
-    blur(12px);
-
+  background:rgba(255,255,255,.86);
+  border-left:6px solid var(--pink);
+  border-right:6px solid var(--purple);
+  box-shadow:8px 8px 0 rgba(0,0,0,.08);
   text-align:center;
-
 }
 
+.notice-box::before{
+  content:"";
+  position:absolute;
+  top:-1px;right:0;
+  width:52px;height:52px;
+  background:rgba(207,178,90,.35);
+  clip-path:polygon(100% 0,100% 100%,0 0);
+}
 
 .notice-box strong{
-
-  display:block;
-
-  margin-bottom:6px;
-
-  color:#ff4597;
-
-  font-size:15px;
-
+  display:block;margin-bottom:6px;
+  color:var(--pink-deep);font-size:15px;
 }
-
-
 .notice-box span{
-
-  font-size:12px;
-
-  line-height:1.8;
-
-  color:#59677f;
-
+  font-size:12px;line-height:1.8;color:var(--sub);
 }
-
 
 /* =========================================
-   フィルターエリア
+   フィルター
 ========================================= */
-
 .filter-area{
-
-  width:100%;
-
-  max-width:1050px;
-
-  margin:
-    0 auto
-    35px;
-
-  padding:25px;
-
-  border-radius:25px;
-
-  background:
-    rgba(255,255,255,0.58);
-
-  box-shadow:
-    0 10px 30px
-    rgba(120,50,100,0.10);
-
-  backdrop-filter:
-    blur(12px);
-
-  -webkit-backdrop-filter:
-    blur(12px);
-
+  width:100%;max-width:1050px;
+  margin:0 auto 30px;
+  padding:24px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:8px 8px 0 rgba(0,0,0,.07);
 }
-
 
 .filter-group{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  align-items:center;
-
-  gap:10px;
-
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
 }
-
-
-.filter-group + .filter-group{
-
-  margin-top:18px;
-
-}
-
+.filter-group + .filter-group{margin-top:20px;}
 
 .filter-title{
-
-  width:100%;
-
-  margin-bottom:2px;
-
-  font-size:14px;
-
-  font-weight:900;
-
-  color:#ff4597;
-
+  width:100%;margin-bottom:2px;
+  font-size:14px;font-weight:900;color:var(--pink-deep);
 }
-
-
-/* =========================================
-   フィルターボタン
-========================================= */
 
 .filter-btn{
-
-  appearance:none;
-
-  border:none;
-
-  cursor:pointer;
-
-  padding:
-    9px
-    16px;
-
-  border-radius:999px;
-
-  background:
-    rgba(255,255,255,0.85);
-
-  color:#59677f;
-
-  font-family:inherit;
-
-  font-size:13px;
-
-  font-weight:700;
-
-  box-shadow:
-    0 4px 12px
-    rgba(100,70,120,0.08);
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
-
+  appearance:none;border:2px solid rgba(36,36,42,.12);
+  cursor:pointer;padding:9px 16px;border-radius:0;
+  background:#fff;color:#555;
+  font-family:inherit;font-size:13px;font-weight:700;
+  box-shadow:4px 4px 0 rgba(0,0,0,.09);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
 }
 
-
-.filter-btn:hover{
-
-  transform:
-    translateY(-2px);
-
-}
-
-
+.filter-btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 rgba(0,0,0,.09);}
+.filter-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.09);}
 .filter-btn.active{
-
-  color:#fff;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff8fab,
-      #a98bff
-    );
-
-  box-shadow:
-    0 6px 16px
-    rgba(160,100,180,0.22);
-
+  color:#fff;border-color:var(--pink);
+  background:var(--pink);
 }
-
 
 /* =========================================
-   企画数
+   件数
 ========================================= */
-
 .result-info{
-
-  width:100%;
-
-  max-width:1050px;
-
-  margin:
-    0 auto
-    18px;
-
-  padding:0 5px;
-
-  font-size:13px;
-
-  font-weight:700;
-
-  color:#59677f;
-
+  width:100%;max-width:1050px;
+  margin:0 auto 16px;padding:0 2px;
+  font-size:13px;font-weight:700;color:var(--sub);
 }
-
-
-.result-info strong{
-
-  color:#ff4597;
-
-}
-
+.result-info strong{color:var(--pink-deep);}
 
 /* =========================================
    カード一覧
 ========================================= */
-
 .crowd-grid{
-
-  width:100%;
-
-  max-width:1050px;
-
-  margin:0 auto;
-
+  position:relative;
+  z-index:1;
+  width:100%;max-width:1050px;margin:0 auto;
   display:grid;
-
-  grid-template-columns:
-    repeat(
-      3,
-      minmax(0,1fr)
-    );
-
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:20px;
-
 }
-
 
 /* =========================================
    混雑情報カード
 ========================================= */
-
 .crowd-card{
-
   position:relative;
-
-  display:flex;
-
-  flex-direction:column;
-
+  display:flex;flex-direction:column;
   min-height:390px;
-
   padding:22px;
-
-  border-radius:24px;
-
   overflow:hidden;
-
-  background:
-    rgba(255,255,255,0.82);
-
-  box-shadow:
-    0 10px 26px
-    rgba(100,70,120,0.12);
-
-  border:
-    1px solid
-    rgba(255,255,255,0.95);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-
+  background:#fff;
+  border:2px solid rgba(36,36,42,.12);
+  box-shadow:8px 8px 0 rgba(0,0,0,.08);
+  transition:transform .22s ease,box-shadow .22s ease;
 }
 
+.crowd-card::before{
+  content:"";
+  position:absolute;
+  left:0;bottom:0;
+  width:82px;height:82px;
+  background:rgba(201,109,128,.17);
+  clip-path:polygon(0 100%,0 0,100% 100%);
+  pointer-events:none;
+}
+
+.crowd-card::after{
+  content:"";
+  position:absolute;
+  right:-18px;top:-18px;
+  width:74px;height:74px;
+  background:rgba(136,112,168,.16);
+  transform:rotate(25deg);
+  pointer-events:none;
+}
 
 .crowd-card:hover{
-
-  transform:
-    translateY(-4px);
-
-  box-shadow:
-    0 16px 34px
-    rgba(100,70,120,0.17);
-
+  transform:translate(-3px,-3px);
+  box-shadow:12px 12px 0 rgba(0,0,0,.09);
 }
-
-
-.crowd-card.hidden{
-
-  display:none;
-
-}
-
+.crowd-card.hidden{display:none;}
 
 /* =========================================
-   カテゴリバッジ
+   カテゴリ
 ========================================= */
-
 .category-badge{
-
-  position:absolute;
-
-  top:18px;
-  right:18px;
-
-  padding:
-    6px
-    11px;
-
-  border-radius:999px;
-
-  background:#f1f6fd;
-
-  color:#5d6d86;
-
-  font-size:11px;
-
-  font-weight:700;
-
+  position:absolute;top:17px;right:17px;
+  z-index:2;
+  padding:6px 11px;
+  background:#f2edf8;
+  border:1px solid rgba(136,112,168,.28);
+  color:#66547d;
+  font-size:11px;font-weight:700;
 }
-
-
-/* =========================================
-   タイトル
-========================================= */
 
 .crowd-card-title{
-
-  margin:
-    35px 0
-    20px;
-
+  position:relative;z-index:1;
+  margin:34px 0 20px;
   padding-right:10px;
-
-  font-size:20px;
-
-  line-height:1.55;
-
-  font-weight:900;
-
-  color:var(--text);
-
-  word-break:break-word;
-
+  font-size:20px;line-height:1.55;font-weight:900;
+  color:var(--text);word-break:break-word;
 }
-
 
 /* =========================================
    企画情報
 ========================================= */
-
 .place-info{
-
-  margin-bottom:18px;
-
-  padding-bottom:18px;
-
-  border-bottom:
-    1px solid
-    rgba(100,80,120,0.12);
-
+  position:relative;z-index:1;
+  margin-bottom:18px;padding-bottom:18px;
+  border-bottom:2px solid rgba(36,36,42,.08);
 }
-
 
 .info-row{
-
-  display:grid;
-
-  grid-template-columns:
-    75px
-    1fr;
-
-  gap:8px;
-
-  margin-top:8px;
-
-  font-size:13px;
-
+  display:grid;grid-template-columns:75px 1fr;
+  gap:8px;margin-top:8px;font-size:13px;
 }
-
-
-.info-label{
-
-  color:#ff4597;
-
-  font-weight:700;
-
-}
-
-
-.info-value{
-
-  color:#59677f;
-
-  font-weight:500;
-
-  word-break:break-word;
-
-}
-
+.info-label{color:var(--pink-deep);font-weight:700;}
+.info-value{color:var(--sub);font-weight:500;word-break:break-word;}
 
 /* =========================================
    混雑状況
 ========================================= */
-
-.status-area{
-
-  margin-top:auto;
-
-}
-
-
+.status-area{position:relative;z-index:1;margin-top:auto;}
 .status-label{
-
-  margin-bottom:8px;
-
-  font-size:12px;
-
-  font-weight:700;
-
-  color:#59677f;
-
+  margin-bottom:8px;font-size:12px;font-weight:700;color:var(--sub);
 }
-
-
 .status-display{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  padding:
-    14px
-    15px;
-
-  border-radius:16px;
-
-  background:
-    rgba(248,248,252,0.8);
-
+  display:flex;align-items:center;gap:10px;
+  padding:14px 15px;
+  background:#f6f5f2;
+  border-left:5px solid var(--teal);
 }
-
-
 .status-dot{
-
-  width:13px;
-  height:13px;
-
-  flex-shrink:0;
-
+  width:13px;height:13px;flex-shrink:0;
   border-radius:50%;
-
 }
-
-
-.status-dot.empty{
-
-  background:#55c78a;
-
-  box-shadow:
-    0 0 10px
-    rgba(85,199,138,0.45);
-
-}
-
-
-.status-dot.normal{
-
-  background:#f3b83e;
-
-  box-shadow:
-    0 0 10px
-    rgba(243,184,62,0.4);
-
-}
-
-
-.status-dot.crowded{
-
-  background:#f05a68;
-
-  box-shadow:
-    0 0 10px
-    rgba(240,90,104,0.4);
-
-}
-
-
-.status-dot.unknown{
-
-  background:#a8afbc;
-
-}
-
-
-.status-text{
-
-  flex:1;
-
-  font-size:14px;
-
-  font-weight:900;
-
-  color:#59677f;
-
-}
-
-
-.status-time{
-
-  margin-top:8px;
-
-  text-align:right;
-
-  font-size:10px;
-
-  color:#8c95a5;
-
-}
-
+.status-dot.empty{background:#55c78a;box-shadow:0 0 10px rgba(85,199,138,.45);}
+.status-dot.normal{background:#f3b83e;box-shadow:0 0 10px rgba(243,184,62,.4);}
+.status-dot.crowded{background:#f05a68;box-shadow:0 0 10px rgba(240,90,104,.4);}
+.status-dot.unknown{background:#a8afbc;}
+.status-text{flex:1;font-size:14px;font-weight:900;color:#555;}
+.status-time{margin-top:8px;text-align:right;font-size:10px;color:#8c95a5;}
 
 /* =========================================
    共有ボタン
 ========================================= */
-
 .share-btn{
-
-  width:100%;
-
-  margin-top:16px;
-
-  padding:
-    13px
-    15px;
-
-  border:none;
-
-  border-radius:999px;
-
-  cursor:pointer;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff8fab,
-      #a98bff
-    );
-
-  color:#fff;
-
-  font-family:inherit;
-
-  font-size:13px;
-
-  font-weight:900;
-
-  box-shadow:
-    0 7px 18px
-    rgba(130,80,150,0.20);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
+  position:relative;z-index:1;
+  width:100%;margin-top:16px;padding:13px 15px;
+  border:2px solid #1e1e2f;border-radius:0;
+  cursor:pointer;background:#1e1e2f;color:#fff;
+  font-family:inherit;font-size:13px;font-weight:900;
+  box-shadow:5px 5px 0 var(--pink);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
 }
-
-
-.share-btn:hover{
-
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 10px 24px
-    rgba(130,80,150,0.25);
-
-}
-
-
-.share-btn:active{
-
-  transform:
-    translateY(1px);
-
-}
-
+.share-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--pink);}
+.share-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--pink);}
 
 /* =========================================
-   ローディング
+   ローディング・エラー
 ========================================= */
-
 .loading{
-
-  width:100%;
-
-  grid-column:1 / -1;
-
-  padding:70px 20px;
-
-  text-align:center;
-
-  color:#59677f;
-
+  width:100%;grid-column:1 / -1;padding:70px 20px;
+  text-align:center;color:var(--sub);
 }
-
-
 .loading-spinner{
-
-  width:38px;
-  height:38px;
-
-  margin:
-    0 auto
-    15px;
-
-  border-radius:50%;
-
-  border:
-    4px solid
-    rgba(169,139,255,0.18);
-
-  border-top-color:
-    #ff8fab;
-
-  animation:
-    loadingRotate
-    0.8s
-    linear
-    infinite;
-
+  width:38px;height:38px;margin:0 auto 15px;
+  border-radius:50%;border:4px solid rgba(136,112,168,.18);
+  border-top-color:var(--pink);
+  animation:loadingRotate .8s linear infinite;
 }
-
-
-@keyframes loadingRotate{
-
-  to{
-
-    transform:
-      rotate(360deg);
-
-  }
-
-}
-
-
-/* =========================================
-   エラー
-========================================= */
+@keyframes loadingRotate{to{transform:rotate(360deg);}}
 
 .error-message{
-
-  width:100%;
-
-  grid-column:1 / -1;
-
-  padding:50px 20px;
-
-  border-radius:22px;
-
-  background:
-    rgba(255,255,255,0.75);
-
-  text-align:center;
-
-  color:#59677f;
-
+  width:100%;grid-column:1 / -1;padding:50px 20px;
+  background:#fff;border-left:6px solid var(--pink);
+  box-shadow:6px 6px 0 rgba(0,0,0,.07);
+  text-align:center;color:var(--sub);
 }
-
-
-.error-message strong{
-
-  display:block;
-
-  margin-bottom:8px;
-
-  color:#ff4597;
-
-}
-
+.error-message strong{display:block;margin-bottom:8px;color:var(--pink-deep);}
 
 /* =========================================
    モーダル
 ========================================= */
-
 .modal-overlay{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:5000;
-
-  display:none;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:20px;
-
-  background:
-    rgba(25,20,40,0.42);
-
-  backdrop-filter:
-    blur(6px);
-
-  -webkit-backdrop-filter:
-    blur(6px);
-
+  position:fixed;inset:0;z-index:5000;
+  display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(25,20,40,.48);
 }
-
-
-.modal-overlay.active{
-
-  display:flex;
-
-}
-
+.modal-overlay.active{display:flex;}
 
 .share-modal{
-
-  width:100%;
-
-  max-width:440px;
-
-  padding:28px;
-
-  border-radius:28px;
-
-  background:
-    rgba(255,255,255,0.96);
-
-  box-shadow:
-    0 20px 50px
-    rgba(30,20,50,0.28);
-
-  animation:
-    modalIn
-    0.25s
-    ease;
-
+  position:relative;
+  width:min(100%,520px);
+  max-height:calc(100vh - 40px);
+  overflow-y:auto;
+  padding:30px;
+  background:#f1f1ef;
+  border:3px solid #24242a;
+  box-shadow:12px 12px 0 var(--pink);
+  animation:modalIn .22s ease;
 }
-
-
 @keyframes modalIn{
-
-  from{
-
-    opacity:0;
-
-    transform:
-      translateY(20px)
-      scale(0.97);
-
-  }
-
-  to{
-
-    opacity:1;
-
-    transform:
-      translateY(0)
-      scale(1);
-
-  }
-
+  from{opacity:0;transform:translateY(18px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
 }
-
 
 .modal-title{
-
-  margin:0;
-
-  text-align:center;
-
-  font-size:20px;
-
-  font-weight:900;
-
-  color:#17213a;
-
+  margin:0 0 8px;
+  font-size:22px;font-weight:900;color:var(--pink-deep);
 }
-
-
 .modal-place{
-
-  margin:
-    8px 0
-    25px;
-
-  text-align:center;
-
-  font-size:13px;
-
-  color:#59677f;
-
+  margin-bottom:22px;
+  font-size:14px;font-weight:700;color:#555;
 }
-
+.modal-question{
+  margin-bottom:12px;font-size:13px;font-weight:900;color:var(--text);
+}
 
 .status-options{
-
-  display:flex;
-
-  flex-direction:column;
-
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:10px;
-
+  margin-bottom:22px;
 }
-
-
 .status-option{
-
-  width:100%;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  padding:
-    15px
-    16px;
-
-  border:
-    2px solid
-    rgba(100,80,120,0.08);
-
-  border-radius:18px;
-
-  cursor:pointer;
-
+  min-height:76px;
+  padding:12px;
+  border:2px solid rgba(36,36,42,.13);
   background:#fff;
-
+  cursor:pointer;
   font-family:inherit;
-
   text-align:left;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
-
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
-
-
-.status-option:hover{
-
-  transform:
-    translateY(-2px);
-
-}
-
-
-.status-option.selected{
-
-  border-color:
-    #ff8fab;
-
-  background:
-    rgba(255,143,171,0.08);
-
-}
-
-
-.option-circle{
-
-  width:14px;
-  height:14px;
-
-  flex-shrink:0;
-
-  border-radius:50%;
-
-}
-
-
-.option-circle.empty{
-
-  background:#55c78a;
-
-}
-
-
-.option-circle.normal{
-
-  background:#f3b83e;
-
-}
-
-
-.option-circle.crowded{
-
-  background:#f05a68;
-
-}
-
-
-.option-text{
-
-  font-size:14px;
-
-  font-weight:700;
-
-  color:#59677f;
-
-}
-
-
-/* =========================================
-   モーダルボタン
-========================================= */
+.status-option:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(0,0,0,.08);}
+.status-option.selected{border-color:var(--pink);box-shadow:4px 4px 0 rgba(255,77,109,.28);}
+.status-option strong{display:block;margin-bottom:3px;font-size:13px;color:var(--text);}
+.status-option span{font-size:11px;color:var(--sub);}
 
 .modal-actions{
-
-  display:flex;
-
-  gap:10px;
-
-  margin-top:24px;
-
+  display:flex;justify-content:flex-end;gap:10px;
 }
-
-
 .modal-btn{
-
-  flex:1;
-
-  border:none;
-
-  padding:
-    13px
-    15px;
-
-  border-radius:999px;
-
+  border:2px solid #24242a;
+  padding:11px 18px;
+  border-radius:0;
   cursor:pointer;
-
-  font-family:inherit;
-
-  font-size:13px;
-
-  font-weight:900;
-
+  font-family:inherit;font-size:13px;font-weight:900;
 }
-
-
-.cancel-btn{
-
-  background:
-    #f0f1f5;
-
-  color:#687386;
-
+.modal-btn.cancel{background:#fff;color:var(--text);}
+.modal-btn.submit{
+  background:var(--pink);color:#fff;
+  box-shadow:4px 4px 0 #24242a;
 }
-
-
-.submit-btn{
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff8fab,
-      #a98bff
-    );
-
-  color:#fff;
-
-  box-shadow:
-    0 7px 18px
-    rgba(130,80,150,0.18);
-
+.modal-btn.submit:disabled{
+  opacity:.45;cursor:not-allowed;box-shadow:none;
 }
-
-
-.submit-btn:disabled{
-
-  opacity:0.45;
-
-  cursor:not-allowed;
-
-}
-
 
 /* =========================================
-   完了メッセージ
+   トースト
 ========================================= */
-
 .toast{
-
-  position:fixed;
-
-  left:50%;
-  bottom:25px;
-
-  z-index:6000;
-
-  width:
-    min(
-      calc(100% - 30px),
-      420px
-    );
-
-  padding:
-    14px
-    20px;
-
-  border-radius:18px;
-
-  background:
-    rgba(40,45,60,0.92);
-
-  color:#fff;
-
-  text-align:center;
-
-  font-size:13px;
-
-  font-weight:700;
-
-  transform:
-    translateX(-50%)
-    translateY(100px);
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:
-    transform 0.35s ease,
-    opacity 0.35s ease;
-
+  position:fixed;left:50%;bottom:24px;z-index:7000;
+  max-width:calc(100% - 40px);
+  padding:13px 20px;
+  background:#24242a;color:#fff;
+  border-left:5px solid var(--pink);
+  box-shadow:6px 6px 0 rgba(0,0,0,.15);
+  text-align:center;font-size:13px;font-weight:700;
+  transform:translateX(-50%) translateY(100px);
+  opacity:0;pointer-events:none;
+  transition:transform .35s ease,opacity .35s ease;
 }
-
-
-.toast.show{
-
-  transform:
-    translateX(-50%)
-    translateY(0);
-
-  opacity:1;
-
-}
-
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
 /* =========================================
    タブレット
 ========================================= */
-
 @media(max-width:900px){
-
-  .crowd-grid{
-
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0,1fr)
-      );
-
-  }
-
+  .crowd-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
-
 
 /* =========================================
    スマートフォン
 ========================================= */
-
 @media(max-width:600px){
-
-  main{
-
-    padding:
-      calc(var(--header-height) + 25px)
-      12px
-      70px;
-
-  }
-
-
-  .page-heading{
-
-    margin-bottom:25px;
-
-  }
-
-
-  .notice-box{
-
-    padding:
-      17px
-      18px;
-
-    border-radius:20px;
-
-  }
-
-
-  .notice-box strong{
-
-    font-size:13px;
-
-  }
-
-
-  .notice-box span{
-
-    font-size:11px;
-
-  }
-
-
-  .filter-area{
-
-    padding:
-      20px
-      15px;
-
-    border-radius:20px;
-
-  }
-
-
-  .filter-group{
-
-    gap:7px;
-
-  }
-
-
-  .filter-btn{
-
-    padding:
-      8px
-      12px;
-
-    font-size:11px;
-
-  }
-
-
-  .crowd-grid{
-
-    grid-template-columns:
-      1fr;
-
-    gap:15px;
-
-  }
-
-
-  .crowd-card{
-
-    min-height:auto;
-
-    padding:20px;
-
-    border-radius:21px;
-
-  }
-
-
-  .crowd-card:hover{
-
-    transform:none;
-
-  }
-
-
-  .crowd-card-title{
-
-    margin:
-      32px 0
-      17px;
-
-    font-size:18px;
-
-  }
-
-
-  .share-modal{
-
-    padding:23px 18px;
-
-    border-radius:24px;
-
-  }
-
-
-  .modal-title{
-
-    font-size:18px;
-
-  }
-
+  .bg-shapes{opacity:.18;}
+  main{padding:calc(var(--header-height) + 28px) 12px 70px;}
+
+  .page-heading{margin-bottom:24px;}
+  .page-heading h1{font-size:clamp(27px,8vw,40px);padding:8px 16px;}
+  .page-heading p{margin-top:14px;line-height:1.75;}
+
+  .notice-box{padding:17px 18px;border-left-width:5px;border-right-width:5px;}
+  .notice-box strong{font-size:13px;}
+  .notice-box span{font-size:11px;}
+
+  .filter-area{padding:20px 15px;}
+  .filter-group{gap:7px;}
+  .filter-btn{padding:8px 12px;font-size:11px;}
+
+  .crowd-grid{grid-template-columns:1fr;gap:15px;}
+  .crowd-card{min-height:auto;padding:20px;}
+  .crowd-card:hover{transform:none;box-shadow:8px 8px 0 rgba(0,0,0,.08);}
+  .crowd-card-title{margin:32px 0 17px;font-size:18px;}
+
+  .status-options{grid-template-columns:1fr;}
+  .share-modal{padding:23px 18px;box-shadow:8px 8px 0 var(--pink);}
+  .modal-title{font-size:18px;}
+  .modal-actions{flex-direction:column-reverse;}
+  .modal-btn{width:100%;}
 }
-
 </style>
 
 </head>
