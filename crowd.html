@@ -51,11 +51,13 @@
   --sub:#66636b;
 }
 
+
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
+
 
 html,
 body{
@@ -69,6 +71,7 @@ body{
   -webkit-overflow-scrolling:touch;
   scroll-behavior:smooth;
 }
+
 
 body{
   min-height:100vh;
@@ -89,9 +92,11 @@ body{
   filter:blur(1px);
 }
 
+
 .bg-shapes .shape{
   position:absolute;
 }
+
 
 .bg-shapes .s1{
   top:5%;
@@ -104,6 +109,7 @@ body{
   transform:rotate(-25deg);
 }
 
+
 .bg-shapes .s2{
   top:25%;
   left:-35px;
@@ -114,6 +120,7 @@ body{
   border-bottom:130px solid #8870a8;
   transform:rotate(20deg);
 }
+
 
 .bg-shapes .s3{
   bottom:5%;
@@ -126,6 +133,7 @@ body{
   transform:rotate(12deg);
 }
 
+
 .bg-shapes .s4{
   bottom:28%;
   left:20px;
@@ -136,6 +144,7 @@ body{
   border-bottom:120px solid #65a6ae;
   transform:rotate(-15deg);
 }
+
 
 .bg-shapes .s5{
   top:12%;
@@ -148,12 +157,14 @@ body{
   transform:rotate(30deg);
 }
 
+
 .bg-shapes::before,
 .bg-shapes::after{
   content:"";
   position:absolute;
   display:block;
 }
+
 
 .bg-shapes::before{
   width:85px;
@@ -163,6 +174,7 @@ body{
   background:#a57999;
   transform:rotate(28deg);
 }
+
 
 .bg-shapes::after{
   width:110px;
@@ -214,6 +226,7 @@ main{
   text-align:center;
 }
 
+
 .page-heading h1{
   display:inline-block;
   margin:0;
@@ -227,6 +240,7 @@ main{
   border-radius:0!important;
   border:none!important;
 }
+
 
 .page-heading p{
   margin:18px auto 0;
@@ -255,6 +269,7 @@ main{
   text-align:center;
 }
 
+
 .notice-box::before{
   content:"";
   position:absolute;
@@ -266,12 +281,14 @@ main{
   clip-path:polygon(100% 0,100% 100%,0 0);
 }
 
+
 .notice-box strong{
   display:block;
   margin-bottom:6px;
   color:var(--pink-deep);
   font-size:15px;
 }
+
 
 .notice-box span{
   font-size:12px;
@@ -294,6 +311,7 @@ main{
   box-shadow:8px 8px 0 rgba(0,0,0,.07);
 }
 
+
 .filter-group{
   display:flex;
   flex-wrap:wrap;
@@ -301,9 +319,11 @@ main{
   gap:10px;
 }
 
+
 .filter-group + .filter-group{
   margin-top:20px;
 }
+
 
 .filter-title{
   width:100%;
@@ -331,9 +351,11 @@ main{
   box-shadow:4px 4px 0 rgba(0,0,0,.07);
 }
 
+
 .keyword-search:focus{
   border-color:var(--pink);
 }
+
 
 .keyword-search::placeholder{
   color:#999;
@@ -363,15 +385,18 @@ main{
     color .18s ease;
 }
 
+
 .filter-btn:hover{
   transform:translate(-1px,-1px);
   box-shadow:6px 6px 0 rgba(0,0,0,.09);
 }
 
+
 .filter-btn:active{
   transform:translate(2px,2px);
   box-shadow:2px 2px 0 rgba(0,0,0,.09);
 }
+
 
 .filter-btn.active{
   color:#fff;
@@ -393,6 +418,7 @@ main{
   font-weight:700;
   color:var(--sub);
 }
+
 
 .result-info strong{
   color:var(--pink-deep);
@@ -439,6 +465,7 @@ main{
     box-shadow .22s ease;
 }
 
+
 .crowd-card::before{
   content:"";
   position:absolute;
@@ -456,6 +483,7 @@ main{
   pointer-events:none;
 }
 
+
 .crowd-card::after{
   content:"";
   position:absolute;
@@ -467,6 +495,7 @@ main{
   transform:rotate(25deg);
   pointer-events:none;
 }
+
 
 .crowd-card:hover{
   transform:translate(-3px,-3px);
@@ -515,11 +544,13 @@ main{
   box-shadow:none!important;
 }
 
+
 .crowd-card-title::before,
 .crowd-card-title::after{
   content:none!important;
   display:none!important;
 }
+
 
 .crowd-card-title *{
   background:none!important;
@@ -542,6 +573,7 @@ main{
   border-bottom:2px solid rgba(36,36,42,.08);
 }
 
+
 .info-row{
   display:grid;
   grid-template-columns:90px 1fr;
@@ -550,10 +582,12 @@ main{
   font-size:13px;
 }
 
+
 .info-label{
   color:var(--pink-deep);
   font-weight:700;
 }
+
 
 .info-value{
   color:var(--sub);
@@ -572,12 +606,14 @@ main{
   margin-top:auto;
 }
 
+
 .status-label{
   margin-bottom:8px;
   font-size:12px;
   font-weight:700;
   color:var(--sub);
 }
+
 
 .status-display{
   display:flex;
@@ -588,6 +624,7 @@ main{
   border-left:5px solid var(--teal);
 }
 
+
 .status-dot{
   width:13px;
   height:13px;
@@ -595,24 +632,29 @@ main{
   border-radius:50%;
 }
 
+
 .status-dot.empty{
   background:#55c78a;
   box-shadow:0 0 10px rgba(85,199,138,.45);
 }
+
 
 .status-dot.normal{
   background:#f3b83e;
   box-shadow:0 0 10px rgba(243,184,62,.4);
 }
 
+
 .status-dot.crowded{
   background:#f05a68;
   box-shadow:0 0 10px rgba(240,90,104,.4);
 }
 
+
 .status-dot.unknown{
   background:#a8afbc;
 }
+
 
 .status-text{
   flex:1;
@@ -621,13 +663,46 @@ main{
   color:#555;
 }
 
+
+/* =========================================
+   最終更新時間
+   必ず表示されるよう強制
+========================================= */
+
 .status-time{
-  display:block;
-  min-height:18px;
-  margin-top:8px;
-  text-align:right;
-  font-size:10px;
-  color:#8c95a5;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+
+  position:relative;
+  z-index:3;
+
+  width:100%;
+
+  min-height:18px!important;
+  height:auto!important;
+
+  margin-top:8px!important;
+  margin-bottom:0!important;
+
+  padding:0!important;
+
+  overflow:visible!important;
+
+  text-align:right!important;
+
+  white-space:normal!important;
+
+  font-family:'Noto Sans JP',sans-serif!important;
+  font-size:10px!important;
+  line-height:1.6!important;
+  font-weight:500!important;
+
+  color:#8c95a5!important;
+
+  background:transparent!important;
+  border:none!important;
+  box-shadow:none!important;
 }
 
 
@@ -657,15 +732,18 @@ main{
     background .18s ease;
 }
 
+
 .share-btn:hover{
   transform:translate(-2px,-2px);
   box-shadow:7px 7px 0 var(--pink);
 }
 
+
 .share-btn:active{
   transform:translate(3px,3px);
   box-shadow:2px 2px 0 var(--pink);
 }
+
 
 .share-btn:disabled{
   cursor:not-allowed;
@@ -689,6 +767,7 @@ main{
   color:var(--sub);
 }
 
+
 .loading-spinner{
   width:38px;
   height:38px;
@@ -703,6 +782,7 @@ main{
     infinite;
 }
 
+
 @keyframes loadingRotate{
 
   to{
@@ -710,6 +790,7 @@ main{
   }
 
 }
+
 
 .error-message{
   width:100%;
@@ -721,6 +802,7 @@ main{
   text-align:center;
   color:var(--sub);
 }
+
 
 .error-message strong{
   display:block;
@@ -744,9 +826,11 @@ main{
   background:rgba(25,20,40,.48);
 }
 
+
 .modal-overlay.active{
   display:flex;
 }
+
 
 .share-modal{
   position:relative;
@@ -762,6 +846,7 @@ main{
     .22s
     ease;
 }
+
 
 @keyframes modalIn{
 
@@ -781,12 +866,14 @@ main{
 
 }
 
+
 .modal-title{
   margin:0 0 8px;
   font-size:22px;
   font-weight:900;
   color:var(--pink-deep);
 }
+
 
 .modal-place{
   margin-bottom:22px;
@@ -795,12 +882,14 @@ main{
   color:#555;
 }
 
+
 .status-options{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:22px;
 }
+
 
 .status-option{
   min-height:76px;
@@ -817,10 +906,12 @@ main{
     box-shadow .18s ease;
 }
 
+
 .status-option:hover{
   transform:translate(-2px,-2px);
   box-shadow:4px 4px 0 rgba(0,0,0,.08);
 }
+
 
 .status-option.selected{
   border-color:var(--pink);
@@ -828,6 +919,7 @@ main{
     4px 4px 0
     rgba(255,77,109,.28);
 }
+
 
 .option-circle{
   display:inline-block;
@@ -837,17 +929,21 @@ main{
   border-radius:50%;
 }
 
+
 .option-circle.empty{
   background:#55c78a;
 }
+
 
 .option-circle.normal{
   background:#f3b83e;
 }
 
+
 .option-circle.crowded{
   background:#f05a68;
 }
+
 
 .option-text{
   font-size:13px;
@@ -855,11 +951,13 @@ main{
   color:var(--text);
 }
 
+
 .modal-actions{
   display:flex;
   justify-content:flex-end;
   gap:10px;
 }
+
 
 .modal-btn{
   border:2px solid #24242a;
@@ -871,16 +969,19 @@ main{
   font-weight:900;
 }
 
+
 .modal-btn.cancel{
   background:#fff;
   color:var(--text);
 }
+
 
 .modal-btn.submit{
   background:var(--pink);
   color:#fff;
   box-shadow:4px 4px 0 #24242a;
 }
+
 
 .modal-btn.submit:disabled{
   opacity:.45;
@@ -919,6 +1020,7 @@ main{
     transform .35s ease,
     opacity .35s ease;
 }
+
 
 .toast.show{
   transform:
@@ -976,11 +1078,13 @@ main{
     box-shadow .2s ease;
 }
 
+
 #backToTop.show{
   opacity:.92;
   visibility:visible;
   transform:translateY(0);
 }
+
 
 #backToTop:hover{
   opacity:1;
@@ -988,9 +1092,11 @@ main{
     translateY(-2px);
 }
 
+
 #backToTop:active{
   transform:
     translateY(1px);
+
   box-shadow:
     1px 1px 0
     rgba(255,77,109,.45);
@@ -1021,6 +1127,7 @@ main{
     opacity:.18;
   }
 
+
   main{
     padding:
       calc(var(--header-height) + 28px)
@@ -1028,9 +1135,11 @@ main{
       90px;
   }
 
+
   .page-heading{
     margin-bottom:24px;
   }
+
 
   .page-heading h1{
     font-size:
@@ -1039,10 +1148,12 @@ main{
     padding:8px 0;
   }
 
+
   .page-heading p{
     margin-top:14px;
     line-height:1.75;
   }
+
 
   .notice-box{
     padding:17px 18px;
@@ -1050,41 +1161,50 @@ main{
     border-right-width:5px;
   }
 
+
   .notice-box strong{
     font-size:13px;
   }
+
 
   .notice-box span{
     font-size:11px;
   }
 
+
   .filter-area{
     padding:20px 15px;
   }
 
+
   .filter-group{
     gap:7px;
   }
+
 
   .filter-btn{
     padding:8px 12px;
     font-size:11px;
   }
 
+
   .keyword-search{
     font-size:13px;
     padding:11px 12px;
   }
+
 
   .crowd-grid{
     grid-template-columns:1fr;
     gap:15px;
   }
 
+
   .crowd-card{
     min-height:auto;
     padding:20px;
   }
+
 
   .crowd-card:hover{
     transform:none;
@@ -1093,14 +1213,17 @@ main{
       rgba(0,0,0,.08);
   }
 
+
   .crowd-card-title{
     margin:32px 0 17px!important;
     font-size:18px;
   }
 
+
   .status-options{
     grid-template-columns:1fr;
   }
+
 
   .share-modal{
     padding:23px 18px;
@@ -1109,17 +1232,21 @@ main{
       var(--pink);
   }
 
+
   .modal-title{
     font-size:18px;
   }
+
 
   .modal-actions{
     flex-direction:column-reverse;
   }
 
+
   .modal-btn{
     width:100%;
   }
+
 
   #backToTop{
     right:14px;
@@ -1416,7 +1543,6 @@ main{
 
 
 <script>
-
 
 /* =========================================
    ヘッダー読み込み
@@ -2569,7 +2695,6 @@ async function loadCrowdStatus(){
         */
 
         const rawUpdatedAt =
-
           saved.updatedAt ||
 
           saved.updated_at ||
@@ -2750,10 +2875,12 @@ function renderEvents(){
 
       const buttonText =
         remainingPostTime > 0
+
           ? "次の共有まで " +
             formatRemainingTime(
               remainingPostTime
             )
+
           : "混雑状況を共有する";
 
 
@@ -2801,6 +2928,7 @@ function renderEvents(){
                     ""
                   )
                 ) ||
+
                 "－"
               }
 
@@ -2824,6 +2952,7 @@ function renderEvents(){
                     ""
                   )
                 ) ||
+
                 "－"
               }
 
@@ -2982,6 +3111,11 @@ function getTimeText(updatedAt){
       updatedAt
     );
 
+
+  /*
+    日時がない場合でも
+    「最終更新」という表示自体は必ず出す
+  */
 
   if(
     !safeUpdatedAt
@@ -3476,9 +3610,12 @@ submitBtn.addEventListener(
         " お待ちください"
       );
 
+
       closeShareModal();
 
+
       renderEvents();
+
 
       return;
 
@@ -3570,7 +3707,6 @@ submitBtn.addEventListener(
       */
 
       const rawUpdatedAt =
-
         result.updatedAt ||
 
         result.updated_at ||
@@ -3608,6 +3744,7 @@ submitBtn.addEventListener(
           safeUpdatedAt;
 
       }
+
 
       /*
         APIが日時を返さない場合は
