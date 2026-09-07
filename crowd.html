@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 
 <head>
@@ -20,18 +19,15 @@
   content="長高祭2026の各企画・教室の混雑情報を確認・共有できます。"
 >
 
-
 <link
   href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
   rel="stylesheet"
 >
 
-
 <link
   rel="stylesheet"
   href="css/style.css"
 >
-
 
 <style>
 
@@ -379,7 +375,6 @@ main{
   background:var(--pink);
 }
 
-/* ジャンル別フィルターボタン */
 #categoryFilters .filter-btn:not([data-category="all"]){
   color:var(--genre-filter-text,#555);
   border-color:var(--genre-filter-border,rgba(36,36,42,.12));
@@ -422,11 +417,9 @@ main{
   width:100%;
   max-width:1050px;
   margin:0 auto;
-
   display:grid;
   grid-template-columns:
     repeat(3,minmax(0,1fr));
-
   gap:20px;
 }
 
@@ -439,7 +432,7 @@ main{
   position:relative;
   display:flex;
   flex-direction:column;
-  min-height:390px;
+  min-height:430px;
   padding:22px;
   overflow:hidden;
   background:#fff;
@@ -595,15 +588,15 @@ main{
 .status-display{
   position:relative;
   z-index:1;
-  display:grid;
-  grid-template-columns:auto minmax(0,1fr);
-  grid-template-rows:auto auto;
-  column-gap:10px;
-  row-gap:4px;
-  min-height:72px;
-  padding:14px 15px 10px;
+  padding:14px 15px 13px;
   background:#f6f5f2;
   border-left:5px solid var(--teal);
+}
+
+.status-main{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .status-dot{
@@ -611,9 +604,6 @@ main{
   height:13px;
   flex-shrink:0;
   border-radius:50%;
-  grid-column:1;
-  grid-row:1;
-  margin-top:2px;
 }
 
 .status-dot.empty{
@@ -637,8 +627,6 @@ main{
 
 .status-text{
   min-width:0;
-  grid-column:2;
-  grid-row:1;
   font-size:14px;
   font-weight:900;
   color:#555;
@@ -646,14 +634,121 @@ main{
   overflow-wrap:anywhere;
 }
 
+.score-section{
+  margin-top:13px;
+}
+
+.score-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:5px;
+}
+
+.score-label{
+  font-size:10px;
+  font-weight:700;
+  color:#7b7b80;
+}
+
+.score-value{
+  font-size:15px;
+  font-weight:900;
+  color:var(--text);
+}
+
+.score-value small{
+  font-size:9px;
+  font-weight:700;
+  color:#85858b;
+}
+
+.score-track{
+  position:relative;
+  width:100%;
+  height:7px;
+  overflow:hidden;
+  background:#e3e1dc;
+}
+
+.score-fill{
+  width:0;
+  height:100%;
+  background:var(--pink);
+  transition:width .5s ease;
+}
+
+.score-fill.empty{
+  background:#55c78a;
+}
+
+.score-fill.normal{
+  background:#f3b83e;
+}
+
+.score-fill.crowded{
+  background:#f05a68;
+}
+
+.score-fill.unknown{
+  background:#a8afbc;
+}
+
+.confidence-section{
+  margin-top:11px;
+}
+
+.confidence-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:5px;
+}
+
+.confidence-label{
+  font-size:10px;
+  font-weight:700;
+  color:#7b7b80;
+}
+
+.confidence-value{
+  font-size:13px;
+  font-weight:900;
+  color:var(--purple);
+}
+
+.confidence-track{
+  position:relative;
+  width:100%;
+  height:5px;
+  overflow:hidden;
+  background:#e3e1dc;
+}
+
+.confidence-fill{
+  width:0;
+  height:100%;
+  background:var(--purple);
+  transition:width .5s ease;
+}
+
+.vote-info{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:8px;
+  font-size:9px;
+  line-height:1.5;
+  color:#92929a;
+}
+
 .status-time{
   display:block;
-  grid-column:1 / -1;
-  grid-row:2;
   width:100%;
   min-height:16px;
-  margin:0;
-  padding:0;
+  margin-top:8px;
   text-align:right;
   white-space:nowrap;
   font-family:'Noto Sans JP',sans-serif;
@@ -741,11 +836,9 @@ main{
 }
 
 @keyframes loadingRotate{
-
   to{
     transform:rotate(360deg);
   }
-
 }
 
 .error-message{
@@ -794,18 +887,8 @@ main{
   background:#f1f1ef;
   border:3px solid #24242a;
   box-shadow:12px 12px 0 var(--pink);
-  animation:
-    modalIn
-    .22s
-    ease;
+  animation:modalIn .22s ease;
 }
-
-
-/* =========================================
-   モーダル内の共通スタイルをリセット
-   css/style.css側のh1/h2/h3等の共通装飾を
-   モーダルへ適用させない
-========================================= */
 
 .share-modal h1,
 .share-modal h2,
@@ -817,72 +900,45 @@ main{
   background-image:none!important;
 }
 
-
-/* =========================================
-   モーダルタイトル
-   「混雑状況を共有」の白い角丸四角形を完全削除
-========================================= */
-
 .share-modal .modal-title{
   display:block!important;
   position:relative!important;
-
   margin:0 0 8px!important;
   padding:0!important;
-
   width:auto!important;
   min-width:0!important;
   height:auto!important;
-
   font-size:22px!important;
   line-height:1.5!important;
   font-weight:900!important;
   color:var(--pink-deep)!important;
-
   background:transparent!important;
   background-color:transparent!important;
   background-image:none!important;
-
   border:0!important;
   border-width:0!important;
   border-style:none!important;
   border-color:transparent!important;
-
   border-radius:0!important;
-
   box-shadow:none!important;
-
   text-align:left!important;
 }
-
-
-/* モーダルタイトルに外部CSSの疑似要素が付く場合も完全削除 */
 
 .share-modal .modal-title::before,
 .share-modal .modal-title::after{
   content:none!important;
   display:none!important;
-
   width:0!important;
   height:0!important;
-
   margin:0!important;
   padding:0!important;
-
   background:none!important;
   background-color:transparent!important;
   background-image:none!important;
-
   border:0!important;
   border-radius:0!important;
   box-shadow:none!important;
 }
-
-
-/* =========================================
-   モーダル内のその他の見出しも
-   白い四角形・角丸・影を付けない
-========================================= */
 
 .share-modal h1,
 .share-modal h2,
@@ -891,38 +947,27 @@ main{
   background:transparent!important;
   background-color:transparent!important;
   background-image:none!important;
-
   border-radius:0!important;
   border:0!important;
   box-shadow:none!important;
 }
-
-
-/* =========================================
-   モーダル内の文章
-========================================= */
 
 .share-modal .modal-place{
   margin-bottom:22px!important;
   padding:0!important;
-
   font-size:14px;
   line-height:1.6;
   font-weight:700;
   color:#555;
-
   background:transparent!important;
   background-color:transparent!important;
   background-image:none!important;
-
   border:0!important;
   border-radius:0!important;
   box-shadow:none!important;
 }
 
-
 @keyframes modalIn{
-
   from{
     opacity:0;
     transform:
@@ -936,7 +981,6 @@ main{
       translateY(0)
       scale(1);
   }
-
 }
 
 .status-options{
@@ -1179,7 +1223,6 @@ main{
   .page-heading h1{
     font-size:
       clamp(27px,8vw,40px);
-
     padding:8px 0;
   }
 
@@ -1307,7 +1350,6 @@ main{
 
 <main>
 
-
   <section class="page-heading">
 
     <h1>
@@ -1330,7 +1372,8 @@ main{
 
     <span>
       混雑情報は利用者から共有された情報をもとに表示します。<br>
-      実際の混雑状況と異なる場合がありますので、参考情報としてご利用ください。
+      混雑度は新しい投稿をより強く反映して算出しています。<br>
+      信頼度は正確さを保証するものではなく、現在のスコアを支える有効な投票量の目安です。
     </span>
 
   </div>
@@ -1366,9 +1409,15 @@ main{
         id="categoryFilters"
         style="display:flex;flex-wrap:wrap;gap:10px;width:100%;"
       >
-        <button class="filter-btn active" data-category="all">
+
+        <button
+          type="button"
+          class="filter-btn active"
+          data-category="all"
+        >
           すべて
         </button>
+
       </div>
 
     </div>
@@ -1380,23 +1429,43 @@ main{
         階数から探す
       </div>
 
-      <button class="filter-btn active" data-floor-filter="all">
+      <button
+        class="filter-btn active"
+        data-floor-filter="all"
+        type="button"
+      >
         すべて
       </button>
 
-      <button class="filter-btn" data-floor-filter="1">
+      <button
+        class="filter-btn"
+        data-floor-filter="1"
+        type="button"
+      >
         1階
       </button>
 
-      <button class="filter-btn" data-floor-filter="2">
+      <button
+        class="filter-btn"
+        data-floor-filter="2"
+        type="button"
+      >
         2階
       </button>
 
-      <button class="filter-btn" data-floor-filter="3">
+      <button
+        class="filter-btn"
+        data-floor-filter="3"
+        type="button"
+      >
         3階
       </button>
 
-      <button class="filter-btn" data-floor-filter="4">
+      <button
+        class="filter-btn"
+        data-floor-filter="4"
+        type="button"
+      >
         4階
       </button>
 
@@ -1456,8 +1525,7 @@ main{
     <p
       class="modal-place"
       id="modalPlace"
-    >
-    </p>
+    ></p>
 
 
     <div class="status-options">
@@ -1465,6 +1533,7 @@ main{
       <button
         class="status-option"
         data-status="empty"
+        type="button"
       >
 
         <span
@@ -1481,6 +1550,7 @@ main{
       <button
         class="status-option"
         data-status="normal"
+        type="button"
       >
 
         <span
@@ -1497,6 +1567,7 @@ main{
       <button
         class="status-option"
         data-status="crowded"
+        type="button"
       >
 
         <span
@@ -1517,6 +1588,7 @@ main{
       <button
         class="modal-btn cancel"
         id="cancelBtn"
+        type="button"
       >
         キャンセル
       </button>
@@ -1524,6 +1596,7 @@ main{
       <button
         class="modal-btn submit"
         id="submitBtn"
+        type="button"
         disabled
       >
         共有する
@@ -1539,8 +1612,7 @@ main{
 <div
   class="toast"
   id="toast"
->
-</div>
+></div>
 
 
 <button
@@ -1554,138 +1626,95 @@ main{
 
 <script>
 
-
 /* =========================================
    ヘッダー読み込み
 ========================================= */
 
 fetch("header.html")
+  .then(res => res.text())
+  .then(data => {
 
-  .then(
-    res => res.text()
-  )
+    const headerContainer =
+      document.getElementById("header");
 
-  .then(
-    data => {
+    headerContainer.innerHTML =
+      data;
 
-      const headerContainer =
-        document.getElementById(
-          "header"
-        );
+    const header =
+      headerContainer.querySelector("header");
 
+    const btn =
+      headerContainer.querySelector(".menu-btn");
 
-      headerContainer.innerHTML =
-        data;
-
-
-      const header =
-        headerContainer.querySelector(
-          "header"
-        );
+    const nav =
+      headerContainer.querySelector(".nav");
 
 
-      const btn =
-        headerContainer.querySelector(
-          ".menu-btn"
-        );
+    function updateHeaderHeight(){
+
+      if(!header){
+        return;
+      }
+
+      const height =
+        header.getBoundingClientRect().height;
+
+      document.documentElement.style.setProperty(
+        "--header-height",
+        height + "px"
+      );
+
+    }
+
+    updateHeaderHeight();
+
+    window.addEventListener(
+      "resize",
+      updateHeaderHeight
+    );
 
 
-      const nav =
-        headerContainer.querySelector(
-          ".nav"
-        );
+    if(btn && nav){
 
+      btn.addEventListener(
+        "click",
+        e => {
 
-      function updateHeaderHeight(){
+          e.stopPropagation();
 
-        if(
-          !header
-        ){
-
-          return;
+          nav.classList.toggle("active");
 
         }
-
-
-        const height =
-          header
-            .getBoundingClientRect()
-            .height;
-
-
-        document.documentElement.style.setProperty(
-          "--header-height",
-          height + "px"
-        );
-
-      }
-
-
-      updateHeaderHeight();
-
-
-      window.addEventListener(
-        "resize",
-        updateHeaderHeight
       );
 
 
-      if(
-        btn &&
-        nav
-      ){
+      document.addEventListener(
+        "click",
+        e => {
 
-        btn.addEventListener(
-          "click",
-          e => {
+          if(
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ){
 
-            e.stopPropagation();
-
-            nav.classList.toggle(
-              "active"
-            );
+            nav.classList.remove("active");
 
           }
-        );
 
-
-        document.addEventListener(
-          "click",
-          e => {
-
-            if(
-              !nav.contains(
-                e.target
-              ) &&
-              !btn.contains(
-                e.target
-              )
-            ){
-
-              nav.classList.remove(
-                "active"
-              );
-
-            }
-
-          }
-        );
-
-      }
-
-    }
-  )
-
-  .catch(
-    error => {
-
-      console.error(
-        "ヘッダーの読み込みに失敗しました",
-        error
+        }
       );
 
     }
-  );
+
+  })
+  .catch(error => {
+
+    console.error(
+      "ヘッダーの読み込みに失敗しました",
+      error
+    );
+
+  });
 
 
 /* =========================================
@@ -1697,15 +1726,23 @@ const API_URL =
 
 
 /* =========================================
-   投稿インターバル設定
+   投稿制限設定
 ========================================= */
+
+/*
+  同じ企画への連続投稿を5分間制限します。
+
+  以前の「全企画共通で5分」ではなく、
+  「同じ企画について5分」とすることで、
+  複数の場所を見て回る来場者は
+  別の企画へ情報提供できます。
+*/
 
 const POST_INTERVAL_MS =
   5 * 60 * 1000;
 
-
-const LAST_POST_KEY =
-  "chosei_fes_crowd_last_post_at";
+const LAST_POSTS_KEY =
+  "chosei_fes_crowd_last_posts_v2";
 
 
 /* =========================================
@@ -1713,88 +1750,53 @@ const LAST_POST_KEY =
 ========================================= */
 
 const crowdGrid =
-  document.getElementById(
-    "crowdGrid"
-  );
-
+  document.getElementById("crowdGrid");
 
 const resultCount =
-  document.getElementById(
-    "resultCount"
-  );
-
+  document.getElementById("resultCount");
 
 const modalOverlay =
-  document.getElementById(
-    "modalOverlay"
-  );
-
+  document.getElementById("modalOverlay");
 
 const modalPlace =
-  document.getElementById(
-    "modalPlace"
-  );
-
+  document.getElementById("modalPlace");
 
 const submitBtn =
-  document.getElementById(
-    "submitBtn"
-  );
-
+  document.getElementById("submitBtn");
 
 const cancelBtn =
-  document.getElementById(
-    "cancelBtn"
-  );
-
+  document.getElementById("cancelBtn");
 
 const toast =
-  document.getElementById(
-    "toast"
-  );
-
+  document.getElementById("toast");
 
 const keywordSearch =
-  document.getElementById(
-    "keywordSearch"
-  );
-
+  document.getElementById("keywordSearch");
 
 const categoryFilters =
-  document.getElementById(
-    "categoryFilters"
-  );
-
+  document.getElementById("categoryFilters");
 
 const backToTop =
-  document.getElementById(
-    "backToTop"
-  );
+  document.getElementById("backToTop");
 
 
 /* =========================================
    状態
 ========================================= */
 
-let eventsData =
-  [];
-
+let eventsData = [];
 
 let selectedEvent =
   null;
 
-
 let selectedStatus =
   null;
-
 
 let categoryFilter =
   "all";
 
-
 let floorFilter =
   "all";
-
 
 let keywordFilter =
   "";
@@ -1806,9 +1808,11 @@ let keywordFilter =
 
 const classNameOverrides = {
 
-  "other1": "大網白里特別支援学校",
+  "other1":
+    "大網白里特別支援学校",
 
-  "other2": ""
+  "other2":
+    ""
 
 };
 
@@ -1819,13 +1823,26 @@ const classNameOverrides = {
 
 const floorOverrides = {
 
-  "club21": "2"
+  "club21":
+    "2"
 
 };
 
 
 /* =========================================
-   個別設定を反映した階数を取得
+   開催場所の個別設定
+========================================= */
+
+const locationOverrides = {
+
+  "other1":
+    "1階中央廊下"
+
+};
+
+
+/* =========================================
+   階数取得
 ========================================= */
 
 function getFloor(id, value){
@@ -1844,11 +1861,12 @@ function getFloor(id, value){
     value,
     ""
   );
+
 }
 
 
 /* =========================================
-   クラス・団体名が未設定か判定
+   クラス・団体名未設定判定
 ========================================= */
 
 function isMissingClassName(value){
@@ -1866,11 +1884,12 @@ function isMissingClassName(value){
     normalized === "―" ||
     normalized === "—"
   );
+
 }
 
 
 /* =========================================
-   個別設定を反映したクラス・団体名を取得
+   クラス・団体名取得
 ========================================= */
 
 function getClassName(id, value){
@@ -1886,18 +1905,13 @@ function getClassName(id, value){
     classNameOverrides[id],
     ""
   );
+
 }
 
 
 /* =========================================
-   開催場所の個別設定
+   開催場所取得
 ========================================= */
-
-const locationOverrides = {
-
-  "other1": "1階中央廊下"
-
-};
 
 function getLocation(id, value){
 
@@ -1915,11 +1929,12 @@ function getLocation(id, value){
     value,
     ""
   );
+
 }
 
 
 /* =========================================
-   undefined・nullを安全な値に変換
+   安全な文字列
 ========================================= */
 
 function safeValue(
@@ -1931,26 +1946,19 @@ function safeValue(
     value === undefined ||
     value === null
   ){
-
     return fallback;
-
   }
-
 
   const stringValue =
     String(value).trim();
-
 
   if(
     stringValue === "" ||
     stringValue === "undefined" ||
     stringValue === "null"
   ){
-
     return fallback;
-
   }
-
 
   return stringValue;
 
@@ -1963,66 +1971,87 @@ function safeValue(
 
 function safeDateValue(value){
 
-  if(value === undefined || value === null || value === "") return null;
-
-  if(value instanceof Date){
-    return Number.isNaN(value.getTime()) ? null : value.toISOString();
+  if(
+    value === undefined ||
+    value === null ||
+    value === ""
+  ){
+    return null;
   }
 
-  if(typeof value === "number" || /^\d+(\.\d+)?$/.test(String(value).trim())){
+  if(value instanceof Date){
 
-    let timestamp = Number(value);
+    return Number.isNaN(value.getTime())
+      ? null
+      : value.toISOString();
 
-    if(!Number.isFinite(timestamp)) return null;
+  }
+
+  if(
+    typeof value === "number" ||
+    /^\d+(\.\d+)?$/.test(
+      String(value).trim()
+    )
+  ){
+
+    let timestamp =
+      Number(value);
+
+    if(!Number.isFinite(timestamp)){
+      return null;
+    }
 
     if(timestamp < 100000000000){
       timestamp *= 1000;
     }
 
-    const timestampDate = new Date(timestamp);
+    const timestampDate =
+      new Date(timestamp);
 
-    return Number.isNaN(timestampDate.getTime())
+    return Number.isNaN(
+      timestampDate.getTime()
+    )
       ? null
       : timestampDate.toISOString();
+
   }
 
-  const safe = String(value).trim();
+  const safe =
+    String(value).trim();
 
-  if(!safe) return null;
+  if(!safe){
+    return null;
+  }
 
-  const date = new Date(safe);
+  const date =
+    new Date(safe);
 
-  if(Number.isNaN(date.getTime())) return null;
+  if(Number.isNaN(date.getTime())){
+    return null;
+  }
 
   return date.toISOString();
+
 }
 
 
 /* =========================================
-   ステータスを安全に取得
+   ステータス
 ========================================= */
 
 function safeStatus(value){
 
   const allowedStatuses = [
-
     "empty",
     "normal",
     "crowded"
-
   ];
 
-
   if(
-    allowedStatuses.includes(
-      value
-    )
+    allowedStatuses.includes(value)
   ){
-
     return value;
-
   }
-
 
   return "unknown";
 
@@ -2063,37 +2092,153 @@ const statusData = {
 ========================================= */
 
 const genreColors = {
-  "お化け屋敷":{badgeBg:"#f8dfe5",badgeBorder:"#d77b8e",badgeText:"#8f3048",left:"rgba(215,123,142,.22)",right:"rgba(143,48,72,.15)"},
-  "迷路":{badgeBg:"#dfe8f8",badgeBorder:"#7294c7",badgeText:"#35578d",left:"rgba(114,148,199,.22)",right:"rgba(53,87,141,.15)"},
-  "脱出ゲーム":{badgeBg:"#e5e0f7",badgeBorder:"#8b7cc2",badgeText:"#55478f",left:"rgba(139,124,194,.22)",right:"rgba(85,71,143,.15)"},
-  "体験型":{badgeBg:"#dff1eb",badgeBorder:"#6eaf9c",badgeText:"#367463",left:"rgba(110,175,156,.22)",right:"rgba(54,116,99,.15)"},
-  "飲食":{badgeBg:"#faead5",badgeBorder:"#d49a58",badgeText:"#8c5a20",left:"rgba(212,154,88,.23)",right:"rgba(140,90,32,.15)"},
-  "フォトスポット":{badgeBg:"#f5e0f1",badgeBorder:"#bd78ad",badgeText:"#82456f",left:"rgba(189,120,173,.22)",right:"rgba(130,69,111,.15)"},
-  "映画":{badgeBg:"#e2e5e8",badgeBorder:"#7d8792",badgeText:"#4d5660",left:"rgba(125,135,146,.22)",right:"rgba(77,86,96,.15)"},
-  "展示":{badgeBg:"#e3eef5",badgeBorder:"#75a1bc",badgeText:"#416b83",left:"rgba(117,161,188,.22)",right:"rgba(65,107,131,.15)"},
-  "配布":{badgeBg:"#eee7d5",badgeBorder:"#b69d58",badgeText:"#746128",left:"rgba(182,157,88,.22)",right:"rgba(116,97,40,.15)"},
-  "販売":{badgeBg:"#f3e2d9",badgeBorder:"#c48768",badgeText:"#814b36",left:"rgba(196,135,104,.22)",right:"rgba(129,75,54,.15)"},
-  "サイエンス":{badgeBg:"#dcecef",badgeBorder:"#68a4ae",badgeText:"#356f79",left:"rgba(104,164,174,.22)",right:"rgba(53,111,121,.15)"},
-  "縁日":{badgeBg:"#f8e2c9",badgeBorder:"#d48b45",badgeText:"#8c531f",left:"rgba(212,139,69,.23)",right:"rgba(140,83,31,.15)"},
-  "カジノ":{badgeBg:"#e3dfec",badgeBorder:"#8e7ba9",badgeText:"#5a486f",left:"rgba(142,123,169,.22)",right:"rgba(90,72,111,.15)"},
-  "体育館":{badgeBg:"#e0ece0",badgeBorder:"#77a477",badgeText:"#477047",left:"rgba(119,164,119,.22)",right:"rgba(71,112,71,.15)"},
-  "English":{badgeBg:"#e0e8f5",badgeBorder:"#7896c0",badgeText:"#425f8a",left:"rgba(120,150,192,.22)",right:"rgba(66,95,138,.15)"}
+
+  "お化け屋敷":{
+    badgeBg:"#f8dfe5",
+    badgeBorder:"#d77b8e",
+    badgeText:"#8f3048",
+    left:"rgba(215,123,142,.22)",
+    right:"rgba(143,48,72,.15)"
+  },
+
+  "迷路":{
+    badgeBg:"#dfe8f8",
+    badgeBorder:"#7294c7",
+    badgeText:"#35578d",
+    left:"rgba(114,148,199,.22)",
+    right:"rgba(53,87,141,.15)"
+  },
+
+  "脱出ゲーム":{
+    badgeBg:"#e5e0f7",
+    badgeBorder:"#8b7cc2",
+    badgeText:"#55478f",
+    left:"rgba(139,124,194,.22)",
+    right:"rgba(85,71,143,.15)"
+  },
+
+  "体験型":{
+    badgeBg:"#dff1eb",
+    badgeBorder:"#6eaf9c",
+    badgeText:"#367463",
+    left:"rgba(110,175,156,.22)",
+    right:"rgba(54,116,99,.15)"
+  },
+
+  "飲食":{
+    badgeBg:"#faead5",
+    badgeBorder:"#d49a58",
+    badgeText:"#8c5a20",
+    left:"rgba(212,154,88,.23)",
+    right:"rgba(140,90,32,.15)"
+  },
+
+  "フォトスポット":{
+    badgeBg:"#f5e0f1",
+    badgeBorder:"#bd78ad",
+    badgeText:"#82456f",
+    left:"rgba(189,120,173,.22)",
+    right:"rgba(130,69,111,.15)"
+  },
+
+  "映画":{
+    badgeBg:"#e2e5e8",
+    badgeBorder:"#7d8792",
+    badgeText:"#4d5660",
+    left:"rgba(125,135,146,.22)",
+    right:"rgba(77,86,96,.15)"
+  },
+
+  "展示":{
+    badgeBg:"#e3eef5",
+    badgeBorder:"#75a1bc",
+    badgeText:"#416b83",
+    left:"rgba(117,161,188,.22)",
+    right:"rgba(65,107,131,.15)"
+  },
+
+  "配布":{
+    badgeBg:"#eee7d5",
+    badgeBorder:"#b69d58",
+    badgeText:"#746128",
+    left:"rgba(182,157,88,.22)",
+    right:"rgba(116,97,40,.15)"
+  },
+
+  "販売":{
+    badgeBg:"#f3e2d9",
+    badgeBorder:"#c48768",
+    badgeText:"#814b36",
+    left:"rgba(196,135,104,.22)",
+    right:"rgba(129,75,54,.15)"
+  },
+
+  "サイエンス":{
+    badgeBg:"#dcecef",
+    badgeBorder:"#68a4ae",
+    badgeText:"#356f79",
+    left:"rgba(104,164,174,.22)",
+    right:"rgba(53,111,121,.15)"
+  },
+
+  "縁日":{
+    badgeBg:"#f8e2c9",
+    badgeBorder:"#d48b45",
+    badgeText:"#8c531f",
+    left:"rgba(212,139,69,.23)",
+    right:"rgba(140,83,31,.15)"
+  },
+
+  "カジノ":{
+    badgeBg:"#e3dfec",
+    badgeBorder:"#8e7ba9",
+    badgeText:"#5a486f",
+    left:"rgba(142,123,169,.22)",
+    right:"rgba(90,72,111,.15)"
+  },
+
+  "体育館":{
+    badgeBg:"#e0ece0",
+    badgeBorder:"#77a477",
+    badgeText:"#477047",
+    left:"rgba(119,164,119,.22)",
+    right:"rgba(71,112,71,.15)"
+  },
+
+  "English":{
+    badgeBg:"#e0e8f5",
+    badgeBorder:"#7896c0",
+    badgeText:"#425f8a",
+    left:"rgba(120,150,192,.22)",
+    right:"rgba(66,95,138,.15)"
+  }
+
 };
 
 const defaultGenreColor = {
+
   badgeBg:"#f2edf8",
   badgeBorder:"rgba(136,112,168,.28)",
   badgeText:"#66547d",
   left:"rgba(201,109,128,.17)",
   right:"rgba(136,112,168,.16)"
+
 };
 
+
 function getGenreColor(genre){
-  return genreColors[safeValue(genre,"")] || defaultGenreColor;
+
+  return genreColors[
+    safeValue(genre,"")
+  ] || defaultGenreColor;
+
 }
 
+
 function getGenreStyle(genre){
-  const color = getGenreColor(genre);
+
+  const color =
+    getGenreColor(genre);
 
   return `
     --genre-badge-bg:${color.badgeBg};
@@ -2102,100 +2247,225 @@ function getGenreStyle(genre){
     --genre-shape-left:${color.left};
     --genre-shape-right:${color.right};
   `;
+
 }
 
 
 /* =========================================
-   最後の投稿時刻取得
+   投稿者ID
 ========================================= */
 
-function getLastPostTime(){
+function getVoterId(){
 
-  const value =
-    localStorage.getItem(
-      LAST_POST_KEY
+  const key =
+    "chosei_fes_crowd_voter_id";
+
+  let voterId =
+    localStorage.getItem(key);
+
+  if(voterId){
+    return voterId;
+  }
+
+  try{
+
+    if(
+      window.crypto &&
+      typeof window.crypto.randomUUID === "function"
+    ){
+
+      voterId =
+        window.crypto.randomUUID();
+
+    }
+
+  }
+  catch(error){
+
+    console.warn(
+      "randomUUIDの取得に失敗しました",
+      error
     );
 
+  }
 
-  if(
-    !value
-  ){
+  if(!voterId){
 
-    return null;
+    voterId =
+      "voter-" +
+      Date.now().toString(36) +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2);
 
   }
 
+  localStorage.setItem(
+    key,
+    voterId
+  );
 
-  const time =
-    Number(value);
-
-
-  if(
-    !Number.isFinite(
-      time
-    )
-  ){
-
-    return null;
-
-  }
-
-
-  return time;
+  return voterId;
 
 }
 
 
 /* =========================================
-   残り投稿制限時間
+   投稿履歴
 ========================================= */
 
-function getRemainingPostTime(){
+function getLastPosts(){
 
-  const lastPostTime =
-    getLastPostTime();
+  try{
 
+    const raw =
+      localStorage.getItem(
+        LAST_POSTS_KEY
+      );
 
-  if(
-    !lastPostTime
-  ){
+    if(!raw){
+      return {};
+    }
 
-    return 0;
+    const parsed =
+      JSON.parse(raw);
+
+    if(
+      !parsed ||
+      typeof parsed !== "object"
+    ){
+      return {};
+    }
+
+    return parsed;
+
+  }
+  catch(error){
+
+    console.warn(
+      "投稿履歴の読み込みに失敗しました",
+      error
+    );
+
+    return {};
 
   }
 
+}
+
+
+function saveLastPosts(posts){
+
+  try{
+
+    localStorage.setItem(
+      LAST_POSTS_KEY,
+      JSON.stringify(posts)
+    );
+
+  }
+  catch(error){
+
+    console.warn(
+      "投稿履歴の保存に失敗しました",
+      error
+    );
+
+  }
+
+}
+
+
+function getEventPostId(event){
+
+  if(!event){
+    return "";
+  }
+
+  return safeValue(
+    event.id,
+    ""
+  );
+
+}
+
+
+function getLastPostTime(event){
+
+  const id =
+    getEventPostId(event);
+
+  if(!id){
+    return null;
+  }
+
+  const posts =
+    getLastPosts();
+
+  const value =
+    Number(posts[id]);
+
+  if(!Number.isFinite(value)){
+    return null;
+  }
+
+  return value;
+
+}
+
+
+function getRemainingPostTime(event){
+
+  const lastPostTime =
+    getLastPostTime(event);
+
+  if(!lastPostTime){
+    return 0;
+  }
 
   const elapsed =
     Date.now() -
     lastPostTime;
 
-
   const remaining =
     POST_INTERVAL_MS -
     elapsed;
 
+  if(remaining <= 0){
 
-  if(
-    remaining <= 0
-  ){
+    const posts =
+      getLastPosts();
 
-    localStorage.removeItem(
-      LAST_POST_KEY
-    );
+    delete posts[
+      getEventPostId(event)
+    ];
+
+    saveLastPosts(posts);
 
     return 0;
 
   }
-
 
   return remaining;
 
 }
 
 
-/* =========================================
-   残り時間を文字列化
-========================================= */
+function markPosted(event){
+
+  const posts =
+    getLastPosts();
+
+  posts[
+    getEventPostId(event)
+  ] =
+    Date.now();
+
+  saveLastPosts(posts);
+
+}
+
 
 function formatRemainingTime(ms){
 
@@ -2204,40 +2474,98 @@ function formatRemainingTime(ms){
       ms / 1000
     );
 
-
   const minutes =
     Math.floor(
       totalSeconds / 60
     );
 
-
   const seconds =
     totalSeconds % 60;
 
-
-  if(
-    minutes > 0
-  ){
+  if(minutes > 0){
 
     return (
       minutes +
       "分" +
-      String(
-        seconds
-      ).padStart(
-        2,
-        "0"
-      ) +
+      String(seconds).padStart(2,"0") +
       "秒"
     );
 
   }
 
+  return seconds + "秒";
 
-  return (
-    seconds +
-    "秒"
-  );
+}
+
+
+/* =========================================
+   更新日時
+========================================= */
+
+function getUpdatedAtValue(record){
+
+  if(
+    !record ||
+    typeof record !== "object"
+  ){
+    return null;
+  }
+
+  const directKeys = [
+
+    "updatedAt",
+    "updated_at",
+    "updated_time",
+    "updatedTime",
+    "timestamp",
+    "time",
+    "createdAt",
+    "created_at"
+
+  ];
+
+  for(const key of directKeys){
+
+    if(
+      record[key] !== undefined &&
+      record[key] !== null &&
+      record[key] !== ""
+    ){
+
+      return record[key];
+
+    }
+
+  }
+
+  const nestedKeys = [
+    "data",
+    "event",
+    "crowd",
+    "result"
+  ];
+
+  for(const key of nestedKeys){
+
+    if(
+      record[key] &&
+      typeof record[key] === "object"
+    ){
+
+      const nestedValue =
+        getUpdatedAtValue(
+          record[key]
+        );
+
+      if(nestedValue){
+        return nestedValue;
+      }
+
+    }
+
+  }
+
+  return null;
 
 }
 
@@ -2258,10 +2586,7 @@ async function loadEvents(){
         }
       );
 
-
-    if(
-      !response.ok
-    ){
+    if(!response.ok){
 
       throw new Error(
         "events.htmlを読み込めませんでした"
@@ -2269,14 +2594,11 @@ async function loadEvents(){
 
     }
 
-
     const html =
       await response.text();
 
-
     const parser =
       new DOMParser();
-
 
     const documentData =
       parser.parseFromString(
@@ -2284,12 +2606,10 @@ async function loadEvents(){
         "text/html"
       );
 
-
     const groups =
       documentData.querySelectorAll(
         ".group"
       );
-
 
     const eventList =
       [];
@@ -2303,22 +2623,9 @@ async function loadEvents(){
             ".group-title"
           );
 
-
-        if(
-          !groupTitleElement
-        ){
-
+        if(!groupTitleElement){
           return;
-
         }
-
-
-        const groupTitle =
-          safeValue(
-            groupTitleElement.textContent,
-            ""
-          );
-
 
         const cards =
           group.querySelectorAll(
@@ -2335,22 +2642,17 @@ async function loadEvents(){
                 ""
               );
 
-
             const titleElement =
               card.querySelector(
                 ".card-title"
               );
 
-
             if(
               !id ||
               !titleElement
             ){
-
               return;
-
             }
-
 
             const title =
               safeValue(
@@ -2358,13 +2660,11 @@ async function loadEvents(){
                 "名称未設定"
               );
 
-
             const badge =
               safeValue(
                 card.dataset.placeBadge,
                 ""
               );
-
 
             const floor =
               getFloor(
@@ -2378,10 +2678,8 @@ async function loadEvents(){
                 ".card-label"
               );
 
-
             let className =
               "";
-
 
             let location =
               "";
@@ -2393,22 +2691,15 @@ async function loadEvents(){
                 const value =
                   label.nextElementSibling;
 
-
-                if(
-                  !value
-                ){
-
+                if(!value){
                   return;
-
                 }
-
 
                 const labelText =
                   safeValue(
                     label.textContent,
                     ""
                   );
-
 
                 const valueText =
                   safeValue(
@@ -2418,14 +2709,9 @@ async function loadEvents(){
 
 
                 if(
-                  labelText ===
-                    "クラス" ||
-
-                  labelText ===
-                    "クラス・団体" ||
-
-                  labelText ===
-                    "団体"
+                  labelText === "クラス" ||
+                  labelText === "クラス・団体" ||
+                  labelText === "団体"
                 ){
 
                   className =
@@ -2435,8 +2721,7 @@ async function loadEvents(){
 
 
                 if(
-                  labelText ===
-                    "開催場所"
+                  labelText === "開催場所"
                 ){
 
                   location =
@@ -2454,7 +2739,6 @@ async function loadEvents(){
                 className
               );
 
-
             location =
               getLocation(
                 id,
@@ -2464,32 +2748,31 @@ async function loadEvents(){
 
             eventList.push({
 
-              id:
-                id,
+              id:id,
 
-              title:
-                title,
+              title:title,
 
-              category:
-                badge,
+              category:badge,
 
-              badge:
-                badge,
+              badge:badge,
 
-              floor:
-                floor,
+              floor:floor,
 
-              className:
-                className,
+              className:className,
 
-              location:
-                location,
+              location:location,
 
-              status:
-                "unknown",
+              status:"unknown",
 
-              updatedAt:
-                null
+              score:null,
+
+              confidence:null,
+
+              voteCount:0,
+
+              effectiveVotes:0,
+
+              updatedAt:null
 
             });
 
@@ -2500,50 +2783,86 @@ async function loadEvents(){
     );
 
 
+    /*
+      体育館は全体で1つの混雑情報として扱う。
+      以前のように体育館内の各IDへ
+      同じ投稿を複製しない。
+    */
+
     const gymnasiumEvents =
       eventList.filter(
         event =>
-          safeValue(event.category, "") === "体育館"
+          safeValue(
+            event.category,
+            ""
+          ) === "体育館"
       );
+
 
     const otherEvents =
       eventList.filter(
         event =>
-          safeValue(event.category, "") !== "体育館"
+          safeValue(
+            event.category,
+            ""
+          ) !== "体育館"
       );
+
 
     if(gymnasiumEvents.length > 0){
 
       const gymnasiumClassNames =
-        [...new Set(
-          gymnasiumEvents
-            .map(event => safeValue(event.className, ""))
-            .filter(Boolean)
-        )];
+        [
+          ...new Set(
+            gymnasiumEvents
+              .map(
+                event =>
+                  safeValue(
+                    event.className,
+                    ""
+                  )
+              )
+              .filter(Boolean)
+          )
+        ];
+
 
       const gymnasiumLocations =
-        [...new Set(
-          gymnasiumEvents
-            .map(event => safeValue(event.location, ""))
-            .filter(Boolean)
-        )];
+        [
+          ...new Set(
+            gymnasiumEvents
+              .map(
+                event =>
+                  safeValue(
+                    event.location,
+                    ""
+                  )
+              )
+              .filter(Boolean)
+          )
+        ];
+
 
       const gymnasiumFloors =
-        [...new Set(
-          gymnasiumEvents
-            .map(event => safeValue(event.floor, ""))
-            .filter(Boolean)
-        )];
+        [
+          ...new Set(
+            gymnasiumEvents
+              .map(
+                event =>
+                  safeValue(
+                    event.floor,
+                    ""
+                  )
+              )
+              .filter(Boolean)
+          )
+        ];
+
 
       otherEvents.push({
 
         id:
           "gymnasium-performance",
-
-        sourceIds:
-          gymnasiumEvents
-            .map(event => safeValue(event.id, ""))
-            .filter(Boolean),
 
         title:
           "体育館発表",
@@ -2557,7 +2876,10 @@ async function loadEvents(){
         floor:
           gymnasiumFloors.length === 1
             ? gymnasiumFloors[0]
-            : safeValue(gymnasiumEvents[0]?.floor, ""),
+            : safeValue(
+                gymnasiumEvents[0]?.floor,
+                ""
+              ),
 
         className:
           gymnasiumClassNames.join("・"),
@@ -2565,12 +2887,26 @@ async function loadEvents(){
         location:
           gymnasiumLocations.length === 1
             ? gymnasiumLocations[0]
-            : (gymnasiumLocations.length > 1
-                ? gymnasiumLocations.join("・")
-                : "体育館"),
+            : (
+                gymnasiumLocations.length > 1
+                  ? gymnasiumLocations.join("・")
+                  : "体育館"
+              ),
 
         status:
           "unknown",
+
+        score:
+          null,
+
+        confidence:
+          null,
+
+        voteCount:
+          0,
+
+        effectiveVotes:
+          0,
 
         updatedAt:
           null
@@ -2579,25 +2915,23 @@ async function loadEvents(){
 
     }
 
+
     eventsData =
       otherEvents;
 
+
     setupCategoryFilters();
 
-
     await loadCrowdStatus();
-
 
     renderEvents();
 
   }
-
   catch(error){
 
     console.error(
       error
     );
-
 
     crowdGrid.innerHTML = `
 
@@ -2632,168 +2966,271 @@ async function loadCrowdStatus(){
 
   try{
 
-    const response = await fetch(
-      API_URL + "/api/crowd",
-      { cache:"no-store" }
-    );
+    const response =
+      await fetch(
+        API_URL + "/api/crowd",
+        {
+          cache:"no-store"
+        }
+      );
 
     if(!response.ok){
-      throw new Error("混雑情報の取得に失敗しました");
+
+      throw new Error(
+        "混雑情報の取得に失敗しました"
+      );
+
     }
 
-    const crowdData = await response.json();
 
-    console.log("取得した混雑情報:", crowdData);
+    const crowdData =
+      await response.json();
 
-    if(!crowdData || typeof crowdData !== "object") return;
 
-    eventsData.forEach(event => {
+    console.log(
+      "取得した混雑情報:",
+      crowdData
+    );
 
-      const targetIds =
-        Array.isArray(event.sourceIds) && event.sourceIds.length > 0
-          ? event.sourceIds
-          : [safeValue(event.id, "")];
 
-      const savedRecords = [];
+    if(
+      !crowdData ||
+      typeof crowdData !== "object"
+    ){
+      return;
+    }
 
-      targetIds.forEach(targetId => {
 
-        if(!targetId) return;
+    eventsData.forEach(
+      event => {
 
-        let saved = null;
+        const targetId =
+          safeValue(
+            event.id,
+            ""
+          );
+
+        if(!targetId){
+
+          event.status =
+            "unknown";
+
+          event.score =
+            null;
+
+          event.confidence =
+            null;
+
+          event.voteCount =
+            0;
+
+          event.effectiveVotes =
+            0;
+
+          event.updatedAt =
+            null;
+
+          return;
+
+        }
+
+
+        let saved =
+          null;
+
 
         const containers = [
+
           crowdData,
+
           crowdData.data,
+
           crowdData.events,
+
           crowdData.crowd,
+
           crowdData.results
+
         ];
 
-        for(const container of containers){
-          if(!container) continue;
 
-          if(Array.isArray(container)){
-            saved = container.find(item =>
-              item &&
-              safeValue(item.id, "") === targetId
-            );
-          }
-          else if(typeof container === "object" && container[targetId]){
-            saved = container[targetId];
+        for(
+          const container of containers
+        ){
+
+          if(!container){
+            continue;
           }
 
-          if(saved && typeof saved === "object") break;
+
+          if(
+            Array.isArray(container)
+          ){
+
+            saved =
+              container.find(
+                item =>
+                  item &&
+                  safeValue(
+                    item.id,
+                    ""
+                  ) === targetId
+              );
+
+          }
+          else if(
+            typeof container === "object" &&
+            container[targetId]
+          ){
+
+            saved =
+              container[targetId];
+
+          }
+
+
+          if(
+            saved &&
+            typeof saved === "object"
+          ){
+
+            break;
+
+          }
+
         }
 
-        if(saved && typeof saved === "object"){
-          savedRecords.push(saved);
-        }
-
-      });
-
-      if(savedRecords.length === 0){
-        event.status = "unknown";
-        event.updatedAt = null;
-        return;
-      }
-
-      const statusPriority = {
-        unknown:0,
-        empty:1,
-        normal:2,
-        crowded:3
-      };
-
-      let combinedStatus = "unknown";
-      let latestUpdatedAt = null;
-
-      savedRecords.forEach(saved => {
-
-        const currentStatus = safeStatus(
-          saved.status ||
-          saved.crowdStatus ||
-          saved.crowd_status
-        );
 
         if(
-          statusPriority[currentStatus] >
-          statusPriority[combinedStatus]
+          !saved ||
+          typeof saved !== "object"
         ){
-          combinedStatus = currentStatus;
+
+          event.status =
+            "unknown";
+
+          event.score =
+            null;
+
+          event.confidence =
+            null;
+
+          event.voteCount =
+            0;
+
+          event.effectiveVotes =
+            0;
+
+          event.updatedAt =
+            null;
+
+          return;
+
         }
 
-        const safeUpdatedAt =
+
+        event.status =
+          safeStatus(
+            saved.status ||
+            saved.crowdStatus ||
+            saved.crowd_status
+          );
+
+
+        const score =
+          Number(
+            saved.score
+          );
+
+        event.score =
+          Number.isFinite(score)
+            ? Math.max(
+                0,
+                Math.min(
+                  100,
+                  Math.round(score)
+                )
+              )
+            : null;
+
+
+        const confidence =
+          Number(
+            saved.confidence
+          );
+
+        event.confidence =
+          Number.isFinite(confidence)
+            ? Math.max(
+                0,
+                Math.min(
+                  100,
+                  Math.round(confidence)
+                )
+              )
+            : null;
+
+
+        const voteCount =
+          Number(
+            saved.voteCount
+          );
+
+        event.voteCount =
+          Number.isFinite(voteCount)
+            ? Math.max(
+                0,
+                Math.round(voteCount)
+              )
+            : 0;
+
+
+        const effectiveVotes =
+          Number(
+            saved.effectiveVotes
+          );
+
+        event.effectiveVotes =
+          Number.isFinite(effectiveVotes)
+            ? Math.max(
+                0,
+                effectiveVotes
+              )
+            : 0;
+
+
+        event.updatedAt =
           safeDateValue(
             getUpdatedAtValue(saved)
           );
 
-        if(
-          safeUpdatedAt &&
-          (!latestUpdatedAt ||
-            new Date(safeUpdatedAt).getTime() >
-            new Date(latestUpdatedAt).getTime())
-        ){
-          latestUpdatedAt = safeUpdatedAt;
-        }
 
-      });
+        console.log(
+          "企画の混雑情報:",
+          {
+            id:event.id,
+            status:event.status,
+            score:event.score,
+            confidence:event.confidence,
+            voteCount:event.voteCount,
+            effectiveVotes:event.effectiveVotes,
+            updatedAt:event.updatedAt
+          }
+        );
 
-      event.status = combinedStatus;
-      event.updatedAt = latestUpdatedAt;
-
-      console.log("企画の混雑情報:", {
-        id:event.id,
-        sourceIds:event.sourceIds || [event.id],
-        status:event.status,
-        updatedAt:event.updatedAt
-      });
-
-    });
+      }
+    );
 
   }
   catch(error){
-    console.error("混雑情報の取得に失敗しました", error);
+
+    console.error(
+      "混雑情報の取得に失敗しました",
+      error
+    );
+
   }
 
-}
-
-
-/* =========================================
-   更新日時を統一して取得
-========================================= */
-
-function getUpdatedAtValue(record){
-
-  if(!record || typeof record !== "object") return null;
-
-  const directKeys = [
-    "updatedAt",
-    "updated_at",
-    "updated_time",
-    "updatedTime",
-    "timestamp",
-    "time",
-    "createdAt",
-    "created_at"
-  ];
-
-  for(const key of directKeys){
-    if(record[key] !== undefined && record[key] !== null && record[key] !== ""){
-      return record[key];
-    }
-  }
-
-  const nestedKeys = ["data", "event", "crowd", "result"];
-
-  for(const key of nestedKeys){
-    if(record[key] && typeof record[key] === "object"){
-      const nestedValue = getUpdatedAtValue(record[key]);
-      if(nestedValue) return nestedValue;
-    }
-  }
-
-  return null;
 }
 
 
@@ -2807,20 +3244,25 @@ function setupCategoryFilters(){
     return;
   }
 
+
   const genres =
-    [...new Set(
-      eventsData
-        .map(
-          event =>
-            safeValue(
-              event.category,
-              ""
-            )
-        )
-        .filter(Boolean)
-    )];
+    [
+      ...new Set(
+        eventsData
+          .map(
+            event =>
+              safeValue(
+                event.category,
+                ""
+              )
+          )
+          .filter(Boolean)
+      )
+    ];
+
 
   categoryFilters.innerHTML = `
+
     <button
       type="button"
       class="filter-btn active"
@@ -2828,7 +3270,9 @@ function setupCategoryFilters(){
     >
       すべて
     </button>
+
   `;
+
 
   genres.forEach(
     genre => {
@@ -2850,10 +3294,12 @@ function setupCategoryFilters(){
       button.textContent =
         genre;
 
+
       const color =
         getGenreColor(
           genre
         );
+
 
       button.style.setProperty(
         "--genre-filter-bg",
@@ -2870,11 +3316,14 @@ function setupCategoryFilters(){
         color.badgeText
       );
 
+
       categoryFilters.appendChild(
         button
       );
+
     }
   );
+
 
   categoryFilters
     .querySelectorAll(
@@ -2890,28 +3339,35 @@ function setupCategoryFilters(){
             categoryFilter =
               button.dataset.category;
 
+
             categoryFilters
               .querySelectorAll(
                 "[data-category]"
               )
               .forEach(
                 item => {
+
                   item.classList.remove(
                     "active"
                   );
+
                 }
               );
+
 
             button.classList.add(
               "active"
             );
 
+
             renderEvents();
+
           }
         );
 
       }
     );
+
 }
 
 
@@ -2929,25 +3385,16 @@ function renderEvents(){
     0;
 
 
-  const remainingPostTime =
-    getRemainingPostTime();
-
-
   eventsData.forEach(
     event => {
 
       const categoryMatch =
-        categoryFilter ===
-        "all" ||
-
-        event.category ===
-        categoryFilter;
+        categoryFilter === "all" ||
+        event.category === categoryFilter;
 
 
       const floorMatch =
-        floorFilter ===
-        "all" ||
-
+        floorFilter === "all" ||
         String(
           safeValue(
             event.floor,
@@ -2981,7 +3428,6 @@ function renderEvents(){
 
       const keywordMatch =
         !keywordFilter ||
-
         searchTarget.includes(
           keywordFilter.toLowerCase()
         );
@@ -3009,6 +3455,7 @@ function renderEvents(){
 
       card.className =
         "crowd-card";
+
 
       card.setAttribute(
         "style",
@@ -3038,19 +3485,182 @@ function renderEvents(){
         statusData.unknown;
 
 
+      const score =
+        Number.isFinite(
+          Number(event.score)
+        )
+          ? Math.max(
+              0,
+              Math.min(
+                100,
+                Math.round(
+                  Number(event.score)
+                )
+              )
+            )
+          : null;
+
+
+      const confidence =
+        Number.isFinite(
+          Number(event.confidence)
+        )
+          ? Math.max(
+              0,
+              Math.min(
+                100,
+                Math.round(
+                  Number(event.confidence)
+                )
+              )
+            )
+          : null;
+
+
+      const voteCount =
+        Number.isFinite(
+          Number(event.voteCount)
+        )
+          ? Math.max(
+              0,
+              Math.round(
+                Number(event.voteCount)
+              )
+            )
+          : 0;
+
+
       const timeText =
         getTimeText(
           event.updatedAt
         );
 
 
+      const remainingPostTime =
+        getRemainingPostTime(
+          event
+        );
+
+
       const buttonText =
         remainingPostTime > 0
+
           ? "次の共有まで " +
             formatRemainingTime(
               remainingPostTime
             )
+
           : "混雑状況を共有する";
+
+
+      const scoreHtml =
+        score === null
+
+          ? `
+
+              <div class="score-header">
+
+                <span class="score-label">
+                  混雑度
+                </span>
+
+                <span class="score-value">
+                  --
+                  <small>/ 100</small>
+                </span>
+
+              </div>
+
+              <div class="score-track">
+
+                <div
+                  class="score-fill unknown"
+                  style="width:0%;"
+                ></div>
+
+              </div>
+
+            `
+
+          : `
+
+              <div class="score-header">
+
+                <span class="score-label">
+                  混雑度
+                </span>
+
+                <span class="score-value">
+                  ${score}
+                  <small>/ 100</small>
+                </span>
+
+              </div>
+
+              <div class="score-track">
+
+                <div
+                  class="score-fill ${eventStatus}"
+                  style="width:${score}%;"
+                ></div>
+
+              </div>
+
+            `;
+
+
+      const confidenceHtml =
+        confidence === null
+
+          ? `
+
+              <div class="confidence-header">
+
+                <span class="confidence-label">
+                  信頼度
+                </span>
+
+                <span class="confidence-value">
+                  --
+                </span>
+
+              </div>
+
+              <div class="confidence-track">
+
+                <div
+                  class="confidence-fill"
+                  style="width:0%;"
+                ></div>
+
+              </div>
+
+            `
+
+          : `
+
+              <div class="confidence-header">
+
+                <span class="confidence-label">
+                  信頼度
+                </span>
+
+                <span class="confidence-value">
+                  ${confidence}%
+                </span>
+
+              </div>
+
+              <div class="confidence-track">
+
+                <div
+                  class="confidence-fill"
+                  style="width:${confidence}%;"
+                ></div>
+
+              </div>
+
+            `;
 
 
       card.innerHTML = `
@@ -3080,7 +3690,6 @@ function renderEvents(){
 
 
         <div class="place-info">
-
 
           <div class="info-row">
 
@@ -3127,12 +3736,10 @@ function renderEvents(){
 
           </div>
 
-
         </div>
 
 
         <div class="status-area">
-
 
           <div class="status-label">
             現在の混雑状況
@@ -3141,30 +3748,66 @@ function renderEvents(){
 
           <div class="status-display">
 
-            <span
-              class="
-                status-dot
-                ${eventStatus}
-              "
-            ></span>
+            <div class="status-main">
+
+              <span
+                class="
+                  status-dot
+                  ${eventStatus}
+                "
+              ></span>
+
+              <span class="status-text">
+
+                ${escapeHtml(
+                  safeValue(
+                    status.text,
+                    "まだ情報がありません"
+                  )
+                )}
+
+              </span>
+
+            </div>
 
 
-            <span class="status-text">
+            <div class="score-section">
 
-              ${escapeHtml(
-                safeValue(
-                  status.text,
-                  "まだ情報がありません"
-                )
-              )}
+              ${scoreHtml}
 
-            </span>
+            </div>
+
+
+            <div class="confidence-section">
+
+              ${confidenceHtml}
+
+            </div>
+
+
+            <div class="vote-info">
+
+              <span>
+                投票 ${voteCount}件
+              </span>
+
+              <span>
+                ${
+                  confidence === null
+                    ? "情報なし"
+                    : "新しい情報を重視して算出"
+                }
+              </span>
+
+            </div>
 
 
             <div
               class="status-time"
               aria-live="polite"
-            >${escapeHtml(timeText)}</div>
+            >
+              ${escapeHtml(timeText)}
+            </div>
 
           </div>
 
@@ -3180,14 +3823,10 @@ function renderEvents(){
           >
 
             ${escapeHtml(
-              safeValue(
-                buttonText,
-                "混雑状況を共有する"
-              )
+              buttonText
             )}
 
           </button>
-
 
         </div>
 
@@ -3200,17 +3839,23 @@ function renderEvents(){
         );
 
 
-      if(
-        shareButton
-      ){
+      if(shareButton){
 
         shareButton.addEventListener(
           "click",
           () => {
 
             if(
-              getRemainingPostTime() > 0
+              getRemainingPostTime(event) > 0
             ){
+
+              showToast(
+                "次の共有まで " +
+                formatRemainingTime(
+                  getRemainingPostTime(event)
+                ) +
+                " お待ちください"
+              );
 
               return;
 
@@ -3239,9 +3884,7 @@ function renderEvents(){
     visibleCount;
 
 
-  if(
-    visibleCount === 0
-  ){
+  if(visibleCount === 0){
 
     crowdGrid.innerHTML = `
 
@@ -3265,48 +3908,125 @@ function renderEvents(){
 
 
 /* =========================================
-   最終更新時間表示
+   最終更新時間
 ========================================= */
 
 function getTimeText(updatedAt){
 
-  const safeUpdatedAt = safeDateValue(updatedAt);
+  const safeUpdatedAt =
+    safeDateValue(
+      updatedAt
+    );
+
 
   if(!safeUpdatedAt){
+
     return "最終更新: 情報なし";
+
   }
 
-  const date = new Date(safeUpdatedAt);
+
+  const date =
+    new Date(
+      safeUpdatedAt
+    );
+
 
   if(Number.isNaN(date.getTime())){
+
     return "最終更新: 情報なし";
+
   }
 
-  const now = new Date();
-  const diffMs = Math.max(0, now.getTime() - date.getTime());
-  const diffMinutes = Math.floor(diffMs / 1000 / 60);
+
+  const now =
+    new Date();
+
+
+  const diffMs =
+    Math.max(
+      0,
+      now.getTime() -
+      date.getTime()
+    );
+
+
+  const diffMinutes =
+    Math.floor(
+      diffMs /
+      1000 /
+      60
+    );
+
 
   if(diffMinutes < 1){
+
     return "最終更新: たった今";
+
   }
+
 
   if(diffMinutes < 60){
-    return `最終更新: ${diffMinutes}分前`;
+
+    return (
+      "最終更新: " +
+      diffMinutes +
+      "分前"
+    );
+
   }
 
-  const diffHours = Math.floor(diffMinutes / 60);
+
+  const diffHours =
+    Math.floor(
+      diffMinutes / 60
+    );
+
 
   if(diffHours < 24){
-    return `最終更新: ${diffHours}時間前`;
+
+    return (
+      "最終更新: " +
+      diffHours +
+      "時間前"
+    );
+
   }
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = String(date.getHours()).padStart(2, "0");
-  const minute = String(date.getMinutes()).padStart(2, "0");
 
-  return `最終更新: ${year}/${month}/${day} ${hour}:${minute}`;
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth() + 1;
+
+  const day =
+    date.getDate();
+
+  const hour =
+    String(
+      date.getHours()
+    ).padStart(2,"0");
+
+  const minute =
+    String(
+      date.getMinutes()
+    ).padStart(2,"0");
+
+
+  return (
+    "最終更新: " +
+    year +
+    "/" +
+    month +
+    "/" +
+    day +
+    " " +
+    hour +
+    ":" +
+    minute
+  );
+
 }
 
 
@@ -3321,7 +4041,6 @@ function escapeHtml(value){
       value,
       ""
     );
-
 
   return safe
 
@@ -3364,7 +4083,6 @@ keywordSearch.addEventListener(
     keywordFilter =
       keywordSearch.value
         .trim();
-
 
     renderEvents();
 
@@ -3427,12 +4145,12 @@ document
 function openShareModal(event){
 
   const remaining =
-    getRemainingPostTime();
+    getRemainingPostTime(
+      event
+    );
 
 
-  if(
-    remaining > 0
-  ){
+  if(remaining > 0){
 
     showToast(
       "次の共有まで " +
@@ -3449,7 +4167,6 @@ function openShareModal(event){
 
   selectedEvent =
     event;
-
 
   selectedStatus =
     null;
@@ -3509,7 +4226,6 @@ function closeShareModal(){
 
   selectedEvent =
     null;
-
 
   selectedStatus =
     null;
@@ -3617,13 +4333,17 @@ submitBtn.addEventListener(
     }
 
 
+    const event =
+      selectedEvent;
+
+
     const remaining =
-      getRemainingPostTime();
+      getRemainingPostTime(
+        event
+      );
 
 
-    if(
-      remaining > 0
-    ){
+    if(remaining > 0){
 
       showToast(
         "次の共有まで " +
@@ -3645,103 +4365,179 @@ submitBtn.addEventListener(
     submitBtn.disabled =
       true;
 
-
     submitBtn.textContent =
       "共有中...";
 
 
     try{
 
-      const targetIds =
-        Array.isArray(selectedEvent.sourceIds) &&
-        selectedEvent.sourceIds.length > 0
-          ? selectedEvent.sourceIds
-          : [selectedEvent.id];
+      /*
+        体育館も含め、常に1つのIDへ投稿する。
+        体育館は gymnasium-performance で
+        1つの全体情報として集計する。
+      */
 
-      const responses =
-        await Promise.all(
-          targetIds.map(
-            targetId =>
-              fetch(
-                API_URL +
-                "/api/crowd",
-                {
-
-                  method:
-                    "POST",
-
-                  headers:{
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body:
-                    JSON.stringify({
-
-                      id:
-                        targetId,
-
-                      status:
-                        selectedStatus
-
-                    })
-
-                }
-              )
-          )
+      const targetId =
+        getEventPostId(
+          event
         );
 
-      if(
-        responses.some(
-          response => !response.ok
-        )
-      ){
+
+      if(!targetId){
 
         throw new Error(
-          "情報の共有に失敗しました"
+          "企画IDが取得できませんでした"
         );
 
       }
 
-      const result =
-        await responses[responses.length - 1].json();
 
+      const response =
+        await fetch(
+          API_URL +
+          "/api/crowd",
+          {
 
-      localStorage.setItem(
-        LAST_POST_KEY,
-        String(
-          Date.now()
-        )
-      );
+            method:
+              "POST",
 
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
 
-      selectedEvent.status =
-        safeStatus(
-          selectedEvent.sourceIds
-            ? selectedStatus
-            : (result.status ||
-              result.crowdStatus ||
-              result.crowd_status ||
-              selectedStatus)
+            body:
+              JSON.stringify({
+
+                id:
+                  targetId,
+
+                status:
+                  selectedStatus,
+
+                voterId:
+                  getVoterId()
+
+              })
+
+          }
         );
 
 
-      const rawUpdatedAt =
-        getUpdatedAtValue(result) ||
-        new Date().toISOString();
+      if(!response.ok){
+
+        let errorMessage =
+          "情報の共有に失敗しました";
 
 
-      const safeUpdatedAt =
-        safeDateValue(rawUpdatedAt);
+        try{
+
+          const errorData =
+            await response.json();
+
+          if(
+            errorData &&
+            errorData.error
+          ){
+
+            errorMessage =
+              errorData.error;
+
+          }
+
+        }
+        catch(error){
+
+          /* JSONでない場合は標準メッセージ */
+
+        }
 
 
-      selectedEvent.updatedAt =
-        safeUpdatedAt ||
+        throw new Error(
+          errorMessage
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      markPosted(
+        event
+      );
+
+
+      event.status =
+        safeStatus(
+          result.status ||
+          result.crowdStatus ||
+          result.crowd_status ||
+          selectedStatus
+        );
+
+
+      const score =
+        Number(
+          result.score
+        );
+
+
+      event.score =
+        Number.isFinite(score)
+          ? score
+          : null;
+
+
+      const confidence =
+        Number(
+          result.confidence
+        );
+
+
+      event.confidence =
+        Number.isFinite(confidence)
+          ? confidence
+          : null;
+
+
+      const voteCount =
+        Number(
+          result.voteCount
+        );
+
+
+      event.voteCount =
+        Number.isFinite(voteCount)
+          ? voteCount
+          : 0;
+
+
+      const effectiveVotes =
+        Number(
+          result.effectiveVotes
+        );
+
+
+      event.effectiveVotes =
+        Number.isFinite(
+          effectiveVotes
+        )
+          ? effectiveVotes
+          : 0;
+
+
+      event.updatedAt =
+        safeDateValue(
+          getUpdatedAtValue(
+            result
+          )
+        ) ||
         new Date().toISOString();
 
 
       closeShareModal();
-
 
       renderEvents();
 
@@ -3759,11 +4555,10 @@ submitBtn.addEventListener(
           renderEvents();
 
         },
-        1000
+        700
       );
 
     }
-
     catch(error){
 
       console.error(
@@ -3772,16 +4567,15 @@ submitBtn.addEventListener(
 
 
       showToast(
+        error.message ||
         "共有に失敗しました。もう一度お試しください。"
       );
 
     }
-
     finally{
 
       submitBtn.disabled =
         false;
-
 
       submitBtn.textContent =
         "共有する";
@@ -3840,35 +4634,7 @@ function showToast(message){
 setInterval(
   () => {
 
-    const remaining =
-      getRemainingPostTime();
-
-
-    if(
-      remaining > 0
-    ){
-
-      renderEvents();
-
-    }
-
-    else{
-
-      const buttons =
-        document.querySelectorAll(
-          ".share-btn:disabled"
-        );
-
-
-      if(
-        buttons.length > 0
-      ){
-
-        renderEvents();
-
-      }
-
-    }
+    renderEvents();
 
   },
   1000
@@ -3890,7 +4656,6 @@ function updateBackToTopButton(){
     );
 
   }
-
   else{
 
     backToTop.classList.remove(
@@ -3932,7 +4697,6 @@ backToTop.addEventListener(
 
 loadEvents();
 
-
 updateBackToTopButton();
 
 
@@ -3943,17 +4707,11 @@ updateBackToTopButton();
 setInterval(
   async () => {
 
-    if(
-      !API_URL
-    ){
-
+    if(!API_URL){
       return;
-
     }
 
-
     await loadCrowdStatus();
-
 
     renderEvents();
 
@@ -3961,10 +4719,7 @@ setInterval(
   60000
 );
 
-
 </script>
 
-
 </body>
-
 </html>
