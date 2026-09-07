@@ -1644,6 +1644,15 @@ body {
 
 .map-hotspots .map-hotspot {
   pointer-events: auto;
+  position: absolute;
+  z-index: 5 !important;
+}
+
+/* 混雑色はマップ画像より必ず前面に表示 */
+.map-hotspot.crowd-empty,
+.map-hotspot.crowd-normal,
+.map-hotspot.crowd-crowded {
+  z-index: 6 !important;
 }
 
 /* 混雑状況の透過色は専用レイヤーに描画 */
@@ -2433,18 +2442,33 @@ function getDistance(touches) {
 
 function updateArrowPosition() {
 
-  if (!imageWrapper) {
+  if (
+    !imageWrapper ||
+    !mapView ||
+    !prevButton ||
+    !nextButton
+  ) {
     return;
   }
 
-  const imageTop =
-    imageWrapper.offsetTop;
+  /*
+    offsetTopだけでは、初期表示時の画像読み込みタイミングや
+    Safariのレイアウト確定前に正しい位置を取得できないことがある。
+    map-viewと画像wrapperの実際の座標から、画像の縦中央を計算する。
+  */
+  const mapRect =
+    mapView.getBoundingClientRect();
 
-  const imageHeight =
-    imageWrapper.offsetHeight;
+  const imageRect =
+    imageWrapper.getBoundingClientRect();
 
   const centerY =
-    imageTop + (imageHeight / 2);
+    (imageRect.top - mapRect.top) +
+    (imageRect.height / 2);
+
+  if (!Number.isFinite(centerY)) {
+    return;
+  }
 
   prevButton.style.top =
     centerY + "px";
@@ -2551,6 +2575,12 @@ function showFloor(index) {
   resetZoom();
   updateHotspots();
 
+  /* 画像サイズが確定した後にも必ず左右矢印を再配置 */
+  requestAnimationFrame(() => {
+    updateArrowPosition();
+    requestAnimationFrame(updateArrowPosition);
+  });
+
 }
 
 
@@ -2560,7 +2590,10 @@ floorImage.addEventListener(
 
     resetZoom();
 
-    updateArrowPosition();
+    requestAnimationFrame(() => {
+      updateArrowPosition();
+      requestAnimationFrame(updateArrowPosition);
+    });
 
   }
 );
@@ -2889,13 +2922,23 @@ imageWrapper.style.cursor = "default";
 
 updateHotspots();
 
+/* 初期画像がキャッシュ済みでも矢印位置を確実に計算 */
+requestAnimationFrame(() => {
+  updateArrowPosition();
+  requestAnimationFrame(updateArrowPosition);
+});
+
+if (floorImage.complete) {
+  requestAnimationFrame(() => {
+    updateArrowPosition();
+  });
+}
 
 window.addEventListener(
   "load",
   () => {
-
     updateArrowPosition();
-
+    requestAnimationFrame(updateArrowPosition);
   }
 );
 
@@ -3332,6 +3375,47 @@ window.addEventListener(
 
 
   /* =========================================
+     2棟ホットスポット → 混雑API ID
+     IDの表記ゆれにも対応する。
+  ========================================= */
+  const CROWD_ID_ALIASES = Object.freeze({
+    "cha": ["cha", "sado", "sado-bu", "tea"],
+    "science-kagaku": ["science-kagaku", "kagaku", "science-kagaku-bu"],
+    "kado": ["kado", "kado-bu"],
+    "oami-special": ["oami-special", "oami", "oamishirasato-special"],
+    "art": ["art", "art-bu"],
+    "science-butsuri": ["science-butsuri", "butsuri", "science-butsuri-bu"],
+    "shogi": ["shogi", "shogi-bu"],
+    "photo": ["photo", "photography", "photo-bu"],
+    "science-seibutsu": ["science-seibutsu", "seibutsu", "science-seibutsu-bu"],
+    "science-chigaku": ["science-chigaku", "chigaku", "science-chigaku-bu"],
+    "science-sugaku": ["science-sugaku", "sugaku", "science-sugaku-bu"]
+  });
+
+  function findRecordForHotspot(crowdData, hotspot) {
+    if (!hotspot) return null;
+
+    const modalType = normalizeId(hotspot.dataset.modalType);
+    const candidates = CROWD_ID_ALIASES[modalType] || [modalType];
+
+    /* まず固定ID候補を優先 */
+    for (const id of candidates) {
+      const record = findApiRecord(crowdData, id);
+      if (record !== null) return record;
+    }
+
+    /* 次にevents.htmlのdata-modal-idとの対応を利用 */
+    const eventId = findEventId(hotspot);
+    if (eventId) {
+      const record = findApiRecord(crowdData, eventId);
+      if (record !== null) return record;
+    }
+
+    return null;
+  }
+
+
+  /* =========================================
      色をホットスポット本体へ直接設定
 
      子要素のレイヤーを使わない。
@@ -3532,46 +3616,15 @@ window.addEventListener(
       const eventId =
         findEventId(hotspot);
 
-      let record = null;
-
-      if (eventId) {
-
-        record =
-          findApiRecord(
-            crowdData,
-            eventId
-          );
-      }
-
       /*
-        念のため、mapのmodalType自体も
-        APIキーとして照合する。
+        2棟専用ID候補 → events.htmlのdata-modal-id
+        の順で必ず照合する。
       */
-      if (!record) {
-
-        record =
-          findApiRecord(
-            crowdData,
-            hotspot.dataset.modalType
-          );
-      }
-
-      /*
-        room-2d → 2d の形式にも対応。
-      */
-      if (!record) {
-
-        record =
-          findApiRecord(
-            crowdData,
-            normalizeId(
-              hotspot.dataset.modalType
-            ).replace(
-              /^room-/,
-              ""
-            )
-          );
-      }
+      let record =
+        findRecordForHotspot(
+          crowdData,
+          hotspot
+        );
 
       const status =
         getStatus(record);
