@@ -2259,8 +2259,94 @@ async function loadEvents(){
     );
 
 
+    /*
+      ジャンルが「体育館」の企画は
+      「体育館発表」として1つのカードにまとめる。
+
+      元の企画IDは sourceIds に保持しておき、
+      混雑情報の取得・共有では各企画のIDを利用する。
+    */
+    const gymnasiumEvents =
+      eventList.filter(
+        event =>
+          safeValue(event.category, "") === "体育館"
+      );
+
+    const otherEvents =
+      eventList.filter(
+        event =>
+          safeValue(event.category, "") !== "体育館"
+      );
+
+    if(gymnasiumEvents.length > 0){
+
+      const gymnasiumClassNames =
+        [...new Set(
+          gymnasiumEvents
+            .map(event => safeValue(event.className, ""))
+            .filter(Boolean)
+        )];
+
+      const gymnasiumLocations =
+        [...new Set(
+          gymnasiumEvents
+            .map(event => safeValue(event.location, ""))
+            .filter(Boolean)
+        )];
+
+      const gymnasiumFloors =
+        [...new Set(
+          gymnasiumEvents
+            .map(event => safeValue(event.floor, ""))
+            .filter(Boolean)
+        )];
+
+      otherEvents.push({
+
+        id:
+          "gymnasium-performance",
+
+        sourceIds:
+          gymnasiumEvents
+            .map(event => safeValue(event.id, ""))
+            .filter(Boolean),
+
+        title:
+          "体育館発表",
+
+        category:
+          "体育館",
+
+        badge:
+          "体育館",
+
+        floor:
+          gymnasiumFloors.length === 1
+            ? gymnasiumFloors[0]
+            : safeValue(gymnasiumEvents[0]?.floor, ""),
+
+        className:
+          gymnasiumClassNames.join("・"),
+
+        location:
+          gymnasiumLocations.length === 1
+            ? gymnasiumLocations[0]
+            : (gymnasiumLocations.length > 1
+                ? gymnasiumLocations.join("・")
+                : "体育館"),
+
+        status:
+          "unknown",
+
+        updatedAt:
+          null
+
+      });
+
+    }
+
     eventsData =
-      eventList;
+      otherEvents;
 
     setupCategoryFilters();
 
@@ -2329,53 +2415,112 @@ async function loadCrowdStatus(){
 
     eventsData.forEach(event => {
 
-      let saved = null;
+      /*
+        通常の企画は自分自身のID、
+        「体育館発表」は元の体育館企画のID一覧を使用する。
+      */
+      const targetIds =
+        Array.isArray(event.sourceIds) && event.sourceIds.length > 0
+          ? event.sourceIds
+          : [safeValue(event.id, "")];
 
-      const containers = [
-        crowdData,
-        crowdData.data,
-        crowdData.events,
-        crowdData.crowd,
-        crowdData.results
-      ];
+      const savedRecords = [];
 
-      for(const container of containers){
-        if(!container) continue;
+      targetIds.forEach(targetId => {
 
-        if(Array.isArray(container)){
-          saved = container.find(item =>
-            item &&
-            safeValue(item.id, "") === safeValue(event.id, "")
-          );
+        if(!targetId) return;
+
+        let saved = null;
+
+        const containers = [
+          crowdData,
+          crowdData.data,
+          crowdData.events,
+          crowdData.crowd,
+          crowdData.results
+        ];
+
+        for(const container of containers){
+          if(!container) continue;
+
+          if(Array.isArray(container)){
+            saved = container.find(item =>
+              item &&
+              safeValue(item.id, "") === targetId
+            );
+          }
+          else if(typeof container === "object" && container[targetId]){
+            saved = container[targetId];
+          }
+
+          if(saved && typeof saved === "object") break;
         }
-        else if(typeof container === "object" && container[event.id]){
-          saved = container[event.id];
+
+        if(saved && typeof saved === "object"){
+          savedRecords.push(saved);
         }
 
-        if(saved && typeof saved === "object") break;
-      }
+      });
 
-      if(!saved || typeof saved !== "object"){
+      if(savedRecords.length === 0){
         event.status = "unknown";
         event.updatedAt = null;
         return;
       }
 
-      event.status = safeStatus(
-        saved.status ||
-        saved.crowdStatus ||
-        saved.crowd_status
-      );
+      /*
+        体育館発表は複数企画の混雑状況をまとめて表示する。
+        どれか1つでも「混雑」なら混雑、次に「やや混雑」、
+        それ以外は「空いている」とする。
+      */
+      const statusPriority = {
+        unknown:0,
+        empty:1,
+        normal:2,
+        crowded:3
+      };
 
-      const rawUpdatedAt = getUpdatedAtValue(saved);
-      const safeUpdatedAt = safeDateValue(rawUpdatedAt);
+      let combinedStatus = "unknown";
+      let latestUpdatedAt = null;
 
-      event.updatedAt = safeUpdatedAt;
+      savedRecords.forEach(saved => {
+
+        const currentStatus = safeStatus(
+          saved.status ||
+          saved.crowdStatus ||
+          saved.crowd_status
+        );
+
+        if(
+          statusPriority[currentStatus] >
+          statusPriority[combinedStatus]
+        ){
+          combinedStatus = currentStatus;
+        }
+
+        const safeUpdatedAt =
+          safeDateValue(
+            getUpdatedAtValue(saved)
+          );
+
+        if(
+          safeUpdatedAt &&
+          (!latestUpdatedAt ||
+            new Date(safeUpdatedAt).getTime() >
+            new Date(latestUpdatedAt).getTime())
+        ){
+          latestUpdatedAt = safeUpdatedAt;
+        }
+
+      });
+
+      event.status = combinedStatus;
+      event.updatedAt = latestUpdatedAt;
 
       console.log("企画の混雑情報:", {
         id:event.id,
+        sourceIds:event.sourceIds || [event.id],
         status:event.status,
-        rawUpdatedAt:rawUpdatedAt,
         updatedAt:event.updatedAt
       });
 
@@ -3288,37 +3433,49 @@ submitBtn.addEventListener(
 
     try{
 
-      const response =
-        await fetch(
-          API_URL +
-          "/api/crowd",
-          {
+      const targetIds =
+        Array.isArray(selectedEvent.sourceIds) &&
+        selectedEvent.sourceIds.length > 0
+          ? selectedEvent.sourceIds
+          : [selectedEvent.id];
 
-            method:
-              "POST",
+      const responses =
+        await Promise.all(
+          targetIds.map(
+            targetId =>
+              fetch(
+                API_URL +
+                "/api/crowd",
+                {
 
-            headers:{
-              "Content-Type":
-                "application/json"
-            },
+                  method:
+                    "POST",
 
-            body:
-              JSON.stringify({
+                  headers:{
+                    "Content-Type":
+                      "application/json"
+                  },
 
-                id:
-                  selectedEvent.id,
+                  body:
+                    JSON.stringify({
 
-                status:
-                  selectedStatus
+                      id:
+                        targetId,
 
-              })
+                      status:
+                        selectedStatus
 
-          }
+                    })
+
+                }
+              )
+          )
         );
 
-
       if(
-        !response.ok
+        responses.some(
+          response => !response.ok
+        )
       ){
 
         throw new Error(
@@ -3327,9 +3484,8 @@ submitBtn.addEventListener(
 
       }
 
-
       const result =
-        await response.json();
+        await responses[responses.length - 1].json();
 
 
       /*
@@ -3350,10 +3506,12 @@ submitBtn.addEventListener(
 
       selectedEvent.status =
         safeStatus(
-          result.status ||
-          result.crowdStatus ||
-          result.crowd_status ||
-          selectedStatus
+          selectedEvent.sourceIds
+            ? selectedStatus
+            : (result.status ||
+              result.crowdStatus ||
+              result.crowd_status ||
+              selectedStatus)
         );
 
 
