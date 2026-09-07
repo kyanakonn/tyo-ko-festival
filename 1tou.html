@@ -1632,6 +1632,88 @@ body {
 
 </style>
 
+
+
+<style id="top-controls-responsive-fix">
+/* =========================================
+   上部3ボタン：画面幅に応じた固定レイアウト
+   ・折り返し禁止
+   ・画面幅に応じて縮小
+   ・ヘッダー直下の必要な余白だけ確保
+========================================= */
+.top-controls {
+  flex-wrap: nowrap !important;
+  width: max-content;
+  max-width: none;
+}
+
+.back-to-map,
+.help-button,
+.crowd-toggle-button {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 600px) {
+  .top-controls {
+    top: 58px !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    max-width: none !important;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: clamp(10px, 2.8vw, 12px) !important;
+    padding: 6px clamp(6px, 2vw, 9px) !important;
+  }
+
+  .crowd-toggle-button {
+    font-size: clamp(9px, 2.6vw, 11px) !important;
+    padding: 6px clamp(6px, 1.8vw, 8px) !important;
+  }
+
+  /* ボタン＋凡例の下からマップを開始 */
+  .map-view {
+    padding-top: 126px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .top-controls {
+    top: 50px !important;
+    gap: 3px !important;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: 10px !important;
+    padding: 5px 6px !important;
+  }
+
+  .crowd-toggle-button {
+    font-size: 9px !important;
+    padding: 5px 6px !important;
+  }
+
+  .map-view {
+    padding-top: 116px !important;
+  }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .top-controls {
+    top: 48px !important;
+    gap: 4px !important;
+  }
+
+  .map-view {
+    padding-top: 104px !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
