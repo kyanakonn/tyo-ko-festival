@@ -2117,7 +2117,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="飲食"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club1.jpg">
 
@@ -2318,7 +2318,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="サイエンス"
         data-floor="2"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2478,7 +2478,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="サイエンス"
         data-floor="4"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2558,7 +2558,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="English"
         data-floor="4"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2598,7 +2598,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="校内発表" data-schedule-date="9月11日のみ">
 
         <img src="club2.jpg">
 
@@ -2638,7 +2638,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2678,7 +2678,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2758,7 +2758,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2798,7 +2798,7 @@ fetch("header.html")
         data-badge="同好会"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2838,7 +2838,7 @@ fetch("header.html")
         data-badge="部活動"
         data-place-badge="体育館"
         data-floor="1"
-      >
+       data-schedule="一般公開" data-schedule-date="9月12日のみ">
 
         <img src="club2.jpg">
 
@@ -2979,7 +2979,7 @@ fetch("header.html")
         data-badge="その他の企画"
         data-place-badge="販売"
         data-floor="1"
-      >
+       data-schedule="校内発表" data-schedule-date="9月11日のみ">
 
         <img src="other1.jpg">
 
@@ -4164,6 +4164,210 @@ fetch("header.html")
 
 <!-- ページ上部へ戻るボタン -->
 <button type="button" id="back-to-top" aria-label="ページ上部へ戻る">↑</button>
+
+
+<style>
+/* ==================================================
+   開催日オーバーレイ
+   指定カードだけに、既存の世界観に合わせた
+   半透明カラー＋開催日を表示
+================================================== */
+
+.card[data-schedule]{
+  isolation:isolate;
+}
+
+.card[data-schedule]::marker{
+  display:none;
+}
+
+.card-schedule-overlay{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  transition:
+    opacity 0.9s ease,
+    visibility 0.9s ease;
+}
+
+.card-schedule-overlay.is-visible{
+  opacity:1;
+  visibility:visible;
+}
+
+.card-schedule-overlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,77,109,.20),
+      rgba(136,112,168,.23),
+      rgba(101,166,174,.20)
+    );
+  backdrop-filter:blur(1.5px);
+  -webkit-backdrop-filter:blur(1.5px);
+}
+
+.card-schedule-overlay-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  color:#ffffff;
+  text-shadow:
+    0 2px 8px rgba(36,36,42,.30),
+    0 1px 2px rgba(36,36,42,.35);
+}
+
+.card-schedule-overlay-title{
+  font-size:clamp(20px, 2.2vw, 30px);
+  line-height:1.35;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.card-schedule-overlay-date{
+  font-size:clamp(13px, 1.45vw, 18px);
+  line-height:1.4;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+
+/* 一般公開は長高祭サイトのピンク～紫系 */
+.card[data-schedule="一般公開"] .card-schedule-overlay::before{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,77,109,.24),
+      rgba(226,2,46,.16),
+      rgba(136,112,168,.23)
+    );
+}
+
+/* 校内発表はサイトのティール～紫系 */
+.card[data-schedule="校内発表"] .card-schedule-overlay::before{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(101,166,174,.25),
+      rgba(136,112,168,.22),
+      rgba(207,178,90,.16)
+    );
+}
+
+@media (max-width:700px){
+  .card-schedule-overlay{
+    padding:16px;
+  }
+
+  .card-schedule-overlay-title{
+    font-size:22px;
+  }
+
+  .card-schedule-overlay-date{
+    font-size:13px;
+  }
+}
+
+@media (max-width:480px){
+  .card-schedule-overlay-title{
+    font-size:21px;
+  }
+
+  .card-schedule-overlay-date{
+    font-size:13px;
+  }
+}
+</style>
+
+<script>
+/* ==================================================
+   開催日オーバーレイ
+   ・約4秒表示
+   ・約4秒非表示
+   ・フェードで繰り返し
+================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const scheduleCards =
+    document.querySelectorAll(".card[data-schedule]");
+
+  if(!scheduleCards.length){
+    return;
+  }
+
+  scheduleCards.forEach((card) => {
+
+    const title =
+      card.dataset.schedule || "";
+
+    const date =
+      card.dataset.scheduleDate || "";
+
+    const overlay =
+      document.createElement("div");
+
+    overlay.className =
+      "card-schedule-overlay";
+
+    overlay.innerHTML = `
+      <div class="card-schedule-overlay-inner">
+        <div class="card-schedule-overlay-title">
+          ${title}
+        </div>
+        <div class="card-schedule-overlay-date">
+          ${date}
+        </div>
+      </div>
+    `;
+
+    card.appendChild(overlay);
+
+    let visible = false;
+
+    const showOverlay = () => {
+      visible = true;
+      overlay.classList.add("is-visible");
+    };
+
+    const hideOverlay = () => {
+      visible = false;
+      overlay.classList.remove("is-visible");
+    };
+
+    // 初回は少し待ってから表示
+    setTimeout(() => {
+      showOverlay();
+    }, 1800);
+
+    // 表示 → 非表示 → 表示を一定間隔で繰り返す
+    setInterval(() => {
+      if(visible){
+        hideOverlay();
+
+        setTimeout(() => {
+          showOverlay();
+        }, 800);
+      }
+    }, 5600);
+
+  });
+
+});
+</script>
 
 </body>
 
