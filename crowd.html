@@ -393,7 +393,6 @@ main{
 }
 
 
-
 /* =========================================
    件数
 ========================================= */
@@ -669,7 +668,6 @@ main{
 }
 
 
-
 /* =========================================
    共有ボタン
 ========================================= */
@@ -802,6 +800,127 @@ main{
     ease;
 }
 
+
+/* =========================================
+   モーダル内の共通スタイルをリセット
+   css/style.css側のh1/h2/h3等の共通装飾を
+   モーダルへ適用させない
+========================================= */
+
+.share-modal h1,
+.share-modal h2,
+.share-modal h3,
+.share-modal h4,
+.share-modal p,
+.share-modal div,
+.share-modal span{
+  background-image:none!important;
+}
+
+
+/* =========================================
+   モーダルタイトル
+   「混雑状況を共有」の白い角丸四角形を完全削除
+========================================= */
+
+.share-modal .modal-title{
+  display:block!important;
+  position:relative!important;
+
+  margin:0 0 8px!important;
+  padding:0!important;
+
+  width:auto!important;
+  min-width:0!important;
+  height:auto!important;
+
+  font-size:22px!important;
+  line-height:1.5!important;
+  font-weight:900!important;
+  color:var(--pink-deep)!important;
+
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+
+  border:0!important;
+  border-width:0!important;
+  border-style:none!important;
+  border-color:transparent!important;
+
+  border-radius:0!important;
+
+  box-shadow:none!important;
+
+  text-align:left!important;
+}
+
+
+/* モーダルタイトルに外部CSSの疑似要素が付く場合も完全削除 */
+
+.share-modal .modal-title::before,
+.share-modal .modal-title::after{
+  content:none!important;
+  display:none!important;
+
+  width:0!important;
+  height:0!important;
+
+  margin:0!important;
+  padding:0!important;
+
+  background:none!important;
+  background-color:transparent!important;
+  background-image:none!important;
+
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+
+/* =========================================
+   モーダル内のその他の見出しも
+   白い四角形・角丸・影を付けない
+========================================= */
+
+.share-modal h1,
+.share-modal h2,
+.share-modal h3,
+.share-modal h4{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+
+  border-radius:0!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+
+/* =========================================
+   モーダル内の文章
+========================================= */
+
+.share-modal .modal-place{
+  margin-bottom:22px!important;
+  padding:0!important;
+
+  font-size:14px;
+  line-height:1.6;
+  font-weight:700;
+  color:#555;
+
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+
 @keyframes modalIn{
 
   from{
@@ -818,20 +937,6 @@ main{
       scale(1);
   }
 
-}
-
-.modal-title{
-  margin:0 0 8px;
-  font-size:22px;
-  font-weight:900;
-  color:var(--pink-deep);
-}
-
-.modal-place{
-  margin-bottom:22px;
-  font-size:14px;
-  font-weight:700;
-  color:#555;
 }
 
 .status-options{
@@ -1148,8 +1253,16 @@ main{
       var(--pink);
   }
 
-  .modal-title{
-    font-size:18px;
+  .share-modal .modal-title{
+    margin:0 0 8px!important;
+    padding:0!important;
+    font-size:18px!important;
+    background:transparent!important;
+    background-color:transparent!important;
+    background-image:none!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
   }
 
   .modal-actions{
@@ -1689,17 +1802,6 @@ let keywordFilter =
 
 /* =========================================
    クラス・団体名の個別設定
-
-   events.html側に「クラス」「クラス・団体」「団体」の
-   情報がない企画だけ、ここにIDと名前を追加できます。
-
-   例：
-   "other1": "○○部",
-   "other2": "○年○組"
-
-   ここに設定した名前は、元のクラス・団体名が
-   空欄・「-」・「－」などの場合だけ使用されます。
-   既存のクラス・団体名があるカードには影響しません。
 ========================================= */
 
 const classNameOverrides = {
@@ -1713,12 +1815,6 @@ const classNameOverrides = {
 
 /* =========================================
    階数の個別設定
-
-   events.html側の階数が実際の開催場所と異なる
-   企画だけ、ここで正しい階数に変更します。
-
-   写真部「写真展示」は開催場所が2階中央廊下のため
-   2階として扱います。
 ========================================= */
 
 const floorOverrides = {
@@ -1795,10 +1891,6 @@ function getClassName(id, value){
 
 /* =========================================
    開催場所の個別設定
-
-   大網白里特別支援学校は events.html側の
-   ラベルが「販売場所」のため、混雑情報ページでは
-   「開催場所」として表示するために個別設定します。
 ========================================= */
 
 const locationOverrides = {
@@ -1968,7 +2060,6 @@ const statusData = {
 
 /* =========================================
    ジャンル別カラー
-   ※イベントページの data-place-badge に対応
 ========================================= */
 
 const genreColors = {
@@ -2229,12 +2320,6 @@ async function loadEvents(){
           );
 
 
-        /*
-          イベントページの data-place-badge を
-          混雑情報ページの「ジャンル」として使用
-        */
-
-
         const cards =
           group.querySelectorAll(
             ".card"
@@ -2415,13 +2500,6 @@ async function loadEvents(){
     );
 
 
-    /*
-      ジャンルが「体育館」の企画は
-      「体育館発表」として1つのカードにまとめる。
-
-      元の企画IDは sourceIds に保持しておき、
-      混雑情報の取得・共有では各企画のIDを利用する。
-    */
     const gymnasiumEvents =
       eventList.filter(
         event =>
@@ -2543,7 +2621,7 @@ async function loadEvents(){
 
 
 /* =========================================
-   Renderから混雑情報を取得
+   混雑情報を取得
 ========================================= */
 
 async function loadCrowdStatus(){
@@ -2571,10 +2649,6 @@ async function loadCrowdStatus(){
 
     eventsData.forEach(event => {
 
-      /*
-        通常の企画は自分自身のID、
-        「体育館発表」は元の体育館企画のID一覧を使用する。
-      */
       const targetIds =
         Array.isArray(event.sourceIds) && event.sourceIds.length > 0
           ? event.sourceIds
@@ -2624,11 +2698,6 @@ async function loadCrowdStatus(){
         return;
       }
 
-      /*
-        体育館発表は複数企画の混雑状況をまとめて表示する。
-        どれか1つでも「混雑」なら混雑、次に「やや混雑」、
-        それ以外は「空いている」とする。
-      */
       const statusPriority = {
         unknown:0,
         empty:1,
@@ -3304,12 +3373,6 @@ keywordSearch.addEventListener(
 
 
 /* =========================================
-   カテゴリフィルター
-   ※ジャンルフィルターは setupCategoryFilters()
-   でイベントページから自動生成
-========================================= */
-
-/* =========================================
    階数フィルター
 ========================================= */
 
@@ -3644,10 +3707,6 @@ submitBtn.addEventListener(
         await responses[responses.length - 1].json();
 
 
-      /*
-        投稿制限開始
-      */
-
       localStorage.setItem(
         LAST_POST_KEY,
         String(
@@ -3655,10 +3714,6 @@ submitBtn.addEventListener(
         )
       );
 
-
-      /*
-        ステータスを更新
-      */
 
       selectedEvent.status =
         safeStatus(
@@ -3671,11 +3726,6 @@ submitBtn.addEventListener(
         );
 
 
-      /*
-        APIから返される可能性のある
-        すべての日時プロパティに対応
-      */
-
       const rawUpdatedAt =
         getUpdatedAtValue(result) ||
         new Date().toISOString();
@@ -3684,10 +3734,6 @@ submitBtn.addEventListener(
       const safeUpdatedAt =
         safeDateValue(rawUpdatedAt);
 
-
-      /*
-        APIが日時を返した場合
-      */
 
       selectedEvent.updatedAt =
         safeUpdatedAt ||
@@ -3704,11 +3750,6 @@ submitBtn.addEventListener(
         "混雑状況を共有しました。次の共有は5分後から可能です。"
       );
 
-
-      /*
-        投稿直後にサーバーから
-        最新情報を再取得
-      */
 
       setTimeout(
         async () => {
