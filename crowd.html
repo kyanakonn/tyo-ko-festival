@@ -379,6 +379,20 @@ main{
   background:var(--pink);
 }
 
+/* ジャンル別フィルターボタン */
+#categoryFilters .filter-btn:not([data-category="all"]){
+  color:var(--genre-filter-text,#555);
+  border-color:var(--genre-filter-border,rgba(36,36,42,.12));
+  background:var(--genre-filter-bg,#fff);
+}
+
+#categoryFilters .filter-btn:not([data-category="all"]).active{
+  color:#fff;
+  border-color:var(--genre-filter-text,#555);
+  background:var(--genre-filter-text,#555);
+}
+
+
 
 /* =========================================
    件数
@@ -446,7 +460,7 @@ main{
   bottom:0;
   width:82px;
   height:82px;
-  background:rgba(201,109,128,.17);
+  background:var(--genre-shape-left,rgba(201,109,128,.17));
   clip-path:
     polygon(
       0 100%,
@@ -463,7 +477,7 @@ main{
   top:-18px;
   width:74px;
   height:74px;
-  background:rgba(136,112,168,.16);
+  background:var(--genre-shape-right,rgba(136,112,168,.16));
   transform:rotate(25deg);
   pointer-events:none;
 }
@@ -484,9 +498,9 @@ main{
   right:17px;
   z-index:2;
   padding:6px 11px;
-  background:#f2edf8;
-  border:1px solid rgba(136,112,168,.28);
-  color:#66547d;
+  background:var(--genre-badge-bg,#f2edf8);
+  border:1px solid var(--genre-badge-border,rgba(136,112,168,.28));
+  color:var(--genre-badge-text,#66547d);
   font-size:11px;
   font-weight:700;
 }
@@ -1235,29 +1249,14 @@ main{
         カテゴリから探す
       </div>
 
-      <button class="filter-btn active" data-category="all">
-        すべて
-      </button>
-
-      <button class="filter-btn" data-category="1学年">
-        1学年
-      </button>
-
-      <button class="filter-btn" data-category="2学年">
-        2学年
-      </button>
-
-      <button class="filter-btn" data-category="3学年">
-        3学年
-      </button>
-
-      <button class="filter-btn" data-category="部活動">
-        部活動
-      </button>
-
-      <button class="filter-btn" data-category="その他">
-        その他
-      </button>
+      <div
+        id="categoryFilters"
+        style="display:flex;flex-wrap:wrap;gap:10px;width:100%;"
+      >
+        <button class="filter-btn active" data-category="all">
+          すべて
+        </button>
+      </div>
 
     </div>
 
@@ -1648,6 +1647,12 @@ const keywordSearch =
   );
 
 
+const categoryFilters =
+  document.getElementById(
+    "categoryFilters"
+  );
+
+
 const backToTop =
   document.getElementById(
     "backToTop"
@@ -1820,6 +1825,54 @@ const statusData = {
   }
 
 };
+
+
+/* =========================================
+   ジャンル別カラー
+   ※イベントページの data-place-badge に対応
+========================================= */
+
+const genreColors = {
+  "お化け屋敷":{badgeBg:"#f8dfe5",badgeBorder:"#d77b8e",badgeText:"#8f3048",left:"rgba(215,123,142,.22)",right:"rgba(143,48,72,.15)"},
+  "迷路":{badgeBg:"#dfe8f8",badgeBorder:"#7294c7",badgeText:"#35578d",left:"rgba(114,148,199,.22)",right:"rgba(53,87,141,.15)"},
+  "脱出ゲーム":{badgeBg:"#e5e0f7",badgeBorder:"#8b7cc2",badgeText:"#55478f",left:"rgba(139,124,194,.22)",right:"rgba(85,71,143,.15)"},
+  "体験型":{badgeBg:"#dff1eb",badgeBorder:"#6eaf9c",badgeText:"#367463",left:"rgba(110,175,156,.22)",right:"rgba(54,116,99,.15)"},
+  "飲食":{badgeBg:"#faead5",badgeBorder:"#d49a58",badgeText:"#8c5a20",left:"rgba(212,154,88,.23)",right:"rgba(140,90,32,.15)"},
+  "フォトスポット":{badgeBg:"#f5e0f1",badgeBorder:"#bd78ad",badgeText:"#82456f",left:"rgba(189,120,173,.22)",right:"rgba(130,69,111,.15)"},
+  "映画":{badgeBg:"#e2e5e8",badgeBorder:"#7d8792",badgeText:"#4d5660",left:"rgba(125,135,146,.22)",right:"rgba(77,86,96,.15)"},
+  "展示":{badgeBg:"#e3eef5",badgeBorder:"#75a1bc",badgeText:"#416b83",left:"rgba(117,161,188,.22)",right:"rgba(65,107,131,.15)"},
+  "配布":{badgeBg:"#eee7d5",badgeBorder:"#b69d58",badgeText:"#746128",left:"rgba(182,157,88,.22)",right:"rgba(116,97,40,.15)"},
+  "販売":{badgeBg:"#f3e2d9",badgeBorder:"#c48768",badgeText:"#814b36",left:"rgba(196,135,104,.22)",right:"rgba(129,75,54,.15)"},
+  "サイエンス":{badgeBg:"#dcecef",badgeBorder:"#68a4ae",badgeText:"#356f79",left:"rgba(104,164,174,.22)",right:"rgba(53,111,121,.15)"},
+  "縁日":{badgeBg:"#f8e2c9",badgeBorder:"#d48b45",badgeText:"#8c531f",left:"rgba(212,139,69,.23)",right:"rgba(140,83,31,.15)"},
+  "カジノ":{badgeBg:"#e3dfec",badgeBorder:"#8e7ba9",badgeText:"#5a486f",left:"rgba(142,123,169,.22)",right:"rgba(90,72,111,.15)"},
+  "体育館":{badgeBg:"#e0ece0",badgeBorder:"#77a477",badgeText:"#477047",left:"rgba(119,164,119,.22)",right:"rgba(71,112,71,.15)"},
+  "English":{badgeBg:"#e0e8f5",badgeBorder:"#7896c0",badgeText:"#425f8a",left:"rgba(120,150,192,.22)",right:"rgba(66,95,138,.15)"}
+};
+
+const defaultGenreColor = {
+  badgeBg:"#f2edf8",
+  badgeBorder:"rgba(136,112,168,.28)",
+  badgeText:"#66547d",
+  left:"rgba(201,109,128,.17)",
+  right:"rgba(136,112,168,.16)"
+};
+
+function getGenreColor(genre){
+  return genreColors[safeValue(genre,"")] || defaultGenreColor;
+}
+
+function getGenreStyle(genre){
+  const color = getGenreColor(genre);
+
+  return `
+    --genre-badge-bg:${color.badgeBg};
+    --genre-badge-border:${color.badgeBorder};
+    --genre-badge-text:${color.badgeText};
+    --genre-shape-left:${color.left};
+    --genre-shape-right:${color.right};
+  `;
+}
 
 
 /* =========================================
@@ -2037,56 +2090,10 @@ async function loadEvents(){
           );
 
 
-        let category =
-          "その他";
-
-
-        if(
-          groupTitle.includes(
-            "1学年"
-          )
-        ){
-
-          category =
-            "1学年";
-
-        }
-
-        else if(
-          groupTitle.includes(
-            "2学年"
-          )
-        ){
-
-          category =
-            "2学年";
-
-        }
-
-        else if(
-          groupTitle.includes(
-            "3学年"
-          )
-        ){
-
-          category =
-            "3学年";
-
-        }
-
-        else if(
-          groupTitle.includes(
-            "部活動"
-          ) ||
-          groupTitle.includes(
-            "同好会"
-          )
-        ){
-
-          category =
-            "部活動";
-
-        }
+        /*
+          イベントページの data-place-badge を
+          混雑情報ページの「ジャンル」として使用
+        */
 
 
         const cards =
@@ -2223,7 +2230,7 @@ async function loadEvents(){
                 title,
 
               category:
-                category,
+                badge,
 
               badge:
                 badge,
@@ -2254,6 +2261,8 @@ async function loadEvents(){
 
     eventsData =
       eventList;
+
+    setupCategoryFilters();
 
 
     await loadCrowdStatus();
@@ -2419,6 +2428,124 @@ function getUpdatedAtValue(record){
 
 
 /* =========================================
+   ジャンルフィルター生成
+========================================= */
+
+function setupCategoryFilters(){
+
+  if(!categoryFilters){
+    return;
+  }
+
+  const genres =
+    [...new Set(
+      eventsData
+        .map(
+          event =>
+            safeValue(
+              event.category,
+              ""
+            )
+        )
+        .filter(Boolean)
+    )];
+
+  categoryFilters.innerHTML = `
+    <button
+      type="button"
+      class="filter-btn active"
+      data-category="all"
+    >
+      すべて
+    </button>
+  `;
+
+  genres.forEach(
+    genre => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type =
+        "button";
+
+      button.className =
+        "filter-btn";
+
+      button.dataset.category =
+        genre;
+
+      button.textContent =
+        genre;
+
+      const color =
+        getGenreColor(
+          genre
+        );
+
+      button.style.setProperty(
+        "--genre-filter-bg",
+        color.badgeBg
+      );
+
+      button.style.setProperty(
+        "--genre-filter-border",
+        color.badgeBorder
+      );
+
+      button.style.setProperty(
+        "--genre-filter-text",
+        color.badgeText
+      );
+
+      categoryFilters.appendChild(
+        button
+      );
+    }
+  );
+
+  categoryFilters
+    .querySelectorAll(
+      "[data-category]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            categoryFilter =
+              button.dataset.category;
+
+            categoryFilters
+              .querySelectorAll(
+                "[data-category]"
+              )
+              .forEach(
+                item => {
+                  item.classList.remove(
+                    "active"
+                  );
+                }
+              );
+
+            button.classList.add(
+              "active"
+            );
+
+            renderEvents();
+          }
+        );
+
+      }
+    );
+}
+
+
+/* =========================================
    カード表示
 ========================================= */
 
@@ -2512,6 +2639,13 @@ function renderEvents(){
 
       card.className =
         "crowd-card";
+
+      card.setAttribute(
+        "style",
+        getGenreStyle(
+          event.category
+        )
+      );
 
 
       card.dataset.eventId =
@@ -2870,51 +3004,9 @@ keywordSearch.addEventListener(
 
 /* =========================================
    カテゴリフィルター
+   ※ジャンルフィルターは setupCategoryFilters()
+   でイベントページから自動生成
 ========================================= */
-
-document
-  .querySelectorAll(
-    "[data-category]"
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          categoryFilter =
-            button.dataset.category;
-
-
-          document
-            .querySelectorAll(
-              "[data-category]"
-            )
-            .forEach(
-              item => {
-
-                item.classList.remove(
-                  "active"
-                );
-
-              }
-            );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          renderEvents();
-
-        }
-      );
-
-    }
-  );
-
 
 /* =========================================
    階数フィルター
