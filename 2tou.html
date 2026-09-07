@@ -1668,18 +1668,18 @@ body {
 }
 
 .map-hotspot.crowd-empty .crowd-visual-layer {
-  background: rgba(79,157,105,.38) !important;
-  border: 2px solid rgba(79,157,105,.68) !important;
+  background: rgba(79,157,105,0.38) !important;
+  border: 2px solid rgba(79,157,105,0.68) !important;
 }
 
 .map-hotspot.crowd-normal .crowd-visual-layer {
-  background: rgba(215,168,61,.38) !important;
-  border: 2px solid rgba(215,168,61,.68) !important;
+  background: rgba(215,168,61,0.38) !important;
+  border: 2px solid rgba(215,168,61,0.68) !important;
 }
 
 .map-hotspot.crowd-crowded .crowd-visual-layer {
-  background: rgba(212,91,88,.38) !important;
-  border: 2px solid rgba(212,91,88,.68) !important;
+  background: rgba(212,91,88,0.38) !important;
+  border: 2px solid rgba(212,91,88,0.68) !important;
 }
 
 .map-hotspot.crowd-unknown .crowd-visual-layer,
@@ -1788,6 +1788,83 @@ body {
 /* 2棟では専用のdata-floorで表示階を管理 */
 .map-hotspot[data-floor] {
   display: block;
+}
+
+
+/* =========================================
+   上部ボタンの小画面時レイアウト固定
+   ボタンが折り返してマップに重ならないようにする
+========================================= */
+.top-controls {
+  flex-wrap: nowrap !important;
+  width: max-content;
+  max-width: none;
+}
+
+@media (max-width: 600px) {
+  .top-controls {
+    top: 58px !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    max-width: none !important;
+  }
+
+  .back-to-map,
+  .help-button,
+  .crowd-toggle-button {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: clamp(10px, 2.8vw, 12px) !important;
+    padding: 6px clamp(6px, 2vw, 9px) !important;
+  }
+
+  .crowd-toggle-button {
+    font-size: clamp(9px, 2.6vw, 11px) !important;
+    padding: 6px clamp(6px, 1.8vw, 8px) !important;
+  }
+
+  /* ボタン＋凡例の直下から画像を開始 */
+  .map-view {
+    padding-top: 126px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .top-controls {
+    top: 50px !important;
+    gap: 3px !important;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: 10px !important;
+    padding: 5px 6px !important;
+  }
+
+  .crowd-toggle-button {
+    font-size: 9px !important;
+    padding: 5px 6px !important;
+  }
+
+  .map-view {
+    padding-top: 116px !important;
+  }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .top-controls {
+    top: 48px !important;
+    gap: 4px !important;
+  }
+
+  .map-view {
+    padding-top: 104px !important;
+  }
 }
 
 </style>
