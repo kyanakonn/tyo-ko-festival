@@ -150,7 +150,37 @@ const VOTER_POST_INTERVAL_MS =
 
 
 /*
-  投稿者履歴。
+  全企画合計の短時間投稿制限。
+
+  同じ投稿者が企画を次々に変えて
+  大量投稿することを防ぐ。
+
+  10分間に最大5回まで。
+
+  例：
+
+  企画A → 1回
+  企画B → 2回
+  企画C → 3回
+  企画D → 4回
+  企画E → 5回
+
+  ここまで投稿可能。
+
+  6回目は10分間の制限に
+  引っかかる。
+*/
+
+const GLOBAL_POST_WINDOW_MS =
+  10 * 60 * 1000;
+
+
+const GLOBAL_POST_MAX_COUNT =
+  5;
+
+
+/*
+  同一企画への投稿履歴。
 
   key:
 
@@ -162,6 +192,33 @@ const VOTER_POST_INTERVAL_MS =
 */
 
 const voterPostHistory =
+  new Map();
+
+
+/*
+  全企画の投稿履歴。
+
+  key:
+
+    voterId
+
+  value:
+
+    投稿時刻の配列
+
+  例：
+
+  {
+    "xxxxxxxx": [
+      1725600000000,
+      1725600030000,
+      1725600100000
+    ]
+  }
+
+*/
+
+const voterGlobalPostHistory =
   new Map();
 
 
@@ -189,7 +246,6 @@ const voterPostHistory =
 
     ]
   }
-
 */
 
 
@@ -322,6 +378,10 @@ function cleanVoterHistory(){
     Date.now();
 
 
+  /*
+    同一企画投稿履歴の掃除
+  */
+
   for(
     const [
       key,
@@ -340,6 +400,69 @@ function cleanVoterHistory(){
 
       voterPostHistory.delete(
         key
+      );
+
+    }
+
+  }
+
+
+  /*
+    全企画投稿履歴の掃除
+  */
+
+  for(
+    const [
+      voterId,
+      timestamps
+    ]
+    of voterGlobalPostHistory
+  ){
+
+    if(
+      !Array.isArray(
+        timestamps
+      )
+    ){
+
+      voterGlobalPostHistory.delete(
+        voterId
+      );
+
+      continue;
+
+    }
+
+
+    const recentTimestamps =
+      timestamps.filter(
+        timestamp => {
+
+          return (
+            Number.isFinite(
+              timestamp
+            ) &&
+            now - timestamp <
+              GLOBAL_POST_WINDOW_MS
+          );
+
+        }
+      );
+
+
+    if(
+      recentTimestamps.length === 0
+    ){
+
+      voterGlobalPostHistory.delete(
+        voterId
+      );
+
+    }else{
+
+      voterGlobalPostHistory.set(
+        voterId,
+        recentTimestamps
       );
 
     }
@@ -995,6 +1118,14 @@ app.post(
        サーバー側投稿制限
     ===================================== */
 
+    const now =
+      Date.now();
+
+
+    /* =====================================
+       同一企画への投稿制限
+    ===================================== */
+
     const voterKey =
       voterId +
       "::" +
@@ -1014,7 +1145,7 @@ app.post(
     ){
 
       const elapsed =
-        Date.now() -
+        now -
         lastPostTime;
 
 
@@ -1054,6 +1185,109 @@ app.post(
 
 
     /* =====================================
+       全企画合計の短時間投稿制限
+    ===================================== */
+
+    let globalPostTimestamps =
+      voterGlobalPostHistory.get(
+        voterId
+      );
+
+
+    if(
+      !Array.isArray(
+        globalPostTimestamps
+      )
+    ){
+
+      globalPostTimestamps =
+        [];
+
+    }
+
+
+    /*
+      現在から10分以内の投稿だけ残す。
+    */
+
+    globalPostTimestamps =
+      globalPostTimestamps.filter(
+        timestamp => {
+
+          return (
+            Number.isFinite(
+              timestamp
+            ) &&
+            now - timestamp <
+              GLOBAL_POST_WINDOW_MS
+          );
+
+        }
+      );
+
+
+    /*
+      10分間に5回以上投稿している場合、
+      全企画合計の制限をかける。
+    */
+
+    if(
+      globalPostTimestamps.length >=
+      GLOBAL_POST_MAX_COUNT
+    ){
+
+      const oldestTimestamp =
+        globalPostTimestamps[0];
+
+
+      const remaining =
+        GLOBAL_POST_WINDOW_MS -
+        (
+          now -
+          oldestTimestamp
+        );
+
+
+      if(
+        remaining > 0
+      ){
+
+        const remainingSeconds =
+          Math.ceil(
+            remaining /
+            1000
+          );
+
+
+        voterGlobalPostHistory.set(
+          voterId,
+          globalPostTimestamps
+        );
+
+
+        return res
+          .status(429)
+          .json({
+
+            error:
+              "混雑状況の共有は10分間に最大5回までです。あと" +
+              remainingSeconds +
+              "秒お待ちください。",
+
+            remainingMs:
+              remaining,
+
+            globalLimit:
+              true
+
+          });
+
+      }
+
+    }
+
+
+    /* =====================================
        投稿日時
     ===================================== */
 
@@ -1068,7 +1302,23 @@ app.post(
 
     voterPostHistory.set(
       voterKey,
-      Date.now()
+      now
+    );
+
+
+    /*
+      全企画合計の投稿履歴にも
+      現在時刻を追加する。
+    */
+
+    globalPostTimestamps.push(
+      now
+    );
+
+
+    voterGlobalPostHistory.set(
+      voterId,
+      globalPostTimestamps
     );
 
 
