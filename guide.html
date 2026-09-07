@@ -898,65 +898,6 @@
 
 
     /* =========================================================
-       スクロールトップ
-    ========================================================= */
-
-    .back-to-top {
-
-      position: fixed;
-
-      right: 22px;
-      bottom: 22px;
-
-      width: 48px;
-      height: 48px;
-
-      border: none;
-
-      background: #fff;
-
-      box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.12);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      font-size: 21px;
-
-      cursor: pointer;
-
-      opacity: 0;
-
-      visibility: hidden;
-
-      transform:
-        translateY(10px);
-
-      transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease,
-        transform 0.25s ease;
-
-      z-index: 900;
-    }
-
-
-    .back-to-top.show {
-
-      opacity: 1;
-
-      visibility: visible;
-
-      transform:
-        translateY(0);
-    }
-
-
-
-    /* =========================================================
        スマートフォン
     ========================================================= */
 
@@ -1793,23 +1734,6 @@
 
 
 
-  <!-- =======================================================
-       ページトップ
-  ======================================================== -->
-
-  <button
-    class="back-to-top"
-    id="backToTop"
-    type="button"
-    aria-label="ページ上部へ戻る"
-  >
-
-    ↑
-
-  </button>
-
-
-
   <script>
 
 
@@ -1935,61 +1859,6 @@
         );
 
       });
-
-
-
-    /* =========================================================
-       ページトップボタン
-    ========================================================= */
-
-    const backToTop =
-      document.getElementById(
-        "backToTop"
-      );
-
-
-    window.addEventListener(
-      "scroll",
-      () => {
-
-        if (window.scrollY > 600) {
-
-          backToTop.classList.add(
-            "show"
-          );
-
-        } else {
-
-          backToTop.classList.remove(
-            "show"
-          );
-
-        }
-
-      },
-
-      {
-        passive: true
-      }
-
-    );
-
-
-    backToTop.addEventListener(
-      "click",
-      () => {
-
-        window.scrollTo({
-
-          top: 0,
-
-          behavior: "smooth"
-
-        });
-
-      }
-    );
-
 
   </script>
 
