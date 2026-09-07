@@ -1,117 +1,30 @@
 <!DOCTYPE html>
 
 <html lang="ja">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
 >
 
-<meta
-name="google-site-verification"
-content="SKI03agoazBcP4JSlImr_gPw3wlDZ_DvWQJ95KS7Sd8"
-/>
-
-<title>長生高校文化祭2026｜長高祭【公式】サイト</title>
+<title>
+  混雑情報｜長高祭2026
+</title>
 
 <meta
-name="description"
-content="長生高校文化祭、通称『長高祭』の公式サイト。企画一覧・フロアマップ・アクセス・来場案内などを掲載しています！"
+  name="description"
+  content="長高祭2026の各企画・教室の混雑情報を確認・共有できます。"
 >
 
-<meta
-name="keywords"
-content="長高祭, 長高祭2026, 長生高校文化祭, 長生高校 文化祭, 長生高校, 千葉県　高校　文化祭"
->
-
-<meta
-name="application-name"
-content="長高祭"
->
-
-<meta
-property="og:site_name"
-content="長高祭"
->
-
-<meta
-property="og:title"
-content="長高祭｜長生高校文化祭公式サイト"
->
-
-<meta
-property="og:description"
-content="長生高校文化祭の公式サイト"
->
-
-<meta
-property="og:type"
-content="website"
->
-
-<link rel="icon" href="/favicon.ico">
 
 <link
-  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
   rel="stylesheet"
 >
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
-</script>
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
-</script>
-
-
-<!-- =========================================
-     長高祭オープニング判定
-========================================= -->
-
-<script>
-
-(function(){
-
-  /*
-    =========================================
-    サイトバージョン
-    =========================================
-  */
-
-  const SITE_VERSION =
-    "2026.09.07.01";
-
-
-  const introVersion =
-    localStorage.getItem(
-      "choko_festival_intro_version"
-    );
-
-
-  /*
-    イントロをまだ見ていない場合だけ
-    festival-intro.htmlへ移動
-  */
-
-  if(
-    introVersion !== SITE_VERSION
-  ){
-
-    window.location.replace(
-      "festival-intro.html"
-    );
-
-  }
-
-})();
-
-</script>
-
-</head>
 
 
 <link
@@ -123,72 +36,205 @@ content="website"
 <style>
 
 /* =========================================
-   スマホでページを縦スクロール可能にする
+   基本設定
 ========================================= */
+
+:root{
+  --header-height:48px;
+  --pink:#ff4d6d;
+  --pink-deep:#e2022e;
+  --purple:#8870a8;
+  --gold:#cfb25a;
+  --teal:#65a6ae;
+  --bg:#f1f1ef;
+  --text:#24242a;
+  --sub:#66636b;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 html,
-body {
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  touch-action: pan-y;
-
-  -webkit-overflow-scrolling: touch;
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  background:var(--bg)!important;
+  font-family:'Noto Sans JP',sans-serif;
+  color:var(--text);
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
 }
 
-
-.slider,
-.banner-slider,
-.slider .slides,
-.banner-slider .banner-track {
-  touch-action: pan-y;
-}
-
-
-.slider img,
-.banner-slider img {
-  -webkit-user-drag: none;
-  user-select: none;
+body{
+  min-height:100vh;
 }
 
 
 /* =========================================
-   TOP画像
-   CSSアニメーションは使用しない
-   GSAPで制御する
+   背景のローポリ風図形
 ========================================= */
 
-.hero > img.hero-front {
-  animation: none !important;
+.bg-shapes{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:.24;
+  filter:blur(1px);
+}
+
+.bg-shapes .shape{
+  position:absolute;
+}
+
+.bg-shapes .s1{
+  top:5%;
+  left:-50px;
+  width:0;
+  height:0;
+  border-left:90px solid transparent;
+  border-right:90px solid transparent;
+  border-bottom:170px solid #c96d80;
+  transform:rotate(-25deg);
+}
+
+.bg-shapes .s2{
+  top:25%;
+  left:-35px;
+  width:0;
+  height:0;
+  border-left:70px solid transparent;
+  border-right:70px solid transparent;
+  border-bottom:130px solid #8870a8;
+  transform:rotate(20deg);
+}
+
+.bg-shapes .s3{
+  bottom:5%;
+  left:-30px;
+  width:0;
+  height:0;
+  border-left:100px solid transparent;
+  border-right:100px solid transparent;
+  border-bottom:180px solid #cfb25a;
+  transform:rotate(12deg);
+}
+
+.bg-shapes .s4{
+  bottom:28%;
+  left:20px;
+  width:0;
+  height:0;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:120px solid #65a6ae;
+  transform:rotate(-15deg);
+}
+
+.bg-shapes .s5{
+  top:12%;
+  right:-80px;
+  width:0;
+  height:0;
+  border-left:150px solid transparent;
+  border-right:150px solid transparent;
+  border-bottom:260px solid #6aa8ad;
+  transform:rotate(30deg);
+}
+
+.bg-shapes::before,
+.bg-shapes::after{
+  content:"";
+  position:absolute;
+  display:block;
+}
+
+.bg-shapes::before{
+  width:85px;
+  height:150px;
+  left:7%;
+  top:45%;
+  background:#a57999;
+  transform:rotate(28deg);
+}
+
+.bg-shapes::after{
+  width:110px;
+  height:70px;
+  right:4%;
+  top:55%;
+  background:#65a0a8;
+  transform:rotate(-20deg);
 }
 
 
 /* =========================================
-   見出しの白い背景を削除
+   ヘッダー
 ========================================= */
 
-/*
-  「お知らせ」
-  「アクセス」
-  の白い背景・角丸・影を削除
-*/
-
-h2 {
-  background: transparent !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+#header{
+  position:fixed!important;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:10000!important;
 }
 
 
-/*
-  「企画・イベント」
-  の白い背景・角丸・影も削除
-*/
+/* =========================================
+   メイン
+========================================= */
 
-.events-title {
-  background: transparent !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+main{
+  position:relative;
+  z-index:1;
+  width:100%;
+  padding:
+    calc(var(--header-height) + 42px)
+    20px
+    100px;
+}
+
+
+/* =========================================
+   ページタイトル
+========================================= */
+
+.page-heading{
+  position:relative;
+  width:100%;
+  max-width:1050px;
+  margin:0 auto 28px;
+  text-align:center;
+}
+
+.page-heading h1{
+  display:inline-block;
+  margin:0;
+  padding:10px 0;
+  font-size:clamp(30px,6vw,48px);
+  font-weight:900;
+  letter-spacing:.05em;
+  color:var(--pink);
+  background:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  border:none!important;
+}
+
+.page-heading p{
+  margin:18px auto 0;
+  max-width:680px;
+  font-size:clamp(13px,2vw,16px);
+  line-height:1.9;
+  font-weight:500;
+  color:var(--sub);
 }
 
 
@@ -196,433 +242,797 @@ h2 {
    お知らせ
 ========================================= */
 
-#notices {
-  width: 100%;
-  box-sizing: border-box;
+.notice-box{
+  position:relative;
+  width:100%;
+  max-width:850px;
+  margin:0 auto 32px;
+  padding:20px 24px;
+  background:rgba(255,255,255,.86);
+  border-left:6px solid var(--pink);
+  border-right:6px solid var(--purple);
+  box-shadow:8px 8px 0 rgba(0,0,0,.08);
+  text-align:center;
 }
 
-
-/*
-  お知らせ見出しを常に中央に配置
-*/
-
-#notices h2 {
-  width: 100%;
-  box-sizing: border-box;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  text-align: center;
+.notice-box::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  right:0;
+  width:52px;
+  height:52px;
+  background:rgba(207,178,90,.35);
+  clip-path:polygon(100% 0,100% 100%,0 0);
 }
 
-
-/* =========================================
-   お知らせスライダー外枠
-========================================= */
-
-.notice-slider {
-  width: calc(100% - 30px);
-  max-width: 900px;
-
-  margin: 0 auto;
-
-  padding: 5px;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
-
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.48);
-
-  box-shadow:
-    0 10px 30px rgba(120, 50, 100, 0.13);
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.notice-box strong{
+  display:block;
+  margin-bottom:6px;
+  color:var(--pink-deep);
+  font-size:15px;
 }
 
-
-/*
-  横スクロール部分
-
-  ブラウザ標準の横スクロールを使用。
-  scroll-snapによってカードごとに
-  滑らかに止まる。
-*/
-
-.notice-track {
-  display: flex;
-
-  width: 100%;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  -webkit-overflow-scrolling: touch;
-
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-
-  scrollbar-width: none;
-
-  border-radius: 18px;
-
-  overscroll-behavior-x: contain;
-
-  touch-action: pan-x;
-
-  cursor: grab;
-}
-
-
-.notice-track:active {
-  cursor: grabbing;
-}
-
-
-.notice-track::-webkit-scrollbar {
-  display: none;
+.notice-box span{
+  font-size:12px;
+  line-height:1.8;
+  color:var(--sub);
 }
 
 
 /* =========================================
-   お知らせカード
+   フィルター
 ========================================= */
 
-/*
-  画面幅より18pxだけ小さくすることで、
-  次のカードの端が常に18px見える。
+.filter-area{
+  width:100%;
+  max-width:1050px;
+  margin:0 auto 30px;
+  padding:24px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:8px 8px 0 rgba(0,0,0,.07);
+}
 
-  margin-rightは設定しない。
-  width + marginで100%になってしまうのを防ぐ。
-*/
+.filter-group{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+}
 
-.notice-item {
-  flex: 0 0 calc(100% - 18px);
-  min-width: calc(100% - 18px);
+.filter-group + .filter-group{
+  margin-top:20px;
+}
 
-  box-sizing: border-box;
+.filter-title{
+  width:100%;
+  margin-bottom:2px;
+  font-size:14px;
+  font-weight:900;
+  color:var(--pink-deep);
+}
 
-  min-height: 105px;
 
-  margin-right: 0;
+/* =========================================
+   キーワード検索
+========================================= */
 
-  padding: 22px 24px;
+.keyword-search{
+  width:100%;
+  padding:12px 15px;
+  border:2px solid rgba(36,36,42,.12);
+  border-radius:0;
+  outline:none;
+  background:#fff;
+  color:var(--text);
+  font-family:inherit;
+  font-size:14px;
+  box-shadow:4px 4px 0 rgba(0,0,0,.07);
+}
 
-  display: flex;
-  align-items: center;
+.keyword-search:focus{
+  border-color:var(--pink);
+}
 
-  gap: 18px;
+.keyword-search::placeholder{
+  color:#999;
+}
 
-  text-decoration: none;
-  color: #333;
 
-  border-radius: 18px;
+/* =========================================
+   フィルターボタン
+========================================= */
 
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+.filter-btn{
+  appearance:none;
+  border:2px solid rgba(36,36,42,.12);
+  cursor:pointer;
+  padding:9px 16px;
+  border-radius:0;
+  background:#fff;
+  color:#555;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:700;
+  box-shadow:4px 4px 0 rgba(0,0,0,.09);
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    color .18s ease;
+}
 
-  user-select: none;
-  -webkit-user-drag: none;
+.filter-btn:hover{
+  transform:translate(-1px,-1px);
+  box-shadow:6px 6px 0 rgba(0,0,0,.09);
+}
 
-  box-shadow:
-    0 6px 18px rgba(100, 70, 120, 0.10);
+.filter-btn:active{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 rgba(0,0,0,.09);
+}
+
+.filter-btn.active{
+  color:#fff;
+  border-color:var(--pink);
+  background:var(--pink);
+}
+
+
+/* =========================================
+   件数
+========================================= */
+
+.result-info{
+  width:100%;
+  max-width:1050px;
+  margin:0 auto 16px;
+  padding:0 2px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--sub);
+}
+
+.result-info strong{
+  color:var(--pink-deep);
+}
+
+
+/* =========================================
+   カード一覧
+========================================= */
+
+.crowd-grid{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:1050px;
+  margin:0 auto;
+
+  display:grid;
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:20px;
+}
+
+
+/* =========================================
+   混雑情報カード
+========================================= */
+
+.crowd-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:390px;
+  padding:22px;
+  overflow:hidden;
+  background:#fff;
+  border:2px solid rgba(36,36,42,.12);
+  border-radius:0!important;
+  box-shadow:8px 8px 0 rgba(0,0,0,.08);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+    transform .22s ease,
+    box-shadow .22s ease;
 }
 
-
-/*
-  最後のカードにも右側の余白を残す。
-  これにより最後まで移動した場合も
-  レイアウトが崩れない。
-*/
-
-.notice-item:last-child {
-  margin-right: 0;
-}
-
-
-/*
-  カードごとの柔らかい色
-*/
-
-.notice-item:nth-child(1) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 224, 232, 0.96),
-      rgba(255, 239, 210, 0.96)
+.crowd-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:82px;
+  height:82px;
+  background:rgba(201,109,128,.17);
+  clip-path:
+    polygon(
+      0 100%,
+      0 0,
+      100% 100%
     );
+  pointer-events:none;
 }
 
-
-.notice-item:nth-child(2) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(220, 238, 255, 0.96),
-      rgba(232, 224, 255, 0.96)
-    );
+.crowd-card::after{
+  content:"";
+  position:absolute;
+  right:-18px;
+  top:-18px;
+  width:74px;
+  height:74px;
+  background:rgba(136,112,168,.16);
+  transform:rotate(25deg);
+  pointer-events:none;
 }
 
-
-.notice-item:nth-child(3) {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(222, 246, 229, 0.96),
-      rgba(255, 242, 207, 0.96)
-    );
-}
-
-
-/*
-  タップ時
-*/
-
-.notice-item:active {
-  transform: scale(0.985);
-
-  box-shadow:
-    0 4px 12px rgba(100, 70, 120, 0.08);
-
-  filter: brightness(0.98);
+.crowd-card:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:12px 12px 0 rgba(0,0,0,.09);
 }
 
 
 /* =========================================
-   日付
+   カテゴリ
 ========================================= */
 
-.notice-date {
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 82px;
-
-  padding-right: 16px;
-
-  text-align: center;
-
-  font-weight: 700;
-  line-height: 1.25;
-
-  border-right:
-    1px solid rgba(100, 70, 120, 0.14);
-}
-
-
-.notice-year {
-  font-size: 13px;
-
-  letter-spacing: 0.08em;
-
-  color: rgba(80, 60, 100, 0.68);
-}
-
-
-.notice-day {
-  margin-top: 3px;
-
-  font-size: 22px;
-
-  font-weight: 900;
-
-  color: #333;
+.category-badge{
+  position:absolute;
+  top:17px;
+  right:17px;
+  z-index:2;
+  padding:6px 11px;
+  background:#f2edf8;
+  border:1px solid rgba(136,112,168,.28);
+  color:#66547d;
+  font-size:11px;
+  font-weight:700;
 }
 
 
 /* =========================================
-   お知らせ本文
+   カードタイトル
 ========================================= */
 
-.notice-content {
-  min-width: 0;
+.crowd-card-title{
+  position:relative;
+  z-index:1;
+  display:block!important;
+  margin:34px 0 20px!important;
+  padding:0 10px 0 0!important;
+  font-size:20px;
+  line-height:1.55;
+  font-weight:900;
+  color:var(--text);
+  word-break:break-word;
 
-  flex: 1;
+  background:none!important;
+  background-color:transparent!important;
+  border:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
 }
 
-
-/*
-  お知らせラベル
-*/
-
-.notice-label {
-  display: inline-block;
-
-  margin-bottom: 7px;
-
-  padding: 4px 10px;
-
-  border-radius: 999px;
-
-  background:
-    rgba(255, 255, 255, 0.68);
-
-  color:
-    rgba(90, 65, 110, 0.78);
-
-  font-size: 11px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.08em;
-
-  box-shadow:
-    0 2px 8px rgba(100, 70, 120, 0.08);
+.crowd-card-title::before,
+.crowd-card-title::after{
+  content:none!important;
+  display:none!important;
 }
 
-
-.notice-title {
-  margin: 0;
-
-  font-size: clamp(14px, 2.2vw, 18px);
-
-  font-weight: 700;
-
-  line-height: 1.6;
-
-  word-break: break-word;
-
-  color: #333;
+.crowd-card-title *{
+  background:none!important;
+  background-color:transparent!important;
+  border:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
 }
 
 
 /* =========================================
-   右矢印
+   企画情報
 ========================================= */
 
-.notice-arrow {
-  flex-shrink: 0;
+.place-info{
+  position:relative;
+  z-index:1;
+  margin-bottom:18px;
+  padding-bottom:18px;
+  border-bottom:2px solid rgba(36,36,42,.08);
+}
 
-  width: 34px;
-  height: 34px;
+.info-row{
+  display:grid;
+  grid-template-columns:90px 1fr;
+  gap:8px;
+  margin-top:8px;
+  font-size:13px;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.info-label{
+  color:var(--pink-deep);
+  font-weight:700;
+}
 
-  border-radius: 50%;
-
-  background:
-    rgba(255, 255, 255, 0.70);
-
-  color:
-    rgba(100, 75, 125, 0.85);
-
-  font-size: 18px;
-
-  font-weight: 900;
-
-  box-shadow:
-    0 3px 10px rgba(100, 70, 120, 0.10);
+.info-value{
+  color:var(--sub);
+  font-weight:500;
+  word-break:break-word;
 }
 
 
 /* =========================================
-   全てのお知らせを見る
+   混雑状況
 ========================================= */
 
-.notice-button-wrap {
-  display: flex;
+.status-area{
+  position:relative;
+  z-index:1;
+  margin-top:auto;
+}
 
-  justify-content: center;
+.status-label{
+  margin-bottom:8px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--sub);
+}
 
-  margin-top: 20px;
+.status-display{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  grid-template-rows:auto auto;
+  column-gap:10px;
+  row-gap:4px;
+  min-height:72px;
+  padding:14px 15px 10px;
+  background:#f6f5f2;
+  border-left:5px solid var(--teal);
+}
+
+.status-dot{
+  width:13px;
+  height:13px;
+  flex-shrink:0;
+  border-radius:50%;
+  grid-column:1;
+  grid-row:1;
+  margin-top:2px;
+}
+
+.status-dot.empty{
+  background:#55c78a;
+  box-shadow:0 0 10px rgba(85,199,138,.45);
+}
+
+.status-dot.normal{
+  background:#f3b83e;
+  box-shadow:0 0 10px rgba(243,184,62,.4);
+}
+
+.status-dot.crowded{
+  background:#f05a68;
+  box-shadow:0 0 10px rgba(240,90,104,.4);
+}
+
+.status-dot.unknown{
+  background:#a8afbc;
+}
+
+.status-text{
+  min-width:0;
+  grid-column:2;
+  grid-row:1;
+  font-size:14px;
+  font-weight:900;
+  color:#555;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.status-time{
+  display:block;
+  grid-column:1 / -1;
+  grid-row:2;
+  width:100%;
+  min-height:16px;
+  margin:0;
+  padding:0;
+  text-align:right;
+  white-space:nowrap;
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:10px;
+  line-height:1.4;
+  font-weight:500;
+  color:#8c95a5;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  overflow:visible;
 }
 
 
-.notice-all-btn {
-  display: inline-flex;
 
-  align-items: center;
-  justify-content: center;
+/* =========================================
+   共有ボタン
+========================================= */
 
-  gap: 12px;
-
-  min-width: 230px;
-
-  padding: 12px 22px;
-
-  box-sizing: border-box;
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff8fab,
-      #a98bff
-    );
-
-  color: #fff;
-
-  text-decoration: none;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  box-shadow:
-    0 7px 18px rgba(130, 80, 150, 0.20);
+.share-btn{
+  position:relative;
+  z-index:1;
+  width:100%;
+  margin-top:16px;
+  padding:13px 15px;
+  border:2px solid #1e1e2f;
+  border-radius:0;
+  cursor:pointer;
+  background:#1e1e2f;
+  color:#fff;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:5px 5px 0 var(--pink);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
 }
 
-
-.notice-all-btn:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 10px 24px rgba(130, 80, 150, 0.25);
-
-  filter: brightness(1.03);
+.share-btn:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:7px 7px 0 var(--pink);
 }
 
-
-.notice-all-btn:active {
-  transform: translateY(1px);
-
-  box-shadow:
-    0 4px 10px rgba(130, 80, 150, 0.16);
+.share-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--pink);
 }
 
-
-.notice-all-btn .arrow {
-  font-size: 18px;
-
-  line-height: 1;
+.share-btn:disabled{
+  cursor:not-allowed;
+  background:#777;
+  border-color:#777;
+  color:#eee;
+  box-shadow:4px 4px 0 #aaa;
+  transform:none;
 }
 
 
 /* =========================================
-   スワイプ案内
+   ローディング・エラー
 ========================================= */
 
-.notice-hint {
-  margin: 12px 0 0;
+.loading{
+  width:100%;
+  grid-column:1 / -1;
+  padding:70px 20px;
+  text-align:center;
+  color:var(--sub);
+}
 
-  text-align: center;
+.loading-spinner{
+  width:38px;
+  height:38px;
+  margin:0 auto 15px;
+  border-radius:50%;
+  border:4px solid rgba(136,112,168,.18);
+  border-top-color:var(--pink);
+  animation:
+    loadingRotate
+    .8s
+    linear
+    infinite;
+}
 
-  font-size: 11px;
+@keyframes loadingRotate{
 
-  color:
-    rgba(60, 40, 70, 0.55);
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+.error-message{
+  width:100%;
+  grid-column:1 / -1;
+  padding:50px 20px;
+  background:#fff;
+  border-left:6px solid var(--pink);
+  box-shadow:6px 6px 0 rgba(0,0,0,.07);
+  text-align:center;
+  color:var(--sub);
+}
+
+.error-message strong{
+  display:block;
+  margin-bottom:8px;
+  color:var(--pink-deep);
+}
+
+
+/* =========================================
+   モーダル
+========================================= */
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(25,20,40,.48);
+}
+
+.modal-overlay.active{
+  display:flex;
+}
+
+.share-modal{
+  position:relative;
+  width:min(100%,520px);
+  max-height:calc(100vh - 40px);
+  overflow-y:auto;
+  padding:30px;
+  background:#f1f1ef;
+  border:3px solid #24242a;
+  box-shadow:12px 12px 0 var(--pink);
+  animation:
+    modalIn
+    .22s
+    ease;
+}
+
+@keyframes modalIn{
+
+  from{
+    opacity:0;
+    transform:
+      translateY(18px)
+      scale(.98);
+  }
+
+  to{
+    opacity:1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+.modal-title{
+  margin:0 0 8px;
+  font-size:22px;
+  font-weight:900;
+  color:var(--pink-deep);
+}
+
+.modal-place{
+  margin-bottom:22px;
+  font-size:14px;
+  font-weight:700;
+  color:#555;
+}
+
+.status-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.status-option{
+  min-height:76px;
+  padding:12px;
+  border:2px solid rgba(36,36,42,.13);
+  background:#fff;
+  cursor:pointer;
+  font-family:inherit;
+  text-align:left;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.status-option:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:4px 4px 0 rgba(0,0,0,.08);
+}
+
+.status-option.selected{
+  border-color:var(--pink);
+  box-shadow:
+    4px 4px 0
+    rgba(255,77,109,.28);
+}
+
+.option-circle{
+  display:inline-block;
+  width:12px;
+  height:12px;
+  margin-right:8px;
+  border-radius:50%;
+}
+
+.option-circle.empty{
+  background:#55c78a;
+}
+
+.option-circle.normal{
+  background:#f3b83e;
+}
+
+.option-circle.crowded{
+  background:#f05a68;
+}
+
+.option-text{
+  font-size:13px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.modal-btn{
+  border:2px solid #24242a;
+  padding:11px 18px;
+  border-radius:0;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
+}
+
+.modal-btn.cancel{
+  background:#fff;
+  color:var(--text);
+}
+
+.modal-btn.submit{
+  background:var(--pink);
+  color:#fff;
+  box-shadow:4px 4px 0 #24242a;
+}
+
+.modal-btn.submit:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+
+
+/* =========================================
+   トースト
+========================================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  z-index:7000;
+  max-width:calc(100% - 40px);
+  padding:13px 20px;
+  background:#24242a;
+  color:#fff;
+  border-left:5px solid var(--pink);
+  box-shadow:6px 6px 0 rgba(0,0,0,.15);
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+
+  transform:
+    translateX(-50%)
+    translateY(100px);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:
+    transform .35s ease,
+    opacity .35s ease;
+}
+
+.toast.show{
+  transform:
+    translateX(-50%)
+    translateY(0);
+
+  opacity:1;
+}
+
+
+/* =========================================
+   ページ最上部へ戻るボタン
+========================================= */
+
+#backToTop{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:9000;
+
+  width:46px;
+  height:46px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+  border-radius:50%;
+
+  background:#1e1e2f;
+  color:#fff;
+
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:24px;
+  font-weight:700;
+  line-height:1;
+
+  cursor:pointer;
+
+  box-shadow:
+    3px 3px 0
+    rgba(255,77,109,.45);
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:
+    translateY(15px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease,
+    transform .25s ease,
+    box-shadow .2s ease;
+}
+
+#backToTop.show{
+  opacity:.92;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+#backToTop:hover{
+  opacity:1;
+  transform:
+    translateY(-2px);
+}
+
+#backToTop:active{
+  transform:
+    translateY(1px);
+  box-shadow:
+    1px 1px 0
+    rgba(255,77,109,.45);
+}
+
+
+/* =========================================
+   タブレット
+========================================= */
+
+@media(max-width:900px){
+
+  .crowd-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
 }
 
 
@@ -630,188 +1040,125 @@ h2 {
    スマートフォン
 ========================================= */
 
-@media (max-width: 600px){
+@media(max-width:600px){
 
-  /*
-    お知らせ見出しも常に中央
-  */
-
-  #notices h2 {
-    width: 100%;
-
-    text-align: center;
+  .bg-shapes{
+    opacity:.18;
   }
 
+  main{
+    padding:
+      calc(var(--header-height) + 28px)
+      12px
+      90px;
+  }
 
-  .notice-slider {
-    width: calc(100% - 24px);
+  .page-heading{
+    margin-bottom:24px;
+  }
 
-    padding: 5px;
+  .page-heading h1{
+    font-size:
+      clamp(27px,8vw,40px);
 
-    border-radius: 18px;
+    padding:8px 0;
+  }
 
+  .page-heading p{
+    margin-top:14px;
+    line-height:1.75;
+  }
+
+  .notice-box{
+    padding:17px 18px;
+    border-left-width:5px;
+    border-right-width:5px;
+  }
+
+  .notice-box strong{
+    font-size:13px;
+  }
+
+  .notice-box span{
+    font-size:11px;
+  }
+
+  .filter-area{
+    padding:20px 15px;
+  }
+
+  .filter-group{
+    gap:7px;
+  }
+
+  .filter-btn{
+    padding:8px 12px;
+    font-size:11px;
+  }
+
+  .keyword-search{
+    font-size:13px;
+    padding:11px 12px;
+  }
+
+  .crowd-grid{
+    grid-template-columns:1fr;
+    gap:15px;
+  }
+
+  .crowd-card{
+    min-height:auto;
+    padding:20px;
+  }
+
+  .crowd-card:hover{
+    transform:none;
     box-shadow:
-      0 8px 22px rgba(120, 50, 100, 0.12);
+      8px 8px 0
+      rgba(0,0,0,.08);
   }
 
-
-  .notice-track {
-    border-radius: 14px;
-
-    scroll-snap-type: x mandatory;
+  .crowd-card-title{
+    margin:32px 0 17px!important;
+    font-size:18px;
   }
 
-
-  /*
-    スマホでも次のカードを
-    18px見えるようにする
-  */
-
-  .notice-item {
-    flex: 0 0 calc(100% - 18px);
-    min-width: calc(100% - 18px);
-
-    min-height: 115px;
-
-    margin-right: 0;
-
-    padding: 18px 15px;
-
-    gap: 12px;
-
-    border-radius: 14px;
-
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+  .status-options{
+    grid-template-columns:1fr;
   }
 
-
-  .notice-date {
-    width: 58px;
-
-    padding-right: 10px;
-  }
-
-
-  .notice-year {
-    font-size: 10px;
-  }
-
-
-  .notice-day {
-    font-size: 18px;
-  }
-
-
-  .notice-label {
-    margin-bottom: 5px;
-
-    padding: 3px 8px;
-
-    font-size: 9px;
-
-    border-radius: 999px;
-  }
-
-
-  .notice-title {
-    font-size: 13px;
-
-    line-height: 1.55;
-  }
-
-
-  .notice-arrow {
-    width: 28px;
-    height: 28px;
-
-    border-radius: 50%;
-
-    font-size: 15px;
-  }
-
-
-  .notice-all-btn {
-    min-width: 210px;
-
-    padding: 11px 18px;
-
-    border-radius: 999px;
-
-    font-size: 13px;
-
+  .share-modal{
+    padding:23px 18px;
     box-shadow:
-      0 6px 15px rgba(130, 80, 150, 0.18);
+      8px 8px 0
+      var(--pink);
   }
 
-
-  .notice-all-btn:active {
-    transform: translateY(1px);
-
-    box-shadow:
-      0 3px 8px rgba(130, 80, 150, 0.14);
+  .modal-title{
+    font-size:18px;
   }
 
-}
-
-
-/* =========================================
-   お知らせ・企画セクション
-========================================= */
-
-#notices,
-#about,
-#events,
-#access {
-  box-sizing: border-box;
-}
-
-
-/* =========================================
-   企画一覧 → アクセス間の余白を縮小
-========================================= */
-
-/*
-  「企画一覧をみる」ボタンから
-  「アクセス」セクションまでの
-  大きな縦の隙間を少し縮める。
-*/
-
-#events {
-  margin-bottom: 0 !important;
-  padding-bottom: 20px !important;
-}
-
-
-#access {
-  margin-top: 0 !important;
-}
-
-
-/* =========================================
-   スマートフォン
-========================================= */
-
-@media (max-width: 600px){
-
-  /*
-    スマホでも企画一覧から
-    アクセスまでの余白を縮小
-  */
-
-  #events {
-    margin-bottom: 0 !important;
-    padding-bottom: 15px !important;
+  .modal-actions{
+    flex-direction:column-reverse;
   }
 
+  .modal-btn{
+    width:100%;
+  }
 
-  #access {
-    margin-top: 0 !important;
+  #backToTop{
+    right:14px;
+    bottom:16px;
+    width:43px;
+    height:43px;
+    font-size:22px;
   }
 
 }
 
 </style>
+
+</head>
 
 
 <body>
@@ -824,22 +1171,6 @@ h2 {
   <div class="shape s3"></div>
   <div class="shape s4"></div>
   <div class="shape s5"></div>
-  <div class="shape s6"></div>
-  <div class="shape s7"></div>
-  <div class="shape s8"></div>
-  <div class="shape s9"></div>
-  <div class="shape s10"></div>
-  <div class="shape s11"></div>
-  <div class="shape s12"></div>
-
-</div>
-
-
-<div id="loader">
-
-  <div class="loader-text">
-    LOADING...
-  </div>
 
 </div>
 
@@ -847,1384 +1178,1736 @@ h2 {
 <div id="header"></div>
 
 
+<main>
+
+
+  <section class="page-heading">
+
+    <h1>
+      ＼ 混雑情報 ／
+    </h1>
+
+    <p>
+      各企画・教室の現在の混雑状況を確認できます。<br>
+      現在の状況を知っている場合は、ぜひ情報共有にご協力ください。
+    </p>
+
+  </section>
+
+
+  <div class="notice-box">
+
+    <strong>
+      みんなで最新の情報を共有しよう！
+    </strong>
+
+    <span>
+      混雑情報は利用者から共有された情報をもとに表示します。<br>
+      実際の混雑状況と異なる場合がありますので、参考情報としてご利用ください。
+    </span>
+
+  </div>
+
+
+  <section class="filter-area">
+
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        キーワードから探す
+      </div>
+
+      <input
+        type="search"
+        id="keywordSearch"
+        class="keyword-search"
+        placeholder="企画名・クラス・団体・開催場所を検索"
+        autocomplete="off"
+      >
+
+    </div>
+
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        カテゴリから探す
+      </div>
+
+      <button class="filter-btn active" data-category="all">
+        すべて
+      </button>
+
+      <button class="filter-btn" data-category="1学年">
+        1学年
+      </button>
+
+      <button class="filter-btn" data-category="2学年">
+        2学年
+      </button>
+
+      <button class="filter-btn" data-category="3学年">
+        3学年
+      </button>
+
+      <button class="filter-btn" data-category="部活動">
+        部活動
+      </button>
+
+      <button class="filter-btn" data-category="その他">
+        その他
+      </button>
+
+    </div>
+
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        階数から探す
+      </div>
+
+      <button class="filter-btn active" data-floor-filter="all">
+        すべて
+      </button>
+
+      <button class="filter-btn" data-floor-filter="1">
+        1階
+      </button>
+
+      <button class="filter-btn" data-floor-filter="2">
+        2階
+      </button>
+
+      <button class="filter-btn" data-floor-filter="3">
+        3階
+      </button>
+
+      <button class="filter-btn" data-floor-filter="4">
+        4階
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <div class="result-info">
+
+    <strong id="resultCount">
+      0
+    </strong>
+
+    件の企画を表示中
+
+  </div>
+
+
+  <section
+    class="crowd-grid"
+    id="crowdGrid"
+  >
+
+    <div class="loading">
+
+      <div class="loading-spinner"></div>
+
+      企画情報を読み込んでいます...
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================
+     共有モーダル
+========================================= -->
+
+<div
+  class="modal-overlay"
+  id="modalOverlay"
+>
+
+  <div
+    class="share-modal"
+    id="shareModal"
+  >
+
+    <h2 class="modal-title">
+      混雑状況を共有
+    </h2>
+
+    <p
+      class="modal-place"
+      id="modalPlace"
+    >
+    </p>
+
+
+    <div class="status-options">
+
+      <button
+        class="status-option"
+        data-status="empty"
+      >
+
+        <span
+          class="option-circle empty"
+        ></span>
+
+        <span class="option-text">
+          比較的空いている
+        </span>
+
+      </button>
+
+
+      <button
+        class="status-option"
+        data-status="normal"
+      >
+
+        <span
+          class="option-circle normal"
+        ></span>
+
+        <span class="option-text">
+          やや混雑している
+        </span>
+
+      </button>
+
+
+      <button
+        class="status-option"
+        data-status="crowded"
+      >
+
+        <span
+          class="option-circle crowded"
+        ></span>
+
+        <span class="option-text">
+          混雑している
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-btn cancel"
+        id="cancelBtn"
+      >
+        キャンセル
+      </button>
+
+      <button
+        class="modal-btn submit"
+        id="submitBtn"
+        disabled
+      >
+        共有する
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+>
+</div>
+
+
+<button
+  id="backToTop"
+  type="button"
+  aria-label="ページの一番上へ戻る"
+>
+  ↑
+</button>
+
+
 <script>
+
+
+/* =========================================
+   ヘッダー読み込み
+========================================= */
 
 fetch("header.html")
 
-  .then(res => res.text())
+  .then(
+    res => res.text()
+  )
 
-  .then(data => {
+  .then(
+    data => {
 
-    const headerContainer =
-      document.getElementById("header");
-
-    headerContainer.innerHTML =
-      data;
-
-    const header =
-      headerContainer.querySelector("header");
-
-    const btn =
-      headerContainer.querySelector(".menu-btn");
-
-    const nav =
-      headerContainer.querySelector(".nav");
+      const headerContainer =
+        document.getElementById(
+          "header"
+        );
 
 
-    function updateHeaderHeight() {
-
-      if (!header) return;
-
-      const height =
-        header.getBoundingClientRect().height;
-
-      document.documentElement.style.setProperty(
-        "--header-height",
-        height + "px"
-      );
-
-    }
+      headerContainer.innerHTML =
+        data;
 
 
-    updateHeaderHeight();
+      const header =
+        headerContainer.querySelector(
+          "header"
+        );
 
 
-    window.addEventListener(
-      "resize",
-      updateHeaderHeight
-    );
+      const btn =
+        headerContainer.querySelector(
+          ".menu-btn"
+        );
 
 
-    if(btn && nav){
+      const nav =
+        headerContainer.querySelector(
+          ".nav"
+        );
 
-      btn.addEventListener(
-        "click",
-        (e) => {
 
-          e.stopPropagation();
+      function updateHeaderHeight(){
 
-          nav.classList.toggle(
-            "active"
-          );
+        if(
+          !header
+        ){
+
+          return;
 
         }
+
+
+        const height =
+          header
+            .getBoundingClientRect()
+            .height;
+
+
+        document.documentElement.style.setProperty(
+          "--header-height",
+          height + "px"
+        );
+
+      }
+
+
+      updateHeaderHeight();
+
+
+      window.addEventListener(
+        "resize",
+        updateHeaderHeight
       );
 
 
-      document.addEventListener(
-        "click",
-        (e) => {
+      if(
+        btn &&
+        nav
+      ){
 
-          if(
-            !nav.contains(e.target) &&
-            !btn.contains(e.target)
-          ){
+        btn.addEventListener(
+          "click",
+          e => {
 
-            nav.classList.remove(
+            e.stopPropagation();
+
+            nav.classList.toggle(
               "active"
             );
 
           }
+        );
 
-        }
-      );
 
-    }
+        document.addEventListener(
+          "click",
+          e => {
 
-  });
+            if(
+              !nav.contains(
+                e.target
+              ) &&
+              !btn.contains(
+                e.target
+              )
+            ){
 
-</script>
+              nav.classList.remove(
+                "active"
+              );
 
+            }
 
-<div class="hero">
-
-<img
-src="hero.jpg"
-class="hero-bg"
->
-
-  <div class="hero-title-wrap">
-
-<h1 id="title">
-
-  <span class="welcome">
-    校内発表まで 残り 4日
-  </span>
-
-  <span class="festival">
-    長高祭2026
-  </span>
-
-</h1>
-
-  </div>
-
-
-<img
-src="IMG_0354.png"
-class="hero-front"
->
-
-
-  <div class="ticker">
-
-<div class="ticker-track">
-
-  <span>
-    長高祭2026 今年は9月12日(土) 9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
-  </span>
-
-  <span>
-    長高祭2026 今年は9月12日(土)　9:30から13:00 まで一般公開！　　　　　長高祭2026、まもなく開幕。
-  </span>
-
-</div>
-
-  </div>
-
-</div>
-
-
-<!-- バナースライダー -->
-
-<section class="banner-section">
-
-  <div class="banner-slider">
-
-<div
-  class="banner-track"
-  id="bannerTrack"
->
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-  <div class="banner">
-    <img src="images/banner1.jpeg">
-  </div>
-
-</div>
-
-
-<div
-  class="banner-dots"
-  id="bannerDots">
-</div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================
-     お知らせ
-========================================= -->
-
-<section id="notices">
-
-<h2>
-  \ お知らせ /
-</h2>
-
-
-<div
-  class="notice-slider"
-  id="noticeSlider"
->
-
-  <div
-    class="notice-track"
-    id="noticeTrack"
-  >
-
-
-<a
-  href="notices.html#notice-1"
-  class="notice-item"
->
-
-  <div class="notice-date">
-
-    <span class="notice-year">
-      2026
-    </span>
-
-    <span class="notice-day">
-      09.06
-    </span>
-
-  </div>
-
-
-  <div class="notice-content">
-
-    <span class="notice-label">
-      お知らせ
-    </span>
-
-    <h3 class="notice-title">
-      1棟トイレ工事に伴うトイレの利用制限についてのお知らせ
-    </h3>
-
-  </div>
-
-
-  <div class="notice-arrow">
-    →
-  </div>
-
-</a>
-
-
-<a
-  href="notices.html#notice-3"
-  class="notice-item"
->
-
-  <div class="notice-date">
-
-    <span class="notice-year">
-      2026
-    </span>
-
-    <span class="notice-day">
-      09.05
-    </span>
-
-  </div>
-
-
-  <div class="notice-content">
-
-    <span class="notice-label">
-      ご案内
-    </span>
-
-    <h3 class="notice-title">
-      企画内容・体育館発表の情報を公開しました
-    </h3>
-
-  </div>
-
-
-  <div class="notice-arrow">
-    →
-  </div>
-
-</a>
-
-
-  </div>
-
-</div>
-
-
-<div class="notice-button-wrap">
-
-<a
-  href="notices.html"
-  class="notice-all-btn"
->
-
-  <span>
-    全てのお知らせを見る
-  </span>
-
-  <span class="arrow">
-    →
-  </span>
-
-</a>
-
-</div>
-
-
-<p class="notice-hint">
-  左右にスワイプしてお知らせを確認できます
-</p>
-
-</section>
-
-
-<section id="about">
-
-<h2>\ ピックアップ /</h2>
-
-<div class="info-links">
-
-<a
-href="guide.html"
-class="info-card"
->
-
-<img src="images/guide.png">
-
-  </a>
-
-<a
-href="map.html"
-class="info-card"
->
-
-<img src="images/map.png">
-
-  </a>
-
-</div>
-
-</section>
-
-
-<section id="events">
-
-<h2 class="events-title">
-  \ 企画・イベント /
-</h2>
-
-<div class="slider">
-
-  <div
-    class="slides"
-    id="slides"
-  >
-
-<a
-  href="events.html?cat=1"
-  class="card"
->
-
-  <img src="images/event1.jpg">
-
-  <div>
-    <h3>1学年</h3>
-  </div>
-
-</a>
-
-
-<a
-  href="events.html?cat=2"
-  class="card"
->
-
-  <img src="images/event2.jpg">
-
-  <div>
-    <h3>2学年</h3>
-  </div>
-
-</a>
-
-
-<a
-  href="events.html?cat=3"
-  class="card"
->
-
-  <img src="images/event3.jpg">
-
-  <div>
-    <h3>3学年</h3>
-  </div>
-
-</a>
-
-
-<a
-  href="events.html?cat=club"
-  class="card"
->
-
-  <img src="images/event4.jpg">
-
-  <div>
-    <h3>部活動・同好会</h3>
-  </div>
-
-</a>
-
-
-<a
-  href="events.html?cat=other"
-  class="card"
->
-
-  <img src="images/event5.jpg">
-
-  <div>
-    <h3>その他イベント</h3>
-  </div>
-
-</a>
-
-  </div>
-
-
-<a
-href="events.html"
-class="main-btn"
->
-
-<span>
-  企画一覧をみる
-</span>
-
-<div class="arrow">
-  →
-</div>
-
-  </a>
-
-
-  <div
-    class="dots"
-    id="dots">
-  </div>
-
-</div>
-
-</section>
-
-
-<section id="access">
-
-  <h2>
-    \ アクセス /
-  </h2>
-
-  <div class="access-row">
-
-<div>
-
-  <p>
-    <strong>「茂原駅東口」から徒歩 約15分</strong>
-  </p>
-
-  <p style="color: red; font-weight: bold;">
-    ※学校で駐車場は用意しておりません
-  </p>
-
-</div>
-
-
-<a
-  href="https://www.google.com/maps/dir/?api=1&destination=長生高校 千葉県茂原市"
-  target="_blank"
-  class="map-btn"
->
-  Googleマップで確認
-</a>
-
-  </div>
-
-</section>
-
-
-<footer>
-
-  <p>
-    制作｜長高に情報系部活は存在しなくて委員会
-  </p>
-
-</footer>
-
-
-<script>
-
-/* =========================================
-   ローディング
-========================================= */
-
-window.addEventListener(
-  "load",
-  () => {
-
-    const loader =
-      document.getElementById("loader");
-
-    loader.style.opacity =
-      "0";
-
-    setTimeout(() => {
-
-      loader.style.display =
-        "none";
-
-    }, 500);
-
-  }
-);
-
-
-/* =========================================
-   GSAP
-========================================= */
-
-gsap.registerPlugin(
-  ScrollTrigger
-);
-
-
-/* =========================================
-   TOPページ 初回アニメーション
-========================================= */
-
-const heroBg =
-  document.querySelector(".hero-bg");
-
-const titleSpans =
-  document.querySelectorAll(
-    "#title > span"
-  );
-
-const heroFront =
-  document.querySelector(".hero-front");
-
-const ticker =
-  document.querySelector(".ticker");
-
-
-const introSections =
-  document.querySelectorAll(
-    ".banner-section, #notices, #about, #events, #access"
-  );
-
-
-let initialAnimationFinished =
-  false;
-
-
-/*
-  =========================================
-  TOPアニメーション用バージョン
-
-  この番号を変更すると、
-  TOPアニメーションがもう一度再生されます。
-  =========================================
-*/
-
-const TOP_ANIMATION_VERSION =
-  "2026.09.07.01"; 
-
-
-const topAnimationVersion =
-  localStorage.getItem(
-    "choko_top_animation_version"
-  );
-
-
-const shouldPlayInitialAnimation =
-  topAnimationVersion !==
-  TOP_ANIMATION_VERSION;
-
-
-/* =========================================
-   初期状態
-========================================= */
-
-if(shouldPlayInitialAnimation){
-
-  /*
-    背景
-  */
-
-  gsap.set(
-    heroBg,
-    {
-      opacity: 0,
-      y: 0
-    }
-  );
-
-
-  /*
-    タイトル
-  */
-
-  gsap.set(
-    titleSpans,
-    {
-      opacity: 0,
-      y: 0,
-      visibility: "visible"
-    }
-  );
-
-
-  /*
-    TOP画像
-
-    最初は完全に透明。
-    visibility:hiddenにはしない。
-    GSAPのautoAlphaによる制御を
-    正常に動作させる。
-  */
-
-  gsap.set(
-    heroFront,
-    {
-      opacity: 0,
-      visibility: "visible",
-      autoAlpha: 0,
-      y: 0
-    }
-  );
-
-
-  /*
-    ticker
-  */
-
-  gsap.set(
-    ticker,
-    {
-      opacity: 0,
-      y: 0
-    }
-  );
-
-}
-
-else{
-
-  /*
-    2回目以降は
-    最初からすべて表示
-  */
-
-  gsap.set(
-    heroBg,
-    {
-      opacity: 1,
-      y: 0
-    }
-  );
-
-
-  gsap.set(
-    titleSpans,
-    {
-      opacity: 1,
-      y: 0,
-      visibility: "visible"
-    }
-  );
-
-
-  gsap.set(
-    heroFront,
-    {
-      visibility: "visible",
-      opacity: 1,
-      autoAlpha: 1,
-      y: 0
-    }
-  );
-
-
-  gsap.set(
-    ticker,
-    {
-      opacity: 1,
-      y: 0
-    }
-  );
-
-}
-
-
-/* =========================================
-   下のセクション
-
-   初回アニメーション時だけ
-   非表示にする。
-========================================= */
-
-if(shouldPlayInitialAnimation){
-
-  gsap.set(
-    introSections,
-    {
-      opacity: 0,
-      y: 25
-    }
-  );
-
-}
-
-
-/* =========================================
-   ヒーロー画像読み込み待機
-========================================= */
-
-function waitForHeroImage(){
-
-  return new Promise(
-    resolve => {
-
-      if(
-        heroFront.complete &&
-        heroFront.naturalWidth > 0
-      ){
-
-        resolve();
-
-        return;
+          }
+        );
 
       }
 
+    }
+  )
 
-      heroFront.addEventListener(
-        "load",
-        () => {
+  .catch(
+    error => {
 
-          resolve();
-
-        },
-        {
-          once: true
-        }
-      );
-
-
-      heroFront.addEventListener(
-        "error",
-        () => {
-
-          resolve();
-
-        },
-        {
-          once: true
-        }
+      console.error(
+        "ヘッダーの読み込みに失敗しました",
+        error
       );
 
     }
   );
 
+
+/* =========================================
+   API設定
+========================================= */
+
+const API_URL =
+  "https://chosei-fes.onrender.com";
+
+
+/* =========================================
+   投稿インターバル設定
+========================================= */
+
+const POST_INTERVAL_MS =
+  5 * 60 * 1000;
+
+
+const LAST_POST_KEY =
+  "chosei_fes_crowd_last_post_at";
+
+
+/* =========================================
+   DOM
+========================================= */
+
+const crowdGrid =
+  document.getElementById(
+    "crowdGrid"
+  );
+
+
+const resultCount =
+  document.getElementById(
+    "resultCount"
+  );
+
+
+const modalOverlay =
+  document.getElementById(
+    "modalOverlay"
+  );
+
+
+const modalPlace =
+  document.getElementById(
+    "modalPlace"
+  );
+
+
+const submitBtn =
+  document.getElementById(
+    "submitBtn"
+  );
+
+
+const cancelBtn =
+  document.getElementById(
+    "cancelBtn"
+  );
+
+
+const toast =
+  document.getElementById(
+    "toast"
+  );
+
+
+const keywordSearch =
+  document.getElementById(
+    "keywordSearch"
+  );
+
+
+const backToTop =
+  document.getElementById(
+    "backToTop"
+  );
+
+
+/* =========================================
+   状態
+========================================= */
+
+let eventsData =
+  [];
+
+
+let selectedEvent =
+  null;
+
+
+let selectedStatus =
+  null;
+
+
+let categoryFilter =
+  "all";
+
+
+let floorFilter =
+  "all";
+
+
+let keywordFilter =
+  "";
+
+
+/* =========================================
+   undefined・nullを安全な値に変換
+========================================= */
+
+function safeValue(
+  value,
+  fallback = ""
+){
+
+  if(
+    value === undefined ||
+    value === null
+  ){
+
+    return fallback;
+
+  }
+
+
+  const stringValue =
+    String(value).trim();
+
+
+  if(
+    stringValue === "" ||
+    stringValue === "undefined" ||
+    stringValue === "null"
+  ){
+
+    return fallback;
+
+  }
+
+
+  return stringValue;
+
 }
 
 
 /* =========================================
-   画面内判定
+   日時を安全に取得
 ========================================= */
 
-function isSectionVisible(sec){
+function safeDateValue(value){
 
-  const rect =
-    sec.getBoundingClientRect();
+  if(value === undefined || value === null || value === "") return null;
+
+  if(value instanceof Date){
+    return Number.isNaN(value.getTime()) ? null : value.toISOString();
+  }
+
+  if(typeof value === "number" || /^\d+(\.\d+)?$/.test(String(value).trim())){
+
+    let timestamp = Number(value);
+
+    if(!Number.isFinite(timestamp)) return null;
+
+    if(timestamp < 100000000000){
+      timestamp *= 1000;
+    }
+
+    const timestampDate = new Date(timestamp);
+
+    return Number.isNaN(timestampDate.getTime())
+      ? null
+      : timestampDate.toISOString();
+  }
+
+  const safe = String(value).trim();
+
+  if(!safe) return null;
+
+  const date = new Date(safe);
+
+  if(Number.isNaN(date.getTime())) return null;
+
+  return date.toISOString();
+}
 
 
-  const viewportHeight =
-    window.innerHeight ||
-    document.documentElement.clientHeight;
+/* =========================================
+   ステータスを安全に取得
+========================================= */
+
+function safeStatus(value){
+
+  const allowedStatuses = [
+
+    "empty",
+    "normal",
+    "crowded"
+
+  ];
+
+
+  if(
+    allowedStatuses.includes(
+      value
+    )
+  ){
+
+    return value;
+
+  }
+
+
+  return "unknown";
+
+}
+
+
+/* =========================================
+   状態表示
+========================================= */
+
+const statusData = {
+
+  empty:{
+    text:
+      "比較的空いています"
+  },
+
+  normal:{
+    text:
+      "やや混雑しています"
+  },
+
+  crowded:{
+    text:
+      "混雑しています"
+  },
+
+  unknown:{
+    text:
+      "まだ情報がありません"
+  }
+
+};
+
+
+/* =========================================
+   最後の投稿時刻取得
+========================================= */
+
+function getLastPostTime(){
+
+  const value =
+    localStorage.getItem(
+      LAST_POST_KEY
+    );
+
+
+  if(
+    !value
+  ){
+
+    return null;
+
+  }
+
+
+  const time =
+    Number(value);
+
+
+  if(
+    !Number.isFinite(
+      time
+    )
+  ){
+
+    return null;
+
+  }
+
+
+  return time;
+
+}
+
+
+/* =========================================
+   残り投稿制限時間
+========================================= */
+
+function getRemainingPostTime(){
+
+  const lastPostTime =
+    getLastPostTime();
+
+
+  if(
+    !lastPostTime
+  ){
+
+    return 0;
+
+  }
+
+
+  const elapsed =
+    Date.now() -
+    lastPostTime;
+
+
+  const remaining =
+    POST_INTERVAL_MS -
+    elapsed;
+
+
+  if(
+    remaining <= 0
+  ){
+
+    localStorage.removeItem(
+      LAST_POST_KEY
+    );
+
+    return 0;
+
+  }
+
+
+  return remaining;
+
+}
+
+
+/* =========================================
+   残り時間を文字列化
+========================================= */
+
+function formatRemainingTime(ms){
+
+  const totalSeconds =
+    Math.ceil(
+      ms / 1000
+    );
+
+
+  const minutes =
+    Math.floor(
+      totalSeconds / 60
+    );
+
+
+  const seconds =
+    totalSeconds % 60;
+
+
+  if(
+    minutes > 0
+  ){
+
+    return (
+      minutes +
+      "分" +
+      String(
+        seconds
+      ).padStart(
+        2,
+        "0"
+      ) +
+      "秒"
+    );
+
+  }
 
 
   return (
-    rect.bottom > 0 &&
-    rect.top < viewportHeight
+    seconds +
+    "秒"
   );
 
 }
 
 
 /* =========================================
-   初回ヒーローアニメーション
+   events.htmlから企画を取得
 ========================================= */
 
-async function startInitialAnimation(){
+async function loadEvents(){
 
-  /*
-    アニメーション済みなら
-    そのまま表示
-  */
+  try{
 
-  if(!shouldPlayInitialAnimation){
+    const response =
+      await fetch(
+        "events.html",
+        {
+          cache:"no-store"
+        }
+      );
 
-    initialAnimationFinished =
-      true;
+
+    if(
+      !response.ok
+    ){
+
+      throw new Error(
+        "events.htmlを読み込めませんでした"
+      );
+
+    }
 
 
-    gsap.set(
-      introSections,
-      {
-        opacity: 1,
-        y: 0
+    const html =
+      await response.text();
+
+
+    const parser =
+      new DOMParser();
+
+
+    const documentData =
+      parser.parseFromString(
+        html,
+        "text/html"
+      );
+
+
+    const groups =
+      documentData.querySelectorAll(
+        ".group"
+      );
+
+
+    const eventList =
+      [];
+
+
+    groups.forEach(
+      group => {
+
+        const groupTitleElement =
+          group.querySelector(
+            ".group-title"
+          );
+
+
+        if(
+          !groupTitleElement
+        ){
+
+          return;
+
+        }
+
+
+        const groupTitle =
+          safeValue(
+            groupTitleElement.textContent,
+            ""
+          );
+
+
+        let category =
+          "その他";
+
+
+        if(
+          groupTitle.includes(
+            "1学年"
+          )
+        ){
+
+          category =
+            "1学年";
+
+        }
+
+        else if(
+          groupTitle.includes(
+            "2学年"
+          )
+        ){
+
+          category =
+            "2学年";
+
+        }
+
+        else if(
+          groupTitle.includes(
+            "3学年"
+          )
+        ){
+
+          category =
+            "3学年";
+
+        }
+
+        else if(
+          groupTitle.includes(
+            "部活動"
+          ) ||
+          groupTitle.includes(
+            "同好会"
+          )
+        ){
+
+          category =
+            "部活動";
+
+        }
+
+
+        const cards =
+          group.querySelectorAll(
+            ".card"
+          );
+
+
+        cards.forEach(
+          card => {
+
+            const id =
+              safeValue(
+                card.dataset.modalId,
+                ""
+              );
+
+
+            const titleElement =
+              card.querySelector(
+                ".card-title"
+              );
+
+
+            if(
+              !id ||
+              !titleElement
+            ){
+
+              return;
+
+            }
+
+
+            const title =
+              safeValue(
+                titleElement.textContent,
+                "名称未設定"
+              );
+
+
+            const badge =
+              safeValue(
+                card.dataset.placeBadge,
+                ""
+              );
+
+
+            const floor =
+              safeValue(
+                card.dataset.floor,
+                ""
+              );
+
+
+            const labels =
+              card.querySelectorAll(
+                ".card-label"
+              );
+
+
+            let className =
+              "";
+
+
+            let location =
+              "";
+
+
+            labels.forEach(
+              label => {
+
+                const value =
+                  label.nextElementSibling;
+
+
+                if(
+                  !value
+                ){
+
+                  return;
+
+                }
+
+
+                const labelText =
+                  safeValue(
+                    label.textContent,
+                    ""
+                  );
+
+
+                const valueText =
+                  safeValue(
+                    value.textContent,
+                    ""
+                  );
+
+
+                if(
+                  labelText ===
+                    "クラス" ||
+
+                  labelText ===
+                    "クラス・団体"
+                ){
+
+                  className =
+                    valueText;
+
+                }
+
+
+                if(
+                  labelText ===
+                    "開催場所"
+                ){
+
+                  location =
+                    valueText;
+
+                }
+
+              }
+            );
+
+
+            eventList.push({
+
+              id:
+                id,
+
+              title:
+                title,
+
+              category:
+                category,
+
+              badge:
+                badge,
+
+              floor:
+                floor,
+
+              className:
+                className,
+
+              location:
+                location,
+
+              status:
+                "unknown",
+
+              updatedAt:
+                null
+
+            });
+
+          }
+        );
+
       }
     );
 
 
-    ScrollTrigger.refresh();
+    eventsData =
+      eventList;
 
+
+    await loadCrowdStatus();
+
+
+    renderEvents();
+
+  }
+
+  catch(error){
+
+    console.error(
+      error
+    );
+
+
+    crowdGrid.innerHTML = `
+
+      <div class="error-message">
+
+        <strong>
+          企画情報を読み込めませんでした
+        </strong>
+
+        <span>
+          ページを再読み込みしてください。
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   Renderから混雑情報を取得
+========================================= */
+
+async function loadCrowdStatus(){
+
+  if(!API_URL){
     return;
-
   }
 
+  try{
 
-  /*
-    TOP画像の読み込みを待つ
-  */
-
-  await waitForHeroImage();
-
-
-  /*
-    =========================================
-    ヒーローアニメーション開始
-    =========================================
-  */
-
-  const heroTimeline =
-    gsap.timeline();
-
-
-  /*
-    -----------------------------------------
-    背景
-    -----------------------------------------
-  */
-
-  heroTimeline.to(
-    heroBg,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.9,
-      ease: "power2.out"
-    }
-  );
-
-
-  /*
-    -----------------------------------------
-    「ようこそ」
-    -----------------------------------------
-  */
-
-  heroTimeline.to(
-    titleSpans[0],
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1.0,
-      ease: "power2.out"
-    },
-    "<0.05"
-  );
-
-
-  /*
-    -----------------------------------------
-    「長高祭2026」
-    -----------------------------------------
-  */
-
-  heroTimeline.to(
-    titleSpans[1],
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1.1,
-      ease: "power2.out"
-    },
-    "+=0.35"
-  );
-
-
-  /*
-    -----------------------------------------
-    TOP画像
-    -----------------------------------------
-
-    ここで初めて表示する。
-
-    透明 → 不透明
-    をGSAPでゆっくり表示。
-  */
-
-  heroTimeline.to(
-    heroFront,
-    {
-      opacity: 1,
-      autoAlpha: 1,
-      y: 0,
-      duration: 1.2,
-      ease: "power2.out"
-    },
-    "+=0.15"
-  );
-
-
-  /*
-    -----------------------------------------
-    ticker
-    -----------------------------------------
-  */
-
-  heroTimeline.to(
-    ticker,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power2.out"
-    },
-    "+=0.15"
-  );
-
-
-  /*
-    -----------------------------------------
-    最初から画面内にある
-    セクションを表示
-    -----------------------------------------
-  */
-
-  const visibleSections =
-    Array.from(
-      introSections
-    ).filter(
-      sec => isSectionVisible(sec)
+    const response = await fetch(
+      API_URL + "/api/crowd",
+      { cache:"no-store" }
     );
 
-
-  if(visibleSections.length > 0){
-
-    heroTimeline.to(
-      visibleSections,
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.15,
-        stagger: 0.25,
-        ease: "power2.out"
-      },
-      "+=0.2"
-    );
-
-  }
-
-
-  /*
-    =========================================
-    アニメーション完了
-    =========================================
-  */
-
-  heroTimeline.eventCallback(
-    "onComplete",
-    () => {
-
-      initialAnimationFinished =
-        true;
-
-
-      /*
-        今回のバージョンを
-        再生済みとして保存
-      */
-
-      localStorage.setItem(
-        "choko_top_animation_version",
-        TOP_ANIMATION_VERSION
-      );
-
-
-      /*
-        古いフラグも念のため更新
-      */
-
-      localStorage.setItem(
-        "choko_top_animation_done",
-        "true"
-      );
-
-
-      ScrollTrigger.refresh();
-
+    if(!response.ok){
+      throw new Error("混雑情報の取得に失敗しました");
     }
-  );
 
-}
+    const crowdData = await response.json();
 
+    console.log("取得した混雑情報:", crowdData);
 
-/*
-  アニメーション開始
-*/
+    if(!crowdData || typeof crowdData !== "object") return;
 
-startInitialAnimation();
+    eventsData.forEach(event => {
 
+      let saved = null;
 
-/* =========================================
-   スクロールアニメーション
-========================================= */
+      const containers = [
+        crowdData,
+        crowdData.data,
+        crowdData.events,
+        crowdData.crowd,
+        crowdData.results
+      ];
 
-gsap.utils
-  .toArray(
-    ".banner-section, #notices, #about, #events, #access"
-  )
-  .forEach(sec => {
+      for(const container of containers){
+        if(!container) continue;
 
-    ScrollTrigger.create({
-
-      trigger: sec,
-
-      start: "top 85%",
-
-      once: false,
-
-      onEnter: () => {
-
-        if(
-          !initialAnimationFinished
-        ){
-
-          return;
-
+        if(Array.isArray(container)){
+          saved = container.find(item =>
+            item &&
+            safeValue(item.id, "") === safeValue(event.id, "")
+          );
+        }
+        else if(typeof container === "object" && container[event.id]){
+          saved = container[event.id];
         }
 
-
-        gsap.fromTo(
-          sec,
-          {
-            opacity: 0,
-            y: 25
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power2.out"
-          }
-        );
-
-      },
-
-
-      onLeave: () => {
-
-        gsap.set(
-          sec,
-          {
-            opacity: 0,
-            y: 25
-          }
-        );
-
-      },
-
-
-      onEnterBack: () => {
-
-        if(
-          !initialAnimationFinished
-        ){
-
-          return;
-
-        }
-
-
-        gsap.fromTo(
-          sec,
-          {
-            opacity: 0,
-            y: 25
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power2.out"
-          }
-        );
-
-      },
-
-
-      onLeaveBack: () => {
-
-        gsap.set(
-          sec,
-          {
-            opacity: 0,
-            y: 25
-          }
-        );
-
+        if(saved && typeof saved === "object") break;
       }
+
+      if(!saved || typeof saved !== "object"){
+        event.status = "unknown";
+        event.updatedAt = null;
+        return;
+      }
+
+      event.status = safeStatus(
+        saved.status ||
+        saved.crowdStatus ||
+        saved.crowd_status
+      );
+
+      const rawUpdatedAt = getUpdatedAtValue(saved);
+      const safeUpdatedAt = safeDateValue(rawUpdatedAt);
+
+      event.updatedAt = safeUpdatedAt;
+
+      console.log("企画の混雑情報:", {
+        id:event.id,
+        status:event.status,
+        rawUpdatedAt:rawUpdatedAt,
+        updatedAt:event.updatedAt
+      });
 
     });
 
-  });
+  }
+  catch(error){
+    console.error("混雑情報の取得に失敗しました", error);
+  }
+
+}
 
 
 /* =========================================
-   企画・イベント スライダー
+   更新日時を統一して取得
 ========================================= */
 
-const slides =
-  document.getElementById("slides");
-
-const dotsContainer =
-  document.getElementById("dots");
-
-const slider =
-  document.querySelector(".slider");
-
-let startX = 0;
-let currentX = 0;
-let velocity = 0;
-
-let isDragging = false;
-let autoSlide;
-
-let currentIndex = 0;
-let slideWidth = 0;
-
-let isAnimating = false;
-
-
-const total =
-  slides.children.length;
-
-
-function getSlideWidth(){
-
-  const card =
-    slides.children[0];
-
-  if(!card) return 0;
-
-
-  const style =
-    getComputedStyle(card);
-
-
-  const width =
-    card.getBoundingClientRect().width;
-
-
-  const marginLeft =
-    parseFloat(style.marginLeft) || 0;
-
-
-  const marginRight =
-    parseFloat(style.marginRight) || 0;
-
-
-  return width +
-         marginLeft +
-         marginRight;
-
-}
-
-
-function updateSlideWidth(){
-
-  slideWidth =
-    getSlideWidth();
-
-}
-
-
-function setPosition(
-  value,
-  animate = false
-){
-
-  slides.style.transition =
-    animate ? "0.5s" : "none";
-
-
-  slides.style.transform =
-    `translateX(${value}px)`;
-
-}
-
-
-window.addEventListener(
-  "load",
-  () => {
-
-    updateSlideWidth();
-
-    setPosition(
-      0,
-      false
-    );
-
-  }
-);
-
-
-for(
-  let i = 0;
-  i < total;
-  i++
-){
-
-  const dot =
-    document.createElement("span");
-
-
-  if(i === 0){
-
-    dot.classList.add(
-      "active"
-    );
-
-  }
-
-
-  dot.addEventListener(
-    "click",
-    () => {
-
-      if(isAnimating)
-        return;
-
-
-      const target =
-        i;
-
-
-      let forward =
-        (
-          target -
-          currentIndex +
-          total
-        ) % total;
-
-
-      let backward =
-        (
-          currentIndex -
-          target +
-          total
-        ) % total;
-
-
-      if(forward === 0){
-
-        updateDots();
-
-        return;
-
-      }
-
-
-      if(forward <= backward){
-
-        moveForwardSteps(
-          forward
-        );
-
-      }else{
-
-        moveBackwardSteps(
-          backward
-        );
-
-      }
-
+function getUpdatedAtValue(record){
+
+  if(!record || typeof record !== "object") return null;
+
+  const directKeys = [
+    "updatedAt",
+    "updated_at",
+    "updated_time",
+    "updatedTime",
+    "timestamp",
+    "time",
+    "createdAt",
+    "created_at"
+  ];
+
+  for(const key of directKeys){
+    if(record[key] !== undefined && record[key] !== null && record[key] !== ""){
+      return record[key];
     }
-  );
+  }
 
+  const nestedKeys = ["data", "event", "crowd", "result"];
 
-  dotsContainer.appendChild(
-    dot
-  );
+  for(const key of nestedKeys){
+    if(record[key] && typeof record[key] === "object"){
+      const nestedValue = getUpdatedAtValue(record[key]);
+      if(nestedValue) return nestedValue;
+    }
+  }
 
+  return null;
 }
 
 
-function updateDots(){
+/* =========================================
+   カード表示
+========================================= */
 
-  const dots =
-    dotsContainer.querySelectorAll(
-      "span"
-    );
+function renderEvents(){
+
+  crowdGrid.innerHTML =
+    "";
 
 
-  dots.forEach(
-    (dot, i) => {
+  let visibleCount =
+    0;
 
-      dot.classList.toggle(
-        "active",
-        i === currentIndex
+
+  const remainingPostTime =
+    getRemainingPostTime();
+
+
+  eventsData.forEach(
+    event => {
+
+      const categoryMatch =
+        categoryFilter ===
+        "all" ||
+
+        event.category ===
+        categoryFilter;
+
+
+      const floorMatch =
+        floorFilter ===
+        "all" ||
+
+        String(
+          safeValue(
+            event.floor,
+            ""
+          )
+        ) ===
+        String(
+          floorFilter
+        );
+
+
+      const searchTarget =
+        (
+          safeValue(
+            event.title,
+            ""
+          ) +
+          " " +
+          safeValue(
+            event.className,
+            ""
+          ) +
+          " " +
+          safeValue(
+            event.location,
+            ""
+          )
+        )
+        .toLowerCase();
+
+
+      const keywordMatch =
+        !keywordFilter ||
+
+        searchTarget.includes(
+          keywordFilter.toLowerCase()
+        );
+
+
+      if(
+        !categoryMatch ||
+        !floorMatch ||
+        !keywordMatch
+      ){
+
+        return;
+
+      }
+
+
+      visibleCount++;
+
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "crowd-card";
+
+
+      card.dataset.eventId =
+        safeValue(
+          event.id,
+          ""
+        );
+
+
+      const eventStatus =
+        safeStatus(
+          event.status
+        );
+
+
+      const status =
+        statusData[
+          eventStatus
+        ] ||
+        statusData.unknown;
+
+
+      const timeText =
+        getTimeText(
+          event.updatedAt
+        );
+
+
+      const buttonText =
+        remainingPostTime > 0
+          ? "次の共有まで " +
+            formatRemainingTime(
+              remainingPostTime
+            )
+          : "混雑状況を共有する";
+
+
+      card.innerHTML = `
+
+        <div class="category-badge">
+
+          ${escapeHtml(
+            safeValue(
+              event.category,
+              "その他"
+            )
+          )}
+
+        </div>
+
+
+        <h2 class="crowd-card-title">
+
+          ${escapeHtml(
+            safeValue(
+              event.title,
+              "名称未設定"
+            )
+          )}
+
+        </h2>
+
+
+        <div class="place-info">
+
+
+          <div class="info-row">
+
+            <div class="info-label">
+              クラス・団体
+            </div>
+
+            <div class="info-value">
+
+              ${
+                escapeHtml(
+                  safeValue(
+                    event.className,
+                    ""
+                  )
+                ) ||
+                "－"
+              }
+
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <div class="info-label">
+              開催場所
+            </div>
+
+            <div class="info-value">
+
+              ${
+                escapeHtml(
+                  safeValue(
+                    event.location,
+                    ""
+                  )
+                ) ||
+                "－"
+              }
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="status-area">
+
+
+          <div class="status-label">
+            現在の混雑状況
+          </div>
+
+
+          <div class="status-display">
+
+            <span
+              class="
+                status-dot
+                ${eventStatus}
+              "
+            ></span>
+
+
+            <span class="status-text">
+
+              ${escapeHtml(
+                safeValue(
+                  status.text,
+                  "まだ情報がありません"
+                )
+              )}
+
+            </span>
+
+
+            <div
+              class="status-time"
+              aria-live="polite"
+            >${escapeHtml(timeText)}</div>
+
+          </div>
+
+
+          <button
+            class="share-btn"
+            type="button"
+            ${
+              remainingPostTime > 0
+                ? "disabled"
+                : ""
+            }
+          >
+
+            ${escapeHtml(
+              safeValue(
+                buttonText,
+                "混雑状況を共有する"
+              )
+            )}
+
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      const shareButton =
+        card.querySelector(
+          ".share-btn"
+        );
+
+
+      if(
+        shareButton
+      ){
+
+        shareButton.addEventListener(
+          "click",
+          () => {
+
+            if(
+              getRemainingPostTime() > 0
+            ){
+
+              return;
+
+            }
+
+
+            openShareModal(
+              event
+            );
+
+          }
+        );
+
+      }
+
+
+      crowdGrid.appendChild(
+        card
       );
 
     }
   );
 
+
+  resultCount.textContent =
+    visibleCount;
+
+
+  if(
+    visibleCount === 0
+  ){
+
+    crowdGrid.innerHTML = `
+
+      <div class="error-message">
+
+        <strong>
+          条件に一致する企画がありません
+        </strong>
+
+        <span>
+          別のキーワードや条件で検索してください。
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
 }
 
 
-function moveBackward(){
+/* =========================================
+   最終更新時間表示
+========================================= */
 
-  if(isAnimating)
-    return;
+function getTimeText(updatedAt){
+
+  const safeUpdatedAt = safeDateValue(updatedAt);
+
+  if(!safeUpdatedAt){
+    return "最終更新: 情報なし";
+  }
+
+  const date = new Date(safeUpdatedAt);
+
+  if(Number.isNaN(date.getTime())){
+    return "最終更新: 情報なし";
+  }
+
+  const now = new Date();
+  const diffMs = Math.max(0, now.getTime() - date.getTime());
+  const diffMinutes = Math.floor(diffMs / 1000 / 60);
+
+  if(diffMinutes < 1){
+    return "最終更新: たった今";
+  }
+
+  if(diffMinutes < 60){
+    return `最終更新: ${diffMinutes}分前`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+
+  if(diffHours < 24){
+    return `最終更新: ${diffHours}時間前`;
+  }
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = String(date.getHours()).padStart(2, "0");
+  const minute = String(date.getMinutes()).padStart(2, "0");
+
+  return `最終更新: ${year}/${month}/${day} ${hour}:${minute}`;
+}
 
 
-  isAnimating =
-    true;
+/* =========================================
+   HTMLエスケープ
+========================================= */
+
+function escapeHtml(value){
+
+  const safe =
+    safeValue(
+      value,
+      ""
+    );
 
 
-  updateSlideWidth();
+  return safe
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
 
 
-  const last =
-    slides.lastElementChild;
+/* =========================================
+   キーワード検索
+========================================= */
+
+keywordSearch.addEventListener(
+  "input",
+  () => {
+
+    keywordFilter =
+      keywordSearch.value
+        .trim();
 
 
-  slides.insertBefore(
-    last,
-    slides.firstElementChild
-  );
+    renderEvents();
+
+  }
+);
 
 
-  slides.style.transition =
-    "none";
+/* =========================================
+   カテゴリフィルター
+========================================= */
 
+document
+  .querySelectorAll(
+    "[data-category]"
+  )
+  .forEach(
+    button => {
 
-  slides.style.transform =
-    `translateX(-${slideWidth}px)`;
-
-
-  requestAnimationFrame(
-    () => {
-
-      requestAnimationFrame(
+      button.addEventListener(
+        "click",
         () => {
 
-          slides.style.transition =
-            "0.5s";
+          categoryFilter =
+            button.dataset.category;
 
 
-          slides.style.transform =
-            "translateX(0px)";
+          document
+            .querySelectorAll(
+              "[data-category]"
+            )
+            .forEach(
+              item => {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          renderEvents();
 
         }
       );
@@ -2233,909 +2916,194 @@ function moveBackward(){
   );
 
 
-  currentIndex--;
+/* =========================================
+   階数フィルター
+========================================= */
+
+document
+  .querySelectorAll(
+    "[data-floor-filter]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          floorFilter =
+            button.dataset.floorFilter;
 
 
-  if(currentIndex < 0){
+          document
+            .querySelectorAll(
+              "[data-floor-filter]"
+            )
+            .forEach(
+              item => {
 
-    currentIndex =
-      total - 1;
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          renderEvents();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   モーダルを開く
+========================================= */
+
+function openShareModal(event){
+
+  const remaining =
+    getRemainingPostTime();
+
+
+  if(
+    remaining > 0
+  ){
+
+    showToast(
+      "次の共有まで " +
+      formatRemainingTime(
+        remaining
+      ) +
+      " お待ちください"
+    );
+
+    return;
 
   }
 
 
-  updateDots();
+  selectedEvent =
+    event;
 
 
-  let finished = false;
+  selectedStatus =
+    null;
 
 
-  const finish = () => {
-
-    if(finished)
-      return;
-
-
-    finished =
-      true;
-
-
-    clearTimeout(
-      fallback
-    );
-
-
-    slides.removeEventListener(
-      "transitionend",
-      finish
-    );
-
-
-    isAnimating =
-      false;
-
-  };
-
-
-  const fallback =
-    setTimeout(
-      finish,
-      700
-    );
-
-
-  slides.addEventListener(
-    "transitionend",
-    finish
-  );
-
-}
-
-
-function moveForward(){
-
-  if(isAnimating)
-    return;
-
-
-  isAnimating =
+  submitBtn.disabled =
     true;
 
 
-  updateSlideWidth();
-
-
-  slides.style.transition =
-    "0.5s";
-
-
-  slides.style.transform =
-    `translateX(-${slideWidth}px)`;
-
-
-  currentIndex++;
-
-
-  if(currentIndex >= total){
-
-    currentIndex =
-      0;
-
-  }
-
-
-  updateDots();
-
-
-  let finished = false;
-
-
-  const finish = () => {
-
-    if(finished)
-      return;
-
-
-    finished =
-      true;
-
-
-    clearTimeout(
-      fallback
-    );
-
-
-    slides.removeEventListener(
-      "transitionend",
-      finish
-    );
-
-
-    const first =
-      slides.firstElementChild;
-
-
-    slides.appendChild(
-      first
-    );
-
-
-    slides.style.transition =
-      "none";
-
-
-    slides.style.transform =
-      "translateX(0px)";
-
-
-    requestAnimationFrame(
-      () => {
-
-        isAnimating =
-          false;
-
-      }
-    );
-
-  };
-
-
-  slides.addEventListener(
-    "transitionend",
-    finish
-  );
-
-
-  const fallback =
-    setTimeout(
-      finish,
-      700
-    );
-
-}
-
-
-function moveForwardSteps(
-  count
-){
-
-  if(count <= 0){
-
-    isAnimating =
-      false;
-
-    return;
-
-  }
-
-
-  moveForward();
-
-
-  const check =
-    setInterval(
-      () => {
-
-        if(!isAnimating){
-
-          clearInterval(
-            check
-          );
-
-
-          if(count > 1){
-
-            moveForwardSteps(
-              count - 1
-            );
-
-          }
-
-        }
-
-      },
-      20
-    );
-
-}
-
-
-function moveBackwardSteps(
-  count
-){
-
-  if(count <= 0){
-
-    isAnimating =
-      false;
-
-    return;
-
-  }
-
-
-  moveBackward();
-
-
-  const check =
-    setInterval(
-      () => {
-
-        if(!isAnimating){
-
-          clearInterval(
-            check
-          );
-
-
-          if(count > 1){
-
-            moveBackwardSteps(
-              count - 1
-            );
-
-          }
-
-        }
-
-      },
-      20
-    );
-
-}
-
-
-function startAuto(){
-
-  stopAuto();
-
-
-  autoSlide =
-    setInterval(
-      () => {
-
-        if(
-          !isDragging &&
-          !isAnimating
-        ){
-
-          moveForward();
-
-        }
-
-      },
-      3000
-    );
-
-}
-
-
-function stopAuto(){
-
-  if(autoSlide){
-
-    clearInterval(
-      autoSlide
-    );
-
-
-    autoSlide =
-      null;
-
-  }
-
-}
-
-
-startAuto();
-
-
-/* =========================================
-   タッチスワイプ
-========================================= */
-
-slider.addEventListener(
-  "touchstart",
-  (e) => {
-
-    if(isAnimating)
-      return;
-
-
-    startX =
-      e.touches[0].clientX;
-
-
-    currentX =
-      startX;
-
-
-    velocity =
-      0;
-
-
-    isDragging =
-      true;
-
-
-    stopAuto();
-
-
-    slides.style.transition =
-      "none";
-
-  },
-  { passive: true }
-);
-
-
-slider.addEventListener(
-  "touchmove",
-  (e) => {
-
-    if(!isDragging)
-      return;
-
-
-    const x =
-      e.touches[0].clientX;
-
-
-    velocity =
-      x - currentX;
-
-
-    currentX =
-      x;
-
-
-    const move =
-      x - startX;
-
-
-    slides.style.transform =
-      `translateX(${move}px)`;
-
-  },
-  { passive: true }
-);
-
-
-slider.addEventListener(
-  "touchend",
-  () => {
-
-    if(!isDragging)
-      return;
-
-
-    isDragging =
-      false;
-
-
-    const distance =
-      currentX - startX;
-
-
-    if(distance <= -50){
-
-      moveForward();
-
-    }else if(distance >= 50){
-
-      moveBackward();
-
-    }else{
-
-      slides.style.transition =
-        "0.5s";
-
-
-      slides.style.transform =
-        "translateX(0px)";
-
-    }
-
-
-    startAuto();
-
-  },
-  { passive: true }
-);
-
-
-slider.addEventListener(
-  "touchcancel",
-  () => {
-
-    if(!isDragging)
-      return;
-
-
-    isDragging =
-      false;
-
-
-    slides.style.transition =
-      "0.5s";
-
-
-    slides.style.transform =
-      "translateX(0px)";
-
-
-    startAuto();
-
-  },
-  { passive: true }
-);
-
-
-/* =========================================
-   PCドラッグ
-========================================= */
-
-slider.addEventListener(
-  "mousedown",
-  (e) => {
-
-    if(isAnimating)
-      return;
-
-
-    startX =
-      e.clientX;
-
-
-    currentX =
-      startX;
-
-
-    velocity =
-      0;
-
-
-    isDragging =
-      true;
-
-
-    stopAuto();
-
-
-    slides.style.transition =
-      "none";
-
-  }
-);
-
-
-slider.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if(!isDragging)
-      return;
-
-
-    const x =
-      e.clientX;
-
-
-    velocity =
-      x - currentX;
-
-
-    currentX =
-      x;
-
-
-    const move =
-      x - startX;
-
-
-    slides.style.transform =
-      `translateX(${move}px)`;
-
-  }
-);
-
-
-slider.addEventListener(
-  "mouseup",
-  () => {
-
-    if(!isDragging)
-      return;
-
-
-    isDragging =
-      false;
-
-
-    if(velocity > 5){
-
-      moveBackward();
-
-    }else if(velocity < -5){
-
-      moveForward();
-
-    }else{
-
-      slides.style.transition =
-        "0.5s";
-
-
-      slides.style.transform =
-        "translateX(0px)";
-
-    }
-
-
-    startAuto();
-
-  }
-);
-
-
-slider.addEventListener(
-  "mouseleave",
-  () => {
-
-    if(!isDragging)
-      return;
-
-
-    isDragging =
-      false;
-
-
-    slides.style.transition =
-      "0.5s";
-
-
-    slides.style.transform =
-      "translateX(0px)";
-
-
-    startAuto();
-
-  }
-);
-
-
-/* =========================================
-   リサイズ対応
-========================================= */
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    updateSlideWidth();
-
-
-    slides.style.transition =
-      "none";
-
-
-    slides.style.transform =
-      "translateX(0px)";
-
-  }
-);
-
-
-/* =========================================
-   バナースライダー
-========================================= */
-
-const track =
-  document.getElementById(
-    "bannerTrack"
-  );
-
-const dots =
-  document.getElementById(
-    "bannerDots"
-  );
-
-const banners =
-  track.children;
-
-let bIndex = 0;
-
-let bStartX = 0;
-let bCurrentX = 0;
-let bVelocity = 0;
-
-let bDragging = false;
-let bAnimating = false;
-
-let bAuto = null;
-
-const bTotal =
-  banners.length;
-
-
-function getBannerWidth(){
-
-  const banner =
-    track.children[0];
-
-
-  if(!banner)
-    return 0;
-
-
-  const style =
-    getComputedStyle(
-      banner
-    );
-
-
-  const marginLeft =
-    parseFloat(
-      style.marginLeft
-    ) || 0;
-
-
-  const marginRight =
-    parseFloat(
-      style.marginRight
-    ) || 0;
-
-
-  return (
-    banner.getBoundingClientRect().width +
-    marginLeft +
-    marginRight
-  );
-
-}
-
-
-let bWidth =
-  getBannerWidth();
-
-
-function setBannerPosition(
-  value,
-  animate = false
-){
-
-  track.style.transition =
-    animate ? "0.5s" : "none";
-
-
-  track.style.transform =
-    `translateX(${value}px)`;
-
-}
-
-
-function forceFinishBannerAnimation(){
-
-  bAnimating =
-    false;
-
-
-  track.style.transition =
-    "none";
-
-
-  track.style.transform =
-    "translateX(0px)";
-
-}
-
-
-for(
-  let i = 0;
-  i < bTotal;
-  i++
-){
-
-  const d =
-    document.createElement(
-      "span"
-    );
-
-
-  if(i === 0){
-
-    d.classList.add(
-      "active"
-    );
-
-  }
-
-
-  d.addEventListener(
-    "click",
-    () => {
-
-      if(bAnimating)
-        return;
-
-
-      moveBannerTo(i);
-
-    }
-  );
-
-
-  dots.appendChild(d);
-
-}
-
-
-function updateBannerDots(){
-
-  dots
-    .querySelectorAll("span")
+  document
+    .querySelectorAll(
+      ".status-option"
+    )
     .forEach(
-      (d, i) => {
+      option => {
 
-        d.classList.toggle(
-          "active",
-          i === bIndex
+        option.classList.remove(
+          "selected"
         );
 
       }
     );
 
-}
+
+  modalPlace.textContent =
+    safeValue(
+      event.title,
+      "名称未設定"
+    );
 
 
-function moveBannerForward(){
-
-  if(bAnimating)
-    return;
-
-
-  bAnimating =
-    true;
-
-
-  bWidth =
-    getBannerWidth();
-
-
-  setBannerPosition(
-    -bWidth,
-    true
+  modalOverlay.classList.add(
+    "active"
   );
 
 
-  let finished = false;
-
-
-  const finish = () => {
-
-    if(finished)
-      return;
-
-
-    finished =
-      true;
-
-
-    clearTimeout(
-      fallback
-    );
-
-
-    track.removeEventListener(
-      "transitionend",
-      finish
-    );
-
-
-    const first =
-      track.firstElementChild;
-
-
-    if(first){
-
-      track.appendChild(
-        first
-      );
-
-    }
-
-
-    setBannerPosition(
-      0,
-      false
-    );
-
-
-    bIndex++;
-
-
-    if(bIndex >= bTotal){
-
-      bIndex =
-        0;
-
-    }
-
-
-    updateBannerDots();
-
-
-    requestAnimationFrame(
-      () => {
-
-        bAnimating =
-          false;
-
-      }
-    );
-
-  };
-
-
-  track.addEventListener(
-    "transitionend",
-    finish
-  );
-
-
-  const fallback =
-    setTimeout(
-      finish,
-      700
-    );
+  document.body.style.overflow =
+    "hidden";
 
 }
 
 
-function moveBannerBackward(){
+/* =========================================
+   モーダルを閉じる
+========================================= */
 
-  if(bAnimating)
-    return;
+function closeShareModal(){
 
-
-  bAnimating =
-    true;
-
-
-  bWidth =
-    getBannerWidth();
-
-
-  const last =
-    track.lastElementChild;
-
-
-  if(last){
-
-    track.insertBefore(
-      last,
-      track.firstElementChild
-    );
-
-  }
-
-
-  setBannerPosition(
-    -bWidth,
-    false
+  modalOverlay.classList.remove(
+    "active"
   );
 
 
-  requestAnimationFrame(
-    () => {
+  document.body.style.overflow =
+    "";
 
-      requestAnimationFrame(
+
+  selectedEvent =
+    null;
+
+
+  selectedStatus =
+    null;
+
+}
+
+
+/* =========================================
+   状況選択
+========================================= */
+
+document
+  .querySelectorAll(
+    ".status-option"
+  )
+  .forEach(
+    option => {
+
+      option.addEventListener(
+        "click",
         () => {
 
-          setBannerPosition(
-            0,
-            true
+          selectedStatus =
+            safeStatus(
+              option.dataset.status
+            );
+
+
+          document
+            .querySelectorAll(
+              ".status-option"
+            )
+            .forEach(
+              item => {
+
+                item.classList.remove(
+                  "selected"
+                );
+
+              }
+            );
+
+
+          option.classList.add(
+            "selected"
           );
+
+
+          submitBtn.disabled =
+            false;
 
         }
       );
@@ -3144,222 +3112,272 @@ function moveBannerBackward(){
   );
 
 
-  let finished = false;
+/* =========================================
+   キャンセル
+========================================= */
+
+cancelBtn.addEventListener(
+  "click",
+  closeShareModal
+);
 
 
-  const finish = () => {
+/* =========================================
+   モーダル外クリック
+========================================= */
 
-    if(finished)
+modalOverlay.addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target ===
+      modalOverlay
+    ){
+
+      closeShareModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   混雑情報を共有
+========================================= */
+
+submitBtn.addEventListener(
+  "click",
+  async () => {
+
+    if(
+      !selectedEvent ||
+      !selectedStatus
+    ){
+
       return;
-
-
-    finished =
-      true;
-
-
-    clearTimeout(
-      fallback
-    );
-
-
-    track.removeEventListener(
-      "transitionend",
-      finish
-    );
-
-
-    bIndex--;
-
-
-    if(bIndex < 0){
-
-      bIndex =
-        bTotal - 1;
 
     }
 
 
-    updateBannerDots();
+    const remaining =
+      getRemainingPostTime();
 
 
-    bAnimating =
-      false;
+    if(
+      remaining > 0
+    ){
 
-  };
+      showToast(
+        "次の共有まで " +
+        formatRemainingTime(
+          remaining
+        ) +
+        " お待ちください"
+      );
+
+      closeShareModal();
+
+      renderEvents();
+
+      return;
+
+    }
 
 
-  track.addEventListener(
-    "transitionend",
-    finish
+    submitBtn.disabled =
+      true;
+
+
+    submitBtn.textContent =
+      "共有中...";
+
+
+    try{
+
+      const response =
+        await fetch(
+          API_URL +
+          "/api/crowd",
+          {
+
+            method:
+              "POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                id:
+                  selectedEvent.id,
+
+                status:
+                  selectedStatus
+
+              })
+
+          }
+        );
+
+
+      if(
+        !response.ok
+      ){
+
+        throw new Error(
+          "情報の共有に失敗しました"
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      /*
+        投稿制限開始
+      */
+
+      localStorage.setItem(
+        LAST_POST_KEY,
+        String(
+          Date.now()
+        )
+      );
+
+
+      /*
+        ステータスを更新
+      */
+
+      selectedEvent.status =
+        safeStatus(
+          result.status ||
+          result.crowdStatus ||
+          result.crowd_status ||
+          selectedStatus
+        );
+
+
+      /*
+        APIから返される可能性のある
+        すべての日時プロパティに対応
+      */
+
+      const rawUpdatedAt =
+        getUpdatedAtValue(result) ||
+        new Date().toISOString();
+
+
+      const safeUpdatedAt =
+        safeDateValue(rawUpdatedAt);
+
+
+      /*
+        APIが日時を返した場合
+      */
+
+      selectedEvent.updatedAt =
+        safeUpdatedAt ||
+        new Date().toISOString();
+
+
+      closeShareModal();
+
+
+      renderEvents();
+
+
+      showToast(
+        "混雑状況を共有しました。次の共有は5分後から可能です。"
+      );
+
+
+      /*
+        投稿直後にサーバーから
+        最新情報を再取得
+      */
+
+      setTimeout(
+        async () => {
+
+          await loadCrowdStatus();
+
+          renderEvents();
+
+        },
+        1000
+      );
+
+    }
+
+    catch(error){
+
+      console.error(
+        error
+      );
+
+
+      showToast(
+        "共有に失敗しました。もう一度お試しください。"
+      );
+
+    }
+
+    finally{
+
+      submitBtn.disabled =
+        false;
+
+
+      submitBtn.textContent =
+        "共有する";
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   トースト
+========================================= */
+
+let toastTimer;
+
+
+function showToast(message){
+
+  toast.textContent =
+    safeValue(
+      message,
+      ""
+    );
+
+
+  toast.classList.add(
+    "show"
   );
 
 
-  const fallback =
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
     setTimeout(
-      finish,
-      700
-    );
-
-}
-
-
-function moveBannerTo(
-  target
-){
-
-  if(bAnimating)
-    return;
-
-
-  if(target === bIndex){
-
-    updateBannerDots();
-
-    return;
-
-  }
-
-
-  const forward =
-    (
-      target -
-      bIndex +
-      bTotal
-    ) % bTotal;
-
-
-  const backward =
-    (
-      bIndex -
-      target +
-      bTotal
-    ) % bTotal;
-
-
-  if(forward <= backward){
-
-    moveBannerForwardSteps(
-      forward
-    );
-
-  }else{
-
-    moveBannerBackwardSteps(
-      backward
-    );
-
-  }
-
-}
-
-
-function moveBannerForwardSteps(
-  count
-){
-
-  if(count <= 0){
-
-    bAnimating =
-      false;
-
-    return;
-
-  }
-
-
-  moveBannerForward();
-
-
-  const check =
-    setInterval(
       () => {
 
-        if(!bAnimating){
-
-          clearInterval(
-            check
-          );
-
-
-          if(count > 1){
-
-            moveBannerForwardSteps(
-              count - 1
-            );
-
-          }
-
-        }
-
-      },
-      20
-    );
-
-}
-
-
-function moveBannerBackwardSteps(
-  count
-){
-
-  if(count <= 0){
-
-    bAnimating =
-      false;
-
-    return;
-
-  }
-
-
-  moveBannerBackward();
-
-
-  const check =
-    setInterval(
-      () => {
-
-        if(!bAnimating){
-
-          clearInterval(
-            check
-          );
-
-
-          if(count > 1){
-
-            moveBannerBackwardSteps(
-              count - 1
-            );
-
-          }
-
-        }
-
-      },
-      20
-    );
-
-}
-
-
-function startBannerAuto(){
-
-  stopBannerAuto();
-
-
-  bAuto =
-    setInterval(
-      () => {
-
-        if(
-          !bDragging &&
-          !bAnimating
-        ){
-
-          moveBannerForward();
-
-        }
+        toast.classList.remove(
+          "show"
+        );
 
       },
       3000
@@ -3368,417 +3386,137 @@ function startBannerAuto(){
 }
 
 
-function stopBannerAuto(){
-
-  if(bAuto){
-
-    clearInterval(bAuto);
-
-    bAuto =
-      null;
-
-  }
-
-}
-
-
-track.addEventListener(
-  "touchstart",
-  (e) => {
-
-    if(bAnimating)
-      return;
-
-
-    if(
-      !e.touches ||
-      !e.touches.length
-    )
-      return;
-
-
-    bStartX =
-      e.touches[0].clientX;
-
-
-    bCurrentX =
-      bStartX;
-
-
-    bVelocity =
-      0;
-
-
-    bDragging =
-      true;
-
-
-    stopBannerAuto();
-
-
-    track.style.transition =
-      "none";
-
-  },
-  { passive: true }
-);
-
-
-track.addEventListener(
-  "touchmove",
-  (e) => {
-
-    if(!bDragging)
-      return;
-
-
-    if(
-      !e.touches ||
-      !e.touches.length
-    )
-      return;
-
-
-    const x =
-      e.touches[0].clientX;
-
-
-    bVelocity =
-      x - bCurrentX;
-
-
-    bCurrentX =
-      x;
-
-
-    const move =
-      x - bStartX;
-
-
-    track.style.transform =
-      `translateX(${move}px)`;
-
-  },
-  { passive: true }
-);
-
-
-function finishBannerTouch(){
-
-  if(!bDragging)
-    return;
-
-
-  bDragging =
-    false;
-
-
-  const distance =
-    bCurrentX -
-    bStartX;
-
-
-  if(distance <= -50){
-
-    moveBannerForward();
-
-  }
-
-  else if(distance >= 50){
-
-    moveBannerBackward();
-
-  }
-
-  else{
-
-    setBannerPosition(
-      0,
-      true
-    );
-
-  }
-
-
-  startBannerAuto();
-
-}
-
-
-track.addEventListener(
-  "touchend",
-  finishBannerTouch,
-  { passive: true }
-);
-
-
-track.addEventListener(
-  "touchcancel",
-  () => {
-
-    if(!bDragging)
-      return;
-
-
-    bDragging =
-      false;
-
-
-    setBannerPosition(
-      0,
-      true
-    );
-
-
-    startBannerAuto();
-
-  },
-  { passive: true }
-);
-
-
-window.addEventListener(
-  "touchend",
-  () => {
-
-    if(!bDragging)
-      return;
-
-
-    finishBannerTouch();
-
-  },
-  { passive: true }
-);
-
-
-window.addEventListener(
-  "touchcancel",
-  () => {
-
-    if(!bDragging)
-      return;
-
-
-    bDragging =
-      false;
-
-
-    setBannerPosition(
-      0,
-      true
-    );
-
-
-    startBannerAuto();
-
-  },
-  { passive: true }
-);
-
-
 /* =========================================
-   PCドラッグ
+   投稿制限ボタンの定期更新
 ========================================= */
 
-track.addEventListener(
-  "mousedown",
-  (e) => {
-
-    if(bAnimating)
-      return;
-
-
-    bStartX =
-      e.clientX;
-
-
-    bCurrentX =
-      bStartX;
-
-
-    bVelocity =
-      0;
-
-
-    bDragging =
-      true;
-
-
-    stopBannerAuto();
-
-
-    track.style.transition =
-      "none";
-
-  }
-);
-
-
-track.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if(!bDragging)
-      return;
-
-
-    const x =
-      e.clientX;
-
-
-    bVelocity =
-      x - bCurrentX;
-
-
-    bCurrentX =
-      x;
-
-
-    const move =
-      x - bStartX;
-
-
-    track.style.transform =
-      `translateX(${move}px)`;
-
-  }
-);
-
-
-track.addEventListener(
-  "mouseup",
+setInterval(
   () => {
 
-    if(!bDragging)
-      return;
+    const remaining =
+      getRemainingPostTime();
 
 
-    bDragging =
-      false;
+    if(
+      remaining > 0
+    ){
 
-
-    if(bVelocity > 5){
-
-      moveBannerBackward();
-
-    }
-
-    else if(bVelocity < -5){
-
-      moveBannerForward();
+      renderEvents();
 
     }
 
     else{
 
-      setBannerPosition(
-        0,
-        true
-      );
+      const buttons =
+        document.querySelectorAll(
+          ".share-btn:disabled"
+        );
+
+
+      if(
+        buttons.length > 0
+      ){
+
+        renderEvents();
+
+      }
+
+    }
+
+  },
+  1000
+);
+
+
+/* =========================================
+   最上部へ戻るボタン
+========================================= */
+
+function updateBackToTopButton(){
+
+  if(
+    window.scrollY > 300
+  ){
+
+    backToTop.classList.add(
+      "show"
+    );
+
+  }
+
+  else{
+
+    backToTop.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+window.addEventListener(
+  "scroll",
+  updateBackToTopButton,
+  {
+    passive:true
+  }
+);
+
+
+backToTop.addEventListener(
+  "click",
+  () => {
+
+    window.scrollTo(
+      {
+        top:0,
+        behavior:"smooth"
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   初期読み込み
+========================================= */
+
+loadEvents();
+
+
+updateBackToTopButton();
+
+
+/* =========================================
+   定期的に混雑情報を更新
+========================================= */
+
+setInterval(
+  async () => {
+
+    if(
+      !API_URL
+    ){
+
+      return;
 
     }
 
 
-    startBannerAuto();
+    await loadCrowdStatus();
 
-  }
+
+    renderEvents();
+
+  },
+  60000
 );
 
-
-track.addEventListener(
-  "mouseleave",
-  () => {
-
-    if(!bDragging)
-      return;
-
-
-    bDragging =
-      false;
-
-
-    setBannerPosition(
-      0,
-      true
-    );
-
-
-    startBannerAuto();
-
-  }
-);
-
-
-window.addEventListener(
-  "mouseup",
-  () => {
-
-    if(!bDragging)
-      return;
-
-
-    bDragging =
-      false;
-
-
-    setBannerPosition(
-      0,
-      true
-    );
-
-
-    startBannerAuto();
-
-  }
-);
-
-
-/* =========================================
-   バナーリサイズ
-========================================= */
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    bWidth =
-      getBannerWidth();
-
-
-    forceFinishBannerAnimation();
-
-  }
-);
-
-
-/* =========================================
-   バナー初期化
-========================================= */
-
-window.addEventListener(
-  "load",
-  () => {
-
-    bWidth =
-      getBannerWidth();
-
-
-    setBannerPosition(
-      0,
-      false
-    );
-
-
-    updateBannerDots();
-
-
-    startBannerAuto();
-
-  }
-);
 
 </script>
+
 
 </body>
 
