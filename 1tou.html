@@ -6,7 +6,7 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
+  content="width=device-width, initial-scale=5.0, user-scalable=yes, viewport-fit=cover"
 >
 
 <title>1棟 フロアマップ</title>
@@ -20,1675 +20,639 @@
 ========================================= */
 
 html,
-body {
-  width: 100%;
-  min-width: 0;
-  min-height: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  background-color: #eeedeb !important;
-  color: black;
-
-  font-family: sans-serif;
-
-  overscroll-behavior-x: none;
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
 }
 
-
-/* =========================================
-   背景
-   TOPページと統一
-========================================= */
-
-.bg-shapes {
-  position: fixed !important;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  z-index: 0 !important;
-
-  pointer-events: none;
-
-  overflow: hidden;
-
-  /* TOPページと同じように透けて表示 */
-  opacity: 0.24 !important;
-
-  /* 背景として少し馴染ませる */
-  filter: blur(1px);
-
-  transform: translateZ(0);
-}
-
-
-/* 背景図形 */
-
-.bg-shapes .shape {
-  display: block !important;
-
-  position: absolute;
-}
-
-
-/* =========================================
-   三角形
-========================================= */
-
-.s1 {
-  top: 5%;
-  left: -50px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 90px solid transparent;
-  border-right: 90px solid transparent;
-  border-bottom: 170px solid #c96d80;
-
-  transform: rotate(-25deg);
-}
-
-.s2 {
-  top: 25%;
-  left: -35px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 130px solid #8870a8;
-
-  transform: rotate(20deg);
-}
-
-.s3 {
-  bottom: 5%;
-  left: -30px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 180px solid #cfb25a;
-
-  transform: rotate(12deg);
-}
-
-.s4 {
-  bottom: 28%;
-  left: 20px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 60px solid transparent;
-  border-right: 60px solid transparent;
-  border-bottom: 120px solid #65a6ae;
-
-  transform: rotate(-15deg);
-}
-
-.s5 {
-  top: 12%;
-  right: -80px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 260px solid #6aa8ad;
-
-  transform: rotate(30deg);
-}
-
-.s6 {
-  bottom: -40px;
-  right: -30px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 190px solid #c96d80;
-
-  transform: rotate(-15deg);
-}
-
-.s7 {
-  top: 8%;
-  right: 40px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 55px solid transparent;
-  border-right: 55px solid transparent;
-  border-bottom: 100px solid #8870a8;
-
-  transform: rotate(35deg);
-}
-
-.s8 {
-  bottom: 20%;
-  right: 40px;
-
-  width: 0;
-  height: 0;
-
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 130px solid #cfb25a;
-
-  transform: rotate(-20deg);
-}
-
-
-/* =========================================
-   四角形
-========================================= */
-
-.bg-shapes::before,
-.bg-shapes::after {
-  content: "";
-
-  position: absolute;
-
-  display: block;
-}
-
-
-.bg-shapes::before {
-  width: 85px;
-  height: 150px;
-
-  left: 7%;
-  top: 45%;
-
-  background: #a57999;
-
-  transform: rotate(28deg);
-}
-
-
-.bg-shapes::after {
-  width: 110px;
-  height: 70px;
-
-  right: 4%;
-  top: 55%;
-
-  background: #65a0a8;
-
-  transform: rotate(-20deg);
-}
-
-
-/* =========================================
-   追加四角形
-========================================= */
-
-.s9 {
-  top: 38%;
-  left: 12%;
-
-  width: 90px;
-  height: 55px;
-
-  background: #c87382;
-
-  transform: rotate(-18deg);
-}
-
-
-.s10 {
-  top: 70%;
-  left: 18%;
-
-  width: 65px;
-  height: 100px;
-
-  background: #766990;
-
-  transform: rotate(25deg);
-}
-
-
-.s11 {
-  top: 32%;
-  right: 15%;
-
-  width: 75px;
-  height: 75px;
-
-  background: #c8a75a;
-
-  transform: rotate(18deg);
-}
-
-
-.s12 {
-  bottom: 10%;
-  right: 20%;
-
-  width: 100px;
-  height: 55px;
-
-  background: #609da4;
-
-  transform: rotate(-30deg);
-}
-
-
-/* =========================================
-   ヘッダー
-========================================= */
-
-#header {
-  position: relative;
-  z-index: 100;
-}
-
-
-/* =========================================
-   フロアマップ画面
-========================================= */
-
-.floor-page {
-  position: relative;
-
-  top: auto;
-  left: auto;
-
-  width: 100%;
-  max-width: 100%;
-
-  min-height: calc(100vh - 80px);
-
-  overflow: visible;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  touch-action: pan-y;
-
-  background: transparent !important;
-
-  z-index: 1;
-}
-
-
-/* =========================================
-   マップ表示エリア
-========================================= */
-
-.map-view {
-  position: relative;
-
-  width: 100%;
-  max-width: 100%;
-
-  min-height: calc(100vh - 80px);
-
-  height: auto;
-
-  padding-top: 70px;
-  padding-bottom: 80px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  overflow: visible;
-
-  touch-action: pan-y;
-
-  background: transparent !important;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================
-   マップ画像
-========================================= */
-
-.map-image-wrapper {
-  position: relative;
-
-  max-width: 90vw;
-  max-height: 75vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transform-origin: center center;
-
-  touch-action: pan-y;
-
-  user-select: none;
-  -webkit-user-select: none;
-
-  flex-shrink: 0;
-
-  cursor: default;
-
-  will-change: transform;
-
-  margin: 0 auto;
-}
-
-
-.map-image {
-  display: block;
-
-  max-width: 90vw;
-  max-height: 75vh;
-
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-
-  user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-
-  pointer-events: none;
-}
-
-
-/* =========================================
-   上部ボタンエリア
-========================================= */
-
-.top-controls {
-  position: absolute;
-
-  top: 8px;
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 7px;
-
-  z-index: 50;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================
-   全体図に戻るボタン
-========================================= */
-
-.back-to-map {
-  border: 1px solid rgba(6,37,79,0.16);
-  background: rgba(255,255,255,0.94);
-  color: #06254f;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
-  -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.back-to-map::before {
-  content: "↩";
-  margin-right: 5px;
-  font-size: 14px;
-}
-
-.back-to-map:hover {
-  transform: translateY(-1px);
-  background: #fff;
-  box-shadow: 0 5px 14px rgba(6,37,79,0.14);
-}
-
-.back-to-map:active {
-  transform: translateY(0);
-  opacity: 0.72;
-}
-
-
-/* =========================================
-   操作説明ボタン
-========================================= */
-
-.help-button {
-  border: 1px solid rgba(21,146,158,0.18);
-  background: rgba(21,146,158,0.95);
-  color: #fff;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(21,146,158,0.16);
-  -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.help-button::before {
-  content: "?";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 50%;
-  font-size: 11px;
-}
-
-.help-button:hover {
-  transform: translateY(-1px);
-  background: #12818c;
-  box-shadow: 0 5px 14px rgba(21,146,158,0.20);
-}
-
-.help-button:active {
-  transform: translateY(0);
-  opacity: 0.72;
+body{
+  font-family:
+    "Noto Sans JP",
+    "Yu Gothic",
+    "Hiragino Sans",
+    sans-serif;
+  background:#EEEEEC;
 }
 
 /* =========================================
-   混雑表示コントロール
+   マップページ
 ========================================= */
 
-.crowd-toggle-button {
-  border: 1px solid rgba(6,37,79,0.18);
-  background: rgba(255,255,255,0.92);
-  color: #06254f;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
-  -webkit-tap-highlight-color: transparent;
-  transition: background .18s ease, color .18s ease, transform .18s ease;
+.map-page{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  padding-top:var(--header-height, 0px);
+  box-sizing:border-box;
 }
-
-.crowd-toggle-button:hover {
-  transform: translateY(-1px);
-}
-
-.crowd-toggle-button:active {
-  transform: translateY(0);
-  opacity: 0.75;
-}
-
-.crowd-toggle-button.off {
-  background: rgba(238,237,235,0.94);
-  color: #666;
-}
-
-.crowd-toggle-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: #4f9d69;
-  vertical-align: 1px;
-}
-
-.crowd-toggle-button.off .crowd-toggle-dot {
-  background: #aaa;
-}
-
-.crowd-legend {
-  position: absolute;
-  top: calc(100% + 7px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border: 1px solid rgba(6,37,79,0.12);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.90);
-  box-shadow: 0 4px 14px rgba(6,37,79,0.10);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  z-index: 60;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.crowd-legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #333;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.crowd-legend-color {
-  display: inline-block;
-  width: 13px;
-  height: 13px;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.crowd-legend-color.empty {
-  background: rgba(79,157,105,.48);
-  border: 1px solid rgba(79,157,105,.70);
-}
-
-.crowd-legend-color.normal {
-  background: rgba(215,168,61,.48);
-  border: 1px solid rgba(215,168,61,.70);
-}
-
-.crowd-legend-color.crowded {
-  background: rgba(212,91,88,.48);
-  border: 1px solid rgba(212,91,88,.70);
-}
-
-/* 当たり判定の上に重ねる混雑表示。内部レイヤーはクリックを邪魔しない。 */
-.map-hotspot .crowd-visual-layer {
-  position: absolute;
-  inset: 0;
-  display: block;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s ease;
-}
-
-.map-hotspot.crowd-visible .crowd-visual-layer {
-  opacity: 1;
-}
-
-.map-hotspot.crowd-empty .crowd-visual-layer {
-  background: rgba(79,157,105,.34);
-  border: 1px solid rgba(79,157,105,.55);
-}
-
-.map-hotspot.crowd-normal .crowd-visual-layer {
-  background: rgba(215,168,61,.34);
-  border: 1px solid rgba(215,168,61,.55);
-}
-
-.map-hotspot.crowd-crowded .crowd-visual-layer {
-  background: rgba(212,91,88,.34);
-  border: 1px solid rgba(212,91,88,.55);
-}
-
-.map-hotspot.crowd-unknown .crowd-visual-layer {
-  background: transparent;
-  border: 1px solid transparent;
-}
-
-
 
 /* =========================================
-   左右ボタン
+   タイトル
 ========================================= */
 
-.floor-arrow {
-  position: absolute;
-
-  top: 0;
-
-  transform: translateY(-50%);
-
-  width: 48px;
-  height: 80px;
-
-  border: none;
-
-  background: transparent;
-
-  font-size: 52px;
-  line-height: 1;
-
-  color: #d92a21;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  z-index: 30;
-
-  padding: 0;
-
-  text-shadow: none;
-
-  -webkit-tap-highlight-color: transparent;
+.map-title-area{
+  width:100%;
+  text-align:center;
+  padding:18px 16px 10px;
+  box-sizing:border-box;
 }
 
-.floor-arrow:active {
-  opacity: 0.5;
+.map-title{
+  margin:0;
+  font-size:clamp(24px, 5vw, 38px);
+  font-weight:800;
+  letter-spacing:.08em;
+  color:#333;
 }
 
-.floor-prev {
-  left: 4px;
+.floor-name{
+  margin-top:5px;
+  font-size:clamp(15px, 3.5vw, 22px);
+  font-weight:700;
+  letter-spacing:.08em;
+  color:#555;
 }
-
-.floor-next {
-  right: 4px;
-
-  color: #d92a21;
-}
-
 
 /* =========================================
-   棟切り替えボタン
+   フロア切り替え
 ========================================= */
 
-.building-switch {
-  position: absolute;
-
-  left: 50%;
-  top: 100%;
-
-  transform: translateX(-50%);
-
-  width: 48px;
-  height: 50px;
-
-  border: none;
-
-  background: transparent;
-
-  color: #15929e;
-
-  font-size: 52px;
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  z-index: 40;
-
-  padding: 0;
-
-  border-radius: 0;
-
-  text-shadow: none;
-
-  -webkit-tap-highlight-color: transparent;
+.floor-control{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  padding:5px 16px 15px;
+  box-sizing:border-box;
 }
 
-.building-switch:active {
-  opacity: 0.5;
+.floor-btn{
+  appearance:none;
+  border:1px solid rgba(0,0,0,.15);
+  background:rgba(255,255,255,.9);
+  color:#333;
+  border-radius:999px;
+  min-width:90px;
+  padding:9px 18px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+  transition:
+    transform .15s ease,
+    background .15s ease;
 }
 
+.floor-btn:active{
+  transform:scale(.96);
+}
+
+.floor-btn:disabled{
+  opacity:.35;
+  cursor:default;
+}
 
 /* =========================================
-   操作説明モーダル
+   マップ表示領域
 ========================================= */
 
-.help-overlay {
-
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 1000;
-
-  display: none;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(6, 37, 79, 0.55);
-
-  backdrop-filter: blur(5px);
-
-  -webkit-backdrop-filter: blur(5px);
+.map-scroll-area{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  box-sizing:border-box;
+  padding:0 12px 30px;
+  overflow:visible;
 }
 
-.help-overlay.active {
-  display: flex;
+.map-viewer{
+  position:relative;
+  width:min(100%, 1200px);
+  margin:0 auto;
+  overflow:visible;
+  transform-origin:center top;
+  will-change:transform;
 }
 
+.map-image-wrap{
+  position:relative;
+  width:100%;
+  transform-origin:center top;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none;
+}
+
+.map-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
 
 /* =========================================
-   操作説明本体
+   マップ操作説明
 ========================================= */
 
-.help-modal {
-
-  position: relative;
-
-  width: min(430px, 92vw);
-
-  max-height: 82vh;
-
-  overflow-y: auto;
-
-  background: #eeedeb;
-
-  border-radius: 18px;
-
-  padding: 24px 20px 20px;
-
-  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-
-  border-top: 7px solid #06254f;
-
-  box-sizing: border-box;
+.map-operation{
+  width:calc(100% - 24px);
+  max-width:900px;
+  margin:0 auto 25px;
+  padding:12px 16px;
+  box-sizing:border-box;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:14px;
+  color:#555;
+  font-size:13px;
+  line-height:1.7;
+  text-align:center;
 }
 
+.map-operation strong{
+  color:#333;
+}
 
 /* =========================================
-   モーダルタイトル
+   全体図ボタン
 ========================================= */
 
-.help-title {
-
-  margin: 0 35px 5px 0;
-
-  color: #06254f;
-
-  font-size: 23px;
-
-  font-weight: 800;
-
-  letter-spacing: 0.05em;
+.map-bottom-controls{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  padding:0 16px 30px;
+  box-sizing:border-box;
 }
 
-
-.help-subtitle {
-
-  margin: 0 0 18px;
-
-  color: #555;
-
-  font-size: 13px;
-
-  font-weight: 600;
+.map-bottom-btn{
+  appearance:none;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(255,255,255,.92);
+  color:#333;
+  border-radius:999px;
+  padding:10px 18px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
-
 
 /* =========================================
-   操作項目
+   ホットスポット共通
 ========================================= */
 
-.help-item {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  margin-bottom: 10px;
-
-  padding: 11px 12px;
-
-  background: #fff;
-
-  border-radius: 10px;
-
-  border-left: 5px solid #15929e;
-
-  box-sizing: border-box;
+.map-hotspot{
+  position:absolute;
+  display:block;
+  padding:0;
+  margin:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  z-index:10;
+  box-sizing:border-box;
+  border-radius:4px;
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
 }
 
-
-.help-icon {
-
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 21px;
-
-  border-radius: 8px;
-
-  background: #eeedeb;
+.map-hotspot:hover{
+  background:rgba(130,90,190,.12);
 }
 
+.map-hotspot:focus-visible{
+  outline:3px solid rgba(100,70,180,.55);
+  outline-offset:2px;
+}
+
+.map-hotspot:active{
+  background:rgba(130,90,190,.18);
+}
 
 /* =========================================
-   赤い文字タップアイコン
+   混雑状況レイヤー
 ========================================= */
 
-.help-icon.gesture-red-square {
-
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-
-  background: #d92a21;
-
-  border-radius: 8px;
-
-  font-size: 0;
+.map-hotspot .crowd-visual-layer{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  box-sizing:border-box;
+  border-radius:inherit;
+  opacity:0;
+  visibility:hidden;
+  transition:
+    opacity .25s ease,
+    visibility .25s ease,
+    background .25s ease,
+    border-color .25s ease;
 }
 
+/*
+  crowd-visible が付いた時だけ表示
+*/
+
+.map-hotspot.crowd-visible .crowd-visual-layer{
+  opacity:1;
+  visibility:visible;
+}
+
+/* 空いている */
+
+.map-hotspot.crowd-empty .crowd-visual-layer{
+  background:rgba(79,157,105,.38);
+  border:1px solid rgba(79,157,105,.68);
+}
+
+/* 通常 */
+
+.map-hotspot.crowd-normal .crowd-visual-layer{
+  background:rgba(215,168,61,.38);
+  border:1px solid rgba(215,168,61,.68);
+}
+
+/* 混雑 */
+
+.map-hotspot.crowd-crowded .crowd-visual-layer{
+  background:rgba(212,91,88,.38);
+  border:1px solid rgba(212,91,88,.68);
+}
+
+/* 不明 */
+
+.map-hotspot.crowd-unknown .crowd-visual-layer{
+  background:rgba(120,120,120,.30);
+  border:1px solid rgba(120,120,120,.48);
+}
 
 /* =========================================
-   2本指アイコン部分
+   混雑表示ON/OFFボタン
 ========================================= */
 
-.help-icon.gesture-square {
-
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-
-  background: #ff9d1c;
-
-  border-radius: 8px;
-
-  font-size: 0;
+.crowd-control{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:0 16px 15px;
+  box-sizing:border-box;
 }
 
+.crowd-toggle{
+  appearance:none;
+  border:1px solid rgba(0,0,0,.13);
+  background:rgba(255,255,255,.95);
+  color:#333;
+  border-radius:999px;
+  padding:9px 18px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.07);
+}
+
+.crowd-toggle.is-on{
+  background:#333;
+  color:#fff;
+}
 
 /* =========================================
-   1本指移動アイコン部分
+   各ホットスポット
 ========================================= */
 
-.help-icon.gesture-pan-square {
+/*
+  1階
+*/
 
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-
-  background: #15929e;
-
-  border-radius: 8px;
-
-  font-size: 0;
+.floor-1-hotspot.ten-yen-bread{
+  left:7.2%;
+  top:11.7%;
+  width:12.5%;
+  height:15%;
 }
 
+.floor-1-hotspot.room-2d{
+  left:19.2%;
+  top:11.8%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-3a{
+  left:32.1%;
+  top:11.8%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-2a{
+  left:45%;
+  top:11.8%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-jrc{
+  left:57.8%;
+  top:11.8%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-1a{
+  left:70.6%;
+  top:11.8%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-3g{
+  left:7.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-2e{
+  left:19.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-1-hotspot.room-3d{
+  left:32.1%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+/*
+  2階
+*/
+
+.floor-2-hotspot.room-1e{
+  left:7.2%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-3f{
+  left:19.2%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-3e{
+  left:32.1%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-1f{
+  left:45%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-2f{
+  left:57.8%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-1e-second{
+  left:70.6%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-1e-right{
+  left:7.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-2-hotspot.room-3b{
+  left:19.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+/*
+  3階
+*/
+
+.floor-3-hotspot.room-2c{
+  left:7.2%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-1b{
+  left:19.2%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-2b{
+  left:32.1%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-ess{
+  left:45%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-2g{
+  left:57.8%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-1g{
+  left:70.6%;
+  top:12%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-3c{
+  left:7.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-bungei{
+  left:19.2%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
+
+.floor-3-hotspot.room-shodo{
+  left:32.1%;
+  top:28%;
+  width:12.5%;
+  height:15%;
+}
 
 /* =========================================
-   操作説明テキスト
+   ズーム関連
 ========================================= */
 
-.help-text {
-
-  color: #222;
-
-  font-size: 13px;
-
-  line-height: 1.55;
-
-  font-weight: 600;
+.zoom-wrapper{
+  position:relative;
+  width:100%;
+  overflow:visible;
 }
 
-
-.help-text strong {
-
-  color: #06254f;
-
-  font-size: 14px;
+.zoom-reset{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:100;
+  display:none;
+  appearance:none;
+  border:1px solid rgba(0,0,0,.15);
+  background:rgba(255,255,255,.95);
+  color:#333;
+  border-radius:999px;
+  padding:9px 14px;
+  font-size:13px;
+  font-weight:700;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
 }
 
+.zoom-reset.show{
+  display:block;
+}
 
 /* =========================================
-   閉じるボタン
+   建物切り替え
 ========================================= */
 
-.help-close {
-
-  width: 100%;
-
-  margin-top: 8px;
-
-  border: none;
-
-  border-radius: 9px;
-
-  padding: 11px;
-
-  background: #06254f;
-
-  color: #fff;
-
-  font-size: 15px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
+.building-switch-area{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:0 16px 35px;
 }
 
-.help-close:active {
-  opacity: 0.65;
+.building-switch{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:160px;
+  padding:11px 20px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(255,255,255,.92);
+  color:#333;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
-
 
 /* =========================================
-   モーダル右上閉じる
+   小型画面
 ========================================= */
 
-.help-x {
+@media(max-width:600px){
 
-  position: absolute;
-
-  top: 13px;
-  right: 14px;
-
-  width: 32px;
-  height: 32px;
-
-  border: none;
-
-  border-radius: 50%;
-
-  background: #d92a21;
-
-  color: #fff;
-
-  font-size: 19px;
-
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-.help-x:active {
-  opacity: 0.65;
-}
-
-
-/* =========================================
-   スマートフォン
-========================================= */
-
-@media (max-width: 600px) {
-
-  .floor-page {
-
-    width: 100%;
-    max-width: 100%;
-
-    min-height: calc(100vh - 50px);
-
-    overflow: visible;
+  .map-title-area{
+    padding-top:12px;
+    padding-bottom:6px;
   }
 
-
-  .map-view {
-
-    width: 100%;
-    max-width: 100%;
-
-    min-height: calc(100vh - 50px);
-
-    height: auto;
-
-    padding-top: 115px;
-
-    padding-bottom: 75px;
-
-    justify-content: flex-start;
-
-    overflow: visible;
+  .floor-control{
+    padding-bottom:10px;
   }
 
-
-  .map-image {
-
-    max-width: 82vw;
-    max-height: 68vh;
+  .floor-btn{
+    min-width:75px;
+    padding:8px 12px;
+    font-size:12px;
   }
 
-
-  .map-image-wrapper {
-
-    max-width: 82vw;
-    max-height: 68vh;
-
-    position: relative;
-
-    left: auto;
-    top: auto;
-
-    transform: none;
-
-    width: auto;
-    height: auto;
-
-    margin: 0 auto;
+  .map-scroll-area{
+    padding-left:6px;
+    padding-right:6px;
   }
 
-
-  /* -------------------------
-     上部ボタン
-  ------------------------- */
-
-  .top-controls {
-
-    top: 58px;
-
-    gap: 5px;
+  .map-operation{
+    font-size:12px;
+    padding:10px 12px;
   }
 
-
-  .back-to-map,
-  .help-button {
-
-    font-size: 14px;
-
-    padding: 5px 10px;
-
-    border-radius: 7px;
-  }
-
-  .crowd-toggle-button {
-    font-size: 12px;
-    padding: 5px 9px;
-  }
-
-  .crowd-legend {
-    top: calc(100% + 6px);
-    max-width: 96vw;
-    gap: 5px;
-    padding: 6px 7px;
-  }
-
-  .crowd-legend-item {
-    font-size: 9px;
-    gap: 3px;
-  }
-
-  .crowd-legend-color {
-    width: 10px;
-    height: 10px;
-  }
-
-
-  /* -------------------------
-     左右矢印
-  ------------------------- */
-
-  .floor-arrow {
-
-    width: 40px;
-    height: 70px;
-
-    font-size: 44px;
-
-    top: 0;
-
-    color: #d92a21;
-  }
-
-  .floor-prev {
-    left: 0;
-  }
-
-  .floor-next {
-    right: 0;
-
-    color: #d92a21;
-  }
-
-
-  /* -------------------------
-     棟切り替え
-  ------------------------- */
-
-  .building-switch {
-
-    width: 40px;
-    height: 50px;
-
-    font-size: 44px;
-
-    top: 100%;
-  }
-
-
-  /* -------------------------
-     操作説明
-  ------------------------- */
-
-  .help-overlay {
-    padding: 15px;
-  }
-
-
-  .help-modal {
-
-    width: 94vw;
-
-    max-height: 84vh;
-
-    padding: 21px 16px 16px;
-
-    border-radius: 16px;
-
-    border-top-width: 6px;
-  }
-
-
-  .help-title {
-    font-size: 20px;
-  }
-
-
-  .help-subtitle {
-    font-size: 12px;
-
-    margin-bottom: 14px;
-  }
-
-
-  .help-item {
-    gap: 10px;
-
-    margin-bottom: 8px;
-
-    padding: 9px 10px;
-
-    border-left-width: 4px;
-  }
-
-
-  .help-icon {
-
-    width: 31px;
-    min-width: 31px;
-    height: 31px;
-
-    font-size: 18px;
-  }
-
-
-  .help-icon.gesture-red-square {
-
-    width: 31px;
-    min-width: 31px;
-    height: 31px;
-
-    background: #d92a21;
-
-    border-radius: 7px;
-  }
-
-
-  .help-icon.gesture-square {
-
-    width: 31px;
-    min-width: 31px;
-    height: 31px;
-
-    background: #ff9d1c;
-
-    border-radius: 7px;
-  }
-
-
-  .help-icon.gesture-pan-square {
-
-    width: 31px;
-    min-width: 31px;
-    height: 31px;
-
-    background: #15929e;
-
-    border-radius: 7px;
-  }
-
-
-  .help-text {
-    font-size: 12px;
-  }
-
-
-  .help-text strong {
-    font-size: 13px;
-  }
-
-
-  /* -------------------------
-     背景
-     TOPページと同じように
-     スマホではさらに控えめ
-  ------------------------- */
-
-  .bg-shapes {
-
-    width: 100%;
-    height: 100%;
-
-    opacity: 0.18 !important;
-
-    filter: blur(1px);
+  .crowd-toggle{
+    font-size:12px;
+    padding:8px 15px;
   }
 
 }
 
-
 /* =========================================
-   極端に狭い画面への対応
+   PC
 ========================================= */
 
-@media (max-width: 360px) {
+@media(min-width:901px){
 
-  .map-view {
-    padding-top: 105px;
-  }
-
-  .top-controls {
-    top: 52px;
-  }
-
-  .back-to-map,
-  .help-button {
-    font-size: 12px;
-    padding: 5px 8px;
+  .map-scroll-area{
+    padding-left:20px;
+    padding-right:20px;
   }
 
 }
 
-
 /* =========================================
-   横向きスマートフォン
+   reduced motion
 ========================================= */
 
-@media screen and (max-width: 900px) and (orientation: landscape) {
+@media(prefers-reduced-motion:reduce){
 
-  .map-view {
-
-    padding-top: 75px;
-    padding-bottom: 60px;
-
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto !important;
+    transition:none !important;
+    animation:none !important;
   }
 
-
-  .top-controls {
-
-    top: 48px;
-
-  }
-
-
-  .map-image {
-
-    max-width: 80vw;
-    max-height: 72vh;
-
-  }
-
-
-  .map-image-wrapper {
-
-    max-width: 80vw;
-    max-height: 72vh;
-
-  }
-
-}
-
-
-
-/* =========================================
-   赤文字エリアのクリック判定
-   ※クリック判定のみ。表示は完全透明
-========================================= */
-
-.map-hotspot {
-  position: absolute;
-  z-index: 25;
-  display: block;
-  padding: 0;
-  margin: 0;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  background: transparent;
-  box-shadow: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  box-sizing: border-box;
-  transition: none;
-}
-
-.map-hotspot:hover {
-  background: transparent;
-  border-color: transparent;
-}
-
-.map-hotspot:active {
-  background: transparent;
-  border-color: transparent;
-  transform: none;
-}
-
-
-/* =========================================
-   1棟1階
-========================================= */
-
-.map-hotspot.ten-yen-bread {
-  left: 40.8%;
-  top: 26.4%;
-  width: 15.2%;
-  height: 26.7%;
-}
-
-
-/* =========================================
-   1棟2階
-========================================= */
-
-.map-hotspot.room-2d {
-  left: 0%;
-  top: 73.9%;
-  width: 8.2%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-3a {
-  left: 8.5%;
-  top: 73.9%;
-  width: 8.2%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-2a {
-  left: 16.8%;
-  top: 73.9%;
-  width: 8.1%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-jrc {
-  left: 36.0%;
-  top: 28.8%;
-  width: 4.8%;
-  height: 28.0%;
-}
-
-.map-hotspot.room-1a {
-  left: 52.4%;
-  top: 73.9%;
-  width: 8.3%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-3g {
-  left: 61.0%;
-  top: 73.9%;
-  width: 8.2%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-2e {
-  left: 69.5%;
-  top: 73.9%;
-  width: 8.2%;
-  height: 26.4%;
-}
-
-.map-hotspot.room-3d {
-  left: 86.5%;
-  top: 41.5%;
-  width: 13.5%;
-  height: 17.5%;
-}
-
-
-/* =========================================
-   1棟3階
-========================================= */
-
-.map-hotspot.room-1e {
-  left: 0%;
-  top: 72.6%;
-  width: 8.0%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-3f {
-  left: 8.2%;
-  top: 72.6%;
-  width: 8.1%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-3e {
-  left: 16.6%;
-  top: 72.6%;
-  width: 8.3%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-1f {
-  left: 52.4%;
-  top: 72.6%;
-  width: 8.3%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-2f {
-  left: 61.0%;
-  top: 72.6%;
-  width: 8.2%;
-  height: 27.7%;
-}
-
-
-/* 1E 2つ目のクリック範囲
-   モーダルの種類は1つ目と同じ room-1e */
-.map-hotspot.room-1e-second {
-  left: 69.4%;
-  top: 72.6%;
-  width: 8.2%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-1e-right {
-  left: 69.4%;
-  top: 72.6%;
-  width: 8.2%;
-  height: 27.7%;
-}
-
-.map-hotspot.room-3b {
-  left: 86.5%;
-  top: 40.6%;
-  width: 13.5%;
-  height: 17.5%;
-}
-
-
-/* =========================================
-   1棟4階
-========================================= */
-
-.map-hotspot.room-2c {
-  left: 0%;
-  top: 70.9%;
-  width: 8.2%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-1b {
-  left: 8.4%;
-  top: 70.9%;
-  width: 8.2%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-2b {
-  left: 16.8%;
-  top: 70.9%;
-  width: 8.0%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-ess {
-  left: 43.9%;
-  top: 70.9%;
-  width: 8.3%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-2g {
-  left: 52.5%;
-  top: 70.9%;
-  width: 8.3%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-1g {
-  left: 61.0%;
-  top: 70.9%;
-  width: 8.1%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-3c {
-  left: 69.3%;
-  top: 70.9%;
-  width: 8.3%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-bungei {
-  left: 77.9%;
-  top: 70.9%;
-  width: 5.0%;
-  height: 29.1%;
-}
-
-.map-hotspot.room-shodo {
-  left: 82.8%;
-  top: 70.9%;
-  width: 17.2%;
-  height: 29.1%;
-}
-
-.map-hotspot[hidden] {
-  display: none;
-}
-
-
-/* =========================================
-   混雑状況表示
-========================================= */
-
-/* 混雑表示レイヤー */
-.map-hotspot .crowd-visual-layer {
-  position: absolute;
-  inset: 0;
-  display: block;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .18s ease, visibility .18s ease;
-  box-sizing: border-box;
-  z-index: 2;
-}
-
-.map-hotspot.crowd-visible .crowd-visual-layer {
-  opacity: 1;
-  visibility: visible;
-}
-
-.map-hotspot.crowd-empty .crowd-visual-layer {
-  background: rgba(79,157,105,.38);
-  border: 1px solid rgba(79,157,105,.68);
-}
-
-.map-hotspot.crowd-normal .crowd-visual-layer {
-  background: rgba(215,168,61,.38);
-  border: 1px solid rgba(215,168,61,.68);
-}
-
-.map-hotspot.crowd-crowded .crowd-visual-layer {
-  background: rgba(212,91,88,.38);
-  border: 1px solid rgba(212,91,88,.68);
-}
-
-.map-hotspot.crowd-unknown .crowd-visual-layer {
-  background: rgba(120,120,120,.30);
-  border: 1px solid rgba(100,100,100,.50);
-}
-
-.crowd-legend-color.unknown {
-  background: rgba(120,120,120,.42);
-  border: 1px solid rgba(100,100,100,.68);
-}
-
-/* =========================================
-   場所詳細モーダル
-========================================= */
-
-#placeModalOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: none;
-  background: rgba(6, 37, 79, 0.58);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-
-#placeModalOverlay.active {
-  display: block;
-}
-
-#placeModalFrame {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: transparent;
 }
 
 </style>
@@ -1697,398 +661,351 @@ body {
 
 <body>
 
-<div class="bg-shapes">
-
-  <div class="shape s1"></div>
-  <div class="shape s2"></div>
-  <div class="shape s3"></div>
-  <div class="shape s4"></div>
-  <div class="shape s5"></div>
-  <div class="shape s6"></div>
-  <div class="shape s7"></div>
-  <div class="shape s8"></div>
-
-  <div class="shape s9"></div>
-  <div class="shape s10"></div>
-  <div class="shape s11"></div>
-  <div class="shape s12"></div>
-
-</div>
-
-
 <!-- =========================================
-     ヘッダー
+     共通ヘッダー
 ========================================= -->
 
-<div id="header"></div>
+<div id="header-container"></div>
 
+<main class="map-page">
 
-<script>
+  <!-- =======================================
+       タイトル
+  ======================================== -->
 
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
+  <section class="map-title-area">
 
-    document.getElementById("header").innerHTML = data;
-
-    const btn =
-      document.querySelector(".menu-btn");
-
-    const nav =
-      document.querySelector(".nav");
-
-    if (btn && nav) {
-
-      btn.addEventListener("click", (e) => {
-
-        e.stopPropagation();
-
-        nav.classList.toggle("active");
-
-      });
-
-
-      document.addEventListener("click", (e) => {
-
-        if (
-          !nav.contains(e.target) &&
-          !btn.contains(e.target)
-        ) {
-
-          nav.classList.remove("active");
-
-        }
-
-      });
-
-    }
-
-  });
-
-</script>
-
-
-<!-- =========================================
-     フロアマップ
-========================================= -->
-
-<div class="floor-page">
-
-  <div class="map-view">
-
-
-    <div class="top-controls">
-
-      <button
-        class="back-to-map"
-        id="backToMap"
-        type="button"
-      >
-        全体図に戻る
-      </button>
-
-
-      <button
-        class="help-button"
-        id="helpButton"
-        type="button"
-      >
-        操作説明
-      </button>
-
-
-      <button
-        class="crowd-toggle-button"
-        id="crowdToggleButton"
-        type="button"
-        aria-pressed="true"
-      >
-        <span class="crowd-toggle-dot"></span>
-        混雑表示：ON
-      </button>
-
-
-      <div
-        class="crowd-legend"
-        id="crowdLegend"
-        aria-label="混雑状況の凡例"
-      >
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color empty"></i>
-          <span>比較的空いている</span>
-        </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color normal"></i>
-          <span>やや混雑している</span>
-        </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color crowded"></i>
-          <span>混雑している</span>
-        </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color unknown"></i>
-          <span>情報なし</span>
-        </span>
-      </div>
-
-    </div>
-
-
-    <button
-      class="floor-arrow floor-prev"
-      id="prevButton"
-      aria-label="前の階"
-      type="button"
-    >
-      〈
-    </button>
-
+    <h1 class="map-title">1棟</h1>
 
     <div
-      class="map-image-wrapper"
-      id="imageWrapper"
+      id="floor-name"
+      class="floor-name"
     >
-
-      <img
-        id="floorImage"
-        class="map-image"
-        src="images/1tou_1f.jpg"
-        alt="1棟 1階 フロアマップ"
-      >
-
-
-      <button
-        class="map-hotspot ten-yen-bread floor-1-hotspot"
-        data-modal-type="ten-yen-bread"
-        type="button"
-        aria-label="1D 10円パンの詳細を表示"
-        title="1D 10円パン"
-      ></button>
-
-
-      <button class="map-hotspot room-2d floor-2-hotspot" data-modal-type="room-2d" type="button" aria-label="2D 体験型の詳細を表示" title="2D 体験型"></button>
-      <button class="map-hotspot room-3a floor-2-hotspot" data-modal-type="room-3a" type="button" aria-label="3A 焼き菓子の詳細を表示" title="3A 焼き菓子"></button>
-      <button class="map-hotspot room-2a floor-2-hotspot" data-modal-type="room-2a" type="button" aria-label="2A フォトスポットの詳細を表示" title="2A フォトスポット"></button>
-      <button class="map-hotspot room-jrc floor-2-hotspot" data-modal-type="room-jrc" type="button" aria-label="JRC部の詳細を表示" title="JRC部"></button>
-      <button class="map-hotspot room-1a floor-2-hotspot" data-modal-type="room-1a" type="button" aria-label="1A 縁日の詳細を表示" title="1A 縁日"></button>
-      <button class="map-hotspot room-3g floor-2-hotspot" data-modal-type="room-3g" type="button" aria-label="3G カジノの詳細を表示" title="3G カジノ"></button>
-      <button class="map-hotspot room-2e floor-2-hotspot" data-modal-type="room-2e" type="button" aria-label="2E 迷路の詳細を表示" title="2E 迷路"></button>
-
-      <button class="map-hotspot room-3d floor-2-hotspot" data-modal-type="room-3d" type="button" aria-label="3D お化け屋敷の詳細を表示" title="3D お化け屋敷"></button>
-
-
-      <button class="map-hotspot room-1e floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
-      <button class="map-hotspot room-3f floor-3-hotspot" data-modal-type="room-3f" type="button" aria-label="3F カジノの詳細を表示" title="3F カジノ"></button>
-      <button class="map-hotspot room-3e floor-3-hotspot" data-modal-type="room-3e" type="button" aria-label="3E ポップコーンの詳細を表示" title="3E ポップコーン"></button>
-
-      <button class="map-hotspot room-1f floor-3-hotspot" data-modal-type="room-1f" type="button" aria-label="1F ディッピンドッツの詳細を表示" title="1F ディッピンドッツ"></button>
-      <button class="map-hotspot room-2f floor-3-hotspot" data-modal-type="room-2f" type="button" aria-label="2F 体験型の詳細を表示" title="2F 体験型"></button>
-
-      <button class="map-hotspot room-1e-second floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
-
-      <button class="map-hotspot room-3b floor-3-hotspot" data-modal-type="room-3b" type="button" aria-label="3B お化け屋敷の詳細を表示" title="3B お化け屋敷"></button>
-
-
-      <button class="map-hotspot room-2c floor-4-hotspot" data-modal-type="room-2c" type="button" aria-label="2C 迷路の詳細を表示" title="2C 迷路"></button>
-      <button class="map-hotspot room-1b floor-4-hotspot" data-modal-type="room-1b" type="button" aria-label="1B 31アイスの詳細を表示" title="1B 31アイス"></button>
-      <button class="map-hotspot room-2b floor-4-hotspot" data-modal-type="room-2b" type="button" aria-label="2B 映画の詳細を表示" title="2B 映画"></button>
-
-      <button class="map-hotspot room-ess floor-4-hotspot" data-modal-type="room-ess" type="button" aria-label="ESS部の詳細を表示" title="ESS部"></button>
-      <button class="map-hotspot room-2g floor-4-hotspot" data-modal-type="room-2g" type="button" aria-label="2G 体験型の詳細を表示" title="2G 体験型"></button>
-      <button class="map-hotspot room-1g floor-4-hotspot" data-modal-type="room-1g" type="button" aria-label="1G 焼き菓子の詳細を表示" title="1G 焼き菓子"></button>
-      <button class="map-hotspot room-3c floor-4-hotspot" data-modal-type="room-3c" type="button" aria-label="3C お化け屋敷の詳細を表示" title="3C お化け屋敷"></button>
-      <button class="map-hotspot room-bungei floor-4-hotspot" data-modal-type="room-bungei" type="button" aria-label="文芸部の詳細を表示" title="文芸部"></button>
-      <button class="map-hotspot room-shodo floor-4-hotspot" data-modal-type="room-shodo" type="button" aria-label="書道部の詳細を表示" title="書道部"></button>
-
-
-      <button
-        class="building-switch"
-        id="buildingSwitch"
-        aria-label="2棟へ"
-        type="button"
-      >
-        ⌄
-      </button>
-
+      1階
     </div>
 
+  </section>
+
+
+  <!-- =======================================
+       フロア切り替え
+  ======================================== -->
+
+  <div class="floor-control">
 
     <button
-      class="floor-arrow floor-next"
-      id="nextButton"
+      type="button"
+      id="floor-prev"
+      class="floor-btn"
+      aria-label="前の階"
+    >
+      ← 前の階
+    </button>
+
+    <button
+      type="button"
+      id="floor-next"
+      class="floor-btn"
       aria-label="次の階"
-      type="button"
     >
-      〉
+      次の階 →
     </button>
 
   </div>
 
-</div>
+
+  <!-- =======================================
+       混雑状況表示ボタン
+  ======================================== -->
+
+  <div class="crowd-control">
+
+    <button
+      type="button"
+      id="crowd-toggle"
+      class="crowd-toggle"
+      aria-pressed="false"
+    >
+      混雑状況を表示
+    </button>
+
+  </div>
 
 
-<!-- =========================================
-     場所詳細モーダル
-========================================= -->
+  <!-- =======================================
+       マップ
+  ======================================== -->
 
-<div
-  id="placeModalOverlay"
-  aria-hidden="true"
->
-  <iframe
-    id="placeModalFrame"
-    title="場所の詳細"
-    src="about:blank"
-  ></iframe>
-</div>
+  <section class="map-scroll-area">
+
+    <div class="zoom-wrapper">
+
+      <div
+        id="map-viewer"
+        class="map-viewer"
+      >
+
+        <div
+          id="map-image-wrap"
+          class="map-image-wrap"
+        >
+
+          <img
+            id="floor-image"
+            class="map-image"
+            src="images/1tou_1f.jpg"
+            alt="1棟 1階フロアマップ"
+            draggable="false"
+          >
 
 
-<!-- =========================================
-     操作説明
-========================================= -->
+          <!-- =================================
+               1階 ホットスポット
+          ================================== -->
 
-<div
-  class="help-overlay"
-  id="helpOverlay"
->
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot ten-yen-bread"
+            data-modal-type="ten-yen-bread"
+            aria-label="10円パン"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
 
-  <div
-    class="help-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="helpTitle"
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-2d"
+            data-modal-type="room-2d"
+            aria-label="2D"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-3a"
+            data-modal-type="room-3a"
+            aria-label="3A"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-2a"
+            data-modal-type="room-2a"
+            aria-label="2A"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-jrc"
+            data-modal-type="room-jrc"
+            aria-label="JRC"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-1a"
+            data-modal-type="room-1a"
+            aria-label="1A"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-3g"
+            data-modal-type="room-3g"
+            aria-label="3G"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-2e"
+            data-modal-type="room-2e"
+            aria-label="2E"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+          <button
+            type="button"
+            class="map-hotspot floor-1-hotspot room-3d"
+            data-modal-type="room-3d"
+            aria-label="3D"
+          >
+            <span class="crowd-visual-layer"></span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================
+       操作説明
+  ======================================== -->
+
+  <div class="map-operation">
+
+    <strong>操作方法</strong><br>
+    スマートフォン：2本指で拡大・縮小、拡大中はドラッグできます。<br>
+    PC：マウスホイールで拡大・縮小できます。
+
+  </div>
+
+
+  <!-- =======================================
+       ズームリセット
+  ======================================== -->
+
+  <button
+    type="button"
+    id="zoom-reset"
+    class="zoom-reset"
   >
+    元のサイズに戻す
+  </button>
 
-    <button
-      class="help-x"
-      id="helpX"
-      type="button"
-      aria-label="操作説明を閉じる"
+
+  <!-- =======================================
+       建物切り替え
+  ======================================== -->
+
+  <div class="building-switch-area">
+
+    <a
+      class="building-switch"
+      href="2tou.html"
     >
-      ×
-    </button>
-
-
-    <h2
-      class="help-title"
-      id="helpTitle"
-    >
-      フロアマップの操作方法
-    </h2>
-
-
-    <p class="help-subtitle">
-      画像を動かしたり拡大したりできます
-    </p>
-
-
-    <div class="help-item">
-
-      <div class="help-icon gesture-red-square"></div>
-
-      <div class="help-text">
-        <strong>赤い文字をタップで詳細表示</strong><br>
-        赤い文字をタップすると詳細を表示できます。(制作中)
-      </div>
-
-    </div>
-
-
-    <div class="help-item">
-
-      <div class="help-icon gesture-square"></div>
-
-      <div class="help-text">
-        <strong>2本指で拡大・縮小</strong><br>
-        画像の上で2本の指を広げたり閉じたりすると、
-        マップを拡大・縮小できます。
-      </div>
-
-    </div>
-
-
-    <div class="help-item">
-
-      <div class="help-icon gesture-pan-square"></div>
-
-      <div class="help-text">
-        <strong>拡大後は1本指で移動</strong><br>
-        拡大した状態で1本指を動かすと、
-        マップを見る位置を移動できます。
-      </div>
-
-    </div>
-
-
-    <div class="help-item">
-
-      <div class="help-icon">
-        〈〉
-      </div>
-
-      <div class="help-text">
-        <strong>階を切り替える</strong><br>
-        左右の「〈」「〉」ボタンで
-        1階・2階・3階・4階を切り替えられます。
-      </div>
-
-    </div>
-
-
-    <div class="help-item">
-
-      <div class="help-icon">
-        ⌄
-      </div>
-
-      <div class="help-text">
-        <strong>棟を切り替える</strong><br>
-        画像の下にある「⌄」を押すと、
-        2棟のフロアマップへ移動します。
-      </div>
-
-    </div>
-
-
-    <button
-      class="help-close"
-      id="helpClose"
-      type="button"
-    >
-      マップを見る
-    </button>
+      2棟フロアマップ →
+    </a>
 
   </div>
 
-</div>
+</main>
+
+
+<!-- =========================================
+     モーダル
+========================================= -->
+
+<div id="modal-container"></div>
 
 
 <script>
 
 /* =========================================
-   1棟 フロア設定
+   ヘッダー読み込み
+========================================= */
+
+async function loadHeader(){
+
+  const container =
+    document.getElementById("header-container");
+
+  if(!container) return;
+
+  try{
+
+    const response =
+      await fetch("header.html", {
+        cache:"no-store"
+      });
+
+    if(!response.ok){
+      throw new Error(
+        "header.html の読み込みに失敗しました"
+      );
+    }
+
+    container.innerHTML =
+      await response.text();
+
+    requestAnimationFrame(updateHeaderHeight);
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================================
+   ヘッダー高さ
+========================================= */
+
+function updateHeaderHeight(){
+
+  const header =
+    document.querySelector(
+      "#header-container header, " +
+      "#header-container .site-header, " +
+      "#header-container > header"
+    );
+
+  if(!header) return;
+
+  const height =
+    header.getBoundingClientRect().height;
+
+  document.documentElement.style
+    .setProperty(
+      "--header-height",
+      `${height}px`
+    );
+
+}
+
+
+window.addEventListener(
+  "resize",
+  updateHeaderHeight
+);
+
+window.addEventListener(
+  "orientationchange",
+  updateHeaderHeight
+);
+
+
+/* =========================================
+   フロア情報
 ========================================= */
 
 const floors = [
 
   {
-    name: "1棟 1階",
-    image: "images/1tou_1f.jpg"
+    name:"1階",
+    image:"images/1tou_1f.jpg"
   },
 
   {
-    name: "1棟 2階",
-    image: "images/1tou_2f.jpg"
+    name:"2階",
+    image:"images/1tou_2f.jpg"
   },
 
   {
-    name: "1棟 3階",
-    image: "images/1tou_3f.jpg"
+    name:"3階",
+    image:"images/1tou_3f.jpg"
   },
 
   {
-    name: "1棟 4階",
-    image: "images/1tou_4f.jpg"
+    name:"4階",
+    image:"images/1tou_4f.jpg"
   }
 
 ];
@@ -2098,259 +1015,247 @@ let currentFloor = 0;
 
 
 /* =========================================
-   要素
+   DOM
 ========================================= */
 
 const floorImage =
-  document.getElementById("floorImage");
+  document.getElementById("floor-image");
 
-const prevButton =
-  document.getElementById("prevButton");
+const floorName =
+  document.getElementById("floor-name");
 
-const nextButton =
-  document.getElementById("nextButton");
+const floorPrev =
+  document.getElementById("floor-prev");
 
-const buildingSwitch =
-  document.getElementById("buildingSwitch");
-
-const imageWrapper =
-  document.getElementById("imageWrapper");
-
-const backToMap =
-  document.getElementById("backToMap");
-
-const mapView =
-  document.querySelector(".map-view");
+const floorNext =
+  document.getElementById("floor-next");
 
 
 /* =========================================
-   場所詳細モーダル
+   フロアごとのホットスポット
 ========================================= */
 
-const placeModalOverlay =
-  document.getElementById("placeModalOverlay");
+const floorHotspotClasses = {
 
-const placeModalFrame =
-  document.getElementById("placeModalFrame");
+  0:[
+    "floor-1-hotspot"
+  ],
 
-const mapHotspots =
-  document.querySelectorAll(".map-hotspot");
+  1:[
+    "floor-2-hotspot"
+  ],
+
+  2:[
+    "floor-3-hotspot"
+  ],
+
+  3:[
+    "floor-4-hotspot"
+  ]
+
+};
 
 
-function openPlaceModal(type) {
+/* =========================================
+   フロア切り替え
+========================================= */
 
-  if (!placeModalOverlay || !placeModalFrame) {
-    return;
-  }
+function updateFloor(){
 
-  placeModalFrame.src =
-    "modal2.html?type=" + encodeURIComponent(type);
+  const floor =
+    floors[currentFloor];
 
-  placeModalOverlay.classList.add("active");
-  placeModalOverlay.setAttribute("aria-hidden", "false");
+  if(!floor) return;
 
-  document.body.style.overflow = "hidden";
+  floorImage.src =
+    floor.image;
+
+  floorImage.alt =
+    `1棟 ${floor.name}フロアマップ`;
+
+  floorName.textContent =
+    floor.name;
+
+  floorPrev.disabled =
+    currentFloor <= 0;
+
+  floorNext.disabled =
+    currentFloor >= floors.length - 1;
+
+
+  document
+    .querySelectorAll(".map-hotspot")
+    .forEach(hotspot => {
+
+      const classes =
+        Object.values(floorHotspotClasses)
+          .flat();
+
+      const isCurrentFloor =
+        floorHotspotClasses[currentFloor] &&
+        floorHotspotClasses[currentFloor]
+          .some(cls =>
+            hotspot.classList.contains(cls)
+          );
+
+      hotspot.style.display =
+        isCurrentFloor
+          ? "block"
+          : "none";
+
+    });
+
+
+  resetZoom();
+
 }
 
 
-function closePlaceModal() {
+floorPrev.addEventListener(
+  "click",
+  () => {
 
-  if (!placeModalOverlay || !placeModalFrame) {
-    return;
+    if(currentFloor <= 0) return;
+
+    currentFloor--;
+
+    updateFloor();
+
   }
-
-  placeModalOverlay.classList.remove("active");
-  placeModalOverlay.setAttribute("aria-hidden", "true");
-  placeModalFrame.src = "about:blank";
-
-  document.body.style.overflow = "";
-}
+);
 
 
-mapHotspots.forEach((hotspot) => {
+floorNext.addEventListener(
+  "click",
+  () => {
 
-  hotspot.addEventListener("click", (e) => {
+    if(
+      currentFloor >= floors.length - 1
+    ) return;
 
-    e.preventDefault();
-    e.stopPropagation();
+    currentFloor++;
 
-    const type = hotspot.dataset.modalType;
+    updateFloor();
 
-    if (type) {
-      openPlaceModal(type);
+  }
+);
+
+
+/* =========================================
+   モーダル
+========================================= */
+
+async function openModal(type){
+
+  const container =
+    document.getElementById(
+      "modal-container"
+    );
+
+  if(!container) return;
+
+  try{
+
+    const response =
+      await fetch(
+        `modal2.html?type=${encodeURIComponent(type)}`,
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "modal2.html の読み込みに失敗しました"
+      );
     }
+
+    const html =
+      await response.text();
+
+    container.innerHTML =
+      html;
+
+    const modal =
+      container.querySelector(
+        ".modal, #modal, .modal-overlay"
+      );
+
+    if(modal){
+      modal.classList.add("show");
+    }
+
+    document.body.classList.add(
+      "modal-open"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================================
+   ホットスポットクリック
+========================================= */
+
+document
+  .querySelectorAll(".map-hotspot")
+  .forEach(hotspot => {
+
+    hotspot.addEventListener(
+      "click",
+      event => {
+
+        if(
+          event.target.closest(
+            ".crowd-visual-layer"
+          )
+        ){
+          return;
+        }
+
+        const type =
+          hotspot.dataset.modalType;
+
+        if(type){
+          openModal(type);
+        }
+
+      }
+    );
 
   });
 
-});
-
-
-window.addEventListener("message", (e) => {
-
-  if (e.source !== placeModalFrame?.contentWindow) {
-    return;
-  }
-
-  if (e.data && e.data.type === "close-map-modal") {
-    closePlaceModal();
-  }
-
-});
-
-
-function updateHotspots() {
-
-  mapHotspots.forEach((hotspot) => {
-
-    const isFloor1Hotspot =
-      hotspot.classList.contains("floor-1-hotspot");
-
-    const isFloor2Hotspot =
-      hotspot.classList.contains("floor-2-hotspot");
-
-    const isFloor3Hotspot =
-      hotspot.classList.contains("floor-3-hotspot");
-
-    const isFloor4Hotspot =
-      hotspot.classList.contains("floor-4-hotspot");
-
-    if (isFloor1Hotspot) {
-      hotspot.hidden = currentFloor !== 0;
-      return;
-    }
-
-    if (isFloor2Hotspot) {
-      hotspot.hidden = currentFloor !== 1;
-      return;
-    }
-
-    if (isFloor3Hotspot) {
-      hotspot.hidden = currentFloor !== 2;
-      return;
-    }
-
-    if (isFloor4Hotspot) {
-      hotspot.hidden = currentFloor !== 3;
-      return;
-    }
-
-    hotspot.hidden = true;
-
-  });
-
-}
-
 
 /* =========================================
-   操作説明
+   ズーム
 ========================================= */
 
-const helpButton =
-  document.getElementById("helpButton");
+const mapViewer =
+  document.getElementById("map-viewer");
 
-const helpOverlay =
-  document.getElementById("helpOverlay");
-
-const helpClose =
-  document.getElementById("helpClose");
-
-const helpX =
-  document.getElementById("helpX");
-
-
-const HELP_STORAGE_KEY =
-  "choko_floor_map_help_shown";
-
-
-function openHelp() {
-
-  helpOverlay.classList.add("active");
-
-}
-
-
-function closeHelp() {
-
-  helpOverlay.classList.remove("active");
-
-  localStorage.setItem(
-    HELP_STORAGE_KEY,
-    "true"
+const mapImageWrap =
+  document.getElementById(
+    "map-image-wrap"
   );
 
-}
-
-
-helpButton.addEventListener(
-  "click",
-  () => {
-
-    openHelp();
-
-  }
-);
-
-
-helpClose.addEventListener(
-  "click",
-  () => {
-
-    closeHelp();
-
-  }
-);
-
-
-helpX.addEventListener(
-  "click",
-  () => {
-
-    closeHelp();
-
-  }
-);
-
-
-helpOverlay.addEventListener(
-  "click",
-  (e) => {
-
-    if (e.target === helpOverlay) {
-
-      closeHelp();
-
-    }
-
-  }
-);
-
-
-if (
-  localStorage.getItem(
-    HELP_STORAGE_KEY
-  ) !== "true"
-) {
-
-  setTimeout(
-    () => {
-
-      openHelp();
-
-    },
-    350
+const zoomResetButton =
+  document.getElementById(
+    "zoom-reset"
   );
 
-}
 
-
-/* =========================================
-   ズーム・移動
-========================================= */
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 4;
 
 let scale = 1;
 
-let translateX = 0;
-let translateY = 0;
+let panX = 0;
+let panY = 0;
 
 let startDistance = 0;
 let startScale = 1;
@@ -2358,24 +1263,86 @@ let startScale = 1;
 let startPanX = 0;
 let startPanY = 0;
 
-let startTouchX = 0;
-let startTouchY = 0;
-
 let startCenterX = 0;
 let startCenterY = 0;
 
+let isPinching = false;
 let isDragging = false;
 
+let dragStartX = 0;
+let dragStartY = 0;
 
-function getDistance(touches) {
+let pointers =
+  new Map();
+
+
+/* =========================================
+   transform
+========================================= */
+
+function applyTransform(){
+
+  mapImageWrap.style.transform =
+    `translate3d(${panX}px, ${panY}px, 0) scale(${scale})`;
+
+  if(scale > 1){
+
+    zoomResetButton.classList.add(
+      "show"
+    );
+
+  }else{
+
+    zoomResetButton.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   リセット
+========================================= */
+
+function resetZoom(){
+
+  scale = 1;
+
+  panX = 0;
+  panY = 0;
+
+  isPinching = false;
+  isDragging = false;
+
+  pointers.clear();
+
+  applyTransform();
+
+}
+
+
+zoomResetButton.addEventListener(
+  "click",
+  resetZoom
+);
+
+
+/* =========================================
+   距離
+========================================= */
+
+function getDistance(
+  p1,
+  p2
+){
 
   const dx =
-    touches[0].clientX -
-    touches[1].clientX;
+    p1.clientX - p2.clientX;
 
   const dy =
-    touches[0].clientY -
-    touches[1].clientY;
+    p1.clientY - p2.clientY;
 
   return Math.sqrt(
     dx * dx + dy * dy
@@ -2384,213 +1351,81 @@ function getDistance(touches) {
 }
 
 
-function updateArrowPosition() {
+/* =========================================
+   中心
+========================================= */
 
-  if (!imageWrapper) {
-    return;
-  }
+function getCenter(
+  p1,
+  p2
+){
 
-  const imageTop =
-    imageWrapper.offsetTop;
+  return {
 
-  const imageHeight =
-    imageWrapper.offsetHeight;
+    x:
+      (p1.clientX + p2.clientX) / 2,
 
-  const centerY =
-    imageTop + (imageHeight / 2);
+    y:
+      (p1.clientY + p2.clientY) / 2
 
-  prevButton.style.top =
-    centerY + "px";
-
-  nextButton.style.top =
-    centerY + "px";
+  };
 
 }
 
 
-function clampPosition() {
+/* =========================================
+   Pointer Down
+========================================= */
 
-  const wrapperWidth =
-    imageWrapper.offsetWidth;
+mapImageWrap.addEventListener(
+  "pointerdown",
+  event => {
 
-  const wrapperHeight =
-    imageWrapper.offsetHeight;
-
-
-  const maxX =
-    Math.max(
-      0,
-      (wrapperWidth * (scale - 1)) / 2
+    pointers.set(
+      event.pointerId,
+      event
     );
 
-  const maxY =
-    Math.max(
-      0,
-      (wrapperHeight * (scale - 1)) / 2
+    mapImageWrap.setPointerCapture(
+      event.pointerId
     );
 
 
-  translateX =
-    Math.min(
-      Math.max(translateX, -maxX),
-      maxX
-    );
+    if(pointers.size === 2){
 
-  translateY =
-    Math.min(
-      Math.max(translateY, -maxY),
-      maxY
-    );
-
-}
-
-
-function updateTransform() {
-
-  clampPosition();
-
-  imageWrapper.style.transform =
-    "translate3d(" +
-    translateX +
-    "px, " +
-    translateY +
-    "px, 0) scale(" +
-    scale +
-    ")";
-
-}
-
-
-function setZoom(value) {
-
-  scale =
-    Math.min(
-      Math.max(value, 1),
-      5
-    );
-
-  updateTransform();
-
-}
-
-
-function resetZoom() {
-
-  scale = 1;
-
-  translateX = 0;
-  translateY = 0;
-
-  imageWrapper.style.transform =
-    "translate3d(0, 0, 0) scale(1)";
-
-  updateArrowPosition();
-
-}
-
-
-function showFloor(index) {
-
-  currentFloor =
-    (index + floors.length) % floors.length;
-
-  floorImage.src =
-    floors[currentFloor].image;
-
-  floorImage.alt =
-    floors[currentFloor].name +
-    " フロアマップ";
-
-  resetZoom();
-  updateHotspots();
-
-}
-
-
-floorImage.addEventListener(
-  "load",
-  () => {
-
-    resetZoom();
-
-    updateArrowPosition();
-
-  }
-);
-
-
-prevButton.addEventListener(
-  "click",
-  () => {
-
-    showFloor(currentFloor - 1);
-
-  }
-);
-
-
-nextButton.addEventListener(
-  "click",
-  () => {
-
-    showFloor(currentFloor + 1);
-
-  }
-);
-
-
-backToMap.addEventListener(
-  "click",
-  () => {
-
-    location.href = "map.html";
-
-  }
-);
-
-
-buildingSwitch.addEventListener(
-  "click",
-  (e) => {
-
-    e.stopPropagation();
-
-    location.href = "2tou.html";
-
-  }
-);
-
-
-imageWrapper.addEventListener(
-  "touchstart",
-  (e) => {
-
-    if (e.touches.length === 2) {
+      const values =
+        Array.from(
+          pointers.values()
+        );
 
       startDistance =
-        getDistance(e.touches);
+        getDistance(
+          values[0],
+          values[1]
+        );
 
       startScale =
         scale;
 
-      startPanX =
-        translateX;
-
-      startPanY =
-        translateY;
+      const center =
+        getCenter(
+          values[0],
+          values[1]
+        );
 
       startCenterX =
-        (
-          e.touches[0].clientX +
-          e.touches[1].clientX
-        ) / 2;
+        center.x;
 
       startCenterY =
-        (
-          e.touches[0].clientY +
-          e.touches[1].clientY
-        ) / 2;
+        center.y;
 
+      startPanX =
+        panX;
+
+      startPanY =
+        panY;
+
+      isPinching = true;
       isDragging = false;
 
       return;
@@ -2598,992 +1433,1297 @@ imageWrapper.addEventListener(
     }
 
 
-    if (
-      e.touches.length === 1 &&
+    if(
+      pointers.size === 1 &&
       scale > 1
-    ) {
+    ){
 
       isDragging = true;
 
-      startTouchX =
-        e.touches[0].clientX;
+      dragStartX =
+        event.clientX - panX;
 
-      startTouchY =
-        e.touches[0].clientY;
-
-      startPanX =
-        translateX;
-
-      startPanY =
-        translateY;
+      dragStartY =
+        event.clientY - panY;
 
     }
 
   },
-  { passive: false }
+  {
+    passive:false
+  }
 );
 
 
-imageWrapper.addEventListener(
-  "touchmove",
-  (e) => {
+/* =========================================
+   Pointer Move
+========================================= */
 
-    if (e.touches.length === 2) {
+mapImageWrap.addEventListener(
+  "pointermove",
+  event => {
 
-      e.preventDefault();
+    if(!pointers.has(event.pointerId)){
+      return;
+    }
+
+    pointers.set(
+      event.pointerId,
+      event
+    );
+
+
+    if(
+      isPinching &&
+      pointers.size >= 2
+    ){
+
+      const values =
+        Array.from(
+          pointers.values()
+        );
 
       const distance =
-        getDistance(e.touches);
-
-      if (startDistance > 0) {
-
-        const ratio =
-          distance / startDistance;
-
-        scale =
-          Math.min(
-            Math.max(
-              startScale * ratio,
-              1
-            ),
-            5
-          );
-
-      }
-
-
-      const centerX =
-        (
-          e.touches[0].clientX +
-          e.touches[1].clientX
-        ) / 2;
-
-      const centerY =
-        (
-          e.touches[0].clientY +
-          e.touches[1].clientY
-        ) / 2;
-
-
-      translateX =
-        startPanX +
-        (centerX - startCenterX);
-
-      translateY =
-        startPanY +
-        (centerY - startCenterY);
-
-      updateTransform();
-
-      return;
-
-    }
-
-
-    if (
-      e.touches.length === 1 &&
-      isDragging &&
-      scale > 1
-    ) {
-
-      e.preventDefault();
-
-      const x =
-        e.touches[0].clientX;
-
-      const y =
-        e.touches[0].clientY;
-
-      translateX =
-        startPanX +
-        (x - startTouchX);
-
-      translateY =
-        startPanY +
-        (y - startTouchY);
-
-      updateTransform();
-
-    }
-
-  },
-  { passive: false }
-);
-
-
-imageWrapper.addEventListener(
-  "touchend",
-  (e) => {
-
-    if (e.touches.length === 0) {
-
-      isDragging = false;
-
-      startDistance = 0;
-
-      startTouchX = 0;
-      startTouchY = 0;
-
-      startCenterX = 0;
-      startCenterY = 0;
-
-    }
-
-  },
-  { passive: false }
-);
-
-
-imageWrapper.addEventListener(
-  "mousedown",
-  (e) => {
-
-    if (
-      e.button !== 0 ||
-      scale <= 1
-    ) {
-      return;
-    }
-
-    isDragging = true;
-
-    startTouchX =
-      e.clientX;
-
-    startTouchY =
-      e.clientY;
-
-    startPanX =
-      translateX;
-
-    startPanY =
-      translateY;
-
-    imageWrapper.style.cursor =
-      "grabbing";
-
-    e.preventDefault();
-
-  }
-);
-
-
-document.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if (
-      !isDragging ||
-      scale <= 1
-    ) {
-      return;
-    }
-
-    translateX =
-      startPanX +
-      (e.clientX - startTouchX);
-
-    translateY =
-      startPanY +
-      (e.clientY - startTouchY);
-
-    updateTransform();
-
-  }
-);
-
-
-document.addEventListener(
-  "mouseup",
-  () => {
-
-    if (isDragging) {
-
-      isDragging = false;
-
-      imageWrapper.style.cursor =
-        scale > 1
-          ? "grab"
-          : "default";
-
-    }
-
-  }
-);
-
-
-imageWrapper.addEventListener(
-  "wheel",
-  (e) => {
-
-    e.preventDefault();
-
-    const delta =
-      e.deltaY > 0
-        ? -0.15
-        : 0.15;
-
-    setZoom(scale + delta);
-
-    imageWrapper.style.cursor =
-      scale > 1
-        ? "grab"
-        : "default";
-
-  },
-  { passive: false }
-);
-
-
-imageWrapper.style.cursor = "default";
-
-updateHotspots();
-
-
-window.addEventListener(
-  "load",
-  () => {
-
-    updateArrowPosition();
-
-  }
-);
-
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    if (scale > 1) {
-
-      updateTransform();
-
-    }
-
-    updateArrowPosition();
-
-  }
-);
-
-</script>
-
-<script>
-/* =========================================
-   混雑状況表示
-   crowd.html と同じ /api/crowd の最新値を取得
-   ※ map=1tou は付けず、crowd.html と同じ取得方法に統一
-========================================= */
-(function(){
-
-  const CROWD_API_URL =
-    "https://chosei-fes.onrender.com";
-
-  const CROWD_STORAGE_KEY =
-    "choko_crowd_map_visible";
-
-  const CROWD_REFRESH_MS =
-    15000;
-
-  let crowdDisplayEnabled =
-    localStorage.getItem(CROWD_STORAGE_KEY) !== "false";
-
-  let crowdRequestController = null;
-
-
-  /* -----------------------------------------
-     混雑状態を統一
-  ----------------------------------------- */
-  function normalizeCrowdStatus(value){
-
-    const status =
-      String(value ?? "")
-        .trim()
-        .toLowerCase();
-
-    if([
-      "empty",
-      "low",
-      "free",
-      "空いている",
-      "比較的空いている"
-    ].includes(status)){
-      return "empty";
-    }
-
-    if([
-      "normal",
-      "medium",
-      "moderate",
-      "やや混雑している"
-    ].includes(status)){
-      return "normal";
-    }
-
-    if([
-      "crowded",
-      "high",
-      "busy",
-      "混雑している"
-    ].includes(status)){
-      return "crowded";
-    }
-
-    return "unknown";
-  }
-
-
-  /* -----------------------------------------
-     企画IDを安全に文字列化
-  ----------------------------------------- */
-  function normalizeId(value){
-
-    return String(value ?? "")
-      .trim();
-  }
-
-
-  /* -----------------------------------------
-     APIレスポンスから企画情報を取得
-
-     crowd.html と同じ形式を基本にしつつ、
-     配列形式・オブジェクト形式の両方に対応。
-  ----------------------------------------- */
-  function getCrowdRecord(
-    crowdData,
-    targetId
-  ){
-
-    const id =
-      normalizeId(targetId);
-
-    if(
-      !crowdData ||
-      !id
-    ){
-      return null;
-    }
-
-
-    const containers = [
-      crowdData,
-      crowdData.data,
-      crowdData.events,
-      crowdData.crowd,
-      crowdData.results
-    ];
-
-
-    for(
-      const container of containers
-    ){
-
-      if(!container){
-        continue;
-      }
-
-
-      /* 配列形式 */
-      if(Array.isArray(container)){
-
-        const found =
-          container.find(
-            item => {
-
-              if(
-                !item ||
-                typeof item !== "object"
-              ){
-                return false;
-              }
-
-              const itemId =
-                normalizeId(
-                  item.id ??
-                  item.eventId ??
-                  item.event_id
-                );
-
-              return itemId === id;
-            }
-          );
-
-        if(found){
-          return found;
-        }
-
-        continue;
-      }
-
-
-      /* オブジェクト形式
-         {
-           "room-2d": {
-             status: "crowded"
-           }
-         }
-      */
-      if(
-        typeof container === "object"
-      ){
-
-        const direct =
-          container[id];
-
-        if(
-          direct &&
-          typeof direct === "object"
-        ){
-          return direct;
-        }
-
-
-        /* 念のためID表記ゆれにも対応 */
-        const foundKey =
-          Object.keys(container)
-            .find(
-              key =>
-                normalizeId(key) === id
-            );
-
-        if(foundKey){
-
-          const found =
-            container[foundKey];
-
-          if(
-            found &&
-            typeof found === "object"
-          ){
-            return found;
-          }
-        }
-      }
-    }
-
-
-    return null;
-  }
-
-
-  /* -----------------------------------------
-     レコードから混雑状態を取得
-  ----------------------------------------- */
-  function getStatusFromRecord(record){
-
-    if(
-      !record ||
-      typeof record !== "object"
-    ){
-      return "unknown";
-    }
-
-    return normalizeCrowdStatus(
-      record.status ??
-      record.crowdStatus ??
-      record.crowd_status ??
-      record.state ??
-      record.level
-    );
-  }
-
-
-  /* -----------------------------------------
-     透ける色を反映
-  ----------------------------------------- */
-  function applyCrowdVisual(
-    hotspot,
-    status
-  ){
-
-    if(!hotspot){
-      return;
-    }
-
-
-    const safeStatus =
-      normalizeCrowdStatus(status);
-
-
-    hotspot.classList.remove(
-      "crowd-empty",
-      "crowd-normal",
-      "crowd-crowded",
-      "crowd-unknown",
-      "crowd-visible"
-    );
-
-
-    hotspot.classList.add(
-      "crowd-" + safeStatus
-    );
-
-
-    if(crowdDisplayEnabled){
-
-      hotspot.classList.add(
-        "crowd-visible"
-      );
-
-    }
-
-  }
-
-
-  /* -----------------------------------------
-     表示ON/OFFボタン
-  ----------------------------------------- */
-  function getToggleButton(){
-
-    return document.getElementById(
-      "crowdToggleButton"
-    );
-
-  }
-
-
-  function updateToggleButton(){
-
-    const button =
-      getToggleButton();
-
-    if(!button){
-      return;
-    }
-
-
-    button.classList.toggle(
-      "off",
-      !crowdDisplayEnabled
-    );
-
-
-    button.setAttribute(
-      "aria-pressed",
-      String(crowdDisplayEnabled)
-    );
-
-
-    button.innerHTML =
-      '<span class="crowd-toggle-dot"></span>' +
-      (
-        crowdDisplayEnabled
-          ? "混雑表示：ON"
-          : "混雑表示：OFF"
-      );
-
-  }
-
-
-  /* -----------------------------------------
-     現在保持している状態を再表示
-  ----------------------------------------- */
-  function refreshCrowdVisibility(){
-
-    document
-      .querySelectorAll(
-        ".map-hotspot"
-      )
-      .forEach(
-        hotspot => {
-
-          applyCrowdVisual(
-            hotspot,
-            hotspot.dataset.crowdStatus ||
-              "unknown"
-          );
-
-        }
-      );
-
-
-    updateToggleButton();
-
-  }
-
-
-  /* -----------------------------------------
-     混雑レイヤー生成
-  ----------------------------------------- */
-  function setupCrowdLayers(){
-
-    document
-      .querySelectorAll(
-        ".map-hotspot"
-      )
-      .forEach(
-        hotspot => {
-
-          if(
-            hotspot.querySelector(
-              ":scope > .crowd-visual-layer"
-            )
-          ){
-            return;
-          }
-
-
-          const layer =
-            document.createElement(
-              "span"
-            );
-
-
-          layer.className =
-            "crowd-visual-layer";
-
-
-          layer.setAttribute(
-            "aria-hidden",
-            "true"
-          );
-
-
-          hotspot.appendChild(
-            layer
-          );
-
-        }
-      );
-
-  }
-
-
-  /* -----------------------------------------
-     最新の混雑情報を取得
-
-     crowd.html と同じ
-       GET /api/crowd
-     を使用する。
-     map=1tou を付けないことで、
-     crowd.html と1棟マップで同じ
-     サーバー結果を参照する。
-  ----------------------------------------- */
-  async function loadCrowdMapStatus(){
-
-    const hotspots =
-      Array.from(
-        document.querySelectorAll(
-          ".map-hotspot"
-        )
-      );
-
-
-    if(!hotspots.length){
-      return;
-    }
-
-
-    /* API取得前は現在の状態を維持。
-       初回だけ情報なし。 */
-    hotspots.forEach(
-      hotspot => {
-
-        if(
-          !hotspot.dataset.crowdStatus
-        ){
-
-          hotspot.dataset.crowdStatus =
-            "unknown";
-
-        }
-
-
-        applyCrowdVisual(
-          hotspot,
-          hotspot.dataset.crowdStatus
+        getDistance(
+          values[0],
+          values[1]
         );
 
-      }
-    );
-
-
-    /* 前回の通信が残っていた場合は中止 */
-    if(crowdRequestController){
-
-      try{
-        crowdRequestController.abort();
-      }catch(error){
-        /* no-op */
-      }
-
-    }
-
-
-    crowdRequestController =
-      new AbortController();
-
-
-    try{
-
-      /*
-        crowd.html と完全に同じAPIを取得。
-        timestampを付けてブラウザ・CDNの
-        古いレスポンスを使わないようにする。
-      */
-      const response =
-        await fetch(
-          CROWD_API_URL +
-          "/api/crowd?_=" +
-          Date.now(),
-          {
-            method: "GET",
-            cache: "no-store",
-            signal:
-              crowdRequestController.signal,
-            headers: {
-              "Accept":
-                "application/json",
-              "Cache-Control":
-                "no-cache"
-            }
-          }
-        );
-
-
-      if(!response.ok){
-
-        throw new Error(
-          "HTTP " +
-          response.status
-        );
-
-      }
-
-
-      const crowdData =
-        await response.json();
-
-
-      if(
-        !crowdData ||
-        typeof crowdData !== "object"
-      ){
-
-        throw new Error(
-          "混雑情報の形式が正しくありません"
-        );
-
-      }
-
-
-      console.log(
-        "1棟マップ：最新の混雑情報を取得しました",
-        crowdData
-      );
-
-
-      /*
-        APIから取得した最新値を
-        全ホットスポットへ反映。
-      */
-      hotspots.forEach(
-        hotspot => {
-
-          let targetId =
-            normalizeId(
-              hotspot.dataset.modalType
-            );
-
-
-          /*
-            体育館は crowd.html と同じ
-            gymnasium-performance に統一。
-          */
-          if(
-            targetId === "gymnasium" ||
-            targetId ===
-              "gymnasium-performance"
-          ){
-
-            targetId =
-              "gymnasium-performance";
-
-          }
-
-
-          const saved =
-            getCrowdRecord(
-              crowdData,
-              targetId
-            );
-
-
-          const status =
-            getStatusFromRecord(
-              saved
-            );
-
-
-          hotspot.dataset.crowdStatus =
-            status;
-
-
-          applyCrowdVisual(
-            hotspot,
-            status
-          );
-
-        }
-      );
-
-
-    }catch(error){
-
-      /*
-        AbortControllerによる中止は
-        エラー扱いにしない。
-      */
-      if(
-        error &&
-        error.name === "AbortError"
-      ){
+      if(startDistance <= 0){
         return;
       }
 
+      let nextScale =
+        startScale *
+        (distance / startDistance);
 
-      console.error(
-        "1棟マップの混雑情報取得に失敗しました",
-        error
-      );
-
-
-      /*
-        通信失敗時は既存の表示を維持。
-        一時的な通信エラーで、表示中の
-        混雑色が突然灰色へ戻らないようにする。
-      */
-    }
-
-
-    refreshCrowdVisibility();
-
-  }
-
-
-  /* -----------------------------------------
-     混雑表示ON/OFF
-  ----------------------------------------- */
-  function setupCrowdToggle(){
-
-    const button =
-      getToggleButton();
-
-    if(!button){
-      return;
-    }
-
-
-    button.addEventListener(
-      "click",
-      function(event){
-
-        event.preventDefault();
-        event.stopPropagation();
-
-
-        crowdDisplayEnabled =
-          !crowdDisplayEnabled;
-
-
-        localStorage.setItem(
-          CROWD_STORAGE_KEY,
-          String(
-            crowdDisplayEnabled
+      nextScale =
+        Math.max(
+          MIN_ZOOM,
+          Math.min(
+            MAX_ZOOM,
+            nextScale
           )
         );
 
 
-        refreshCrowdVisibility();
+      const center =
+        getCenter(
+          values[0],
+          values[1]
+        );
 
-      }
-    );
+      const dx =
+        center.x -
+        startCenterX;
+
+      const dy =
+        center.y -
+        startCenterY;
 
 
-    updateToggleButton();
+      panX =
+        startPanX + dx;
+
+      panY =
+        startPanY + dy;
+
+      scale =
+        nextScale;
+
+      applyTransform();
+
+      event.preventDefault();
+
+      return;
+
+    }
+
+
+    if(
+      isDragging &&
+      scale > 1 &&
+      pointers.size === 1
+    ){
+
+      panX =
+        event.clientX -
+        dragStartX;
+
+      panY =
+        event.clientY -
+        dragStartY;
+
+      applyTransform();
+
+      event.preventDefault();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =========================================
+   Pointer Up
+========================================= */
+
+function handlePointerEnd(event){
+
+  pointers.delete(
+    event.pointerId
+  );
+
+
+  if(pointers.size < 2){
+
+    isPinching = false;
 
   }
 
 
-  /* -----------------------------------------
-     初期化
-  ----------------------------------------- */
-  function setup(){
+  if(pointers.size === 0){
 
-    setupCrowdLayers();
+    isDragging = false;
 
-    setupCrowdToggle();
+  }
 
-    refreshCrowdVisibility();
-
-    /*
-      ページを開いた直後に取得。
-    */
-    loadCrowdMapStatus();
-
-    /*
-      crowd.html と同じ15秒間隔で
-      最新状態を自動更新。
-    */
-    setInterval(
-      loadCrowdMapStatus,
-      CROWD_REFRESH_MS
-    );
+}
 
 
-    /*
-      タブへ戻ってきた時も即時更新。
-      15秒待たずに最新状態を反映。
-    */
-    document.addEventListener(
-      "visibilitychange",
-      function(){
+mapImageWrap.addEventListener(
+  "pointerup",
+  handlePointerEnd
+);
 
-        if(
-          document.visibilityState ===
-          "visible"
-        ){
+mapImageWrap.addEventListener(
+  "pointercancel",
+  handlePointerEnd
+);
 
-          loadCrowdMapStatus();
+mapImageWrap.addEventListener(
+  "pointerleave",
+  event => {
 
-        }
+    if(
+      event.buttons === 0
+    ){
+      handlePointerEnd(event);
+    }
+
+  }
+);
+
+
+/* =========================================
+   PC ホイール
+========================================= */
+
+mapImageWrap.addEventListener(
+  "wheel",
+  event => {
+
+    event.preventDefault();
+
+    const rect =
+      mapImageWrap.getBoundingClientRect();
+
+    const mouseX =
+      event.clientX -
+      rect.left;
+
+    const mouseY =
+      event.clientY -
+      rect.top;
+
+
+    const oldScale =
+      scale;
+
+    const zoomFactor =
+      event.deltaY < 0
+        ? 1.12
+        : 0.89;
+
+    let nextScale =
+      oldScale *
+      zoomFactor;
+
+    nextScale =
+      Math.max(
+        MIN_ZOOM,
+        Math.min(
+          MAX_ZOOM,
+          nextScale
+        )
+      );
+
+
+    if(
+      nextScale !== oldScale
+    ){
+
+      const ratio =
+        nextScale /
+        oldScale;
+
+      panX =
+        mouseX -
+        (mouseX - panX) *
+        ratio;
+
+      panY =
+        mouseY -
+        (mouseY - panY) *
+        ratio;
+
+      scale =
+        nextScale;
+
+      applyTransform();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =========================================
+   ダブルクリック
+========================================= */
+
+mapImageWrap.addEventListener(
+  "dblclick",
+  event => {
+
+    event.preventDefault();
+
+    if(scale > 1){
+
+      resetZoom();
+
+      return;
+
+    }
+
+
+    const rect =
+      mapImageWrap.getBoundingClientRect();
+
+    const x =
+      event.clientX -
+      rect.left;
+
+    const y =
+      event.clientY -
+      rect.top;
+
+    const nextScale = 2;
+
+    panX =
+      x -
+      (x - panX) *
+      nextScale;
+
+    panY =
+      y -
+      (y - panY) *
+      nextScale;
+
+    scale =
+      nextScale;
+
+    applyTransform();
+
+  }
+);
+
+
+/* =========================================
+   混雑状況
+========================================= */
+
+const CROWD_API_URL =
+  "https://chosei-fes.onrender.com";
+
+const CROWD_REFRESH_INTERVAL =
+  15000;
+
+let crowdVisible =
+  false;
+
+let crowdAbortController =
+  null;
+
+
+/* =========================================
+   混雑表示ボタン
+========================================= */
+
+const crowdToggle =
+  document.getElementById(
+    "crowd-toggle"
+  );
+
+
+function setCrowdVisible(
+  visible
+){
+
+  crowdVisible =
+    Boolean(visible);
+
+  localStorage.setItem(
+    "choko_crowd_map_visible",
+    crowdVisible
+      ? "1"
+      : "0"
+  );
+
+
+  document
+    .querySelectorAll(
+      ".map-hotspot"
+    )
+    .forEach(
+      hotspot => {
+
+        hotspot.classList.toggle(
+          "crowd-visible",
+          crowdVisible
+        );
 
       }
     );
 
 
-    /*
-      ネットワーク復帰時にも更新。
-    */
-    window.addEventListener(
-      "online",
-      function(){
+  if(crowdToggle){
 
-        loadCrowdMapStatus();
-
-      }
+    crowdToggle.classList.toggle(
+      "is-on",
+      crowdVisible
     );
+
+    crowdToggle.setAttribute(
+      "aria-pressed",
+      crowdVisible
+        ? "true"
+        : "false"
+    );
+
+    crowdToggle.textContent =
+      crowdVisible
+        ? "混雑状況を非表示"
+        : "混雑状況を表示";
+
+  }
+
+}
+
+
+if(crowdToggle){
+
+  crowdToggle.addEventListener(
+    "click",
+    () => {
+
+      setCrowdVisible(
+        !crowdVisible
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   ステータス正規化
+========================================= */
+
+function normalizeCrowdStatus(
+  value
+){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+
+    return "unknown";
+
+  }
+
+
+  const status =
+    String(value)
+      .trim()
+      .toLowerCase();
+
+
+  if(
+    [
+      "empty",
+      "low",
+      "free",
+      "空いている",
+      "空き",
+      "比較的空いている"
+    ].includes(status)
+  ){
+
+    return "empty";
 
   }
 
 
   if(
-    document.readyState ===
-    "loading"
+    [
+      "normal",
+      "medium",
+      "moderate",
+      "通常",
+      "普通",
+      "やや混雑している"
+    ].includes(status)
   ){
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      setup,
-      {once:true}
-    );
-
-  }else{
-
-    setup();
+    return "normal";
 
   }
 
-})();
+
+  if(
+    [
+      "crowded",
+      "high",
+      "busy",
+      "混雑",
+      "混雑している"
+    ].includes(status)
+  ){
+
+    return "crowded";
+
+  }
+
+
+  return "unknown";
+
+}
+
+
+/* =========================================
+   APIレスポンスからイベント配列取得
+========================================= */
+
+function extractCrowdEvents(
+  payload
+){
+
+  if(Array.isArray(payload)){
+    return payload;
+  }
+
+
+  if(
+    payload &&
+    Array.isArray(payload.data)
+  ){
+
+    return payload.data;
+
+  }
+
+
+  if(
+    payload &&
+    Array.isArray(payload.events)
+  ){
+
+    return payload.events;
+
+  }
+
+
+  if(
+    payload &&
+    Array.isArray(payload.crowd)
+  ){
+
+    return payload.crowd;
+
+  }
+
+
+  if(
+    payload &&
+    Array.isArray(payload.results)
+  ){
+
+    return payload.results;
+
+  }
+
+
+  if(
+    payload &&
+    typeof payload === "object"
+  ){
+
+    return Object.entries(
+      payload
+    ).map(
+      ([id, value]) => {
+
+        if(
+          value &&
+          typeof value === "object"
+        ){
+
+          return {
+            id,
+            ...value
+          };
+
+        }
+
+        return {
+          id,
+          status:value
+        };
+
+      }
+    );
+
+  }
+
+
+  return [];
+
+}
+
+
+/* =========================================
+   ID候補取得
+========================================= */
+
+function getEventIdCandidates(
+  hotspot
+){
+
+  const type =
+    hotspot.dataset.modalType || "";
+
+  const id =
+    hotspot.dataset.eventId || "";
+
+  const candidates = [];
+
+
+  if(id){
+    candidates.push(id);
+  }
+
+  if(type){
+    candidates.push(type);
+  }
+
+
+  const aliases = {
+
+    "ten-yen-bread":[
+      "ten-yen-bread",
+      "tenyen-bread",
+      "10yen-bread"
+    ],
+
+    "room-2d":[
+      "room-2d",
+      "2d"
+    ],
+
+    "room-3a":[
+      "room-3a",
+      "3a"
+    ],
+
+    "room-2a":[
+      "room-2a",
+      "2a"
+    ],
+
+    "room-jrc":[
+      "room-jrc",
+      "jrc"
+    ],
+
+    "room-1a":[
+      "room-1a",
+      "1a"
+    ],
+
+    "room-3g":[
+      "room-3g",
+      "3g"
+    ],
+
+    "room-2e":[
+      "room-2e",
+      "2e"
+    ],
+
+    "room-3d":[
+      "room-3d",
+      "3d"
+    ],
+
+    "room-1e":[
+      "room-1e",
+      "1e"
+    ],
+
+    "room-3f":[
+      "room-3f",
+      "3f"
+    ],
+
+    "room-3e":[
+      "room-3e",
+      "3e"
+    ],
+
+    "room-1f":[
+      "room-1f",
+      "1f"
+    ],
+
+    "room-2f":[
+      "room-2f",
+      "2f"
+    ],
+
+    "room-1e-second":[
+      "room-1e-second",
+      "1e-second"
+    ],
+
+    "room-1e-right":[
+      "room-1e-right",
+      "1e-right"
+    ],
+
+    "room-3b":[
+      "room-3b",
+      "3b"
+    ],
+
+    "room-2c":[
+      "room-2c",
+      "2c"
+    ],
+
+    "room-1b":[
+      "room-1b",
+      "1b"
+    ],
+
+    "room-2b":[
+      "room-2b",
+      "2b"
+    ],
+
+    "room-ess":[
+      "room-ess",
+      "ess"
+    ],
+
+    "room-2g":[
+      "room-2g",
+      "2g"
+    ],
+
+    "room-1g":[
+      "room-1g",
+      "1g"
+    ],
+
+    "room-3c":[
+      "room-3c",
+      "3c"
+    ],
+
+    "room-bungei":[
+      "room-bungei",
+      "bungei"
+    ],
+
+    "room-shodo":[
+      "room-shodo",
+      "shodo"
+    ]
+
+  };
+
+
+  if(
+    aliases[type]
+  ){
+
+    candidates.push(
+      ...aliases[type]
+    );
+
+  }
+
+
+  return [
+    ...new Set(
+      candidates
+        .filter(Boolean)
+        .map(
+          value =>
+            String(value)
+              .trim()
+              .toLowerCase()
+        )
+    )
+  ];
+
+}
+
+
+/* =========================================
+   イベントID取得
+========================================= */
+
+function getCrowdEventId(
+  event
+){
+
+  if(!event) return "";
+
+  const keys = [
+
+    "id",
+    "eventId",
+    "event_id",
+    "modalId",
+    "modal_id",
+    "key",
+    "slug",
+    "name"
+
+  ];
+
+
+  for(
+    const key of keys
+  ){
+
+    if(
+      event[key] !== undefined &&
+      event[key] !== null
+    ){
+
+      return String(
+        event[key]
+      )
+        .trim()
+        .toLowerCase();
+
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+/* =========================================
+   イベントステータス取得
+========================================= */
+
+function getCrowdEventStatus(
+  event
+){
+
+  if(!event) return "unknown";
+
+
+  const keys = [
+
+    "status",
+    "crowdStatus",
+    "crowd_status",
+    "state",
+    "level",
+    "condition"
+
+  ];
+
+
+  for(
+    const key of keys
+  ){
+
+    if(
+      event[key] !== undefined &&
+      event[key] !== null
+    ){
+
+      return normalizeCrowdStatus(
+        event[key]
+      );
+
+    }
+
+  }
+
+
+  return "unknown";
+
+}
+
+
+/* =========================================
+   混雑レイヤー作成
+========================================= */
+
+function ensureCrowdVisualLayer(
+  hotspot
+){
+
+  let layer =
+    hotspot.querySelector(
+      ".crowd-visual-layer"
+    );
+
+  if(!layer){
+
+    layer =
+      document.createElement(
+        "span"
+      );
+
+    layer.className =
+      "crowd-visual-layer";
+
+    layer.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    hotspot.prepend(layer);
+
+  }
+
+  return layer;
+
+}
+
+
+/* =========================================
+   ステータス適用
+========================================= */
+
+function applyCrowdStatus(
+  hotspot,
+  status
+){
+
+  const normalized =
+    normalizeCrowdStatus(
+      status
+    );
+
+
+  hotspot.dataset.crowdStatus =
+    normalized;
+
+
+  hotspot.classList.remove(
+    "crowd-empty",
+    "crowd-normal",
+    "crowd-crowded",
+    "crowd-unknown"
+  );
+
+
+  hotspot.classList.add(
+    `crowd-${normalized}`
+  );
+
+
+  ensureCrowdVisualLayer(
+    hotspot
+  );
+
+
+  hotspot.classList.toggle(
+    "crowd-visible",
+    crowdVisible
+  );
+
+}
+
+
+/* =========================================
+   混雑状況読み込み
+========================================= */
+
+async function loadCrowdStatus(){
+
+  /*
+    重要：
+
+    crowd.html と同じく
+
+      /api/crowd
+
+    を使用します。
+
+    以前のように
+
+      /api/crowd?map=1tou
+
+    とせず、同じAPIの同じデータを取得することで、
+    crowd.html 側で変更された状態を1棟マップにも
+    反映します。
+  */
+
+
+  if(
+    crowdAbortController
+  ){
+
+    crowdAbortController.abort();
+
+  }
+
+
+  crowdAbortController =
+    new AbortController();
+
+
+  const url =
+    `${CROWD_API_URL}/api/crowd?_=${Date.now()}`;
+
+
+  try{
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            "Accept":
+              "application/json",
+            "Cache-Control":
+              "no-cache"
+          },
+          signal:
+            crowdAbortController.signal
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        `Crowd API HTTP ${response.status}`
+      );
+
+    }
+
+
+    const payload =
+      await response.json();
+
+
+    const events =
+      extractCrowdEvents(
+        payload
+      );
+
+
+    const eventMap =
+      new Map();
+
+
+    events.forEach(
+      event => {
+
+        const id =
+          getCrowdEventId(
+            event
+          );
+
+        if(!id) return;
+
+        eventMap.set(
+          id,
+          getCrowdEventStatus(
+            event
+          )
+        );
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(
+        hotspot => {
+
+          const candidates =
+            getEventIdCandidates(
+              hotspot
+            );
+
+
+          let foundStatus =
+            null;
+
+
+          for(
+            const candidate
+              of candidates
+          ){
+
+            if(
+              eventMap.has(
+                candidate
+              )
+            ){
+
+              foundStatus =
+                eventMap.get(
+                  candidate
+                );
+
+              break;
+
+            }
+
+          }
+
+
+          /*
+            今回APIに存在しない場合でも、
+            一時的な通信エラーと同様に既存状態を
+            不要に消さないようにします。
+          */
+
+          if(
+            foundStatus !== null
+          ){
+
+            applyCrowdStatus(
+              hotspot,
+              foundStatus
+            );
+
+          }
+
+        }
+      );
+
+
+    /*
+      最新データ取得成功後も表示状態を維持
+    */
+
+    setCrowdVisible(
+      crowdVisible
+    );
+
+
+  }catch(error){
+
+    if(
+      error &&
+      error.name === "AbortError"
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      APIが一時的に失敗した場合は、
+      現在表示している混雑色を消しません。
+    */
+
+    console.warn(
+      "混雑状況の取得に失敗しました:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   定期更新
+========================================= */
+
+let crowdRefreshTimer =
+  null;
+
+
+function startCrowdRefresh(){
+
+  if(crowdRefreshTimer){
+
+    clearInterval(
+      crowdRefreshTimer
+    );
+
+  }
+
+
+  crowdRefreshTimer =
+    setInterval(
+      () => {
+
+        loadCrowdStatus();
+
+      },
+      CROWD_REFRESH_INTERVAL
+    );
+
+}
+
+
+/* =========================================
+   タブ復帰時更新
+========================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if(
+      document.visibilityState ===
+      "visible"
+    ){
+
+      loadCrowdStatus();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   オンライン復帰時
+========================================= */
+
+window.addEventListener(
+  "online",
+  () => {
+
+    loadCrowdStatus();
+
+  }
+);
+
+
+/* =========================================
+   初期化
+========================================= */
+
+function initializeCrowd(){
+
+  const saved =
+    localStorage.getItem(
+      "choko_crowd_map_visible"
+    );
+
+
+  crowdVisible =
+    saved === "1";
+
+
+  document
+    .querySelectorAll(
+      ".map-hotspot"
+    )
+    .forEach(
+      hotspot => {
+
+        ensureCrowdVisualLayer(
+          hotspot
+        );
+
+      }
+    );
+
+
+  setCrowdVisible(
+    crowdVisible
+  );
+
+
+  loadCrowdStatus();
+
+  startCrowdRefresh();
+
+}
+
+
+/* =========================================
+   DOMContentLoaded
+========================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadHeader();
+
+    updateFloor();
+
+    initializeCrowd();
+
+  }
+);
+
+
+/* =========================================
+   即時初期化
+========================================= */
+
+if(
+  document.readyState !==
+  "loading"
+){
+
+  loadHeader();
+
+  updateFloor();
+
+  initializeCrowd();
+
+}
+
 </script>
 
 </body>
