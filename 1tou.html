@@ -345,7 +345,7 @@ body {
 
   height: auto;
 
-  padding-top: 70px;
+  padding-top: 92px;
   padding-bottom: 80px;
 
   display: flex;
@@ -420,7 +420,7 @@ body {
 .top-controls {
   position: absolute;
 
-  top: 8px;
+  top: 12px;
   left: 50%;
 
   transform: translateX(-50%);
@@ -429,7 +429,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
+  gap: 8px;
 
   z-index: 50;
 
@@ -442,36 +442,33 @@ body {
 ========================================= */
 
 .back-to-map {
-  border: 1px solid rgba(6,37,79,0.16);
-  background: rgba(255,255,255,0.94);
-  color: #06254f;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.back-to-map::before {
-  content: "↩";
-  margin-right: 5px;
-  font-size: 14px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
 .back-to-map:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px,-1px);
   background: #fff;
-  box-shadow: 0 5px 14px rgba(6,37,79,0.14);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
 
 .back-to-map:active {
-  transform: translateY(0);
-  opacity: 0.72;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 
@@ -480,43 +477,33 @@ body {
 ========================================= */
 
 .help-button {
-  border: 1px solid rgba(21,146,158,0.18);
-  background: rgba(21,146,158,0.95);
+  appearance: none;
+  border: 2px solid #65a6ae;
+  background: #65a6ae;
   color: #fff;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(21,146,158,0.16);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.help-button::before {
-  content: "?";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 50%;
-  font-size: 11px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
 .help-button:hover {
-  transform: translateY(-1px);
-  background: #12818c;
-  box-shadow: 0 5px 14px rgba(21,146,158,0.20);
+  transform: translate(-1px,-1px);
+  background: #5b969d;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
 
 .help-button:active {
-  transform: translateY(0);
-  opacity: 0.72;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 /* =========================================
@@ -524,33 +511,37 @@ body {
 ========================================= */
 
 .crowd-toggle-button {
-  border: 1px solid rgba(6,37,79,0.18);
-  background: rgba(255,255,255,0.92);
-  color: #06254f;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 13px;
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 13px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: background .18s ease, color .18s ease, transform .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
 .crowd-toggle-button:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px,-1px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
 
 .crowd-toggle-button:active {
-  transform: translateY(0);
-  opacity: 0.75;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 .crowd-toggle-button.off {
-  background: rgba(238,237,235,0.94);
-  color: #666;
+  background: #f1f1ef;
+  color: #777;
 }
 
 .crowd-toggle-dot {
@@ -575,12 +566,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   padding: 7px 10px;
-  border: 1px solid rgba(6,37,79,0.12);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.90);
-  box-shadow: 0 4px 14px rgba(6,37,79,0.10);
+  border: 1px solid rgba(36,36,42,.10);
+  border-radius: 0;
+  background: rgba(255,255,255,.92);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.07);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 60;
@@ -595,6 +586,10 @@ body {
   color: #333;
   font-size: 11px;
   font-weight: 700;
+}
+
+.crowd-legend-unknown {
+  gap: 0;
 }
 
 .crowd-legend-color {
@@ -1080,16 +1075,16 @@ body {
   .back-to-map,
   .help-button {
 
-    font-size: 14px;
+    font-size: 12px;
 
-    padding: 5px 10px;
+    padding: 7px 9px;
 
-    border-radius: 7px;
+    border-radius: 0;
   }
 
   .crowd-toggle-button {
-    font-size: 12px;
-    padding: 5px 9px;
+    font-size: 11px;
+    padding: 7px 8px;
   }
 
   .crowd-legend {
@@ -1280,7 +1275,7 @@ body {
 @media (max-width: 360px) {
 
   .map-view {
-    padding-top: 105px;
+    padding-top: 135px;
   }
 
   .top-controls {
@@ -1289,8 +1284,8 @@ body {
 
   .back-to-map,
   .help-button {
-    font-size: 12px;
-    padding: 5px 8px;
+    font-size: 11px;
+    padding: 6px 8px;
   }
 
 }
@@ -1304,7 +1299,7 @@ body {
 
   .map-view {
 
-    padding-top: 75px;
+    padding-top: 100px;
     padding-bottom: 60px;
 
   }
@@ -1769,8 +1764,7 @@ fetch("header.html")
           <i class="crowd-legend-color crowded"></i>
           <span>混雑している</span>
         </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color unknown"></i>
+        <span class="crowd-legend-item crowd-legend-unknown">
           <span>透明:情報なし</span>
         </span>
       </div>
