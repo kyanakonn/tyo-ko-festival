@@ -585,6 +585,7 @@ main{
   align-items:center;
   gap:10px;
   padding:14px 15px 32px;
+  overflow:visible;
   background:#f6f5f2;
   border-left:5px solid var(--teal);
 }
@@ -628,8 +629,10 @@ main{
   opacity:1 !important;
   position:absolute !important;
   right:15px !important;
-  bottom:7px !important;
-  z-index:10 !important;
+  bottom:5px !important;
+  z-index:9999 !important;
+  width:auto !important;
+  min-width:0 !important;
   min-height:18px !important;
   height:auto !important;
   margin:0 !important;
@@ -641,9 +644,9 @@ main{
   font-size:10px !important;
   line-height:1.6 !important;
   font-weight:500 !important;
-  color:#8c95a5 !important;
+  color:#555 !important;
   background:transparent !important;
-  border:none !important;
+  border:0 !important;
   box-shadow:none !important;
 }
 
@@ -2860,7 +2863,10 @@ function renderEvents(){
           </div>
 
 
-          <div class="status-display">
+          <div
+            class="status-display"
+            style="position:relative !important; padding-bottom:32px !important; overflow:visible !important;"
+          >
 
             <span
               class="
@@ -2881,16 +2887,11 @@ function renderEvents(){
 
             </span>
 
+
             <div
               class="status-time"
-              style="display:block !important;visibility:visible !important;opacity:1 !important;"
-            >
-
-              ${escapeHtml(
-                timeText
-              )}
-
-            </div>
+              style="display:block !important; visibility:visible !important; opacity:1 !important; position:absolute !important; right:15px !important; bottom:5px !important; z-index:9999 !important; width:auto !important; min-width:0 !important; min-height:18px !important; height:auto !important; margin:0 !important; padding:0 !important; overflow:visible !important; text-align:right !important; white-space:nowrap !important; font-family:'Noto Sans JP',sans-serif !important; font-size:10px !important; line-height:1.6 !important; font-weight:500 !important; color:#555 !important; background:transparent !important; border:0 !important; box-shadow:none !important;"
+            >${escapeHtml(timeText)}</div>
 
           </div>
 
