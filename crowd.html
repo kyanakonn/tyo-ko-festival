@@ -1461,7 +1461,9 @@ fetch("header.html")
 
       function updateHeaderHeight(){
 
-        if(!header){
+        if(
+          !header
+        ){
 
           return;
 
@@ -1656,6 +1658,120 @@ let keywordFilter =
 
 
 /* =========================================
+   undefined・nullを安全な値に変換
+========================================= */
+
+function safeValue(
+  value,
+  fallback = ""
+){
+
+  if(
+    value === undefined ||
+    value === null
+  ){
+
+    return fallback;
+
+  }
+
+
+  const stringValue =
+    String(value).trim();
+
+
+  if(
+    stringValue === "" ||
+    stringValue === "undefined" ||
+    stringValue === "null"
+  ){
+
+    return fallback;
+
+  }
+
+
+  return stringValue;
+
+}
+
+
+/* =========================================
+   日時を安全に取得
+========================================= */
+
+function safeDateValue(value){
+
+  const safe =
+    safeValue(
+      value,
+      ""
+    );
+
+
+  if(
+    !safe
+  ){
+
+    return null;
+
+  }
+
+
+  const date =
+    new Date(
+      safe
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return null;
+
+  }
+
+
+  return safe;
+
+}
+
+
+/* =========================================
+   ステータスを安全に取得
+========================================= */
+
+function safeStatus(value){
+
+  const allowedStatuses = [
+
+    "empty",
+    "normal",
+    "crowded"
+
+  ];
+
+
+  if(
+    allowedStatuses.includes(
+      value
+    )
+  ){
+
+    return value;
+
+  }
+
+
+  return "unknown";
+
+}
+
+
+/* =========================================
    状態表示
 ========================================= */
 
@@ -1696,7 +1812,9 @@ function getLastPostTime(){
     );
 
 
-  if(!value){
+  if(
+    !value
+  ){
 
     return null;
 
@@ -1733,7 +1851,9 @@ function getRemainingPostTime(){
     getLastPostTime();
 
 
-  if(!lastPostTime){
+  if(
+    !lastPostTime
+  ){
 
     return 0;
 
@@ -1827,7 +1947,10 @@ async function loadEvents(){
 
     const response =
       await fetch(
-        "events.html"
+        "events.html",
+        {
+          cache:"no-store"
+        }
       );
 
 
@@ -1886,9 +2009,10 @@ async function loadEvents(){
 
 
         const groupTitle =
-          groupTitleElement
-            .textContent
-            .trim();
+          safeValue(
+            groupTitleElement.textContent,
+            ""
+          );
 
 
         let category =
@@ -1953,7 +2077,10 @@ async function loadEvents(){
           card => {
 
             const id =
-              card.dataset.modalId;
+              safeValue(
+                card.dataset.modalId,
+                ""
+              );
 
 
             const titleElement =
@@ -1973,19 +2100,24 @@ async function loadEvents(){
 
 
             const title =
-              titleElement
-                .textContent
-                .trim();
+              safeValue(
+                titleElement.textContent,
+                "名称未設定"
+              );
 
 
             const badge =
-              card.dataset.placeBadge ||
-              "";
+              safeValue(
+                card.dataset.placeBadge,
+                ""
+              );
 
 
             const floor =
-              card.dataset.floor ||
-              "";
+              safeValue(
+                card.dataset.floor,
+                ""
+              );
 
 
             const labels =
@@ -2019,18 +2151,23 @@ async function loadEvents(){
 
 
                 const labelText =
-                  label.textContent
-                    .trim();
+                  safeValue(
+                    label.textContent,
+                    ""
+                  );
 
 
                 const valueText =
-                  value.textContent
-                    .trim();
+                  safeValue(
+                    value.textContent,
+                    ""
+                  );
 
 
                 if(
                   labelText ===
                     "クラス" ||
+
                   labelText ===
                     "クラス・団体"
                 ){
@@ -2043,7 +2180,7 @@ async function loadEvents(){
 
                 if(
                   labelText ===
-                  "開催場所"
+                    "開催場所"
                 ){
 
                   location =
@@ -2163,7 +2300,9 @@ async function loadCrowdStatus(){
       !response.ok
     ){
 
-      return;
+      throw new Error(
+        "混雑情報の取得に失敗しました"
+      );
 
     }
 
@@ -2172,15 +2311,38 @@ async function loadCrowdStatus(){
       await response.json();
 
 
+    /*
+      APIから予想外の値が返ってきた場合
+    */
+
+    if(
+      !crowdData ||
+      typeof crowdData !==
+      "object"
+    ){
+
+      return;
+
+    }
+
+
     eventsData.forEach(
       event => {
 
         const saved =
-          crowdData[event.id];
+          crowdData[
+            event.id
+          ];
 
+
+        /*
+          まだ一度も投稿されていない場合
+        */
 
         if(
-          !saved
+          !saved ||
+          typeof saved !==
+          "object"
         ){
 
           event.status =
@@ -2197,32 +2359,15 @@ async function loadCrowdStatus(){
 
 
         event.status =
-          saved.status ||
-          "unknown";
+          safeStatus(
+            saved.status
+          );
 
 
-        /*
-          server.jsから返される
-          updatedAtを安全に取得
-        */
-
-        if(
-          saved.updatedAt &&
-          saved.updatedAt !== "undefined" &&
-          saved.updatedAt !== "null"
-        ){
-
-          event.updatedAt =
-            saved.updatedAt;
-
-        }
-
-        else{
-
-          event.updatedAt =
-            null;
-
-        }
+        event.updatedAt =
+          safeDateValue(
+            saved.updatedAt
+          );
 
       }
     );
@@ -2275,7 +2420,10 @@ function renderEvents(){
         "all" ||
 
         String(
-          event.floor
+          safeValue(
+            event.floor,
+            ""
+          )
         ) ===
         String(
           floorFilter
@@ -2284,11 +2432,20 @@ function renderEvents(){
 
       const searchTarget =
         (
-          event.title +
+          safeValue(
+            event.title,
+            ""
+          ) +
           " " +
-          event.className +
+          safeValue(
+            event.className,
+            ""
+          ) +
           " " +
-          event.location
+          safeValue(
+            event.location,
+            ""
+          )
         )
         .toLowerCase();
 
@@ -2326,12 +2483,21 @@ function renderEvents(){
 
 
       card.dataset.eventId =
-        event.id;
+        safeValue(
+          event.id,
+          ""
+        );
+
+
+      const eventStatus =
+        safeStatus(
+          event.status
+        );
 
 
       const status =
         statusData[
-          event.status
+          eventStatus
         ] ||
         statusData.unknown;
 
@@ -2356,7 +2522,10 @@ function renderEvents(){
         <div class="category-badge">
 
           ${escapeHtml(
-            event.category
+            safeValue(
+              event.category,
+              "その他"
+            )
           )}
 
         </div>
@@ -2365,7 +2534,10 @@ function renderEvents(){
         <h2 class="crowd-card-title">
 
           ${escapeHtml(
-            event.title
+            safeValue(
+              event.title,
+              "名称未設定"
+            )
           )}
 
         </h2>
@@ -2384,7 +2556,10 @@ function renderEvents(){
 
               ${
                 escapeHtml(
-                  event.className
+                  safeValue(
+                    event.className,
+                    ""
+                  )
                 ) ||
                 "－"
               }
@@ -2404,7 +2579,10 @@ function renderEvents(){
 
               ${
                 escapeHtml(
-                  event.location
+                  safeValue(
+                    event.location,
+                    ""
+                  )
                 ) ||
                 "－"
               }
@@ -2430,14 +2608,19 @@ function renderEvents(){
             <span
               class="
                 status-dot
-                ${event.status}
+                ${eventStatus}
               "
             ></span>
 
 
             <span class="status-text">
 
-              ${status.text}
+              ${escapeHtml(
+                safeValue(
+                  status.text,
+                  "まだ情報がありません"
+                )
+              )}
 
             </span>
 
@@ -2446,7 +2629,12 @@ function renderEvents(){
 
           <div class="status-time">
 
-            ${timeText}
+            ${escapeHtml(
+              safeValue(
+                timeText,
+                "最終更新: 情報なし"
+              )
+            )}
 
           </div>
 
@@ -2461,7 +2649,12 @@ function renderEvents(){
             }
           >
 
-            ${buttonText}
+            ${escapeHtml(
+              safeValue(
+                buttonText,
+                "混雑状況を共有する"
+              )
+            )}
 
           </button>
 
@@ -2477,25 +2670,31 @@ function renderEvents(){
         );
 
 
-      shareButton.addEventListener(
-        "click",
-        () => {
+      if(
+        shareButton
+      ){
 
-          if(
-            getRemainingPostTime() > 0
-          ){
+        shareButton.addEventListener(
+          "click",
+          () => {
 
-            return;
+            if(
+              getRemainingPostTime() > 0
+            ){
+
+              return;
+
+            }
+
+
+            openShareModal(
+              event
+            );
 
           }
+        );
 
-
-          openShareModal(
-            event
-          );
-
-        }
-      );
+      }
 
 
       crowdGrid.appendChild(
@@ -2541,10 +2740,18 @@ function renderEvents(){
 
 function getTimeText(updatedAt){
 
+  /*
+    undefined・null・空文字を完全に防止
+  */
+
+  const safeUpdatedAt =
+    safeDateValue(
+      updatedAt
+    );
+
+
   if(
-    !updatedAt ||
-    updatedAt === "undefined" ||
-    updatedAt === "null"
+    !safeUpdatedAt
   ){
 
     return
@@ -2555,7 +2762,7 @@ function getTimeText(updatedAt){
 
   const date =
     new Date(
-      updatedAt
+      safeUpdatedAt
     );
 
 
@@ -2671,20 +2878,14 @@ function getTimeText(updatedAt){
 
 function escapeHtml(value){
 
-  if(
-    value ===
-    null ||
-
-    value ===
-    undefined
-  ){
-
-    return "";
-
-  }
+  const safe =
+    safeValue(
+      value,
+      ""
+    );
 
 
-  return String(value)
+  return safe
 
     .replace(
       /&/g,
@@ -2884,7 +3085,10 @@ function openShareModal(event){
 
 
   modalPlace.textContent =
-    event.title;
+    safeValue(
+      event.title,
+      "名称未設定"
+    );
 
 
   modalOverlay.classList.add(
@@ -2939,7 +3143,9 @@ document
         () => {
 
           selectedStatus =
-            option.dataset.status;
+            safeStatus(
+              option.dataset.status
+            );
 
 
           document
@@ -3100,6 +3306,10 @@ submitBtn.addEventListener(
         await response.json();
 
 
+      /*
+        投稿制限開始
+      */
+
       localStorage.setItem(
         LAST_POST_KEY,
         String(
@@ -3108,19 +3318,37 @@ submitBtn.addEventListener(
       );
 
 
+      /*
+        ステータスを安全に更新
+      */
+
       selectedEvent.status =
-        result.status ||
-        selectedStatus;
+        safeStatus(
+          result.status ||
+          selectedStatus
+        );
+
+
+      /*
+        updatedAtが正常に返された場合は使用
+        返されなかった場合は現在時刻を使用
+
+        これによりundefinedを
+        絶対に画面へ表示しない
+      */
+
+      const safeUpdatedAt =
+        safeDateValue(
+          result.updatedAt
+        );
 
 
       if(
-        result.updatedAt &&
-        result.updatedAt !== "undefined" &&
-        result.updatedAt !== "null"
+        safeUpdatedAt
       ){
 
         selectedEvent.updatedAt =
-          result.updatedAt;
+          safeUpdatedAt;
 
       }
 
@@ -3182,7 +3410,10 @@ let toastTimer;
 function showToast(message){
 
   toast.textContent =
-    message;
+    safeValue(
+      message,
+      ""
+    );
 
 
   toast.classList.add(
