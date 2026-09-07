@@ -34,9 +34,11 @@
 
 
 <style>
+
 /* =========================================
    基本設定
 ========================================= */
+
 :root{
   --header-height:48px;
   --pink:#ff4d6d;
@@ -49,9 +51,14 @@
   --sub:#66636b;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-html,body{
+html,
+body{
   width:100%;
   max-width:100%;
   overflow-x:hidden;
@@ -62,11 +69,15 @@ html,body{
   -webkit-overflow-scrolling:touch;
 }
 
-body{min-height:100vh;}
+body{
+  min-height:100vh;
+}
+
 
 /* =========================================
    背景のローポリ風図形
 ========================================= */
+
 .bg-shapes{
   position:fixed;
   inset:0;
@@ -77,69 +88,123 @@ body{min-height:100vh;}
   filter:blur(1px);
 }
 
-.bg-shapes .shape{position:absolute;}
+.bg-shapes .shape{
+  position:absolute;
+}
 
 .bg-shapes .s1{
-  top:5%;left:-50px;width:0;height:0;
-  border-left:90px solid transparent;border-right:90px solid transparent;
-  border-bottom:170px solid #c96d80;transform:rotate(-25deg);
+  top:5%;
+  left:-50px;
+  width:0;
+  height:0;
+  border-left:90px solid transparent;
+  border-right:90px solid transparent;
+  border-bottom:170px solid #c96d80;
+  transform:rotate(-25deg);
 }
+
 .bg-shapes .s2{
-  top:25%;left:-35px;width:0;height:0;
-  border-left:70px solid transparent;border-right:70px solid transparent;
-  border-bottom:130px solid #8870a8;transform:rotate(20deg);
+  top:25%;
+  left:-35px;
+  width:0;
+  height:0;
+  border-left:70px solid transparent;
+  border-right:70px solid transparent;
+  border-bottom:130px solid #8870a8;
+  transform:rotate(20deg);
 }
+
 .bg-shapes .s3{
-  bottom:5%;left:-30px;width:0;height:0;
-  border-left:100px solid transparent;border-right:100px solid transparent;
-  border-bottom:180px solid #cfb25a;transform:rotate(12deg);
+  bottom:5%;
+  left:-30px;
+  width:0;
+  height:0;
+  border-left:100px solid transparent;
+  border-right:100px solid transparent;
+  border-bottom:180px solid #cfb25a;
+  transform:rotate(12deg);
 }
+
 .bg-shapes .s4{
-  bottom:28%;left:20px;width:0;height:0;
-  border-left:60px solid transparent;border-right:60px solid transparent;
-  border-bottom:120px solid #65a6ae;transform:rotate(-15deg);
+  bottom:28%;
+  left:20px;
+  width:0;
+  height:0;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:120px solid #65a6ae;
+  transform:rotate(-15deg);
 }
+
 .bg-shapes .s5{
-  top:12%;right:-80px;width:0;height:0;
-  border-left:150px solid transparent;border-right:150px solid transparent;
-  border-bottom:260px solid #6aa8ad;transform:rotate(30deg);
+  top:12%;
+  right:-80px;
+  width:0;
+  height:0;
+  border-left:150px solid transparent;
+  border-right:150px solid transparent;
+  border-bottom:260px solid #6aa8ad;
+  transform:rotate(30deg);
 }
 
 .bg-shapes::before,
 .bg-shapes::after{
-  content:"";position:absolute;display:block;
+  content:"";
+  position:absolute;
+  display:block;
 }
+
 .bg-shapes::before{
-  width:85px;height:150px;left:7%;top:45%;
-  background:#a57999;transform:rotate(28deg);
+  width:85px;
+  height:150px;
+  left:7%;
+  top:45%;
+  background:#a57999;
+  transform:rotate(28deg);
 }
+
 .bg-shapes::after{
-  width:110px;height:70px;right:4%;top:55%;
-  background:#65a0a8;transform:rotate(-20deg);
+  width:110px;
+  height:70px;
+  right:4%;
+  top:55%;
+  background:#65a0a8;
+  transform:rotate(-20deg);
 }
+
 
 /* =========================================
    ヘッダー
 ========================================= */
+
 #header{
   position:fixed!important;
-  top:0;left:0;width:100%;
+  top:0;
+  left:0;
+  width:100%;
   z-index:10000!important;
 }
+
 
 /* =========================================
    メイン
 ========================================= */
+
 main{
   position:relative;
   z-index:1;
   width:100%;
-  padding:calc(var(--header-height) + 42px) 20px 80px;
+  padding:
+    calc(var(--header-height) + 42px)
+    20px
+    80px;
 }
+
 
 /* =========================================
    ページタイトル
 ========================================= */
+
 .page-heading{
   position:relative;
   width:100%;
@@ -151,14 +216,19 @@ main{
 .page-heading h1{
   display:inline-block;
   margin:0;
-  padding:10px 24px;
+  padding:10px 0;
   font-size:clamp(30px,6vw,48px);
   font-weight:900;
   letter-spacing:.05em;
   color:var(--pink);
-  background:rgba(255,255,255,.72);
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
-  border-radius:10px;
+
+  /*
+    白い角丸背景を削除
+  */
+
+  background:none;
+  box-shadow:none;
+  border-radius:0;
 }
 
 .page-heading p{
@@ -170,9 +240,11 @@ main{
   color:var(--sub);
 }
 
+
 /* =========================================
    お知らせ
 ========================================= */
+
 .notice-box{
   position:relative;
   width:100%;
@@ -189,25 +261,35 @@ main{
 .notice-box::before{
   content:"";
   position:absolute;
-  top:-1px;right:0;
-  width:52px;height:52px;
+  top:-1px;
+  right:0;
+  width:52px;
+  height:52px;
   background:rgba(207,178,90,.35);
   clip-path:polygon(100% 0,100% 100%,0 0);
 }
 
 .notice-box strong{
-  display:block;margin-bottom:6px;
-  color:var(--pink-deep);font-size:15px;
+  display:block;
+  margin-bottom:6px;
+  color:var(--pink-deep);
+  font-size:15px;
 }
+
 .notice-box span{
-  font-size:12px;line-height:1.8;color:var(--sub);
+  font-size:12px;
+  line-height:1.8;
+  color:var(--sub);
 }
+
 
 /* =========================================
    フィルター
 ========================================= */
+
 .filter-area{
-  width:100%;max-width:1050px;
+  width:100%;
+  max-width:1050px;
   margin:0 auto 30px;
   padding:24px;
   background:rgba(255,255,255,.82);
@@ -216,83 +298,173 @@ main{
 }
 
 .filter-group{
-  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
 }
-.filter-group + .filter-group{margin-top:20px;}
+
+.filter-group + .filter-group{
+  margin-top:20px;
+}
 
 .filter-title{
-  width:100%;margin-bottom:2px;
-  font-size:14px;font-weight:900;color:var(--pink-deep);
+  width:100%;
+  margin-bottom:2px;
+  font-size:14px;
+  font-weight:900;
+  color:var(--pink-deep);
 }
+
+
+/* =========================================
+   キーワード検索
+========================================= */
+
+.keyword-search{
+  width:100%;
+  padding:12px 15px;
+  border:2px solid rgba(36,36,42,.12);
+  border-radius:0;
+  outline:none;
+  background:#fff;
+  color:var(--text);
+  font-family:inherit;
+  font-size:14px;
+  box-shadow:4px 4px 0 rgba(0,0,0,.07);
+}
+
+.keyword-search:focus{
+  border-color:var(--pink);
+}
+
+.keyword-search::placeholder{
+  color:#999;
+}
+
+
+/* =========================================
+   フィルターボタン
+========================================= */
 
 .filter-btn{
-  appearance:none;border:2px solid rgba(36,36,42,.12);
-  cursor:pointer;padding:9px 16px;border-radius:0;
-  background:#fff;color:#555;
-  font-family:inherit;font-size:13px;font-weight:700;
+  appearance:none;
+  border:2px solid rgba(36,36,42,.12);
+  cursor:pointer;
+  padding:9px 16px;
+  border-radius:0;
+  background:#fff;
+  color:#555;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:700;
   box-shadow:4px 4px 0 rgba(0,0,0,.09);
-  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    color .18s ease;
 }
 
-.filter-btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 rgba(0,0,0,.09);}
-.filter-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.09);}
+.filter-btn:hover{
+  transform:translate(-1px,-1px);
+  box-shadow:6px 6px 0 rgba(0,0,0,.09);
+}
+
+.filter-btn:active{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 rgba(0,0,0,.09);
+}
+
 .filter-btn.active{
-  color:#fff;border-color:var(--pink);
+  color:#fff;
+  border-color:var(--pink);
   background:var(--pink);
 }
+
 
 /* =========================================
    件数
 ========================================= */
+
 .result-info{
-  width:100%;max-width:1050px;
-  margin:0 auto 16px;padding:0 2px;
-  font-size:13px;font-weight:700;color:var(--sub);
+  width:100%;
+  max-width:1050px;
+  margin:0 auto 16px;
+  padding:0 2px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--sub);
 }
-.result-info strong{color:var(--pink-deep);}
+
+.result-info strong{
+  color:var(--pink-deep);
+}
+
 
 /* =========================================
    カード一覧
 ========================================= */
+
 .crowd-grid{
   position:relative;
   z-index:1;
-  width:100%;max-width:1050px;margin:0 auto;
+  width:100%;
+  max-width:1050px;
+  margin:0 auto;
+
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
   gap:20px;
 }
+
 
 /* =========================================
    混雑情報カード
 ========================================= */
+
 .crowd-card{
   position:relative;
-  display:flex;flex-direction:column;
+  display:flex;
+  flex-direction:column;
   min-height:390px;
   padding:22px;
   overflow:hidden;
   background:#fff;
   border:2px solid rgba(36,36,42,.12);
   box-shadow:8px 8px 0 rgba(0,0,0,.08);
-  transition:transform .22s ease,box-shadow .22s ease;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
 }
 
 .crowd-card::before{
   content:"";
   position:absolute;
-  left:0;bottom:0;
-  width:82px;height:82px;
+  left:0;
+  bottom:0;
+  width:82px;
+  height:82px;
   background:rgba(201,109,128,.17);
-  clip-path:polygon(0 100%,0 0,100% 100%);
+  clip-path:
+    polygon(
+      0 100%,
+      0 0,
+      100% 100%
+    );
   pointer-events:none;
 }
 
 .crowd-card::after{
   content:"";
   position:absolute;
-  right:-18px;top:-18px;
-  width:74px;height:74px;
+  right:-18px;
+  top:-18px;
+  width:74px;
+  height:74px;
   background:rgba(136,112,168,.16);
   transform:rotate(25deg);
   pointer-events:none;
@@ -302,116 +474,258 @@ main{
   transform:translate(-3px,-3px);
   box-shadow:12px 12px 0 rgba(0,0,0,.09);
 }
-.crowd-card.hidden{display:none;}
+
 
 /* =========================================
    カテゴリ
 ========================================= */
+
 .category-badge{
-  position:absolute;top:17px;right:17px;
+  position:absolute;
+  top:17px;
+  right:17px;
   z-index:2;
   padding:6px 11px;
   background:#f2edf8;
   border:1px solid rgba(136,112,168,.28);
   color:#66547d;
-  font-size:11px;font-weight:700;
+  font-size:11px;
+  font-weight:700;
 }
 
+
+/* =========================================
+   カードタイトル
+========================================= */
+
 .crowd-card-title{
-  position:relative;z-index:1;
+  position:relative;
+  z-index:1;
   margin:34px 0 20px;
   padding-right:10px;
-  font-size:20px;line-height:1.55;font-weight:900;
-  color:var(--text);word-break:break-word;
+  font-size:20px;
+  line-height:1.55;
+  font-weight:900;
+  color:var(--text);
+  word-break:break-word;
 }
+
 
 /* =========================================
    企画情報
 ========================================= */
+
 .place-info{
-  position:relative;z-index:1;
-  margin-bottom:18px;padding-bottom:18px;
+  position:relative;
+  z-index:1;
+  margin-bottom:18px;
+  padding-bottom:18px;
   border-bottom:2px solid rgba(36,36,42,.08);
 }
 
 .info-row{
-  display:grid;grid-template-columns:75px 1fr;
-  gap:8px;margin-top:8px;font-size:13px;
+  display:grid;
+  grid-template-columns:75px 1fr;
+  gap:8px;
+  margin-top:8px;
+  font-size:13px;
 }
-.info-label{color:var(--pink-deep);font-weight:700;}
-.info-value{color:var(--sub);font-weight:500;word-break:break-word;}
+
+.info-label{
+  color:var(--pink-deep);
+  font-weight:700;
+}
+
+.info-value{
+  color:var(--sub);
+  font-weight:500;
+  word-break:break-word;
+}
+
 
 /* =========================================
    混雑状況
 ========================================= */
-.status-area{position:relative;z-index:1;margin-top:auto;}
-.status-label{
-  margin-bottom:8px;font-size:12px;font-weight:700;color:var(--sub);
+
+.status-area{
+  position:relative;
+  z-index:1;
+  margin-top:auto;
 }
+
+.status-label{
+  margin-bottom:8px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--sub);
+}
+
 .status-display{
-  display:flex;align-items:center;gap:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
   padding:14px 15px;
   background:#f6f5f2;
   border-left:5px solid var(--teal);
 }
+
 .status-dot{
-  width:13px;height:13px;flex-shrink:0;
+  width:13px;
+  height:13px;
+  flex-shrink:0;
   border-radius:50%;
 }
-.status-dot.empty{background:#55c78a;box-shadow:0 0 10px rgba(85,199,138,.45);}
-.status-dot.normal{background:#f3b83e;box-shadow:0 0 10px rgba(243,184,62,.4);}
-.status-dot.crowded{background:#f05a68;box-shadow:0 0 10px rgba(240,90,104,.4);}
-.status-dot.unknown{background:#a8afbc;}
-.status-text{flex:1;font-size:14px;font-weight:900;color:#555;}
-.status-time{margin-top:8px;text-align:right;font-size:10px;color:#8c95a5;}
+
+.status-dot.empty{
+  background:#55c78a;
+  box-shadow:0 0 10px rgba(85,199,138,.45);
+}
+
+.status-dot.normal{
+  background:#f3b83e;
+  box-shadow:0 0 10px rgba(243,184,62,.4);
+}
+
+.status-dot.crowded{
+  background:#f05a68;
+  box-shadow:0 0 10px rgba(240,90,104,.4);
+}
+
+.status-dot.unknown{
+  background:#a8afbc;
+}
+
+.status-text{
+  flex:1;
+  font-size:14px;
+  font-weight:900;
+  color:#555;
+}
+
+.status-time{
+  margin-top:8px;
+  text-align:right;
+  font-size:10px;
+  color:#8c95a5;
+}
+
 
 /* =========================================
    共有ボタン
 ========================================= */
+
 .share-btn{
-  position:relative;z-index:1;
-  width:100%;margin-top:16px;padding:13px 15px;
-  border:2px solid #1e1e2f;border-radius:0;
-  cursor:pointer;background:#1e1e2f;color:#fff;
-  font-family:inherit;font-size:13px;font-weight:900;
+  position:relative;
+  z-index:1;
+  width:100%;
+  margin-top:16px;
+  padding:13px 15px;
+  border:2px solid #1e1e2f;
+  border-radius:0;
+  cursor:pointer;
+  background:#1e1e2f;
+  color:#fff;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
   box-shadow:5px 5px 0 var(--pink);
-  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
 }
-.share-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--pink);}
-.share-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--pink);}
+
+.share-btn:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:7px 7px 0 var(--pink);
+}
+
+.share-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--pink);
+}
+
+.share-btn:disabled{
+  cursor:not-allowed;
+  background:#777;
+  border-color:#777;
+  color:#eee;
+  box-shadow:4px 4px 0 #aaa;
+  transform:none;
+}
+
 
 /* =========================================
    ローディング・エラー
 ========================================= */
+
 .loading{
-  width:100%;grid-column:1 / -1;padding:70px 20px;
-  text-align:center;color:var(--sub);
+  width:100%;
+  grid-column:1 / -1;
+  padding:70px 20px;
+  text-align:center;
+  color:var(--sub);
 }
+
 .loading-spinner{
-  width:38px;height:38px;margin:0 auto 15px;
-  border-radius:50%;border:4px solid rgba(136,112,168,.18);
+  width:38px;
+  height:38px;
+  margin:0 auto 15px;
+  border-radius:50%;
+  border:4px solid rgba(136,112,168,.18);
   border-top-color:var(--pink);
-  animation:loadingRotate .8s linear infinite;
+  animation:
+    loadingRotate
+    .8s
+    linear
+    infinite;
 }
-@keyframes loadingRotate{to{transform:rotate(360deg);}}
+
+@keyframes loadingRotate{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
 
 .error-message{
-  width:100%;grid-column:1 / -1;padding:50px 20px;
-  background:#fff;border-left:6px solid var(--pink);
+  width:100%;
+  grid-column:1 / -1;
+  padding:50px 20px;
+  background:#fff;
+  border-left:6px solid var(--pink);
   box-shadow:6px 6px 0 rgba(0,0,0,.07);
-  text-align:center;color:var(--sub);
+  text-align:center;
+  color:var(--sub);
 }
-.error-message strong{display:block;margin-bottom:8px;color:var(--pink-deep);}
+
+.error-message strong{
+  display:block;
+  margin-bottom:8px;
+  color:var(--pink-deep);
+}
+
 
 /* =========================================
    モーダル
 ========================================= */
+
 .modal-overlay{
-  position:fixed;inset:0;z-index:5000;
-  display:none;align-items:center;justify-content:center;
-  padding:20px;background:rgba(25,20,40,.48);
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(25,20,40,.48);
 }
-.modal-overlay.active{display:flex;}
+
+.modal-overlay.active{
+  display:flex;
+}
 
 .share-modal{
   position:relative;
@@ -422,23 +736,42 @@ main{
   background:#f1f1ef;
   border:3px solid #24242a;
   box-shadow:12px 12px 0 var(--pink);
-  animation:modalIn .22s ease;
+  animation:
+    modalIn
+    .22s
+    ease;
 }
+
 @keyframes modalIn{
-  from{opacity:0;transform:translateY(18px) scale(.98);}
-  to{opacity:1;transform:translateY(0) scale(1);}
+
+  from{
+    opacity:0;
+    transform:
+      translateY(18px)
+      scale(.98);
+  }
+
+  to{
+    opacity:1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
 }
 
 .modal-title{
   margin:0 0 8px;
-  font-size:22px;font-weight:900;color:var(--pink-deep);
+  font-size:22px;
+  font-weight:900;
+  color:var(--pink-deep);
 }
+
 .modal-place{
   margin-bottom:22px;
-  font-size:14px;font-weight:700;color:#555;
-}
-.modal-question{
-  margin-bottom:12px;font-size:13px;font-weight:900;color:var(--text);
+  font-size:14px;
+  font-weight:700;
+  color:#555;
 }
 
 .status-options{
@@ -447,6 +780,7 @@ main{
   gap:10px;
   margin-bottom:22px;
 }
+
 .status-option{
   min-height:76px;
   padding:12px;
@@ -455,86 +789,251 @@ main{
   cursor:pointer;
   font-family:inherit;
   text-align:left;
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
-.status-option:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(0,0,0,.08);}
-.status-option.selected{border-color:var(--pink);box-shadow:4px 4px 0 rgba(255,77,109,.28);}
-.status-option strong{display:block;margin-bottom:3px;font-size:13px;color:var(--text);}
-.status-option span{font-size:11px;color:var(--sub);}
+
+.status-option:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:4px 4px 0 rgba(0,0,0,.08);
+}
+
+.status-option.selected{
+  border-color:var(--pink);
+  box-shadow:
+    4px 4px 0
+    rgba(255,77,109,.28);
+}
+
+.option-circle{
+  display:inline-block;
+  width:12px;
+  height:12px;
+  margin-right:8px;
+  border-radius:50%;
+}
+
+.option-circle.empty{
+  background:#55c78a;
+}
+
+.option-circle.normal{
+  background:#f3b83e;
+}
+
+.option-circle.crowded{
+  background:#f05a68;
+}
+
+.option-text{
+  font-size:13px;
+  font-weight:700;
+  color:var(--text);
+}
 
 .modal-actions{
-  display:flex;justify-content:flex-end;gap:10px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
 }
+
 .modal-btn{
   border:2px solid #24242a;
   padding:11px 18px;
   border-radius:0;
   cursor:pointer;
-  font-family:inherit;font-size:13px;font-weight:900;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
 }
-.modal-btn.cancel{background:#fff;color:var(--text);}
+
+.modal-btn.cancel{
+  background:#fff;
+  color:var(--text);
+}
+
 .modal-btn.submit{
-  background:var(--pink);color:#fff;
+  background:var(--pink);
+  color:#fff;
   box-shadow:4px 4px 0 #24242a;
 }
+
 .modal-btn.submit:disabled{
-  opacity:.45;cursor:not-allowed;box-shadow:none;
+  opacity:.45;
+  cursor:not-allowed;
+  box-shadow:none;
 }
+
 
 /* =========================================
    トースト
 ========================================= */
+
 .toast{
-  position:fixed;left:50%;bottom:24px;z-index:7000;
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  z-index:7000;
   max-width:calc(100% - 40px);
   padding:13px 20px;
-  background:#24242a;color:#fff;
+  background:#24242a;
+  color:#fff;
   border-left:5px solid var(--pink);
   box-shadow:6px 6px 0 rgba(0,0,0,.15);
-  text-align:center;font-size:13px;font-weight:700;
-  transform:translateX(-50%) translateY(100px);
-  opacity:0;pointer-events:none;
-  transition:transform .35s ease,opacity .35s ease;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+
+  transform:
+    translateX(-50%)
+    translateY(100px);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:
+    transform .35s ease,
+    opacity .35s ease;
 }
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+.toast.show{
+  transform:
+    translateX(-50%)
+    translateY(0);
+
+  opacity:1;
+}
+
 
 /* =========================================
    タブレット
 ========================================= */
+
 @media(max-width:900px){
-  .crowd-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+
+  .crowd-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
 }
+
 
 /* =========================================
    スマートフォン
 ========================================= */
+
 @media(max-width:600px){
-  .bg-shapes{opacity:.18;}
-  main{padding:calc(var(--header-height) + 28px) 12px 70px;}
 
-  .page-heading{margin-bottom:24px;}
-  .page-heading h1{font-size:clamp(27px,8vw,40px);padding:8px 16px;}
-  .page-heading p{margin-top:14px;line-height:1.75;}
+  .bg-shapes{
+    opacity:.18;
+  }
 
-  .notice-box{padding:17px 18px;border-left-width:5px;border-right-width:5px;}
-  .notice-box strong{font-size:13px;}
-  .notice-box span{font-size:11px;}
+  main{
+    padding:
+      calc(var(--header-height) + 28px)
+      12px
+      70px;
+  }
 
-  .filter-area{padding:20px 15px;}
-  .filter-group{gap:7px;}
-  .filter-btn{padding:8px 12px;font-size:11px;}
+  .page-heading{
+    margin-bottom:24px;
+  }
 
-  .crowd-grid{grid-template-columns:1fr;gap:15px;}
-  .crowd-card{min-height:auto;padding:20px;}
-  .crowd-card:hover{transform:none;box-shadow:8px 8px 0 rgba(0,0,0,.08);}
-  .crowd-card-title{margin:32px 0 17px;font-size:18px;}
+  .page-heading h1{
+    font-size:
+      clamp(27px,8vw,40px);
 
-  .status-options{grid-template-columns:1fr;}
-  .share-modal{padding:23px 18px;box-shadow:8px 8px 0 var(--pink);}
-  .modal-title{font-size:18px;}
-  .modal-actions{flex-direction:column-reverse;}
-  .modal-btn{width:100%;}
+    padding:8px 0;
+  }
+
+  .page-heading p{
+    margin-top:14px;
+    line-height:1.75;
+  }
+
+  .notice-box{
+    padding:17px 18px;
+    border-left-width:5px;
+    border-right-width:5px;
+  }
+
+  .notice-box strong{
+    font-size:13px;
+  }
+
+  .notice-box span{
+    font-size:11px;
+  }
+
+  .filter-area{
+    padding:20px 15px;
+  }
+
+  .filter-group{
+    gap:7px;
+  }
+
+  .filter-btn{
+    padding:8px 12px;
+    font-size:11px;
+  }
+
+  .keyword-search{
+    font-size:13px;
+    padding:11px 12px;
+  }
+
+  .crowd-grid{
+    grid-template-columns:1fr;
+    gap:15px;
+  }
+
+  .crowd-card{
+    min-height:auto;
+    padding:20px;
+  }
+
+  .crowd-card:hover{
+    transform:none;
+    box-shadow:
+      8px 8px 0
+      rgba(0,0,0,.08);
+  }
+
+  .crowd-card-title{
+    margin:32px 0 17px;
+    font-size:18px;
+  }
+
+  .status-options{
+    grid-template-columns:1fr;
+  }
+
+  .share-modal{
+    padding:23px 18px;
+    box-shadow:
+      8px 8px 0
+      var(--pink);
+  }
+
+  .modal-title{
+    font-size:18px;
+  }
+
+  .modal-actions{
+    flex-direction:column-reverse;
+  }
+
+  .modal-btn{
+    width:100%;
+  }
+
 }
+
 </style>
 
 </head>
@@ -542,10 +1041,6 @@ main{
 
 <body>
 
-
-<!-- =========================================
-     背景図形
-========================================= -->
 
 <div class="bg-shapes">
 
@@ -558,21 +1053,11 @@ main{
 </div>
 
 
-<!-- =========================================
-     ヘッダー
-========================================= -->
-
 <div id="header"></div>
 
 
-<!-- =========================================
-     メイン
-========================================= -->
-
 <main>
 
-
-  <!-- ページタイトル -->
 
   <section class="page-heading">
 
@@ -588,8 +1073,6 @@ main{
   </section>
 
 
-  <!-- 注意書き -->
-
   <div class="notice-box">
 
     <strong>
@@ -604,19 +1087,35 @@ main{
   </div>
 
 
-  <!-- =========================================
-       フィルター
-  ========================================= -->
-
   <section class="filter-area">
 
+
+    <!-- キーワード検索 -->
+
+    <div class="filter-group">
+
+      <div class="filter-title">
+        キーワードから探す
+      </div>
+
+      <input
+        type="search"
+        id="keywordSearch"
+        class="keyword-search"
+        placeholder="企画名・クラス・開催場所を検索"
+        autocomplete="off"
+      >
+
+    </div>
+
+
+    <!-- カテゴリ -->
 
     <div class="filter-group">
 
       <div class="filter-title">
         カテゴリから探す
       </div>
-
 
       <button
         class="filter-btn active"
@@ -625,14 +1124,12 @@ main{
         すべて
       </button>
 
-
       <button
         class="filter-btn"
         data-category="1学年"
       >
         1学年
       </button>
-
 
       <button
         class="filter-btn"
@@ -641,7 +1138,6 @@ main{
         2学年
       </button>
 
-
       <button
         class="filter-btn"
         data-category="3学年"
@@ -649,14 +1145,12 @@ main{
         3学年
       </button>
 
-
       <button
         class="filter-btn"
         data-category="部活動"
       >
         部活動
       </button>
-
 
       <button
         class="filter-btn"
@@ -668,12 +1162,13 @@ main{
     </div>
 
 
+    <!-- 階数 -->
+
     <div class="filter-group">
 
       <div class="filter-title">
         階数から探す
       </div>
-
 
       <button
         class="filter-btn active"
@@ -682,14 +1177,12 @@ main{
         すべて
       </button>
 
-
       <button
         class="filter-btn"
         data-floor-filter="1"
       >
         1階
       </button>
-
 
       <button
         class="filter-btn"
@@ -698,14 +1191,12 @@ main{
         2階
       </button>
 
-
       <button
         class="filter-btn"
         data-floor-filter="3"
       >
         3階
       </button>
-
 
       <button
         class="filter-btn"
@@ -716,25 +1207,19 @@ main{
 
     </div>
 
-
   </section>
 
-
-  <!-- 件数 -->
 
   <div class="result-info">
 
     <strong id="resultCount">
       0
     </strong>
+
     件の企画を表示中
 
   </div>
 
-
-  <!-- =========================================
-       企画一覧
-  ========================================= -->
 
   <section
     class="crowd-grid"
@@ -764,17 +1249,14 @@ main{
   id="modalOverlay"
 >
 
-
   <div
     class="share-modal"
     id="shareModal"
   >
 
-
     <h2 class="modal-title">
       混雑状況を共有
     </h2>
-
 
     <p
       class="modal-place"
@@ -784,7 +1266,6 @@ main{
 
 
     <div class="status-options">
-
 
       <button
         class="status-option"
@@ -833,41 +1314,32 @@ main{
 
       </button>
 
-
     </div>
 
 
     <div class="modal-actions">
 
-
       <button
-        class="modal-btn cancel-btn"
+        class="modal-btn cancel"
         id="cancelBtn"
       >
         キャンセル
       </button>
 
-
       <button
-        class="modal-btn submit-btn"
+        class="modal-btn submit"
         id="submitBtn"
         disabled
       >
         共有する
       </button>
 
-
     </div>
-
 
   </div>
 
 </div>
 
-
-<!-- =========================================
-     トースト
-========================================= -->
 
 <div
   class="toast"
@@ -875,10 +1347,6 @@ main{
 >
 </div>
 
-
-<!-- =========================================
-     JavaScript
-========================================= -->
 
 <script>
 
@@ -895,6 +1363,7 @@ fetch("header.html")
 
   .then(
     data => {
+
 
       const headerContainer =
         document.getElementById(
@@ -926,11 +1395,17 @@ fetch("header.html")
 
       function updateHeaderHeight(){
 
-        if(!header) return;
+        if(!header){
+
+          return;
+
+        }
 
 
         const height =
-          header.getBoundingClientRect().height;
+          header
+            .getBoundingClientRect()
+            .height;
 
 
         document.documentElement.style.setProperty(
@@ -950,14 +1425,16 @@ fetch("header.html")
       );
 
 
-      if(btn && nav){
+      if(
+        btn &&
+        nav
+      ){
 
         btn.addEventListener(
           "click",
           e => {
 
             e.stopPropagation();
-
 
             nav.classList.toggle(
               "active"
@@ -972,8 +1449,12 @@ fetch("header.html")
           e => {
 
             if(
-              !nav.contains(e.target) &&
-              !btn.contains(e.target)
+              !nav.contains(
+                e.target
+              ) &&
+              !btn.contains(
+                e.target
+              )
             ){
 
               nav.classList.remove(
@@ -1003,20 +1484,27 @@ fetch("header.html")
 
 
 /* =========================================
-   設定
+   API設定
 ========================================= */
 
-/*
-  Renderを設定した後、
-  ここにRenderのURLを設定します。
+const API_URL =
+  "https://chosei-fes.onrender.com";
 
-  例：
-  const API_URL =
-    "https://○○○○.onrender.com";
+
+/* =========================================
+   投稿インターバル設定
+========================================= */
+
+const POST_INTERVAL_MS =
+  5 * 60 * 1000;
+
+
+/*
+  ブラウザ内に保存するキー
 */
 
-
-const API_URL = "https://chosei-fes.onrender.com";
+const LAST_POST_KEY =
+  "chosei_fes_crowd_last_post_at";
 
 
 /* =========================================
@@ -1065,17 +1553,26 @@ const toast =
   );
 
 
+const keywordSearch =
+  document.getElementById(
+    "keywordSearch"
+  );
+
+
 /* =========================================
    状態
 ========================================= */
 
-let eventsData = [];
+let eventsData =
+  [];
 
 
-let selectedEvent = null;
+let selectedEvent =
+  null;
 
 
-let selectedStatus = null;
+let selectedStatus =
+  null;
 
 
 let categoryFilter =
@@ -1084,6 +1581,10 @@ let categoryFilter =
 
 let floorFilter =
   "all";
+
+
+let keywordFilter =
+  "";
 
 
 /* =========================================
@@ -1116,11 +1617,143 @@ const statusData = {
 
 
 /* =========================================
+   最後の投稿時刻取得
+========================================= */
+
+function getLastPostTime(){
+
+  const value =
+    localStorage.getItem(
+      LAST_POST_KEY
+    );
+
+
+  if(!value){
+
+    return null;
+
+  }
+
+
+  const time =
+    Number(value);
+
+
+  if(
+    !Number.isFinite(
+      time
+    )
+  ){
+
+    return null;
+
+  }
+
+
+  return time;
+
+}
+
+
+/* =========================================
+   残り投稿制限時間
+========================================= */
+
+function getRemainingPostTime(){
+
+  const lastPostTime =
+    getLastPostTime();
+
+
+  if(!lastPostTime){
+
+    return 0;
+
+  }
+
+
+  const elapsed =
+    Date.now() -
+    lastPostTime;
+
+
+  const remaining =
+    POST_INTERVAL_MS -
+    elapsed;
+
+
+  if(
+    remaining <= 0
+  ){
+
+    localStorage.removeItem(
+      LAST_POST_KEY
+    );
+
+    return 0;
+
+  }
+
+
+  return remaining;
+
+}
+
+
+/* =========================================
+   残り時間を文字列化
+========================================= */
+
+function formatRemainingTime(ms){
+
+  const totalSeconds =
+    Math.ceil(
+      ms / 1000
+    );
+
+
+  const minutes =
+    Math.floor(
+      totalSeconds / 60
+    );
+
+
+  const seconds =
+    totalSeconds % 60;
+
+
+  if(
+    minutes > 0
+  ){
+
+    return (
+      minutes +
+      "分" +
+      String(
+        seconds
+      ).padStart(
+        2,
+        "0"
+      ) +
+      "秒"
+    );
+
+  }
+
+
+  return (
+    seconds +
+    "秒"
+  );
+
+}
+
+
+/* =========================================
    events.htmlから企画を取得
 ========================================= */
 
 async function loadEvents(){
-
 
   try{
 
@@ -1131,7 +1764,9 @@ async function loadEvents(){
       );
 
 
-    if(!response.ok){
+    if(
+      !response.ok
+    ){
 
       throw new Error(
         "events.htmlを読み込めませんでした"
@@ -1155,19 +1790,14 @@ async function loadEvents(){
       );
 
 
-    /*
-      groupごとに確認することで、
-      現在のevents.htmlの
-      「1学年」「2学年」などを取得
-    */
-
     const groups =
       documentData.querySelectorAll(
         ".group"
       );
 
 
-    const eventList = [];
+    const eventList =
+      [];
 
 
     groups.forEach(
@@ -1180,7 +1810,9 @@ async function loadEvents(){
           );
 
 
-        if(!groupTitleElement){
+        if(
+          !groupTitleElement
+        ){
 
           return;
 
@@ -1198,7 +1830,9 @@ async function loadEvents(){
 
 
         if(
-          groupTitle.includes("1学年")
+          groupTitle.includes(
+            "1学年"
+          )
         ){
 
           category =
@@ -1207,7 +1841,9 @@ async function loadEvents(){
         }
 
         else if(
-          groupTitle.includes("2学年")
+          groupTitle.includes(
+            "2学年"
+          )
         ){
 
           category =
@@ -1216,7 +1852,9 @@ async function loadEvents(){
         }
 
         else if(
-          groupTitle.includes("3学年")
+          groupTitle.includes(
+            "3学年"
+          )
         ){
 
           category =
@@ -1225,8 +1863,12 @@ async function loadEvents(){
         }
 
         else if(
-          groupTitle.includes("部活動") ||
-          groupTitle.includes("同好会")
+          groupTitle.includes(
+            "部活動"
+          ) ||
+          groupTitle.includes(
+            "同好会"
+          )
         ){
 
           category =
@@ -1281,11 +1923,6 @@ async function loadEvents(){
               "";
 
 
-            /*
-              card-infoから
-              クラス・開催場所を取得
-            */
-
             const labels =
               card.querySelectorAll(
                 ".card-label"
@@ -1308,7 +1945,9 @@ async function loadEvents(){
                   label.nextElementSibling;
 
 
-                if(!value){
+                if(
+                  !value
+                ){
 
                   return;
 
@@ -1352,17 +1991,26 @@ async function loadEvents(){
 
             eventList.push({
 
-              id,
-              title,
-              category,
-              badge,
-              floor,
-              className,
-              location,
+              id:
+                id,
 
-              /*
-                最初は未登録
-              */
+              title:
+                title,
+
+              category:
+                category,
+
+              badge:
+                badge,
+
+              floor:
+                floor,
+
+              className:
+                className,
+
+              location:
+                location,
 
               status:
                 "unknown",
@@ -1383,16 +2031,10 @@ async function loadEvents(){
       eventList;
 
 
-    /*
-      Render APIが完成した後は
-      ここで現在の混雑情報を取得する
-    */
-
     await loadCrowdStatus();
 
 
     renderEvents();
-
 
   }
 
@@ -1431,13 +2073,9 @@ async function loadEvents(){
 
 async function loadCrowdStatus(){
 
-
-  /*
-    Render未設定の場合は
-    現在は未登録状態で表示
-  */
-
-  if(!API_URL){
+  if(
+    !API_URL
+  ){
 
     return;
 
@@ -1454,7 +2092,9 @@ async function loadCrowdStatus(){
       );
 
 
-    if(!response.ok){
+    if(
+      !response.ok
+    ){
 
       return;
 
@@ -1473,7 +2113,15 @@ async function loadCrowdStatus(){
           crowdData[event.id];
 
 
-        if(!saved){
+        if(
+          !saved
+        ){
+
+          event.status =
+            "unknown";
+
+          event.updatedAt =
+            null;
 
           return;
 
@@ -1491,7 +2139,6 @@ async function loadCrowdStatus(){
 
       }
     );
-
 
   }
 
@@ -1514,7 +2161,6 @@ async function loadCrowdStatus(){
 
 function renderEvents(){
 
-
   crowdGrid.innerHTML =
     "";
 
@@ -1523,32 +2169,63 @@ function renderEvents(){
     0;
 
 
+  const remainingPostTime =
+    getRemainingPostTime();
+
+
   eventsData.forEach(
     event => {
 
 
-      /*
-        カテゴリ判定
-      */
+      /* カテゴリ */
 
       const categoryMatch =
-        categoryFilter === "all" ||
-        event.category === categoryFilter;
+        categoryFilter ===
+        "all" ||
+
+        event.category ===
+        categoryFilter;
 
 
-      /*
-        階数判定
-      */
+      /* 階数 */
 
       const floorMatch =
-        floorFilter === "all" ||
-        String(event.floor) ===
-        String(floorFilter);
+        floorFilter ===
+        "all" ||
+
+        String(
+          event.floor
+        ) ===
+        String(
+          floorFilter
+        );
+
+
+      /* キーワード検索 */
+
+      const searchTarget =
+        (
+          event.title +
+          " " +
+          event.className +
+          " " +
+          event.location
+        )
+        .toLowerCase();
+
+
+      const keywordMatch =
+        !keywordFilter ||
+
+        searchTarget.includes(
+          keywordFilter.toLowerCase()
+        );
 
 
       if(
         !categoryMatch ||
-        !floorMatch
+        !floorMatch ||
+        !keywordMatch
       ){
 
         return;
@@ -1586,6 +2263,15 @@ function renderEvents(){
         );
 
 
+      const buttonText =
+        remainingPostTime > 0
+          ? "次の共有まで " +
+            formatRemainingTime(
+              remainingPostTime
+            )
+          : "混雑状況を共有する";
+
+
       card.innerHTML = `
 
         <div class="category-badge">
@@ -1597,9 +2283,7 @@ function renderEvents(){
         </div>
 
 
-        <h2
-          class="crowd-card-title"
-        >
+        <h2 class="crowd-card-title">
 
           ${escapeHtml(
             event.title
@@ -1613,16 +2297,11 @@ function renderEvents(){
 
           <div class="info-row">
 
-            <div
-              class="info-label"
-            >
+            <div class="info-label">
               クラス
             </div>
 
-
-            <div
-              class="info-value"
-            >
+            <div class="info-value">
 
               ${
                 escapeHtml(
@@ -1638,16 +2317,11 @@ function renderEvents(){
 
           <div class="info-row">
 
-            <div
-              class="info-label"
-            >
+            <div class="info-label">
               開催場所
             </div>
 
-
-            <div
-              class="info-value"
-            >
+            <div class="info-value">
 
               ${
                 escapeHtml(
@@ -1667,17 +2341,12 @@ function renderEvents(){
         <div class="status-area">
 
 
-          <div
-            class="status-label"
-          >
+          <div class="status-label">
             現在の混雑状況
           </div>
 
 
-          <div
-            class="status-display"
-          >
-
+          <div class="status-display">
 
             <span
               class="
@@ -1687,21 +2356,16 @@ function renderEvents(){
             ></span>
 
 
-            <span
-              class="status-text"
-            >
+            <span class="status-text">
 
               ${status.text}
 
             </span>
 
-
           </div>
 
 
-          <div
-            class="status-time"
-          >
+          <div class="status-time">
 
             ${timeText}
 
@@ -1711,9 +2375,14 @@ function renderEvents(){
           <button
             class="share-btn"
             type="button"
+            ${
+              remainingPostTime > 0
+                ? "disabled"
+                : ""
+            }
           >
 
-            混雑状況を共有する
+            ${buttonText}
 
           </button>
 
@@ -1732,6 +2401,15 @@ function renderEvents(){
       shareButton.addEventListener(
         "click",
         () => {
+
+          if(
+            getRemainingPostTime() > 0
+          ){
+
+            return;
+
+          }
+
 
           openShareModal(
             event
@@ -1766,7 +2444,7 @@ function renderEvents(){
         </strong>
 
         <span>
-          別の条件で検索してください。
+          別のキーワードや条件で検索してください。
         </span>
 
       </div>
@@ -1784,17 +2462,32 @@ function renderEvents(){
 
 function getTimeText(updatedAt){
 
-
-  if(!updatedAt){
+  if(
+    !updatedAt
+  ){
 
     return
-      "まだ混雑情報が共有されていません";
+      "更新情報なし";
 
   }
 
 
   const date =
-    new Date(updatedAt);
+    new Date(
+      updatedAt
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return
+      "更新情報なし";
+
+  }
 
 
   const now =
@@ -1802,30 +2495,57 @@ function getTimeText(updatedAt){
 
 
   const diff =
-    Math.floor(
-      (
-        now - date
-      ) / 1000 / 60
+    Math.max(
+      0,
+      Math.floor(
+        (
+          now -
+          date
+        ) /
+        1000 /
+        60
+      )
     );
 
 
-  if(diff < 1){
+  if(
+    diff < 1
+  ){
 
     return
-      "たった今更新";
+      "更新: たった今";
 
   }
 
 
-  if(diff < 60){
+  if(
+    diff < 60
+  ){
 
     return
-      `${diff}分前に更新`;
+      `更新: ${diff}分前`;
+
+  }
+
+
+  const hours =
+    Math.floor(
+      diff / 60
+    );
+
+
+  if(
+    hours < 24
+  ){
+
+    return
+      `更新: ${hours}時間前`;
 
   }
 
 
   return
+    "更新: " +
     date.toLocaleString(
       "ja-JP",
       {
@@ -1834,8 +2554,7 @@ function getTimeText(updatedAt){
         hour:"2-digit",
         minute:"2-digit"
       }
-    ) +
-    "に更新";
+    );
 
 }
 
@@ -1846,8 +2565,13 @@ function getTimeText(updatedAt){
 
 function escapeHtml(value){
 
+  if(
+    value ===
+    null ||
 
-  if(!value){
+    value ===
+    undefined
+  ){
 
     return "";
 
@@ -1885,7 +2609,26 @@ function escapeHtml(value){
 
 
 /* =========================================
-   フィルター
+   キーワード検索
+========================================= */
+
+keywordSearch.addEventListener(
+  "input",
+  () => {
+
+    keywordFilter =
+      keywordSearch.value
+        .trim();
+
+
+    renderEvents();
+
+  }
+);
+
+
+/* =========================================
+   カテゴリフィルター
 ========================================= */
 
 document
@@ -1933,6 +2676,10 @@ document
     }
   );
 
+
+/* =========================================
+   階数フィルター
+========================================= */
 
 document
   .querySelectorAll(
@@ -1986,6 +2733,26 @@ document
 
 function openShareModal(event){
 
+  const remaining =
+    getRemainingPostTime();
+
+
+  if(
+    remaining > 0
+  ){
+
+    showToast(
+      "次の共有まで " +
+      formatRemainingTime(
+        remaining
+      ) +
+      " お待ちください"
+    );
+
+    return;
+
+  }
+
 
   selectedEvent =
     event;
@@ -2034,7 +2801,6 @@ function openShareModal(event){
 ========================================= */
 
 function closeShareModal(){
-
 
   modalOverlay.classList.remove(
     "active"
@@ -2157,6 +2923,31 @@ submitBtn.addEventListener(
     }
 
 
+    const remaining =
+      getRemainingPostTime();
+
+
+    if(
+      remaining > 0
+    ){
+
+      showToast(
+        "次の共有まで " +
+        formatRemainingTime(
+          remaining
+        ) +
+        " お待ちください"
+      );
+
+      closeShareModal();
+
+      renderEvents();
+
+      return;
+
+    }
+
+
     submitBtn.disabled =
       true;
 
@@ -2167,45 +2958,6 @@ submitBtn.addEventListener(
 
     try{
 
-
-      /*
-        Render未設定の場合
-      */
-
-      if(!API_URL){
-
-        /*
-          動作確認用。
-          実際の共有はRender接続後。
-        */
-
-        selectedEvent.status =
-          selectedStatus;
-
-
-        selectedEvent.updatedAt =
-          new Date().toISOString();
-
-
-        closeShareModal();
-
-
-        renderEvents();
-
-
-        showToast(
-          "混雑状況を共有しました"
-        );
-
-
-        return;
-
-      }
-
-
-      /*
-        Render APIへ送信
-      */
 
       const response =
         await fetch(
@@ -2236,7 +2988,9 @@ submitBtn.addEventListener(
         );
 
 
-      if(!response.ok){
+      if(
+        !response.ok
+      ){
 
         throw new Error(
           "情報の共有に失敗しました"
@@ -2249,12 +3003,32 @@ submitBtn.addEventListener(
         await response.json();
 
 
+      /*
+        投稿成功時だけ
+        5分間の制限を開始
+      */
+
+      localStorage.setItem(
+        LAST_POST_KEY,
+        String(
+          Date.now()
+        )
+      );
+
+
+      /*
+        Renderから返された
+        計算後の状態を反映
+      */
+
       selectedEvent.status =
-        result.status;
+        result.status ||
+        selectedStatus;
 
 
       selectedEvent.updatedAt =
-        result.updatedAt;
+        result.updatedAt ||
+        new Date().toISOString();
 
 
       closeShareModal();
@@ -2264,7 +3038,7 @@ submitBtn.addEventListener(
 
 
       showToast(
-        "混雑状況を共有しました"
+        "混雑状況を共有しました。次の共有は5分後から可能です。"
       );
 
 
@@ -2310,7 +3084,6 @@ let toastTimer;
 
 function showToast(message){
 
-
   toast.textContent =
     message;
 
@@ -2341,6 +3114,52 @@ function showToast(message){
 
 
 /* =========================================
+   投稿制限ボタンの定期更新
+========================================= */
+
+/*
+  1秒ごとにボタンの残り時間を更新
+*/
+
+setInterval(
+  () => {
+
+    const remaining =
+      getRemainingPostTime();
+
+
+    if(
+      remaining > 0
+    ){
+
+      renderEvents();
+
+    }
+
+    else{
+
+      const buttons =
+        document.querySelectorAll(
+          ".share-btn:disabled"
+        );
+
+
+      if(
+        buttons.length > 0
+      ){
+
+        renderEvents();
+
+      }
+
+    }
+
+  },
+  1000
+);
+
+
+/* =========================================
    初期読み込み
 ========================================= */
 
@@ -2349,16 +3168,15 @@ loadEvents();
 
 /* =========================================
    定期的に混雑情報を更新
-
-   Render設定後、
-   60秒ごとに最新情報を取得
 ========================================= */
 
 setInterval(
   async () => {
 
 
-    if(!API_URL){
+    if(
+      !API_URL
+    ){
 
       return;
 
@@ -2369,7 +3187,6 @@ setInterval(
 
 
     renderEvents();
-
 
   },
   60000
