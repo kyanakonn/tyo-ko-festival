@@ -494,7 +494,6 @@ main{
 
 /* =========================================
    カードタイトル
-   白い角丸背景を完全に削除
 ========================================= */
 
 .crowd-card-title{
@@ -1211,45 +1210,27 @@ main{
         カテゴリから探す
       </div>
 
-      <button
-        class="filter-btn active"
-        data-category="all"
-      >
+      <button class="filter-btn active" data-category="all">
         すべて
       </button>
 
-      <button
-        class="filter-btn"
-        data-category="1学年"
-      >
+      <button class="filter-btn" data-category="1学年">
         1学年
       </button>
 
-      <button
-        class="filter-btn"
-        data-category="2学年"
-      >
+      <button class="filter-btn" data-category="2学年">
         2学年
       </button>
 
-      <button
-        class="filter-btn"
-        data-category="3学年"
-      >
+      <button class="filter-btn" data-category="3学年">
         3学年
       </button>
 
-      <button
-        class="filter-btn"
-        data-category="部活動"
-      >
+      <button class="filter-btn" data-category="部活動">
         部活動
       </button>
 
-      <button
-        class="filter-btn"
-        data-category="その他"
-      >
+      <button class="filter-btn" data-category="その他">
         その他
       </button>
 
@@ -1262,38 +1243,23 @@ main{
         階数から探す
       </div>
 
-      <button
-        class="filter-btn active"
-        data-floor-filter="all"
-      >
+      <button class="filter-btn active" data-floor-filter="all">
         すべて
       </button>
 
-      <button
-        class="filter-btn"
-        data-floor-filter="1"
-      >
+      <button class="filter-btn" data-floor-filter="1">
         1階
       </button>
 
-      <button
-        class="filter-btn"
-        data-floor-filter="2"
-      >
+      <button class="filter-btn" data-floor-filter="2">
         2階
       </button>
 
-      <button
-        class="filter-btn"
-        data-floor-filter="3"
-      >
+      <button class="filter-btn" data-floor-filter="3">
         3階
       </button>
 
-      <button
-        class="filter-btn"
-        data-floor-filter="4"
-      >
+      <button class="filter-btn" data-floor-filter="4">
         4階
       </button>
 
@@ -1440,10 +1406,6 @@ main{
 </div>
 
 
-<!-- =========================================
-     ページ最上部へ戻るボタン
-========================================= -->
-
 <button
   id="backToTop"
   type="button"
@@ -1468,7 +1430,6 @@ fetch("header.html")
 
   .then(
     data => {
-
 
       const headerContainer =
         document.getElementById(
@@ -1864,7 +1825,6 @@ async function loadEvents(){
 
   try{
 
-
     const response =
       await fetch(
         "events.html"
@@ -1909,7 +1869,6 @@ async function loadEvents(){
 
     groups.forEach(
       group => {
-
 
         const groupTitleElement =
           group.querySelector(
@@ -1993,7 +1952,6 @@ async function loadEvents(){
         cards.forEach(
           card => {
 
-
             const id =
               card.dataset.modalId;
 
@@ -2046,7 +2004,6 @@ async function loadEvents(){
 
             labels.forEach(
               label => {
-
 
                 const value =
                   label.nextElementSibling;
@@ -2149,7 +2106,6 @@ async function loadEvents(){
 
   catch(error){
 
-
     console.error(
       error
     );
@@ -2193,7 +2149,6 @@ async function loadCrowdStatus(){
 
   try{
 
-
     const response =
       await fetch(
         API_URL +
@@ -2220,7 +2175,6 @@ async function loadCrowdStatus(){
     eventsData.forEach(
       event => {
 
-
         const saved =
           crowdData[event.id];
 
@@ -2232,8 +2186,10 @@ async function loadCrowdStatus(){
           event.status =
             "unknown";
 
+
           event.updatedAt =
             null;
+
 
           return;
 
@@ -2245,9 +2201,28 @@ async function loadCrowdStatus(){
           "unknown";
 
 
-        event.updatedAt =
-          saved.updatedAt ||
-          null;
+        /*
+          server.jsから返される
+          updatedAtを安全に取得
+        */
+
+        if(
+          saved.updatedAt &&
+          saved.updatedAt !== "undefined" &&
+          saved.updatedAt !== "null"
+        ){
+
+          event.updatedAt =
+            saved.updatedAt;
+
+        }
+
+        else{
+
+          event.updatedAt =
+            null;
+
+        }
 
       }
     );
@@ -2255,7 +2230,6 @@ async function loadCrowdStatus(){
   }
 
   catch(error){
-
 
     console.error(
       "混雑情報の取得に失敗しました",
@@ -2287,7 +2261,6 @@ function renderEvents(){
 
   eventsData.forEach(
     event => {
-
 
       const categoryMatch =
         categoryFilter ===
@@ -2563,17 +2536,19 @@ function renderEvents(){
 
 
 /* =========================================
-   時間表示
+   最終更新時間表示
 ========================================= */
 
 function getTimeText(updatedAt){
 
   if(
-    !updatedAt
+    !updatedAt ||
+    updatedAt === "undefined" ||
+    updatedAt === "null"
   ){
 
     return
-      "更新情報なし";
+      "最終更新: 情報なし";
 
   }
 
@@ -2591,7 +2566,7 @@ function getTimeText(updatedAt){
   ){
 
     return
-      "更新情報なし";
+      "最終更新: 情報なし";
 
   }
 
@@ -2638,7 +2613,8 @@ function getTimeText(updatedAt){
 
   const diffHours =
     Math.floor(
-      diffMinutes / 60
+      diffMinutes /
+      60
     );
 
 
@@ -2650,6 +2626,10 @@ function getTimeText(updatedAt){
       `最終更新: ${diffHours}時間前`;
 
   }
+
+
+  const year =
+    date.getFullYear();
 
 
   const month =
@@ -2680,7 +2660,7 @@ function getTimeText(updatedAt){
 
 
   return
-    `最終更新: ${month}/${day} ${hour}:${minute}`;
+    `最終更新: ${year}/${month}/${day} ${hour}:${minute}`;
 
 }
 
@@ -2764,11 +2744,9 @@ document
   .forEach(
     button => {
 
-
       button.addEventListener(
         "click",
         () => {
-
 
           categoryFilter =
             button.dataset.category;
@@ -2814,11 +2792,9 @@ document
   .forEach(
     button => {
 
-
       button.addEventListener(
         "click",
         () => {
-
 
           floorFilter =
             button.dataset.floorFilter;
@@ -2958,11 +2934,9 @@ document
   .forEach(
     option => {
 
-
       option.addEventListener(
         "click",
         () => {
-
 
           selectedStatus =
             option.dataset.status;
@@ -3016,7 +2990,6 @@ modalOverlay.addEventListener(
   "click",
   event => {
 
-
     if(
       event.target ===
       modalOverlay
@@ -3037,7 +3010,6 @@ modalOverlay.addEventListener(
 submitBtn.addEventListener(
   "click",
   async () => {
-
 
     if(
       !selectedEvent ||
@@ -3083,7 +3055,6 @@ submitBtn.addEventListener(
 
 
     try{
-
 
       const response =
         await fetch(
@@ -3142,9 +3113,23 @@ submitBtn.addEventListener(
         selectedStatus;
 
 
-      selectedEvent.updatedAt =
-        result.updatedAt ||
-        new Date().toISOString();
+      if(
+        result.updatedAt &&
+        result.updatedAt !== "undefined" &&
+        result.updatedAt !== "null"
+      ){
+
+        selectedEvent.updatedAt =
+          result.updatedAt;
+
+      }
+
+      else{
+
+        selectedEvent.updatedAt =
+          new Date().toISOString();
+
+      }
 
 
       closeShareModal();
@@ -3157,11 +3142,9 @@ submitBtn.addEventListener(
         "混雑状況を共有しました。次の共有は5分後から可能です。"
       );
 
-
     }
 
     catch(error){
-
 
       console.error(
         error
@@ -3172,11 +3155,9 @@ submitBtn.addEventListener(
         "共有に失敗しました。もう一度お試しください。"
       );
 
-
     }
 
     finally{
-
 
       submitBtn.disabled =
         false;
@@ -3338,7 +3319,6 @@ updateBackToTopButton();
 
 setInterval(
   async () => {
-
 
     if(
       !API_URL
