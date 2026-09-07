@@ -2920,7 +2920,7 @@ window.addEventListener(
     このバージョンでは初期状態をONにする。
   */
   const STORAGE_KEY =
-    "choko_crowd_map_visible_v2";
+    "choko_crowd_map_visible_v3";
 
   let crowdEnabled =
     localStorage.getItem(STORAGE_KEY) !== "false";
@@ -3328,6 +3328,14 @@ window.addEventListener(
     hotspot.dataset.crowdStatus =
       safe;
 
+    /* 混雑色はホットスポット本体へ直接描画する。
+       画像の上に確実に表示するため、表示状態を維持する。 */
+    hotspot.style.setProperty(
+      "z-index",
+      "5",
+      "important"
+    );
+
     hotspot.classList.remove(
       "crowd-empty",
       "crowd-normal",
@@ -3413,7 +3421,7 @@ window.addEventListener(
 
       hotspot.style.setProperty(
         "border",
-        "2px solid rgba(212,91,88,0.68"),
+        "2px solid rgba(212,91,88,0.68)",
         "important"
       );
 
