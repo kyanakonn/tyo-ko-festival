@@ -1790,6 +1790,13 @@ body {
   display: block;
 }
 
+/* data-floorで現在の階だけを表示。
+   .map-hotspot[data-floor] の display:block が
+   HTMLのhidden属性を上書きしないようにする。 */
+.map-hotspot[data-floor][hidden] {
+  display: none !important;
+}
+
 
 /* =========================================
    上部ボタンの小画面時レイアウト固定
@@ -2231,39 +2238,50 @@ function updateHotspots() {
 
   mapHotspots.forEach((hotspot) => {
 
-    const isFloor1Hotspot =
-      hotspot.classList.contains("floor-1-hotspot");
+    /* 2棟はHTMLのdata-floorを唯一の階判定として使う。
+       0=1階、1=2階、2=3階、3=4階 */
+    const hotspotFloor =
+      Number(hotspot.dataset.floor);
 
-    const isFloor2Hotspot =
-      hotspot.classList.contains("floor-2-hotspot");
+    const isCurrentFloor =
+      Number.isFinite(hotspotFloor) &&
+      hotspotFloor === currentFloor;
 
-    const isFloor3Hotspot =
-      hotspot.classList.contains("floor-3-hotspot");
+    hotspot.hidden = !isCurrentFloor;
 
-    const isFloor4Hotspot =
-      hotspot.classList.contains("floor-4-hotspot");
+    if (isCurrentFloor) {
 
-    if (isFloor1Hotspot) {
-      hotspot.hidden = currentFloor !== 0;
-      return;
+      /* 現在の階だけ混雑色を再表示 */
+      applyColor(
+        hotspot,
+        hotspot.dataset.crowdStatus || "unknown"
+      );
+
+    } else {
+
+      /* 別階の混雑色は完全に消す。
+         dataset.crowdStatusは残すので、
+         階を戻したときに最新状態を再表示できる。 */
+      hotspot.classList.remove(
+        "crowd-empty",
+        "crowd-normal",
+        "crowd-crowded",
+        "crowd-unknown",
+        "crowd-disabled"
+      );
+
+      hotspot.style.setProperty(
+        "background",
+        "transparent",
+        "important"
+      );
+
+      hotspot.style.setProperty(
+        "border-color",
+        "transparent",
+        "important"
+      );
     }
-
-    if (isFloor2Hotspot) {
-      hotspot.hidden = currentFloor !== 1;
-      return;
-    }
-
-    if (isFloor3Hotspot) {
-      hotspot.hidden = currentFloor !== 2;
-      return;
-    }
-
-    if (isFloor4Hotspot) {
-      hotspot.hidden = currentFloor !== 3;
-      return;
-    }
-
-    hotspot.hidden = true;
 
   });
 
@@ -3447,6 +3465,49 @@ window.addEventListener(
 
 
   /* =========================================
+     現在表示している階か判定
+  ========================================= */
+  function isCurrentFloorHotspot(hotspot) {
+
+    return Number(hotspot?.dataset?.floor) === currentFloor;
+
+  }
+
+
+  /* =========================================
+     別階の混雑色を消す
+     ※APIから取得した状態はdatasetに残す
+  ========================================= */
+  function clearCrowdVisual(hotspot) {
+
+    if (!hotspot) {
+      return;
+    }
+
+    hotspot.classList.remove(
+      "crowd-empty",
+      "crowd-normal",
+      "crowd-crowded",
+      "crowd-unknown",
+      "crowd-disabled"
+    );
+
+    hotspot.style.setProperty(
+      "background",
+      "transparent",
+      "important"
+    );
+
+    hotspot.style.setProperty(
+      "border-color",
+      "transparent",
+      "important"
+    );
+
+  }
+
+
+  /* =========================================
      全ホットスポットへ反映
   ========================================= */
   async function applyCrowdData(crowdData) {
@@ -3519,10 +3580,16 @@ window.addEventListener(
         matchedCount++;
       }
 
-      applyColor(
-        hotspot,
-        status
-      );
+      /* 状態は全階分を保存するが、
+         色を表示するのは現在の階だけ。 */
+      if (isCurrentFloorHotspot(hotspot)) {
+        applyColor(
+          hotspot,
+          status
+        );
+      } else {
+        clearCrowdVisual(hotspot);
+      }
 
       console.log(
         "2棟混雑表示",
@@ -3624,11 +3691,15 @@ window.addEventListener(
           )
           .forEach(hotspot => {
 
-            applyColor(
-              hotspot,
-              hotspot.dataset.crowdStatus ||
-              "unknown"
-            );
+            if (isCurrentFloorHotspot(hotspot)) {
+              applyColor(
+                hotspot,
+                hotspot.dataset.crowdStatus ||
+                "unknown"
+              );
+            } else {
+              clearCrowdVisual(hotspot);
+            }
 
           });
 
@@ -3734,12 +3805,18 @@ window.addEventListener(
         hotspot.dataset.crowdStatus =
           "unknown";
 
-        applyColor(
-          hotspot,
-          "unknown"
-        );
+        if (isCurrentFloorHotspot(hotspot)) {
+          applyColor(
+            hotspot,
+            "unknown"
+          );
+        } else {
+          clearCrowdVisual(hotspot);
+        }
 
       });
+
+    updateHotspots();
 
     loadCrowd();
 
