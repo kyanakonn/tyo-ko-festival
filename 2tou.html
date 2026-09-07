@@ -15,6 +15,7 @@
 
 <style>
 
+
 /* =========================================
    全体
 ========================================= */
@@ -22,6 +23,7 @@
 html,
 body {
   width: 100%;
+  min-width: 0;
   min-height: 100%;
 
   margin: 0;
@@ -45,14 +47,12 @@ body {
 ========================================= */
 
 .bg-shapes {
-  position: absolute !important;
+  position: fixed !important;
 
-  top: 0;
-  left: 0;
+  inset: 0;
 
   width: 100%;
-
-  height: max(100vh, 1100px);
+  height: 100%;
 
   z-index: 0 !important;
 
@@ -60,25 +60,235 @@ body {
 
   overflow: hidden;
 
-  opacity: 0.55 !important;
+  /* TOPページと同じように透けて表示 */
+  opacity: 0.24 !important;
+
+  /* 背景として少し馴染ませる */
+  filter: blur(1px);
+
+  transform: translateZ(0);
 }
 
 
-/*
-   背景図形を表示
-   TOPページと同じ図形を
-   薄く透けるように表示
-*/
+/* 背景図形 */
 
 .bg-shapes .shape {
   display: block !important;
 
-  opacity: 0.45;
+  position: absolute;
 }
+
+
+/* =========================================
+   三角形
+========================================= */
+
+.s1 {
+  top: 5%;
+  left: -50px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 90px solid transparent;
+  border-right: 90px solid transparent;
+  border-bottom: 170px solid #c96d80;
+
+  transform: rotate(-25deg);
+}
+
+.s2 {
+  top: 25%;
+  left: -35px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #8870a8;
+
+  transform: rotate(20deg);
+}
+
+.s3 {
+  bottom: 5%;
+  left: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 180px solid #cfb25a;
+
+  transform: rotate(12deg);
+}
+
+.s4 {
+  bottom: 28%;
+  left: 20px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 120px solid #65a6ae;
+
+  transform: rotate(-15deg);
+}
+
+.s5 {
+  top: 12%;
+  right: -80px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 260px solid #6aa8ad;
+
+  transform: rotate(30deg);
+}
+
+.s6 {
+  bottom: -40px;
+  right: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 190px solid #c96d80;
+
+  transform: rotate(-15deg);
+}
+
+.s7 {
+  top: 8%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 55px solid transparent;
+  border-right: 55px solid transparent;
+  border-bottom: 100px solid #8870a8;
+
+  transform: rotate(35deg);
+}
+
+.s8 {
+  bottom: 20%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #cfb25a;
+
+  transform: rotate(-20deg);
+}
+
+
+/* =========================================
+   四角形
+========================================= */
 
 .bg-shapes::before,
 .bg-shapes::after {
+  content: "";
+
+  position: absolute;
+
   display: block;
+}
+
+
+.bg-shapes::before {
+  width: 85px;
+  height: 150px;
+
+  left: 7%;
+  top: 45%;
+
+  background: #a57999;
+
+  transform: rotate(28deg);
+}
+
+
+.bg-shapes::after {
+  width: 110px;
+  height: 70px;
+
+  right: 4%;
+  top: 55%;
+
+  background: #65a0a8;
+
+  transform: rotate(-20deg);
+}
+
+
+/* =========================================
+   追加四角形
+========================================= */
+
+.s9 {
+  top: 38%;
+  left: 12%;
+
+  width: 90px;
+  height: 55px;
+
+  background: #c87382;
+
+  transform: rotate(-18deg);
+}
+
+
+.s10 {
+  top: 70%;
+  left: 18%;
+
+  width: 65px;
+  height: 100px;
+
+  background: #766990;
+
+  transform: rotate(25deg);
+}
+
+
+.s11 {
+  top: 32%;
+  right: 15%;
+
+  width: 75px;
+  height: 75px;
+
+  background: #c8a75a;
+
+  transform: rotate(18deg);
+}
+
+
+.s12 {
+  bottom: 10%;
+  right: 20%;
+
+  width: 100px;
+  height: 55px;
+
+  background: #609da4;
+
+  transform: rotate(-30deg);
 }
 
 
@@ -103,6 +313,7 @@ body {
   left: auto;
 
   width: 100%;
+  max-width: 100%;
 
   min-height: calc(100vh - 80px);
 
@@ -129,12 +340,13 @@ body {
   position: relative;
 
   width: 100%;
+  max-width: 100%;
 
   min-height: calc(100vh - 80px);
 
   height: auto;
 
-  padding-top: 70px;
+  padding-top: 92px;
   padding-bottom: 80px;
 
   display: flex;
@@ -153,7 +365,7 @@ body {
 
 
 /* =========================================
-   マップ画像ラッパー
+   マップ画像
 ========================================= */
 
 .map-image-wrapper {
@@ -183,10 +395,6 @@ body {
 }
 
 
-/* =========================================
-   マップ画像
-========================================= */
-
 .map-image {
   display: block;
 
@@ -207,388 +415,13 @@ body {
 
 
 /* =========================================
-   透明な当たり判定
-========================================= */
-
-.map-hotspots {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  pointer-events: none;
-
-  z-index: 10;
-}
-
-
-.map-hotspot {
-  position: absolute;
-
-  display: none;
-
-  box-sizing: border-box;
-
-  border-radius: 8px;
-
-  background: transparent;
-
-  border: 2px solid transparent;
-
-  box-shadow: none;
-
-  pointer-events: auto;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
-
-  transition: none;
-}
-
-
-.map-hotspot:hover {
-  background: transparent;
-
-  border-color: transparent;
-}
-
-
-.map-hotspot:active {
-  background: transparent;
-
-  border-color: transparent;
-}
-
-
-/* =========================================
-   2棟1階
-========================================= */
-
-.hotspot-cha {
-
-  left: 63.2%;
-  top: 43.5%;
-
-  width: 12.3%;
-  height: 26.8%;
-}
-
-
-.hotspot-science-kagaku {
-
-  left: 28.4%;
-  top: 43.5%;
-
-  width: 18.0%;
-  height: 26.8%;
-}
-
-
-.hotspot-kado {
-  left: 49.5%;
-  top: 47.3%;
-  width: 4.0%;
-  height: 19.8%;
-}
-
-
-.hotspot-oami-special {
-  left: 46.5%;
-  top: 65.9%;
-  width: 2.2%;
-  height: 34.1%;
-}
-
-
-/* =========================================
-   2棟2階
-========================================= */
-
-.hotspot-art {
-
-  left: 87.9%;
-  top: 43.5%;
-
-  width: 12.0%;
-  height: 26.8%;
-}
-
-
-.hotspot-science-butsuri {
-
-  left: 28.4%;
-  top: 43.5%;
-
-  width: 18.0%;
-  height: 26.8%;
-}
-
-
-.hotspot-shogi {
-
-  left: 0%;
-  top: 43.5%;
-
-  width: 18.0%;
-  height: 26.8%;
-}
-
-
-.hotspot-photo {
-  left: 48.0%;
-  top: 43.5%;
-  width: 3.8%;
-  height: 26.8%;
-}
-
-
-/* =========================================
-   2棟3階
-========================================= */
-
-.hotspot-science-seibutsu {
-
-  left: 28.4%;
-  top: 43.5%;
-
-  width: 18.0%;
-  height: 26.8%;
-}
-
-
-/* =========================================
-   2棟4階
-========================================= */
-
-.hotspot-science-chigaku {
-
-  left: 28.4%;
-  top: 43.5%;
-
-  width: 18.0%;
-  height: 26.8%;
-}
-
-
-.hotspot-science-sugaku {
-  left: 72.9%;
-  top: 43.5%;
-  width: 15.0%;
-  height: 26.8%;
-}
-
-
-/* =========================================
-   混雑状況表示
-========================================= */
-
-const CROWD_API_URL =
-  "https://chosei-fes.onrender.com";
-
-let crowdDisplayEnabled =
-  localStorage.getItem("choko_crowd_map_visible") !== "false";
-
-const crowdToggleButton =
-  document.getElementById("crowdToggleButton");
-
-function normalizeCrowdStatus(value){
-  const status = String(value || "").trim();
-  return ["empty","normal","crowded"].includes(status)
-    ? status
-    : "unknown";
-}
-
-function getCrowdRecord(crowdData, targetId){
-  if(!crowdData || !targetId){
-    return null;
-  }
-
-  const containers = [
-    crowdData,
-    crowdData.data,
-    crowdData.events,
-    crowdData.crowd,
-    crowdData.results
-  ];
-
-  for(const container of containers){
-    if(!container){
-      continue;
-    }
-
-    if(Array.isArray(container)){
-      const found = container.find(item =>
-        item && String(item.id || "").trim() === targetId
-      );
-      if(found){
-        return found;
-      }
-    }else if(
-      typeof container === "object" &&
-      container[targetId] &&
-      typeof container[targetId] === "object"
-    ){
-      return container[targetId];
-    }
-  }
-
-  return null;
-}
-
-function applyCrowdVisual(hotspot, status){
-  if(!hotspot){
-    return;
-  }
-
-  hotspot.classList.remove(
-    "crowd-empty",
-    "crowd-normal",
-    "crowd-crowded",
-    "crowd-unknown",
-    "crowd-visible"
-  );
-
-  const safeStatus = normalizeCrowdStatus(status);
-  hotspot.classList.add("crowd-" + safeStatus);
-
-  if(crowdDisplayEnabled && safeStatus !== "unknown"){
-    hotspot.classList.add("crowd-visible");
-  }
-}
-
-function refreshCrowdVisibility(){
-  document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-    const status =
-      hotspot.dataset.crowdStatus || "unknown";
-    applyCrowdVisual(hotspot, status);
-  });
-
-  if(crowdToggleButton){
-    crowdToggleButton.classList.toggle("off", !crowdDisplayEnabled);
-    crowdToggleButton.setAttribute(
-      "aria-pressed",
-      String(crowdDisplayEnabled)
-    );
-    crowdToggleButton.innerHTML =
-      '<span class="crowd-toggle-dot"></span>' +
-      (crowdDisplayEnabled ? "混雑表示：ON" : "混雑表示：OFF");
-  }
-}
-
-async function loadCrowdMapStatus(){
-  try{
-    const response = await fetch(
-      CROWD_API_URL + "/api/crowd",
-      {cache:"no-store"}
-    );
-
-    if(!response.ok){
-      throw new Error("混雑情報の取得に失敗しました");
-    }
-
-    const crowdData = await response.json();
-
-    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-      let targetId =
-        hotspot.dataset.modalType || "";
-
-      if(targetId === "gymnasium" || targetId === "gymnasium-performance"){
-        targetId = "gymnasium-performance";
-      }
-
-      const saved = getCrowdRecord(crowdData, targetId);
-      const status = saved
-        ? normalizeCrowdStatus(
-            saved.status ||
-            saved.crowdStatus ||
-            saved.crowd_status
-          )
-        : "unknown";
-
-      hotspot.dataset.crowdStatus = status;
-      applyCrowdVisual(hotspot, status);
-    });
-  }catch(error){
-    console.error("混雑情報の取得に失敗しました", error);
-  }
-
-  refreshCrowdVisibility();
-}
-
-if(crowdToggleButton){
-  crowdToggleButton.addEventListener("click", () => {
-    crowdDisplayEnabled = !crowdDisplayEnabled;
-    localStorage.setItem(
-      "choko_crowd_map_visible",
-      String(crowdDisplayEnabled)
-    );
-    refreshCrowdVisibility();
-  });
-}
-
-// 当たり判定の中に、クリックを邪魔しない表示レイヤーを追加。
-document.querySelectorAll(".map-hotspot").forEach(hotspot => {
-  const layer = document.createElement("span");
-  layer.className = "crowd-visual-layer";
-  layer.setAttribute("aria-hidden", "true");
-  hotspot.appendChild(layer);
-});
-
-refreshCrowdVisibility();
-loadCrowdMapStatus();
-setInterval(loadCrowdMapStatus, 15000);
-
-
-/* =========================================
-   場所詳細モーダル
-========================================= */
-
-#placeModalOverlay {
-
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 2000;
-
-  display: none;
-
-  background: rgba(6, 37, 79, 0.58);
-
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-
-
-#placeModalOverlay.active {
-  display: block;
-}
-
-
-#placeModalFrame {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  border: 0;
-
-  background: transparent;
-}
-
-
-/* =========================================
    上部ボタンエリア
 ========================================= */
 
 .top-controls {
   position: absolute;
 
-  top: 8px;
+  top: 12px;
   left: 50%;
 
   transform: translateX(-50%);
@@ -597,7 +430,7 @@ setInterval(loadCrowdMapStatus, 15000);
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
+  gap: 8px;
 
   z-index: 50;
 
@@ -605,80 +438,73 @@ setInterval(loadCrowdMapStatus, 15000);
 }
 
 
+/* =========================================
+   全体図に戻るボタン
+========================================= */
+
 .back-to-map {
-  border: 1px solid rgba(6,37,79,0.16);
-  background: rgba(255,255,255,0.94);
-  color: #06254f;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.back-to-map::before {
-  content: "↩";
-  margin-right: 5px;
-  font-size: 14px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
 .back-to-map:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px,-1px);
   background: #fff;
-  box-shadow: 0 5px 14px rgba(6,37,79,0.14);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
-
 
 .back-to-map:active {
-  transform: translateY(0);
-  opacity: 0.72;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
+
+/* =========================================
+   操作説明ボタン
+========================================= */
 
 .help-button {
-  border: 1px solid rgba(21,146,158,0.18);
-  background: rgba(21,146,158,0.95);
+  appearance: none;
+  border: 2px solid #65a6ae;
+  background: #65a6ae;
   color: #fff;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(21,146,158,0.16);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.help-button::before {
-  content: "?";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 50%;
-  font-size: 11px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
 .help-button:hover {
-  transform: translateY(-1px);
-  background: #12818c;
-  box-shadow: 0 5px 14px rgba(21,146,158,0.20);
+  transform: translate(-1px,-1px);
+  background: #5b969d;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
 
-
 .help-button:active {
-  transform: translateY(0);
-  opacity: 0.72;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 /* =========================================
@@ -686,33 +512,37 @@ setInterval(loadCrowdMapStatus, 15000);
 ========================================= */
 
 .crowd-toggle-button {
-  border: 1px solid rgba(6,37,79,0.18);
-  background: rgba(255,255,255,0.92);
-  color: #06254f;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 13px;
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 13px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(6,37,79,0.10);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
   -webkit-tap-highlight-color: transparent;
-  transition: background .18s ease, color .18s ease, transform .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
 .crowd-toggle-button:hover {
-  transform: translateY(-1px);
+  transform: translate(-1px,-1px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
 }
 
 .crowd-toggle-button:active {
-  transform: translateY(0);
-  opacity: 0.75;
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 .crowd-toggle-button.off {
-  background: rgba(238,237,235,0.94);
-  color: #666;
+  background: #f1f1ef;
+  color: #777;
 }
 
 .crowd-toggle-dot {
@@ -737,12 +567,12 @@ setInterval(loadCrowdMapStatus, 15000);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   padding: 7px 10px;
-  border: 1px solid rgba(6,37,79,0.12);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.90);
-  box-shadow: 0 4px 14px rgba(6,37,79,0.10);
+  border: 1px solid rgba(36,36,42,.10);
+  border-radius: 0;
+  background: rgba(255,255,255,.92);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.07);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 60;
@@ -757,6 +587,10 @@ setInterval(loadCrowdMapStatus, 15000);
   color: #333;
   font-size: 11px;
   font-weight: 700;
+}
+
+.crowd-legend-unknown {
+  gap: 0;
 }
 
 .crowd-legend-color {
@@ -781,44 +615,6 @@ setInterval(loadCrowdMapStatus, 15000);
   background: rgba(212,91,88,.48);
   border: 1px solid rgba(212,91,88,.70);
 }
-
-/* 当たり判定の上に重ねる混雑表示。内部レイヤーはクリックを邪魔しない。 */
-.map-hotspot .crowd-visual-layer {
-  position: absolute;
-  inset: 0;
-  display: block;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s ease;
-}
-
-.map-hotspot.crowd-visible .crowd-visual-layer {
-  opacity: 1;
-}
-
-.map-hotspot.crowd-empty .crowd-visual-layer {
-  background: rgba(79,157,105,.34);
-  border: 1px solid rgba(79,157,105,.55);
-}
-
-.map-hotspot.crowd-normal .crowd-visual-layer {
-  background: rgba(215,168,61,.34);
-  border: 1px solid rgba(215,168,61,.55);
-}
-
-.map-hotspot.crowd-crowded .crowd-visual-layer {
-  background: rgba(212,91,88,.34);
-  border: 1px solid rgba(212,91,88,.55);
-}
-
-.map-hotspot.crowd-unknown .crowd-visual-layer {
-  background: transparent;
-  border: 1px solid transparent;
-}
-
-
-
 /* =========================================
    左右ボタン
 ========================================= */
@@ -857,18 +653,13 @@ setInterval(loadCrowdMapStatus, 15000);
   -webkit-tap-highlight-color: transparent;
 }
 
-
 .floor-arrow:active {
   opacity: 0.5;
 }
 
-
 .floor-prev {
   left: 4px;
-
-  color: #d92a21;
 }
-
 
 .floor-next {
   right: 4px;
@@ -878,7 +669,7 @@ setInterval(loadCrowdMapStatus, 15000);
 
 
 /* =========================================
-   棟切り替え
+   棟切り替えボタン
 ========================================= */
 
 .building-switch {
@@ -918,7 +709,6 @@ setInterval(loadCrowdMapStatus, 15000);
   -webkit-tap-highlight-color: transparent;
 }
 
-
 .building-switch:active {
   opacity: 0.5;
 }
@@ -946,14 +736,18 @@ setInterval(loadCrowdMapStatus, 15000);
   background: rgba(6, 37, 79, 0.55);
 
   backdrop-filter: blur(5px);
+
   -webkit-backdrop-filter: blur(5px);
 }
-
 
 .help-overlay.active {
   display: flex;
 }
 
+
+/* =========================================
+   操作説明本体
+========================================= */
 
 .help-modal {
 
@@ -978,6 +772,10 @@ setInterval(loadCrowdMapStatus, 15000);
   box-sizing: border-box;
 }
 
+
+/* =========================================
+   モーダルタイトル
+========================================= */
 
 .help-title {
 
@@ -1004,6 +802,10 @@ setInterval(loadCrowdMapStatus, 15000);
   font-weight: 600;
 }
 
+
+/* =========================================
+   操作項目
+========================================= */
 
 .help-item {
 
@@ -1045,6 +847,10 @@ setInterval(loadCrowdMapStatus, 15000);
 }
 
 
+/* =========================================
+   赤い文字タップアイコン
+========================================= */
+
 .help-icon.gesture-red-square {
 
   width: 34px;
@@ -1058,6 +864,10 @@ setInterval(loadCrowdMapStatus, 15000);
   font-size: 0;
 }
 
+
+/* =========================================
+   2本指アイコン部分
+========================================= */
 
 .help-icon.gesture-square {
 
@@ -1073,6 +883,10 @@ setInterval(loadCrowdMapStatus, 15000);
 }
 
 
+/* =========================================
+   1本指移動アイコン部分
+========================================= */
+
 .help-icon.gesture-pan-square {
 
   width: 34px;
@@ -1086,6 +900,10 @@ setInterval(loadCrowdMapStatus, 15000);
   font-size: 0;
 }
 
+
+/* =========================================
+   操作説明テキスト
+========================================= */
 
 .help-text {
 
@@ -1108,7 +926,7 @@ setInterval(loadCrowdMapStatus, 15000);
 
 
 /* =========================================
-   閉じる
+   閉じるボタン
 ========================================= */
 
 .help-close {
@@ -1136,14 +954,13 @@ setInterval(loadCrowdMapStatus, 15000);
   -webkit-tap-highlight-color: transparent;
 }
 
-
 .help-close:active {
   opacity: 0.65;
 }
 
 
 /* =========================================
-   ×
+   モーダル右上閉じる
 ========================================= */
 
 .help-x {
@@ -1177,7 +994,6 @@ setInterval(loadCrowdMapStatus, 15000);
   -webkit-tap-highlight-color: transparent;
 }
 
-
 .help-x:active {
   opacity: 0.65;
 }
@@ -1191,6 +1007,9 @@ setInterval(loadCrowdMapStatus, 15000);
 
   .floor-page {
 
+    width: 100%;
+    max-width: 100%;
+
     min-height: calc(100vh - 50px);
 
     overflow: visible;
@@ -1198,6 +1017,9 @@ setInterval(loadCrowdMapStatus, 15000);
 
 
   .map-view {
+
+    width: 100%;
+    max-width: 100%;
 
     min-height: calc(100vh - 50px);
 
@@ -1239,29 +1061,31 @@ setInterval(loadCrowdMapStatus, 15000);
   }
 
 
+  /* -------------------------
+     上部ボタン
+  ------------------------- */
+
   .top-controls {
 
-    top: 72px;
+    top: 58px;
 
     gap: 5px;
-    flex-wrap: wrap;
-    max-width: 96vw;
   }
 
 
   .back-to-map,
   .help-button {
 
-    font-size: 14px;
+    font-size: 12px;
 
-    padding: 5px 10px;
+    padding: 7px 9px;
 
-    border-radius: 7px;
+    border-radius: 0;
   }
 
   .crowd-toggle-button {
-    font-size: 12px;
-    padding: 5px 9px;
+    font-size: 11px;
+    padding: 7px 8px;
   }
 
   .crowd-legend {
@@ -1282,6 +1106,10 @@ setInterval(loadCrowdMapStatus, 15000);
   }
 
 
+  /* -------------------------
+     左右矢印
+  ------------------------- */
+
   .floor-arrow {
 
     width: 40px;
@@ -1294,13 +1122,9 @@ setInterval(loadCrowdMapStatus, 15000);
     color: #d92a21;
   }
 
-
   .floor-prev {
     left: 0;
-
-    color: #d92a21;
   }
-
 
   .floor-next {
     right: 0;
@@ -1308,6 +1132,10 @@ setInterval(loadCrowdMapStatus, 15000);
     color: #d92a21;
   }
 
+
+  /* -------------------------
+     棟切り替え
+  ------------------------- */
 
   .building-switch {
 
@@ -1320,13 +1148,11 @@ setInterval(loadCrowdMapStatus, 15000);
   }
 
 
-  #placeModalOverlay {
-    z-index: 2000;
-  }
-
+  /* -------------------------
+     操作説明
+  ------------------------- */
 
   .help-overlay {
-
     padding: 15px;
   }
 
@@ -1351,7 +1177,6 @@ setInterval(loadCrowdMapStatus, 15000);
 
 
   .help-subtitle {
-
     font-size: 12px;
 
     margin-bottom: 14px;
@@ -1359,7 +1184,6 @@ setInterval(loadCrowdMapStatus, 15000);
 
 
   .help-item {
-
     gap: 10px;
 
     margin-bottom: 8px;
@@ -1428,48 +1252,41 @@ setInterval(loadCrowdMapStatus, 15000);
 
   /* -------------------------
      背景
+     TOPページと同じように
+     スマホではさらに控えめ
   ------------------------- */
 
   .bg-shapes {
 
     width: 100%;
+    height: 100%;
 
-    height: max(100vh, 1050px);
+    opacity: 0.18 !important;
 
-    opacity: 0.55 !important;
-  }
-
-
-  .bg-shapes .shape {
-    display: block !important;
-    opacity: 0.45;
+    filter: blur(1px);
   }
 
 }
 
 
 /* =========================================
-   極端に狭い画面
+   極端に狭い画面への対応
 ========================================= */
 
 @media (max-width: 360px) {
 
   .map-view {
-    padding-top: 105px;
+    padding-top: 135px;
   }
-
 
   .top-controls {
     top: 52px;
   }
 
-
   .back-to-map,
   .help-button {
-
-    font-size: 12px;
-
-    padding: 5px 8px;
+    font-size: 11px;
+    padding: 6px 8px;
   }
 
 }
@@ -1483,13 +1300,16 @@ setInterval(loadCrowdMapStatus, 15000);
 
   .map-view {
 
-    padding-top: 75px;
+    padding-top: 100px;
     padding-bottom: 60px;
+
   }
 
 
   .top-controls {
+
     top: 48px;
+
   }
 
 
@@ -1497,6 +1317,7 @@ setInterval(loadCrowdMapStatus, 15000);
 
     max-width: 80vw;
     max-height: 72vh;
+
   }
 
 
@@ -1504,8 +1325,415 @@ setInterval(loadCrowdMapStatus, 15000);
 
     max-width: 80vw;
     max-height: 72vh;
+
   }
 
+}
+
+
+
+/* =========================================
+   赤文字エリアのクリック判定
+   ※クリック判定のみ。表示は完全透明
+========================================= */
+
+.map-hotspot {
+  position: absolute;
+  z-index: 25;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  transition: none;
+}
+
+.map-hotspot:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.map-hotspot:active {
+  background: transparent;
+  border-color: transparent;
+  transform: none;
+}
+
+
+/* =========================================
+   1棟1階
+========================================= */
+
+.map-hotspot.ten-yen-bread {
+  left: 40.8%;
+  top: 26.4%;
+  width: 15.2%;
+  height: 26.7%;
+}
+
+
+/* =========================================
+   1棟2階
+========================================= */
+
+.map-hotspot.room-2d {
+  left: 0%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-3a {
+  left: 8.5%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-2a {
+  left: 16.8%;
+  top: 73.9%;
+  width: 8.1%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-jrc {
+  left: 36.0%;
+  top: 28.8%;
+  width: 4.8%;
+  height: 28.0%;
+}
+
+.map-hotspot.room-1a {
+  left: 52.4%;
+  top: 73.9%;
+  width: 8.3%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-3g {
+  left: 61.0%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-2e {
+  left: 69.5%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-3d {
+  left: 86.5%;
+  top: 41.5%;
+  width: 13.5%;
+  height: 17.5%;
+}
+
+
+/* =========================================
+   1棟3階
+========================================= */
+
+.map-hotspot.room-1e {
+  left: 0%;
+  top: 72.6%;
+  width: 8.0%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-3f {
+  left: 8.2%;
+  top: 72.6%;
+  width: 8.1%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-3e {
+  left: 16.6%;
+  top: 72.6%;
+  width: 8.3%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-1f {
+  left: 52.4%;
+  top: 72.6%;
+  width: 8.3%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-2f {
+  left: 61.0%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
+
+
+/* 1E 2つ目のクリック範囲
+   モーダルの種類は1つ目と同じ room-1e */
+.map-hotspot.room-1e-second {
+  left: 69.4%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-1e-right {
+  left: 69.4%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-3b {
+  left: 86.5%;
+  top: 40.6%;
+  width: 13.5%;
+  height: 17.5%;
+}
+
+
+/* =========================================
+   1棟4階
+========================================= */
+
+.map-hotspot.room-2c {
+  left: 0%;
+  top: 70.9%;
+  width: 8.2%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-1b {
+  left: 8.4%;
+  top: 70.9%;
+  width: 8.2%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-2b {
+  left: 16.8%;
+  top: 70.9%;
+  width: 8.0%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-ess {
+  left: 43.9%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-2g {
+  left: 52.5%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-1g {
+  left: 61.0%;
+  top: 70.9%;
+  width: 8.1%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-3c {
+  left: 69.3%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-bungei {
+  left: 77.9%;
+  top: 70.9%;
+  width: 5.0%;
+  height: 29.1%;
+}
+
+.map-hotspot.room-shodo {
+  left: 82.8%;
+  top: 70.9%;
+  width: 17.2%;
+  height: 29.1%;
+}
+
+.map-hotspot[hidden] {
+  display: none;
+}
+
+
+/* =========================================
+   混雑状況表示
+   ※このページでは2棟の固定マッピングを使用
+========================================= */
+
+.map-hotspot.crowd-empty {
+  background: rgba(79,157,105,0.38) !important;
+  border: 2px solid rgba(79,157,105,0.68) !important;
+}
+
+.map-hotspot.crowd-normal {
+  background: rgba(215,168,61,0.38) !important;
+  border: 2px solid rgba(215,168,61,0.68) !important;
+}
+
+.map-hotspot.crowd-crowded {
+  background: rgba(212,91,88,0.38) !important;
+  border: 2px solid rgba(212,91,88,0.68) !important;
+}
+
+.map-hotspot.crowd-unknown {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
+.map-hotspot.crowd-disabled {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
+/* =========================================
+   場所詳細モーダル
+========================================= */
+
+#placeModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  background: rgba(6, 37, 79, 0.58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+#placeModalOverlay.active {
+  display: block;
+}
+
+#placeModalFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+
+
+
+/* =========================================
+   2棟 フロアマップ用クリック判定
+   ※1棟と同じ共通デザイン・操作仕様を使用し、
+     位置だけ2棟のマップに合わせています。
+========================================= */
+
+.hotspot-cha {
+
+  left: 63.2%;
+  top: 43.5%;
+
+  width: 12.3%;
+  height: 26.8%;
+}
+
+.hotspot-science-kagaku {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-kado {
+  left: 49.5%;
+  top: 47.3%;
+  width: 4.0%;
+  height: 19.8%;
+}
+
+.hotspot-oami-special {
+  left: 46.5%;
+  top: 65.9%;
+  width: 2.2%;
+  height: 34.1%;
+}
+
+.hotspot-art {
+
+  left: 87.9%;
+  top: 43.5%;
+
+  width: 12.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-butsuri {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-shogi {
+
+  left: 0%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-photo {
+  left: 48.0%;
+  top: 43.5%;
+  width: 3.8%;
+  height: 26.8%;
+}
+
+.hotspot-science-seibutsu {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-chigaku {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-sugaku {
+  left: 72.9%;
+  top: 43.5%;
+  width: 15.0%;
+  height: 26.8%;
+}
+
+/* 2棟では専用のdata-floorで表示階を管理 */
+.map-hotspot[data-floor] {
+  display: block;
 }
 
 </style>
@@ -1513,7 +1741,6 @@ setInterval(loadCrowdMapStatus, 15000);
 </head>
 
 <body>
-
 
 <div class="bg-shapes">
 
@@ -1525,6 +1752,11 @@ setInterval(loadCrowdMapStatus, 15000);
   <div class="shape s6"></div>
   <div class="shape s7"></div>
   <div class="shape s8"></div>
+
+  <div class="shape s9"></div>
+  <div class="shape s10"></div>
+  <div class="shape s11"></div>
+  <div class="shape s12"></div>
 
 </div>
 
@@ -1644,6 +1876,9 @@ fetch("header.html")
         <span class="crowd-legend-item">
           <i class="crowd-legend-color crowded"></i>
           <span>混雑している</span>
+        </span>
+        <span class="crowd-legend-item crowd-legend-unknown">
+          <span>透明:情報なし</span>
         </span>
       </div>
 
@@ -1989,6 +2224,7 @@ fetch("header.html")
 </div>
 
 
+
 <script>
 
 /* =========================================
@@ -2048,9 +2284,6 @@ const backToMap =
 const mapView =
   document.querySelector(".map-view");
 
-const mapHotspots =
-  document.querySelectorAll(".map-hotspot");
-
 
 /* =========================================
    場所詳細モーダル
@@ -2062,121 +2295,112 @@ const placeModalOverlay =
 const placeModalFrame =
   document.getElementById("placeModalFrame");
 
+const mapHotspots =
+  document.querySelectorAll(".map-hotspot");
+
 
 function openPlaceModal(type) {
 
-  if (
-    !placeModalOverlay ||
-    !placeModalFrame
-  ) {
+  if (!placeModalOverlay || !placeModalFrame) {
     return;
   }
 
-
   placeModalFrame.src =
-    "modal3.html?type=" +
-    encodeURIComponent(type);
+    "modal3.html?type=" + encodeURIComponent(type);
 
+  placeModalOverlay.classList.add("active");
+  placeModalOverlay.setAttribute("aria-hidden", "false");
 
-  placeModalOverlay.classList.add(
-    "active"
-  );
-
-
-  placeModalOverlay.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-
-  document.body.style.overflow =
-    "hidden";
+  document.body.style.overflow = "hidden";
 }
 
 
 function closePlaceModal() {
 
-  if (
-    !placeModalOverlay ||
-    !placeModalFrame
-  ) {
+  if (!placeModalOverlay || !placeModalFrame) {
     return;
   }
 
+  placeModalOverlay.classList.remove("active");
+  placeModalOverlay.setAttribute("aria-hidden", "true");
+  placeModalFrame.src = "about:blank";
 
-  placeModalOverlay.classList.remove(
-    "active"
-  );
-
-
-  placeModalOverlay.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  placeModalFrame.src =
-    "about:blank";
-
-
-  document.body.style.overflow =
-    "";
+  document.body.style.overflow = "";
 }
 
 
-mapHotspots.forEach(
-  (hotspot) => {
+mapHotspots.forEach((hotspot) => {
 
-    hotspot.addEventListener(
-      "click",
-      (e) => {
+  hotspot.addEventListener("click", (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
+    e.stopPropagation();
 
-        e.stopPropagation();
+    const type = hotspot.dataset.modalType;
+
+    if (type) {
+      openPlaceModal(type);
+    }
+
+  });
+
+});
 
 
-        const type =
-          hotspot.dataset.modalType;
+window.addEventListener("message", (e) => {
 
-
-        if (type) {
-
-          openPlaceModal(type);
-
-        }
-
-      }
-    );
-
+  if (e.source !== placeModalFrame?.contentWindow) {
+    return;
   }
-);
+
+  if (e.data && e.data.type === "close-map-modal") {
+    closePlaceModal();
+  }
+
+});
 
 
-window.addEventListener(
-  "message",
-  (e) => {
+function updateHotspots() {
 
-    if (
-      e.source !==
-      placeModalFrame?.contentWindow
-    ) {
+  mapHotspots.forEach((hotspot) => {
+
+    const isFloor1Hotspot =
+      hotspot.classList.contains("floor-1-hotspot");
+
+    const isFloor2Hotspot =
+      hotspot.classList.contains("floor-2-hotspot");
+
+    const isFloor3Hotspot =
+      hotspot.classList.contains("floor-3-hotspot");
+
+    const isFloor4Hotspot =
+      hotspot.classList.contains("floor-4-hotspot");
+
+    if (isFloor1Hotspot) {
+      hotspot.hidden = currentFloor !== 0;
       return;
     }
 
-
-    if (
-      e.data &&
-      e.data.type ===
-      "close-map-modal"
-    ) {
-
-      closePlaceModal();
-
+    if (isFloor2Hotspot) {
+      hotspot.hidden = currentFloor !== 1;
+      return;
     }
 
-  }
-);
+    if (isFloor3Hotspot) {
+      hotspot.hidden = currentFloor !== 2;
+      return;
+    }
+
+    if (isFloor4Hotspot) {
+      hotspot.hidden = currentFloor !== 3;
+      return;
+    }
+
+    hotspot.hidden = true;
+
+  });
+
+}
 
 
 /* =========================================
@@ -2202,19 +2426,14 @@ const HELP_STORAGE_KEY =
 
 function openHelp() {
 
-  helpOverlay.classList.add(
-    "active"
-  );
+  helpOverlay.classList.add("active");
 
 }
 
 
 function closeHelp() {
 
-  helpOverlay.classList.remove(
-    "active"
-  );
-
+  helpOverlay.classList.remove("active");
 
   localStorage.setItem(
     HELP_STORAGE_KEY,
@@ -2258,10 +2477,7 @@ helpOverlay.addEventListener(
   "click",
   (e) => {
 
-    if (
-      e.target ===
-      helpOverlay
-    ) {
+    if (e.target === helpOverlay) {
 
       closeHelp();
 
@@ -2284,41 +2500,6 @@ if (
 
     },
     350
-  );
-
-}
-
-
-/* =========================================
-   当たり判定表示
-========================================= */
-
-function updateHotspots() {
-
-  mapHotspots.forEach(
-    (hotspot) => {
-
-      const floor =
-        Number(
-          hotspot.dataset.floor
-        );
-
-
-      if (
-        floor === currentFloor
-      ) {
-
-        hotspot.style.display =
-          "block";
-
-      } else {
-
-        hotspot.style.display =
-          "none";
-
-      }
-
-    }
   );
 
 }
@@ -2358,10 +2539,8 @@ function getDistance(touches) {
     touches[0].clientY -
     touches[1].clientY;
 
-
   return Math.sqrt(
-    dx * dx +
-    dy * dy
+    dx * dx + dy * dy
   );
 
 }
@@ -2373,18 +2552,14 @@ function updateArrowPosition() {
     return;
   }
 
-
   const imageTop =
     imageWrapper.offsetTop;
 
   const imageHeight =
     imageWrapper.offsetHeight;
 
-
   const centerY =
-    imageTop +
-    (imageHeight / 2);
-
+    imageTop + (imageHeight / 2);
 
   prevButton.style.top =
     centerY + "px";
@@ -2407,35 +2582,25 @@ function clampPosition() {
   const maxX =
     Math.max(
       0,
-      (wrapperWidth *
-      (scale - 1)) / 2
+      (wrapperWidth * (scale - 1)) / 2
     );
-
 
   const maxY =
     Math.max(
       0,
-      (wrapperHeight *
-      (scale - 1)) / 2
+      (wrapperHeight * (scale - 1)) / 2
     );
 
 
   translateX =
     Math.min(
-      Math.max(
-        translateX,
-        -maxX
-      ),
+      Math.max(translateX, -maxX),
       maxX
     );
 
-
   translateY =
     Math.min(
-      Math.max(
-        translateY,
-        -maxY
-      ),
+      Math.max(translateY, -maxY),
       maxY
     );
 
@@ -2445,7 +2610,6 @@ function clampPosition() {
 function updateTransform() {
 
   clampPosition();
-
 
   imageWrapper.style.transform =
     "translate3d(" +
@@ -2463,13 +2627,9 @@ function setZoom(value) {
 
   scale =
     Math.min(
-      Math.max(
-        value,
-        1
-      ),
+      Math.max(value, 1),
       5
     );
-
 
   updateTransform();
 
@@ -2483,10 +2643,8 @@ function resetZoom() {
   translateX = 0;
   translateY = 0;
 
-
   imageWrapper.style.transform =
     "translate3d(0, 0, 0) scale(1)";
-
 
   updateArrowPosition();
 
@@ -2496,22 +2654,16 @@ function resetZoom() {
 function showFloor(index) {
 
   currentFloor =
-    (index + floors.length) %
-    floors.length;
-
+    (index + floors.length) % floors.length;
 
   floorImage.src =
     floors[currentFloor].image;
-
 
   floorImage.alt =
     floors[currentFloor].name +
     " フロアマップ";
 
-
   resetZoom();
-
-
   updateHotspots();
 
 }
@@ -2525,8 +2677,6 @@ floorImage.addEventListener(
 
     updateArrowPosition();
 
-    updateHotspots();
-
   }
 );
 
@@ -2535,9 +2685,7 @@ prevButton.addEventListener(
   "click",
   () => {
 
-    showFloor(
-      currentFloor - 1
-    );
+    showFloor(currentFloor - 1);
 
   }
 );
@@ -2547,9 +2695,7 @@ nextButton.addEventListener(
   "click",
   () => {
 
-    showFloor(
-      currentFloor + 1
-    );
+    showFloor(currentFloor + 1);
 
   }
 );
@@ -2559,10 +2705,7 @@ backToMap.addEventListener(
   "click",
   () => {
 
-    closePlaceModal();
-
-    location.href =
-      "map.html";
+    location.href = "map.html";
 
   }
 );
@@ -2574,9 +2717,7 @@ buildingSwitch.addEventListener(
 
     e.stopPropagation();
 
-
     closePlaceModal();
-
 
     location.href =
       "1tou.html";
@@ -2589,19 +2730,13 @@ imageWrapper.addEventListener(
   "touchstart",
   (e) => {
 
-    if (
-      e.touches.length === 2
-    ) {
+    if (e.touches.length === 2) {
 
       startDistance =
-        getDistance(
-          e.touches
-        );
-
+        getDistance(e.touches);
 
       startScale =
         scale;
-
 
       startPanX =
         translateX;
@@ -2609,20 +2744,17 @@ imageWrapper.addEventListener(
       startPanY =
         translateY;
 
-
       startCenterX =
         (
           e.touches[0].clientX +
           e.touches[1].clientX
         ) / 2;
 
-
       startCenterY =
         (
           e.touches[0].clientY +
           e.touches[1].clientY
         ) / 2;
-
 
       isDragging = false;
 
@@ -2638,13 +2770,11 @@ imageWrapper.addEventListener(
 
       isDragging = true;
 
-
       startTouchX =
         e.touches[0].clientX;
 
       startTouchY =
         e.touches[0].clientY;
-
 
       startPanX =
         translateX;
@@ -2655,9 +2785,7 @@ imageWrapper.addEventListener(
     }
 
   },
-  {
-    passive: false
-  }
+  { passive: false }
 );
 
 
@@ -2665,33 +2793,22 @@ imageWrapper.addEventListener(
   "touchmove",
   (e) => {
 
-    if (
-      e.touches.length === 2
-    ) {
+    if (e.touches.length === 2) {
 
       e.preventDefault();
 
-
       const distance =
-        getDistance(
-          e.touches
-        );
+        getDistance(e.touches);
 
-
-      if (
-        startDistance > 0
-      ) {
+      if (startDistance > 0) {
 
         const ratio =
-          distance /
-          startDistance;
-
+          distance / startDistance;
 
         scale =
           Math.min(
             Math.max(
-              startScale *
-              ratio,
+              startScale * ratio,
               1
             ),
             5
@@ -2706,7 +2823,6 @@ imageWrapper.addEventListener(
           e.touches[1].clientX
         ) / 2;
 
-
       const centerY =
         (
           e.touches[0].clientY +
@@ -2716,19 +2832,11 @@ imageWrapper.addEventListener(
 
       translateX =
         startPanX +
-        (
-          centerX -
-          startCenterX
-        );
-
+        (centerX - startCenterX);
 
       translateY =
         startPanY +
-        (
-          centerY -
-          startCenterY
-        );
-
+        (centerY - startCenterY);
 
       updateTransform();
 
@@ -2745,38 +2853,26 @@ imageWrapper.addEventListener(
 
       e.preventDefault();
 
-
       const x =
         e.touches[0].clientX;
 
       const y =
         e.touches[0].clientY;
 
-
       translateX =
         startPanX +
-        (
-          x -
-          startTouchX
-        );
-
+        (x - startTouchX);
 
       translateY =
         startPanY +
-        (
-          y -
-          startTouchY
-        );
-
+        (y - startTouchY);
 
       updateTransform();
 
     }
 
   },
-  {
-    passive: false
-  }
+  { passive: false }
 );
 
 
@@ -2784,9 +2880,7 @@ imageWrapper.addEventListener(
   "touchend",
   (e) => {
 
-    if (
-      e.touches.length === 0
-    ) {
+    if (e.touches.length === 0) {
 
       isDragging = false;
 
@@ -2801,9 +2895,7 @@ imageWrapper.addEventListener(
     }
 
   },
-  {
-    passive: false
-  }
+  { passive: false }
 );
 
 
@@ -2812,26 +2904,13 @@ imageWrapper.addEventListener(
   (e) => {
 
     if (
-      e.target.classList.contains(
-        "map-hotspot"
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    if (
       e.button !== 0 ||
       scale <= 1
     ) {
       return;
     }
 
-
     isDragging = true;
-
 
     startTouchX =
       e.clientX;
@@ -2839,17 +2918,14 @@ imageWrapper.addEventListener(
     startTouchY =
       e.clientY;
 
-
     startPanX =
       translateX;
 
     startPanY =
       translateY;
 
-
     imageWrapper.style.cursor =
       "grabbing";
-
 
     e.preventDefault();
 
@@ -2868,22 +2944,13 @@ document.addEventListener(
       return;
     }
 
-
     translateX =
       startPanX +
-      (
-        e.clientX -
-        startTouchX
-      );
-
+      (e.clientX - startTouchX);
 
     translateY =
       startPanY +
-      (
-        e.clientY -
-        startTouchY
-      );
-
+      (e.clientY - startTouchY);
 
     updateTransform();
 
@@ -2898,7 +2965,6 @@ document.addEventListener(
     if (isDragging) {
 
       isDragging = false;
-
 
       imageWrapper.style.cursor =
         scale > 1
@@ -2917,17 +2983,12 @@ imageWrapper.addEventListener(
 
     e.preventDefault();
 
-
     const delta =
       e.deltaY > 0
         ? -0.15
         : 0.15;
 
-
-    setZoom(
-      scale + delta
-    );
-
+    setZoom(scale + delta);
 
     imageWrapper.style.cursor =
       scale > 1
@@ -2935,14 +2996,13 @@ imageWrapper.addEventListener(
         : "default";
 
   },
-  {
-    passive: false
-  }
+  { passive: false }
 );
 
 
-imageWrapper.style.cursor =
-  "default";
+imageWrapper.style.cursor = "default";
+
+updateHotspots();
 
 
 window.addEventListener(
@@ -2950,8 +3010,6 @@ window.addEventListener(
   () => {
 
     updateArrowPosition();
-
-    updateHotspots();
 
   }
 );
@@ -2967,12 +3025,638 @@ window.addEventListener(
 
     }
 
-
     updateArrowPosition();
 
   }
 );
 
+</script>
+
+<script>
+/* =========================================
+   2棟フロアマップ 混雑状況表示
+
+   ★重要：企画IDと2棟の教室の対応は
+   このファイル内で完全固定しています。
+
+   events.html を検索して対応を推測する処理は行いません。
+   1棟の企画・教室は一切扱いません。
+========================================= */
+(() => {
+
+  const API_URL = "https://chosei-fes.onrender.com/api/crowd";
+  const REFRESH_MS = 15000;
+  const STORAGE_KEY = "choko_crowd_map_visible_v3";
+
+  let crowdEnabled = true;
+  let requestController = null;
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "false") {
+      crowdEnabled = false;
+    }
+  } catch (_) {}
+
+  /* =========================================
+     2棟：企画ID → マップの対応を完全固定
+
+     左側：crowd API に送られる企画ID
+     右側：1棟マップ上の .map-hotspot の data-modal-type
+
+     1Eはマップ上にクリック範囲が2か所ありますが、
+     どちらも同じ企画ID「1e」を使用します。
+
+     special-support は混雑状況の企画IDではないため除外。
+     ========================================= */
+  const FIXED_CROWD_MAP = Object.freeze({
+
+    /* 2棟1階 */
+    "cha": ["hotspot-cha"],
+    "science-kagaku": ["hotspot-science-kagaku"],
+    "kado": ["hotspot-kado"],
+    "oami-special": ["hotspot-oami-special"],
+
+    /* 2棟2階 */
+    "art": ["hotspot-art"],
+    "science-butsuri": ["hotspot-science-butsuri"],
+    "shogi": ["hotspot-shogi"],
+    "photo": ["hotspot-photo"],
+
+    /* 2棟3階 */
+    "science-seibutsu": ["hotspot-science-seibutsu"],
+
+    /* 2棟4階 */
+    "science-chigaku": ["hotspot-science-chigaku"],
+    "science-sugaku": ["hotspot-science-sugaku"]
+  });
+
+  /* =========================================
+     逆引きも固定生成
+     ========================================= */
+  const HOTSPOT_TO_CROWD_ID = Object.freeze(
+    Object.entries(FIXED_CROWD_MAP).reduce(
+      (result, [crowdId, hotspots]) => {
+        hotspots.forEach(hotspotId => {
+          result[hotspotId] = crowdId;
+        });
+        return result;
+      },
+      {}
+    )
+  );
+
+  /* =========================================
+     ステータス正規化
+     ========================================= */
+  function normalizeStatus(value) {
+    const status = String(value ?? "")
+      .trim()
+      .toLowerCase();
+
+    if ([
+      "empty",
+      "low",
+      "free",
+      "空",
+      "空いている",
+      "比較的空いている"
+    ].includes(status)) {
+      return "empty";
+    }
+
+    if ([
+      "normal",
+      "medium",
+      "moderate",
+      "普通",
+      "やや混雑",
+      "やや混雑している"
+    ].includes(status)) {
+      return "normal";
+    }
+
+    if ([
+      "crowded",
+      "high",
+      "busy",
+      "混雑",
+      "混雑している"
+    ].includes(status)) {
+      return "crowded";
+    }
+
+    return "unknown";
+  }
+
+  /* =========================================
+     APIレコードから状態を取得
+     ========================================= */
+  function getStatus(record) {
+    if (record === null || record === undefined) {
+      return "unknown";
+    }
+
+    if (typeof record === "string") {
+      return normalizeStatus(record);
+    }
+
+    if (typeof record !== "object") {
+      return "unknown";
+    }
+
+    const directStatus = normalizeStatus(
+      record.status ??
+      record.crowdStatus ??
+      record.crowd_status ??
+      record.state ??
+      record.level
+    );
+
+    if (directStatus !== "unknown") {
+      return directStatus;
+    }
+
+    /* server.js が score を返す場合の保険 */
+    const score = Number(record.score);
+
+    if (Number.isFinite(score)) {
+      if (score < 34) {
+        return "empty";
+      }
+
+      if (score < 67) {
+        return "normal";
+      }
+
+      return "crowded";
+    }
+
+    return "unknown";
+  }
+
+  /* =========================================
+     APIレスポンスから企画IDのレコードを取得
+
+     server.js の現在の形式：
+       {
+         "1a": { status: "normal", ... },
+         "2e": { status: "crowded", ... }
+       }
+     ========================================= */
+  function getApiRecord(crowdData, targetId) {
+    const id = String(targetId ?? "")
+      .trim()
+      .toLowerCase();
+
+    if (!crowdData || !id) {
+      return null;
+    }
+
+    const containers = [
+      crowdData,
+      crowdData?.data,
+      crowdData?.events,
+      crowdData?.crowd,
+      crowdData?.results
+    ];
+
+    for (const container of containers) {
+      if (!container) {
+        continue;
+      }
+
+      if (Array.isArray(container)) {
+        const found = container.find(item => {
+          if (!item || typeof item !== "object") {
+            return false;
+          }
+
+          const itemId = String(
+            item.id ??
+            item.eventId ??
+            item.event_id ??
+            item.modalId ??
+            item.modal_id ??
+            item.key ??
+            ""
+          )
+            .trim()
+            .toLowerCase();
+
+          return itemId === id;
+        });
+
+        if (found) {
+          return found;
+        }
+
+        continue;
+      }
+
+      if (typeof container === "object") {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            container,
+            targetId
+          )
+        ) {
+          return container[targetId];
+        }
+
+        if (
+          Object.prototype.hasOwnProperty.call(
+            container,
+            id
+          )
+        ) {
+          return container[id];
+        }
+
+        const key = Object.keys(container).find(
+          itemKey =>
+            String(itemKey)
+              .trim()
+              .toLowerCase() === id
+        );
+
+        if (key !== undefined) {
+          return container[key];
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /* =========================================
+     色を適用
+
+     map-hotspot自身に直接色を付けます。
+     ========================================= */
+  function applyColor(hotspot, status) {
+    const safeStatus = normalizeStatus(status);
+
+    hotspot.dataset.crowdStatus = safeStatus;
+
+    hotspot.classList.remove(
+      "crowd-empty",
+      "crowd-normal",
+      "crowd-crowded",
+      "crowd-unknown",
+      "crowd-disabled"
+    );
+
+    if (!crowdEnabled) {
+      hotspot.classList.add("crowd-disabled");
+
+      hotspot.style.setProperty(
+        "background",
+        "transparent",
+        "important"
+      );
+
+      hotspot.style.setProperty(
+        "border-color",
+        "transparent",
+        "important"
+      );
+
+      return;
+    }
+
+    if (safeStatus === "empty") {
+      hotspot.classList.add("crowd-empty");
+
+      hotspot.style.setProperty(
+        "background",
+        "rgba(79,157,105,0.38)",
+        "important"
+      );
+
+      hotspot.style.setProperty(
+        "border",
+        "2px solid rgba(79,157,105,0.68)",
+        "important"
+      );
+
+      return;
+    }
+
+    if (safeStatus === "normal") {
+      hotspot.classList.add("crowd-normal");
+
+      hotspot.style.setProperty(
+        "background",
+        "rgba(215,168,61,0.38)",
+        "important"
+      );
+
+      hotspot.style.setProperty(
+        "border",
+        "2px solid rgba(215,168,61,0.68)",
+        "important"
+      );
+
+      return;
+    }
+
+    if (safeStatus === "crowded") {
+      hotspot.classList.add("crowd-crowded");
+
+      hotspot.style.setProperty(
+        "background",
+        "rgba(212,91,88,0.38)",
+        "important"
+      );
+
+      hotspot.style.setProperty(
+        "border",
+        "2px solid rgba(212,91,88,0.68)",
+        "important"
+      );
+
+      return;
+    }
+
+    hotspot.classList.add("crowd-unknown");
+
+    hotspot.style.setProperty(
+      "background",
+      "transparent",
+      "important"
+    );
+
+    hotspot.style.setProperty(
+      "border-color",
+      "transparent",
+      "important"
+    );
+  }
+
+  /* =========================================
+     固定マッピングを全ホットスポットへ反映
+     ========================================= */
+  function applyCrowdData(crowdData) {
+    const hotspots = Array.from(
+      document.querySelectorAll(".map-hotspot")
+    );
+
+    let matchedCount = 0;
+
+    hotspots.forEach(hotspot => {
+      const hotspotId = String(
+        hotspot.dataset.modalType ?? ""
+      )
+        .trim()
+        .toLowerCase();
+
+      /*
+        完全固定された対応表以外は
+        APIを絶対に参照しません。
+      */
+      const crowdId =
+        HOTSPOT_TO_CROWD_ID[hotspotId] ?? "";
+
+      if (!crowdId) {
+        applyColor(hotspot, "unknown");
+        return;
+      }
+
+      const record = getApiRecord(
+        crowdData,
+        crowdId
+      );
+
+      if (record !== null) {
+        matchedCount++;
+      }
+
+      const status = getStatus(record);
+
+      applyColor(
+        hotspot,
+        status
+      );
+
+      console.log(
+        "2棟固定混雑対応",
+        {
+          mapHotspot: hotspotId,
+          crowdId,
+          status,
+          matched: record !== null
+        }
+      );
+    });
+
+    console.log(
+      "2棟：固定マッピングによる混雑情報反映",
+      matchedCount + "/" + Object.keys(HOTSPOT_TO_CROWD_ID).length
+    );
+  }
+
+  /* =========================================
+     ON/OFFボタン
+     ========================================= */
+  function updateToggleButton() {
+    const button =
+      document.getElementById(
+        "crowdToggleButton"
+      );
+
+    if (!button) {
+      return;
+    }
+
+    button.classList.toggle(
+      "off",
+      !crowdEnabled
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      String(crowdEnabled)
+    );
+
+    button.innerHTML =
+      '<span class="crowd-toggle-dot"></span>' +
+      (
+        crowdEnabled
+          ? "混雑表示：ON"
+          : "混雑表示：OFF"
+      );
+  }
+
+  function setupToggle() {
+    const button =
+      document.getElementById(
+        "crowdToggleButton"
+      );
+
+    if (!button) {
+      return;
+    }
+
+    if (
+      button.dataset.crowdReady ===
+      "true"
+    ) {
+      updateToggleButton();
+      return;
+    }
+
+    button.dataset.crowdReady = "true";
+
+    button.addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        crowdEnabled = !crowdEnabled;
+
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            String(crowdEnabled)
+          );
+        } catch (_) {}
+
+        document
+          .querySelectorAll(".map-hotspot")
+          .forEach(hotspot => {
+            applyColor(
+              hotspot,
+              hotspot.dataset.crowdStatus ||
+              "unknown"
+            );
+          });
+
+        updateToggleButton();
+      }
+    );
+
+    updateToggleButton();
+  }
+
+  /* =========================================
+     API取得
+     ========================================= */
+  async function loadCrowd() {
+    if (requestController) {
+      try {
+        requestController.abort();
+      } catch (_) {}
+    }
+
+    requestController =
+      new AbortController();
+
+    try {
+      const response =
+        await fetch(
+          API_URL + "?_=" + Date.now(),
+          {
+            method: "GET",
+            cache: "no-store",
+            signal: requestController.signal,
+            headers: {
+              "Accept": "application/json",
+              "Cache-Control": "no-cache"
+            }
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          "HTTP " + response.status
+        );
+      }
+
+      const data =
+        await response.json();
+
+      console.log(
+        "2棟：取得した混雑API",
+        data
+      );
+
+      applyCrowdData(data);
+
+    } catch (error) {
+      if (
+        error &&
+        error.name === "AbortError"
+      ) {
+        return;
+      }
+
+      console.error(
+        "2棟：混雑情報取得失敗",
+        error
+      );
+    }
+  }
+
+  /* =========================================
+     初期化
+     ========================================= */
+  function init() {
+    setupToggle();
+
+    /* 初期状態は透明 */
+    document
+      .querySelectorAll(".map-hotspot")
+      .forEach(hotspot => {
+        hotspot.dataset.crowdStatus =
+          "unknown";
+
+        applyColor(
+          hotspot,
+          "unknown"
+        );
+      });
+
+    loadCrowd();
+
+    setInterval(
+      loadCrowd,
+      REFRESH_MS
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+        if (
+          document.visibilityState ===
+          "visible"
+        ) {
+          loadCrowd();
+        }
+      }
+    );
+
+    window.addEventListener(
+      "online",
+      loadCrowd
+    );
+  }
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      init,
+      { once: true }
+    );
+  } else {
+    init();
+  }
+
+})();
 </script>
 
 </body>
