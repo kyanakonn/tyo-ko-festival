@@ -1634,6 +1634,67 @@ body {
 
 
 
+
+/* =========================================
+   2棟 ホットスポット共通レイヤー
+   画像の上に確実に重なるようにする
+========================================= */
+
+.map-hotspots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.map-hotspots .map-hotspot {
+  pointer-events: auto;
+}
+
+/* 混雑状況の透過色は専用レイヤーに描画 */
+.map-hotspot .crowd-visual-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+.map-hotspot.crowd-visible .crowd-visual-layer {
+  opacity: 1;
+  visibility: visible;
+}
+
+.map-hotspot.crowd-empty .crowd-visual-layer {
+  background: rgba(79,157,105,.38) !important;
+  border: 2px solid rgba(79,157,105,.68) !important;
+}
+
+.map-hotspot.crowd-normal .crowd-visual-layer {
+  background: rgba(215,168,61,.38) !important;
+  border: 2px solid rgba(215,168,61,.68) !important;
+}
+
+.map-hotspot.crowd-crowded .crowd-visual-layer {
+  background: rgba(212,91,88,.38) !important;
+  border: 2px solid rgba(212,91,88,.68) !important;
+}
+
+.map-hotspot.crowd-unknown .crowd-visual-layer,
+.map-hotspot.crowd-disabled .crowd-visual-layer {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
 /* =========================================
    2棟 フロアマップ用クリック判定
    ※1棟と同じ共通デザイン・操作仕様を使用し、
@@ -3036,39 +3097,40 @@ window.addEventListener(
 /* =========================================
    2棟フロアマップ 混雑状況表示
 
-   ★重要：企画IDと2棟の教室の対応は
-   このファイル内で完全固定しています。
-
-   events.html を検索して対応を推測する処理は行いません。
-   1棟の企画・教室は一切扱いません。
+   ・crowd.html と同じ /api/crowd を使用
+   ・15秒ごとに最新状態へ更新
+   ・企画IDと2棟のホットスポットを固定対応
+   ・混雑色はホットスポット内部の専用レイヤーへ描画
+     → クリック判定やマップ画像に干渉しない
+   ・APIの配列形式 / オブジェクト形式 / data等に対応
+   ・status / crowdStatus / crowd_status / state / level / score に対応
 ========================================= */
 (() => {
 
-  const API_URL = "https://chosei-fes.onrender.com/api/crowd";
+  const API_URL =
+    "https://chosei-fes.onrender.com/api/crowd";
+
   const REFRESH_MS = 15000;
-  const STORAGE_KEY = "choko_crowd_map_visible_v3";
+
+  const STORAGE_KEY =
+    "choko_crowd_map_visible_v3";
 
   let crowdEnabled = true;
+
   let requestController = null;
 
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "false") {
+    if (localStorage.getItem(STORAGE_KEY) === "false") {
       crowdEnabled = false;
     }
   } catch (_) {}
 
+
   /* =========================================
-     2棟：企画ID → マップの対応を完全固定
+     2棟 企画ID → ホットスポット
+     API側の企画IDを左側に固定
+  ========================================= */
 
-     左側：crowd API に送られる企画ID
-     右側：1棟マップ上の .map-hotspot の data-modal-type
-
-     1Eはマップ上にクリック範囲が2か所ありますが、
-     どちらも同じ企画ID「1e」を使用します。
-
-     special-support は混雑状況の企画IDではないため除外。
-     ========================================= */
   const FIXED_CROWD_MAP = Object.freeze({
 
     /* 2棟1階 */
@@ -3089,39 +3151,46 @@ window.addEventListener(
     /* 2棟4階 */
     "science-chigaku": ["hotspot-science-chigaku"],
     "science-sugaku": ["hotspot-science-sugaku"]
+
   });
 
-  /* =========================================
-     逆引きも固定生成
-     ========================================= */
-  const HOTSPOT_TO_CROWD_ID = Object.freeze(
-    Object.entries(FIXED_CROWD_MAP).reduce(
-      (result, [crowdId, hotspots]) => {
-        hotspots.forEach(hotspotId => {
-          result[hotspotId] = crowdId;
-        });
-        return result;
-      },
-      {}
-    )
-  );
+
+  const HOTSPOT_TO_CROWD_ID =
+    Object.freeze(
+      Object.entries(FIXED_CROWD_MAP)
+        .reduce((result, [crowdId, hotspotIds]) => {
+
+          hotspotIds.forEach(hotspotId => {
+            result[hotspotId] = crowdId;
+          });
+
+          return result;
+
+        }, {})
+    );
+
 
   /* =========================================
-     ステータス正規化
-     ========================================= */
+     状態を統一
+  ========================================= */
+
   function normalizeStatus(value) {
-    const status = String(value ?? "")
-      .trim()
-      .toLowerCase();
+
+    const status =
+      String(value ?? "")
+        .trim()
+        .toLowerCase();
 
     if ([
       "empty",
       "low",
       "free",
       "空",
+      "空き",
       "空いている",
       "比較的空いている"
     ].includes(status)) {
+
       return "empty";
     }
 
@@ -3129,10 +3198,12 @@ window.addEventListener(
       "normal",
       "medium",
       "moderate",
+      "通常",
       "普通",
       "やや混雑",
       "やや混雑している"
     ].includes(status)) {
+
       return "normal";
     }
 
@@ -3143,75 +3214,133 @@ window.addEventListener(
       "混雑",
       "混雑している"
     ].includes(status)) {
+
       return "crowded";
     }
 
     return "unknown";
   }
 
+
   /* =========================================
-     APIレコードから状態を取得
-     ========================================= */
-  function getStatus(record) {
-    if (record === null || record === undefined) {
+     score → 状態
+  ========================================= */
+
+  function scoreToStatus(score) {
+
+    const number =
+      Number(score);
+
+    if (!Number.isFinite(number)) {
       return "unknown";
     }
+
+    if (number < 34) {
+      return "empty";
+    }
+
+    if (number < 67) {
+      return "normal";
+    }
+
+    return "crowded";
+  }
+
+
+  /* =========================================
+     APIレコードから状態取得
+  ========================================= */
+
+  function getStatus(record) {
+
+    if (
+      record === null ||
+      record === undefined
+    ) {
+      return "unknown";
+    }
+
 
     if (typeof record === "string") {
       return normalizeStatus(record);
     }
 
+
     if (typeof record !== "object") {
       return "unknown";
     }
 
-    const directStatus = normalizeStatus(
-      record.status ??
-      record.crowdStatus ??
-      record.crowd_status ??
-      record.state ??
-      record.level
-    );
+
+    const directStatus =
+      normalizeStatus(
+        record.status ??
+        record.crowdStatus ??
+        record.crowd_status ??
+        record.state ??
+        record.level
+      );
+
 
     if (directStatus !== "unknown") {
       return directStatus;
     }
 
-    /* server.js が score を返す場合の保険 */
-    const score = Number(record.score);
 
-    if (Number.isFinite(score)) {
-      if (score < 34) {
-        return "empty";
-      }
+    return scoreToStatus(record.score);
 
-      if (score < 67) {
-        return "normal";
-      }
-
-      return "crowded";
-    }
-
-    return "unknown";
   }
 
-  /* =========================================
-     APIレスポンスから企画IDのレコードを取得
 
-     server.js の現在の形式：
-       {
-         "1a": { status: "normal", ... },
-         "2e": { status: "crowded", ... }
-       }
-     ========================================= */
-  function getApiRecord(crowdData, targetId) {
-    const id = String(targetId ?? "")
+  /* =========================================
+     IDを正規化
+  ========================================= */
+
+  function normalizeId(value) {
+
+    return String(value ?? "")
       .trim()
       .toLowerCase();
+
+  }
+
+
+  /* =========================================
+     APIのコンテナから企画を探す
+
+     対応:
+       {
+         "cha": {...}
+       }
+
+       {
+         data: {...}
+       }
+
+       {
+         events: [...]
+       }
+
+       {
+         crowd: {...}
+       }
+
+       {
+         results: [...]
+       }
+  ========================================= */
+
+  function getApiRecord(
+    crowdData,
+    targetId
+  ) {
+
+    const id =
+      normalizeId(targetId);
 
     if (!crowdData || !id) {
       return null;
     }
+
 
     const containers = [
       crowdData,
@@ -3221,31 +3350,43 @@ window.addEventListener(
       crowdData?.results
     ];
 
+
     for (const container of containers) {
+
       if (!container) {
         continue;
       }
 
+
+      /* 配列 */
       if (Array.isArray(container)) {
-        const found = container.find(item => {
-          if (!item || typeof item !== "object") {
-            return false;
-          }
 
-          const itemId = String(
-            item.id ??
-            item.eventId ??
-            item.event_id ??
-            item.modalId ??
-            item.modal_id ??
-            item.key ??
-            ""
-          )
-            .trim()
-            .toLowerCase();
+        const found =
+          container.find(item => {
 
-          return itemId === id;
-        });
+            if (
+              !item ||
+              typeof item !== "object"
+            ) {
+              return false;
+            }
+
+
+            const itemId =
+              normalizeId(
+                item.id ??
+                item.eventId ??
+                item.event_id ??
+                item.modalId ??
+                item.modal_id ??
+                item.key
+              );
+
+
+            return itemId === id;
+
+          });
+
 
         if (found) {
           return found;
@@ -3254,7 +3395,12 @@ window.addEventListener(
         continue;
       }
 
-      if (typeof container === "object") {
+
+      /* オブジェクト */
+      if (
+        typeof container === "object"
+      ) {
+
         if (
           Object.prototype.hasOwnProperty.call(
             container,
@@ -3263,6 +3409,7 @@ window.addEventListener(
         ) {
           return container[targetId];
         }
+
 
         if (
           Object.prototype.hasOwnProperty.call(
@@ -3273,211 +3420,522 @@ window.addEventListener(
           return container[id];
         }
 
-        const key = Object.keys(container).find(
-          itemKey =>
-            String(itemKey)
-              .trim()
-              .toLowerCase() === id
-        );
 
-        if (key !== undefined) {
-          return container[key];
+        const foundKey =
+          Object.keys(container)
+            .find(key =>
+              normalizeId(key) === id
+            );
+
+
+        if (foundKey !== undefined) {
+          return container[foundKey];
         }
+
       }
+
     }
 
+
     return null;
+
   }
 
+
   /* =========================================
-     色を適用
+     APIにIDが少し違う場合の候補
 
-     map-hotspot自身に直接色を付けます。
-     ========================================= */
-  function applyColor(hotspot, status) {
-    const safeStatus = normalizeStatus(status);
+     固定IDを基本にしつつ、
+     表記ゆれにも対応する。
+  ========================================= */
 
-    hotspot.dataset.crowdStatus = safeStatus;
+  const CROWD_ID_ALIASES = Object.freeze({
+
+    "cha": [
+      "cha",
+      "sado",
+      "sado-bu",
+      "tea"
+    ],
+
+    "science-kagaku": [
+      "science-kagaku",
+      "kagaku",
+      "science-kagaku-bu"
+    ],
+
+    "kado": [
+      "kado",
+      "kado-bu"
+    ],
+
+    "oami-special": [
+      "oami-special",
+      "oami",
+      "oamishirasato-special"
+    ],
+
+    "art": [
+      "art",
+      "art-bu"
+    ],
+
+    "science-butsuri": [
+      "science-butsuri",
+      "butsuri",
+      "science-butsuri-bu"
+    ],
+
+    "shogi": [
+      "shogi",
+      "shogi-bu"
+    ],
+
+    "photo": [
+      "photo",
+      "photography",
+      "photo-bu"
+    ],
+
+    "science-seibutsu": [
+      "science-seibutsu",
+      "seibutsu",
+      "science-seibutsu-bu"
+    ],
+
+    "science-chigaku": [
+      "science-chigaku",
+      "chigaku",
+      "science-chigaku-bu"
+    ],
+
+    "science-sugaku": [
+      "science-sugaku",
+      "sugaku",
+      "science-sugaku-bu"
+    ]
+
+  });
+
+
+  function findRecordForCrowdId(
+    crowdData,
+    crowdId
+  ) {
+
+    const candidates =
+      CROWD_ID_ALIASES[crowdId] ||
+      [crowdId];
+
+
+    for (
+      const candidate
+      of candidates
+    ) {
+
+      const record =
+        getApiRecord(
+          crowdData,
+          candidate
+        );
+
+
+      if (record !== null) {
+        return record;
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+
+  /* =========================================
+     混雑レイヤーを確実に作る
+  ========================================= */
+
+  function ensureCrowdLayer(
+    hotspot
+  ) {
+
+    if (!hotspot) {
+      return null;
+    }
+
+
+    let layer =
+      hotspot.querySelector(
+        ":scope > .crowd-visual-layer"
+      );
+
+
+    if (!layer) {
+
+      layer =
+        document.createElement("span");
+
+      layer.className =
+        "crowd-visual-layer";
+
+      layer.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      hotspot.appendChild(layer);
+
+    }
+
+
+    layer.style.position =
+      "absolute";
+
+    layer.style.inset =
+      "0";
+
+    layer.style.width =
+      "100%";
+
+    layer.style.height =
+      "100%";
+
+    layer.style.display =
+      "block";
+
+    layer.style.pointerEvents =
+      "none";
+
+    layer.style.boxSizing =
+      "border-box";
+
+    layer.style.borderRadius =
+      "inherit";
+
+    layer.style.zIndex =
+      "3";
+
+
+    return layer;
+
+  }
+
+
+  /* =========================================
+     色を直接適用
+  ========================================= */
+
+  function setLayerColor(
+    layer,
+    status
+  ) {
+
+    if (!layer) {
+      return;
+    }
+
+
+    const safeStatus =
+      normalizeStatus(status);
+
+
+    let background =
+      "transparent";
+
+    let border =
+      "2px solid transparent";
+
+
+    if (safeStatus === "empty") {
+
+      background =
+        "rgba(79,157,105,0.38)";
+
+      border =
+        "2px solid rgba(79,157,105,0.68)";
+
+    }
+
+
+    if (safeStatus === "normal") {
+
+      background =
+        "rgba(215,168,61,0.38)";
+
+      border =
+        "2px solid rgba(215,168,61,0.68)";
+
+    }
+
+
+    if (safeStatus === "crowded") {
+
+      background =
+        "rgba(212,91,88,0.38)";
+
+      border =
+        "2px solid rgba(212,91,88,0.68)";
+
+    }
+
+
+    layer.style.setProperty(
+      "background",
+      background,
+      "important"
+    );
+
+    layer.style.setProperty(
+      "border",
+      border,
+      "important"
+    );
+
+    layer.style.setProperty(
+      "opacity",
+      (
+        crowdEnabled &&
+        safeStatus !== "unknown"
+      )
+        ? "1"
+        : "0",
+      "important"
+    );
+
+    layer.style.setProperty(
+      "visibility",
+      (
+        crowdEnabled &&
+        safeStatus !== "unknown"
+      )
+        ? "visible"
+        : "hidden",
+      "important"
+    );
+
+    layer.style.setProperty(
+      "pointer-events",
+      "none",
+      "important"
+    );
+
+  }
+
+
+  /* =========================================
+     ホットスポットへ状態反映
+  ========================================= */
+
+  function applyCrowdVisual(
+    hotspot,
+    status
+  ) {
+
+    if (!hotspot) {
+      return;
+    }
+
+
+    const safeStatus =
+      normalizeStatus(status);
+
+
+    hotspot.dataset.crowdStatus =
+      safeStatus;
+
 
     hotspot.classList.remove(
       "crowd-empty",
       "crowd-normal",
       "crowd-crowded",
       "crowd-unknown",
-      "crowd-disabled"
+      "crowd-disabled",
+      "crowd-visible"
     );
 
-    if (!crowdEnabled) {
-      hotspot.classList.add("crowd-disabled");
 
-      hotspot.style.setProperty(
-        "background",
-        "transparent",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border-color",
-        "transparent",
-        "important"
-      );
-
-      return;
-    }
-
-    if (safeStatus === "empty") {
-      hotspot.classList.add("crowd-empty");
-
-      hotspot.style.setProperty(
-        "background",
-        "rgba(79,157,105,0.38)",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(79,157,105,0.68)",
-        "important"
-      );
-
-      return;
-    }
-
-    if (safeStatus === "normal") {
-      hotspot.classList.add("crowd-normal");
-
-      hotspot.style.setProperty(
-        "background",
-        "rgba(215,168,61,0.38)",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(215,168,61,0.68)",
-        "important"
-      );
-
-      return;
-    }
-
-    if (safeStatus === "crowded") {
-      hotspot.classList.add("crowd-crowded");
-
-      hotspot.style.setProperty(
-        "background",
-        "rgba(212,91,88,0.38)",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(212,91,88,0.68)",
-        "important"
-      );
-
-      return;
-    }
-
-    hotspot.classList.add("crowd-unknown");
-
-    hotspot.style.setProperty(
-      "background",
-      "transparent",
-      "important"
+    hotspot.classList.add(
+      "crowd-" + safeStatus
     );
 
-    hotspot.style.setProperty(
-      "border-color",
-      "transparent",
-      "important"
+
+    const layer =
+      ensureCrowdLayer(
+        hotspot
+      );
+
+
+    setLayerColor(
+      layer,
+      safeStatus
     );
+
+
+    if (
+      crowdEnabled &&
+      safeStatus !== "unknown"
+    ) {
+
+      hotspot.classList.add(
+        "crowd-visible"
+      );
+
+    }
+
   }
 
+
   /* =========================================
-     固定マッピングを全ホットスポットへ反映
-     ========================================= */
-  function applyCrowdData(crowdData) {
-    const hotspots = Array.from(
-      document.querySelectorAll(".map-hotspot")
-    );
+     現在保持している状態を再表示
+  ========================================= */
+
+  function refreshCrowdVisibility() {
+
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(hotspot => {
+
+        applyCrowdVisual(
+          hotspot,
+          hotspot.dataset.crowdStatus ||
+          "unknown"
+        );
+
+      });
+
+
+    updateToggleButton();
+
+  }
+
+
+  /* =========================================
+     APIデータを全ホットスポットへ反映
+  ========================================= */
+
+  function applyCrowdData(
+    crowdData
+  ) {
+
+    const hotspots =
+      Array.from(
+        document.querySelectorAll(
+          ".map-hotspot"
+        )
+      );
+
 
     let matchedCount = 0;
 
-    hotspots.forEach(hotspot => {
-      const hotspotId = String(
-        hotspot.dataset.modalType ?? ""
-      )
-        .trim()
-        .toLowerCase();
 
-      /*
-        完全固定された対応表以外は
-        APIを絶対に参照しません。
-      */
-      const crowdId =
-        HOTSPOT_TO_CROWD_ID[hotspotId] ?? "";
+    hotspots.forEach(
+      hotspot => {
 
-      if (!crowdId) {
-        applyColor(hotspot, "unknown");
-        return;
-      }
+        const hotspotId =
+          normalizeId(
+            hotspot.dataset.modalType
+          );
 
-      const record = getApiRecord(
-        crowdData,
-        crowdId
-      );
 
-      if (record !== null) {
-        matchedCount++;
-      }
+        const crowdId =
+          HOTSPOT_TO_CROWD_ID[
+            hotspotId
+          ];
 
-      const status = getStatus(record);
 
-      applyColor(
-        hotspot,
-        status
-      );
+        if (!crowdId) {
 
-      console.log(
-        "2棟固定混雑対応",
-        {
-          mapHotspot: hotspotId,
-          crowdId,
-          status,
-          matched: record !== null
+          applyCrowdVisual(
+            hotspot,
+            "unknown"
+          );
+
+          return;
+
         }
-      );
-    });
+
+
+        const record =
+          findRecordForCrowdId(
+            crowdData,
+            crowdId
+          );
+
+
+        if (record !== null) {
+          matchedCount++;
+        }
+
+
+        const status =
+          getStatus(record);
+
+
+        applyCrowdVisual(
+          hotspot,
+          status
+        );
+
+
+        console.log(
+          "2棟 混雑状況反映",
+          {
+            hotspotId,
+            crowdId,
+            status,
+            matched:
+              record !== null
+          }
+        );
+
+      }
+    );
+
 
     console.log(
-      "2棟：固定マッピングによる混雑情報反映",
-      matchedCount + "/" + Object.keys(HOTSPOT_TO_CROWD_ID).length
+      "2棟 混雑状況",
+      matchedCount +
+      "/" +
+      Object.keys(
+        HOTSPOT_TO_CROWD_ID
+      ).length +
+      "件を反映"
     );
+
   }
+
 
   /* =========================================
      ON/OFFボタン
-     ========================================= */
+  ========================================= */
+
   function updateToggleButton() {
+
     const button =
       document.getElementById(
         "crowdToggleButton"
       );
 
+
     if (!button) {
       return;
     }
+
 
     button.classList.toggle(
       "off",
       !crowdEnabled
     );
 
+
     button.setAttribute(
       "aria-pressed",
       String(crowdEnabled)
     );
+
 
     button.innerHTML =
       '<span class="crowd-toggle-dot"></span>' +
@@ -3486,174 +3944,265 @@ window.addEventListener(
           ? "混雑表示：ON"
           : "混雑表示：OFF"
       );
+
   }
 
+
   function setupToggle() {
+
     const button =
       document.getElementById(
         "crowdToggleButton"
       );
 
+
     if (!button) {
       return;
     }
+
 
     if (
       button.dataset.crowdReady ===
       "true"
     ) {
+
       updateToggleButton();
+
       return;
+
     }
 
-    button.dataset.crowdReady = "true";
+
+    button.dataset.crowdReady =
+      "true";
+
 
     button.addEventListener(
       "click",
       event => {
+
         event.preventDefault();
+
         event.stopPropagation();
 
-        crowdEnabled = !crowdEnabled;
+
+        crowdEnabled =
+          !crowdEnabled;
+
 
         try {
+
           localStorage.setItem(
             STORAGE_KEY,
             String(crowdEnabled)
           );
+
         } catch (_) {}
 
-        document
-          .querySelectorAll(".map-hotspot")
-          .forEach(hotspot => {
-            applyColor(
-              hotspot,
-              hotspot.dataset.crowdStatus ||
-              "unknown"
-            );
-          });
 
-        updateToggleButton();
+        refreshCrowdVisibility();
+
       }
     );
 
+
     updateToggleButton();
+
   }
+
 
   /* =========================================
      API取得
-     ========================================= */
+  ========================================= */
+
   async function loadCrowd() {
+
     if (requestController) {
+
       try {
         requestController.abort();
       } catch (_) {}
+
     }
+
 
     requestController =
       new AbortController();
 
+
     try {
+
       const response =
         await fetch(
-          API_URL + "?_=" + Date.now(),
+          API_URL +
+          "?_=" +
+          Date.now(),
           {
             method: "GET",
             cache: "no-store",
-            signal: requestController.signal,
+            signal:
+              requestController.signal,
             headers: {
-              "Accept": "application/json",
-              "Cache-Control": "no-cache"
+              "Accept":
+                "application/json",
+              "Cache-Control":
+                "no-cache"
             }
           }
         );
 
+
       if (!response.ok) {
+
         throw new Error(
-          "HTTP " + response.status
+          "HTTP " +
+          response.status
         );
+
       }
+
 
       const data =
         await response.json();
 
+
+      if (
+        !data ||
+        typeof data !== "object"
+      ) {
+
+        throw new Error(
+          "混雑APIの形式が正しくありません"
+        );
+
+      }
+
+
       console.log(
-        "2棟：取得した混雑API",
+        "2棟：最新の混雑API",
         data
       );
 
-      applyCrowdData(data);
+
+      applyCrowdData(
+        data
+      );
+
 
     } catch (error) {
+
       if (
         error &&
-        error.name === "AbortError"
+        error.name ===
+        "AbortError"
       ) {
+
         return;
+
       }
+
 
       console.error(
         "2棟：混雑情報取得失敗",
         error
       );
+
+
+      /*
+        通信失敗時は現在表示中の色を
+        消さずに維持する。
+      */
+
+      refreshCrowdVisibility();
+
     }
+
   }
+
 
   /* =========================================
      初期化
-     ========================================= */
-  function init() {
-    setupToggle();
+  ========================================= */
 
-    /* 初期状態は透明 */
+  function init() {
+
+    /* 全ホットスポットに
+       最初から専用レイヤーを作る */
     document
-      .querySelectorAll(".map-hotspot")
+      .querySelectorAll(
+        ".map-hotspot"
+      )
       .forEach(hotspot => {
+
+        ensureCrowdLayer(
+          hotspot
+        );
+
         hotspot.dataset.crowdStatus =
           "unknown";
 
-        applyColor(
-          hotspot,
-          "unknown"
-        );
       });
 
+
+    setupToggle();
+
+
+    refreshCrowdVisibility();
+
+
+    /* 初回取得 */
     loadCrowd();
 
+
+    /* 15秒ごと */
     setInterval(
       loadCrowd,
       REFRESH_MS
     );
 
+
+    /* タブ復帰 */
     document.addEventListener(
       "visibilitychange",
       () => {
+
         if (
           document.visibilityState ===
           "visible"
         ) {
+
           loadCrowd();
+
         }
+
       }
     );
 
+
+    /* ネットワーク復帰 */
     window.addEventListener(
       "online",
       loadCrowd
     );
+
   }
+
 
   if (
     document.readyState ===
     "loading"
   ) {
+
     document.addEventListener(
       "DOMContentLoaded",
       init,
       { once: true }
     );
+
   } else {
+
     init();
+
   }
 
 })();
