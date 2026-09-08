@@ -1577,32 +1577,16 @@ body {
 
 /* =========================================
    混雑状況表示
-   ※このページでは2棟の固定マッピングを使用
+   ※色は専用のcrowd-visual-layerだけに描画
 ========================================= */
 
-.map-hotspot.crowd-empty {
-  background: rgba(79,157,105,0.38) !important;
-  border: 2px solid rgba(79,157,105,0.68) !important;
-}
-
-.map-hotspot.crowd-normal {
-  background: rgba(215,168,61,0.38) !important;
-  border: 2px solid rgba(215,168,61,0.68) !important;
-}
-
-.map-hotspot.crowd-crowded {
-  background: rgba(212,91,88,0.38) !important;
-  border: 2px solid rgba(212,91,88,0.68) !important;
-}
-
-.map-hotspot.crowd-unknown {
-  background: transparent !important;
-  border: 2px solid transparent !important;
-}
-
+.map-hotspot.crowd-empty,
+.map-hotspot.crowd-normal,
+.map-hotspot.crowd-crowded,
+.map-hotspot.crowd-unknown,
 .map-hotspot.crowd-disabled {
   background: transparent !important;
-  border: 2px solid transparent !important;
+  border-color: transparent !important;
 }
 
 /* =========================================
@@ -1666,7 +1650,7 @@ body {
   z-index: 3;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .18s ease, visibility .18s ease;
+  transition: none;
 }
 
 .map-hotspot.crowd-visible .crowd-visual-layer {
@@ -3113,18 +3097,10 @@ window.addEventListener(
 
   const REFRESH_MS = 15000;
 
-  const STORAGE_KEY =
-    "choko_crowd_map_visible_v3";
-
   let crowdEnabled = true;
 
-  let requestController = null;
-
-  try {
-    if (localStorage.getItem(STORAGE_KEY) === "false") {
-      crowdEnabled = false;
-    }
-  } catch (_) {}
+  /* 同時取得を防止 */
+  let crowdRequestInFlight = false;
 
 
   /* =========================================
@@ -3571,7 +3547,15 @@ window.addEventListener(
       "inherit";
 
     layer.style.zIndex =
-      "3";
+      "5";
+    layer.style.background =
+      "transparent";
+    layer.style.border =
+      "2px solid transparent";
+    layer.style.opacity =
+      "0";
+    layer.style.visibility =
+      "hidden";
 
 
     return layer;
@@ -3684,62 +3668,17 @@ window.addEventListener(
      ホットスポットへ状態反映
   ========================================= */
 
-  function applyCrowdVisual(
-    hotspot,
-    status
-  ) {
-
-    if (!hotspot) {
-      return;
+  function applyCrowdVisual(hotspot, status) {
+    if (!hotspot) return;
+    const safeStatus = normalizeStatus(status);
+    hotspot.dataset.crowdStatus = safeStatus;
+    hotspot.classList.remove("crowd-empty","crowd-normal","crowd-crowded","crowd-unknown","crowd-disabled","crowd-visible");
+    hotspot.classList.add("crowd-" + safeStatus);
+    const layer = ensureCrowdLayer(hotspot);
+    setLayerColor(layer, safeStatus);
+    if (crowdEnabled && safeStatus !== "unknown" && Number(hotspot.dataset.floor) === currentFloor) {
+      hotspot.classList.add("crowd-visible");
     }
-
-
-    const safeStatus =
-      normalizeStatus(status);
-
-
-    hotspot.dataset.crowdStatus =
-      safeStatus;
-
-
-    hotspot.classList.remove(
-      "crowd-empty",
-      "crowd-normal",
-      "crowd-crowded",
-      "crowd-unknown",
-      "crowd-disabled",
-      "crowd-visible"
-    );
-
-
-    hotspot.classList.add(
-      "crowd-" + safeStatus
-    );
-
-
-    const layer =
-      ensureCrowdLayer(
-        hotspot
-      );
-
-
-    setLayerColor(
-      layer,
-      safeStatus
-    );
-
-
-    if (
-      crowdEnabled &&
-      safeStatus !== "unknown"
-    ) {
-
-      hotspot.classList.add(
-        "crowd-visible"
-      );
-
-    }
-
   }
 
 
@@ -3748,24 +3687,16 @@ window.addEventListener(
   ========================================= */
 
   function refreshCrowdVisibility() {
-
-    document
-      .querySelectorAll(
-        ".map-hotspot"
-      )
-      .forEach(hotspot => {
-
-        applyCrowdVisual(
-          hotspot,
-          hotspot.dataset.crowdStatus ||
-          "unknown"
-        );
-
-      });
-
-
+    document.querySelectorAll(".map-hotspot").forEach(hotspot => {
+      const status = normalizeStatus(hotspot.dataset.crowdStatus || "unknown");
+      const layer = ensureCrowdLayer(hotspot);
+      setLayerColor(layer, status);
+      hotspot.classList.remove("crowd-visible");
+      if (crowdEnabled && status !== "unknown" && Number(hotspot.dataset.floor) === currentFloor) {
+        hotspot.classList.add("crowd-visible");
+      }
+    });
     updateToggleButton();
-
   }
 
 
@@ -3961,16 +3892,6 @@ window.addEventListener(
           !crowdEnabled;
 
 
-        try {
-
-          localStorage.setItem(
-            STORAGE_KEY,
-            String(crowdEnabled)
-          );
-
-        } catch (_) {}
-
-
         refreshCrowdVisibility();
 
       }
@@ -3987,107 +3908,25 @@ window.addEventListener(
   ========================================= */
 
   async function loadCrowd() {
-
-    if (requestController) {
-
-      try {
-        requestController.abort();
-      } catch (_) {}
-
-    }
-
-
-    requestController =
-      new AbortController();
-
-
+    if (crowdRequestInFlight) return;
+    crowdRequestInFlight = true;
     try {
-
-      const response =
-        await fetch(
-          API_URL +
-          "?_=" +
-          Date.now(),
-          {
-            method: "GET",
-            cache: "no-store",
-            signal:
-              requestController.signal,
-            headers: {
-              "Accept":
-                "application/json",
-              "Cache-Control":
-                "no-cache"
-            }
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP " +
-          response.status
-        );
-
-      }
-
-
-      const data =
-        await response.json();
-
-
-      if (
-        !data ||
-        typeof data !== "object"
-      ) {
-
-        throw new Error(
-          "混雑APIの形式が正しくありません"
-        );
-
-      }
-
-
-      console.log(
-        "2棟：最新の混雑API",
-        data
-      );
-
-
-      applyCrowdData(
-        data
-      );
-
-
+      const response = await fetch(API_URL + "?_=" + Date.now(), {
+        method: "GET",
+        cache: "no-store",
+        headers: { "Accept": "application/json", "Cache-Control": "no-cache" }
+      });
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const data = await response.json();
+      if (!data || typeof data !== "object") throw new Error("混雑APIの形式が正しくありません");
+      console.log("2棟：最新の混雑API", data);
+      applyCrowdData(data);
     } catch (error) {
-
-      if (
-        error &&
-        error.name ===
-        "AbortError"
-      ) {
-
-        return;
-
-      }
-
-
-      console.error(
-        "2棟：混雑情報取得失敗",
-        error
-      );
-
-
-      /*
-        通信失敗時は現在表示中の色を
-        消さずに維持する。
-      */
-
+      console.error("2棟：混雑情報取得失敗", error);
       refreshCrowdVisibility();
-
+    } finally {
+      crowdRequestInFlight = false;
     }
-
   }
 
 
