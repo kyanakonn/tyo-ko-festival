@@ -1,1066 +1,1815 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
 
 <meta charset="UTF-8">
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes"
 >
 
-<title>企画一覧</title>
+<title>2棟 フロアマップ</title>
 
 <link rel="stylesheet" href="css/style.css">
 
-<script src="script.js" defer></script>
-
-
 <style>
 
-/* ==================================================
-   基本
-================================================== */
 
-body{
-  font-family:'Noto Sans JP', sans-serif;
-  margin:0;
-  background:#F3F3F1;
+/* =========================================
+   全体
+========================================= */
+
+html,
+body {
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background-color: #eeedeb !important;
+  color: black;
+
+  font-family: sans-serif;
+
+  overscroll-behavior-x: none;
 }
 
 
-/* ==================================================
-   絞り込みエリア
-================================================== */
+/* =========================================
+   背景
+   TOPページと統一
+========================================= */
 
-/* ==================================================
-   絞り込みエリア
-   ※混雑情報ページと同じデザイン
-================================================== */
-.filter-area{
-  width:100%;
-  max-width:1050px;
-  margin:0 auto 30px;
-  padding:24px;
-  background:rgba(255,255,255,.82);
-  border:1px solid rgba(0,0,0,.06);
-  box-shadow:8px 8px 0 rgba(0,0,0,.07);
-  box-sizing:border-box;
-  position:relative;
-  z-index:10;
-}
+.bg-shapes {
+  position: fixed !important;
 
-.filter-group{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:10px;
-}
+  inset: 0;
 
-.filter-group + .filter-group{
-  margin-top:20px;
-}
+  width: 100%;
+  height: 100%;
 
-.filter-title{
-  width:100%;
-  margin-bottom:2px;
-  font-size:14px;
-  font-weight:900;
-  color:#e2022e;
-}
+  z-index: 0 !important;
 
-.keyword-search{
-  width:100%;
-  padding:12px 15px;
-  border:2px solid rgba(36,36,42,.12);
-  border-radius:0;
-  outline:none;
-  background:#fff;
-  color:#24242a;
-  font-family:inherit;
-  font-size:14px;
-  box-shadow:4px 4px 0 rgba(0,0,0,.07);
-}
+  pointer-events: none;
 
-.keyword-search:focus{
-  border-color:#ff4d6d;
-}
+  overflow: hidden;
 
-.keyword-search::placeholder{
-  color:#999;
-}
+  /* TOPページと同じように透けて表示 */
+  opacity: 0.24 !important;
 
-.filter-btn{
-  appearance:none;
-  border:2px solid rgba(36,36,42,.12);
-  cursor:pointer;
-  padding:9px 16px;
-  border-radius:0;
-  background:#fff;
-  color:#555;
-  font-family:inherit;
-  font-size:13px;
-  font-weight:700;
-  box-shadow:4px 4px 0 rgba(0,0,0,.09);
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    background .18s ease,
-    color .18s ease;
-}
+  /* 背景として少し馴染ませる */
+  filter: blur(1px);
 
-.filter-btn:hover{
-  transform:translate(-1px,-1px);
-  box-shadow:6px 6px 0 rgba(0,0,0,.09);
-}
-
-.filter-btn:active{
-  transform:translate(2px,2px);
-  box-shadow:2px 2px 0 rgba(0,0,0,.09);
-}
-
-.filter-btn.active{
-  color:#fff;
-  border-color:#ff4d6d;
-  background:#ff4d6d;
-}
-
-#categoryFilters .filter-btn:not([data-category="all"]){
-  color:var(--genre-filter-text,#555);
-  border-color:var(--genre-filter-border,rgba(36,36,42,.12));
-  background:var(--genre-filter-bg,#fff);
-}
-
-#categoryFilters .filter-btn:not([data-category="all"]).active{
-  color:#fff;
-  border-color:var(--genre-filter-text,#555);
-  background:var(--genre-filter-text,#555);
-}
-
-.content{
-  padding:20px;
+  transform: translateZ(0);
 }
 
 
-/* ==================================================
-   グループ
-================================================== */
+/* 背景図形 */
 
-.group{
-  width:100%;
-  margin-bottom:40px;
+.bg-shapes .shape {
+  display: block !important;
+
+  position: absolute;
 }
 
 
-/* ==================================================
-   見出し
-================================================== */
+/* =========================================
+   三角形
+========================================= */
 
-.group-title{
-  display:inline-block;
-  margin:20px 0 15px;
-  font-size:20px;
-  border-left:5px solid #2a9d8f;
-  padding:6px 14px;
-  background:#fff;
-  border-radius:6px;
+.s1 {
+  top: 5%;
+  left: -50px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 90px solid transparent;
+  border-right: 90px solid transparent;
+  border-bottom: 170px solid #c96d80;
+
+  transform: rotate(-25deg);
+}
+
+.s2 {
+  top: 25%;
+  left: -35px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #8870a8;
+
+  transform: rotate(20deg);
+}
+
+.s3 {
+  bottom: 5%;
+  left: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 180px solid #cfb25a;
+
+  transform: rotate(12deg);
+}
+
+.s4 {
+  bottom: 28%;
+  left: 20px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 120px solid #65a6ae;
+
+  transform: rotate(-15deg);
+}
+
+.s5 {
+  top: 12%;
+  right: -80px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-bottom: 260px solid #6aa8ad;
+
+  transform: rotate(30deg);
+}
+
+.s6 {
+  bottom: -40px;
+  right: -30px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 190px solid #c96d80;
+
+  transform: rotate(-15deg);
+}
+
+.s7 {
+  top: 8%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 55px solid transparent;
+  border-right: 55px solid transparent;
+  border-bottom: 100px solid #8870a8;
+
+  transform: rotate(35deg);
+}
+
+.s8 {
+  bottom: 20%;
+  right: 40px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 130px solid #cfb25a;
+
+  transform: rotate(-20deg);
 }
 
 
-/* ==================================================
-   グリッド
-================================================== */
+/* =========================================
+   四角形
+========================================= */
 
-.grid{
+.bg-shapes::before,
+.bg-shapes::after {
+  content: "";
 
-  display:grid;
+  position: absolute;
 
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
-  gap:16px;
-
-  width:100%;
-
-  box-sizing:border-box;
-
+  display: block;
 }
 
 
-/* ==================================================
-   カード
-================================================== */
+.bg-shapes::before {
+  width: 85px;
+  height: 150px;
 
-.card{
+  left: 7%;
+  top: 45%;
 
-  position:relative;
+  background: #a57999;
 
-  background:#fff;
-
-  border:1.5px solid #d7e4ff;
-
-  border-radius:10px;
-
-  overflow:hidden;
-
-  box-shadow:
-    0 4px 12px rgba(82,110,170,0.06);
-
-  min-height:255px;
-
-  padding:
-    22px
-    22px
-    20px;
-
-  box-sizing:border-box;
-
-  cursor:pointer;
-
-  margin-left:0;
-  margin-right:0;
-
-  opacity:0;
-
-  transform:translateY(30px);
-
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-
+  transform: rotate(28deg);
 }
 
 
-/* ==================================================
-   非表示カード
-================================================== */
+.bg-shapes::after {
+  width: 110px;
+  height: 70px;
 
-.card.filter-hidden{
+  right: 4%;
+  top: 55%;
 
-  display:none !important;
+  background: #65a0a8;
 
+  transform: rotate(-20deg);
 }
 
 
-/* ==================================================
-   表示状態
-================================================== */
+/* =========================================
+   追加四角形
+========================================= */
 
-.card.show{
+.s9 {
+  top: 38%;
+  left: 12%;
 
-  opacity:1;
+  width: 90px;
+  height: 55px;
 
-  transform:translateY(0);
+  background: #c87382;
 
+  transform: rotate(-18deg);
 }
 
 
-/* ==================================================
-   ホバー
-================================================== */
+.s10 {
+  top: 70%;
+  left: 18%;
 
-.card:hover{
+  width: 65px;
+  height: 100px;
 
-  border-color:#c9dcff;
+  background: #766990;
 
-  box-shadow:
-    0 8px 22px rgba(82,110,170,0.12);
-
-  transform:translateY(-3px);
-
+  transform: rotate(25deg);
 }
 
 
-.card.show:hover{
+.s11 {
+  top: 32%;
+  right: 15%;
 
-  transform:translateY(-3px);
+  width: 75px;
+  height: 75px;
 
+  background: #c8a75a;
+
+  transform: rotate(18deg);
 }
 
 
-/* ==================================================
-   左上カードバッジ
-   data-badgeの値を表示
-================================================== */
+.s12 {
+  bottom: 10%;
+  right: 20%;
 
-.card::before{
+  width: 100px;
+  height: 55px;
 
-  content:attr(data-badge);
+  background: #609da4;
 
-  position:absolute;
-
-  top:22px;
-  left:22px;
-
-  font-size:15px;
-
-  font-weight:700;
-
-  color:#2864ff;
-
-  line-height:1.4;
-
-  pointer-events:none;
-
+  transform: rotate(-30deg);
 }
 
 
-/* ==================================================
-   右上カードバッジ
-   data-place-badgeの値を表示
-================================================== */
+/* =========================================
+   ヘッダー
+========================================= */
 
-.card::after{
-
-  content:attr(data-place-badge);
-
-  position:absolute;
-
-  top:18px;
-  right:18px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  min-width:50px;
-
-  height:34px;
-
-  padding:0 11px;
-
-  box-sizing:border-box;
-
-  border-radius:20px;
-
-  background:#f1f6fd;
-
-  color:#5d6d86;
-
-  font-size:14px;
-
-  font-weight:700;
-
-  white-space:nowrap;
-
-  pointer-events:none;
-
+#header {
+  position: relative;
+  z-index: 100;
 }
 
 
-/* ==================================================
-   元画像は非表示
-================================================== */
+/* =========================================
+   フロアマップ画面
+========================================= */
 
-.card img{
+.floor-page {
+  position: relative;
 
-  display:none;
+  top: auto;
+  left: auto;
 
+  width: 100%;
+  max-width: 100%;
+
+  min-height: calc(100vh - 80px);
+
+  overflow: visible;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  touch-action: pan-y;
+
+  background: transparent !important;
+
+  z-index: 1;
 }
 
 
-/* ==================================================
-   カード情報全体
-================================================== */
+/* =========================================
+   マップ表示エリア
+========================================= */
 
-.card-content{
+.map-view {
+  position: relative;
 
-  margin-top:65px;
+  width: 100%;
+  max-width: 100%;
 
+  min-height: calc(100vh - 80px);
+
+  height: auto;
+
+  padding-top: 92px;
+  padding-bottom: 80px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  overflow: visible;
+
+  touch-action: pan-y;
+
+  background: transparent !important;
+
+  box-sizing: border-box;
 }
 
 
-/* ==================================================
-   企画タイトル
-================================================== */
+/* =========================================
+   マップ画像
+========================================= */
 
-.card-title{
+.map-image-wrapper {
+  position: relative;
 
-  margin:0 0 25px;
+  max-width: 90vw;
+  max-height: 75vh;
 
-  padding:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  text-align:left;
+  transform-origin: center center;
 
-  color:#17213a;
+  touch-action: pan-y;
 
-  font-size:20px;
+  user-select: none;
+  -webkit-user-select: none;
 
-  line-height:1.55;
+  flex-shrink: 0;
 
-  font-weight:700;
+  cursor: default;
 
-  letter-spacing:0.01em;
+  will-change: transform;
 
-  word-break:break-word;
-
+  margin: 0 auto;
 }
 
 
-/* ==================================================
-   クラス・開催場所
-================================================== */
+.map-image {
+  display: block;
 
-.card-info{
+  max-width: 90vw;
+  max-height: 75vh;
 
-  display:grid;
+  width: auto;
+  height: auto;
 
-  grid-template-columns:78px 1fr;
+  object-fit: contain;
 
-  row-gap:14px;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
 
-  align-items:center;
-
+  pointer-events: none;
 }
 
 
-/* ==================================================
-   左側ラベル
-================================================== */
+/* =========================================
+   上部ボタンエリア
+========================================= */
 
-.card-label{
+.top-controls {
+  position: absolute;
 
-  font-size:14px;
+  top: 12px;
+  left: 50%;
 
-  line-height:1.4;
+  transform: translateX(-50%);
 
-  font-weight:700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  color:#ff4597;
+  gap: 8px;
 
-  white-space:nowrap;
+  z-index: 50;
 
+  white-space: nowrap;
 }
 
 
-/* ==================================================
-   右側の値
-================================================== */
+/* =========================================
+   全体図に戻るボタン
+========================================= */
 
-.card-value{
+.back-to-map {
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
 
-  font-size:15px;
+.back-to-map:hover {
+  transform: translate(-1px,-1px);
+  background: #fff;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
+}
 
-  line-height:1.4;
-
-  font-weight:500;
-
-  color:#59677f;
-
-  word-break:break-word;
-
+.back-to-map:active {
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
 }
 
 
-/* ==================================================
-   クリック時
-================================================== */
+/* =========================================
+   操作説明ボタン
+========================================= */
 
-.card:active{
+.help-button {
+  appearance: none;
+  border: 2px solid #65a6ae;
+  background: #65a6ae;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
 
-  transform:translateY(-1px);
+.help-button:hover {
+  transform: translate(-1px,-1px);
+  background: #5b969d;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
+}
 
+.help-button:active {
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
+}
+
+/* =========================================
+   混雑表示コントロール
+========================================= */
+
+.crowd-toggle-button {
+  appearance: none;
+  border: 2px solid rgba(36,36,42,.12);
+  background: #fff;
+  color: #555;
+  padding: 8px 13px;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+
+.crowd-toggle-button:hover {
+  transform: translate(-1px,-1px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
+}
+
+.crowd-toggle-button:active {
+  transform: translate(2px,2px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
+  opacity: 1;
+}
+
+.crowd-toggle-button.off {
+  background: #f1f1ef;
+  color: #777;
+}
+
+.crowd-toggle-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #4f9d69;
+  vertical-align: 1px;
+}
+
+.crowd-toggle-button.off .crowd-toggle-dot {
+  background: #aaa;
+}
+
+.crowd-legend {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border: 1px solid rgba(36,36,42,.10);
+  border-radius: 0;
+  background: rgba(255,255,255,.92);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.07);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 60;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.crowd-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #333;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.crowd-legend-unknown {
+  gap: 0;
+}
+
+.crowd-legend-color {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.crowd-legend-color.empty {
+  background: rgba(79,157,105,.48);
+  border: 1px solid rgba(79,157,105,.70);
+}
+
+.crowd-legend-color.normal {
+  background: rgba(215,168,61,.48);
+  border: 1px solid rgba(215,168,61,.70);
+}
+
+.crowd-legend-color.crowded {
+  background: rgba(212,91,88,.48);
+  border: 1px solid rgba(212,91,88,.70);
+}
+/* =========================================
+   左右ボタン
+========================================= */
+
+.floor-arrow {
+  position: absolute;
+
+  top: 0;
+
+  transform: translateY(-50%);
+
+  width: 48px;
+  height: 80px;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 52px;
+  line-height: 1;
+
+  color: #d92a21;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 30;
+
+  padding: 0;
+
+  text-shadow: none;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.floor-arrow:active {
+  opacity: 0.5;
+}
+
+.floor-prev {
+  left: 4px;
+}
+
+.floor-next {
+  right: 4px;
+
+  color: #d92a21;
 }
 
 
-.card.show:active{
+/* =========================================
+   棟切り替えボタン
+========================================= */
 
-  transform:translateY(-1px);
+.building-switch {
+  position: absolute;
 
+  left: 50%;
+  top: 100%;
+
+  transform: translateX(-50%);
+
+  width: 48px;
+  height: 50px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #15929e;
+
+  font-size: 52px;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 40;
+
+  padding: 0;
+
+  border-radius: 0;
+
+  text-shadow: none;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.building-switch:active {
+  opacity: 0.5;
 }
 
 
-/* ==================================================
-   タブレット
-================================================== */
+/* =========================================
+   操作説明モーダル
+========================================= */
 
-@media (max-width:1100px){
+.help-overlay {
 
-  .grid{
+  position: fixed;
 
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+  inset: 0;
 
-  }
+  z-index: 1000;
 
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(6, 37, 79, 0.55);
+
+  backdrop-filter: blur(5px);
+
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.help-overlay.active {
+  display: flex;
 }
 
 
-/* ==================================================
+/* =========================================
+   操作説明本体
+========================================= */
+
+.help-modal {
+
+  position: relative;
+
+  width: min(430px, 92vw);
+
+  max-height: 82vh;
+
+  overflow-y: auto;
+
+  background: #eeedeb;
+
+  border-radius: 18px;
+
+  padding: 24px 20px 20px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+  border-top: 7px solid #06254f;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   モーダルタイトル
+========================================= */
+
+.help-title {
+
+  margin: 0 35px 5px 0;
+
+  color: #06254f;
+
+  font-size: 23px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+}
+
+
+.help-subtitle {
+
+  margin: 0 0 18px;
+
+  color: #555;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   操作項目
+========================================= */
+
+.help-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 10px;
+
+  padding: 11px 12px;
+
+  background: #fff;
+
+  border-radius: 10px;
+
+  border-left: 5px solid #15929e;
+
+  box-sizing: border-box;
+}
+
+
+.help-icon {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 21px;
+
+  border-radius: 8px;
+
+  background: #eeedeb;
+}
+
+
+/* =========================================
+   赤い文字タップアイコン
+========================================= */
+
+.help-icon.gesture-red-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #d92a21;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   2本指アイコン部分
+========================================= */
+
+.help-icon.gesture-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #ff9d1c;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   1本指移動アイコン部分
+========================================= */
+
+.help-icon.gesture-pan-square {
+
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+
+  background: #15929e;
+
+  border-radius: 8px;
+
+  font-size: 0;
+}
+
+
+/* =========================================
+   操作説明テキスト
+========================================= */
+
+.help-text {
+
+  color: #222;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  font-weight: 600;
+}
+
+
+.help-text strong {
+
+  color: #06254f;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   閉じるボタン
+========================================= */
+
+.help-close {
+
+  width: 100%;
+
+  margin-top: 8px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 11px;
+
+  background: #06254f;
+
+  color: #fff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-close:active {
+  opacity: 0.65;
+}
+
+
+/* =========================================
+   モーダル右上閉じる
+========================================= */
+
+.help-x {
+
+  position: absolute;
+
+  top: 13px;
+  right: 14px;
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #d92a21;
+
+  color: #fff;
+
+  font-size: 19px;
+
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-x:active {
+  opacity: 0.65;
+}
+
+
+/* =========================================
    スマートフォン
-================================================== */
+========================================= */
 
-@media (max-width:700px){
+@media (max-width: 600px) {
 
-  .filter-area{
+  .floor-page {
 
-    padding:
-      0
-      15px
-      5px;
+    width: 100%;
+    max-width: 100%;
+
+    min-height: calc(100vh - 50px);
+
+    overflow: visible;
+  }
+
+
+  .map-view {
+
+    width: 100%;
+    max-width: 100%;
+
+    min-height: calc(100vh - 50px);
+
+    height: auto;
+
+    padding-top: 115px;
+
+    padding-bottom: 75px;
+
+    justify-content: flex-start;
+
+    overflow: visible;
+  }
+
+
+  .map-image {
+
+    max-width: 82vw;
+    max-height: 68vh;
+  }
+
+
+  .map-image-wrapper {
+
+    max-width: 82vw;
+    max-height: 68vh;
+
+    position: relative;
+
+    left: auto;
+    top: auto;
+
+    transform: none;
+
+    width: auto;
+    height: auto;
+
+    margin: 0 auto;
+  }
+
+
+  /* -------------------------
+     上部ボタン
+  ------------------------- */
+
+  .top-controls {
+
+    top: 58px;
+
+    gap: 5px;
+  }
+
+
+  .back-to-map,
+  .help-button {
+
+    font-size: 12px;
+
+    padding: 7px 9px;
+
+    border-radius: 0;
+  }
+
+  .crowd-toggle-button {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+
+  .crowd-legend {
+    top: calc(100% + 6px);
+    max-width: 96vw;
+    gap: 5px;
+    padding: 6px 7px;
+  }
+
+  .crowd-legend-item {
+    font-size: 9px;
+    gap: 3px;
+  }
+
+  .crowd-legend-color {
+    width: 10px;
+    height: 10px;
+  }
+
+
+  /* -------------------------
+     左右矢印
+  ------------------------- */
+
+  .floor-arrow {
+
+    width: 40px;
+    height: 70px;
+
+    font-size: 44px;
+
+    top: 0;
+
+    color: #d92a21;
+  }
+
+  .floor-prev {
+    left: 0;
+  }
+
+  .floor-next {
+    right: 0;
+
+    color: #d92a21;
+  }
+
+
+  /* -------------------------
+     棟切り替え
+  ------------------------- */
+
+  .building-switch {
+
+    width: 40px;
+    height: 50px;
+
+    font-size: 44px;
+
+    top: 100%;
+  }
+
+
+  /* -------------------------
+     操作説明
+  ------------------------- */
+
+  .help-overlay {
+    padding: 15px;
+  }
+
+
+  .help-modal {
+
+    width: 94vw;
+
+    max-height: 84vh;
+
+    padding: 21px 16px 16px;
+
+    border-radius: 16px;
+
+    border-top-width: 6px;
+  }
+
+
+  .help-title {
+    font-size: 20px;
+  }
+
+
+  .help-subtitle {
+    font-size: 12px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .help-item {
+    gap: 10px;
+
+    margin-bottom: 8px;
+
+    padding: 9px 10px;
+
+    border-left-width: 4px;
+  }
+
+
+  .help-icon {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    font-size: 18px;
+  }
+
+
+  .help-icon.gesture-red-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #d92a21;
+
+    border-radius: 7px;
+  }
+
+
+  .help-icon.gesture-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #ff9d1c;
+
+    border-radius: 7px;
+  }
+
+
+  .help-icon.gesture-pan-square {
+
+    width: 31px;
+    min-width: 31px;
+    height: 31px;
+
+    background: #15929e;
+
+    border-radius: 7px;
+  }
+
+
+  .help-text {
+    font-size: 12px;
+  }
+
+
+  .help-text strong {
+    font-size: 13px;
+  }
+
+
+  /* -------------------------
+     背景
+     TOPページと同じように
+     スマホではさらに控えめ
+  ------------------------- */
+
+  .bg-shapes {
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0.18 !important;
+
+    filter: blur(1px);
+  }
+
+}
+
+
+/* =========================================
+   極端に狭い画面への対応
+========================================= */
+
+@media (max-width: 360px) {
+
+  .map-view {
+    padding-top: 135px;
+  }
+
+  .top-controls {
+    top: 52px;
+  }
+
+  .back-to-map,
+  .help-button {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+}
+
+
+/* =========================================
+   横向きスマートフォン
+========================================= */
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+  .map-view {
+
+    padding-top: 100px;
+    padding-bottom: 60px;
 
   }
 
 
-  .badge-filter-area,
-  .floor-filter-area{
+  .top-controls {
 
-    gap:7px;
-
-  }
-
-
-  .badge-filter-title,
-  .floor-filter-title{
-
-    width:100%;
-
-    margin-bottom:1px;
-
-    font-size:15px;
+    top: 48px;
 
   }
 
 
-  .badge-filter,
-  .floor-filter{
+  .map-image {
 
-    padding:
-      7px
-      13px;
-
-    font-size:12px;
+    max-width: 80vw;
+    max-height: 72vh;
 
   }
 
 
-  .content{
+  .map-image-wrapper {
 
-    padding:15px;
-
-  }
-
-
-  .grid{
-
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:12px;
-
-    width:100%;
-
-    box-sizing:border-box;
-
-  }
-
-
-  .card{
-
-    min-height:245px;
-
-    padding:
-      18px
-      16px
-      17px;
-
-  }
-
-
-  .card::before{
-
-    top:18px;
-    left:16px;
-
-    font-size:13px;
-
-  }
-
-
-  .card::after{
-
-    top:15px;
-    right:14px;
-
-    min-width:44px;
-
-    height:29px;
-
-    padding:0 8px;
-
-    font-size:12px;
-
-  }
-
-
-  .card-content{
-
-    margin-top:56px;
-
-  }
-
-
-  .card-title{
-
-    margin-bottom:21px;
-
-    font-size:16px;
-
-    line-height:1.5;
-
-  }
-
-
-  .card-info{
-
-    grid-template-columns:
-      58px 1fr;
-
-    row-gap:12px;
-
-  }
-
-
-  .card-label{
-
-    font-size:12px;
-
-  }
-
-
-  .card-value{
-
-    font-size:13px;
+    max-width: 80vw;
+    max-height: 72vh;
 
   }
 
 }
 
 
-/* ==================================================
-   小さいスマートフォン
-================================================== */
 
-@media (max-width:480px){
-
-  .filter-area{
-
-    padding:
-      0
-      12px
-      5px;
-
-  }
-
-
-  .content{
-
-    padding:12px;
-
-    box-sizing:border-box;
-
-  }
-
-
-  .grid{
-
-    grid-template-columns:
-      minmax(0, 1fr);
-
-    gap:12px;
-
-    width:100%;
-
-    box-sizing:border-box;
-
-    justify-items:center;
-
-  }
-
-
-  .card{
-
-    width:100%;
-
-    max-width:none;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
-    min-height:220px;
-
-    padding:
-      18px
-      17px
-      18px;
-
-    border-radius:9px;
-
-  }
-
-
-  .grid .card:only-child{
-
-    width:100%;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
-  }
-
-
-  .card::before{
-
-    top:18px;
-    left:17px;
-
-    font-size:13px;
-
-  }
-
-
-  .card::after{
-
-    top:15px;
-    right:14px;
-
-    min-width:44px;
-
-    height:29px;
-
-    font-size:12px;
-
-  }
-
-
-  .card-content{
-
-    margin-top:57px;
-
-  }
-
-
-  .card-title{
-
-    margin-bottom:22px;
-
-    font-size:18px;
-
-    line-height:1.5;
-
-  }
-
-
-  .card-info{
-
-    grid-template-columns:
-      65px 1fr;
-
-    row-gap:13px;
-
-  }
-
-
-  .card-label{
-
-    font-size:13px;
-
-  }
-
-
-  .card-value{
-
-    font-size:14px;
-
-  }
-
+/* =========================================
+   赤文字エリアのクリック判定
+   ※クリック判定のみ。表示は完全透明
+========================================= */
+
+.map-hotspot {
+  position: absolute;
+  z-index: 25;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  transition: none;
+}
+
+.map-hotspot:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.map-hotspot:active {
+  background: transparent;
+  border-color: transparent;
+  transform: none;
 }
 
 
-/* ==================================================
-   さらに小さいスマートフォン
-================================================== */
+/* =========================================
+   1棟1階
+========================================= */
 
-@media (max-width:360px){
-
-  .filter-area{
-
-    padding:
-      0
-      10px
-      5px;
-
-  }
-
-
-  .content{
-
-    padding:10px;
-
-    box-sizing:border-box;
-
-  }
-
-
-  .grid{
-
-    width:100%;
-
-    grid-template-columns:
-      minmax(0, 1fr);
-
-    justify-items:center;
-
-  }
-
-
-  .card{
-
-    width:100%;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
-    min-height:210px;
-
-    padding:
-      16px
-      15px
-      16px;
-
-  }
-
-
-  .grid .card:only-child{
-
-    width:100%;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
-  }
-
-
-  .card::before{
-
-    top:16px;
-    left:15px;
-
-    font-size:12px;
-
-  }
-
-
-  .card::after{
-
-    top:13px;
-    right:12px;
-
-    min-width:42px;
-
-    height:27px;
-
-    font-size:11px;
-
-  }
-
-
-  .card-content{
-
-    margin-top:53px;
-
-  }
-
-
-  .card-title{
-
-    font-size:17px;
-
-    margin-bottom:20px;
-
-  }
-
-
-  .card-info{
-
-    grid-template-columns:
-      62px 1fr;
-
-  }
-
-
-  .card-label{
-
-    font-size:12px;
-
-  }
-
-
-  .card-value{
-
-    font-size:13px;
-
-  }
-
+.map-hotspot.ten-yen-bread {
+  left: 40.8%;
+  top: 26.4%;
+  width: 15.2%;
+  height: 26.7%;
 }
 
 
-/* ==================================================
-   フェードイン
-================================================== */
+/* =========================================
+   1棟2階
+========================================= */
 
-.card{
+.map-hotspot.room-2d {
+  left: 0%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
 
-  opacity:0;
+.map-hotspot.room-3a {
+  left: 8.5%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
 
-  transform:translateY(30px);
+.map-hotspot.room-2a {
+  left: 16.8%;
+  top: 73.9%;
+  width: 8.1%;
+  height: 26.4%;
+}
 
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+.map-hotspot.room-jrc {
+  left: 36.0%;
+  top: 28.8%;
+  width: 4.8%;
+  height: 28.0%;
+}
 
+.map-hotspot.room-1a {
+  left: 52.4%;
+  top: 73.9%;
+  width: 8.3%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-3g {
+  left: 61.0%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-2e {
+  left: 69.5%;
+  top: 73.9%;
+  width: 8.2%;
+  height: 26.4%;
+}
+
+.map-hotspot.room-3d {
+  left: 86.5%;
+  top: 41.5%;
+  width: 13.5%;
+  height: 17.5%;
 }
 
 
-.card.show{
+/* =========================================
+   1棟3階
+========================================= */
 
-  opacity:1;
+.map-hotspot.room-1e {
+  left: 0%;
+  top: 72.6%;
+  width: 8.0%;
+  height: 27.7%;
+}
 
-  transform:translateY(0);
+.map-hotspot.room-3f {
+  left: 8.2%;
+  top: 72.6%;
+  width: 8.1%;
+  height: 27.7%;
+}
 
+.map-hotspot.room-3e {
+  left: 16.6%;
+  top: 72.6%;
+  width: 8.3%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-1f {
+  left: 52.4%;
+  top: 72.6%;
+  width: 8.3%;
+  height: 27.7%;
+}
+
+.map-hotspot.room-2f {
+  left: 61.0%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
 }
 
 
-/* ==================================================
-   ページ上部へ戻るボタン
-================================================== */
-#back-to-top{position:fixed;right:18px;bottom:18px;width:52px;height:52px;border:2px solid #ffffff;border-radius:50%;background:#1f2937;color:#ffffff;font-size:30px;font-weight:700;line-height:1;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:9998;box-shadow:0 6px 20px rgba(0,0,0,.35);}
-#back-to-top.is-visible{display:flex;}
-#back-to-top:hover{transform:translateY(-2px);}
-#back-to-top:active{transform:translateY(0);}
-#back-to-top:focus-visible{outline:3px solid #facc15;outline-offset:3px;}
-@media(max-width:700px){#back-to-top{right:14px;bottom:14px;width:48px;height:48px;font-size:28px;}}
+/* 1E 2つ目のクリック範囲
+   モーダルの種類は1つ目と同じ room-1e */
+.map-hotspot.room-1e-second {
+  left: 69.4%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
 
+.map-hotspot.room-1e-right {
+  left: 69.4%;
+  top: 72.6%;
+  width: 8.2%;
+  height: 27.7%;
+}
 
-/* ==================================================
-   絞り込みレスポンシブ
-   ※混雑情報ページと同じ調整
-================================================== */
-@media(max-width:600px){
-  .filter-area{
-    padding:20px 15px;
-  }
-
-  .filter-group{
-    gap:7px;
-  }
-
-  .filter-btn{
-    padding:8px 12px;
-    font-size:11px;
-  }
-
-  .keyword-search{
-    font-size:13px;
-    padding:11px 12px;
-  }
+.map-hotspot.room-3b {
+  left: 86.5%;
+  top: 40.6%;
+  width: 13.5%;
+  height: 17.5%;
 }
 
 
-/* ==================================================
-   混雑具合表示
-================================================== */
+/* =========================================
+   1棟4階
+========================================= */
 
-.card-crowd-status{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-height:28px;
-  padding:5px 10px;
-  box-sizing:border-box;
-  border-radius:999px;
-  font-size:13px;
-  line-height:1.3;
-  font-weight:700;
-  color:#6b7280;
-  background:#f3f4f6;
+.map-hotspot.room-2c {
+  left: 0%;
+  top: 70.9%;
+  width: 8.2%;
+  height: 29.1%;
 }
 
-.card-crowd-status::before{
-  content:"";
-  width:9px;
-  height:9px;
-  flex:0 0 9px;
-  border-radius:50%;
-  background:#a8afbc;
+.map-hotspot.room-1b {
+  left: 8.4%;
+  top: 70.9%;
+  width: 8.2%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-empty{
-  color:#287a50;
-  background:#e8f7ef;
+.map-hotspot.room-2b {
+  left: 16.8%;
+  top: 70.9%;
+  width: 8.0%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-empty::before{
-  background:#55c78a;
-  box-shadow:0 0 8px rgba(85,199,138,.35);
+.map-hotspot.room-ess {
+  left: 43.9%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-normal{
-  color:#9a6810;
-  background:#fff5df;
+.map-hotspot.room-2g {
+  left: 52.5%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-normal::before{
-  background:#f3b83e;
-  box-shadow:0 0 8px rgba(243,184,62,.32);
+.map-hotspot.room-1g {
+  left: 61.0%;
+  top: 70.9%;
+  width: 8.1%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-crowded{
-  color:#b63e4b;
-  background:#ffe9ec;
+.map-hotspot.room-3c {
+  left: 69.3%;
+  top: 70.9%;
+  width: 8.3%;
+  height: 29.1%;
 }
 
-.card-crowd-status.status-crowded::before{
-  background:#f05a68;
-  box-shadow:0 0 8px rgba(240,90,104,.3);
+.map-hotspot.room-bungei {
+  left: 77.9%;
+  top: 70.9%;
+  width: 5.0%;
+  height: 29.1%;
 }
 
-@media (max-width:700px){
-  .card-crowd-status{
-    min-height:26px;
-    padding:5px 8px;
-    font-size:12px;
-  }
+.map-hotspot.room-shodo {
+  left: 82.8%;
+  top: 70.9%;
+  width: 17.2%;
+  height: 29.1%;
 }
 
-@media (max-width:480px){
-  .card-crowd-status{
-    font-size:13px;
-  }
+.map-hotspot[hidden] {
+  display: none;
+}
+
+
+/* =========================================
+   混雑状況表示
+   ※このページでは2棟の固定マッピングを使用
+========================================= */
+
+.map-hotspot.crowd-empty {
+  background: rgba(79,157,105,0.38) !important;
+  border: 2px solid rgba(79,157,105,0.68) !important;
+}
+
+.map-hotspot.crowd-normal {
+  background: rgba(215,168,61,0.38) !important;
+  border: 2px solid rgba(215,168,61,0.68) !important;
+}
+
+.map-hotspot.crowd-crowded {
+  background: rgba(212,91,88,0.38) !important;
+  border: 2px solid rgba(212,91,88,0.68) !important;
+}
+
+.map-hotspot.crowd-unknown {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
+.map-hotspot.crowd-disabled {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
+/* =========================================
+   場所詳細モーダル
+========================================= */
+
+#placeModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  background: rgba(6, 37, 79, 0.58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+#placeModalOverlay.active {
+  display: block;
+}
+
+#placeModalFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+
+
+
+
+/* =========================================
+   2棟 ホットスポット共通レイヤー
+   画像の上に確実に重なるようにする
+========================================= */
+
+.map-hotspots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.map-hotspots .map-hotspot {
+  pointer-events: auto;
+}
+
+/* 混雑状況の透過色は専用レイヤーに描画 */
+.map-hotspot .crowd-visual-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+.map-hotspot.crowd-visible .crowd-visual-layer {
+  opacity: 1;
+  visibility: visible;
+}
+
+.map-hotspot.crowd-empty .crowd-visual-layer {
+  background: rgba(79,157,105,.38) !important;
+  border: 2px solid rgba(79,157,105,.68) !important;
+}
+
+.map-hotspot.crowd-normal .crowd-visual-layer {
+  background: rgba(215,168,61,.38) !important;
+  border: 2px solid rgba(215,168,61,.68) !important;
+}
+
+.map-hotspot.crowd-crowded .crowd-visual-layer {
+  background: rgba(212,91,88,.38) !important;
+  border: 2px solid rgba(212,91,88,.68) !important;
+}
+
+.map-hotspot.crowd-unknown .crowd-visual-layer,
+.map-hotspot.crowd-disabled .crowd-visual-layer {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+}
+
+/* =========================================
+   2棟 フロアマップ用クリック判定
+   ※1棟と同じ共通デザイン・操作仕様を使用し、
+     位置だけ2棟のマップに合わせています。
+========================================= */
+
+.hotspot-cha {
+
+  left: 63.2%;
+  top: 43.5%;
+
+  width: 12.3%;
+  height: 26.8%;
+}
+
+.hotspot-science-kagaku {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-kado {
+  left: 49.5%;
+  top: 47.3%;
+  width: 4.0%;
+  height: 19.8%;
+}
+
+.hotspot-oami-special {
+  left: 46.5%;
+  top: 65.9%;
+  width: 2.2%;
+  height: 34.1%;
+}
+
+.hotspot-art {
+
+  left: 87.9%;
+  top: 43.5%;
+
+  width: 12.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-butsuri {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-shogi {
+
+  left: 0%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-photo {
+  left: 48.0%;
+  top: 43.5%;
+  width: 3.8%;
+  height: 26.8%;
+}
+
+.hotspot-science-seibutsu {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-chigaku {
+
+  left: 28.4%;
+  top: 43.5%;
+
+  width: 18.0%;
+  height: 26.8%;
+}
+
+.hotspot-science-sugaku {
+  left: 72.9%;
+  top: 43.5%;
+  width: 15.0%;
+  height: 26.8%;
+}
+
+/* 2棟では専用のdata-floorで表示階を管理 */
+.map-hotspot[data-floor] {
+  display: block;
+}
+
+.map-hotspot[data-floor][hidden] {
+  display: none !important;
+}
+
+.map-hotspot[data-floor] .crowd-visual-layer {
+  z-index: 5 !important;
 }
 
 </style>
 
 </head>
 
-
 <body>
-
-
-<!-- ==================================================
-     背景図形
-================================================== -->
 
 <div class="bg-shapes">
 
@@ -1073,22 +1822,25 @@ body{
   <div class="shape s7"></div>
   <div class="shape s8"></div>
 
+  <div class="shape s9"></div>
+  <div class="shape s10"></div>
+  <div class="shape s11"></div>
+  <div class="shape s12"></div>
+
 </div>
 
+
+<!-- =========================================
+     ヘッダー
+========================================= -->
 
 <div id="header"></div>
 
 
 <script>
 
-/* ==================================================
-   ヘッダー読み込み
-================================================== */
-
 fetch("header.html")
-
   .then(res => res.text())
-
   .then(data => {
 
     document.getElementById("header").innerHTML = data;
@@ -1100,3952 +1852,1501 @@ fetch("header.html")
       document.querySelector(".nav");
 
 
-    if(btn && nav){
+    if (btn && nav) {
 
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener(
+        "click",
+        (e) => {
 
-        e.stopPropagation();
+          e.stopPropagation();
 
-        nav.classList.toggle("active");
-
-      });
-
-
-      document.addEventListener("click", (e) => {
-
-        if(
-          !nav.contains(e.target) &&
-          !btn.contains(e.target)
-        ){
-
-          nav.classList.remove("active");
+          nav.classList.toggle("active");
 
         }
+      );
 
-      });
+
+      document.addEventListener(
+        "click",
+        (e) => {
+
+          if (
+            !nav.contains(e.target) &&
+            !btn.contains(e.target)
+          ) {
+
+            nav.classList.remove("active");
+
+          }
+
+        }
+      );
 
     }
-
-  })
-
-  .catch(error => {
-
-    console.error(
-      "header.htmlの読み込みエラー:",
-      error
-    );
 
   });
 
 </script>
 
 
-<!-- ==================================================
-     絞り込み
-     
-     JavaScriptでdata-place-badgeを調べて
-     自動的にボタンを作成する。
-================================================== -->
+<!-- =========================================
+     フロアマップ
+========================================= -->
 
-<section class="filter-area">
+<div class="floor-page">
 
-  <div class="filter-group">
+  <div class="map-view">
 
-    <div class="filter-title">
-      キーワードから探す
+
+    <div class="top-controls">
+
+      <button
+        class="back-to-map"
+        id="backToMap"
+        type="button"
+      >
+        全体図に戻る
+      </button>
+
+
+      <button
+        class="help-button"
+        id="helpButton"
+        type="button"
+      >
+        操作説明
+      </button>
+
+
+      <button
+        class="crowd-toggle-button"
+        id="crowdToggleButton"
+        type="button"
+        aria-pressed="true"
+      >
+        <span class="crowd-toggle-dot"></span>
+        混雑表示：ON
+      </button>
+
+
+      <div
+        class="crowd-legend"
+        id="crowdLegend"
+        aria-label="混雑状況の凡例"
+      >
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color empty"></i>
+          <span>比較的空いている</span>
+        </span>
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color normal"></i>
+          <span>やや混雑している</span>
+        </span>
+        <span class="crowd-legend-item">
+          <i class="crowd-legend-color crowded"></i>
+          <span>混雑している</span>
+        </span>
+        <span class="crowd-legend-item crowd-legend-unknown">
+          <span>透明:情報なし</span>
+        </span>
+      </div>
+
     </div>
 
-    <input
-      type="search"
-      id="keywordSearch"
-      class="keyword-search"
-      placeholder="企画名・クラス・団体・開催場所を検索"
-      autocomplete="off"
+
+    <button
+      class="floor-arrow floor-prev"
+      id="prevButton"
+      aria-label="前の階"
+      type="button"
     >
+      〈
+    </button>
 
-  </div>
-
-
-  <div class="filter-group">
-
-    <div class="filter-title">
-      カテゴリから探す
-    </div>
 
     <div
-      id="categoryFilters"
-      style="display:flex;flex-wrap:wrap;gap:10px;width:100%;"
+      class="map-image-wrapper"
+      id="imageWrapper"
     >
+
+      <img
+        id="floorImage"
+        class="map-image"
+        src="images/2tou_1f.jpg"
+        alt="2棟 1階 フロアマップ"
+      >
+
+
+      <div
+        class="map-hotspots"
+        id="mapHotspots"
+      >
+
+        <button
+          class="map-hotspot hotspot-cha"
+          data-floor="0"
+          data-modal-type="cha"
+          aria-label="茶道部"
+          title="茶道部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-kagaku"
+          data-floor="0"
+          data-modal-type="science-kagaku"
+          aria-label="サイエンス部 科学班"
+          title="サイエンス部 科学班"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-kado"
+          data-floor="0"
+          data-modal-type="kado"
+          aria-label="華道部"
+          title="華道部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-oami-special"
+          data-floor="0"
+          data-modal-type="oami-special"
+          aria-label="大網白里特別支援学校"
+          title="大網白里特別支援学校"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-art"
+          data-floor="1"
+          data-modal-type="art"
+          aria-label="美術部の詳細を表示"
+          title="美術部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-butsuri"
+          data-floor="1"
+          data-modal-type="science-butsuri"
+          aria-label="サイエンス部 物理班"
+          title="サイエンス部 物理班"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-shogi"
+          data-floor="1"
+          data-modal-type="shogi"
+          aria-label="将棋部"
+          title="将棋部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-photo"
+          data-floor="1"
+          data-modal-type="photo"
+          aria-label="写真部"
+          title="写真部"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-seibutsu"
+          data-floor="2"
+          data-modal-type="science-seibutsu"
+          aria-label="サイエンス部 生物班"
+          title="サイエンス部 生物班"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-chigaku"
+          data-floor="3"
+          data-modal-type="science-chigaku"
+          aria-label="サイエンス部 地学班"
+          title="サイエンス部 地学班"
+          type="button"
+        ></button>
+
+
+        <button
+          class="map-hotspot hotspot-science-sugaku"
+          data-floor="3"
+          data-modal-type="science-sugaku"
+          aria-label="サイエンス部 数学班"
+          title="サイエンス部 数学班"
+          type="button"
+        ></button>
+
+      </div>
+
+
       <button
+        class="building-switch"
+        id="buildingSwitch"
+        aria-label="1棟へ"
         type="button"
-        class="filter-btn active"
-        data-category="all"
       >
-        すべて
+        ⌃
       </button>
+
     </div>
 
-  </div>
-
-
-  <div class="filter-group">
-
-    <div class="filter-title">
-      階数から探す
-    </div>
 
     <button
+      class="floor-arrow floor-next"
+      id="nextButton"
+      aria-label="次の階"
       type="button"
-      class="filter-btn active"
-      data-floor-filter="all"
     >
-      すべて
-    </button>
-
-    <button
-      type="button"
-      class="filter-btn"
-      data-floor-filter="1"
-    >
-      1階
-    </button>
-
-    <button
-      type="button"
-      class="filter-btn"
-      data-floor-filter="2"
-    >
-      2階
-    </button>
-
-    <button
-      type="button"
-      class="filter-btn"
-      data-floor-filter="3"
-    >
-      3階
-    </button>
-
-    <button
-      type="button"
-      class="filter-btn"
-      data-floor-filter="4"
-    >
-      4階
+      〉
     </button>
 
   </div>
-
-</section>
-
-
-<!-- ==================================================
-     コンテンツ
-================================================== -->
-
-<div class="content">
-
-
-  <!-- ==================================================
-       1年
-       ※グループ分け自体は表示上残す
-       絞り込みには使用しない
-  ================================================== -->
-
-  <div class="group">
-
-
-    <h2 class="group-title">
-      1学年
-    </h2>
-
-
-    <div class="grid">
-
-
-      <div
-        class="card"
-        data-modal-id="1a"
-        data-badge="クラス企画"
-        data-place-badge="縁日"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            いっちゃんAぇ縁日
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年A組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1b"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            なぞときカフェ
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年B組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1c"
-        data-badge="クラス企画"
-        data-place-badge="脱出ゲーム"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            魔王城からの脱出
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年C組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1d"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="1"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            トイパン・ストーリー
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年D組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1階 食堂
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1e"
-        data-badge="クラス企画"
-        data-place-badge="脱出ゲーム"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            矢部銀行に強盗が！？
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年E組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1f"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            スイーツキングダム
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年F組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="1g"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            森のひとやすみ
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              1年G組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       2年
-  ================================================== -->
-
-  <div class="group">
-
-
-    <h2 class="group-title">
-      2学年
-    </h2>
-
-
-    <div class="grid">
-
-
-      <div
-        class="card"
-        data-modal-id="2a"
-        data-badge="クラス企画"
-        data-place-badge="フォトスポット"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            思い出製作所
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年A組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2b"
-        data-badge="クラス企画"
-        data-place-badge="映画"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            世にも奇妙な2年B組
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年B組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2c"
-        data-badge="クラス企画"
-        data-place-badge="迷路"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            監獄脱出
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年C組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2d"
-        data-badge="クラス企画"
-        data-place-badge="体験型"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            2Dinosaur
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年D組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2e"
-        data-badge="クラス企画"
-        data-place-badge="迷路"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Starの秘密を解き明かせ！
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年E組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2f"
-        data-badge="クラス企画"
-        data-place-badge="体験型"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Fリーグ
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年F組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="2g"
-        data-badge="クラス企画"
-        data-place-badge="体験型"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            シューティングギャラリー
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              2年G組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       3年
-  ================================================== -->
-
-  <div class="group">
-
-
-    <h2 class="group-title">
-      3学年
-    </h2>
-
-
-    <div class="grid">
-
-
-      <div
-        class="card"
-        data-modal-id="3a"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            カリブの甘い密輸品
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年A組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3b"
-        data-badge="クラス企画"
-        data-place-badge="お化け屋敷"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            おかだのやかた
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年B組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              3棟3階 ①講義室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3c"
-        data-badge="クラス企画"
-        data-place-badge="お化け屋敷"
-        data-floor="4"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            What's behind the smile?
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年C組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3d"
-        data-badge="クラス企画"
-        data-place-badge="お化け屋敷"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            メモリーを持ってくる簡単なお仕事です
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年D組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              3棟2階 ①講義室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3e"
-        data-badge="クラス企画"
-        data-place-badge="飲食"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Pop♡ Pop♡ Vampire
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年E組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3f"
-        data-badge="クラス企画"
-        data-place-badge="カジノ"
-        data-floor="3"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            ラスベガス一攫千金伝説
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年F組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟3階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="3g"
-        data-badge="クラス企画"
-        data-place-badge="カジノ"
-        data-floor="2"
-      >
-
-        <img src="1a.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            カジノ ジャイアントキリング
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              クラス
-            </div>
-
-            <div class="card-value">
-              3年G組
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟2階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       部活動・同好会
-  ================================================== -->
-
-  <div class="group">
-
-
-    <h2 class="group-title">
-      部活動・同好会
-    </h2>
-
-
-    <div class="grid">
-
-
-      <div
-        class="card"
-        data-modal-id="club1"
-        data-badge="部活動"
-        data-place-badge="飲食"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club1.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            文化祭茶会
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              茶道部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟1階 礼法室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="club2"
-        data-badge="部活動"
-        data-place-badge="展示"
-        data-floor="2"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            色祭
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              美術部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟2階 美術室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-       <div
-        class="card"
-        data-modal-id="club3"
-        data-badge="部活動"
-        data-place-badge="体験型"
-        data-floor="2"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            ♢決断の一手♢
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              将棋部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟2階 物理実験室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club4"
-        data-badge="部活動"
-        data-place-badge="展示"
-        data-floor="1"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            華道部:作品展示
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              華道部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1階 中央廊下
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club5"
-        data-badge="部活動"
-        data-place-badge="配布"
-        data-floor="4"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            ご注文は文芸部ですか？
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              文芸部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟4階 書道室横
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club6"
-        data-badge="部活動"
-        data-place-badge="サイエンス"
-        data-floor="2"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            とある物理班の超電磁鉄道
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サイエンス部物理班
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟2階 物理講義室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club7"
-        data-badge="部活動"
-        data-place-badge="サイエンス"
-        data-floor="1"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            化学実験ショー
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サイエンス部化学班
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟1階 化学講義室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club8"
-        data-badge="部活動"
-        data-place-badge="サイエンス"
-        data-floor="3"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Expo2026 いきもの万博
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サイエンス部生物班
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟3階 生物講義室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club9"
-        data-badge="部活動"
-        data-place-badge="サイエンス"
-        data-floor="4"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            泥に沈む星に浸る
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サイエンス部地学班
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟4階 地学実験室
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club10"
-        data-badge="部活動"
-        data-place-badge="サイエンス"
-        data-floor="4"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            ちょっと数学したくない？2秒で曜日当て！？
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サイエンス部数学班
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2棟4階 SSHルーム
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club11"
-        data-badge="部活動"
-        data-place-badge="販売"
-        data-floor="2"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Sweets&Crafts販売
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-             JRC部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2階中央廊下
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club12"
-        data-badge="部活動"
-        data-place-badge="English"
-        data-floor="4"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Let's explore the English world!!
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              ESS部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              1棟4階
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club13"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="校内発表" data-schedule-date="9月11日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            はちゃめちゃサッカー部
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              サッカー部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-      
-      <div
-        class="card"
-        data-modal-id="club14"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            CBC・POPSステージ
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              吹奏楽部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club15"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            How for I'll sing
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              コーラス部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club16"
-        data-badge="同好会"
-        data-place-badge="体育館"
-        data-floor="1"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            超☆音祭
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              フォークソング研究同好会
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club17"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            マンドリン部襲来
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              マンドリン部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club18"
-        data-badge="同好会"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            Dance Performance
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              ダンス同好会
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club19"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-       data-schedule="一般公開" data-schedule-date="9月12日のみ">
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            一筆入魂
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              書道部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club20"
-        data-badge="部活動"
-        data-place-badge="体育館"
-        data-floor="1"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            マジカル★ドリー夢ランド
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              演劇部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div
-        class="card"
-        data-modal-id="club21"
-        data-badge="部活動"
-        data-place-badge="展示"
-        data-floor="1"
-      >
-
-        <img src="club2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            写真展示
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              団体
-            </div>
-
-            <div class="card-value">
-              写真部
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              2階中央廊下
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-      
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       その他
-  ================================================== -->
-
-  <div class="group">
-
-
-    <h2 class="group-title">
-      その他
-    </h2>
-
-
-    <div class="grid">
-
-
-      <div
-        class="card"
-        data-modal-id="other1"
-        data-badge="その他の企画"
-        data-place-badge="販売"
-        data-floor="1"
-       data-schedule="校内発表" data-schedule-date="9月11日のみ">
-
-        <img src="other1.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            大網白里特別支援学校
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              内容
-            </div>
-
-            <div class="card-value">
-              販売・展示
-            </div>
-
-            <div class="card-label">
-              販売場所
-            </div>
-
-            <div class="card-value">
-              1階渡り廊下
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="card"
-        data-modal-id="other2"
-        data-badge="その他の企画"
-        data-place-badge="体育館"
-        data-floor="1"
-      >
-
-        <img src="other2.jpg">
-
-        <div class="card-content">
-
-          <div class="card-title">
-            体育館発表一覧
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-label">
-              内容
-            </div>
-
-            <div class="card-value">
-              今年も盛りだくさん！
-            </div>
-
-            <div class="card-label">
-              開催場所
-            </div>
-
-            <div class="card-value">
-              体育館
-            </div>
-
-            <div class="card-label">
-              混雑具合
-            </div>
-
-            <div class="card-value">
-              <span
-                class="card-crowd-status status-unknown"
-                data-crowd-status
-              >
-                情報なし
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       共通モーダル
-  ================================================== -->
-
-  <div id="modal-container"></div>
-
 
 </div>
 
 
+<!-- =========================================
+     場所詳細モーダル
+========================================= -->
+
+<div
+  id="placeModalOverlay"
+  aria-hidden="true"
+>
+
+  <iframe
+    id="placeModalFrame"
+    title="場所の詳細"
+    src="about:blank"
+  ></iframe>
+
+</div>
+
+
+<!-- =========================================
+     操作説明
+========================================= -->
+
+<div
+  class="help-overlay"
+  id="helpOverlay"
+>
+
+  <div
+    class="help-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="helpTitle"
+  >
+
+    <button
+      class="help-x"
+      id="helpX"
+      type="button"
+      aria-label="操作説明を閉じる"
+    >
+      ×
+    </button>
+
+
+    <h2
+      class="help-title"
+      id="helpTitle"
+    >
+      フロアマップの操作方法
+    </h2>
+
+
+    <p class="help-subtitle">
+      画像を動かしたり拡大したりできます
+    </p>
+
+
+    <div class="help-item">
+
+      <div class="help-icon gesture-red-square"></div>
+
+      <div class="help-text">
+
+        <strong>
+          赤い文字をタップで詳細表示
+        </strong>
+
+        <br>
+
+        赤い文字をタップすると詳細を表示できます。(制作中)
+
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon gesture-square"></div>
+
+      <div class="help-text">
+
+        <strong>
+          2本指で拡大・縮小
+        </strong>
+
+        <br>
+
+        画像の上で2本の指を広げたり閉じたりすると、
+        マップを拡大・縮小できます。
+
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon gesture-pan-square"></div>
+
+      <div class="help-text">
+
+        <strong>
+          拡大後は1本指で移動
+        </strong>
+
+        <br>
+
+        拡大した状態で1本指を動かすと、
+        マップを見る位置を移動できます。
+
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        〈〉
+      </div>
+
+      <div class="help-text">
+
+        <strong>
+          階を切り替える
+        </strong>
+
+        <br>
+
+        左右の「〈」「〉」ボタンで
+        1階・2階・3階・4階を切り替えられます。
+
+      </div>
+
+    </div>
+
+
+    <div class="help-item">
+
+      <div class="help-icon">
+        ⌃
+      </div>
+
+      <div class="help-text">
+
+        <strong>
+          棟を切り替える
+        </strong>
+
+        <br>
+
+        画像の下にある「⌃」を押すと、
+        1棟のフロアマップへ移動します。
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="help-close"
+      id="helpClose"
+      type="button"
+    >
+      マップを見る
+    </button>
+
+  </div>
+
+</div>
+
+
+
 <script>
 
-/* =========================================================
-   長高祭2026 イベントページ
-   モーダル制御
-========================================================= */
+/* =========================================
+   2棟 フロア設定
+========================================= */
 
-(function(){
+const floors = [
 
-  "use strict";
+  {
+    name: "2棟 1階",
+    image: "images/2tou_1f.jpg"
+  },
 
+  {
+    name: "2棟 2階",
+    image: "images/2tou_2f.jpg"
+  },
 
-  /* =======================================================
-     モーダル関連変数
-  ======================================================= */
+  {
+    name: "2棟 3階",
+    image: "images/2tou_3f.jpg"
+  },
 
-  let modalReady = false;
-
-  let modal = null;
-  let modalImg = null;
-  let modalCatchcopy = null;
-  let modalPlace = null;
-  let modalLink = null;
-  let closeBtn = null;
-
-
-  /* =======================================================
-     ID正規化
-  ======================================================= */
-
-  function normalizeModalId(id){
-
-    if(!id){
-
-      return "";
-
-    }
-
-
-    return String(id)
-      .trim()
-      .toLowerCase()
-      .replace(/^modal-data-/,"")
-      .replace(/^modal-/,"");
-
+  {
+    name: "2棟 4階",
+    image: "images/2tou_4f.jpg"
   }
 
+];
 
-  /* =======================================================
-     モーダル要素取得
-  ======================================================= */
 
-  function setupModalElements(){
+let currentFloor = 0;
 
-    modal =
-      document.getElementById("modal");
 
-    modalImg =
-      document.getElementById("modal-img");
+/* =========================================
+   要素
+========================================= */
 
-    modalCatchcopy =
-      document.getElementById("modal-catchcopy");
+const floorImage =
+  document.getElementById("floorImage");
 
-    modalPlace =
-      document.getElementById("modal-place");
+const prevButton =
+  document.getElementById("prevButton");
 
-    modalLink =
-      document.getElementById("modal-link");
+const nextButton =
+  document.getElementById("nextButton");
 
-    closeBtn =
-      document.getElementById("modal-close");
+const buildingSwitch =
+  document.getElementById("buildingSwitch");
 
+const imageWrapper =
+  document.getElementById("imageWrapper");
 
-    if(!modal){
+const backToMap =
+  document.getElementById("backToMap");
 
-      console.error(
-        "モーダル本体 #modal が見つかりません。"
-      );
+const mapView =
+  document.querySelector(".map-view");
 
-      return false;
 
-    }
+/* =========================================
+   場所詳細モーダル
+========================================= */
 
+const placeModalOverlay =
+  document.getElementById("placeModalOverlay");
 
-    if(!closeBtn){
+const placeModalFrame =
+  document.getElementById("placeModalFrame");
 
-      console.error(
-        "閉じるボタン #modal-close が見つかりません。"
-      );
+const mapHotspots =
+  document.querySelectorAll(".map-hotspot");
 
-      return false;
 
-    }
+function openPlaceModal(type) {
 
-
-    /* =====================================================
-       閉じるボタン
-    ===================================================== */
-
-    closeBtn.addEventListener(
-      "click",
-      function(event){
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        closeModal();
-
-      }
-    );
-
-
-    /* =====================================================
-       背景クリック
-    ===================================================== */
-
-    modal.addEventListener(
-      "click",
-      function(event){
-
-        if(
-          event.target === modal
-        ){
-
-          closeModal();
-
-        }
-
-      }
-    );
-
-
-    /* =====================================================
-       初期状態
-    ===================================================== */
-
-    modal.style.display = "none";
-
-    modal.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-
-    return true;
-
-  }
-
-
-  /* =======================================================
-     モーダルを開く
-  ======================================================= */
-
-  function openModal(id){
-
-    id =
-      normalizeModalId(id);
-
-
-    if(!id){
-
-      console.warn(
-        "モーダルIDが空です。"
-      );
-
-      return false;
-
-    }
-
-
-    if(!modalReady){
-
-      console.warn(
-        "モーダルHTMLの読み込みが完了していません。"
-      );
-
-      return false;
-
-    }
-
-
-    if(!modal){
-
-      setupModalElements();
-
-    }
-
-
-    if(!modal){
-
-      console.error(
-        "#modal が存在しません。"
-      );
-
-      return false;
-
-    }
-
-
-    const data =
-      document.getElementById(
-        "modal-data-" + id
-      );
-
-
-    if(!data){
-
-      console.error(
-        "モーダルデータが見つかりません:",
-        id
-      );
-
-      return false;
-
-    }
-
-
-    /* =====================================================
-       画像
-    ===================================================== */
-
-    if(modalImg){
-
-      const image =
-        data.dataset.img || "";
-
-
-      modalImg.style.visibility =
-        "visible";
-
-
-      modalImg.src =
-        image;
-
-
-      modalImg.alt =
-        "企画画像";
-
-
-      modalImg.onerror =
-        function(){
-
-          this.style.visibility =
-            "hidden";
-
-        };
-
-
-      modalImg.onload =
-        function(){
-
-          this.style.visibility =
-            "visible";
-
-        };
-
-    }
-
-
-    /* =====================================================
-       キャッチコピー
-    ===================================================== */
-
-    if(modalCatchcopy){
-
-      modalCatchcopy.textContent =
-        data.dataset.catchcopy || "";
-
-
-      modalCatchcopy.style.setProperty(
-        "display",
-        "block",
-        "important"
-      );
-
-
-      modalCatchcopy.style.setProperty(
-        "visibility",
-        "visible",
-        "important"
-      );
-
-
-      modalCatchcopy.style.setProperty(
-        "opacity",
-        "1",
-        "important"
-      );
-
-    }
-
-
-    /* =====================================================
-       開催場所
-    ===================================================== */
-
-    if(modalPlace){
-
-      modalPlace.textContent =
-        data.dataset.place || "";
-
-    }
-
-
-    /* =====================================================
-       フロアマップ
-    ===================================================== */
-
-    if(modalLink){
-
-      modalLink.href =
-        data.dataset.link ||
-        "map.html";
-
-    }
-
-
-    /* =====================================================
-       モーダル表示
-    ===================================================== */
-
-    modal.style.display =
-      "flex";
-
-
-    modal.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-
-    document.body.style.overflow =
-      "hidden";
-
-
-    /*
-     * モーダルを絞り込みエリアより
-     * 前面に確実に表示
-     */
-
-    modal.style.zIndex =
-      "9999";
-
-
-    const modalBox =
-      modal.querySelector(
-        ".modal-box"
-      );
-
-
-    if(modalBox){
-
-      modalBox.scrollTop = 0;
-
-    }
-
-
-    return true;
-
-  }
-
-
-  /* =======================================================
-     グローバル公開
-  ======================================================= */
-
-  window.openFestivalModal =
-    openModal;
-
-
-  window.openModal =
-    openModal;
-
-
-  /* =======================================================
-     モーダルを閉じる
-  ======================================================= */
-
-  function closeModal(){
-
-    if(!modal){
-
-      return;
-
-    }
-
-
-    modal.style.display =
-      "none";
-
-
-    modal.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-
-    document.body.style.overflow =
-      "";
-
-  }
-
-
-  window.closeFestivalModal =
-    closeModal;
-
-
-  /* =======================================================
-     ESCキー
-  ======================================================= */
-
-  document.addEventListener(
-    "keydown",
-    function(event){
-
-      if(
-        event.key !== "Escape"
-      ){
-
-        return;
-
-      }
-
-
-      if(
-        modal &&
-        modal.style.display === "flex"
-      ){
-
-        closeModal();
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     カードクリック
-  ======================================================= */
-
-  document.addEventListener(
-    "click",
-    function(event){
-
-      const card =
-        event.target.closest(
-          ".card[data-modal-id]"
-        );
-
-
-      if(!card){
-
-        return;
-
-      }
-
-
-      if(
-        event.target.closest("#modal")
-      ){
-
-        return;
-
-      }
-
-
-      const id =
-        card.getAttribute(
-          "data-modal-id"
-        );
-
-
-      if(!id){
-
-        return;
-
-      }
-
-
-      event.preventDefault();
-
-      event.stopPropagation();
-
-
-      openModal(id);
-
-    },
-    true
-  );
-
-
-  /* =======================================================
-     URLからモーダルを開く
-  ======================================================= */
-
-  function openModalFromUrl(){
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-
-    const modalId =
-      params.get("modal");
-
-
-    if(!modalId){
-
-      return;
-
-    }
-
-
-    openModal(
-      modalId
-    );
-
-  }
-
-
-  /* =======================================================
-     モーダルHTML読み込み
-  ======================================================= */
-
-  fetch("modal.html")
-
-    .then(function(response){
-
-      if(!response.ok){
-
-        throw new Error(
-          "modal.htmlを読み込めませんでした。HTTP " +
-          response.status
-        );
-
-      }
-
-
-      return response.text();
-
-    })
-
-
-    .then(function(html){
-
-      const container =
-        document.getElementById(
-          "modal-container"
-        );
-
-
-      if(!container){
-
-        throw new Error(
-          "#modal-container が見つかりません。"
-        );
-
-      }
-
-
-      container.innerHTML =
-        html;
-
-
-      const success =
-        setupModalElements();
-
-
-      if(!success){
-
-        throw new Error(
-          "モーダル要素の初期化に失敗しました。"
-        );
-
-      }
-
-
-      modalReady =
-        true;
-
-
-      console.log(
-        "長高祭2026 モーダル読み込み完了"
-      );
-
-
-      openModalFromUrl();
-
-    })
-
-
-    .catch(function(error){
-
-      console.error(
-        "共通モーダルの読み込みエラー:",
-        error
-      );
-
-    });
-
-
-  /* =======================================================
-     ジャンル・キーワード・階数フィルター
-     ※混雑情報ページと同じ仕様
-  ======================================================= */
-
-  let selectedCategory = "all";
-  let selectedFloor = "all";
-  let keywordFilter = "";
-
-  const keywordSearch =
-    document.getElementById("keywordSearch");
-
-  const categoryFilters =
-    document.getElementById("categoryFilters");
-
-
-  const genreColors = {
-    "お化け屋敷":{bg:"#f8dfe5",border:"#d77b8e",text:"#8f3048"},
-    "迷路":{bg:"#dfe8f8",border:"#7294c7",text:"#35578d"},
-    "脱出ゲーム":{bg:"#e5e0f7",border:"#8b7cc2",text:"#55478f"},
-    "体験型":{bg:"#dff1eb",border:"#6eaf9c",text:"#367463"},
-    "飲食":{bg:"#faead5",border:"#d49a58",text:"#8c5a20"},
-    "フォトスポット":{bg:"#f5e0f1",border:"#bd78ad",text:"#82456f"},
-    "映画":{bg:"#e2e5e8",border:"#7d8792",text:"#4d5660"},
-    "展示":{bg:"#e3eef5",border:"#75a1bc",text:"#416b83"},
-    "配布":{bg:"#eee7d5",border:"#b69d58",text:"#746128"},
-    "販売":{bg:"#f3e2d9",border:"#c48768",text:"#814b36"},
-    "サイエンス":{bg:"#dcecef",border:"#68a4ae",text:"#356f79"},
-    "縁日":{bg:"#f8e2c9",border:"#d48b45",text:"#8c531f"},
-    "カジノ":{bg:"#e3dfec",border:"#8e7ba9",text:"#5a486f"},
-    "体育館":{bg:"#e0ece0",border:"#77a477",text:"#477047"},
-    "English":{bg:"#e0e8f5",border:"#7896c0",text:"#425f8a"}
-  };
-
-  function getGenreFilterColor(genre){
-    return genreColors[String(genre || "").trim()] || {
-      bg:"#f2edf8",
-      border:"rgba(136,112,168,.28)",
-      text:"#66547d"
-    };
-  }
-
-
-  function setupCategoryFilters(){
-    if(!categoryFilters){
-      return;
-    }
-
-    const cards = Array.from(
-      document.querySelectorAll(".card[data-place-badge]")
-    );
-
-    const genres = [...new Set(
-      cards
-        .map(card => (card.dataset.placeBadge || "").trim())
-        .filter(Boolean)
-    )];
-
-    categoryFilters.innerHTML = `
-      <button
-        type="button"
-        class="filter-btn active"
-        data-category="all"
-      >
-        すべて
-      </button>
-    `;
-
-    genres.forEach(function(genre){
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "filter-btn";
-      button.dataset.category = genre;
-      button.textContent = genre;
-
-      const color = getGenreFilterColor(genre);
-      button.style.setProperty("--genre-filter-bg", color.bg);
-      button.style.setProperty("--genre-filter-border", color.border);
-      button.style.setProperty("--genre-filter-text", color.text);
-
-      categoryFilters.appendChild(button);
-    });
-
-    categoryFilters
-      .querySelectorAll("[data-category]")
-      .forEach(function(button){
-        button.addEventListener("click", function(){
-          selectedCategory = button.dataset.category || "all";
-
-          categoryFilters
-            .querySelectorAll("[data-category]")
-            .forEach(function(item){
-              item.classList.remove("active");
-            });
-
-          button.classList.add("active");
-          applyFilters();
-        });
-      });
-  }
-
-
-  function setupFloorFilters(){
-    document
-      .querySelectorAll("[data-floor-filter]")
-      .forEach(function(button){
-        button.addEventListener("click", function(){
-          selectedFloor = button.dataset.floorFilter || "all";
-
-          document
-            .querySelectorAll("[data-floor-filter]")
-            .forEach(function(item){
-              item.classList.remove("active");
-            });
-
-          button.classList.add("active");
-          applyFilters();
-        });
-      });
-  }
-
-
-  function applyFilters(){
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(function(card){
-      const category = (card.dataset.placeBadge || "").trim();
-      const floor = (card.dataset.floor || "").trim();
-
-      const cardText = (card.textContent || "")
-        .replace(/\s+/g, " ")
-        .trim()
-        .toLowerCase();
-
-      const categoryMatch =
-        selectedCategory === "all" ||
-        category === selectedCategory;
-
-      const floorMatch =
-        selectedFloor === "all" ||
-        floor === selectedFloor;
-
-      const keywordMatch =
-        !keywordFilter ||
-        cardText.includes(keywordFilter.toLowerCase());
-
-      if(categoryMatch && floorMatch && keywordMatch){
-        card.classList.remove("filter-hidden");
-        card.classList.remove("show");
-
-        setTimeout(function(){
-          card.classList.add("show");
-        }, 20);
-      }else{
-        card.classList.add("filter-hidden");
-        card.classList.remove("show");
-      }
-    });
-
-    document
-      .querySelectorAll(".group")
-      .forEach(function(group){
-        const visibleCards = group.querySelectorAll(
-          ".card:not(.filter-hidden)"
-        );
-
-        group.style.display =
-          visibleCards.length === 0 ? "none" : "block";
-      });
-  }
-
-
-  if(keywordSearch){
-    keywordSearch.addEventListener("input", function(){
-      keywordFilter = keywordSearch.value.trim();
-      applyFilters();
-    });
-  }
-
-
-  /* =======================================================
-     スクロールアニメーション
-  ======================================================= */
-
-  function setupScrollAnimation(){
-
-    const cards =
-      document.querySelectorAll(
-        ".card:not(.filter-hidden)"
-      );
-
-
-    if(
-      !("IntersectionObserver" in window)
-    ){
-
-      cards.forEach(function(card){
-
-        card.classList.add(
-          "show"
-        );
-
-      });
-
-      return;
-
-    }
-
-
-    const observer =
-      new IntersectionObserver(
-        function(entries){
-
-          entries.forEach(function(entry){
-
-            if(!entry.isIntersecting){
-
-              return;
-
-            }
-
-
-            const card =
-              entry.target;
-
-
-            if(
-              card.classList.contains(
-                "show"
-              )
-            ){
-
-              observer.unobserve(
-                card
-              );
-
-              return;
-
-            }
-
-
-            const group =
-              card.closest(
-                ".group"
-              );
-
-
-            if(!group){
-
-              card.classList.add(
-                "show"
-              );
-
-              observer.unobserve(
-                card
-              );
-
-              return;
-
-            }
-
-
-            const cardsInGroup =
-              Array.from(
-                group.querySelectorAll(
-                  ".card:not(.filter-hidden)"
-                )
-              );
-
-
-            const index =
-              cardsInGroup.indexOf(
-                card
-              );
-
-
-            setTimeout(
-              function(){
-
-                card.classList.add(
-                  "show"
-                );
-
-              },
-              Math.max(
-                0,
-                index * 80
-              )
-            );
-
-
-            observer.unobserve(
-              card
-            );
-
-          });
-
-        },
-        {
-          threshold:0.1
-        }
-      );
-
-
-    cards.forEach(function(card){
-
-      observer.observe(
-        card
-      );
-
-    });
-
-
-    /*
-     * 初期表示対策
-     */
-
-    setTimeout(
-      function(){
-
-        let delay = 0;
-
-
-        cards.forEach(function(card){
-
-          if(
-            card.classList.contains(
-              "show"
-            )
-          ){
-
-            return;
-
-          }
-
-
-          const rect =
-            card.getBoundingClientRect();
-
-
-          if(
-            rect.top <
-            window.innerHeight &&
-            rect.bottom > 0
-          ){
-
-            setTimeout(
-              function(){
-
-                card.classList.add(
-                  "show"
-                );
-
-              },
-              delay
-            );
-
-
-            delay += 80;
-
-          }
-
-        });
-
-      },
-      100
-    );
-
-  }
-
-
-  /* =======================================================
-     初期化
-  ======================================================= */
-
-  function initializePage(){
-
-    /*
-     * バッジ絞り込みボタンを生成
-     *
-     * ★ data-place-badge を使用
-     */
-
-    setupCategoryFilters();
-
-
-    /*
-     * 階数絞り込みを設定
-     */
-
-    setupFloorFilters();
-
-
-    /*
-     * 初期状態
-     */
-
-    selectedCategory =
-      "all";
-
-
-    selectedFloor =
-      "all";
-
-
-    applyFilters();
-
-
-    /*
-     * スクロールアニメーション
-     */
-
-    setupScrollAnimation();
-
-  }
-
-
-  if(
-    document.readyState === "loading"
-  ){
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      initializePage,
-      {
-        once:true
-      }
-    );
-
-  }else{
-
-    initializePage();
-
-  }
-
-})();
-
-
-/* =======================================================
-   ページ上部へ戻るボタン
-======================================================= */
-(function(){
-  function setupBackToTop(){
-    const button = document.getElementById("back-to-top");
-    if(!button) return;
-
-    function isModalOpen(){
-      const modal = document.getElementById("modal");
-      if(!modal) return false;
-      const style = window.getComputedStyle(modal);
-      return style.display !== "none" && modal.getAttribute("aria-hidden") !== "true";
-    }
-
-    function updateButton(){
-      if(window.scrollY > 250 && !isModalOpen()){
-        button.classList.add("is-visible");
-      }else{
-        button.classList.remove("is-visible");
-      }
-    }
-
-    window.addEventListener("scroll", updateButton, {passive:true});
-    window.addEventListener("resize", updateButton);
-    button.addEventListener("click", function(){
-      window.scrollTo({top:0, behavior:"smooth"});
-    });
-
-    const modalContainer = document.getElementById("modal-container");
-    if(modalContainer){
-      const observer = new MutationObserver(updateButton);
-      observer.observe(modalContainer,{childList:true,subtree:true,attributes:true,attributeFilter:["style","class","aria-hidden"]});
-    }
-
-    setInterval(updateButton, 300);
-    updateButton();
-  }
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", setupBackToTop, {once:true});
-  }else{
-    setupBackToTop();
-  }
-})();
-
-</script>
-
-
-
-<!-- ページ上部へ戻るボタン -->
-<button type="button" id="back-to-top" aria-label="ページ上部へ戻る">↑</button>
-
-
-<style>
-/* ==================================================
-   開催日オーバーレイ
-   指定カードだけに、既存の世界観に合わせた
-   半透明カラー＋開催日を表示
-================================================== */
-
-.card[data-schedule]{
-  isolation:isolate;
-}
-
-.card[data-schedule]::marker{
-  display:none;
-}
-
-.card-schedule-overlay{
-  position:absolute;
-  inset:0;
-  z-index:20;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-  pointer-events:none;
-  opacity:0;
-  visibility:hidden;
-  transition:
-    opacity 0.9s ease,
-    visibility 0.9s ease;
-}
-
-.card-schedule-overlay.is-visible{
-  opacity:1;
-  visibility:visible;
-}
-
-.card-schedule-overlay::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,77,109,.20),
-      rgba(136,112,168,.23),
-      rgba(101,166,174,.20)
-    );
-}
-
-.card-schedule-overlay-inner{
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  color:#ffffff;
-  text-shadow:
-    0 2px 8px rgba(36,36,42,.30),
-    0 1px 2px rgba(36,36,42,.35);
-}
-
-.card-schedule-overlay-title{
-  font-size:clamp(20px, 2.2vw, 30px);
-  line-height:1.35;
-  font-weight:900;
-  letter-spacing:.04em;
-}
-
-.card-schedule-overlay-date{
-  font-size:clamp(13px, 1.45vw, 18px);
-  line-height:1.4;
-  font-weight:700;
-  letter-spacing:.06em;
-}
-
-/* 一般公開は長高祭サイトのピンク～紫系 */
-.card[data-schedule="一般公開"] .card-schedule-overlay::before{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,77,109,.24),
-      rgba(226,2,46,.16),
-      rgba(136,112,168,.23)
-    );
-}
-
-/* 校内発表はサイトのティール～紫系 */
-.card[data-schedule="校内発表"] .card-schedule-overlay::before{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(101,166,174,.25),
-      rgba(136,112,168,.22),
-      rgba(207,178,90,.16)
-    );
-}
-
-@media (max-width:700px){
-  .card-schedule-overlay{
-    padding:16px;
-  }
-
-  .card-schedule-overlay-title{
-    font-size:22px;
-  }
-
-  .card-schedule-overlay-date{
-    font-size:13px;
-  }
-}
-
-@media (max-width:480px){
-  .card-schedule-overlay-title{
-    font-size:21px;
-  }
-
-  .card-schedule-overlay-date{
-    font-size:13px;
-  }
-}
-</style>
-
-<script>
-/* ==================================================
-   開催日オーバーレイ
-   ・約4秒表示
-   ・約1.5秒非表示
-   ・フェードで繰り返し
-================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-
-  const scheduleCards =
-    document.querySelectorAll(".card[data-schedule]");
-
-  if(!scheduleCards.length){
+  if (!placeModalOverlay || !placeModalFrame) {
     return;
   }
 
-  scheduleCards.forEach((card) => {
+  placeModalFrame.src =
+    "modal3.html?type=" + encodeURIComponent(type);
 
-    const title =
-      card.dataset.schedule || "";
+  placeModalOverlay.classList.add("active");
+  placeModalOverlay.setAttribute("aria-hidden", "false");
 
-    const date =
-      card.dataset.scheduleDate || "";
+  document.body.style.overflow = "hidden";
+}
 
-    const overlay =
-      document.createElement("div");
 
-    overlay.className =
-      "card-schedule-overlay";
+function closePlaceModal() {
 
-    overlay.innerHTML = `
-      <div class="card-schedule-overlay-inner">
-        <div class="card-schedule-overlay-title">
-          ${title}
-        </div>
-        <div class="card-schedule-overlay-date">
-          ${date}
-        </div>
-      </div>
-    `;
+  if (!placeModalOverlay || !placeModalFrame) {
+    return;
+  }
 
-    card.appendChild(overlay);
+  placeModalOverlay.classList.remove("active");
+  placeModalOverlay.setAttribute("aria-hidden", "true");
+  placeModalFrame.src = "about:blank";
 
-    let visible = false;
+  document.body.style.overflow = "";
+}
 
-    const showOverlay = () => {
-      visible = true;
-      overlay.classList.add("is-visible");
-    };
 
-    const hideOverlay = () => {
-      visible = false;
-      overlay.classList.remove("is-visible");
-    };
+mapHotspots.forEach((hotspot) => {
 
-    // 初回は少し待ってから表示
-    setTimeout(() => {
-      showOverlay();
-    }, 1800);
+  hotspot.addEventListener("click", (e) => {
 
-    // 表示 → 非表示 → 表示を一定間隔で繰り返す
-    setInterval(() => {
-      if(visible){
-        hideOverlay();
+    e.preventDefault();
+    e.stopPropagation();
 
-        setTimeout(() => {
-          showOverlay();
-        }, 2500);
-      }
-    }, 5000);
+    const type = hotspot.dataset.modalType;
+
+    if (type) {
+      openPlaceModal(type);
+    }
 
   });
 
 });
+
+
+window.addEventListener("message", (e) => {
+
+  if (e.source !== placeModalFrame?.contentWindow) {
+    return;
+  }
+
+  if (e.data && e.data.type === "close-map-modal") {
+    closePlaceModal();
+  }
+
+});
+
+
+function updateHotspots() {
+
+  mapHotspots.forEach(hotspot => {
+
+    const floor = Number(
+      hotspot.dataset.floor
+    );
+
+    const isCurrentFloor =
+      Number.isFinite(floor) &&
+      floor === currentFloor;
+
+    hotspot.hidden = !isCurrentFloor;
+
+    if (!isCurrentFloor) {
+      hotspot.style.visibility = "hidden";
+      hotspot.style.pointerEvents = "none";
+      return;
+    }
+
+    hotspot.style.visibility = "visible";
+    hotspot.style.pointerEvents = "auto";
+
+    /* API取得済みの状態を現在階へ再表示 */
+    if (hotspot.dataset.crowdStatus) {
+      applyCrowdVisual(
+        hotspot,
+        hotspot.dataset.crowdStatus
+      );
+    }
+
+  });
+
+}
+
+
+/* =========================================
+   操作説明
+========================================= */
+
+const helpButton =
+  document.getElementById("helpButton");
+
+const helpOverlay =
+  document.getElementById("helpOverlay");
+
+const helpClose =
+  document.getElementById("helpClose");
+
+const helpX =
+  document.getElementById("helpX");
+
+
+const HELP_STORAGE_KEY =
+  "choko_floor_map_help_shown";
+
+
+function openHelp() {
+
+  helpOverlay.classList.add("active");
+
+}
+
+
+function closeHelp() {
+
+  helpOverlay.classList.remove("active");
+
+  localStorage.setItem(
+    HELP_STORAGE_KEY,
+    "true"
+  );
+
+}
+
+
+helpButton.addEventListener(
+  "click",
+  () => {
+
+    openHelp();
+
+  }
+);
+
+
+helpClose.addEventListener(
+  "click",
+  () => {
+
+    closeHelp();
+
+  }
+);
+
+
+helpX.addEventListener(
+  "click",
+  () => {
+
+    closeHelp();
+
+  }
+);
+
+
+helpOverlay.addEventListener(
+  "click",
+  (e) => {
+
+    if (e.target === helpOverlay) {
+
+      closeHelp();
+
+    }
+
+  }
+);
+
+
+if (
+  localStorage.getItem(
+    HELP_STORAGE_KEY
+  ) !== "true"
+) {
+
+  setTimeout(
+    () => {
+
+      openHelp();
+
+    },
+    350
+  );
+
+}
+
+
+/* =========================================
+   ズーム・移動
+========================================= */
+
+let scale = 1;
+
+let translateX = 0;
+let translateY = 0;
+
+let startDistance = 0;
+let startScale = 1;
+
+let startPanX = 0;
+let startPanY = 0;
+
+let startTouchX = 0;
+let startTouchY = 0;
+
+let startCenterX = 0;
+let startCenterY = 0;
+
+let isDragging = false;
+
+
+function getDistance(touches) {
+
+  const dx =
+    touches[0].clientX -
+    touches[1].clientX;
+
+  const dy =
+    touches[0].clientY -
+    touches[1].clientY;
+
+  return Math.sqrt(
+    dx * dx + dy * dy
+  );
+
+}
+
+
+function updateArrowPosition() {
+
+  if (!imageWrapper) {
+    return;
+  }
+
+  const imageTop =
+    imageWrapper.offsetTop;
+
+  const imageHeight =
+    imageWrapper.offsetHeight;
+
+  const centerY =
+    imageTop + (imageHeight / 2);
+
+  prevButton.style.top =
+    centerY + "px";
+
+  nextButton.style.top =
+    centerY + "px";
+
+}
+
+
+function clampPosition() {
+
+  const wrapperWidth =
+    imageWrapper.offsetWidth;
+
+  const wrapperHeight =
+    imageWrapper.offsetHeight;
+
+
+  const maxX =
+    Math.max(
+      0,
+      (wrapperWidth * (scale - 1)) / 2
+    );
+
+  const maxY =
+    Math.max(
+      0,
+      (wrapperHeight * (scale - 1)) / 2
+    );
+
+
+  translateX =
+    Math.min(
+      Math.max(translateX, -maxX),
+      maxX
+    );
+
+  translateY =
+    Math.min(
+      Math.max(translateY, -maxY),
+      maxY
+    );
+
+}
+
+
+function updateTransform() {
+
+  clampPosition();
+
+  imageWrapper.style.transform =
+    "translate3d(" +
+    translateX +
+    "px, " +
+    translateY +
+    "px, 0) scale(" +
+    scale +
+    ")";
+
+}
+
+
+function setZoom(value) {
+
+  scale =
+    Math.min(
+      Math.max(value, 1),
+      5
+    );
+
+  updateTransform();
+
+}
+
+
+function resetZoom() {
+
+  scale = 1;
+
+  translateX = 0;
+  translateY = 0;
+
+  imageWrapper.style.transform =
+    "translate3d(0, 0, 0) scale(1)";
+
+  updateArrowPosition();
+
+}
+
+
+function showFloor(index) {
+
+  currentFloor =
+    (index + floors.length) % floors.length;
+
+  floorImage.src =
+    floors[currentFloor].image;
+
+  floorImage.alt =
+    floors[currentFloor].name +
+    " フロアマップ";
+
+  resetZoom();
+  updateHotspots();
+
+}
+
+
+floorImage.addEventListener(
+  "load",
+  () => {
+
+    resetZoom();
+
+    updateArrowPosition();
+
+  }
+);
+
+
+prevButton.addEventListener(
+  "click",
+  () => {
+
+    showFloor(currentFloor - 1);
+
+  }
+);
+
+
+nextButton.addEventListener(
+  "click",
+  () => {
+
+    showFloor(currentFloor + 1);
+
+  }
+);
+
+
+backToMap.addEventListener(
+  "click",
+  () => {
+
+    location.href = "map.html";
+
+  }
+);
+
+
+buildingSwitch.addEventListener(
+  "click",
+  (e) => {
+
+    e.stopPropagation();
+
+    closePlaceModal();
+
+    location.href =
+      "1tou.html";
+
+  }
+);
+
+
+imageWrapper.addEventListener(
+  "touchstart",
+  (e) => {
+
+    if (e.touches.length === 2) {
+
+      startDistance =
+        getDistance(e.touches);
+
+      startScale =
+        scale;
+
+      startPanX =
+        translateX;
+
+      startPanY =
+        translateY;
+
+      startCenterX =
+        (
+          e.touches[0].clientX +
+          e.touches[1].clientX
+        ) / 2;
+
+      startCenterY =
+        (
+          e.touches[0].clientY +
+          e.touches[1].clientY
+        ) / 2;
+
+      isDragging = false;
+
+      return;
+
+    }
+
+
+    if (
+      e.touches.length === 1 &&
+      scale > 1
+    ) {
+
+      isDragging = true;
+
+      startTouchX =
+        e.touches[0].clientX;
+
+      startTouchY =
+        e.touches[0].clientY;
+
+      startPanX =
+        translateX;
+
+      startPanY =
+        translateY;
+
+    }
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.addEventListener(
+  "touchmove",
+  (e) => {
+
+    if (e.touches.length === 2) {
+
+      e.preventDefault();
+
+      const distance =
+        getDistance(e.touches);
+
+      if (startDistance > 0) {
+
+        const ratio =
+          distance / startDistance;
+
+        scale =
+          Math.min(
+            Math.max(
+              startScale * ratio,
+              1
+            ),
+            5
+          );
+
+      }
+
+
+      const centerX =
+        (
+          e.touches[0].clientX +
+          e.touches[1].clientX
+        ) / 2;
+
+      const centerY =
+        (
+          e.touches[0].clientY +
+          e.touches[1].clientY
+        ) / 2;
+
+
+      translateX =
+        startPanX +
+        (centerX - startCenterX);
+
+      translateY =
+        startPanY +
+        (centerY - startCenterY);
+
+      updateTransform();
+
+      return;
+
+    }
+
+
+    if (
+      e.touches.length === 1 &&
+      isDragging &&
+      scale > 1
+    ) {
+
+      e.preventDefault();
+
+      const x =
+        e.touches[0].clientX;
+
+      const y =
+        e.touches[0].clientY;
+
+      translateX =
+        startPanX +
+        (x - startTouchX);
+
+      translateY =
+        startPanY +
+        (y - startTouchY);
+
+      updateTransform();
+
+    }
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.addEventListener(
+  "touchend",
+  (e) => {
+
+    if (e.touches.length === 0) {
+
+      isDragging = false;
+
+      startDistance = 0;
+
+      startTouchX = 0;
+      startTouchY = 0;
+
+      startCenterX = 0;
+      startCenterY = 0;
+
+    }
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.addEventListener(
+  "mousedown",
+  (e) => {
+
+    if (
+      e.button !== 0 ||
+      scale <= 1
+    ) {
+      return;
+    }
+
+    isDragging = true;
+
+    startTouchX =
+      e.clientX;
+
+    startTouchY =
+      e.clientY;
+
+    startPanX =
+      translateX;
+
+    startPanY =
+      translateY;
+
+    imageWrapper.style.cursor =
+      "grabbing";
+
+    e.preventDefault();
+
+  }
+);
+
+
+document.addEventListener(
+  "mousemove",
+  (e) => {
+
+    if (
+      !isDragging ||
+      scale <= 1
+    ) {
+      return;
+    }
+
+    translateX =
+      startPanX +
+      (e.clientX - startTouchX);
+
+    translateY =
+      startPanY +
+      (e.clientY - startTouchY);
+
+    updateTransform();
+
+  }
+);
+
+
+document.addEventListener(
+  "mouseup",
+  () => {
+
+    if (isDragging) {
+
+      isDragging = false;
+
+      imageWrapper.style.cursor =
+        scale > 1
+          ? "grab"
+          : "default";
+
+    }
+
+  }
+);
+
+
+imageWrapper.addEventListener(
+  "wheel",
+  (e) => {
+
+    e.preventDefault();
+
+    const delta =
+      e.deltaY > 0
+        ? -0.15
+        : 0.15;
+
+    setZoom(scale + delta);
+
+    imageWrapper.style.cursor =
+      scale > 1
+        ? "grab"
+        : "default";
+
+  },
+  { passive: false }
+);
+
+
+imageWrapper.style.cursor = "default";
+
+updateHotspots();
+
+
+window.addEventListener(
+  "load",
+  () => {
+
+    updateArrowPosition();
+
+  }
+);
+
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    if (scale > 1) {
+
+      updateTransform();
+
+    }
+
+    updateArrowPosition();
+
+  }
+);
+
 </script>
 
-
 <script>
-/* ==================================================
-   イベントカードの混雑具合表示
-   体育館のカードは crowd.html の「体育館発表」と同じ
-   gymnasium-performance の混雑情報を使用
-================================================== */
+/* =========================================
+   2棟フロアマップ 混雑状況表示
 
-(function(){
+   ・crowd.html と同じ /api/crowd を使用
+   ・15秒ごとに最新状態へ更新
+   ・企画IDと2棟のホットスポットを固定対応
+   ・混雑色はホットスポット内部の専用レイヤーへ描画
+     → クリック判定やマップ画像に干渉しない
+   ・APIの配列形式 / オブジェクト形式 / data等に対応
+   ・status / crowdStatus / crowd_status / state / level / score に対応
+========================================= */
+(() => {
 
-  const CROWD_API_URL =
-    "https://chosei-fes.onrender.com";
+  const API_URL =
+    "https://chosei-fes.onrender.com/api/crowd";
 
-  const statusMap = {
-    empty:{
-      text:"比較的空いている",
-      className:"status-empty"
-    },
-    normal:{
-      text:"やや混雑している",
-      className:"status-normal"
-    },
-    crowded:{
-      text:"混雑している",
-      className:"status-crowded"
-    },
-    unknown:{
-      text:"情報なし",
-      className:"status-unknown"
+  const REFRESH_MS = 15000;
+
+  const STORAGE_KEY =
+    "choko_crowd_map_visible_v3";
+
+  let crowdEnabled = true;
+
+  let requestController = null;
+
+  try {
+    if (localStorage.getItem(STORAGE_KEY) === "false") {
+      crowdEnabled = false;
     }
-  };
+  } catch (_) {}
 
 
-  function safeStatus(value){
+  /* =========================================
+     2棟 企画ID → ホットスポット
+     API側の企画IDを左側に固定
+  ========================================= */
 
-    return [
+  const FIXED_CROWD_MAP = Object.freeze({
+
+    /* =====================================================
+       events.html の実際の data-modal-id を使用
+       APIへ投稿されるIDもこのIDが基準になる。
+    ===================================================== */
+
+    /* 2棟1階 */
+    "club1": ["hotspot-cha"],
+    "club7": ["hotspot-science-kagaku"],
+    "club4": ["hotspot-kado"],
+    "other1": ["hotspot-oami-special"],
+
+    /* 2棟2階 */
+    "club2": ["hotspot-art"],
+    "club6": ["hotspot-science-butsuri"],
+    "club3": ["hotspot-shogi"],
+    "club21": ["hotspot-photo"],
+
+    /* 2棟3階 */
+    "club8": ["hotspot-science-seibutsu"],
+
+    /* 2棟4階 */
+    "club9": ["hotspot-science-chigaku"],
+    "club10": ["hotspot-science-sugaku"]
+
+  });
+
+
+  const HOTSPOT_TO_CROWD_ID =
+    Object.freeze(
+      Object.entries(FIXED_CROWD_MAP)
+        .reduce((result, [crowdId, hotspotIds]) => {
+
+          hotspotIds.forEach(hotspotId => {
+            result[hotspotId] = crowdId;
+          });
+
+          return result;
+
+        }, {})
+    );
+
+
+  /* =========================================
+     状態を統一
+  ========================================= */
+
+  function normalizeStatus(value) {
+
+    const status =
+      String(value ?? "")
+        .trim()
+        .toLowerCase();
+
+    if ([
       "empty",
+      "low",
+      "free",
+      "空",
+      "空き",
+      "空いている",
+      "比較的空いている"
+    ].includes(status)) {
+
+      return "empty";
+    }
+
+    if ([
       "normal",
-      "crowded"
-    ].includes(value)
-      ? value
-      : "unknown";
+      "medium",
+      "moderate",
+      "通常",
+      "普通",
+      "やや混雑",
+      "やや混雑している"
+    ].includes(status)) {
+
+      return "normal";
+    }
+
+    if ([
+      "crowded",
+      "high",
+      "busy",
+      "混雑",
+      "混雑している"
+    ].includes(status)) {
+
+      return "crowded";
+    }
+
+    return "unknown";
+  }
+
+
+  /* =========================================
+     score → 状態
+  ========================================= */
+
+  function scoreToStatus(score) {
+
+    const number =
+      Number(score);
+
+    if (!Number.isFinite(number)) {
+      return "unknown";
+    }
+
+    if (number < 34) {
+      return "empty";
+    }
+
+    if (number < 67) {
+      return "normal";
+    }
+
+    return "crowded";
+  }
+
+
+  /* =========================================
+     APIレコードから状態取得
+  ========================================= */
+
+  function getStatus(record) {
+
+    if (
+      record === null ||
+      record === undefined
+    ) {
+      return "unknown";
+    }
+
+
+    if (typeof record === "string") {
+      return normalizeStatus(record);
+    }
+
+
+    if (typeof record !== "object") {
+      return "unknown";
+    }
+
+
+    const directStatus =
+      normalizeStatus(
+        record.status ??
+        record.crowdStatus ??
+        record.crowd_status ??
+        record.state ??
+        record.level
+      );
+
+
+    if (directStatus !== "unknown") {
+      return directStatus;
+    }
+
+
+    return scoreToStatus(record.score);
 
   }
 
 
-  function getSavedStatus(crowdData, targetId){
+  /* =========================================
+     IDを正規化
+  ========================================= */
+
+  function normalizeId(value) {
+
+    return String(value ?? "")
+      .trim()
+      .toLowerCase();
+
+  }
+
+
+  /* =========================================
+     APIのコンテナから企画を探す
+
+     対応:
+       {
+         "cha": {...}
+       }
+
+       {
+         data: {...}
+       }
+
+       {
+         events: [...]
+       }
+
+       {
+         crowd: {...}
+       }
+
+       {
+         results: [...]
+       }
+  ========================================= */
+
+  function getApiRecord(
+    crowdData,
+    targetId
+  ) {
+
+    const id =
+      normalizeId(targetId);
+
+    if (!crowdData || !id) {
+      return null;
+    }
+
 
     const containers = [
       crowdData,
@@ -5055,220 +3356,828 @@ document.addEventListener("DOMContentLoaded", () => {
       crowdData?.results
     ];
 
-    for(
-      const container of containers
-    ){
 
-      if(!container){
+    for (const container of containers) {
+
+      if (!container) {
         continue;
       }
 
-      if(
-        Array.isArray(container)
-      ){
+
+      /* 配列 */
+      if (Array.isArray(container)) {
 
         const found =
-          container.find(
-            item =>
-              item &&
-              String(item.id || "").trim() ===
-              targetId
-          );
+          container.find(item => {
 
-        if(found){
+            if (
+              !item ||
+              typeof item !== "object"
+            ) {
+              return false;
+            }
+
+
+            const itemId =
+              normalizeId(
+                item.id ??
+                item.eventId ??
+                item.event_id ??
+                item.modalId ??
+                item.modal_id ??
+                item.key
+              );
+
+
+            return itemId === id;
+
+          });
+
+
+        if (found) {
           return found;
         }
 
+        continue;
       }
-      else if(
-        typeof container === "object" &&
-        container[targetId]
-      ){
 
-        return container[targetId];
+
+      /* オブジェクト */
+      if (
+        typeof container === "object"
+      ) {
+
+        if (
+          Object.prototype.hasOwnProperty.call(
+            container,
+            targetId
+          )
+        ) {
+          return container[targetId];
+        }
+
+
+        if (
+          Object.prototype.hasOwnProperty.call(
+            container,
+            id
+          )
+        ) {
+          return container[id];
+        }
+
+
+        const foundKey =
+          Object.keys(container)
+            .find(key =>
+              normalizeId(key) === id
+            );
+
+
+        if (foundKey !== undefined) {
+          return container[foundKey];
+        }
 
       }
 
     }
+
 
     return null;
 
   }
 
 
-  function updateCardStatus(card, status){
+  /* =========================================
+     APIにIDが少し違う場合の候補
 
-    const statusElement =
-      card.querySelector(
-        "[data-crowd-status]"
-      );
+     固定IDを基本にしつつ、
+     表記ゆれにも対応する。
+  ========================================= */
 
-    if(!statusElement){
-      return;
+  const CROWD_ID_ALIASES = Object.freeze({
+
+    /* events.html の正式IDを最優先 */
+    "club1": ["club1", "cha", "sado", "sado-bu", "tea"],
+    "club7": ["club7", "science-kagaku", "kagaku", "science-kagaku-bu"],
+    "club4": ["club4", "kado", "kado-bu"],
+    "other1": ["other1", "oami-special", "oami", "oamishirasato-special"],
+
+    "club2": ["club2", "art", "art-bu"],
+    "club6": ["club6", "science-butsuri", "butsuri", "science-butsuri-bu"],
+    "club3": ["club3", "shogi", "shogi-bu"],
+    "club21": ["club21", "photo", "photography", "photo-bu"],
+
+    "club8": ["club8", "science-seibutsu", "seibutsu", "science-seibutsu-bu"],
+    "club9": ["club9", "science-chigaku", "chigaku", "science-chigaku-bu"],
+    "club10": ["club10", "science-sugaku", "sugaku", "science-sugaku-bu"]
+
+  });
+
+
+  function findRecordForCrowdId(
+    crowdData,
+    crowdId
+  ) {
+
+    const candidates =
+      CROWD_ID_ALIASES[crowdId] ||
+      [crowdId];
+
+
+    for (
+      const candidate
+      of candidates
+    ) {
+
+      const record =
+        getApiRecord(
+          crowdData,
+          candidate
+        );
+
+
+      if (record !== null) {
+        return record;
+      }
+
     }
 
-    const data =
-      statusMap[status] ||
-      statusMap.unknown;
 
-    statusElement.classList.remove(
-      "status-empty",
-      "status-normal",
-      "status-crowded",
-      "status-unknown"
-    );
-
-    statusElement.classList.add(
-      data.className
-    );
-
-    statusElement.textContent =
-      data.text;
+    return null;
 
   }
 
 
-  async function loadCardCrowdStatus(){
+  /* =========================================
+     混雑レイヤーを確実に作る
+  ========================================= */
 
-    const cards =
+  function ensureCrowdLayer(
+    hotspot
+  ) {
+
+    if (!hotspot) {
+      return null;
+    }
+
+
+    let layer =
+      hotspot.querySelector(
+        ":scope > .crowd-visual-layer"
+      );
+
+
+    if (!layer) {
+
+      layer =
+        document.createElement("span");
+
+      layer.className =
+        "crowd-visual-layer";
+
+      layer.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      hotspot.appendChild(layer);
+
+    }
+
+
+    layer.style.position =
+      "absolute";
+
+    layer.style.inset =
+      "0";
+
+    layer.style.width =
+      "100%";
+
+    layer.style.height =
+      "100%";
+
+    layer.style.display =
+      "block";
+
+    layer.style.pointerEvents =
+      "none";
+
+    layer.style.boxSizing =
+      "border-box";
+
+    layer.style.borderRadius =
+      "inherit";
+
+    layer.style.zIndex =
+      "3";
+
+
+    return layer;
+
+  }
+
+
+  /* =========================================
+     色を直接適用
+  ========================================= */
+
+  function setLayerColor(
+    layer,
+    status
+  ) {
+
+    if (!layer) {
+      return;
+    }
+
+
+    const safeStatus =
+      normalizeStatus(status);
+
+
+    let background =
+      "transparent";
+
+    let border =
+      "2px solid transparent";
+
+
+    if (safeStatus === "empty") {
+
+      background =
+        "rgba(79,157,105,0.38)";
+
+      border =
+        "2px solid rgba(79,157,105,0.68)";
+
+    }
+
+
+    if (safeStatus === "normal") {
+
+      background =
+        "rgba(215,168,61,0.38)";
+
+      border =
+        "2px solid rgba(215,168,61,0.68)";
+
+    }
+
+
+    if (safeStatus === "crowded") {
+
+      background =
+        "rgba(212,91,88,0.38)";
+
+      border =
+        "2px solid rgba(212,91,88,0.68)";
+
+    }
+
+
+    layer.style.setProperty(
+      "background",
+      background,
+      "important"
+    );
+
+    layer.style.setProperty(
+      "border",
+      border,
+      "important"
+    );
+
+    layer.style.setProperty(
+      "opacity",
+      (
+        crowdEnabled &&
+        safeStatus !== "unknown"
+      )
+        ? "1"
+        : "0",
+      "important"
+    );
+
+    layer.style.setProperty(
+      "visibility",
+      (
+        crowdEnabled &&
+        safeStatus !== "unknown"
+      )
+        ? "visible"
+        : "hidden",
+      "important"
+    );
+
+    layer.style.setProperty(
+      "pointer-events",
+      "none",
+      "important"
+    );
+
+  }
+
+
+  /* =========================================
+     ホットスポットへ状態反映
+  ========================================= */
+
+  function applyCrowdVisual(
+    hotspot,
+    status
+  ) {
+
+    if (!hotspot) {
+      return;
+    }
+
+
+    const safeStatus =
+      normalizeStatus(status);
+
+
+    hotspot.dataset.crowdStatus =
+      safeStatus;
+
+
+    hotspot.classList.remove(
+      "crowd-empty",
+      "crowd-normal",
+      "crowd-crowded",
+      "crowd-unknown",
+      "crowd-disabled",
+      "crowd-visible"
+    );
+
+
+    hotspot.classList.add(
+      "crowd-" + safeStatus
+    );
+
+
+    const layer =
+      ensureCrowdLayer(
+        hotspot
+      );
+
+
+    setLayerColor(
+      layer,
+      safeStatus
+    );
+
+
+    if (
+      crowdEnabled &&
+      safeStatus !== "unknown"
+    ) {
+
+      hotspot.classList.add(
+        "crowd-visible"
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
+     現在保持している状態を再表示
+  ========================================= */
+
+  function refreshCrowdVisibility() {
+
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(hotspot => {
+
+        applyCrowdVisual(
+          hotspot,
+          hotspot.dataset.crowdStatus ||
+          "unknown"
+        );
+
+      });
+
+
+    updateToggleButton();
+
+  }
+
+
+  /* =========================================
+     APIデータを全ホットスポットへ反映
+  ========================================= */
+
+  function applyCrowdData(
+    crowdData
+  ) {
+
+    const hotspots =
       Array.from(
         document.querySelectorAll(
-          ".card[data-modal-id]"
+          ".map-hotspot"
         )
       );
 
-    if(!cards.length){
-      return;
-    }
+    let matchedCount = 0;
 
-    try{
+    hotspots.forEach(hotspot => {
 
-      const response =
-        await fetch(
-          CROWD_API_URL + "/api/crowd",
-          {
-            cache:"no-store"
-          }
+      /*
+        IMPORTANT:
+        APIの企画IDとdata-modal-typeは同じとは限らない。
+        この2棟マップでは、実際のhotspotクラス
+        hotspot-cha / hotspot-art などを基準に
+        FIXED_CROWD_MAPからAPI IDを取得する。
+      */
+      const hotspotClass =
+        Array.from(hotspot.classList).find(className =>
+          Object.prototype.hasOwnProperty.call(
+            HOTSPOT_TO_CROWD_ID,
+            className
+          )
         );
 
-      if(!response.ok){
-        throw new Error(
-          "混雑情報の取得に失敗しました"
+      const crowdId =
+        hotspotClass
+          ? HOTSPOT_TO_CROWD_ID[hotspotClass]
+          : null;
+
+      const modalType =
+        normalizeId(
+          hotspot.dataset.modalType
         );
+
+      const record =
+        crowdId
+          ? findRecordForCrowdId(
+              crowdData,
+              crowdId
+            )
+          : (modalType
+              ? findRecordForCrowdId(
+                  crowdData,
+                  modalType
+                )
+              : null);
+
+      if (record !== null) {
+        matchedCount++;
       }
 
-      const crowdData =
-        await response.json();
+      const status =
+        getStatus(record);
 
-      cards.forEach(
-        card => {
+      hotspot.dataset.crowdStatus = status;
 
-          const id =
-            String(
-              card.getAttribute(
-                "data-modal-id"
-              ) || ""
-            ).trim();
+      /* 現在表示中の階だけ色を表示 */
+      const floor = Number(
+        hotspot.dataset.floor
+      );
 
-          const location =
-            Array.from(
-              card.querySelectorAll(
-                ".card-label"
-              )
-            ).find(
-              label =>
-                label.textContent.trim() ===
-                "開催場所"
-            )
-            ?.nextElementSibling
-            ?.textContent
-            .trim() || "";
+      if (floor === currentFloor) {
+        applyCrowdVisual(
+          hotspot,
+          status
+        );
+      } else {
+        applyCrowdVisual(
+          hotspot,
+          "unknown"
+        );
+        hotspot.dataset.crowdStatus = status;
+      }
 
-          /*
-            開催場所が体育館のすべてのイベントカードは、
-            crowd.html の「体育館発表」と同じ
-            gymnasium-performance の情報を表示する。
-          */
-          const targetId =
-            location.includes("体育館")
-              ? "gymnasium-performance"
-              : id;
-
-          const saved =
-            getSavedStatus(
-              crowdData,
-              targetId
-            );
-
-          const status =
-            safeStatus(
-              saved?.status ||
-              saved?.crowdStatus ||
-              saved?.crowd_status
-            );
-
-          updateCardStatus(
-            card,
-            status
-          );
-
+      console.log(
+        "2棟 混雑状況反映",
+        {
+          modalType,
+          hotspotClass,
+          crowdId,
+          floor,
+          currentFloor,
+          status,
+          matched: record !== null
         }
       );
 
-    }
-    catch(error){
+    });
 
-      console.error(
-        "イベントカードの混雑情報読み込みエラー:",
-        error
-      );
-
-      cards.forEach(
-        card =>
-          updateCardStatus(
-            card,
-            "unknown"
-          )
-      );
-
-    }
-
-  }
-
-
-  if(
-    document.readyState ===
-    "loading"
-  ){
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      loadCardCrowdStatus,
-      {
-        once:true
-      }
+    console.log(
+      "2棟 混雑状況",
+      matchedCount +
+      "/" +
+      hotspots.length +
+      "件を確認"
     );
 
   }
-  else{
 
-    loadCardCrowdStatus();
+
+  /* =========================================
+     ON/OFFボタン
+  ========================================= */
+
+  function updateToggleButton() {
+
+    const button =
+      document.getElementById(
+        "crowdToggleButton"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    button.classList.toggle(
+      "off",
+      !crowdEnabled
+    );
+
+
+    button.setAttribute(
+      "aria-pressed",
+      String(crowdEnabled)
+    );
+
+
+    button.innerHTML =
+      '<span class="crowd-toggle-dot"></span>' +
+      (
+        crowdEnabled
+          ? "混雑表示：ON"
+          : "混雑表示：OFF"
+      );
 
   }
 
 
-  /*
-    crowd.html と同じ最新情報に追従するため、
-    30秒ごとに混雑情報を更新する。
-  */
-  setInterval(
-    loadCardCrowdStatus,
-    30000
-  );
+  function setupToggle() {
+
+    const button =
+      document.getElementById(
+        "crowdToggleButton"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    if (
+      button.dataset.crowdReady ===
+      "true"
+    ) {
+
+      updateToggleButton();
+
+      return;
+
+    }
+
+
+    button.dataset.crowdReady =
+      "true";
+
+
+    button.addEventListener(
+      "click",
+      event => {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+
+        crowdEnabled =
+          !crowdEnabled;
+
+
+        try {
+
+          localStorage.setItem(
+            STORAGE_KEY,
+            String(crowdEnabled)
+          );
+
+        } catch (_) {}
+
+
+        refreshCrowdVisibility();
+
+      }
+    );
+
+
+    updateToggleButton();
+
+  }
+
+
+  /* =========================================
+     API取得
+  ========================================= */
+
+  async function loadCrowd() {
+
+    if (requestController) {
+
+      try {
+        requestController.abort();
+      } catch (_) {}
+
+    }
+
+
+    requestController =
+      new AbortController();
+
+
+    try {
+
+      const response =
+        await fetch(
+          API_URL +
+          "?_=" +
+          Date.now(),
+          {
+            method: "GET",
+            cache: "no-store",
+            signal:
+              requestController.signal,
+            headers: {
+              "Accept":
+                "application/json",
+              "Cache-Control":
+                "no-cache"
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        !data ||
+        typeof data !== "object"
+      ) {
+
+        throw new Error(
+          "混雑APIの形式が正しくありません"
+        );
+
+      }
+
+
+      console.log(
+        "2棟：最新の混雑API",
+        data
+      );
+
+
+      applyCrowdData(
+        data
+      );
+
+
+    } catch (error) {
+
+      if (
+        error &&
+        error.name ===
+        "AbortError"
+      ) {
+
+        return;
+
+      }
+
+
+      console.error(
+        "2棟：混雑情報取得失敗",
+        error
+      );
+
+
+      /*
+        通信失敗時は現在表示中の色を
+        消さずに維持する。
+      */
+
+      refreshCrowdVisibility();
+
+    }
+
+  }
+
+
+  /* =========================================
+     初期化
+  ========================================= */
+
+  function init() {
+
+    /* 全ホットスポットに
+       最初から専用レイヤーを作る */
+    document
+      .querySelectorAll(
+        ".map-hotspot"
+      )
+      .forEach(hotspot => {
+
+        ensureCrowdLayer(
+          hotspot
+        );
+
+        hotspot.dataset.crowdStatus =
+          "unknown";
+
+      });
+
+
+    setupToggle();
+
+
+    refreshCrowdVisibility();
+
+
+    /* 初回取得 */
+    loadCrowd();
+
+
+    /* 15秒ごと */
+    setInterval(
+      loadCrowd,
+      REFRESH_MS
+    );
+
+
+    /* タブ復帰 */
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+
+        if (
+          document.visibilityState ===
+          "visible"
+        ) {
+
+          loadCrowd();
+
+        }
+
+      }
+    );
+
+
+    /* ネットワーク復帰 */
+    window.addEventListener(
+      "online",
+      loadCrowd
+    );
+
+  }
+
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init,
+      { once: true }
+    );
+
+  } else {
+
+    init();
+
+  }
 
 })();
 </script>
 
 </body>
-
 </html>
