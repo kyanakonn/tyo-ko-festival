@@ -901,8 +901,7 @@ body {
     width: 100%;
     max-width: 100%;
 
-    /* 画面の高さで一覧が下へ押し出されないようにする */
-    min-height: 0;
+    min-height: calc(100vh - 50px);
 
     overflow: visible;
   }
@@ -913,15 +912,13 @@ body {
     width: 100%;
     max-width: 100%;
 
-    /* 画面の高さで不要な空白を作らない */
-    min-height: 0;
+    min-height: calc(100vh - 50px);
 
     height: auto;
 
     padding-top: 115px;
 
-    /* 棟切り替えボタンが収まる必要最小限の余白 */
-    padding-bottom: 52px;
+    padding-bottom: 75px;
 
     justify-content: flex-start;
 
@@ -1734,7 +1731,7 @@ fetch("header.html")
       <button class="map-hotspot room-jrc floor-2-hotspot" data-modal-type="room-jrc" type="button" aria-label="JRC部の詳細を表示" title="JRC部"></button>
       <button class="map-hotspot room-1a floor-2-hotspot" data-modal-type="room-1a" type="button" aria-label="1A 縁日の詳細を表示" title="1A 縁日"></button>
       <button class="map-hotspot room-3g floor-2-hotspot" data-modal-type="room-3g" type="button" aria-label="3G カジノの詳細を表示" title="3G カジノ"></button>
-      <button class="map-hotspot room-2e floor-2-hotspot" data-modal-type="room-2e" type="button" aria-label="2E 迷路の詳細を表示" title="2E 迷路"></button>
+      <button class="map-hotspot room-2e floor-2-hotspot" data-modal-type="room-1c" type="button" aria-label="1C 魔王城からの脱出の詳細を表示" title="1C 魔王城からの脱出"></button>
 
       <button class="map-hotspot room-3d floor-2-hotspot" data-modal-type="room-3d" type="button" aria-label="3D お化け屋敷の詳細を表示" title="3D お化け屋敷"></button>
 
@@ -2809,7 +2806,6 @@ window.addEventListener(
   const FIXED_CROWD_MAP = Object.freeze({
     "1d": ["ten-yen-bread"],
 
-    "2e": ["room-2e"],
     "3g": ["room-3g"],
     "1a": ["room-1a"],
     "2a": ["room-2a"],
@@ -2818,7 +2814,8 @@ window.addEventListener(
     "3d": ["room-3d"],
     "jrc": ["room-jrc"],
 
-    "1c": ["room-1c"],
+    /* 1棟3階の1Cと、1棟2階右側の1Cを同じ企画IDで管理 */
+    "1c": ["room-1c", "room-2e"],
     "2f": ["room-2f"],
     "1f": ["room-1f"],
     "ssh": ["room-ssh"],
