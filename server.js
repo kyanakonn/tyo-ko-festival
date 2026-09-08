@@ -30,7 +30,7 @@ app.use(express.json());
 
   Renderの環境変数
   ADMIN_PASSWORD
-  が設定されている場合はそちらを優先します。
+  が設定されている場合はそちらを優先
 
   未設定の場合は hello
 */
