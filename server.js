@@ -46,7 +46,7 @@ const adminSessions = new Map();
 
 /*
   管理者ログインの有効時間
-  12時間
+  12h
 */
 const ADMIN_SESSION_MAX_AGE_MS =
   12 * 60 * 60 * 1000;
