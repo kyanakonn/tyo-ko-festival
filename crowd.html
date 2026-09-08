@@ -1945,7 +1945,7 @@ let keywordFilter =
   クライアント側だけを無効化しているわけではありません。
 */
 let crowdSharingEnabled =
-  true;
+  false;
 
 let hiddenCrowdIds =
   new Set();
@@ -3168,7 +3168,7 @@ async function loadCrowdSettings(){
     */
 
     crowdSharingEnabled =
-      true;
+      false;
 
     hiddenCrowdIds =
       new Set();
@@ -3629,6 +3629,18 @@ function renderEvents(){
 
   eventsData.forEach(
     event => {
+
+      /* 管理画面で非表示にしたカードは一般公開側でも表示しない */
+      if(
+        hiddenCrowdIds.has(
+          String(
+            safeValue(event.id, "")
+          )
+        )
+      ){
+        return;
+      }
+
 
       const categoryMatch =
         categoryFilter === "all" ||
@@ -4517,6 +4529,10 @@ document
         "click",
         () => {
 
+          if(!crowdSharingEnabled){
+            return;
+          }
+
           selectedStatus =
             safeStatus(
               option.dataset.status
@@ -4856,7 +4872,7 @@ submitBtn.addEventListener(
     finally{
 
       submitBtn.disabled =
-        false;
+        !crowdSharingEnabled;
 
       submitBtn.textContent =
         "共有する";
