@@ -2638,6 +2638,30 @@ function showFloor(index) {
 }
 
 
+/* =========================================
+   URLで指定された階を最初に表示
+   例：1tou.html?floor=2
+========================================= */
+
+(function initFloorFromURL() {
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  const floor =
+    Number(params.get("floor"));
+
+  if (
+    Number.isInteger(floor) &&
+    floor >= 1 &&
+    floor <= floors.length
+  ) {
+    showFloor(floor - 1);
+  }
+
+})();
+
+
 floorImage.addEventListener(
   "load",
   () => {
