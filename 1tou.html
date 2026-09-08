@@ -1731,7 +1731,7 @@ fetch("header.html")
       <button class="map-hotspot room-jrc floor-2-hotspot" data-modal-type="room-jrc" type="button" aria-label="JRC部の詳細を表示" title="JRC部"></button>
       <button class="map-hotspot room-1a floor-2-hotspot" data-modal-type="room-1a" type="button" aria-label="1A 縁日の詳細を表示" title="1A 縁日"></button>
       <button class="map-hotspot room-3g floor-2-hotspot" data-modal-type="room-3g" type="button" aria-label="3G カジノの詳細を表示" title="3G カジノ"></button>
-      <button class="map-hotspot room-2e floor-2-hotspot" data-modal-type="room-1c" type="button" aria-label="1C 魔王城からの脱出の詳細を表示" title="1C 魔王城からの脱出"></button>
+      <button class="map-hotspot room-2e floor-2-hotspot" data-modal-type="room-2e" type="button" aria-label="2E 迷路の詳細を表示" title="2E 迷路"></button>
 
       <button class="map-hotspot room-3d floor-2-hotspot" data-modal-type="room-3d" type="button" aria-label="3D お化け屋敷の詳細を表示" title="3D お化け屋敷"></button>
 
@@ -1743,7 +1743,7 @@ fetch("header.html")
       <button class="map-hotspot room-1f floor-3-hotspot" data-modal-type="room-1f" type="button" aria-label="1F ディッピンドッツの詳細を表示" title="1F ディッピンドッツ"></button>
       <button class="map-hotspot room-2f floor-3-hotspot" data-modal-type="room-2f" type="button" aria-label="2F 体験型の詳細を表示" title="2F 体験型"></button>
 
-      <button class="map-hotspot room-1e-second floor-3-hotspot" data-modal-type="room-1e" type="button" aria-label="1E 脱出ゲームの詳細を表示" title="1E 脱出ゲーム"></button>
+      <button class="map-hotspot room-1e-second floor-3-hotspot" data-modal-type="room-1c" type="button" aria-label="1C 魔王城からの脱出の詳細を表示" title="1C 魔王城からの脱出"></button>
 
       <button class="map-hotspot room-3b floor-3-hotspot" data-modal-type="room-3b" type="button" aria-label="3B お化け屋敷の詳細を表示" title="3B お化け屋敷"></button>
 
@@ -2814,14 +2814,13 @@ window.addEventListener(
     "3d": ["room-3d"],
     "jrc": ["room-jrc"],
 
-    /* 1棟3階の1Cと、1棟2階右側の1Cを同じ企画IDで管理 */
-    "1c": ["room-1c", "room-2e"],
+    "1c": ["room-1c", "room-1e-second"],
     "2f": ["room-2f"],
     "1f": ["room-1f"],
     "ssh": ["room-ssh"],
     "3e": ["room-3e"],
     "3f": ["room-3f"],
-    "1e": ["room-1e", "room-1e-second", "room-1e-right"],
+    "1e": ["room-1e", "room-1e-right"],
     "3b": ["room-3b"],
 
     "shodo": ["room-shodo"],
