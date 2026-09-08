@@ -1653,30 +1653,11 @@ body {
   transition: none;
 }
 
-.map-hotspot.crowd-visible .crowd-visual-layer {
-  opacity: 1;
-  visibility: visible;
-}
-
-.map-hotspot.crowd-empty .crowd-visual-layer {
-  background: rgba(79,157,105,.38) !important;
-  border: 2px solid rgba(79,157,105,.68) !important;
-}
-
-.map-hotspot.crowd-normal .crowd-visual-layer {
-  background: rgba(215,168,61,.38) !important;
-  border: 2px solid rgba(215,168,61,.68) !important;
-}
-
-.map-hotspot.crowd-crowded .crowd-visual-layer {
-  background: rgba(212,91,88,.38) !important;
-  border: 2px solid rgba(212,91,88,.68) !important;
-}
-
-.map-hotspot.crowd-unknown .crowd-visual-layer,
-.map-hotspot.crowd-disabled .crowd-visual-layer {
-  background: transparent !important;
-  border: 2px solid transparent !important;
+.map-hotspot .crowd-visual-layer {
+  background: transparent;
+  border: 2px solid transparent;
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* =========================================
@@ -2711,6 +2692,7 @@ function showFloor(index) {
 
   resetZoom();
   updateHotspots();
+  refreshCrowdVisibility();
 
 }
 
@@ -3766,10 +3748,12 @@ window.addEventListener(
 
       hotspot.dataset.crowdStatus = status;
 
-      /* 現在表示中の階だけ色を表示 */
+      /* 全階の状態を保持。表示するのは現在の階だけ */
       const floor = Number(
         hotspot.dataset.floor
       );
+
+      hotspot.dataset.crowdStatus = status;
 
       if (floor === currentFloor) {
         applyCrowdVisual(
@@ -3777,11 +3761,8 @@ window.addEventListener(
           status
         );
       } else {
-        applyCrowdVisual(
-          hotspot,
-          "unknown"
-        );
-        hotspot.dataset.crowdStatus = status;
+        const layer = ensureCrowdLayer(hotspot);
+        setLayerColor(layer, "unknown");
       }
 
       console.log(
@@ -3957,6 +3938,7 @@ window.addEventListener(
     setupToggle();
 
 
+    updateHotspots();
     refreshCrowdVisibility();
 
 
