@@ -3134,24 +3134,29 @@ window.addEventListener(
 
   const FIXED_CROWD_MAP = Object.freeze({
 
+    /* =====================================================
+       events.html の実際の data-modal-id を使用
+       APIへ投稿されるIDもこのIDが基準になる。
+    ===================================================== */
+
     /* 2棟1階 */
-    "cha": ["hotspot-cha"],
-    "science-kagaku": ["hotspot-science-kagaku"],
-    "kado": ["hotspot-kado"],
-    "oami-special": ["hotspot-oami-special"],
+    "club1": ["hotspot-cha"],
+    "club7": ["hotspot-science-kagaku"],
+    "club4": ["hotspot-kado"],
+    "other1": ["hotspot-oami-special"],
 
     /* 2棟2階 */
-    "art": ["hotspot-art"],
-    "science-butsuri": ["hotspot-science-butsuri"],
-    "shogi": ["hotspot-shogi"],
-    "photo": ["hotspot-photo"],
+    "club2": ["hotspot-art"],
+    "club6": ["hotspot-science-butsuri"],
+    "club3": ["hotspot-shogi"],
+    "club21": ["hotspot-photo"],
 
     /* 2棟3階 */
-    "science-seibutsu": ["hotspot-science-seibutsu"],
+    "club8": ["hotspot-science-seibutsu"],
 
     /* 2棟4階 */
-    "science-chigaku": ["hotspot-science-chigaku"],
-    "science-sugaku": ["hotspot-science-sugaku"]
+    "club9": ["hotspot-science-chigaku"],
+    "club10": ["hotspot-science-sugaku"]
 
   });
 
@@ -3452,69 +3457,20 @@ window.addEventListener(
 
   const CROWD_ID_ALIASES = Object.freeze({
 
-    "cha": [
-      "cha",
-      "sado",
-      "sado-bu",
-      "tea"
-    ],
+    /* events.html の正式IDを最優先 */
+    "club1": ["club1", "cha", "sado", "sado-bu", "tea"],
+    "club7": ["club7", "science-kagaku", "kagaku", "science-kagaku-bu"],
+    "club4": ["club4", "kado", "kado-bu"],
+    "other1": ["other1", "oami-special", "oami", "oamishirasato-special"],
 
-    "science-kagaku": [
-      "science-kagaku",
-      "kagaku",
-      "science-kagaku-bu"
-    ],
+    "club2": ["club2", "art", "art-bu"],
+    "club6": ["club6", "science-butsuri", "butsuri", "science-butsuri-bu"],
+    "club3": ["club3", "shogi", "shogi-bu"],
+    "club21": ["club21", "photo", "photography", "photo-bu"],
 
-    "kado": [
-      "kado",
-      "kado-bu"
-    ],
-
-    "oami-special": [
-      "oami-special",
-      "oami",
-      "oamishirasato-special"
-    ],
-
-    "art": [
-      "art",
-      "art-bu"
-    ],
-
-    "science-butsuri": [
-      "science-butsuri",
-      "butsuri",
-      "science-butsuri-bu"
-    ],
-
-    "shogi": [
-      "shogi",
-      "shogi-bu"
-    ],
-
-    "photo": [
-      "photo",
-      "photography",
-      "photo-bu"
-    ],
-
-    "science-seibutsu": [
-      "science-seibutsu",
-      "seibutsu",
-      "science-seibutsu-bu"
-    ],
-
-    "science-chigaku": [
-      "science-chigaku",
-      "chigaku",
-      "science-chigaku-bu"
-    ],
-
-    "science-sugaku": [
-      "science-sugaku",
-      "sugaku",
-      "science-sugaku-bu"
-    ]
+    "club8": ["club8", "science-seibutsu", "seibutsu", "science-seibutsu-bu"],
+    "club9": ["club9", "science-chigaku", "chigaku", "science-chigaku-bu"],
+    "club10": ["club10", "science-sugaku", "sugaku", "science-sugaku-bu"]
 
   });
 
