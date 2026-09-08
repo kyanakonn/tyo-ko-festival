@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>混雑情報 管理画面｜長高祭2026</title>
+
+<meta
+  name="robots"
+  content="noindex,nofollow"
+>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="css/style.css"
+>
+
+<style>
+
+:root{
+  --pink:#ff4d6d;
+  --pink-deep:#e2022e;
+  --purple:#8870a8;
+  --gold:#cfb25a;
+  --teal:#65a6ae;
+  --bg:#f1f1ef;
+  --text:#24242a;
+  --sub:#66636b;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
+  background:var(--bg)!important;
+  color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+}
+
+.bg-shapes{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:.22;
+  filter:blur(1px);
+}
+
+.bg-shapes .shape{
+  position:absolute;
+}
+
+.bg-shapes .s1{
+  top:5%;
+  left:-50px;
+  width:0;
+  height:0;
+  border-left:90px solid transparent;
+  border-right:90px solid transparent;
+  border-bottom:170px solid #c96d80;
+  transform:rotate(-25deg);
+}
+
+.bg-shapes .s2{
+  top:28%;
+  right:-35px;
+  width:0;
+  height:0;
+  border-left:70px solid transparent;
+  border-right:70px solid transparent;
+  border-bottom:130px solid #8870a8;
+  transform:rotate(20deg);
+}
+
+.bg-shapes .s3{
+  bottom:4%;
+  left:-30px;
+  width:0;
+  height:0;
+  border-left:100px solid transparent;
+  border-right:100px solid transparent;
+  border-bottom:180px solid #cfb25a;
+  transform:rotate(12deg);
+}
+
+.bg-shapes .s4{
+  bottom:25%;
+  right:12%;
+  width:0;
+  height:0;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:120px solid #65a6ae;
+  transform:rotate(-15deg);
+}
+
+.bg-shapes::before{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:150px;
+  left:8%;
+  top:50%;
+  background:#a57999;
+  transform:rotate(28deg);
+}
+
+.bg-shapes::after{
+  content:"";
+  position:absolute;
+  width:110px;
+  height:70px;
+  right:4%;
+  top:62%;
+  background:#65a0a8;
+  transform:rotate(-20deg);
+}
+
+
+/* =========================================
+   ログイン
+========================================= */
+
+#loginScreen{
+  position:relative;
+  z-index:10;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+
+.login-card{
+  position:relative;
+  width:min(100%,480px);
+  padding:38px 32px;
+  background:rgba(255,255,255,.94);
+  border:3px solid #24242a;
+  box-shadow:12px 12px 0 var(--pink);
+  overflow:hidden;
+}
+
+.login-card::before{
+  content:"";
+  position:absolute;
+  top:-45px;
+  right:-30px;
+  width:120px;
+  height:120px;
+  background:rgba(136,112,168,.18);
+  transform:rotate(25deg);
+  clip-path:polygon(0 0,100% 0,100% 100%);
+}
+
+.login-card::after{
+  content:"";
+  position:absolute;
+  bottom:-45px;
+  left:-30px;
+  width:110px;
+  height:110px;
+  background:rgba(207,178,90,.20);
+  transform:rotate(25deg);
+  clip-path:polygon(0 0,100% 100%,0 100%);
+}
+
+.login-label{
+  position:relative;
+  z-index:1;
+  margin-bottom:7px;
+  color:var(--pink-deep);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.login-title{
+  position:relative;
+  z-index:1;
+  margin-bottom:10px;
+  font-size:clamp(25px,6vw,38px);
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.login-subtitle{
+  position:relative;
+  z-index:1;
+  margin-bottom:28px;
+  color:var(--sub);
+  font-size:13px;
+  line-height:1.8;
+}
+
+.password-label{
+  position:relative;
+  z-index:1;
+  display:block;
+  margin-bottom:7px;
+  color:var(--text);
+  font-size:12px;
+  font-weight:900;
+}
+
+#passwordInput{
+  position:relative;
+  z-index:1;
+  width:100%;
+  padding:13px 14px;
+  border:2px solid rgba(36,36,42,.15);
+  outline:none;
+  background:#fff;
+  color:var(--text);
+  font-family:inherit;
+  font-size:16px;
+  box-shadow:4px 4px 0 rgba(0,0,0,.06);
+}
+
+#passwordInput:focus{
+  border-color:var(--pink);
+}
+
+#loginButton{
+  position:relative;
+  z-index:1;
+  width:100%;
+  margin-top:17px;
+  padding:13px 15px;
+  border:2px solid #1e1e2f;
+  background:#1e1e2f;
+  color:#fff;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:5px 5px 0 var(--pink);
+}
+
+#loginButton:active{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--pink);
+}
+
+.login-error{
+  position:relative;
+  z-index:1;
+  min-height:20px;
+  margin-top:12px;
+  color:var(--pink-deep);
+  font-size:12px;
+  font-weight:700;
+}
+
+
+/* =========================================
+   管理画面
+========================================= */
+
+#adminScreen{
+  position:relative;
+  z-index:1;
+  display:none;
+  width:100%;
+  padding:38px 20px 90px;
+}
+
+.admin-wrap{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.admin-header{
+  position:relative;
+  margin-bottom:28px;
+  padding:25px 28px;
+  background:rgba(255,255,255,.90);
+  border-left:7px solid var(--pink);
+  border-right:7px solid var(--purple);
+  box-shadow:8px 8px 0 rgba(0,0,0,.08);
+}
+
+.admin-kicker{
+  color:var(--pink-deep);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+
+.admin-title{
+  margin-top:4px;
+  font-size:clamp(28px,5vw,44px);
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.admin-description{
+  margin-top:10px;
+  color:var(--sub);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.logout-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  padding:8px 12px;
+  border:2px solid #24242a;
+  background:#fff;
+  color:var(--text);
+  cursor:pointer;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:900;
+}
+
+.panel{
+  position:relative;
+  margin-bottom:24px;
+  padding:24px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow:8px 8px 0 rgba(0,0,0,.07);
+}
+
+.panel-title{
+  margin-bottom:5px;
+  color:var(--pink-deep);
+  font-size:17px;
+  font-weight:900;
+}
+
+.panel-description{
+  margin-bottom:17px;
+  color:var(--sub);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.control-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.toggle-status{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.status-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:78px;
+  padding:7px 10px;
+  border:2px solid #777;
+  background:#777;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+
+.status-badge.on{
+  border-color:#55a979;
+  background:#55a979;
+}
+
+.status-badge.off{
+  border-color:var(--pink);
+  background:var(--pink);
+}
+
+.toggle-btn{
+  min-width:150px;
+  padding:12px 16px;
+  border:2px solid #24242a;
+  background:#24242a;
+  color:#fff;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:5px 5px 0 var(--pink);
+}
+
+.toggle-btn:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:7px 7px 0 var(--pink);
+}
+
+.toggle-btn:active{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--pink);
+}
+
+.refresh-btn{
+  padding:10px 14px;
+  border:2px solid #24242a;
+  background:#fff;
+  color:var(--text);
+  cursor:pointer;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:900;
+}
+
+.cards-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:17px;
+}
+
+.cards-count{
+  color:var(--sub);
+  font-size:11px;
+  font-weight:700;
+}
+
+.cards-count strong{
+  color:var(--pink-deep);
+  font-size:16px;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.admin-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:230px;
+  padding:18px;
+  background:#fff;
+  border:2px solid rgba(36,36,42,.12);
+  box-shadow:6px 6px 0 rgba(0,0,0,.07);
+  overflow:hidden;
+}
+
+.admin-card.hidden-card{
+  opacity:.72;
+  background:#f0efec;
+  border-style:dashed;
+}
+
+.admin-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:60px;
+  height:60px;
+  background:rgba(201,109,128,.13);
+  clip-path:polygon(0 100%,0 0,100% 100%);
+}
+
+.admin-card-category{
+  align-self:flex-start;
+  margin-bottom:10px;
+  padding:5px 8px;
+  background:#f2edf8;
+  border:1px solid rgba(136,112,168,.28);
+  color:#66547d;
+  font-size:10px;
+  font-weight:900;
+}
+
+.admin-card-title{
+  margin-bottom:10px;
+  font-size:16px;
+  line-height:1.5;
+  font-weight:900;
+}
+
+.admin-info{
+  margin-bottom:13px;
+  color:var(--sub);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.admin-crowd{
+  margin-top:auto;
+  padding:9px 10px;
+  background:#f6f5f2;
+  border-left:4px solid var(--teal);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.admin-crowd strong{
+  color:var(--text);
+  font-size:13px;
+}
+
+.admin-action{
+  margin-top:12px;
+  width:100%;
+  padding:10px 12px;
+  border:2px solid #24242a;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:900;
+}
+
+.admin-action.hide{
+  background:#24242a;
+  color:#fff;
+  box-shadow:4px 4px 0 var(--pink);
+}
+
+.admin-action.restore{
+  background:#fff;
+  color:#24242a;
+  box-shadow:4px 4px 0 var(--purple);
+}
+
+.admin-action:active{
+  transform:translate(2px,2px);
+  box-shadow:1px 1px 0 currentColor;
+}
+
+.hidden-label{
+  position:absolute;
+  top:12px;
+  right:12px;
+  padding:4px 7px;
+  background:var(--pink);
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
+.empty-admin{
+  grid-column:1 / -1;
+  padding:45px 20px;
+  background:#fff;
+  border-left:6px solid var(--pink);
+  text-align:center;
+  color:var(--sub);
+  font-size:12px;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  z-index:1000;
+  max-width:calc(100% - 40px);
+  padding:12px 18px;
+  background:#24242a;
+  border-left:5px solid var(--pink);
+  box-shadow:6px 6px 0 rgba(0,0,0,.15);
+  color:#fff;
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  transform:translate(-50%,100px);
+  opacity:0;
+  pointer-events:none;
+  transition:transform .3s ease,opacity .3s ease;
+}
+
+.toast.show{
+  transform:translate(-50%,0);
+  opacity:1;
+}
+
+.loading{
+  grid-column:1 / -1;
+  padding:50px;
+  text-align:center;
+  color:var(--sub);
+  font-size:12px;
+}
+
+@media(max-width:900px){
+  .admin-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:600px){
+
+  #loginScreen{
+    padding:16px;
+  }
+
+  .login-card{
+    padding:30px 20px;
+    box-shadow:8px 8px 0 var(--pink);
+  }
+
+  #adminScreen{
+    padding:20px 12px 70px;
+  }
+
+  .admin-header{
+    padding:21px 18px 24px;
+    padding-right:18px;
+  }
+
+  .logout-btn{
+    position:static;
+    margin-top:16px;
+  }
+
+  .panel{
+    padding:18px 15px;
+  }
+
+  .control-row{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .toggle-btn{
+    width:100%;
+  }
+
+  .cards-header{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-shapes">
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+</div>
+
+
+<!-- =========================================
+     ログイン
+========================================= -->
+
+<section id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="login-label">
+      CHOKO FESTIVAL 2026
+    </div>
+
+    <h1 class="login-title">
+      混雑情報 管理画面
+    </h1>
+
+    <p class="login-subtitle">
+      混雑情報の公開設定と、表示するカードを管理できます。<br>
+      管理者のみご利用ください。
+    </p>
+
+    <label
+      class="password-label"
+      for="passwordInput"
+    >
+      管理パスワード
+    </label>
+
+    <input
+      id="passwordInput"
+      type="password"
+      autocomplete="current-password"
+      placeholder="パスワードを入力"
+    >
+
+    <button
+      id="loginButton"
+      type="button"
+    >
+      管理画面へ入る
+    </button>
+
+    <div
+      class="login-error"
+      id="loginError"
+      aria-live="polite"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================
+     管理画面
+========================================= -->
+
+<section id="adminScreen">
+
+  <div class="admin-wrap">
+
+    <header class="admin-header">
+
+      <div class="admin-kicker">
+        CHOKO FESTIVAL 2026 / ADMIN
+      </div>
+
+      <h1 class="admin-title">
+        混雑情報 管理画面
+      </h1>
+
+      <p class="admin-description">
+        一般公開ページの「混雑状況を共有する」の利用可否と、
+        混雑情報カードの表示・非表示を管理します。
+      </p>
+
+      <button
+        class="logout-btn"
+        id="logoutButton"
+        type="button"
+      >
+        ログアウト
+      </button>
+
+    </header>
+
+
+    <section class="panel">
+
+      <h2 class="panel-title">
+        混雑情報の共有
+      </h2>
+
+      <p class="panel-description">
+        OFFにすると、一般ページでは「長高祭開始までご利用いただけません」と表示され、
+        「混雑状況を共有する」ボタンが押せなくなります。サーバー側でも投稿を拒否します。
+      </p>
+
+      <div class="control-row">
+
+        <div class="toggle-status">
+
+          <span
+            class="status-badge"
+            id="sharingStatusBadge"
+          >
+            確認中
+          </span>
+
+          <span
+            class="cards-count"
+            id="sharingStatusText"
+          >
+            設定を読み込んでいます
+          </span>
+
+        </div>
+
+        <button
+          class="toggle-btn"
+          id="sharingToggleButton"
+          type="button"
+        >
+          設定を読み込んでいます
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <div class="cards-header">
+
+        <div>
+          <h2 class="panel-title">
+            混雑情報カードの管理
+          </h2>
+
+          <p class="panel-description">
+            「非表示にする」を押した企画は、一般公開ページからカードごと非表示になります。
+            「復元する」でいつでも再表示できます。
+          </p>
+        </div>
+
+        <button
+          class="refresh-btn"
+          id="refreshButton"
+          type="button"
+        >
+          最新状態に更新
+        </button>
+
+      </div>
+
+      <div
+        class="cards-count"
+        id="cardCount"
+      >
+        企画情報を読み込んでいます
+      </div>
+
+      <div
+        class="admin-grid"
+        id="adminGrid"
+      >
+        <div class="loading">
+          企画情報を読み込んでいます...
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+</section>
+
+
+<div
+  class="toast"
+  id="toast"
+  aria-live="polite"
+></div>
+
+
+<script>
+
+/* =========================================
+   API
+========================================= */
+
+const API_URL =
+  "https://chosei-fes.onrender.com";
+
+
+/* =========================================
+   DOM
+========================================= */
+
+const loginScreen =
+  document.getElementById("loginScreen");
+
+const adminScreen =
+  document.getElementById("adminScreen");
+
+const passwordInput =
+  document.getElementById("passwordInput");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const loginError =
+  document.getElementById("loginError");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const sharingStatusBadge =
+  document.getElementById(
+    "sharingStatusBadge"
+  );
+
+const sharingStatusText =
+  document.getElementById(
+    "sharingStatusText"
+  );
+
+const sharingToggleButton =
+  document.getElementById(
+    "sharingToggleButton"
+  );
+
+const refreshButton =
+  document.getElementById(
+    "refreshButton"
+  );
+
+const adminGrid =
+  document.getElementById(
+    "adminGrid"
+  );
+
+const cardCount =
+  document.getElementById(
+    "cardCount"
+  );
+
+const toast =
+  document.getElementById("toast");
+
+
+/* =========================================
+   状態
+========================================= */
+
+let adminToken =
+  sessionStorage.getItem(
+    "chosei_fes_admin_token"
+  ) || "";
+
+let sharingEnabled =
+  true;
+
+let hiddenIds =
+  new Set();
+
+let eventList =
+  [];
+
+
+/* =========================================
+   安全な文字列
+========================================= */
+
+function safeValue(
+  value,
+  fallback = ""
+){
+
+  if(
+    value === undefined ||
+    value === null
+  ){
+    return fallback;
+  }
+
+  const text =
+    String(value).trim();
+
+  if(
+    !text ||
+    text === "undefined" ||
+    text === "null"
+  ){
+    return fallback;
+  }
+
+  return text;
+}
+
+
+/* =========================================
+   HTMLエスケープ
+========================================= */
+
+function escapeHtml(value){
+
+  return safeValue(value,"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   トースト
+========================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  toast.textContent =
+    safeValue(message,"");
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove("show");
+      },
+      3000
+    );
+
+}
+
+
+/* =========================================
+   APIリクエスト
+========================================= */
+
+async function adminFetch(
+  path,
+  options = {}
+){
+
+  const headers = {
+    ...(options.headers || {})
+  };
+
+  if(adminToken){
+    headers.Authorization =
+      "Bearer " +
+      adminToken;
+  }
+
+  return fetch(
+    API_URL + path,
+    {
+      ...options,
+      headers:headers,
+      cache:"no-store"
+    }
+  );
+
+}
+
+
+/* =========================================
+   ログイン
+========================================= */
+
+async function login(){
+
+  const password =
+    passwordInput.value;
+
+  loginError.textContent =
+    "";
+
+  if(!password){
+    loginError.textContent =
+      "パスワードを入力してください。";
+    return;
+  }
+
+  loginButton.disabled =
+    true;
+
+  loginButton.textContent =
+    "認証中...";
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "/api/admin/login",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            password:password
+          })
+        }
+      );
+
+    let data = {};
+
+    try{
+      data =
+        await response.json();
+    }
+    catch(error){}
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        "ログインに失敗しました。"
+      );
+    }
+
+    adminToken =
+      safeValue(
+        data.token,
+        ""
+      );
+
+    if(!adminToken){
+      throw new Error(
+        "認証トークンを取得できませんでした。"
+      );
+    }
+
+    sessionStorage.setItem(
+      "chosei_fes_admin_token",
+      adminToken
+    );
+
+    passwordInput.value =
+      "";
+
+    await showAdminScreen();
+
+  }
+  catch(error){
+
+    loginError.textContent =
+      error.message ||
+      "ログインに失敗しました。";
+
+    sessionStorage.removeItem(
+      "chosei_fes_admin_token"
+    );
+
+    adminToken = "";
+
+  }
+  finally{
+
+    loginButton.disabled =
+      false;
+
+    loginButton.textContent =
+      "管理画面へ入る";
+
+  }
+
+}
+
+
+/* =========================================
+   ログアウト
+========================================= */
+
+function logout(){
+
+  adminToken =
+    "";
+
+  sessionStorage.removeItem(
+    "chosei_fes_admin_token"
+  );
+
+  adminScreen.style.display =
+    "none";
+
+  loginScreen.style.display =
+    "flex";
+
+  loginError.textContent =
+    "";
+
+  passwordInput.value =
+    "";
+
+}
+
+
+/* =========================================
+   管理状態取得
+========================================= */
+
+async function loadAdminState(){
+
+  const response =
+    await adminFetch(
+      "/api/admin/state"
+    );
+
+  if(response.status === 401){
+    logout();
+    throw new Error(
+      "管理セッションの有効期限が切れました。"
+    );
+  }
+
+  if(!response.ok){
+    throw new Error(
+      "管理状態の取得に失敗しました。"
+    );
+  }
+
+  const data =
+    await response.json();
+
+  sharingEnabled =
+    data.sharingEnabled !== false;
+
+  hiddenIds =
+    new Set(
+      Array.isArray(data.hiddenIds)
+        ? data.hiddenIds.map(
+            id => String(id)
+          )
+        : []
+    );
+
+  updateSharingUI();
+
+}
+
+
+/* =========================================
+   共有設定UI
+========================================= */
+
+function updateSharingUI(){
+
+  if(sharingEnabled){
+
+    sharingStatusBadge.textContent =
+      "ON";
+
+    sharingStatusBadge.className =
+      "status-badge on";
+
+    sharingStatusText.textContent =
+      "一般来場者による共有を受け付けています";
+
+    sharingToggleButton.textContent =
+      "共有機能をOFFにする";
+
+  }
+  else{
+
+    sharingStatusBadge.textContent =
+      "OFF";
+
+    sharingStatusBadge.className =
+      "status-badge off";
+
+    sharingStatusText.textContent =
+      "一般来場者による共有を停止しています";
+
+    sharingToggleButton.textContent =
+      "共有機能をONにする";
+
+  }
+
+}
+
+
+/* =========================================
+   共有設定切り替え
+========================================= */
+
+async function toggleSharing(){
+
+  const nextValue =
+    !sharingEnabled;
+
+  sharingToggleButton.disabled =
+    true;
+
+  sharingToggleButton.textContent =
+    "変更中...";
+
+  try{
+
+    const response =
+      await adminFetch(
+        "/api/admin/sharing",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            enabled:nextValue
+          })
+        }
+      );
+
+    let data = {};
+
+    try{
+      data =
+        await response.json();
+    }
+    catch(error){}
+
+    if(response.status === 401){
+      logout();
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        "設定の変更に失敗しました。"
+      );
+    }
+
+    sharingEnabled =
+      data.sharingEnabled !== false;
+
+    updateSharingUI();
+
+    showToast(
+      sharingEnabled
+        ? "混雑情報の共有をONにしました。"
+        : "混雑情報の共有をOFFにしました。"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      error.message ||
+      "設定の変更に失敗しました。"
+    );
+
+  }
+  finally{
+
+    sharingToggleButton.disabled =
+      false;
+
+    updateSharingUI();
+
+  }
+
+}
+
+
+/* =========================================
+   events.htmlから企画情報を取得
+========================================= */
+
+async function loadEvents(){
+
+  const response =
+    await fetch(
+      "events.html",
+      {
+        cache:"no-store"
+      }
+    );
+
+  if(!response.ok){
+    throw new Error(
+      "events.htmlを読み込めませんでした。"
+    );
+  }
+
+  const html =
+    await response.text();
+
+  const parser =
+    new DOMParser();
+
+  const documentData =
+    parser.parseFromString(
+      html,
+      "text/html"
+    );
+
+  const groups =
+    documentData.querySelectorAll(
+      ".group"
+    );
+
+  const list = [];
+
+  groups.forEach(
+    group => {
+
+      const cards =
+        group.querySelectorAll(
+          ".card"
+        );
+
+      cards.forEach(
+        card => {
+
+          const id =
+            safeValue(
+              card.dataset.modalId,
+              ""
+            );
+
+          const titleElement =
+            card.querySelector(
+              ".card-title"
+            );
+
+          if(!id || !titleElement){
+            return;
+          }
+
+          const labels =
+            card.querySelectorAll(
+              ".card-label"
+            );
+
+          let className =
+            "";
+
+          let location =
+            "";
+
+          labels.forEach(
+            label => {
+
+              const value =
+                label.nextElementSibling;
+
+              if(!value){
+                return;
+              }
+
+              const labelText =
+                safeValue(
+                  label.textContent,
+                  ""
+                );
+
+              const valueText =
+                safeValue(
+                  value.textContent,
+                  ""
+                );
+
+              if(
+                labelText === "クラス" ||
+                labelText === "クラス・団体" ||
+                labelText === "団体"
+              ){
+                className =
+                  valueText;
+              }
+
+              if(
+                labelText === "開催場所"
+              ){
+                location =
+                  valueText;
+              }
+
+            }
+          );
+
+          list.push({
+            id:id,
+            title:safeValue(
+              titleElement.textContent,
+              "名称未設定"
+            ),
+            category:safeValue(
+              card.dataset.placeBadge,
+              "その他"
+            ),
+            floor:safeValue(
+              card.dataset.floor,
+              ""
+            ),
+            className:className,
+            location:location
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+  /*
+    crowd.htmlと同じく、
+    体育館は全体で1カードとして扱います。
+  */
+
+  const gymnasium =
+    list.filter(
+      event =>
+        event.category === "体育館"
+    );
+
+  const other =
+    list.filter(
+      event =>
+        event.category !== "体育館"
+    );
+
+  if(gymnasium.length > 0){
+
+    const classNames =
+      [
+        ...new Set(
+          gymnasium
+            .map(
+              event => event.className
+            )
+            .filter(Boolean)
+        )
+      ];
+
+    const locations =
+      [
+        ...new Set(
+          gymnasium
+            .map(
+              event => event.location
+            )
+            .filter(Boolean)
+        )
+      ];
+
+    const floors =
+      [
+        ...new Set(
+          gymnasium
+            .map(
+              event => event.floor
+            )
+            .filter(Boolean)
+        )
+      ];
+
+    other.push({
+      id:
+        "gymnasium-performance",
+
+      title:
+        "体育館発表",
+
+      category:
+        "体育館",
+
+      floor:
+        floors.length === 1
+          ? floors[0]
+          : safeValue(
+              gymnasium[0]?.floor,
+              ""
+            ),
+
+      className:
+        classNames.join("・"),
+
+      location:
+        locations.length === 1
+          ? locations[0]
+          : (
+              locations.length > 1
+                ? locations.join("・")
+                : "体育館"
+            )
+    });
+
+  }
+
+  eventList =
+    other;
+
+}
+
+
+/* =========================================
+   混雑状態
+========================================= */
+
+const statusText = {
+  empty:
+    "比較的空いています",
+
+  normal:
+    "やや混雑しています",
+
+  crowded:
+    "混雑しています",
+
+  unknown:
+    "まだ情報がありません"
+};
+
+
+/* =========================================
+   混雑情報取得
+========================================= */
+
+async function loadCrowd(){
+
+  const response =
+    await adminFetch(
+      "/api/admin/state"
+    );
+
+  if(response.status === 401){
+    logout();
+    throw new Error(
+      "管理セッションの有効期限が切れました。"
+    );
+  }
+
+  if(!response.ok){
+    throw new Error(
+      "混雑情報の取得に失敗しました。"
+    );
+  }
+
+  const data =
+    await response.json();
+
+  sharingEnabled =
+    data.sharingEnabled !== false;
+
+  hiddenIds =
+    new Set(
+      Array.isArray(data.hiddenIds)
+        ? data.hiddenIds.map(
+            id => String(id)
+          )
+        : []
+    );
+
+  updateSharingUI();
+
+  return data.crowd &&
+    typeof data.crowd === "object"
+      ? data.crowd
+      : {};
+
+}
+
+
+/* =========================================
+   カードを非表示
+========================================= */
+
+async function hideCard(id){
+
+  if(!id){
+    return;
+  }
+
+  const event =
+    eventList.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+  if(!event){
+    return;
+  }
+
+  if(
+    !confirm(
+      "「" +
+      event.title +
+      "」を一般公開ページから非表示にしますか？"
+    )
+  ){
+    return;
+  }
+
+  try{
+
+    const response =
+      await adminFetch(
+        "/api/admin/card/hide",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            id:String(id)
+          })
+        }
+      );
+
+    let data = {};
+
+    try{
+      data =
+        await response.json();
+    }
+    catch(error){}
+
+    if(response.status === 401){
+      logout();
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        "カードの非表示に失敗しました。"
+      );
+    }
+
+    hiddenIds =
+      new Set(
+        Array.isArray(data.hiddenIds)
+          ? data.hiddenIds.map(
+              item => String(item)
+            )
+          : []
+      );
+
+    renderAdminCards(
+      currentCrowdData
+    );
+
+    showToast(
+      "カードを非表示にしました。"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      error.message ||
+      "カードの非表示に失敗しました。"
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   カードを復元
+========================================= */
+
+async function restoreCard(id){
+
+  if(!id){
+    return;
+  }
+
+  const event =
+    eventList.find(
+      item =>
+        String(item.id) ===
+        String(id)
+    );
+
+  if(!event){
+    return;
+  }
+
+  try{
+
+    const response =
+      await adminFetch(
+        "/api/admin/card/restore",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            id:String(id)
+          })
+        }
+      );
+
+    let data = {};
+
+    try{
+      data =
+        await response.json();
+    }
+    catch(error){}
+
+    if(response.status === 401){
+      logout();
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        "カードの復元に失敗しました。"
+      );
+    }
+
+    hiddenIds =
+      new Set(
+        Array.isArray(data.hiddenIds)
+          ? data.hiddenIds.map(
+              item => String(item)
+            )
+          : []
+      );
+
+    renderAdminCards(
+      currentCrowdData
+    );
+
+    showToast(
+      "カードを復元しました。"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      error.message ||
+      "カードの復元に失敗しました。"
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   現在の混雑データ
+========================================= */
+
+let currentCrowdData =
+  {};
+
+
+/* =========================================
+   管理カード表示
+========================================= */
+
+function renderAdminCards(
+  crowdData
+){
+
+  currentCrowdData =
+    crowdData || {};
+
+  adminGrid.innerHTML =
+    "";
+
+  const allEvents =
+    eventList;
+
+  cardCount.innerHTML =
+    "管理対象 <strong>" +
+    allEvents.length +
+    "</strong> 件";
+
+  if(allEvents.length === 0){
+
+    adminGrid.innerHTML = `
+      <div class="empty-admin">
+        管理できる企画がありません。
+      </div>
+    `;
+
+    return;
+  }
+
+
+  allEvents.forEach(
+    event => {
+
+      const id =
+        String(event.id);
+
+      const isHidden =
+        hiddenIds.has(id);
+
+      const saved =
+        crowdData[id] ||
+        null;
+
+      const status =
+        saved &&
+        saved.status
+          ? safeValue(
+              saved.status,
+              "unknown"
+            )
+          : "unknown";
+
+      const text =
+        statusText[status] ||
+        statusText.unknown;
+
+      const score =
+        Number.isFinite(
+          Number(saved?.score)
+        )
+          ? Math.round(
+              Number(saved.score)
+            )
+          : null;
+
+      const votes =
+        Number.isFinite(
+          Number(saved?.voteCount)
+        )
+          ? Math.max(
+              0,
+              Math.round(
+                Number(saved.voteCount)
+              )
+            )
+          : 0;
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "admin-card" +
+        (
+          isHidden
+            ? " hidden-card"
+            : ""
+        );
+
+      card.innerHTML = `
+
+        ${
+          isHidden
+            ? `
+              <div class="hidden-label">
+                非表示中
+              </div>
+            `
+            : ""
+        }
+
+        <div class="admin-card-category">
+          ${escapeHtml(
+            event.category
+          )}
+        </div>
+
+        <h3 class="admin-card-title">
+          ${escapeHtml(
+            event.title
+          )}
+        </h3>
+
+        <div class="admin-info">
+          <div>
+            クラス・団体：
+            ${
+              escapeHtml(
+                event.className
+              ) || "－"
+            }
+          </div>
+
+          <div>
+            開催場所：
+            ${
+              escapeHtml(
+                event.location
+              ) || "－"
+            }
+          </div>
+
+          ${
+            event.floor
+              ? `
+                <div>
+                  階数：
+                  ${escapeHtml(event.floor)}階
+                </div>
+              `
+              : ""
+          }
+        </div>
+
+        <div class="admin-crowd">
+          現在の混雑状況：
+          <strong>
+            ${escapeHtml(text)}
+          </strong>
+          <br>
+          投票：
+          ${votes}件
+          ${
+            score !== null
+              ? " ／ 混雑度 " +
+                score +
+                "/100"
+              : ""
+          }
+        </div>
+
+        ${
+          isHidden
+            ? `
+              <button
+                class="admin-action restore"
+                type="button"
+                data-action="restore"
+                data-id="${escapeHtml(id)}"
+              >
+                このカードを復元する
+              </button>
+            `
+            : `
+              <button
+                class="admin-action hide"
+                type="button"
+                data-action="hide"
+                data-id="${escapeHtml(id)}"
+              >
+                このカードを非表示にする
+              </button>
+            `
+        }
+
+      `;
+
+      const actionButton =
+        card.querySelector(
+          ".admin-action"
+        );
+
+      if(actionButton){
+
+        actionButton.addEventListener(
+          "click",
+          () => {
+
+            const action =
+              actionButton.dataset.action;
+
+            const targetId =
+              actionButton.dataset.id;
+
+            if(action === "hide"){
+              hideCard(targetId);
+            }
+
+            if(action === "restore"){
+              restoreCard(targetId);
+            }
+
+          }
+        );
+
+      }
+
+      adminGrid.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   管理画面を表示
+========================================= */
+
+async function showAdminScreen(){
+
+  loginScreen.style.display =
+    "none";
+
+  adminScreen.style.display =
+    "block";
+
+  try{
+
+    await loadAdminState();
+
+    await loadEvents();
+
+    const crowd =
+      await loadCrowd();
+
+    renderAdminCards(
+      crowd
+    );
+
+  }
+  catch(error){
+
+    if(!adminToken){
+      return;
+    }
+
+    adminGrid.innerHTML = `
+      <div class="empty-admin">
+        ${escapeHtml(
+          error.message ||
+          "管理情報を読み込めませんでした。"
+        )}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   更新
+========================================= */
+
+async function refreshAll(){
+
+  refreshButton.disabled =
+    true;
+
+  refreshButton.textContent =
+    "更新中...";
+
+  try{
+
+    await loadAdminState();
+
+    await loadEvents();
+
+    const crowd =
+      await loadCrowd();
+
+    renderAdminCards(
+      crowd
+    );
+
+    showToast(
+      "最新状態に更新しました。"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      error.message ||
+      "更新に失敗しました。"
+    );
+
+  }
+  finally{
+
+    refreshButton.disabled =
+      false;
+
+    refreshButton.textContent =
+      "最新状態に更新";
+
+  }
+
+}
+
+
+/* =========================================
+   イベント
+========================================= */
+
+loginButton.addEventListener(
+  "click",
+  login
+);
+
+passwordInput.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Enter"){
+      login();
+    }
+
+  }
+);
+
+logoutButton.addEventListener(
+  "click",
+  logout
+);
+
+sharingToggleButton.addEventListener(
+  "click",
+  toggleSharing
+);
+
+refreshButton.addEventListener(
+  "click",
+  refreshAll
+);
+
+
+/* =========================================
+   初期表示
+========================================= */
+
+if(adminToken){
+
+  showAdminScreen();
+
+}
+else{
+
+  loginScreen.style.display =
+    "flex";
+
+  adminScreen.style.display =
+    "none";
+
+}
+
+
+/* =========================================
+   定期更新
+========================================= */
+
+setInterval(
+  async () => {
+
+    if(
+      !adminToken ||
+      adminScreen.style.display !== "block"
+    ){
+      return;
+    }
+
+    try{
+
+      const crowd =
+        await loadCrowd();
+
+      renderAdminCards(
+        crowd
+      );
+
+    }
+    catch(error){
+
+      console.warn(
+        "管理画面の自動更新に失敗しました",
+        error
+      );
+
+    }
+
+  },
+  15000
+);
+
+</script>
+
+</body>
+</html>
