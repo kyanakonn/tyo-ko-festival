@@ -347,7 +347,7 @@ body {
   height: auto;
 
   padding-top: 92px;
-  padding-bottom: 18px;
+  padding-bottom: 52px;
 
   display: flex;
   flex-direction: column;
@@ -919,7 +919,7 @@ body {
 
     padding-top: 115px;
 
-    padding-bottom: 4px;
+    padding-bottom: 52px;
 
     justify-content: flex-start;
 
@@ -1486,36 +1486,75 @@ body {
 .crowd-status-list {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:6px 8px;
+  gap:7px 9px;
 }
 .crowd-status-item {
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  min-height:46px;
-  padding:8px 10px 8px 12px;
+  min-height:52px;
+  padding:8px 10px 8px 15px;
   box-sizing:border-box;
-  background:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.88);
   border:1px solid rgba(36,36,42,.10);
-  border-left:3px solid rgba(36,36,42,.18);
+  border-left:6px solid rgba(120,120,120,.28);
   box-shadow:2px 2px 0 rgba(0,0,0,.045);
+  overflow:hidden;
 }
-.crowd-status-name { min-width:0; color:#29292f; font-size:12px; font-weight:800; line-height:1.4; }
-.crowd-status-badge { flex:0 0 auto; padding:5px 8px; border-radius:999px; font-size:9px; font-weight:900; letter-spacing:.03em; white-space:nowrap; }
-.crowd-status-badge.empty { color:#356f49; background:rgba(79,157,105,.14); border:1px solid rgba(79,157,105,.34); }
-.crowd-status-badge.normal { color:#80631b; background:rgba(215,168,61,.16); border:1px solid rgba(215,168,61,.38); }
-.crowd-status-badge.crowded { color:#9a3f3b; background:rgba(212,91,88,.15); border:1px solid rgba(212,91,88,.38); }
-.crowd-status-badge.unknown { color:#666; background:rgba(100,100,100,.09); border:1px solid rgba(100,100,100,.20); }
+.crowd-status-item::after {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  opacity:.95;
+}
+.crowd-status-name { min-width:0; color:#29292f; font-size:12px; font-weight:900; line-height:1.4; }
+.crowd-status-badge {
+  position:relative;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-width:76px;
+  justify-content:center;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.03em;
+  white-space:nowrap;
+}
+.crowd-status-badge::before {
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 0 2px rgba(255,255,255,.65);
+}
+.crowd-status-item:has(.crowd-status-badge.empty)::after { background:#4f9d69; }
+.crowd-status-item:has(.crowd-status-badge.normal)::after { background:#d7a83d; }
+.crowd-status-item:has(.crowd-status-badge.crowded)::after { background:#d45b58; }
+.crowd-status-item:has(.crowd-status-badge.unknown)::after { background:#999; }
+.crowd-status-badge.empty { color:#356f49; background:rgba(79,157,105,.20); border:1px solid rgba(79,157,105,.45); }
+.crowd-status-badge.normal { color:#80631b; background:rgba(215,168,61,.23); border:1px solid rgba(215,168,61,.48); }
+.crowd-status-badge.crowded { color:#9a3f3b; background:rgba(212,91,88,.22); border:1px solid rgba(212,91,88,.48); }
+.crowd-status-badge.unknown { color:#666; background:rgba(100,100,100,.10); border:1px solid rgba(100,100,100,.22); }
 .crowd-status-empty-message { padding:14px; background:rgba(255,255,255,.78); color:#666; text-align:center; font-size:11px; font-weight:700; }
 @media (max-width:600px) {
   .crowd-status-panel { width:calc(100% - 20px); margin:4px auto 28px; }
   .crowd-status-title { margin-bottom:9px; padding:8px 11px; font-size:15px; border-left-width:4px; }
   .crowd-status-legend { gap:6px 11px; margin-bottom:8px; font-size:9px; }
   .crowd-status-list { grid-template-columns:1fr; gap:5px; }
-  .crowd-status-item { min-height:43px; padding:7px 9px 7px 10px; }
+  .crowd-status-item { min-height:47px; padding:7px 8px 7px 14px; border-left-width:5px; }
+  .crowd-status-item::after { width:5px; }
   .crowd-status-name { font-size:11px; }
-  .crowd-status-badge { padding:4px 7px; font-size:8px; }
+  .crowd-status-badge { min-width:72px; padding:5px 7px; font-size:8px; }
+  .crowd-status-badge::before { width:6px; height:6px; }
 }
 
 /* =========================================
