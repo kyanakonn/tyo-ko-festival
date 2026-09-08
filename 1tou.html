@@ -912,13 +912,15 @@ body {
     width: 100%;
     max-width: 100%;
 
-    min-height: calc(100vh - 50px);
+    /* 画面の高さで不要な空白を作らない */
+    min-height: 0;
 
     height: auto;
 
     padding-top: 115px;
 
-    padding-bottom: 75px;
+    /* 棟切り替えボタンが収まる必要最小限の余白 */
+    padding-bottom: 52px;
 
     justify-content: flex-start;
 
