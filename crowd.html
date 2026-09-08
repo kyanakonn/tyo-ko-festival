@@ -235,6 +235,121 @@ main{
 
 
 /* =========================================
+   混雑情報共有 停止表示
+========================================= */
+
+.sharing-disabled-box{
+  position:relative;
+  width:100%;
+  max-width:850px;
+  margin:0 auto 24px;
+  padding:26px 24px;
+  background:rgba(255,255,255,.92);
+  border:3px solid #24242a;
+  border-left:8px solid var(--pink);
+  box-shadow:9px 9px 0 rgba(36,36,42,.12);
+  text-align:center;
+  overflow:hidden;
+}
+
+.sharing-disabled-box::before{
+  content:"";
+  position:absolute;
+  top:-35px;
+  right:-25px;
+  width:100px;
+  height:100px;
+  background:rgba(136,112,168,.18);
+  transform:rotate(25deg);
+  clip-path:polygon(0 0,100% 0,100% 100%);
+}
+
+.sharing-disabled-box::after{
+  content:"";
+  position:absolute;
+  bottom:-35px;
+  left:-25px;
+  width:90px;
+  height:90px;
+  background:rgba(207,178,90,.20);
+  transform:rotate(25deg);
+  clip-path:polygon(0 0,100% 100%,0 100%);
+}
+
+.sharing-disabled-box .disabled-mark{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:8px;
+  color:var(--pink-deep);
+  font-size:clamp(18px,3vw,25px);
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.sharing-disabled-box .disabled-mark span{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  border:3px solid var(--pink);
+  color:var(--pink);
+  font-size:16px;
+  font-weight:900;
+}
+
+.sharing-disabled-box p{
+  position:relative;
+  z-index:1;
+  color:var(--sub);
+  font-size:12px;
+  line-height:1.8;
+  font-weight:500;
+}
+
+.sharing-disabled-box[hidden]{
+  display:none;
+}
+
+.share-btn.sharing-disabled{
+  cursor:not-allowed;
+  background:#777;
+  border-color:#777;
+  color:#eee;
+  box-shadow:4px 4px 0 #aaa;
+  transform:none!important;
+}
+
+.share-btn.sharing-disabled:hover,
+.share-btn.sharing-disabled:active{
+  transform:none!important;
+  box-shadow:4px 4px 0 #aaa;
+}
+
+@media(max-width:600px){
+  .sharing-disabled-box{
+    padding:22px 16px;
+    border-left-width:6px;
+    box-shadow:7px 7px 0 rgba(36,36,42,.12);
+  }
+
+  .sharing-disabled-box .disabled-mark{
+    font-size:17px;
+  }
+
+  .sharing-disabled-box .disabled-mark span{
+    width:25px;
+    height:25px;
+    font-size:14px;
+  }
+}
+
+
+/* =========================================
    お知らせ
 ========================================= */
 
@@ -1364,6 +1479,24 @@ main{
   </section>
 
 
+  <div
+    class="sharing-disabled-box"
+    id="sharingDisabledBox"
+    hidden
+    aria-live="polite"
+  >
+    <div class="disabled-mark">
+      <span>!</span>
+      長高祭開始までご利用いただけません
+    </div>
+
+    <p>
+      現在、混雑情報の共有を一時停止しています。<br>
+      混雑状況の閲覧は引き続きご利用いただけます。
+    </p>
+  </div>
+
+
   <div class="notice-box">
 
     <strong>
@@ -1779,6 +1912,11 @@ const categoryFilters =
 const backToTop =
   document.getElementById("backToTop");
 
+const sharingDisabledBox =
+  document.getElementById(
+    "sharingDisabledBox"
+  );
+
 
 /* =========================================
    状態
@@ -1800,6 +1938,17 @@ let floorFilter =
 
 let keywordFilter =
   "";
+
+/*
+  管理画面から変更された公開設定。
+  サーバー側でも投稿を拒否するため、
+  クライアント側だけを無効化しているわけではありません。
+*/
+let crowdSharingEnabled =
+  true;
+
+let hiddenCrowdIds =
+  new Set();
 
 
 /* =========================================
@@ -2920,6 +3069,8 @@ async function loadEvents(){
       otherEvents;
 
 
+    await loadCrowdSettings();
+
     setupCategoryFilters();
 
     await loadCrowdStatus();
@@ -2948,6 +3099,97 @@ async function loadEvents(){
       </div>
 
     `;
+
+  }
+
+}
+
+
+/* =========================================
+   公開設定を取得
+========================================= */
+
+async function loadCrowdSettings(){
+
+  if(!API_URL){
+    return;
+  }
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "/api/crowd/settings",
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "公開設定の取得に失敗しました"
+      );
+    }
+
+    const settings =
+      await response.json();
+
+    crowdSharingEnabled =
+      settings &&
+      settings.sharingEnabled !== false;
+
+    hiddenCrowdIds =
+      new Set(
+        Array.isArray(
+          settings?.hiddenIds
+        )
+          ? settings.hiddenIds
+              .map(
+                id => String(id)
+              )
+          : []
+      );
+
+    updateSharingUI();
+
+  }
+  catch(error){
+
+    console.warn(
+      "公開設定の取得に失敗しました",
+      error
+    );
+
+    /*
+      設定取得に失敗した場合は、
+      既存ページとの互換性を優先して
+      通常表示を維持します。
+    */
+
+    crowdSharingEnabled =
+      true;
+
+    hiddenCrowdIds =
+      new Set();
+
+    updateSharingUI();
+
+  }
+
+}
+
+
+/* =========================================
+   共有機能UI更新
+========================================= */
+
+function updateSharingUI(){
+
+  if(sharingDisabledBox){
+
+    sharingDisabledBox.hidden =
+      crowdSharingEnabled;
 
   }
 
@@ -3813,17 +4055,24 @@ function renderEvents(){
 
 
           <button
-            class="share-btn"
+            class="share-btn ${
+              !crowdSharingEnabled
+                ? "sharing-disabled"
+                : ""
+            }"
             type="button"
             ${
-              remainingPostTime > 0
+              remainingPostTime > 0 ||
+              !crowdSharingEnabled
                 ? "disabled"
                 : ""
             }
           >
 
             ${escapeHtml(
-              buttonText
+              !crowdSharingEnabled
+                ? "長高祭開始まで共有できません"
+                : buttonText
             )}
 
           </button>
@@ -3844,6 +4093,16 @@ function renderEvents(){
         shareButton.addEventListener(
           "click",
           () => {
+
+            if(!crowdSharingEnabled){
+
+              showToast(
+                "長高祭開始まで混雑情報の共有はご利用いただけません"
+              );
+
+              return;
+
+            }
 
             if(
               getRemainingPostTime(event) > 0
@@ -4144,6 +4403,16 @@ document
 
 function openShareModal(event){
 
+  if(!crowdSharingEnabled){
+
+    showToast(
+      "長高祭開始まで混雑情報の共有はご利用いただけません"
+    );
+
+    return;
+
+  }
+
   const remaining =
     getRemainingPostTime(
       event
@@ -4322,6 +4591,18 @@ modalOverlay.addEventListener(
 submitBtn.addEventListener(
   "click",
   async () => {
+
+    if(!crowdSharingEnabled){
+
+      closeShareModal();
+
+      showToast(
+        "長高祭開始まで混雑情報の共有はご利用いただけません"
+      );
+
+      return;
+
+    }
 
     if(
       !selectedEvent ||
@@ -4710,6 +4991,8 @@ setInterval(
     if(!API_URL){
       return;
     }
+
+    await loadCrowdSettings();
 
     await loadCrowdStatus();
 
