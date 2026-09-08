@@ -507,114 +507,6 @@ body {
 }
 
 /* =========================================
-   混雑表示コントロール
-========================================= */
-
-.crowd-toggle-button {
-  appearance: none;
-  border: 2px solid rgba(36,36,42,.12);
-  background: #fff;
-  color: #555;
-  padding: 8px 13px;
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 rgba(0,0,0,.09);
-  -webkit-tap-highlight-color: transparent;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
-}
-
-.crowd-toggle-button:hover {
-  transform: translate(-1px,-1px);
-  box-shadow: 6px 6px 0 rgba(0,0,0,.09);
-}
-
-.crowd-toggle-button:active {
-  transform: translate(2px,2px);
-  box-shadow: 2px 2px 0 rgba(0,0,0,.09);
-  opacity: 1;
-}
-
-.crowd-toggle-button.off {
-  background: #f1f1ef;
-  color: #777;
-}
-
-.crowd-toggle-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: #4f9d69;
-  vertical-align: 1px;
-}
-
-.crowd-toggle-button.off .crowd-toggle-dot {
-  background: #aaa;
-}
-
-.crowd-legend {
-  position: absolute;
-  top: calc(100% + 7px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 7px 10px;
-  border: 1px solid rgba(36,36,42,.10);
-  border-radius: 0;
-  background: rgba(255,255,255,.92);
-  box-shadow: 4px 4px 0 rgba(0,0,0,.07);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  z-index: 60;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.crowd-legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #333;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.crowd-legend-unknown {
-  gap: 0;
-}
-
-.crowd-legend-color {
-  display: inline-block;
-  width: 13px;
-  height: 13px;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.crowd-legend-color.empty {
-  background: rgba(79,157,105,.48);
-  border: 1px solid rgba(79,157,105,.70);
-}
-
-.crowd-legend-color.normal {
-  background: rgba(215,168,61,.48);
-  border: 1px solid rgba(215,168,61,.70);
-}
-
-.crowd-legend-color.crowded {
-  background: rgba(212,91,88,.48);
-  border: 1px solid rgba(212,91,88,.70);
-}
-/* =========================================
    左右ボタン
 ========================================= */
 
@@ -1080,28 +972,6 @@ body {
     padding: 7px 9px;
 
     border-radius: 0;
-  }
-
-  .crowd-toggle-button {
-    font-size: 11px;
-    padding: 7px 8px;
-  }
-
-  .crowd-legend {
-    top: calc(100% + 6px);
-    max-width: 96vw;
-    gap: 5px;
-    padding: 6px 7px;
-  }
-
-  .crowd-legend-item {
-    font-size: 9px;
-    gap: 3px;
-  }
-
-  .crowd-legend-color {
-    width: 10px;
-    height: 10px;
   }
 
 
@@ -1575,34 +1445,118 @@ body {
 
 
 /* =========================================
-   1棟 混雑状況表示
-   ※2棟の混雑表示コードはここには入れない
+   階別 混雑状況一覧
+   ※2棟と同じデザイン
 ========================================= */
 
-.map-hotspot.crowd-empty {
-  background: rgba(79,157,105,0.38) !important;
-  border: 2px solid rgba(79,157,105,0.68) !important;
+.crowd-status-panel {
+  width: min(94%, 760px);
+  margin: 10px auto 40px;
+  padding: 0;
+  box-sizing: border-box;
+  background: transparent;
+}
+.crowd-status-title {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  text-align: left;
+  color: #24242a;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .05em;
+  border-left: 5px solid #d92a21;
+  background: rgba(255,255,255,.82);
+  box-shadow: 3px 3px 0 rgba(0,0,0,.06);
+}
+.crowd-status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0 0 10px;
+  padding: 0 2px;
+  color: #55555c;
+  font-size: 11px;
+  font-weight: 700;
+}
+.crowd-status-legend-item { display:flex; align-items:center; gap:6px; white-space:nowrap; }
+.crowd-status-legend-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.crowd-status-legend-dot.empty { background:rgba(79,157,105,.72); }
+.crowd-status-legend-dot.normal { background:rgba(215,168,61,.78); }
+.crowd-status-legend-dot.crowded { background:rgba(212,91,88,.78); }
+.crowd-status-list {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px 9px;
+}
+.crowd-status-item {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:52px;
+  padding:8px 10px 8px 15px;
+  box-sizing:border-box;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(36,36,42,.10);
+  border-left:6px solid rgba(120,120,120,.28);
+  box-shadow:2px 2px 0 rgba(0,0,0,.045);
+  overflow:hidden;
+}
+.crowd-status-item::after {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  opacity:.95;
+}
+.crowd-status-name { min-width:0; color:#29292f; font-size:12px; font-weight:900; line-height:1.4; }
+.crowd-status-badge {
+  position:relative;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-width:76px;
+  justify-content:center;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.03em;
+  white-space:nowrap;
+}
+.crowd-status-badge::before {
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 0 2px rgba(255,255,255,.65);
+}
+.crowd-status-item:has(.crowd-status-badge.empty)::after { background:#4f9d69; }
+.crowd-status-item:has(.crowd-status-badge.normal)::after { background:#d7a83d; }
+.crowd-status-item:has(.crowd-status-badge.crowded)::after { background:#d45b58; }
+.crowd-status-item:has(.crowd-status-badge.unknown)::after { background:#999; }
+.crowd-status-badge.empty { color:#356f49; background:rgba(79,157,105,.20); border:1px solid rgba(79,157,105,.45); }
+.crowd-status-badge.normal { color:#80631b; background:rgba(215,168,61,.23); border:1px solid rgba(215,168,61,.48); }
+.crowd-status-badge.crowded { color:#9a3f3b; background:rgba(212,91,88,.22); border:1px solid rgba(212,91,88,.48); }
+.crowd-status-badge.unknown { color:#666; background:rgba(100,100,100,.10); border:1px solid rgba(100,100,100,.22); }
+.crowd-status-empty-message { padding:14px; background:rgba(255,255,255,.78); color:#666; text-align:center; font-size:11px; font-weight:700; }
+@media (max-width:600px) {
+  .crowd-status-panel { width:calc(100% - 20px); margin:4px auto 28px; }
+  .crowd-status-title { margin-bottom:9px; padding:8px 11px; font-size:15px; border-left-width:4px; }
+  .crowd-status-legend { gap:6px 11px; margin-bottom:8px; font-size:9px; }
+  .crowd-status-list { grid-template-columns:1fr; gap:5px; }
+  .crowd-status-item { min-height:47px; padding:7px 8px 7px 14px; border-left-width:5px; }
+  .crowd-status-item::after { width:5px; }
+  .crowd-status-name { font-size:11px; }
+  .crowd-status-badge { min-width:72px; padding:5px 7px; font-size:8px; }
+  .crowd-status-badge::before { width:6px; height:6px; }
 }
 
-.map-hotspot.crowd-normal {
-  background: rgba(215,168,61,0.38) !important;
-  border: 2px solid rgba(215,168,61,0.68) !important;
-}
-
-.map-hotspot.crowd-crowded {
-  background: rgba(212,91,88,0.38) !important;
-  border: 2px solid rgba(212,91,88,0.68) !important;
-}
-
-.map-hotspot.crowd-unknown {
-  background: transparent !important;
-  border: 2px solid transparent !important;
-}
-
-.map-hotspot.crowd-disabled {
-  background: transparent !important;
-  border: 2px solid transparent !important;
-}
 
 /* =========================================
    場所詳細モーダル
@@ -1630,88 +1584,6 @@ body {
   background: transparent;
 }
 
-</style>
-
-
-
-<style id="top-controls-responsive-fix">
-/* =========================================
-   上部3ボタン：画面幅に応じた固定レイアウト
-   ・折り返し禁止
-   ・画面幅に応じて縮小
-   ・ヘッダー直下の必要な余白だけ確保
-========================================= */
-.top-controls {
-  flex-wrap: nowrap !important;
-  width: max-content;
-  max-width: none;
-}
-
-.back-to-map,
-.help-button,
-.crowd-toggle-button {
-  flex: 0 0 auto !important;
-  white-space: nowrap !important;
-}
-
-@media (max-width: 600px) {
-  .top-controls {
-    top: 58px !important;
-    gap: 4px !important;
-    flex-wrap: nowrap !important;
-    width: max-content !important;
-    max-width: none !important;
-  }
-
-  .back-to-map,
-  .help-button {
-    font-size: clamp(10px, 2.8vw, 12px) !important;
-    padding: 6px clamp(6px, 2vw, 9px) !important;
-  }
-
-  .crowd-toggle-button {
-    font-size: clamp(9px, 2.6vw, 11px) !important;
-    padding: 6px clamp(6px, 1.8vw, 8px) !important;
-  }
-
-  /* ボタン＋凡例の下からマップを開始 */
-  .map-view {
-    padding-top: 126px !important;
-  }
-}
-
-@media (max-width: 360px) {
-  .top-controls {
-    top: 50px !important;
-    gap: 3px !important;
-  }
-
-  .back-to-map,
-  .help-button {
-    font-size: 10px !important;
-    padding: 5px 6px !important;
-  }
-
-  .crowd-toggle-button {
-    font-size: 9px !important;
-    padding: 5px 6px !important;
-  }
-
-  .map-view {
-    padding-top: 116px !important;
-  }
-}
-
-@media screen and (max-width: 900px) and (orientation: landscape) {
-  .top-controls {
-    top: 48px !important;
-    gap: 4px !important;
-  }
-
-  .map-view {
-    padding-top: 104px !important;
-  }
-}
 </style>
 
 </head>
@@ -1818,39 +1690,6 @@ fetch("header.html")
       </button>
 
 
-      <button
-        class="crowd-toggle-button"
-        id="crowdToggleButton"
-        type="button"
-        aria-pressed="true"
-      >
-        <span class="crowd-toggle-dot"></span>
-        混雑表示：ON
-      </button>
-
-
-      <div
-        class="crowd-legend"
-        id="crowdLegend"
-        aria-label="混雑状況の凡例"
-      >
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color empty"></i>
-          <span>比較的空いている</span>
-        </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color normal"></i>
-          <span>やや混雑している</span>
-        </span>
-        <span class="crowd-legend-item">
-          <i class="crowd-legend-color crowded"></i>
-          <span>混雑している</span>
-        </span>
-        <span class="crowd-legend-item crowd-legend-unknown">
-          <span>透明:情報なし</span>
-        </span>
-      </div>
-
     </div>
 
 
@@ -1945,6 +1784,49 @@ fetch("header.html")
   </div>
 
 </div>
+
+
+<!-- =========================================
+     階別 混雑状況一覧
+========================================= -->
+
+<section
+  class="crowd-status-panel"
+  id="crowdStatusPanel"
+  aria-label="この階の混雑状況"
+>
+
+  <h2
+    class="crowd-status-title"
+    id="crowdStatusTitle"
+  >
+    1棟 1階の混雑状況
+  </h2>
+
+  <div
+    class="crowd-status-legend"
+    aria-label="混雑状況の説明"
+  >
+    <span class="crowd-status-legend-item">
+      <i class="crowd-status-legend-dot empty"></i>
+      比較的空いている
+    </span>
+    <span class="crowd-status-legend-item">
+      <i class="crowd-status-legend-dot normal"></i>
+      やや混雑している
+    </span>
+    <span class="crowd-status-legend-item">
+      <i class="crowd-status-legend-dot crowded"></i>
+      混雑している
+    </span>
+  </div>
+
+  <div
+    class="crowd-status-list"
+    id="crowdStatusList"
+  ></div>
+
+</section>
 
 
 <!-- =========================================
@@ -2892,47 +2774,38 @@ window.addEventListener(
 
 <script>
 /* =========================================
-   1棟フロアマップ 混雑状況表示
+   1棟フロアマップ 混雑状況一覧
 
-   ★重要：企画IDと1棟の教室の対応は
-   このファイル内で完全固定しています。
-
-   events.html を検索して対応を推測する処理は行いません。
-   2棟の企画・教室は一切扱いません。
+   ・2棟と同じ一覧デザイン・表示方式
+   ・crowd.html と同じ /api/crowd を使用
+   ・15秒ごとに最新状態へ更新
+   ・現在表示している階の企画だけを一覧表示
+   ・マップ画像上への透過色表示は使用しない
+   ・モーダルには混雑状況を表示しない
 ========================================= */
 (() => {
 
-  const API_URL = "https://chosei-fes.onrender.com/api/crowd";
+  const API_URL =
+    "https://chosei-fes.onrender.com/api/crowd";
+
   const REFRESH_MS = 15000;
-  const STORAGE_KEY = "choko_crowd_map_visible_v3";
 
-  let crowdEnabled = true;
-  let requestController = null;
+  let crowdRequestInFlight = false;
 
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "false") {
-      crowdEnabled = false;
-    }
-  } catch (_) {}
+  const floorStatusList =
+    document.getElementById("crowdStatusList");
+
+  const floorStatusTitle =
+    document.getElementById("crowdStatusTitle");
 
   /* =========================================
-     1棟：企画ID → マップの対応を完全固定
+     1棟 企画ID → ホットスポット
+     既存の1棟マップ対応をそのまま使用
+  ========================================= */
 
-     左側：crowd API に送られる企画ID
-     右側：1棟マップ上の .map-hotspot の data-modal-type
-
-     1Eはマップ上にクリック範囲が2か所ありますが、
-     どちらも同じ企画ID「1e」を使用します。
-
-     special-support は混雑状況の企画IDではないため除外。
-     ========================================= */
   const FIXED_CROWD_MAP = Object.freeze({
-
-    /* 1棟1階 */
     "1d": ["ten-yen-bread"],
 
-    /* 1棟2階 */
     "2e": ["room-2e"],
     "3g": ["room-3g"],
     "1a": ["room-1a"],
@@ -2942,17 +2815,15 @@ window.addEventListener(
     "3d": ["room-3d"],
     "jrc": ["room-jrc"],
 
-    /* 1棟3階 */
     "1c": ["room-1c"],
     "2f": ["room-2f"],
     "1f": ["room-1f"],
     "ssh": ["room-ssh"],
     "3e": ["room-3e"],
     "3f": ["room-3f"],
-    "1e": ["room-1e"],
+    "1e": ["room-1e", "room-1e-second", "room-1e-right"],
     "3b": ["room-3b"],
 
-    /* 1棟4階 */
     "shodo": ["room-shodo"],
     "3c": ["room-3c"],
     "1g": ["room-1g"],
@@ -2964,13 +2835,10 @@ window.addEventListener(
     "bungei": ["room-bungei"]
   });
 
-  /* =========================================
-     逆引きも固定生成
-     ========================================= */
   const HOTSPOT_TO_CROWD_ID = Object.freeze(
     Object.entries(FIXED_CROWD_MAP).reduce(
-      (result, [crowdId, hotspots]) => {
-        hotspots.forEach(hotspotId => {
+      (result, [crowdId, hotspotIds]) => {
+        hotspotIds.forEach(hotspotId => {
           result[hotspotId] = crowdId;
         });
         return result;
@@ -2979,54 +2847,111 @@ window.addEventListener(
     )
   );
 
-  /* =========================================
-     ステータス正規化
-     ========================================= */
+  const CROWD_ID_ALIASES = Object.freeze({
+    "1d": ["1d"],
+    "2e": ["2e"],
+    "3g": ["3g"],
+    "1a": ["1a"],
+    "2a": ["2a"],
+    "3a": ["3a"],
+    "2d": ["2d"],
+    "3d": ["3d"],
+    "jrc": ["jrc"],
+    "1c": ["1c"],
+    "2f": ["2f"],
+    "1f": ["1f"],
+    "ssh": ["ssh"],
+    "3e": ["3e"],
+    "3f": ["3f"],
+    "1e": ["1e"],
+    "3b": ["3b"],
+    "shodo": ["shodo"],
+    "3c": ["3c"],
+    "1g": ["1g"],
+    "2g": ["2g"],
+    "ess": ["ess"],
+    "2b": ["2b"],
+    "1b": ["1b"],
+    "2c": ["2c"],
+    "bungei": ["bungei"]
+  });
+
+  const STATUS_INFO = Object.freeze({
+    empty: {
+      text: "比較的空いている",
+      className: "empty"
+    },
+    normal: {
+      text: "やや混雑している",
+      className: "normal"
+    },
+    crowded: {
+      text: "混雑している",
+      className: "crowded"
+    },
+    unknown: {
+      text: "情報なし",
+      className: "unknown"
+    }
+  });
+
+  function normalizeId(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[\s_]+/g, "-");
+  }
+
   function normalizeStatus(value) {
-    const status = String(value ?? "")
+    const valueText = String(value || "")
       .trim()
       .toLowerCase();
 
     if ([
-      "empty",
-      "low",
-      "free",
-      "空",
-      "空いている",
+      "empty", "low", "free",
+      "空", "空き", "空いている", "空いています",
       "比較的空いている"
-    ].includes(status)) {
+    ].includes(valueText)) {
       return "empty";
     }
 
     if ([
-      "normal",
-      "medium",
-      "moderate",
-      "普通",
-      "やや混雑",
-      "やや混雑している"
-    ].includes(status)) {
+      "normal", "medium", "moderate",
+      "普通", "やや混雑", "やや混雑している"
+    ].includes(valueText)) {
       return "normal";
     }
 
     if ([
-      "crowded",
-      "high",
-      "busy",
-      "混雑",
-      "混雑している"
-    ].includes(status)) {
+      "crowded", "high", "busy",
+      "混雑", "混雑している", "非常に混雑"
+    ].includes(valueText)) {
       return "crowded";
     }
 
     return "unknown";
   }
 
-  /* =========================================
-     APIレコードから状態を取得
-     ========================================= */
+  function scoreToStatus(score) {
+    const number = Number(score);
+
+    if (!Number.isFinite(number)) {
+      return "unknown";
+    }
+
+    if (number < 34) {
+      return "empty";
+    }
+
+    if (number < 67) {
+      return "normal";
+    }
+
+    return "crowded";
+  }
+
   function getStatus(record) {
-    if (record === null || record === undefined) {
+    if (record == null) {
       return "unknown";
     }
 
@@ -3038,60 +2963,40 @@ window.addEventListener(
       return "unknown";
     }
 
-    const directStatus = normalizeStatus(
+    const directStatus =
       record.status ??
       record.crowdStatus ??
       record.crowd_status ??
       record.state ??
-      record.level
-    );
+      record.level;
 
-    if (directStatus !== "unknown") {
-      return directStatus;
+    const normalized = normalizeStatus(directStatus);
+
+    if (normalized !== "unknown") {
+      return normalized;
     }
 
-    /* server.js が score を返す場合の保険 */
-    const score = Number(record.score);
-
-    if (Number.isFinite(score)) {
-      if (score < 34) {
-        return "empty";
-      }
-
-      if (score < 67) {
-        return "normal";
-      }
-
-      return "crowded";
+    if (record.score != null) {
+      return scoreToStatus(record.score);
     }
 
     return "unknown";
   }
 
-  /* =========================================
-     APIレスポンスから企画IDのレコードを取得
-
-     server.js の現在の形式：
-       {
-         "1a": { status: "normal", ... },
-         "2e": { status: "crowded", ... }
-       }
-     ========================================= */
   function getApiRecord(crowdData, targetId) {
-    const id = String(targetId ?? "")
-      .trim()
-      .toLowerCase();
+    const wanted = normalizeId(targetId);
 
-    if (!crowdData || !id) {
+    if (!crowdData || !wanted) {
       return null;
     }
 
     const containers = [
       crowdData,
-      crowdData?.data,
-      crowdData?.events,
-      crowdData?.crowd,
-      crowdData?.results
+      crowdData.data,
+      crowdData.events,
+      crowdData.crowd,
+      crowdData.results,
+      crowdData.crowdData
     ];
 
     for (const container of containers) {
@@ -3100,61 +3005,39 @@ window.addEventListener(
       }
 
       if (Array.isArray(container)) {
-        const found = container.find(item => {
+        for (const item of container) {
           if (!item || typeof item !== "object") {
-            return false;
+            continue;
           }
 
-          const itemId = String(
-            item.id ??
-            item.eventId ??
-            item.event_id ??
-            item.modalId ??
-            item.modal_id ??
-            item.key ??
-            ""
-          )
-            .trim()
-            .toLowerCase();
+          const ids = [
+            item.id, item.eventId, item.event_id,
+            item.modalId, item.modal_id,
+            item.key, item.type
+          ];
 
-          return itemId === id;
-        });
-
-        if (found) {
-          return found;
+          if (ids.some(id => normalizeId(id) === wanted)) {
+            return item;
+          }
+        }
+      } else if (typeof container === "object") {
+        for (const key of Object.keys(container)) {
+          if (normalizeId(key) === wanted) {
+            const value = container[key];
+            if (value && typeof value === "object") {
+              return value;
+            }
+          }
         }
 
-        continue;
-      }
+        const directIds = [
+          container.id, container.eventId, container.event_id,
+          container.modalId, container.modal_id,
+          container.key, container.type
+        ];
 
-      if (typeof container === "object") {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            container,
-            targetId
-          )
-        ) {
-          return container[targetId];
-        }
-
-        if (
-          Object.prototype.hasOwnProperty.call(
-            container,
-            id
-          )
-        ) {
-          return container[id];
-        }
-
-        const key = Object.keys(container).find(
-          itemKey =>
-            String(itemKey)
-              .trim()
-              .toLowerCase() === id
-        );
-
-        if (key !== undefined) {
-          return container[key];
+        if (directIds.some(id => normalizeId(id) === wanted)) {
+          return container;
         }
       }
     }
@@ -3162,364 +3045,250 @@ window.addEventListener(
     return null;
   }
 
-  /* =========================================
-     色を適用
+  function findRecordForCrowdId(crowdData, crowdId) {
+    const candidates =
+      CROWD_ID_ALIASES[crowdId] || [crowdId];
 
-     map-hotspot自身に直接色を付けます。
-     ========================================= */
-  function applyColor(hotspot, status) {
-    const safeStatus = normalizeStatus(status);
+    for (const candidate of candidates) {
+      const record = getApiRecord(crowdData, candidate);
 
-    hotspot.dataset.crowdStatus = safeStatus;
+      if (record !== null) {
+        return record;
+      }
+    }
 
-    hotspot.classList.remove(
-      "crowd-empty",
-      "crowd-normal",
-      "crowd-crowded",
-      "crowd-unknown",
-      "crowd-disabled"
+    return null;
+  }
+
+  function getCurrentFloor() {
+    const visible = document.querySelector(
+      ".map-hotspot:not([hidden])"
     );
 
-    if (!crowdEnabled) {
-      hotspot.classList.add("crowd-disabled");
-
-      hotspot.style.setProperty(
-        "background",
-        "transparent",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border-color",
-        "transparent",
-        "important"
-      );
-
-      return;
+    if (!visible) {
+      return 0;
     }
 
-    if (safeStatus === "empty") {
-      hotspot.classList.add("crowd-empty");
-
-      hotspot.style.setProperty(
-        "background",
-        "rgba(79,157,105,0.38)",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(79,157,105,0.68)",
-        "important"
-      );
-
-      return;
+    for (let floor = 1; floor <= 4; floor++) {
+      if (visible.classList.contains("floor-" + floor + "-hotspot")) {
+        return floor - 1;
+      }
     }
 
-    if (safeStatus === "normal") {
-      hotspot.classList.add("crowd-normal");
+    return 0;
+  }
 
-      hotspot.style.setProperty(
-        "background",
-        "rgba(215,168,61,0.38)",
-        "important"
-      );
+  function getFloorHotspots(currentFloor) {
+    const className =
+      "floor-" + (currentFloor + 1) + "-hotspot";
 
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(215,168,61,0.68)",
-        "important"
-      );
-
-      return;
-    }
-
-    if (safeStatus === "crowded") {
-      hotspot.classList.add("crowd-crowded");
-
-      hotspot.style.setProperty(
-        "background",
-        "rgba(212,91,88,0.38)",
-        "important"
-      );
-
-      hotspot.style.setProperty(
-        "border",
-        "2px solid rgba(212,91,88,0.68)",
-        "important"
-      );
-
-      return;
-    }
-
-    hotspot.classList.add("crowd-unknown");
-
-    hotspot.style.setProperty(
-      "background",
-      "transparent",
-      "important"
-    );
-
-    hotspot.style.setProperty(
-      "border-color",
-      "transparent",
-      "important"
+    return Array.from(
+      document.querySelectorAll(
+        ".map-hotspot." + className
+      )
     );
   }
 
-  /* =========================================
-     固定マッピングを全ホットスポットへ反映
-     ========================================= */
+  function renderStatusList() {
+    if (!floorStatusList) {
+      return;
+    }
+
+    const currentFloor = getCurrentFloor();
+    const rawHotspots = getFloorHotspots(currentFloor);
+
+    /* 同じ企画に複数のクリック範囲がある場合は1件にまとめる */
+    const seenCrowdIds = new Set();
+    const hotspots = rawHotspots.filter(hotspot => {
+      const hotspotClass =
+        Array.from(hotspot.classList).find(className =>
+          Object.prototype.hasOwnProperty.call(
+            HOTSPOT_TO_CROWD_ID,
+            className
+          )
+        );
+
+      const crowdId = hotspotClass
+        ? HOTSPOT_TO_CROWD_ID[hotspotClass]
+        : null;
+
+      if (!crowdId) {
+        return false;
+      }
+
+      if (seenCrowdIds.has(crowdId)) {
+        return false;
+      }
+
+      seenCrowdIds.add(crowdId);
+      return true;
+    });
+
+    if (floorStatusTitle) {
+      floorStatusTitle.textContent =
+        "1棟 " + (currentFloor + 1) + "階の混雑状況";
+    }
+
+    floorStatusList.innerHTML = "";
+
+    if (!hotspots.length) {
+      floorStatusList.innerHTML =
+        '<div class="crowd-status-empty-message">この階に混雑状況を表示する企画はありません。</div>';
+      return;
+    }
+
+    hotspots.forEach(hotspot => {
+      const hotspotClass =
+        Array.from(hotspot.classList).find(className =>
+          Object.prototype.hasOwnProperty.call(
+            HOTSPOT_TO_CROWD_ID,
+            className
+          )
+        );
+
+      const crowdId = hotspotClass
+        ? HOTSPOT_TO_CROWD_ID[hotspotClass]
+        : null;
+
+      const status = normalizeStatus(
+        hotspot.dataset.crowdStatus || "unknown"
+      );
+
+      const info = STATUS_INFO[status] || STATUS_INFO.unknown;
+
+      const title =
+        hotspot.getAttribute("title") ||
+        hotspot.getAttribute("aria-label") ||
+        "企画";
+
+      const item = document.createElement("div");
+      item.className = "crowd-status-item";
+
+      item.innerHTML =
+        '<div class="crowd-status-name"></div>' +
+        '<div class="crowd-status-badge"></div>';
+
+      item.querySelector(".crowd-status-name").textContent = title;
+
+      const badge = item.querySelector(".crowd-status-badge");
+      badge.className =
+        "crowd-status-badge " + info.className;
+      badge.textContent = info.text;
+
+      if (crowdId) {
+        item.dataset.crowdId = crowdId;
+      }
+
+      floorStatusList.appendChild(item);
+    });
+  }
+
   function applyCrowdData(crowdData) {
     const hotspots = Array.from(
       document.querySelectorAll(".map-hotspot")
     );
 
-    let matchedCount = 0;
-
     hotspots.forEach(hotspot => {
-      const hotspotId = String(
-        hotspot.dataset.modalType ?? ""
-      )
-        .trim()
-        .toLowerCase();
+      const hotspotClass =
+        Array.from(hotspot.classList).find(className =>
+          Object.prototype.hasOwnProperty.call(
+            HOTSPOT_TO_CROWD_ID,
+            className
+          )
+        );
 
-      /*
-        完全固定された対応表以外は
-        APIを絶対に参照しません。
-      */
-      const crowdId =
-        HOTSPOT_TO_CROWD_ID[hotspotId] ?? "";
+      const crowdId = hotspotClass
+        ? HOTSPOT_TO_CROWD_ID[hotspotClass]
+        : null;
 
-      if (!crowdId) {
-        applyColor(hotspot, "unknown");
-        return;
-      }
+      const record = crowdId
+        ? findRecordForCrowdId(crowdData, crowdId)
+        : null;
 
-      const record = getApiRecord(
-        crowdData,
-        crowdId
-      );
-
-      if (record !== null) {
-        matchedCount++;
-      }
-
-      const status = getStatus(record);
-
-      applyColor(
-        hotspot,
-        status
-      );
-
-      console.log(
-        "1棟固定混雑対応",
-        {
-          mapHotspot: hotspotId,
-          crowdId,
-          status,
-          matched: record !== null
-        }
-      );
+      hotspot.dataset.crowdStatus = getStatus(record);
     });
 
-    console.log(
-      "1棟：固定マッピングによる混雑情報反映",
-      matchedCount + "/" + Object.keys(HOTSPOT_TO_CROWD_ID).length
-    );
+    renderStatusList();
   }
 
-  /* =========================================
-     ON/OFFボタン
-     ========================================= */
-  function updateToggleButton() {
-    const button =
-      document.getElementById(
-        "crowdToggleButton"
-      );
-
-    if (!button) {
-      return;
-    }
-
-    button.classList.toggle(
-      "off",
-      !crowdEnabled
-    );
-
-    button.setAttribute(
-      "aria-pressed",
-      String(crowdEnabled)
-    );
-
-    button.innerHTML =
-      '<span class="crowd-toggle-dot"></span>' +
-      (
-        crowdEnabled
-          ? "混雑表示：ON"
-          : "混雑表示：OFF"
-      );
-  }
-
-  function setupToggle() {
-    const button =
-      document.getElementById(
-        "crowdToggleButton"
-      );
-
-    if (!button) {
-      return;
-    }
-
-    if (
-      button.dataset.crowdReady ===
-      "true"
-    ) {
-      updateToggleButton();
-      return;
-    }
-
-    button.dataset.crowdReady = "true";
-
-    button.addEventListener(
-      "click",
-      event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        crowdEnabled = !crowdEnabled;
-
-        try {
-          localStorage.setItem(
-            STORAGE_KEY,
-            String(crowdEnabled)
-          );
-        } catch (_) {}
-
-        document
-          .querySelectorAll(".map-hotspot")
-          .forEach(hotspot => {
-            applyColor(
-              hotspot,
-              hotspot.dataset.crowdStatus ||
-              "unknown"
-            );
-          });
-
-        updateToggleButton();
-      }
-    );
-
-    updateToggleButton();
-  }
-
-  /* =========================================
-     API取得
-     ========================================= */
   async function loadCrowd() {
-    if (requestController) {
-      try {
-        requestController.abort();
-      } catch (_) {}
+    if (crowdRequestInFlight) {
+      return;
     }
 
-    requestController =
-      new AbortController();
+    crowdRequestInFlight = true;
 
     try {
-      const response =
-        await fetch(
-          API_URL + "?_=" + Date.now(),
-          {
-            method: "GET",
-            cache: "no-store",
-            signal: requestController.signal,
-            headers: {
-              "Accept": "application/json",
-              "Cache-Control": "no-cache"
-            }
+      const response = await fetch(
+        API_URL + "?_=" + Date.now(),
+        {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "Accept": "application/json",
+            "Cache-Control": "no-cache"
           }
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          "HTTP " + response.status
-        );
-      }
-
-      const data =
-        await response.json();
-
-      console.log(
-        "1棟：取得した混雑API",
-        data
+        }
       );
 
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+
+      const data = await response.json();
       applyCrowdData(data);
 
     } catch (error) {
-      if (
-        error &&
-        error.name === "AbortError"
-      ) {
-        return;
-      }
-
       console.error(
         "1棟：混雑情報取得失敗",
         error
       );
+
+      renderStatusList();
+
+    } finally {
+      crowdRequestInFlight = false;
     }
   }
 
-  /* =========================================
-     初期化
-     ========================================= */
-  function init() {
-    setupToggle();
+  let lastVisibleFloor = null;
 
-    /* 初期状態は透明 */
+  function watchFloor() {
+    const floor = getCurrentFloor();
+
+    if (floor !== lastVisibleFloor) {
+      lastVisibleFloor = floor;
+      renderStatusList();
+    }
+  }
+
+  function init() {
     document
       .querySelectorAll(".map-hotspot")
       .forEach(hotspot => {
         hotspot.dataset.crowdStatus =
-          "unknown";
-
-        applyColor(
-          hotspot,
-          "unknown"
-        );
+          hotspot.dataset.crowdStatus || "unknown";
       });
 
+    renderStatusList();
     loadCrowd();
 
-    setInterval(
-      loadCrowd,
-      REFRESH_MS
-    );
+    setInterval(loadCrowd, REFRESH_MS);
+    setInterval(watchFloor, 100);
 
     document.addEventListener(
       "visibilitychange",
       () => {
-        if (
-          document.visibilityState ===
-          "visible"
-        ) {
+        if (document.visibilityState === "visible") {
           loadCrowd();
         }
       }
     );
 
-    window.addEventListener(
-      "online",
-      loadCrowd
-    );
+    window.addEventListener("online", loadCrowd);
   }
 
-  if (
-    document.readyState ===
-    "loading"
-  ) {
+  if (document.readyState === "loading") {
     document.addEventListener(
       "DOMContentLoaded",
       init,
