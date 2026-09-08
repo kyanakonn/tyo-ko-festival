@@ -901,7 +901,8 @@ body {
     width: 100%;
     max-width: 100%;
 
-    min-height: calc(100vh - 50px);
+    /* 画面の高さで一覧が下へ押し出されないようにする */
+    min-height: 0;
 
     overflow: visible;
   }
