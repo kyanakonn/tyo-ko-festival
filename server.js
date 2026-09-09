@@ -76,6 +76,34 @@ let crowdData = {};
 
 
 /*
+  全体共有制限
+
+  10分間に最大5回まで。
+  サーバー側で管理するため、利用者ごとではなく
+  サイト全体で共有回数を制限します。
+*/
+const GLOBAL_SHARE_LIMIT = 5;
+const GLOBAL_SHARE_WINDOW_MS = 10 * 60 * 1000;
+
+
+/*
+  混雑情報の時間減衰
+
+  30分で影響力が半分になります。
+  古い投票ほど score / confidence への影響が
+  少なくなり、最終的には情報なしへ近づきます。
+*/
+const CROWD_DECAY_HALF_LIFE_MS = 30 * 60 * 1000;
+
+
+/*
+  全体共有履歴
+  各要素は共有された時刻(ms)だけを保持します。
+*/
+const globalShareHistory = [];
+
+
+/*
   管理画面から非表示にしたカードのID
 */
 const hiddenCrowdIds = new Set();
@@ -167,7 +195,7 @@ function requireAdmin(
    混雑状況計算
 ========================================= */
 
-function calculateCrowdStatus(data) {
+function calculateCrowdStatus(data, now = Date.now()) {
 
   if (!data) {
     return {
@@ -182,196 +210,299 @@ function calculateCrowdStatus(data) {
 
 
   /*
-    statusがすでに保存されている場合
-    それを優先して使用する
+    新方式では、各共有を votes 配列に保存し、
+    共有からの経過時間に応じて重みを指数的に減衰させます。
+
+    半減期30分：
+      0分   → 100%
+      30分  → 50%
+      60分  → 25%
+      90分  → 12.5%
+  */
+  let votes =
+    Array.isArray(data.votes)
+      ? data.votes
+      : [];
+
+
+  /*
+    旧方式で保存されたデータにも時間減衰を適用するため、
+    updatedAt と status から仮想的な1票へ変換します。
+  */
+  if (votes.length === 0 && data.updatedAt) {
+
+    const legacyTimestamp =
+      new Date(data.updatedAt).getTime();
+
+    if (Number.isFinite(legacyTimestamp)) {
+      votes = [{
+        status:
+          typeof data.status === "string"
+            ? data.status
+            : "unknown",
+        timestamp: legacyTimestamp,
+      }];
+    }
+  }
+
+
+  if (votes.length > 0) {
+
+    let weightedScoreSum = 0;
+    let effectiveVotes = 0;
+
+
+    for (const vote of votes) {
+
+      if (!vote || !vote.timestamp) {
+        continue;
+      }
+
+      const timestamp =
+        Number(vote.timestamp);
+
+      if (!Number.isFinite(timestamp)) {
+        continue;
+      }
+
+      const age =
+        Math.max(0, now - timestamp);
+
+      const weight =
+        Math.pow(
+          0.5,
+          age / CROWD_DECAY_HALF_LIFE_MS
+        );
+
+      const voteScore =
+        getScoreFromStatus(vote.status);
+
+      if (voteScore === null) {
+        continue;
+      }
+
+      effectiveVotes += weight;
+      weightedScoreSum +=
+        voteScore * weight;
+    }
+
+
+    const voteCount =
+      votes.length;
+
+
+    if (effectiveVotes <= 0.01) {
+      return {
+        status: "unknown",
+        label: "情報なし",
+        score: null,
+        confidence: 0,
+        voteCount,
+        effectiveVotes: 0,
+      };
+    }
+
+
+    const weightedAverage =
+      weightedScoreSum /
+      effectiveVotes;
+
+
+    /*
+      effectiveVotes が1未満になるほど
+      混雑度を「50 = 中立」へ戻します。
+      これにより score 自体も時間経過で影響を失います。
+    */
+    const scoreInfluence =
+      Math.min(1, effectiveVotes);
+
+    const score =
+      50 +
+      (weightedAverage - 50) *
+        scoreInfluence;
+
+
+    /*
+      信頼度も有効投票数から算出し、
+      古い投票が減衰すると自動的に下がります。
+    */
+    const confidence =
+      100 *
+      (1 - Math.exp(-effectiveVotes / 3));
+
+
+    let status = "unknown";
+    let label = "情報なし";
+
+
+    if (score >= 80) {
+      status = "very-crowded";
+      label = "かなり混雑";
+    } else if (score >= 60) {
+      status = "crowded";
+      label = "混雑";
+    } else if (score >= 30) {
+      status = "normal";
+      label = "やや混雑";
+    } else {
+      status = "empty";
+      label = "空いています";
+    }
+
+
+    /*
+      情報の影響が十分小さくなったら、
+      「情報なし」に戻します。
+    */
+    if (effectiveVotes < 0.10) {
+      status = "unknown";
+      label = "情報なし";
+    }
+
+
+    return {
+      status,
+      label,
+      score: Math.max(0, Math.min(100, Math.round(score))),
+      confidence: Math.max(
+        0,
+        Math.min(100, Math.round(confidence))
+      ),
+      voteCount,
+      effectiveVotes: Number(
+        effectiveVotes.toFixed(3)
+      ),
+    };
+  }
+
+
+  /*
+    旧データとの互換性。
+    votes が存在しない既存データは、
+    そのデータを即座に壊さず従来値を表示します。
+    新しく共有された時点で新方式へ移行します。
   */
   const savedStatus =
     typeof data.status === "string"
       ? data.status
       : "";
 
+  const scoreNumber = Number(data.score);
+  const confidenceNumber = Number(data.confidence);
+  const voteCountNumber = Number(data.voteCount);
+  const effectiveVotesNumber = Number(data.effectiveVotes);
 
-  const scoreNumber =
-    Number(data.score);
+  const score = Number.isFinite(scoreNumber)
+    ? Math.max(0, Math.min(100, scoreNumber))
+    : null;
 
+  const confidence = Number.isFinite(confidenceNumber)
+    ? Math.max(0, Math.min(100, confidenceNumber))
+    : null;
 
-  const confidenceNumber =
-    Number(data.confidence);
+  const voteCount = Number.isFinite(voteCountNumber)
+    ? Math.max(0, voteCountNumber)
+    : 0;
 
+  const effectiveVotes = Number.isFinite(effectiveVotesNumber)
+    ? Math.max(0, effectiveVotesNumber)
+    : voteCount;
 
-  const voteCountNumber =
-    Number(data.voteCount);
-
-
-  const effectiveVotesNumber =
-    Number(data.effectiveVotes);
-
-
-  const score =
-    Number.isFinite(scoreNumber)
-      ? scoreNumber
-      : null;
-
-
-  const confidence =
-    Number.isFinite(
-      confidenceNumber
-    )
-      ? confidenceNumber
-      : null;
-
-
-  const voteCount =
-    Number.isFinite(
-      voteCountNumber
-    )
-      ? voteCountNumber
-      : 0;
-
-
-  const effectiveVotes =
-    Number.isFinite(
-      effectiveVotesNumber
-    )
-      ? effectiveVotesNumber
-      : 0;
-
-
-  /*
-    statusが保存されている場合
-  */
-  if (savedStatus) {
-
-    let label =
-      "情報なし";
-
-
-    switch (
-      savedStatus
-    ) {
-
-      case "empty":
-        label =
-          "空いています";
-        break;
-
-      case "normal":
-        label =
-          "やや混雑";
-        break;
-
-      case "crowded":
-        label =
-          "混雑";
-        break;
-
-      case "very-crowded":
-        label =
-          "かなり混雑";
-        break;
-
-      case "unknown":
-      default:
-        label =
-          "情報なし";
-        break;
-    }
-
-
-    return {
-      status:
-        savedStatus,
-
-      label,
-
-      score,
-
-      confidence,
-
-      voteCount,
-
-      effectiveVotes,
-    };
-  }
-
-
-  /*
-    statusがない古いデータなどの場合
-    scoreから自動判定
-  */
-  if (
-    score === null
-  ) {
+  if (!savedStatus) {
     return {
       status: "unknown",
       label: "情報なし",
-      score: null,
+      score,
       confidence,
       voteCount,
       effectiveVotes,
     };
   }
 
-
-  let status =
-    "unknown";
-
-
-  let label =
-    "情報なし";
-
-
-  if (score >= 80) {
-
-    status =
-      "very-crowded";
-
-    label =
-      "かなり混雑";
-
-  } else if (
-    score >= 60
-  ) {
-
-    status =
-      "crowded";
-
-    label =
-      "混雑";
-
-  } else if (
-    score >= 30
-  ) {
-
-    status =
-      "normal";
-
-    label =
-      "やや混雑";
-
-  } else {
-
-    status =
-      "empty";
-
-    label =
-      "空いています";
-  }
-
+  const labelMap = {
+    empty: "空いています",
+    normal: "やや混雑",
+    crowded: "混雑",
+    "very-crowded": "かなり混雑",
+    unknown: "情報なし",
+  };
 
   return {
-    status,
-
-    label,
-
+    status: savedStatus,
+    label: labelMap[savedStatus] || "情報なし",
     score,
-
     confidence,
-
     voteCount,
-
     effectiveVotes,
   };
+}
+
+
+function getScoreFromStatus(status) {
+
+  switch (status) {
+    case "empty":
+      return 10;
+    case "normal":
+      return 45;
+    case "crowded":
+      return 70;
+    case "very-crowded":
+      return 90;
+    default:
+      return null;
+  }
+}
+
+
+function pruneGlobalShareHistory(now = Date.now()) {
+
+  const cutoff =
+    now - GLOBAL_SHARE_WINDOW_MS;
+
+  while (
+    globalShareHistory.length > 0 &&
+    globalShareHistory[0] <= cutoff
+  ) {
+    globalShareHistory.shift();
+  }
+}
+
+
+function getGlobalShareLimitState(now = Date.now()) {
+
+  pruneGlobalShareHistory(now);
+
+  const count =
+    globalShareHistory.length;
+
+  if (count < GLOBAL_SHARE_LIMIT) {
+    return {
+      limit: GLOBAL_SHARE_LIMIT,
+      used: count,
+      remaining: GLOBAL_SHARE_LIMIT - count,
+      retryAfterMs: 0,
+    };
+  }
+
+  const oldest =
+    globalShareHistory[0];
+
+  return {
+    limit: GLOBAL_SHARE_LIMIT,
+    used: count,
+    remaining: 0,
+    retryAfterMs: Math.max(
+      0,
+      oldest + GLOBAL_SHARE_WINDOW_MS - now
+    ),
+  };
+}
+
+
+function recordGlobalShare(now = Date.now()) {
+  pruneGlobalShareHistory(now);
+  globalShareHistory.push(now);
 }
 
 
@@ -632,6 +763,34 @@ app.get(
 
 
 /* =========================================
+   混雑状況リセット
+========================================= */
+
+app.post(
+  "/api/admin/crowd/reset",
+  requireAdmin,
+  (req, res) => {
+
+    crowdData = {};
+
+    globalShareHistory.length = 0;
+
+
+    broadcastCrowdUpdate();
+
+
+    res.json({
+
+      success: true,
+
+      message:
+        "混雑状況をリセットしました。",
+    });
+  }
+);
+
+
+/* =========================================
    公開用設定取得
 ========================================= */
 
@@ -816,6 +975,27 @@ app.post(
 
 
 /* =========================================
+   全体共有制限状態取得
+========================================= */
+
+app.get(
+  "/api/crowd/limit",
+  (req, res) => {
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store"
+    );
+
+
+    res.json(
+      getGlobalShareLimitState()
+    );
+  }
+);
+
+
+/* =========================================
    混雑情報取得
 ========================================= */
 
@@ -824,6 +1004,34 @@ app.get(
   (req, res) => {
 
     cleanOldData();
+
+
+    const limitState =
+      getGlobalShareLimitState();
+
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store"
+    );
+
+
+    res.setHeader(
+      "X-Crowd-Share-Limit",
+      String(limitState.limit)
+    );
+
+
+    res.setHeader(
+      "X-Crowd-Share-Remaining",
+      String(limitState.remaining)
+    );
+
+
+    res.setHeader(
+      "X-Crowd-Share-Retry-After-Ms",
+      String(limitState.retryAfterMs)
+    );
 
 
     const result =
@@ -880,13 +1088,9 @@ app.post(
   (req, res) => {
 
     /*
-      ★ 共有機能OFFの場合
-      サーバー側で完全に拒否
+      共有機能OFFの場合、サーバー側で完全に拒否
     */
-    if (
-      crowdSharingEnabled !==
-      true
-    ) {
+    if (crowdSharingEnabled !== true) {
 
       return res.status(403).json({
 
@@ -898,21 +1102,63 @@ app.post(
     }
 
 
+    /*
+      サイト全体で10分間に5回まで。
+      クライアント側の制限を信用せず、
+      必ずサーバー側で判定します。
+    */
+    const now =
+      Date.now();
+
+
+    const limitState =
+      getGlobalShareLimitState(
+        now
+      );
+
+
+    if (
+      limitState.remaining <= 0
+    ) {
+
+      const retrySeconds =
+        Math.ceil(
+          limitState.retryAfterMs /
+          1000
+        );
+
+
+      return res.status(429).json({
+
+        success: false,
+
+        error:
+          "現在、全体の共有上限に達しています。約 " +
+          retrySeconds +
+          " 秒後にもう一度お試しください。",
+
+        limit:
+          limitState.limit,
+
+        used:
+          limitState.used,
+
+        remaining:
+          0,
+
+        retryAfterMs:
+          limitState.retryAfterMs,
+      });
+    }
+
+
     const {
       id,
       status,
       voterId,
-      score,
-      confidence,
-      voteCount,
-      effectiveVotes,
-    } =
-      req.body || {};
+    } = req.body || {};
 
 
-    /*
-      ID確認
-    */
     if (!id) {
 
       return res.status(400).json({
@@ -929,12 +1175,8 @@ app.post(
       String(id).trim();
 
 
-    /*
-      status確認
-    */
     if (
-      typeof status !==
-      "string" ||
+      typeof status !== "string" ||
       !status.trim()
     ) {
 
@@ -948,233 +1190,109 @@ app.post(
     }
 
 
-    /*
-      送信された情報を
-      数値化
-    */
-    let numericScore =
-      Number(score);
+    const normalizedStatus =
+      status.trim();
 
 
-    let numericConfidence =
-      Number(confidence);
-
-
-    let numericVoteCount =
-      Number(voteCount);
-
-
-    let numericEffectiveVotes =
-      Number(
-        effectiveVotes
-      );
-
-
-    /*
-      scoreが送られていない場合
-      statusから計算
-    */
     if (
-      !Number.isFinite(
-        numericScore
+      ![
+        "empty",
+        "normal",
+        "crowded",
+        "very-crowded"
+      ].includes(
+        normalizedStatus
       )
     ) {
 
-      switch (
-        status
-      ) {
+      return res.status(400).json({
 
-        case "empty":
-          numericScore =
-            10;
-          break;
+        success: false,
 
-        case "normal":
-          numericScore =
-            45;
-          break;
-
-        case "crowded":
-          numericScore =
-            70;
-          break;
-
-        case "very-crowded":
-          numericScore =
-            90;
-          break;
-
-        default:
-          numericScore =
-            0;
-          break;
-      }
+        error:
+          "無効な混雑状況です。",
+      });
     }
 
 
-    /*
-      範囲を0～100に制限
-    */
-    numericScore =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          numericScore
-        )
-      );
-
-
-    /*
-      confidenceがない場合
-      ひとまず既存値を利用
-      なければ0
-    */
-    if (
-      !Number.isFinite(
-        numericConfidence
-      )
-    ) {
-
-      const existing =
-        crowdData[
-          normalizedId
-        ];
-
-
-      numericConfidence =
-        existing &&
-        Number.isFinite(
-          Number(
-            existing.confidence
-          )
-        )
-          ? Number(
-              existing.confidence
-            )
-          : 0;
-    }
-
-
-    /*
-      投票数
-    */
-    if (
-      !Number.isFinite(
-        numericVoteCount
-      )
-    ) {
-
-      const existing =
-        crowdData[
-          normalizedId
-        ];
-
-
-      numericVoteCount =
-        existing &&
-        Number.isFinite(
-          Number(
-            existing.voteCount
-          )
-        )
-          ? Number(
-              existing.voteCount
-            ) + 1
-          : 1;
-    }
-
-
-    /*
-      有効投票数
-    */
-    if (
-      !Number.isFinite(
-        numericEffectiveVotes
-      )
-    ) {
-
-      const existing =
-        crowdData[
-          normalizedId
-        ];
-
-
-      numericEffectiveVotes =
-        existing &&
-        Number.isFinite(
-          Number(
-            existing.effectiveVotes
-          )
-        )
-          ? Number(
-              existing.effectiveVotes
-            ) + 1
-          : 1;
-    }
-
-
-    /*
-      voterIdは
-      現在のデータ構造では保存
-    */
     const normalizedVoterId =
       voterId
-        ? String(
-            voterId
+        ? String(voterId).slice(
+            0,
+            200
           )
         : null;
 
 
-    /*
-      混雑情報保存
-    */
+    const existing =
+      crowdData[
+        normalizedId
+      ];
+
+
+    if (
+      !existing ||
+      typeof existing !== "object"
+    ) {
+
+      crowdData[
+        normalizedId
+      ] = {
+
+        votes: [],
+
+        updatedAt:
+          new Date(
+            now
+          ).toISOString(),
+      };
+
+    } else if (
+      !Array.isArray(
+        existing.votes
+      )
+    ) {
+
+      /*
+        旧方式の集計データが残っている場合は、
+        既存集計をそのまま新方式へ混ぜるのではなく、
+        新方式の履歴をここから開始します。
+      */
+      existing.votes = [];
+    }
+
+
     crowdData[
       normalizedId
-    ] = {
+    ].votes.push({
 
       status:
-        status.trim(),
-
-      score:
-        numericScore,
-
-      confidence:
-        Math.max(
-          0,
-          Math.min(
-            100,
-            numericConfidence
-          )
-        ),
-
-      voteCount:
-        Math.max(
-          0,
-          Math.round(
-            numericVoteCount
-          )
-        ),
-
-      effectiveVotes:
-        Math.max(
-          0,
-          Math.round(
-            numericEffectiveVotes
-          )
-        ),
+        normalizedStatus,
 
       voterId:
         normalizedVoterId,
 
-      updatedAt:
-        new Date().toISOString(),
-    };
+      timestamp:
+        now,
+    });
+
+
+    crowdData[
+      normalizedId
+    ].updatedAt =
+      new Date(
+        now
+      ).toISOString();
 
 
     /*
-      保存後のデータ
+      サーバー側で共有回数を1回消費
     */
+    recordGlobalShare(
+      now
+    );
+
+
     const result = {
 
       id:
@@ -1187,21 +1305,45 @@ app.post(
       ...calculateCrowdStatus(
         crowdData[
           normalizedId
-        ]
+        ],
+        now
       ),
     };
 
 
-    /*
-      SSEでリアルタイム通知
-    */
+    const nextLimitState =
+      getGlobalShareLimitState(
+        now
+      );
+
+
     broadcastCrowdUpdate();
 
 
-    /*
-      crowd.htmlが期待している
-      プロパティを直接返す
-    */
+    res.setHeader(
+      "X-Crowd-Share-Limit",
+      String(
+        nextLimitState.limit
+      )
+    );
+
+
+    res.setHeader(
+      "X-Crowd-Share-Remaining",
+      String(
+        nextLimitState.remaining
+      )
+    );
+
+
+    res.setHeader(
+      "X-Crowd-Share-Retry-After-Ms",
+      String(
+        nextLimitState.retryAfterMs
+      )
+    );
+
+
     res.json({
 
       success: true,
@@ -1232,6 +1374,18 @@ app.post(
 
       updatedAt:
         result.updatedAt,
+
+      limit:
+        nextLimitState.limit,
+
+      used:
+        nextLimitState.used,
+
+      remaining:
+        nextLimitState.remaining,
+
+      retryAfterMs:
+        nextLimitState.retryAfterMs,
 
       data:
         result,
@@ -1275,7 +1429,9 @@ app.get(
 
 
     const data =
-      crowdData[id];
+      crowdData[
+        id
+      ];
 
 
     if (!data) {
@@ -1319,7 +1475,9 @@ app.delete(
 
 
     if (
-      !crowdData[id]
+      !crowdData[
+        id
+      ]
     ) {
 
       return res.status(404).json({
@@ -1332,7 +1490,9 @@ app.delete(
     }
 
 
-    delete crowdData[id];
+    delete crowdData[
+      id
+    ];
 
 
     /*
@@ -1367,15 +1527,18 @@ app.get(
       "text/event-stream"
     );
 
+
     res.setHeader(
       "Cache-Control",
       "no-cache"
     );
 
+
     res.setHeader(
       "Connection",
       "keep-alive"
     );
+
 
     res.setHeader(
       "Access-Control-Allow-Origin",
