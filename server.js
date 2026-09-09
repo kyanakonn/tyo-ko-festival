@@ -25,29 +25,11 @@ app.use(express.json());
    管理者設定
 ========================================= */
 
-/*
-  管理画面のパスワード
-
-  Renderの環境変数
-  ADMIN_PASSWORD
-  が設定されている場合はそちらを優先
-
-  未設定の場合は hello
-*/
 const ADMIN_PASSWORD =
   process.env.ADMIN_PASSWORD || "hello";
 
-
-/*
-  管理者ログインセッション
-*/
 const adminSessions = new Map();
 
-
-/*
-  管理者ログインの有効時間
-  12h
-*/
 const ADMIN_SESSION_MAX_AGE_MS =
   12 * 60 * 60 * 1000;
 
@@ -56,39 +38,21 @@ const ADMIN_SESSION_MAX_AGE_MS =
    混雑情報
 ========================================= */
 
-/*
-  現在の混雑情報
-
-  例：
-
-  {
-    "event-id": {
-      status: "crowded",
-      score: 75,
-      confidence: 80,
-      voteCount: 10,
-      effectiveVotes: 10,
-      updatedAt: "2026-09-12T..."
-    }
-  }
-*/
 let crowdData = {};
 
 
 /*
-  全体共有制限
-
-  10分間に最大5回まで。
-  サーバー側で管理するため、利用者ごとではなく
-  サイト全体で共有回数を制限します。
+  サイト全体で10分間に5回まで
 */
 const GLOBAL_SHARE_LIMIT = 5;
-const GLOBAL_SHARE_WINDOW_MS = 10 * 60 * 1000;
+
+const GLOBAL_SHARE_WINDOW_MS =
+  10 * 60 * 1000;
 
 
 /*
-  同じ人が同じカードへ再共有できるまでの間隔
-  サーバー側で必ず判定します。
+  同じ人が同じカードへ再共有できるまで
+  5分間
 */
 const SAME_CARD_SHARE_COOLDOWN_MS =
   5 * 60 * 1000;
@@ -97,9 +61,7 @@ const SAME_CARD_SHARE_COOLDOWN_MS =
 /*
   混雑情報の時間減衰
 
-  30分で影響力が半分になります。
-  古い投票ほど score / confidence への影響が
-  少なくなり、最終的には情報なしへ近づきます。
+  30分で影響力が半分
 */
 const CROWD_DECAY_HALF_LIFE_MS =
   30 * 60 * 1000;
@@ -107,13 +69,12 @@ const CROWD_DECAY_HALF_LIFE_MS =
 
 /*
   全体共有履歴
-  各要素は共有された時刻(ms)だけを保持します。
 */
 const globalShareHistory = [];
 
 
 /*
-  管理画面から非表示にしたカードのID
+  管理画面から非表示にしたカード
 */
 const hiddenCrowdIds = new Set();
 
@@ -121,10 +82,7 @@ const hiddenCrowdIds = new Set();
 /*
   混雑情報共有機能
 
-  false = 初期状態
-  true  = 管理画面からONにした状態
-
-  ★ 初期状態はOFF
+  初期状態はOFF
 */
 let crowdSharingEnabled = false;
 
@@ -134,6 +92,7 @@ let crowdSharingEnabled = false;
 ========================================= */
 
 function getAdminToken(req) {
+
   const authorization =
     req.headers.authorization || "";
 
@@ -150,6 +109,7 @@ function getAdminToken(req) {
 
 
 function isAdminAuthenticated(req) {
+
   const token =
     getAdminToken(req);
 
@@ -164,15 +124,15 @@ function isAdminAuthenticated(req) {
     return false;
   }
 
-  /*
-    セッション有効期限
-  */
   if (
     Date.now() -
       session.createdAt >
     ADMIN_SESSION_MAX_AGE_MS
   ) {
-    adminSessions.delete(token);
+
+    adminSessions.delete(
+      token
+    );
 
     return false;
   }
@@ -186,11 +146,15 @@ function requireAdmin(
   res,
   next
 ) {
+
   if (
     !isAdminAuthenticated(req)
   ) {
+
     return res.status(401).json({
+
       success: false,
+
       message:
         "管理者認証が必要です。",
     });
@@ -204,358 +168,10 @@ function requireAdmin(
    混雑状況計算
 ========================================= */
 
-function calculateCrowdStatus(
-  data,
-  now = Date.now()
-) {
-
-  if (!data) {
-    return {
-      status: "unknown",
-      label: "情報なし",
-      score: null,
-      confidence: null,
-      voteCount: 0,
-      effectiveVotes: 0,
-    };
-  }
-
-
-  /*
-    新方式では、各共有を votes 配列に保存し、
-    共有からの経過時間に応じて重みを指数的に減衰させます。
-
-    半減期30分：
-      0分   → 100%
-      30分  → 50%
-      60分  → 25%
-      90分  → 12.5%
-  */
-  let votes =
-    Array.isArray(data.votes)
-      ? data.votes
-      : [];
-
-
-  /*
-    旧方式で保存されたデータにも時間減衰を適用するため、
-    updatedAt と status から仮想的な1票へ変換します。
-  */
-  if (
-    votes.length === 0 &&
-    data.updatedAt
-  ) {
-
-    const legacyTimestamp =
-      new Date(
-        data.updatedAt
-      ).getTime();
-
-    if (
-      Number.isFinite(
-        legacyTimestamp
-      )
-    ) {
-      votes = [{
-        status:
-          typeof data.status === "string"
-            ? data.status
-            : "unknown",
-        timestamp:
-          legacyTimestamp,
-      }];
-    }
-  }
-
-
-  if (votes.length > 0) {
-
-    let weightedScoreSum = 0;
-    let effectiveVotes = 0;
-
-
-    for (const vote of votes) {
-
-      if (
-        !vote ||
-        !vote.timestamp
-      ) {
-        continue;
-      }
-
-      const timestamp =
-        Number(
-          vote.timestamp
-        );
-
-      if (
-        !Number.isFinite(
-          timestamp
-        )
-      ) {
-        continue;
-      }
-
-      const age =
-        Math.max(
-          0,
-          now - timestamp
-        );
-
-      const weight =
-        Math.pow(
-          0.5,
-          age /
-            CROWD_DECAY_HALF_LIFE_MS
-        );
-
-      const voteScore =
-        getScoreFromStatus(
-          vote.status
-        );
-
-      if (
-        voteScore === null
-      ) {
-        continue;
-      }
-
-      effectiveVotes +=
-        weight;
-
-      weightedScoreSum +=
-        voteScore *
-        weight;
-    }
-
-
-    const voteCount =
-      votes.length;
-
-
-    if (
-      effectiveVotes <= 0.01
-    ) {
-      return {
-        status: "unknown",
-        label: "情報なし",
-        score: null,
-        confidence: 0,
-        voteCount,
-        effectiveVotes: 0,
-      };
-    }
-
-
-    const weightedAverage =
-      weightedScoreSum /
-      effectiveVotes;
-
-
-    /*
-      effectiveVotes が1未満になるほど
-      混雑度を「50 = 中立」へ戻します。
-      これにより score 自体も時間経過で影響を失います。
-    */
-    const scoreInfluence =
-      Math.min(
-        1,
-        effectiveVotes
-      );
-
-    const score =
-      50 +
-      (
-        weightedAverage - 50
-      ) *
-        scoreInfluence;
-
-
-    /*
-      信頼度も有効投票数から算出し、
-      古い投票が減衰すると自動的に下がります。
-    */
-    const confidence =
-      100 *
-      (
-        1 -
-        Math.exp(
-          -effectiveVotes / 3
-        )
-      );
-
-
-    let status = "unknown";
-    let label = "情報なし";
-
-
-    if (
-      score >= 80
-    ) {
-      status = "very-crowded";
-      label = "かなり混雑";
-    } else if (
-      score >= 60
-    ) {
-      status = "crowded";
-      label = "混雑";
-    } else if (
-      score >= 30
-    ) {
-      status = "normal";
-      label = "やや混雑";
-    } else {
-      status = "empty";
-      label = "空いています";
-    }
-
-
-    /*
-      情報の影響が十分小さくなったら、
-      「情報なし」に戻します。
-    */
-    if (
-      effectiveVotes < 0.10
-    ) {
-      status = "unknown";
-      label = "情報なし";
-    }
-
-
-    return {
-      status,
-      label,
-      score:
-        Math.max(
-          0,
-          Math.min(
-            100,
-            Math.round(score)
-          )
-        ),
-      confidence:
-        Math.max(
-          0,
-          Math.min(
-            100,
-            Math.round(confidence)
-          )
-        ),
-      voteCount,
-      effectiveVotes:
-        Number(
-          effectiveVotes.toFixed(3)
-        ),
-    };
-  }
-
-
-  /*
-    旧データとの互換性。
-    votes が存在しない既存データは、
-    そのデータを即座に壊さず従来値を表示します。
-    新しく共有された時点で新方式へ移行します。
-  */
-  const savedStatus =
-    typeof data.status === "string"
-      ? data.status
-      : "";
-
-  const scoreNumber =
-    Number(data.score);
-
-  const confidenceNumber =
-    Number(data.confidence);
-
-  const voteCountNumber =
-    Number(data.voteCount);
-
-  const effectiveVotesNumber =
-    Number(data.effectiveVotes);
-
-  const score =
-    Number.isFinite(
-      scoreNumber
-    )
-      ? Math.max(
-          0,
-          Math.min(
-            100,
-            scoreNumber
-          )
-        )
-      : null;
-
-  const confidence =
-    Number.isFinite(
-      confidenceNumber
-    )
-      ? Math.max(
-          0,
-          Math.min(
-            100,
-            confidenceNumber
-          )
-        )
-      : null;
-
-  const voteCount =
-    Number.isFinite(
-      voteCountNumber
-    )
-      ? Math.max(
-          0,
-          voteCountNumber
-        )
-      : 0;
-
-  const effectiveVotes =
-    Number.isFinite(
-      effectiveVotesNumber
-    )
-      ? Math.max(
-          0,
-          effectiveVotesNumber
-        )
-      : voteCount;
-
-  if (!savedStatus) {
-    return {
-      status: "unknown",
-      label: "情報なし",
-      score,
-      confidence,
-      voteCount,
-      effectiveVotes,
-    };
-  }
-
-  const labelMap = {
-    empty: "空いています",
-    normal: "やや混雑",
-    crowded: "混雑",
-    "very-crowded": "かなり混雑",
-    unknown: "情報なし",
-  };
-
-  return {
-    status: savedStatus,
-    label:
-      labelMap[savedStatus] ||
-      "情報なし",
-    score,
-    confidence,
-    voteCount,
-    effectiveVotes,
-  };
-}
-
-
-function getScoreFromStatus(
-  status
-) {
+function getScoreFromStatus(status) {
 
   switch (status) {
+
     case "empty":
       return 10;
 
@@ -574,6 +190,483 @@ function getScoreFromStatus(
 }
 
 
+function calculateCrowdStatus(
+  data,
+  now = Date.now()
+) {
+
+  if (!data) {
+
+    return {
+
+      status: "unknown",
+
+      label: "情報なし",
+
+      score: null,
+
+      confidence: null,
+
+      voteCount: 0,
+
+      effectiveVotes: 0,
+    };
+  }
+
+
+  /*
+    新方式では各共有を
+    votes配列として保存
+  */
+  let votes =
+    Array.isArray(data.votes)
+      ? data.votes
+      : [];
+
+
+  /*
+    旧方式のデータとの互換性
+
+    votesがない場合は、
+    updatedAtとstatusから
+    仮想的な1票を作る
+  */
+  if (
+    votes.length === 0 &&
+    data.updatedAt
+  ) {
+
+    const legacyTimestamp =
+      new Date(
+        data.updatedAt
+      ).getTime();
+
+
+    if (
+      Number.isFinite(
+        legacyTimestamp
+      )
+    ) {
+
+      votes = [
+
+        {
+          status:
+            typeof data.status === "string"
+              ? data.status
+              : "unknown",
+
+          timestamp:
+            legacyTimestamp,
+        },
+
+      ];
+    }
+  }
+
+
+  /*
+    新方式の計算
+  */
+  if (
+    votes.length > 0
+  ) {
+
+    let weightedScoreSum = 0;
+
+    let effectiveVotes = 0;
+
+
+    for (
+      const vote of votes
+    ) {
+
+      if (
+        !vote ||
+        !vote.timestamp
+      ) {
+        continue;
+      }
+
+
+      const timestamp =
+        Number(
+          vote.timestamp
+        );
+
+
+      if (
+        !Number.isFinite(
+          timestamp
+        )
+      ) {
+        continue;
+      }
+
+
+      const age =
+        Math.max(
+          0,
+          now - timestamp
+        );
+
+
+      /*
+        半減期30分
+      */
+      const weight =
+        Math.pow(
+          0.5,
+          age /
+            CROWD_DECAY_HALF_LIFE_MS
+        );
+
+
+      const voteScore =
+        getScoreFromStatus(
+          vote.status
+        );
+
+
+      if (
+        voteScore === null
+      ) {
+        continue;
+      }
+
+
+      effectiveVotes +=
+        weight;
+
+
+      weightedScoreSum +=
+        voteScore *
+        weight;
+    }
+
+
+    const voteCount =
+      votes.length;
+
+
+    /*
+      ほぼ完全に情報が消えた場合
+    */
+    if (
+      effectiveVotes <= 0.01
+    ) {
+
+      return {
+
+        status:
+          "unknown",
+
+        label:
+          "情報なし",
+
+        score:
+          null,
+
+        confidence:
+          0,
+
+        voteCount,
+
+        effectiveVotes:
+          0,
+      };
+    }
+
+
+    const weightedAverage =
+      weightedScoreSum /
+      effectiveVotes;
+
+
+    /*
+      古い情報ほど
+      scoreも50へ戻す
+    */
+    const scoreInfluence =
+      Math.min(
+        1,
+        effectiveVotes
+      );
+
+
+    const score =
+      50 +
+      (
+        weightedAverage -
+        50
+      ) *
+        scoreInfluence;
+
+
+    /*
+      信頼度も時間とともに低下
+    */
+    const confidence =
+      100 *
+      (
+        1 -
+        Math.exp(
+          -effectiveVotes / 3
+        )
+      );
+
+
+    let status =
+      "unknown";
+
+    let label =
+      "情報なし";
+
+
+    if (
+      score >= 80
+    ) {
+
+      status =
+        "very-crowded";
+
+      label =
+        "かなり混雑";
+
+    }
+    else if (
+      score >= 60
+    ) {
+
+      status =
+        "crowded";
+
+      label =
+        "混雑";
+
+    }
+    else if (
+      score >= 30
+    ) {
+
+      status =
+        "normal";
+
+      label =
+        "やや混雑";
+
+    }
+    else {
+
+      status =
+        "empty";
+
+      label =
+        "空いています";
+    }
+
+
+    /*
+      影響がほぼ消えたら
+      情報なし
+    */
+    if (
+      effectiveVotes < 0.10
+    ) {
+
+      status =
+        "unknown";
+
+      label =
+        "情報なし";
+    }
+
+
+    return {
+
+      status,
+
+      label,
+
+      score:
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Math.round(score)
+          )
+        ),
+
+      confidence:
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Math.round(
+              confidence
+            )
+          )
+        ),
+
+      voteCount,
+
+      effectiveVotes:
+        Number(
+          effectiveVotes.toFixed(3)
+        ),
+    };
+  }
+
+
+  /*
+    旧形式データ
+  */
+  const savedStatus =
+    typeof data.status === "string"
+      ? data.status
+      : "";
+
+
+  const scoreNumber =
+    Number(
+      data.score
+    );
+
+
+  const confidenceNumber =
+    Number(
+      data.confidence
+    );
+
+
+  const voteCountNumber =
+    Number(
+      data.voteCount
+    );
+
+
+  const effectiveVotesNumber =
+    Number(
+      data.effectiveVotes
+    );
+
+
+  const score =
+    Number.isFinite(
+      scoreNumber
+    )
+      ? Math.max(
+          0,
+          Math.min(
+            100,
+            scoreNumber
+          )
+        )
+      : null;
+
+
+  const confidence =
+    Number.isFinite(
+      confidenceNumber
+    )
+      ? Math.max(
+          0,
+          Math.min(
+            100,
+            confidenceNumber
+          )
+        )
+      : null;
+
+
+  const voteCount =
+    Number.isFinite(
+      voteCountNumber
+    )
+      ? Math.max(
+          0,
+          voteCountNumber
+        )
+      : 0;
+
+
+  const effectiveVotes =
+    Number.isFinite(
+      effectiveVotesNumber
+    )
+      ? Math.max(
+          0,
+          effectiveVotesNumber
+        )
+      : voteCount;
+
+
+  if (!savedStatus) {
+
+    return {
+
+      status:
+        "unknown",
+
+      label:
+        "情報なし",
+
+      score,
+
+      confidence,
+
+      voteCount,
+
+      effectiveVotes,
+    };
+  }
+
+
+  const labelMap = {
+
+    empty:
+      "空いています",
+
+    normal:
+      "やや混雑",
+
+    crowded:
+      "混雑",
+
+    "very-crowded":
+      "かなり混雑",
+
+    unknown:
+      "情報なし",
+  };
+
+
+  return {
+
+    status:
+      savedStatus,
+
+    label:
+      labelMap[
+        savedStatus
+      ] ||
+      "情報なし",
+
+    score,
+
+    confidence,
+
+    voteCount,
+
+    effectiveVotes,
+  };
+}
+
+
+/* =========================================
+   全体共有制限
+========================================= */
+
 function pruneGlobalShareHistory(
   now = Date.now()
 ) {
@@ -582,10 +675,14 @@ function pruneGlobalShareHistory(
     now -
     GLOBAL_SHARE_WINDOW_MS;
 
+
   while (
-    globalShareHistory.length > 0 &&
-    globalShareHistory[0] <= cutoff
+    globalShareHistory.length >
+      0 &&
+    globalShareHistory[0] <=
+      cutoff
   ) {
+
     globalShareHistory.shift();
   }
 }
@@ -599,14 +696,18 @@ function getGlobalShareLimitState(
     now
   );
 
+
   const count =
     globalShareHistory.length;
+
 
   if (
     count <
     GLOBAL_SHARE_LIMIT
   ) {
+
     return {
+
       limit:
         GLOBAL_SHARE_LIMIT,
 
@@ -622,10 +723,13 @@ function getGlobalShareLimitState(
     };
   }
 
+
   const oldest =
     globalShareHistory[0];
 
+
   return {
+
     limit:
       GLOBAL_SHARE_LIMIT,
 
@@ -670,9 +774,6 @@ function cleanOldData() {
     Date.now();
 
 
-  /*
-    24時間以上前のデータを削除
-  */
   const MAX_AGE =
     1000 *
     60 *
@@ -758,7 +859,8 @@ function broadcastCrowdUpdate() {
         `data: ${payload}\n\n`
       );
 
-    } catch (
+    }
+    catch (
       error
     ) {
 
@@ -797,26 +899,26 @@ app.post(
     }
 
 
-    /*
-      ランダムなセッショントークン
-    */
     const token =
-      crypto.randomBytes(32)
+      crypto
+        .randomBytes(32)
         .toString("hex");
 
 
     adminSessions.set(
       token,
       {
+
         createdAt:
           Date.now(),
       }
     );
 
 
-    res.json({
+    return res.json({
 
-      success: true,
+      success:
+        true,
 
       token,
     });
@@ -836,14 +938,19 @@ app.post(
     const token =
       getAdminToken(req);
 
+
     if (token) {
+
       adminSessions.delete(
         token
       );
     }
 
+
     res.json({
-      success: true,
+
+      success:
+        true,
     });
   }
 );
@@ -858,6 +965,7 @@ app.get(
   (req, res) => {
 
     res.json({
+
       authenticated:
         isAdminAuthenticated(
           req
@@ -868,16 +976,24 @@ app.get(
 
 
 /* =========================================
-   管理者用 混雑情報
+   管理者状態取得
 ========================================= */
 
 app.get(
-  "/api/admin/crowd",
+  "/api/admin/state",
   requireAdmin,
   (req, res) => {
 
-    const result =
+    cleanOldData();
+
+
+    const visibleCrowdData =
       {};
+
+
+    const allCrowdData =
+      {};
+
 
     for (
       const [
@@ -889,7 +1005,7 @@ app.get(
       )
     ) {
 
-      result[id] = {
+      const formatted = {
 
         ...data,
 
@@ -897,12 +1013,36 @@ app.get(
           data
         ),
       };
+
+
+      /*
+        管理画面には
+        非表示カードも表示
+      */
+      allCrowdData[id] =
+        formatted;
+
+
+      /*
+        一般公開側には
+        非表示カードを出さない
+      */
+      if (
+        !hiddenCrowdIds.has(
+          id
+        )
+      ) {
+
+        visibleCrowdData[id] =
+          formatted;
+      }
     }
 
 
     res.json({
-      data:
-        result,
+
+      success:
+        true,
 
       sharingEnabled:
         crowdSharingEnabled,
@@ -911,33 +1051,14 @@ app.get(
         Array.from(
           hiddenCrowdIds
         ),
-    });
-  }
-);
 
+      /*
+        admin.html が使用
+      */
+      crowdData:
+        visibleCrowdData,
 
-/* =========================================
-   混雑共有機能 ON / OFF
-========================================= */
-
-app.post(
-  "/api/admin/crowd/toggle",
-  requireAdmin,
-  (req, res) => {
-
-    crowdSharingEnabled =
-      req.body?.enabled === true;
-
-
-    broadcastCrowdUpdate();
-
-
-    res.json({
-
-      success: true,
-
-      sharingEnabled:
-        crowdSharingEnabled,
+      allCrowdData,
     });
   }
 );
@@ -953,26 +1074,26 @@ app.post(
   (req, res) => {
 
     /*
-      混雑情報を完全にリセット
+      混雑情報を完全リセット
     */
-    crowdData = {};
+    crowdData =
+      {};
 
 
     /*
       全体共有制限もリセット
     */
-    globalShareHistory.length = 0;
+    globalShareHistory.length =
+      0;
 
 
-    /*
-      非表示設定はそのまま維持
-    */
     broadcastCrowdUpdate();
 
 
     res.json({
 
-      success: true,
+      success:
+        true,
 
       message:
         "混雑状況をリセットしました。",
@@ -982,11 +1103,84 @@ app.post(
 
 
 /* =========================================
-   非表示カード設定
+   公開用設定取得
+========================================= */
+
+app.get(
+  "/api/crowd/settings",
+  (req, res) => {
+
+    res.json({
+
+      success:
+        true,
+
+      sharingEnabled:
+        crowdSharingEnabled,
+
+      hiddenIds:
+        Array.from(
+          hiddenCrowdIds
+        ),
+    });
+  }
+);
+
+
+/* =========================================
+   共有機能 ON / OFF
 ========================================= */
 
 app.post(
-  "/api/admin/crowd/hide",
+  "/api/admin/sharing",
+  requireAdmin,
+  (req, res) => {
+
+    const enabled =
+      req.body?.enabled;
+
+
+    if (
+      typeof enabled !==
+      "boolean"
+    ) {
+
+      return res.status(400).json({
+
+        success:
+          false,
+
+        message:
+          "enabled は true または false にしてください。",
+      });
+    }
+
+
+    crowdSharingEnabled =
+      enabled;
+
+
+    broadcastCrowdUpdate();
+
+
+    res.json({
+
+      success:
+        true,
+
+      sharingEnabled:
+        crowdSharingEnabled,
+    });
+  }
+);
+
+
+/* =========================================
+   カード非表示
+========================================= */
+
+app.post(
+  "/api/admin/card/hide",
   requireAdmin,
   (req, res) => {
 
@@ -997,12 +1191,14 @@ app.post(
 
 
     if (!id) {
+
       return res.status(400).json({
 
-        success: false,
+        success:
+          false,
 
         message:
-          "企画IDが指定されていません。",
+          "IDが指定されていません。",
       });
     }
 
@@ -1017,7 +1213,8 @@ app.post(
 
     res.json({
 
-      success: true,
+      success:
+        true,
 
       hiddenIds:
         Array.from(
@@ -1029,11 +1226,11 @@ app.post(
 
 
 /* =========================================
-   非表示カード解除
+   カード復元
 ========================================= */
 
 app.post(
-  "/api/admin/crowd/unhide",
+  "/api/admin/card/restore",
   requireAdmin,
   (req, res) => {
 
@@ -1044,12 +1241,14 @@ app.post(
 
 
     if (!id) {
+
       return res.status(400).json({
 
-        success: false,
+        success:
+          false,
 
         message:
-          "企画IDが指定されていません。",
+          "IDが指定されていません。",
       });
     }
 
@@ -1064,7 +1263,8 @@ app.post(
 
     res.json({
 
-      success: true,
+      success:
+        true,
 
       hiddenIds:
         Array.from(
@@ -1076,50 +1276,45 @@ app.post(
 
 
 /* =========================================
-   全体共有制限状況
+   全体共有制限状態取得
 ========================================= */
 
 app.get(
   "/api/crowd/limit",
   (req, res) => {
 
-    const state =
-      getGlobalShareLimitState();
-
-
     res.setHeader(
-      "X-Crowd-Share-Limit",
-      String(state.limit)
-    );
-
-    res.setHeader(
-      "X-Crowd-Share-Remaining",
-      String(state.remaining)
-    );
-
-    res.setHeader(
-      "X-Crowd-Share-Retry-After-Ms",
-      String(state.retryAfterMs)
+      "Cache-Control",
+      "no-store"
     );
 
 
     res.json(
-      state
+      getGlobalShareLimitState()
     );
   }
 );
 
 
 /* =========================================
-   混雑情報一覧
+   混雑情報取得
 ========================================= */
 
 app.get(
   "/api/crowd",
   (req, res) => {
 
+    cleanOldData();
+
+
     const limitState =
       getGlobalShareLimitState();
+
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store"
+    );
 
 
     res.setHeader(
@@ -1129,12 +1324,14 @@ app.get(
       )
     );
 
+
     res.setHeader(
       "X-Crowd-Share-Remaining",
       String(
         limitState.remaining
       )
     );
+
 
     res.setHeader(
       "X-Crowd-Share-Retry-After-Ms",
@@ -1159,8 +1356,8 @@ app.get(
     ) {
 
       /*
-        管理画面で非表示にしたカードは
-        一般公開側には返さない
+        非表示カードは
+        一般公開しない
       */
       if (
         hiddenCrowdIds.has(
@@ -1198,14 +1395,17 @@ app.post(
   (req, res) => {
 
     /*
-      共有機能OFFの場合、サーバー側で完全に拒否
+      共有機能OFF
     */
     if (
-      crowdSharingEnabled !== true
+      crowdSharingEnabled !==
+      true
     ) {
+
       return res.status(403).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "現在、混雑状況の共有は停止しています。",
@@ -1213,9 +1413,6 @@ app.post(
     }
 
 
-    /*
-      共有回数の判定に使う現在時刻
-    */
     const now =
       Date.now();
 
@@ -1224,13 +1421,19 @@ app.post(
       id,
       status,
       voterId,
-    } = req.body || {};
+    } =
+      req.body || {};
 
 
+    /*
+      ID確認
+    */
     if (!id) {
+
       return res.status(400).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "企画IDが指定されていません。",
@@ -1244,13 +1447,19 @@ app.post(
       ).trim();
 
 
+    /*
+      status確認
+    */
     if (
-      typeof status !== "string" ||
+      typeof status !==
+        "string" ||
       !status.trim()
     ) {
+
       return res.status(400).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "混雑状況が指定されていません。",
@@ -1262,6 +1471,9 @@ app.post(
       status.trim();
 
 
+    /*
+      有効なstatusか確認
+    */
     if (
       ![
         "empty",
@@ -1272,9 +1484,11 @@ app.post(
         normalizedStatus
       )
     ) {
+
       return res.status(400).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "無効な混雑状況です。",
@@ -1282,6 +1496,9 @@ app.post(
     }
 
 
+    /*
+      voterId
+    */
     const normalizedVoterId =
       voterId
         ? String(
@@ -1299,13 +1516,10 @@ app.post(
       ];
 
 
-    /*
-      同じ人が同じカードを再共有する場合、
-      最後に共有してから5分間は再共有できません。
+    /* =====================================
+       同じ人・同じカードの5分制限
+    ===================================== */
 
-      この判定はサーバー側で行うため、
-      ブラウザ側の制限を回避しても投稿できません。
-    */
     if (
       normalizedVoterId &&
       existing &&
@@ -1319,7 +1533,8 @@ app.post(
           vote =>
             vote &&
             String(
-              vote.voterId || ""
+              vote.voterId ||
+                ""
             ) ===
               normalizedVoterId
         );
@@ -1368,7 +1583,8 @@ app.post(
 
             return res.status(429).json({
 
-              success: false,
+              success:
+                false,
 
               error:
                 "このカードは、前回の共有から5分間は再共有できません。あと " +
@@ -1396,13 +1612,10 @@ app.post(
     }
 
 
-    /*
-      サイト全体の共有上限を確認。
+    /* =====================================
+       サイト全体の5回/10分制限
+    ===================================== */
 
-      同じカードの5分制限を通過した後に確認するため、
-      同じカードの再共有拒否では
-      全体の共有回数を消費しません。
-    */
     const limitState =
       getGlobalShareLimitState(
         now
@@ -1410,7 +1623,8 @@ app.post(
 
 
     if (
-      limitState.remaining <= 0
+      limitState.remaining <=
+      0
     ) {
 
       const retrySeconds =
@@ -1422,7 +1636,8 @@ app.post(
 
       return res.status(429).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "現在、全体の共有上限に達しています。約 " +
@@ -1447,12 +1662,14 @@ app.post(
     }
 
 
-    /*
-      カードデータが存在しない場合は新規作成
-    */
+    /* =====================================
+       カードデータ作成
+    ===================================== */
+
     if (
       !existing ||
-      typeof existing !== "object"
+      typeof existing !==
+        "object"
     ) {
 
       crowdData[
@@ -1467,44 +1684,22 @@ app.post(
           ).toISOString(),
       };
 
-    } else if (
+    }
+    else if (
       !Array.isArray(
         existing.votes
       )
     ) {
 
-      /*
-        旧方式の集計データが残っている場合は、
-        既存集計をそのまま新方式へ混ぜるのではなく、
-        新方式の履歴をここから開始します。
-      */
-      existing.votes = [];
+      existing.votes =
+        [];
     }
 
 
-    /*
-      同じ人・同じカードの古い共有は残さず、
-      新しく共有された方だけを結果に使用します。
+    /* =====================================
+       同じ人の古い票を削除
+    ===================================== */
 
-      つまり、
-
-      1回目：
-        Aさん → normal
-
-      5分後以降：
-        Aさん → crowded
-
-      の場合、
-
-        normal
-        crowded
-
-      の2票として数えるのではなく、
-
-        crowded
-
-      の1票だけを使用します。
-    */
     if (
       normalizedVoterId &&
       Array.isArray(
@@ -1523,16 +1718,18 @@ app.post(
           vote =>
             !vote ||
             String(
-              vote.voterId || ""
+              vote.voterId ||
+                ""
             ) !==
               normalizedVoterId
         );
     }
 
 
-    /*
-      新しい共有を追加
-    */
+    /* =====================================
+       新しい票を追加
+    ===================================== */
+
     crowdData[
       normalizedId
     ].votes.push({
@@ -1557,7 +1754,7 @@ app.post(
 
 
     /*
-      サーバー側で共有回数を1回消費
+      全体共有回数を1回消費
     */
     recordGlobalShare(
       now
@@ -1588,9 +1785,15 @@ app.post(
       );
 
 
+    /*
+      リアルタイム通知
+    */
     broadcastCrowdUpdate();
 
 
+    /*
+      ヘッダー
+    */
     res.setHeader(
       "X-Crowd-Share-Limit",
       String(
@@ -1598,12 +1801,14 @@ app.post(
       )
     );
 
+
     res.setHeader(
       "X-Crowd-Share-Remaining",
       String(
         nextLimitState.remaining
       )
     );
+
 
     res.setHeader(
       "X-Crowd-Share-Retry-After-Ms",
@@ -1613,9 +1818,13 @@ app.post(
     );
 
 
+    /*
+      レスポンス
+    */
     res.json({
 
-      success: true,
+      success:
+        true,
 
       id:
         normalizedId,
@@ -1677,10 +1886,6 @@ app.get(
       ).trim();
 
 
-    /*
-      非表示カードは
-      一般公開側から取得不可
-    */
     if (
       hiddenCrowdIds.has(
         id
@@ -1689,7 +1894,8 @@ app.get(
 
       return res.status(404).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "混雑情報が見つかりません。",
@@ -1705,7 +1911,8 @@ app.get(
 
       return res.status(404).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "混雑情報が見つかりません。",
@@ -1747,7 +1954,8 @@ app.delete(
 
       return res.status(404).json({
 
-        success: false,
+        success:
+          false,
 
         error:
           "混雑情報が見つかりません。",
@@ -1758,9 +1966,6 @@ app.delete(
     delete crowdData[id];
 
 
-    /*
-      非表示設定も削除
-    */
     hiddenCrowdIds.delete(
       id
     );
@@ -1771,7 +1976,8 @@ app.delete(
 
     res.json({
 
-      success: true,
+      success:
+        true,
     });
   }
 );
@@ -1790,15 +1996,18 @@ app.get(
       "text/event-stream"
     );
 
+
     res.setHeader(
       "Cache-Control",
       "no-cache"
     );
 
+
     res.setHeader(
       "Connection",
       "keep-alive"
     );
+
 
     res.setHeader(
       "Access-Control-Allow-Origin",
@@ -1807,7 +2016,7 @@ app.get(
 
 
     /*
-      接続直後に現在の状態を送信
+      接続直後に現在の状態
     */
     const initialPayload =
       JSON.stringify({
@@ -1833,9 +2042,6 @@ app.get(
     );
 
 
-    /*
-      接続中クライアントとして登録
-    */
     crowdClients.add(
       res
     );
@@ -1854,7 +2060,8 @@ app.get(
               `: heartbeat\n\n`
             );
 
-          } catch (
+          }
+          catch (
             error
           ) {
 
@@ -1967,7 +2174,8 @@ app.use(
 
     res.status(500).json({
 
-      success: false,
+      success:
+        false,
 
       error:
         "サーバー内部でエラーが発生しました。",
