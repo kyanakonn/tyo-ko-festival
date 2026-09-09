@@ -82,7 +82,7 @@ const hiddenCrowdIds = new Set();
 /*
   混雑情報共有機能
 
-  初期状態はOFF
+  初期状態OFF
 */
 let crowdSharingEnabled = false;
 
