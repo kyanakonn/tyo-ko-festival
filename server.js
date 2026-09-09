@@ -163,6 +163,42 @@ function requireAdmin(
   next();
 }
 
+function getScoreFromStatus(
+  status
+) {
+
+  const scoreMap = {
+
+    empty:
+      10,
+
+    normal:
+      45,
+
+    crowded:
+      70,
+
+    "very-crowded":
+      90,
+
+  };
+
+
+  if (
+    !Object.prototype.hasOwnProperty.call(
+      scoreMap,
+      status
+    )
+  ) {
+
+    return null;
+  }
+
+
+  return scoreMap[
+    status
+  ];
+}
 
 /* =========================================
    混雑状況計算
