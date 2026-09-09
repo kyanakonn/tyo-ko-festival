@@ -1870,6 +1870,16 @@ const GLOBAL_SHARE_LIMIT = 5;
 const GLOBAL_SHARE_WINDOW_MS =
   10 * 60 * 1000;
 
+/*
+  同じ人が同じカードを再共有できるまでの間隔。
+  サーバー側でも同じ制限を行います。
+*/
+const SAME_CARD_SHARE_COOLDOWN_MS =
+  5 * 60 * 1000;
+
+const SAME_CARD_SHARE_HISTORY_KEY =
+  "chosei_fes_crowd_same_card_share_history";
+
 
 /* =========================================
    DOM
@@ -2464,6 +2474,60 @@ function getVoterId(){
 
   return voterId;
 
+}
+
+
+/* =========================================
+   同じカードの共有間隔
+========================================= */
+
+function loadSameCardShareHistory(){
+  try{
+    const raw = localStorage.getItem(SAME_CARD_SHARE_HISTORY_KEY);
+    if(!raw) return {};
+    const data = JSON.parse(raw);
+    return data && typeof data === "object" ? data : {};
+  }catch(error){
+    console.warn("カード別共有履歴の読み込みに失敗しました", error);
+    return {};
+  }
+}
+
+function saveSameCardShareHistory(history){
+  try{
+    localStorage.setItem(SAME_CARD_SHARE_HISTORY_KEY, JSON.stringify(history));
+  }catch(error){
+    console.warn("カード別共有履歴の保存に失敗しました", error);
+  }
+}
+
+function getSameCardShareRemainingTime(event){
+  if(!event) return 0;
+  const targetId = getEventPostId(event);
+  if(!targetId) return 0;
+  const history = loadSameCardShareHistory();
+  const timestamp = Number(history[targetId]);
+  if(!Number.isFinite(timestamp)) return 0;
+  const remaining = timestamp + SAME_CARD_SHARE_COOLDOWN_MS - Date.now();
+  if(remaining <= 0){
+    delete history[targetId];
+    saveSameCardShareHistory(history);
+    return 0;
+  }
+  return remaining;
+}
+
+function markSameCardShared(event, timestamp = Date.now()){
+  if(!event) return;
+  const targetId = getEventPostId(event);
+  if(!targetId) return;
+  const history = loadSameCardShareHistory();
+  history[targetId] = Number(timestamp);
+  saveSameCardShareHistory(history);
+}
+
+function formatSameCardShareRemainingTime(ms){
+  return formatRemainingTime(ms);
 }
 
 
@@ -3743,16 +3807,26 @@ function renderEvents(){
       const globalRemainingTime =
         getGlobalShareRemainingTime();
 
+      const sameCardRemainingTime =
+        getSameCardShareRemainingTime(event);
+
 
       const buttonText =
-        globalRemainingTime > 0
+        sameCardRemainingTime > 0
 
-          ? "全体の共有上限：あと " +
-            formatRemainingTime(
-              globalRemainingTime
+          ? "このカードはあと " +
+            formatSameCardShareRemainingTime(
+              sameCardRemainingTime
             )
 
-          : "混雑状況を共有する";
+          : globalRemainingTime > 0
+
+            ? "全体の共有上限：あと " +
+              formatRemainingTime(
+                globalRemainingTime
+              )
+
+            : "混雑状況を共有する";
 
 
       const scoreHtml =
@@ -4023,6 +4097,7 @@ function renderEvents(){
             type="button"
             ${
               globalRemainingTime > 0 ||
+              sameCardRemainingTime > 0 ||
               !crowdSharingEnabled
                 ? "disabled"
                 : ""
@@ -4073,6 +4148,24 @@ function renderEvents(){
                 "全体の共有上限に達しています。あと " +
                 formatRemainingTime(
                   globalRemaining
+                ) +
+                " お待ちください"
+              );
+
+              return;
+
+            }
+
+
+            const sameCardRemaining =
+              getSameCardShareRemainingTime(event);
+
+            if(sameCardRemaining > 0){
+
+              showToast(
+                "このカードは前回の共有から5分間は再共有できません。あと " +
+                formatSameCardShareRemainingTime(
+                  sameCardRemaining
                 ) +
                 " お待ちください"
               );
@@ -4393,6 +4486,26 @@ function openShareModal(event){
   }
 
 
+  const sameCardRemaining =
+    getSameCardShareRemainingTime(event);
+
+  if(sameCardRemaining > 0){
+
+    showToast(
+      "このカードは前回の共有から5分間は再共有できません。あと " +
+      formatSameCardShareRemainingTime(
+        sameCardRemaining
+      ) +
+      " お待ちください"
+    );
+
+    renderEvents();
+
+    return;
+
+  }
+
+
   selectedEvent =
     event;
 
@@ -4604,6 +4717,28 @@ submitBtn.addEventListener(
     }
 
 
+    const sameCardRemaining =
+      getSameCardShareRemainingTime(event);
+
+    if(sameCardRemaining > 0){
+
+      showToast(
+        "このカードは前回の共有から5分間は再共有できません。あと " +
+        formatSameCardShareRemainingTime(
+          sameCardRemaining
+        ) +
+        " お待ちください"
+      );
+
+      closeShareModal();
+
+      renderEvents();
+
+      return;
+
+    }
+
+
     submitBtn.disabled =
       true;
 
@@ -4677,14 +4812,32 @@ submitBtn.addEventListener(
           const errorData =
             await response.json();
 
-          if(
-            errorData &&
-            errorData.error
-          ){
+          if(errorData){
 
-            errorMessage =
-              errorData.error;
+            if(
+              errorData.reason ===
+              "same-card-cooldown"
+            ){
+              const retryAfterMs =
+                Number(errorData.retryAfterMs);
 
+              if(Number.isFinite(retryAfterMs)){
+                markSameCardShared(
+                  event,
+                  Date.now() -
+                  SAME_CARD_SHARE_COOLDOWN_MS +
+                  retryAfterMs
+                );
+              }
+            }
+
+            if(Number.isFinite(Number(errorData.remaining))){
+              setGlobalShareLimitState(errorData);
+            }
+
+            if(errorData.error){
+              errorMessage = errorData.error;
+            }
           }
 
         }
@@ -4704,6 +4857,12 @@ submitBtn.addEventListener(
 
       const result =
         await response.json();
+
+
+      markSameCardShared(
+        event,
+        Date.now()
+      );
 
 
       event.status =
@@ -4942,6 +5101,14 @@ backToTop.addEventListener(
 loadEvents();
 
 updateBackToTopButton();
+
+
+setInterval(
+  () => {
+    renderEvents();
+  },
+  1000
+);
 
 
 /* =========================================
