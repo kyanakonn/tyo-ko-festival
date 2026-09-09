@@ -423,6 +423,15 @@ body{
   box-shadow:2px 2px 0 var(--pink);
 }
 
+.admin-header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+
 .refresh-btn{
   padding:10px 14px;
   border:2px solid #24242a;
@@ -823,13 +832,23 @@ body{
           </p>
         </div>
 
-        <button
-          class="refresh-btn"
-          id="refreshButton"
-          type="button"
-        >
-          最新状態に更新
-        </button>
+        <div class="admin-header-actions">
+          <button
+            class="refresh-btn"
+            id="refreshButton"
+            type="button"
+          >
+            最新状態に更新
+          </button>
+
+          <button
+            class="refresh-btn"
+            id="resetCrowdButton"
+            type="button"
+          >
+            混雑状況をリセットする
+          </button>
+        </div>
 
       </div>
 
@@ -913,6 +932,12 @@ const sharingToggleButton =
 const refreshButton =
   document.getElementById(
     "refreshButton"
+  );
+
+
+const resetCrowdButton =
+  document.getElementById(
+    "resetCrowdButton"
   );
 
 const adminGrid =
@@ -1842,6 +1867,83 @@ async function restoreCard(id){
 
 
 /* =========================================
+   混雑状況をリセット
+========================================= */
+
+async function resetCrowd(){
+
+  if(!adminToken){
+    return;
+  }
+
+  if(!confirm(
+    "現在保存されている混雑状況をすべてリセットしますか？\n\nこの操作は元に戻せません。"
+  )){
+    return;
+  }
+
+  resetCrowdButton.disabled = true;
+  resetCrowdButton.textContent = "リセット中...";
+
+  try{
+
+    const response =
+      await adminFetch(
+        "/api/admin/crowd/reset",
+        {
+          method:"POST"
+        }
+      );
+
+    let data = {};
+
+    try{
+      data = await response.json();
+    }
+    catch(error){}
+
+    if(response.status === 401){
+      logout();
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        data.message ||
+        "混雑状況のリセットに失敗しました。"
+      );
+    }
+
+    currentCrowdData = {};
+
+    renderAdminCards({});
+
+    showToast(
+      data.message ||
+      "混雑状況をリセットしました。"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      error.message ||
+      "混雑状況のリセットに失敗しました。"
+    );
+
+  }
+  finally{
+
+    resetCrowdButton.disabled = false;
+    resetCrowdButton.textContent =
+      "混雑状況をリセットする";
+  }
+
+}
+
+
+/* =========================================
    現在の混雑データ
 ========================================= */
 
@@ -2211,6 +2313,12 @@ sharingToggleButton.addEventListener(
 refreshButton.addEventListener(
   "click",
   refreshAll
+);
+
+
+resetCrowdButton.addEventListener(
+  "click",
+  resetCrowd
 );
 
 
