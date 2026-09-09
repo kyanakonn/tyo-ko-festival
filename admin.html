@@ -9,7 +9,7 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>混雑情報 管理画面｜長高祭2026</title>
+<title>混雑情報 管理画面｜長高祭</title>
 
 <meta
   name="robots"
@@ -790,7 +790,7 @@ body{
             class="cards-count"
             id="sharingStatusText"
           >
-            設定を読み込んでいます
+            設定を読み込み中
           </span>
 
         </div>
@@ -800,7 +800,7 @@ body{
           id="sharingToggleButton"
           type="button"
         >
-          設定を読み込んでいます
+          設定を読み込み中
         </button>
 
       </div>
@@ -837,7 +837,7 @@ body{
         class="cards-count"
         id="cardCount"
       >
-        企画情報を読み込んでいます
+        企画情報を読み込み中
       </div>
 
       <div
@@ -845,7 +845,7 @@ body{
         id="adminGrid"
       >
         <div class="loading">
-          企画情報を読み込んでいます...
+          企画情報を読み込み中...
         </div>
       </div>
 
@@ -1105,7 +1105,7 @@ async function login(){
     if(!response.ok){
       throw new Error(
         data.error ||
-        "ログインに失敗しました。"
+        "ログインに失敗。"
       );
     }
 
@@ -1117,7 +1117,7 @@ async function login(){
 
     if(!adminToken){
       throw new Error(
-        "認証トークンを取得できませんでした。"
+        "認証トークンを取得できません。"
       );
     }
 
@@ -1136,7 +1136,7 @@ async function login(){
 
     loginError.textContent =
       error.message ||
-      "ログインに失敗しました。";
+      "ログインに失敗。";
 
     sessionStorage.removeItem(
       "chosei_fes_admin_token"
@@ -1200,13 +1200,13 @@ async function loadAdminState(){
   if(response.status === 401){
     logout();
     throw new Error(
-      "管理セッションの有効期限が切れました。"
+      "管理セッションの有効期限が切れ。"
     );
   }
 
   if(!response.ok){
     throw new Error(
-      "管理状態の取得に失敗しました。"
+      "管理状態の取得に失敗。"
     );
   }
 
@@ -1245,10 +1245,10 @@ function updateSharingUI(){
       "status-badge on";
 
     sharingStatusText.textContent =
-      "一般来場者による共有を受け付けています";
+      "一般来場者による共有を受け付け中";
 
     sharingToggleButton.textContent =
-      "共有機能をOFFにする";
+      "共有機能をOFF";
 
   }
   else{
@@ -1260,10 +1260,10 @@ function updateSharingUI(){
       "status-badge off";
 
     sharingStatusText.textContent =
-      "一般来場者による共有を停止しています";
+      "一般来場者による共有を停止中";
 
     sharingToggleButton.textContent =
-      "共有機能をONにする";
+      "共有機能をON";
 
   }
 
@@ -1318,7 +1318,7 @@ async function toggleSharing(){
     if(!response.ok){
       throw new Error(
         data.error ||
-        "設定の変更に失敗しました。"
+        "設定の変更に失敗"
       );
     }
 
@@ -1329,8 +1329,8 @@ async function toggleSharing(){
 
     showToast(
       sharingEnabled
-        ? "混雑情報の共有をONにしました。"
-        : "混雑情報の共有をOFFにしました。"
+        ? "混雑情報の共有をON"
+        : "混雑情報の共有をOFF"
     );
 
   }
@@ -1620,13 +1620,13 @@ async function loadCrowd(){
   if(response.status === 401){
     logout();
     throw new Error(
-      "管理セッションの有効期限が切れました。"
+      "管理セッションの有効期限が切れ。"
     );
   }
 
   if(!response.ok){
     throw new Error(
-      "混雑情報の取得に失敗しました。"
+      "混雑情報の取得に失敗。"
     );
   }
 
@@ -1719,7 +1719,7 @@ async function hideCard(id){
     if(!response.ok){
       throw new Error(
         data.error ||
-        "カードの非表示に失敗しました。"
+        "カードの非表示に失敗。"
       );
     }
 
@@ -1737,7 +1737,7 @@ async function hideCard(id){
     );
 
     showToast(
-      "カードを非表示にしました。"
+      "カードを非表示。"
     );
 
   }
@@ -1745,7 +1745,7 @@ async function hideCard(id){
 
     showToast(
       error.message ||
-      "カードの非表示に失敗しました。"
+      "カードの非表示に失敗"
     );
 
   }
@@ -1807,7 +1807,7 @@ async function restoreCard(id){
     if(!response.ok){
       throw new Error(
         data.error ||
-        "カードの復元に失敗しました。"
+        "カードの復元に失敗。"
       );
     }
 
@@ -1825,7 +1825,7 @@ async function restoreCard(id){
     );
 
     showToast(
-      "カードを復元しました。"
+      "カードを復元。"
     );
 
   }
@@ -1833,7 +1833,7 @@ async function restoreCard(id){
 
     showToast(
       error.message ||
-      "カードの復元に失敗しました。"
+      "カードの復元に失敗。"
     );
 
   }
@@ -1875,7 +1875,7 @@ function renderAdminCards(
 
     adminGrid.innerHTML = `
       <div class="empty-admin">
-        管理できる企画がありません。
+        管理できる企画なし
       </div>
     `;
 
@@ -2024,7 +2024,7 @@ function renderAdminCards(
                 data-action="restore"
                 data-id="${escapeHtml(id)}"
               >
-                このカードを復元する
+                このカードを復元
               </button>
             `
             : `
@@ -2034,7 +2034,7 @@ function renderAdminCards(
                 data-action="hide"
                 data-id="${escapeHtml(id)}"
               >
-                このカードを非表示にする
+                このカードを非表示
               </button>
             `
         }
@@ -2117,7 +2117,7 @@ async function showAdminScreen(){
       <div class="empty-admin">
         ${escapeHtml(
           error.message ||
-          "管理情報を読み込めませんでした。"
+          "管理情報を読み込めません"
         )}
       </div>
     `;
@@ -2153,7 +2153,7 @@ async function refreshAll(){
     );
 
     showToast(
-      "最新状態に更新しました。"
+      "最新状態に更新"
     );
 
   }
@@ -2161,7 +2161,7 @@ async function refreshAll(){
 
     showToast(
       error.message ||
-      "更新に失敗しました。"
+      "更新に失敗"
     );
 
   }
@@ -2261,7 +2261,7 @@ setInterval(
     catch(error){
 
       console.warn(
-        "管理画面の自動更新に失敗しました",
+        "管理画面の自動更新に失敗",
         error
       );
 
