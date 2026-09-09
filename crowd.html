@@ -1863,19 +1863,12 @@ const API_URL =
 ========================================= */
 
 /*
-  同じ企画への連続投稿を5分間制限します。
-
-  以前の「全企画共通で5分」ではなく、
-  「同じ企画について5分」とすることで、
-  複数の場所を見て回る来場者は
-  別の企画へ情報提供できます。
+  サイト全体で10分間に5回まで。
+  最終的な判定はサーバー側で行います。
 */
-
-const POST_INTERVAL_MS =
-  5 * 60 * 1000;
-
-const LAST_POSTS_KEY =
-  "chosei_fes_crowd_last_posts_v2";
+const GLOBAL_SHARE_LIMIT = 5;
+const GLOBAL_SHARE_WINDOW_MS =
+  10 * 60 * 1000;
 
 
 /* =========================================
@@ -1902,6 +1895,20 @@ const cancelBtn =
 
 const toast =
   document.getElementById("toast");
+
+
+/* =========================================
+   全体共有制限の現在値
+========================================= */
+
+let globalShareRemaining =
+  GLOBAL_SHARE_LIMIT;
+
+let globalShareRetryAfterMs =
+  0;
+
+let globalShareLimitUpdatedAt =
+  Date.now();
 
 const keywordSearch =
   document.getElementById("keywordSearch");
@@ -2461,68 +2468,86 @@ function getVoterId(){
 
 
 /* =========================================
-   投稿履歴
+   全体共有制限
 ========================================= */
 
-function getLastPosts(){
+function getGlobalShareRemainingTime(){
 
-  try{
-
-    const raw =
-      localStorage.getItem(
-        LAST_POSTS_KEY
-      );
-
-    if(!raw){
-      return {};
-    }
-
-    const parsed =
-      JSON.parse(raw);
-
-    if(
-      !parsed ||
-      typeof parsed !== "object"
-    ){
-      return {};
-    }
-
-    return parsed;
-
-  }
-  catch(error){
-
-    console.warn(
-      "投稿履歴の読み込みに失敗しました",
-      error
-    );
-
-    return {};
-
+  if (globalShareRemaining > 0) {
+    return 0;
   }
 
+  const elapsed =
+    Date.now() - globalShareLimitUpdatedAt;
+
+  return Math.max(
+    0,
+    globalShareRetryAfterMs - elapsed
+  );
 }
 
 
-function saveLastPosts(posts){
+function setGlobalShareLimitState(data){
+
+  if (!data || typeof data !== "object") {
+    return;
+  }
+
+  const remaining =
+    Number(data.remaining);
+
+  const retryAfterMs =
+    Number(data.retryAfterMs);
+
+  globalShareRemaining =
+    Number.isFinite(remaining)
+      ? Math.max(0, Math.round(remaining))
+      : globalShareRemaining;
+
+  globalShareRetryAfterMs =
+    Number.isFinite(retryAfterMs)
+      ? Math.max(0, retryAfterMs)
+      : 0;
+
+  globalShareLimitUpdatedAt =
+    Date.now();
+}
+
+
+async function loadGlobalShareLimit(){
+
+  if(!API_URL){
+    return;
+  }
 
   try{
 
-    localStorage.setItem(
-      LAST_POSTS_KEY,
-      JSON.stringify(posts)
-    );
+    const response =
+      await fetch(
+        API_URL + "/api/crowd/limit",
+        { cache:"no-store" }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "共有制限情報の取得に失敗しました"
+      );
+    }
+
+    const data =
+      await response.json();
+
+    setGlobalShareLimitState(data);
 
   }
   catch(error){
 
     console.warn(
-      "投稿履歴の保存に失敗しました",
+      "全体共有制限情報の取得に失敗しました",
       error
     );
 
   }
-
 }
 
 
@@ -2538,83 +2563,6 @@ function getEventPostId(event){
   );
 
 }
-
-
-function getLastPostTime(event){
-
-  const id =
-    getEventPostId(event);
-
-  if(!id){
-    return null;
-  }
-
-  const posts =
-    getLastPosts();
-
-  const value =
-    Number(posts[id]);
-
-  if(!Number.isFinite(value)){
-    return null;
-  }
-
-  return value;
-
-}
-
-
-function getRemainingPostTime(event){
-
-  const lastPostTime =
-    getLastPostTime(event);
-
-  if(!lastPostTime){
-    return 0;
-  }
-
-  const elapsed =
-    Date.now() -
-    lastPostTime;
-
-  const remaining =
-    POST_INTERVAL_MS -
-    elapsed;
-
-  if(remaining <= 0){
-
-    const posts =
-      getLastPosts();
-
-    delete posts[
-      getEventPostId(event)
-    ];
-
-    saveLastPosts(posts);
-
-    return 0;
-
-  }
-
-  return remaining;
-
-}
-
-
-function markPosted(event){
-
-  const posts =
-    getLastPosts();
-
-  posts[
-    getEventPostId(event)
-  ] =
-    Date.now();
-
-  saveLastPosts(posts);
-
-}
-
 
 function formatRemainingTime(ms){
 
@@ -3070,6 +3018,8 @@ async function loadEvents(){
 
 
     await loadCrowdSettings();
+
+    await loadGlobalShareLimit();
 
     setupCategoryFilters();
 
@@ -3790,18 +3740,16 @@ function renderEvents(){
         );
 
 
-      const remainingPostTime =
-        getRemainingPostTime(
-          event
-        );
+      const globalRemainingTime =
+        getGlobalShareRemainingTime();
 
 
       const buttonText =
-        remainingPostTime > 0
+        globalRemainingTime > 0
 
-          ? "次の共有まで " +
+          ? "全体の共有上限：あと " +
             formatRemainingTime(
-              remainingPostTime
+              globalRemainingTime
             )
 
           : "混雑状況を共有する";
@@ -4074,7 +4022,7 @@ function renderEvents(){
             }"
             type="button"
             ${
-              remainingPostTime > 0 ||
+              globalRemainingTime > 0 ||
               !crowdSharingEnabled
                 ? "disabled"
                 : ""
@@ -4116,14 +4064,15 @@ function renderEvents(){
 
             }
 
-            if(
-              getRemainingPostTime(event) > 0
-            ){
+            const globalRemaining =
+              getGlobalShareRemainingTime();
+
+            if(globalRemaining > 0){
 
               showToast(
-                "次の共有まで " +
+                "全体の共有上限に達しています。あと " +
                 formatRemainingTime(
-                  getRemainingPostTime(event)
+                  globalRemaining
                 ) +
                 " お待ちください"
               );
@@ -4425,18 +4374,16 @@ function openShareModal(event){
 
   }
 
-  const remaining =
-    getRemainingPostTime(
-      event
-    );
+  const globalRemaining =
+    getGlobalShareRemainingTime();
 
 
-  if(remaining > 0){
+  if(globalRemaining > 0){
 
     showToast(
-      "次の共有まで " +
+      "全体の共有上限に達しています。あと " +
       formatRemainingTime(
-        remaining
+        globalRemaining
       ) +
       " お待ちください"
     );
@@ -4634,18 +4581,16 @@ submitBtn.addEventListener(
       selectedEvent;
 
 
-    const remaining =
-      getRemainingPostTime(
-        event
-      );
+    const globalRemaining =
+      getGlobalShareRemainingTime();
 
 
-    if(remaining > 0){
+    if(globalRemaining > 0){
 
       showToast(
-        "次の共有まで " +
+        "全体の共有上限に達しています。あと " +
         formatRemainingTime(
-          remaining
+          globalRemaining
         ) +
         " お待ちください"
       );
@@ -4761,11 +4706,6 @@ submitBtn.addEventListener(
         await response.json();
 
 
-      markPosted(
-        event
-      );
-
-
       event.status =
         safeStatus(
           result.status ||
@@ -4834,6 +4774,12 @@ submitBtn.addEventListener(
         new Date().toISOString();
 
 
+      setGlobalShareLimitState({
+        remaining: result.remaining,
+        retryAfterMs: result.retryAfterMs
+      });
+
+
       closeShareModal();
 
       renderEvents();
@@ -4872,7 +4818,8 @@ submitBtn.addEventListener(
     finally{
 
       submitBtn.disabled =
-        !crowdSharingEnabled;
+        !crowdSharingEnabled ||
+        getGlobalShareRemainingTime() > 0;
 
       submitBtn.textContent =
         "共有する";
@@ -5009,6 +4956,8 @@ setInterval(
     }
 
     await loadCrowdSettings();
+
+    await loadGlobalShareLimit();
 
     await loadCrowdStatus();
 
