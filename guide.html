@@ -7,7 +7,7 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
   >
 
   <title>文化祭（一般公開時）来校上のお願い | 長高祭</title>
@@ -72,6 +72,7 @@
 
     html {
 
+      touch-action: pan-x pan-y pinch-zoom;
       scroll-behavior: smooth;
 
       scroll-padding-top:
@@ -99,6 +100,8 @@
       font-weight: 700;
 
       overflow-x: hidden;
+      touch-action: pan-x pan-y pinch-zoom;
+      -webkit-text-size-adjust: 100%;
     }
 
 
