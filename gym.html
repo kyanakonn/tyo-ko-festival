@@ -1482,6 +1482,65 @@ button {
 
 
 /* =========================================================
+   カード開閉
+   ※既存デザインを維持したまま、タップで内容を表示
+========================================================= */
+
+.schedule-item {
+  cursor: pointer;
+}
+
+.schedule-item:focus-visible {
+  outline: 3px solid rgba(128, 96, 168, 0.45);
+  outline-offset: 3px;
+}
+
+.schedule-description {
+  display: none;
+  grid-column: 1 / -1;
+  position: relative;
+  padding: 17px 28px 20px;
+  background: #fafaf8;
+  border-top: 1px solid #e5e5e3;
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 600;
+  color: #555;
+}
+
+.schedule-item.expanded .schedule-description {
+  display: block;
+}
+
+.schedule-description::before {
+  content: "タップで閉じる";
+  display: block;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-weight: 900;
+  color: #999;
+  letter-spacing: 0.08em;
+}
+
+.schedule-item:not(.expanded) .schedule-description {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .schedule-description {
+    padding:
+      13px
+      18px
+      17px
+      22px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+}
+
+/* =========================================================
    下部案内カード
 ========================================================= */
 
@@ -2349,7 +2408,7 @@ article {
     <div class="schedule-list">
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           10:30〜11:50
@@ -2359,10 +2418,14 @@ article {
           フォークソング研究同好会①
         </div>
 
+        <div class="schedule-description">
+          毎年恒例！フォー研による夏よりアツい音楽フェス！今年も２日間にわたって演奏します！あなたの好きな曲も聴けるかも…！？
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           11:50〜12:15
@@ -2372,10 +2435,14 @@ article {
           演劇部
         </div>
 
+        <div class="schedule-description">
+          どこかあのキャラクター達に似ているような…？そんな事はございません！演劇部が送る完全オリジナルストーリー。ぜひ見に来て下さい！
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           12:15〜12:35
@@ -2383,6 +2450,27 @@ article {
 
         <div class="schedule-content">
           サッカー部
+        </div>
+
+        <div class="schedule-description">
+          こんにちは。サッカー部３年です。私たちは『はちゃめちゃわちゃらいふ』を踊ります。ぜひ一緒に歌ったり、踊ったりして、文化祭を楽しみましょう。
+        </div>
+
+      </article>
+
+
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
+
+        <div class="schedule-time">
+          12:35〜
+        </div>
+
+        <div class="schedule-content">
+          ？？？
+        </div>
+
+        <div class="schedule-description">
+          ここ以外では見られない！これが最後の『歌姫』と『有名教師』のスペシャルコラボLive開催！
         </div>
 
       </article>
@@ -2432,7 +2520,7 @@ article {
     <div class="schedule-list">
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           10:00〜11:00
@@ -2442,10 +2530,14 @@ article {
           フォークソング研究同好会②
         </div>
 
+        <div class="schedule-description">
+          毎年恒例！フォー研による夏よりアツい音楽フェス！今年も２日間にわたって演奏します！あなたの好きな曲も聴けるかも…！？
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           11:00〜11:20
@@ -2455,10 +2547,14 @@ article {
           吹奏楽部
         </div>
 
+        <div class="schedule-description">
+          こんにちは！長生高校吹奏楽部、通称 CBC です！皆さんが元気になるような情熱的な演奏を体育館に響かせます。ぜひ聴きに来てください！
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           11:20〜11:35
@@ -2468,10 +2564,14 @@ article {
           マンドリン部
         </div>
 
+        <div class="schedule-description">
+          こんにちは！マンドリン部です。今は部員１名！ソロマンドリンでのんびり好きな曲を弾いています。ソロをお見せするのは初めてですが頑張ります。
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           11:35〜11:50
@@ -2481,10 +2581,14 @@ article {
           コーラス部
         </div>
 
+        <div class="schedule-description">
+          コーラス部です！私達は『モアナと伝説の海』から『どこまでも』と『ルパン三世』から『ルパン三世のテーマ』を歌います。ぜひ聴きに来てください！
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           11:50〜12:10
@@ -2494,10 +2598,14 @@ article {
           書道部
         </div>
 
+        <div class="schedule-description">
+          こんにちは！私たちは『限りある青春』をテーマに書道パフォーマンスを行います。部員同士が心を合わせて完成させる作品をぜひご覧ください！
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           12:10〜12:35
@@ -2507,10 +2615,14 @@ article {
           演劇部
         </div>
 
+        <div class="schedule-description">
+          どこかあのキャラクター達に似ているような…？そんな事はございません！演劇部が送る完全オリジナルストーリー。ぜひ見に来て下さい！
+        </div>
+
       </article>
 
 
-      <article class="schedule-item">
+      <article class="schedule-item" tabindex="0" role="button" aria-expanded="false">
 
         <div class="schedule-time">
           12:35〜13:00
@@ -2518,6 +2630,10 @@ article {
 
         <div class="schedule-content">
           ダンス同好会
+        </div>
+
+        <div class="schedule-description">
+          わたしたちは BTS の Butter やHearts２Hearts の STYLE など全８曲を披露します。たくさんの方のご来場お待ちしています！
         </div>
 
       </article>
@@ -2646,6 +2762,46 @@ dateButtons.forEach((button) => {
 
   });
 
+
+});
+
+
+/* =========================================================
+   スケジュールカードの開閉
+========================================================= */
+
+const scheduleItems =
+  document.querySelectorAll(".schedule-item");
+
+scheduleItems.forEach((item) => {
+
+  const toggleItem = () => {
+
+    const isExpanded =
+      item.classList.toggle("expanded");
+
+    item.setAttribute(
+      "aria-expanded",
+      isExpanded ? "true" : "false"
+    );
+
+  };
+
+  item.addEventListener("click", toggleItem);
+
+  item.addEventListener("keydown", (event) => {
+
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+
+      event.preventDefault();
+      toggleItem();
+
+    }
+
+  });
 
 });
 
