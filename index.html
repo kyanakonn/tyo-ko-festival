@@ -131,7 +131,8 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 
-  touch-action: pan-y;
+  /* 1本指の縦スクロールを維持しつつ、2本指のピンチ拡大・縮小を許可 */
+  touch-action: pan-y pinch-zoom;
 
   -webkit-overflow-scrolling: touch;
 }
@@ -141,7 +142,7 @@ body {
 .banner-slider,
 .slider .slides,
 .banner-slider .banner-track {
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
 }
 
 
@@ -1132,7 +1133,7 @@ class="hero-bg"
 <h1 id="title">
 
   <span class="welcome">
-    校内発表まで 残り 1日
+    ようこそ
   </span>
 
   <span class="festival">
@@ -1609,7 +1610,7 @@ let initialAnimationFinished =
 */
 
 const TOP_ANIMATION_VERSION =
-  "2026.09.08.01"; 
+  "2026.09.011.01"; 
 
 
 const topAnimationVersion =
@@ -2725,6 +2726,12 @@ slider.addEventListener(
     if(isAnimating)
       return;
 
+    /* 2本指以上はブラウザ標準のピンチ操作を優先 */
+    if(e.touches.length > 1){
+      isDragging = false;
+      return;
+    }
+
 
     startX =
       e.touches[0].clientX;
@@ -2756,6 +2763,15 @@ slider.addEventListener(
 slider.addEventListener(
   "touchmove",
   (e) => {
+
+    if(e.touches.length > 1){
+      if(isDragging){
+        isDragging = false;
+        slides.style.transition = "none";
+        slides.style.transform = "translateX(0px)";
+      }
+      return;
+    }
 
     if(!isDragging)
       return;
@@ -3573,11 +3589,16 @@ track.addEventListener(
     if(bAnimating)
       return;
 
-
+    /* 2本指以上はブラウザ標準のピンチ操作を優先 */
     if(
       !e.touches ||
-      !e.touches.length
-    )
+      e.touches.length > 1
+    ){
+      bDragging = false;
+      return;
+    }
+
+    if(!e.touches.length)
       return;
 
 
@@ -3612,14 +3633,20 @@ track.addEventListener(
   "touchmove",
   (e) => {
 
+    if(e.touches.length > 1){
+      if(bDragging){
+        bDragging = false;
+        track.style.transition = "none";
+        track.style.transform = "translateX(0px)";
+      }
+      return;
+    }
+
     if(!bDragging)
       return;
 
 
-    if(
-      !e.touches ||
-      !e.touches.length
-    )
+    if(!e.touches.length)
       return;
 
 
