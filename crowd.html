@@ -1863,11 +1863,11 @@ const API_URL =
 ========================================= */
 
 /*
-  サイト全体で10分間に5回まで。
+  1デバイスあたり10分間に10回まで。
   最終的な判定はサーバー側で行います。
 */
-const GLOBAL_SHARE_LIMIT = 10000;
-const GLOBAL_SHARE_WINDOW_MS =
+const DEVICE_SHARE_LIMIT = 10;
+const DEVICE_SHARE_WINDOW_MS =
   10 * 60 * 1000;
 
 /*
@@ -1908,16 +1908,16 @@ const toast =
 
 
 /* =========================================
-   全体共有制限の現在値
+   デバイスごとの共有制限の現在値
 ========================================= */
 
-let globalShareRemaining =
-  GLOBAL_SHARE_LIMIT;
+let deviceShareRemaining =
+  DEVICE_SHARE_LIMIT;
 
-let globalShareRetryAfterMs =
+let deviceShareRetryAfterMs =
   0;
 
-let globalShareLimitUpdatedAt =
+let deviceShareLimitUpdatedAt =
   Date.now();
 
 const keywordSearch =
@@ -2532,26 +2532,26 @@ function formatSameCardShareRemainingTime(ms){
 
 
 /* =========================================
-   全体共有制限
+   デバイスごとの共有制限
 ========================================= */
 
-function getGlobalShareRemainingTime(){
+function getDeviceShareRemainingTime(){
 
-  if (globalShareRemaining > 0) {
+  if (deviceShareRemaining > 0) {
     return 0;
   }
 
   const elapsed =
-    Date.now() - globalShareLimitUpdatedAt;
+    Date.now() - deviceShareLimitUpdatedAt;
 
   return Math.max(
     0,
-    globalShareRetryAfterMs - elapsed
+    deviceShareRetryAfterMs - elapsed
   );
 }
 
 
-function setGlobalShareLimitState(data){
+function setDeviceShareLimitState(data){
 
   if (!data || typeof data !== "object") {
     return;
@@ -2563,22 +2563,22 @@ function setGlobalShareLimitState(data){
   const retryAfterMs =
     Number(data.retryAfterMs);
 
-  globalShareRemaining =
+  deviceShareRemaining =
     Number.isFinite(remaining)
       ? Math.max(0, Math.round(remaining))
-      : globalShareRemaining;
+      : deviceShareRemaining;
 
-  globalShareRetryAfterMs =
+  deviceShareRetryAfterMs =
     Number.isFinite(retryAfterMs)
       ? Math.max(0, retryAfterMs)
       : 0;
 
-  globalShareLimitUpdatedAt =
+  deviceShareLimitUpdatedAt =
     Date.now();
 }
 
 
-async function loadGlobalShareLimit(){
+async function loadDeviceShareLimit(){
 
   if(!API_URL){
     return;
@@ -2588,7 +2588,11 @@ async function loadGlobalShareLimit(){
 
     const response =
       await fetch(
-        API_URL + "/api/crowd/limit",
+        API_URL +
+        "/api/crowd/limit?voterId=" +
+        encodeURIComponent(
+          getVoterId()
+        ),
         { cache:"no-store" }
       );
 
@@ -2601,13 +2605,13 @@ async function loadGlobalShareLimit(){
     const data =
       await response.json();
 
-    setGlobalShareLimitState(data);
+    setDeviceShareLimitState(data);
 
   }
   catch(error){
 
     console.warn(
-      "全体共有制限情報の取得に失敗しました",
+      "デバイスごとの共有制限情報の取得に失敗しました",
       error
     );
 
@@ -3083,7 +3087,7 @@ async function loadEvents(){
 
     await loadCrowdSettings();
 
-    await loadGlobalShareLimit();
+    await loadDeviceShareLimit();
 
     setupCategoryFilters();
 
@@ -3804,8 +3808,8 @@ function renderEvents(){
         );
 
 
-      const globalRemainingTime =
-        getGlobalShareRemainingTime();
+      const deviceRemainingTime =
+        getDeviceShareRemainingTime();
 
       const sameCardRemainingTime =
         getSameCardShareRemainingTime(event);
@@ -3819,11 +3823,11 @@ function renderEvents(){
               sameCardRemainingTime
             )
 
-          : globalRemainingTime > 0
+          : deviceRemainingTime > 0
 
-            ? "全体の共有上限：あと " +
+            ? "この端末の共有上限：あと " +
               formatRemainingTime(
-                globalRemainingTime
+                deviceRemainingTime
               )
 
             : "混雑状況を共有する";
@@ -4096,7 +4100,7 @@ function renderEvents(){
             }"
             type="button"
             ${
-              globalRemainingTime > 0 ||
+              deviceRemainingTime > 0 ||
               sameCardRemainingTime > 0 ||
               !crowdSharingEnabled
                 ? "disabled"
@@ -4139,15 +4143,15 @@ function renderEvents(){
 
             }
 
-            const globalRemaining =
-              getGlobalShareRemainingTime();
+            const deviceRemaining =
+              getDeviceShareRemainingTime();
 
-            if(globalRemaining > 0){
+            if(deviceRemaining > 0){
 
               showToast(
-                "全体の共有上限に達しています。あと " +
+                "この端末の共有上限に達しています。あと " +
                 formatRemainingTime(
-                  globalRemaining
+                  deviceRemaining
                 ) +
                 " お待ちください"
               );
@@ -4467,16 +4471,16 @@ function openShareModal(event){
 
   }
 
-  const globalRemaining =
-    getGlobalShareRemainingTime();
+  const deviceRemaining =
+    getDeviceShareRemainingTime();
 
 
-  if(globalRemaining > 0){
+  if(deviceRemaining > 0){
 
     showToast(
-      "全体の共有上限に達しています。あと " +
+      "この端末の共有上限に達しています。あと " +
       formatRemainingTime(
-        globalRemaining
+        deviceRemaining
       ) +
       " お待ちください"
     );
@@ -4694,16 +4698,16 @@ submitBtn.addEventListener(
       selectedEvent;
 
 
-    const globalRemaining =
-      getGlobalShareRemainingTime();
+    const deviceRemaining =
+      getDeviceShareRemainingTime();
 
 
-    if(globalRemaining > 0){
+    if(deviceRemaining > 0){
 
       showToast(
-        "全体の共有上限に達しています。あと " +
+        "この端末の共有上限に達しています。あと " +
         formatRemainingTime(
-          globalRemaining
+          deviceRemaining
         ) +
         " お待ちください"
       );
@@ -4832,7 +4836,7 @@ submitBtn.addEventListener(
             }
 
             if(Number.isFinite(Number(errorData.remaining))){
-              setGlobalShareLimitState(errorData);
+              setDeviceShareLimitState(errorData);
             }
 
             if(errorData.error){
@@ -4933,7 +4937,7 @@ submitBtn.addEventListener(
         new Date().toISOString();
 
 
-      setGlobalShareLimitState({
+      setDeviceShareLimitState({
         remaining: result.remaining,
         retryAfterMs: result.retryAfterMs
       });
@@ -4978,7 +4982,7 @@ submitBtn.addEventListener(
 
       submitBtn.disabled =
         !crowdSharingEnabled ||
-        getGlobalShareRemainingTime() > 0;
+        getDeviceShareRemainingTime() > 0;
 
       submitBtn.textContent =
         "共有する";
@@ -5124,7 +5128,7 @@ setInterval(
 
     await loadCrowdSettings();
 
-    await loadGlobalShareLimit();
+    await loadDeviceShareLimit();
 
     await loadCrowdStatus();
 
