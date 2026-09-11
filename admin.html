@@ -704,7 +704,7 @@ body{
 
     <p class="login-subtitle">
       混雑情報の公開設定と、表示するカードを管理<br>
-   　 引き継いでくれた方へ「ありがとう。がんばれ。」
+   　 レッツゴー
     </p>
 
     <label
@@ -1911,7 +1911,7 @@ async function resetCrowd(){
       throw new Error(
         data.error ||
         data.message ||
-        "混雑状況のリセットに失敗しました。"
+        "混雑状況のリセットに失敗。"
       );
     }
 
@@ -1921,7 +1921,7 @@ async function resetCrowd(){
 
     showToast(
       data.message ||
-      "混雑状況をリセットしました。"
+      "混雑状況をリセット。"
     );
 
   }
@@ -1929,7 +1929,7 @@ async function resetCrowd(){
 
     showToast(
       error.message ||
-      "混雑状況のリセットに失敗しました。"
+      "混雑状況のリセットに失敗。"
     );
 
   }
