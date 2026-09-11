@@ -4842,6 +4842,9 @@ submitBtn.addEventListener(
             if(errorData.error){
               errorMessage = errorData.error;
             }
+            else if(errorData.message){
+              errorMessage = errorData.message;
+            }
           }
 
         }
