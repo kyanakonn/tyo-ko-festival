@@ -25,9 +25,7 @@ app.use(express.json());
    管理者設定
 ========================================= */
 
-const ADMIN_PASSWORD =
-  process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS || "";
-
+const ADMIN_PASSWORD = "hello";
 
 /* =========================================
    共有データ
