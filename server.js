@@ -11,17 +11,18 @@ const PORT = process.env.PORT || 3000;
    基本設定
 ========================================= */
 
-app.use(cors());
-
 app.use(
-  express.json({
-    limit: "1mb",
+  cors({
+    origin: true,
+    credentials: true,
   })
 );
 
+app.use(express.json());
+
 
 /* =========================================
-   管理パスワード
+   管理者設定
 ========================================= */
 
 const ADMIN_PASSWORD = "hello";
@@ -33,166 +34,225 @@ let sharingEnabled = false;
 
 
 /* =========================================
-   混雑データ
+   共有データ
 ========================================= */
 
+// 部屋ごとの混雑情報
 const crowdData = new Map();
 
+// SSE接続中のクライアント
+const sseClients = new Set();
 
-/* =========================================
-   デバイスごとの共有履歴
-========================================= */
+// 同一カードの連続投稿防止
+const SAME_CARD_COOLDOWN_MS = 5 * 60 * 1000;
 
+// 1デバイスあたりの共有制限
+const DEVICE_SHARE_LIMIT = 10;
+const DEVICE_SHARE_WINDOW_MS = 10 * 60 * 1000;
+
+// voterIdごとに共有履歴を保持
 const deviceShareHistory = new Map();
 
-const DEVICE_SHARE_LIMIT = 10;
-const DEVICE_SHARE_WINDOW_MS =
-  10 * 60 * 1000;
-
 
 /* =========================================
-   安全な文字列
+   補助関数
 ========================================= */
 
-function safeString(
-  value,
-  fallback = ""
-) {
-  if (
-    value === undefined ||
-    value === null
-  ) {
-    return fallback;
+function normalizeVoterId(voterId) {
+  if (typeof voterId !== "string") {
+    return "";
   }
 
-  const text =
-    String(value).trim();
+  return voterId.trim();
+}
 
-  if (
-    !text ||
-    text === "undefined" ||
-    text === "null"
-  ) {
-    return fallback;
-  }
 
-  return text;
+function nowMs() {
+  return Date.now();
 }
 
 
 /* =========================================
-   デバイス共有履歴の整理
+   デバイスごとの共有制限
 ========================================= */
 
-function pruneDeviceShareHistory(
-  voterId
-) {
-  const now = Date.now();
+/**
+ * 古い共有履歴を削除
+ */
+function pruneDeviceShareHistory(voterId, now = nowMs()) {
+  const history = deviceShareHistory.get(voterId);
 
-  const history =
-    deviceShareHistory.get(voterId) || [];
-
-  const validHistory =
-    history.filter(
-      timestamp =>
-        now - timestamp <
-        DEVICE_SHARE_WINDOW_MS
-    );
-
-  if(validHistory.length > 0){
-    deviceShareHistory.set(
-      voterId,
-      validHistory
-    );
+  if (!history) {
+    return [];
   }
-  else{
-    deviceShareHistory.delete(
-      voterId
-    );
+
+  const validHistory = history.filter(
+    (timestamp) =>
+      now - timestamp < DEVICE_SHARE_WINDOW_MS
+  );
+
+  if (validHistory.length === 0) {
+    deviceShareHistory.delete(voterId);
+    return [];
   }
+
+  deviceShareHistory.set(
+    voterId,
+    validHistory
+  );
 
   return validHistory;
 }
 
 
-/* =========================================
-   デバイス共有上限状態
-========================================= */
-
+/**
+ * デバイスごとの共有制限状態を取得
+ */
 function getDeviceShareLimitState(
-  voterId
+  voterId,
+  now = nowMs()
 ) {
-  const id =
-    safeString(voterId);
+  const normalizedVoterId =
+    normalizeVoterId(voterId);
 
-  if(!id){
+  if (!normalizedVoterId) {
     return {
-      allowed:true,
-      count:0,
-      remaining:DEVICE_SHARE_LIMIT,
-      resetAt:null,
+      limited: false,
+      remaining: DEVICE_SHARE_LIMIT,
+      retryAfterMs: 0,
+      limit: DEVICE_SHARE_LIMIT,
+      windowMs: DEVICE_SHARE_WINDOW_MS,
     };
   }
 
   const history =
-    pruneDeviceShareHistory(id);
+    pruneDeviceShareHistory(
+      normalizedVoterId,
+      now
+    );
 
-  const count =
-    history.length;
+  if (history.length < DEVICE_SHARE_LIMIT) {
+    return {
+      limited: false,
+      remaining:
+        DEVICE_SHARE_LIMIT -
+        history.length,
+      retryAfterMs: 0,
+      limit: DEVICE_SHARE_LIMIT,
+      windowMs: DEVICE_SHARE_WINDOW_MS,
+    };
+  }
 
-  const oldest =
-    history.length > 0
-      ? history[0]
-      : null;
+  const oldestTimestamp =
+    history[0];
 
-  const resetAt =
-    oldest !== null
-      ? oldest +
-        DEVICE_SHARE_WINDOW_MS
-      : null;
+  const retryAfterMs =
+    Math.max(
+      0,
+      oldestTimestamp +
+        DEVICE_SHARE_WINDOW_MS -
+        now
+    );
 
   return {
-    allowed:
-      count < DEVICE_SHARE_LIMIT,
-
-    count,
-
-    remaining:
-      Math.max(
-        0,
-        DEVICE_SHARE_LIMIT - count
-      ),
-
-    resetAt,
+    limited: true,
+    remaining: 0,
+    retryAfterMs,
+    limit: DEVICE_SHARE_LIMIT,
+    windowMs: DEVICE_SHARE_WINDOW_MS,
   };
 }
 
 
-/* =========================================
-   デバイス共有記録
-========================================= */
-
+/**
+ * デバイス共有履歴を記録
+ */
 function recordDeviceShare(
-  voterId
+  voterId,
+  now = nowMs()
 ) {
-  const id =
-    safeString(voterId);
+  const normalizedVoterId =
+    normalizeVoterId(voterId);
 
-  if(!id){
+  if (!normalizedVoterId) {
     return;
   }
 
   const history =
-    pruneDeviceShareHistory(id);
+    pruneDeviceShareHistory(
+      normalizedVoterId,
+      now
+    );
 
-  history.push(
-    Date.now()
-  );
+  history.push(now);
 
   deviceShareHistory.set(
-    id,
+    normalizedVoterId,
     history
   );
+}
+
+
+/* =========================================
+   混雑データをオブジェクト化
+========================================= */
+
+function getCrowdDataObject() {
+  const result = {};
+
+  for (
+    const [
+      roomId,
+      data
+    ] of crowdData.entries()
+  ) {
+    result[roomId] = data;
+  }
+
+  return result;
+}
+
+
+/* =========================================
+   SSE
+========================================= */
+
+function sendSseEvent(
+  client,
+  eventName,
+  data
+) {
+  try {
+    client.write(
+      `event: ${eventName}\n`
+    );
+
+    client.write(
+      `data: ${JSON.stringify(data)}\n\n`
+    );
+  } catch (error) {
+    sseClients.delete(client);
+  }
+}
+
+
+function broadcastCrowdUpdate() {
+  const payload = {
+    type: "crowd-update",
+    data: getCrowdDataObject(),
+    updatedAt:
+      new Date().toISOString(),
+  };
+
+  for (
+    const client of sseClients
+  ) {
+    sendSseEvent(
+      client,
+      "crowd-update",
+      payload
+    );
+  }
 }
 
 
@@ -202,7 +262,8 @@ function recordDeviceShare(
 
 function getAdminToken(req) {
   const authorization =
-    typeof req.headers.authorization === "string"
+    typeof req.headers.authorization ===
+    "string"
       ? req.headers.authorization.trim()
       : "";
 
@@ -228,23 +289,20 @@ function isAdminAuthorized(req) {
   const token =
     getAdminToken(req);
 
-  if(token){
+  if (token) {
     const session =
       adminSessions.get(token);
 
-    if(!session){
+    if (!session) {
       return false;
     }
 
-    if(
+    if (
       Date.now() -
         session.createdAt >
       ADMIN_SESSION_TTL_MS
-    ){
-      adminSessions.delete(
-        token
-      );
-
+    ) {
+      adminSessions.delete(token);
       return false;
     }
 
@@ -266,26 +324,6 @@ function isAdminAuthorized(req) {
 
 
 /* =========================================
-   混雑データをJSON用オブジェクトへ
-========================================= */
-
-function getCrowdDataObject() {
-  const result = {};
-
-  for(
-    const [
-      id,
-      value
-    ] of crowdData.entries()
-  ){
-    result[id] = value;
-  }
-
-  return result;
-}
-
-
-/* =========================================
    ヘルスチェック
 ========================================= */
 
@@ -293,9 +331,499 @@ app.get(
   "/",
   (req, res) => {
     res.json({
-      ok:true,
+      ok: true,
       message:
-        "Chosei Festival crowd server is running.",
+        "長高祭 混雑情報サーバー is running",
+    });
+  }
+);
+
+
+app.get(
+  "/api/health",
+  (req, res) => {
+    res.json({
+      ok: true,
+      timestamp:
+        new Date().toISOString(),
+    });
+  }
+);
+
+
+/* =========================================
+   ★ 公開設定取得
+========================================= */
+
+app.get(
+  "/api/crowd/settings",
+  (req, res) => {
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+
+    res.setHeader(
+      "Pragma",
+      "no-cache"
+    );
+
+    res.setHeader(
+      "Expires",
+      "0"
+    );
+
+    return res.json({
+      ok: true,
+
+      sharingEnabled,
+
+      hiddenIds:
+        Array.from(hiddenIds),
+    });
+  }
+);
+
+
+/* =========================================
+   混雑情報取得
+========================================= */
+
+app.get(
+  "/api/crowd",
+  (req, res) => {
+
+    const voterId =
+      normalizeVoterId(
+        req.query?.voterId
+      );
+
+    const deviceLimitState =
+      getDeviceShareLimitState(
+        voterId
+      );
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+
+    res.setHeader(
+      "Pragma",
+      "no-cache"
+    );
+
+    res.setHeader(
+      "Expires",
+      "0"
+    );
+
+    res.json({
+      ok: true,
+
+      data:
+        getCrowdDataObject(),
+
+      updatedAt:
+        new Date().toISOString(),
+
+      shareLimit: {
+        limited:
+          deviceLimitState.limited,
+
+        remaining:
+          deviceLimitState.remaining,
+
+        retryAfterMs:
+          deviceLimitState.retryAfterMs,
+
+        limit:
+          deviceLimitState.limit,
+
+        windowMs:
+          deviceLimitState.windowMs,
+      },
+    });
+  }
+);
+
+
+/* =========================================
+   デバイスごとの共有制限状態
+========================================= */
+
+app.get(
+  "/api/crowd/limit",
+  (req, res) => {
+
+    const voterId =
+      normalizeVoterId(
+        req.query?.voterId
+      );
+
+    const state =
+      getDeviceShareLimitState(
+        voterId
+      );
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+
+    res.setHeader(
+      "Pragma",
+      "no-cache"
+    );
+
+    res.setHeader(
+      "Expires",
+      "0"
+    );
+
+    res.json({
+      ok: true,
+
+      limited:
+        state.limited,
+
+      remaining:
+        state.remaining,
+
+      retryAfterMs:
+        state.retryAfterMs,
+
+      limit:
+        state.limit,
+
+      windowMs:
+        state.windowMs,
+    });
+  }
+);
+
+
+/* =========================================
+   混雑情報 SSE
+========================================= */
+
+app.get(
+  "/api/crowd/stream",
+  (req, res) => {
+
+    res.setHeader(
+      "Content-Type",
+      "text/event-stream"
+    );
+
+    res.setHeader(
+      "Cache-Control",
+      "no-cache, no-transform"
+    );
+
+    res.setHeader(
+      "Connection",
+      "keep-alive"
+    );
+
+    res.setHeader(
+      "X-Accel-Buffering",
+      "no"
+    );
+
+    if (
+      typeof res.flushHeaders ===
+      "function"
+    ) {
+      res.flushHeaders();
+    }
+
+    const client = res;
+
+    sseClients.add(client);
+
+    sendSseEvent(
+      client,
+      "crowd-update",
+      {
+        type:
+          "crowd-update",
+
+        data:
+          getCrowdDataObject(),
+
+        updatedAt:
+          new Date().toISOString(),
+      }
+    );
+
+    const heartbeat =
+      setInterval(
+        () => {
+          try {
+            client.write(
+              ": heartbeat\n\n"
+            );
+          } catch (error) {
+            clearInterval(
+              heartbeat
+            );
+          }
+        },
+        25000
+      );
+
+    req.on(
+      "close",
+      () => {
+        clearInterval(
+          heartbeat
+        );
+
+        sseClients.delete(
+          client
+        );
+      }
+    );
+  }
+);
+
+
+/* =========================================
+   混雑情報共有
+========================================= */
+
+app.post(
+  "/api/crowd",
+  (req, res) => {
+
+    const body =
+      req.body || {};
+
+    const roomId =
+      typeof body.roomId ===
+      "string"
+        ? body.roomId.trim()
+        : "";
+
+    const status =
+      typeof body.status ===
+      "string"
+        ? body.status.trim()
+        : "";
+
+    const voterId =
+      normalizeVoterId(
+        body.voterId
+      );
+
+    const now =
+      nowMs();
+
+
+    /* -----------------------------------------
+       必須項目確認
+    ----------------------------------------- */
+
+    if (!roomId) {
+      return res.status(400).json({
+        ok: false,
+
+        message:
+          "roomIdが指定されていません。",
+
+        reason:
+          "room-id-required",
+      });
+    }
+
+
+    if (!status) {
+      return res.status(400).json({
+        ok: false,
+
+        message:
+          "statusが指定されていません。",
+
+        reason:
+          "status-required",
+      });
+    }
+
+
+    if (!voterId) {
+      return res.status(400).json({
+        ok: false,
+
+        message:
+          "voterIdが指定されていません。",
+
+        reason:
+          "voter-id-required",
+      });
+    }
+
+
+    /* -----------------------------------------
+       デバイス共有制限
+    ----------------------------------------- */
+
+    const limitState =
+      getDeviceShareLimitState(
+        voterId,
+        now
+      );
+
+    if (limitState.limited) {
+
+      return res.status(429).json({
+        ok: false,
+
+        message:
+          "この端末の共有上限に達しています。",
+
+        error:
+          "この端末の共有上限に達しています。",
+
+        reason:
+          "device-share-limit",
+
+        limited: true,
+
+        remaining:
+          0,
+
+        retryAfterMs:
+          limitState.retryAfterMs,
+
+        limit:
+          DEVICE_SHARE_LIMIT,
+
+        windowMs:
+          DEVICE_SHARE_WINDOW_MS,
+      });
+    }
+
+
+    /* -----------------------------------------
+       同一カードの連続投稿防止
+    ----------------------------------------- */
+
+    const existing =
+      crowdData.get(roomId);
+
+    if (
+      existing &&
+      existing.voterId === voterId &&
+      Number.isFinite(
+        existing.updatedAtMs
+      )
+    ) {
+
+      const elapsed =
+        now -
+        existing.updatedAtMs;
+
+      if (
+        elapsed <
+        SAME_CARD_COOLDOWN_MS
+      ) {
+
+        const retryAfterMs =
+          SAME_CARD_COOLDOWN_MS -
+          elapsed;
+
+        return res.status(429).json({
+          ok: false,
+
+          message:
+            "このカードは前回の共有から5分間は再共有できません。",
+
+          error:
+            "このカードは前回の共有から5分間は再共有できません。",
+
+          reason:
+            "same-card-cooldown",
+
+          retryAfterMs,
+        });
+      }
+    }
+
+
+    /* -----------------------------------------
+       混雑データ保存
+    ----------------------------------------- */
+
+    const record = {
+
+      roomId,
+
+      status,
+
+      voterId,
+
+      updatedAt:
+        new Date(now)
+          .toISOString(),
+
+      updatedAtMs:
+        now,
+    };
+
+
+    crowdData.set(
+      roomId,
+      record
+    );
+
+
+    /* -----------------------------------------
+       デバイス共有履歴記録
+    ----------------------------------------- */
+
+    recordDeviceShare(
+      voterId,
+      now
+    );
+
+
+    /* -----------------------------------------
+       SSE通知
+    ----------------------------------------- */
+
+    broadcastCrowdUpdate();
+
+
+    const newLimitState =
+      getDeviceShareLimitState(
+        voterId,
+        now
+      );
+
+
+    return res.json({
+      ok: true,
+
+      data: record,
+
+      shareLimit: {
+        limited:
+          newLimitState.limited,
+
+        remaining:
+          newLimitState.remaining,
+
+        retryAfterMs:
+          newLimitState.retryAfterMs,
+
+        limit:
+          newLimitState.limit,
+
+        windowMs:
+          newLimitState.windowMs,
+      },
     });
   }
 );
@@ -310,25 +838,26 @@ app.post(
   (req, res) => {
 
     const password =
-      typeof req.body?.password === "string"
+      typeof req.body?.password ===
+      "string"
         ? req.body.password
         : "";
 
-    if(
+    if (
       !ADMIN_PASSWORD ||
       password !==
         ADMIN_PASSWORD
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "パスワードが正しくありません。",
       });
     }
 
     const token =
-      crypto
-        .randomBytes(32)
+      crypto.randomBytes(32)
         .toString("hex");
 
     adminSessions.set(
@@ -340,7 +869,8 @@ app.post(
     );
 
     return res.json({
-      ok:true,
+      ok: true,
+
       token,
     });
   }
@@ -358,14 +888,14 @@ app.post(
     const token =
       getAdminToken(req);
 
-    if(token){
+    if (token) {
       adminSessions.delete(
         token
       );
     }
 
     return res.json({
-      ok:true,
+      ok: true,
     });
   }
 );
@@ -379,18 +909,19 @@ app.get(
   "/api/admin/state",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
     }
 
     return res.json({
-      ok:true,
+      ok: true,
 
       sharingEnabled,
 
@@ -415,11 +946,12 @@ app.post(
   "/api/admin/sharing",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
@@ -429,7 +961,7 @@ app.post(
       req.body?.enabled !== false;
 
     return res.json({
-      ok:true,
+      ok: true,
 
       sharingEnabled,
 
@@ -448,24 +980,27 @@ app.post(
   "/api/admin/card/hide",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
     }
 
     const id =
-      typeof req.body?.id === "string"
+      typeof req.body?.id ===
+      "string"
         ? req.body.id.trim()
         : "";
 
-    if(!id){
+    if (!id) {
       return res.status(400).json({
-        ok:false,
+        ok: false,
+
         error:
           "idが指定されていません。",
       });
@@ -474,7 +1009,7 @@ app.post(
     hiddenIds.add(id);
 
     return res.json({
-      ok:true,
+      ok: true,
 
       hiddenIds:
         Array.from(hiddenIds),
@@ -494,24 +1029,27 @@ app.post(
   "/api/admin/card/restore",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
     }
 
     const id =
-      typeof req.body?.id === "string"
+      typeof req.body?.id ===
+      "string"
         ? req.body.id.trim()
         : "";
 
-    if(!id){
+    if (!id) {
       return res.status(400).json({
-        ok:false,
+        ok: false,
+
         error:
           "idが指定されていません。",
       });
@@ -520,7 +1058,7 @@ app.post(
     hiddenIds.delete(id);
 
     return res.json({
-      ok:true,
+      ok: true,
 
       hiddenIds:
         Array.from(hiddenIds),
@@ -533,25 +1071,26 @@ app.post(
 
 
 /* =========================================
-   管理者用 全データ取得
+   管理者 混雑状況取得
 ========================================= */
 
 app.get(
   "/api/admin/crowd",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
     }
 
     return res.json({
-      ok:true,
+      ok: true,
 
       crowd:
         getCrowdDataObject(),
@@ -573,11 +1112,12 @@ app.post(
   "/api/admin/crowd/reset",
   (req, res) => {
 
-    if(
+    if (
       !isAdminAuthorized(req)
-    ){
+    ) {
       return res.status(401).json({
-        ok:false,
+        ok: false,
+
         error:
           "管理者認証に失敗しました。",
       });
@@ -587,46 +1127,19 @@ app.post(
 
     hiddenIds.clear();
 
-
-    /* -----------------------------------------
-       デバイスごとの共有履歴もリセット
-    ----------------------------------------- */
-
     deviceShareHistory.clear();
 
+    broadcastCrowdUpdate();
 
     return res.json({
-      ok:true,
+      ok: true,
 
       message:
         "混雑状況をリセットしました。",
 
-      crowd:{},
+      crowd: {},
 
-      hiddenIds:[],
-
-      sharingEnabled,
-    });
-  }
-);
-
-
-/* =========================================
-   混雑情報取得
-========================================= */
-
-app.get(
-  "/api/crowd",
-  (req, res) => {
-
-    return res.json({
-      ok:true,
-
-      crowd:
-        getCrowdDataObject(),
-
-      hiddenIds:
-        Array.from(hiddenIds),
+      hiddenIds: [],
 
       sharingEnabled,
     });
@@ -635,269 +1148,70 @@ app.get(
 
 
 /* =========================================
-   デバイスごとの共有上限確認
-========================================= */
-
-app.get(
-  "/api/crowd/limit",
-  (req, res) => {
-
-    const voterId =
-      safeString(
-        req.query.voterId
-      );
-
-    const state =
-      getDeviceShareLimitState(
-        voterId
-      );
-
-    return res.json({
-      ok:true,
-
-      voterId,
-
-      limit:
-        DEVICE_SHARE_LIMIT,
-
-      windowMs:
-        DEVICE_SHARE_WINDOW_MS,
-
-      count:
-        state.count,
-
-      remaining:
-        state.remaining,
-
-      allowed:
-        state.allowed,
-
-      resetAt:
-        state.resetAt,
-    });
-  }
-);
-
-
-/* =========================================
-   混雑情報共有
+   管理者 共有制限リセット
 ========================================= */
 
 app.post(
-  "/api/crowd",
+  "/api/admin/crowd/limit/reset",
   (req, res) => {
 
-    if(!sharingEnabled){
-
-      return res.status(403).json({
-        ok:false,
+    if (
+      !isAdminAuthorized(req)
+    ) {
+      return res.status(401).json({
+        ok: false,
 
         error:
-          "現在、混雑情報の共有は停止されています。",
+          "管理者認証に失敗しました。",
       });
     }
 
-
-    const id =
-      safeString(
-        req.body?.id
-      );
-
-    const status =
-      safeString(
-        req.body?.status,
-        "unknown"
-      );
-
-    const score =
-      Number(
-        req.body?.score
-      );
-
-    const voterId =
-      safeString(
-        req.body?.voterId
-      );
-
-
-    if(!id){
-
-      return res.status(400).json({
-        ok:false,
-
-        error:
-          "企画IDが指定されていません。",
-      });
-    }
-
-
-    if(!voterId){
-
-      return res.status(400).json({
-        ok:false,
-
-        error:
-          "端末IDが指定されていません。",
-      });
-    }
-
-
-    /* -----------------------------------------
-       デバイスごとの共有上限
-    ----------------------------------------- */
-
-    const limitState =
-      getDeviceShareLimitState(
-        voterId
-      );
-
-    if(
-      !limitState.allowed
-    ){
-
-      return res.status(429).json({
-
-        ok:false,
-
-        error:
-          "この端末の共有上限に達しています。",
-
-        reason:
-          "device-share-limit",
-
-        limit:
-          DEVICE_SHARE_LIMIT,
-
-        count:
-          limitState.count,
-
-        remaining:
-          limitState.remaining,
-
-        resetAt:
-          limitState.resetAt,
-      });
-    }
-
-
-    /* -----------------------------------------
-       スコア確認
-    ----------------------------------------- */
-
-    let normalizedScore =
-      Number.isFinite(score)
-        ? Math.round(score)
-        : null;
-
-    if(
-      normalizedScore !== null
-    ){
-      normalizedScore =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            normalizedScore
-          )
-        );
-    }
-
-
-    /* -----------------------------------------
-       既存データ
-    ----------------------------------------- */
-
-    const existing =
-      crowdData.get(id) ||
-      null;
-
-
-    const oldVoteCount =
-      existing &&
-      Number.isFinite(
-        Number(
-          existing.voteCount
-        )
-      )
-        ? Math.max(
-            0,
-            Math.round(
-              Number(
-                existing.voteCount
-              )
-            )
-          )
-        : 0;
-
-
-    const voteCount =
-      oldVoteCount + 1;
-
-
-    /* -----------------------------------------
-       データ保存
-    ----------------------------------------- */
-
-    const data = {
-
-      status,
-
-      score:
-        normalizedScore,
-
-      voteCount,
-
-      updatedAt:
-        new Date().toISOString(),
-
-    };
-
-
-    crowdData.set(
-      id,
-      data
-    );
-
-
-    /* -----------------------------------------
-       共有成功後に履歴へ追加
-    ----------------------------------------- */
-
-    recordDeviceShare(
-      voterId
-    );
-
-
-    const newLimitState =
-      getDeviceShareLimitState(
-        voterId
-      );
-
+    deviceShareHistory.clear();
 
     return res.json({
+      ok: true,
 
-      ok:true,
+      message:
+        "共有制限をリセットしました。",
+    });
+  }
+);
 
-      id,
 
-      data,
+/* =========================================
+   混雑情報削除
+========================================= */
 
-      limit:{
+app.delete(
+  "/api/crowd/:roomId",
+  (req, res) => {
 
-        count:
-          newLimitState.count,
+    const roomId =
+      typeof req.params.roomId ===
+      "string"
+        ? req.params.roomId.trim()
+        : "";
 
-        remaining:
-          newLimitState.remaining,
+    if (!roomId) {
+      return res.status(400).json({
+        ok: false,
 
-        allowed:
-          newLimitState.allowed,
+        error:
+          "roomIdが指定されていません。",
+      });
+    }
 
-        resetAt:
-          newLimitState.resetAt,
+    const deleted =
+      crowdData.delete(roomId);
 
-      },
+    if (deleted) {
+      broadcastCrowdUpdate();
+    }
 
+    return res.json({
+      ok: true,
+
+      deleted,
     });
   }
 );
@@ -911,7 +1225,7 @@ app.use(
   (req, res) => {
 
     res.status(404).json({
-      ok:false,
+      ok: false,
 
       error:
         "Not Found",
@@ -932,17 +1246,14 @@ app.use(
     next
   ) => {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
-    if(res.headersSent){
+    if (res.headersSent) {
       return next(error);
     }
 
     res.status(500).json({
-
-      ok:false,
+      ok: false,
 
       error:
         "サーバー内部でエラーが発生しました。",
@@ -958,10 +1269,8 @@ app.use(
 app.listen(
   PORT,
   () => {
-
     console.log(
       `Server running on port ${PORT}`
     );
-
   }
 );
