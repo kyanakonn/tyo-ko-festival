@@ -376,6 +376,35 @@ h2 {
 }
 
 
+
+/* 追加のお知らせによる既存カードの色順変更を防止 */
+#notices .notice-item[href="notices.html#notice-1"] {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 224, 232, 0.96),
+      rgba(255, 239, 210, 0.96)
+    );
+}
+
+#notices .notice-item[href="notices.html#notice-3"] {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 238, 255, 0.96),
+      rgba(232, 224, 255, 0.96)
+    );
+}
+
+#notices .notice-item[href="notices.html#notice-6"] {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(222, 246, 229, 0.96),
+      rgba(255, 242, 207, 0.96)
+    );
+}
+
 /*
   タップ時
 */
@@ -1243,6 +1272,44 @@ class="hero-front"
     id="noticeTrack"
   >
  
+
+<a
+  href="notices.html#notice-6"
+  class="notice-item"
+>
+
+  <div class="notice-date">
+
+    <span class="notice-year">
+      2026
+    </span>
+
+    <span class="notice-day">
+      09.12
+    </span>
+
+  </div>
+
+
+  <div class="notice-content">
+
+    <span class="notice-label">
+      お知らせ
+    </span>
+
+    <h3 class="notice-title">
+      長高祭2026が終了しました。
+    </h3>
+
+  </div>
+
+
+  <div class="notice-arrow">
+    →
+  </div>
+
+</a>
+
 
 <a
   href="notices.html#notice-1"
