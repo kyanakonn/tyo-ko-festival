@@ -338,6 +338,53 @@ body {
 }
 
 
+
+/* 追加のお知らせによる既存カードの色順変更を防止 */
+.notice-accordion#notice-1 .notice-item {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 224, 232, 0.96),
+      rgba(255, 239, 210, 0.96)
+    );
+}
+
+.notice-accordion#notice-3 .notice-item {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 238, 255, 0.96),
+      rgba(232, 224, 255, 0.96)
+    );
+}
+
+.notice-accordion#notice-4 .notice-item {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(222, 246, 229, 0.96),
+      rgba(255, 242, 207, 0.96)
+    );
+}
+
+.notice-accordion#notice-5 .notice-item {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(244, 230, 255, 0.96),
+      rgba(255, 225, 239, 0.96)
+    );
+}
+
+.notice-accordion#notice-6 .notice-item {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(225, 242, 255, 0.96),
+      rgba(226, 249, 238, 0.96)
+    );
+}
+
 /* =========================================================
    タップ時
 ========================================================= */
@@ -1161,6 +1208,87 @@ fetch("header.html")
 
 
   <div class="notice-list">
+
+
+    <!-- お知らせ 5 -->
+
+    <article
+      class="notice-accordion"
+      id="notice-6"
+    >
+
+      <div
+        class="notice-item"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+
+        <div class="notice-date">
+
+          <span class="notice-year">
+            2026
+          </span>
+
+          <span class="notice-day">
+            09.12
+          </span>
+
+        </div>
+
+
+        <div class="notice-content">
+
+          <span class="notice-label">
+            お知らせ
+          </span>
+
+          <h3 class="notice-title">
+            長高祭2026が終了しました。
+          </h3>
+
+        </div>
+
+
+        <div class="notice-arrow">
+          →
+        </div>
+
+      </div>
+
+
+      <div class="notice-detail">
+
+        <div class="notice-detail-inner">
+
+          <div class="notice-detail-content">
+
+            <div class="notice-detail-border"></div>
+
+            <h4>
+              長高祭2026終了のお知らせ
+            </h4>
+
+            <p>
+              本日をもちまして、長高祭2026は終了しました。
+            </p>
+
+            <p>
+              ご来場いただいた皆様、長高祭2026を支えてくださった皆様、
+              誠にありがとうございました。
+            </p>
+
+            <div class="notice-important">
+              ※長高祭2026へのご理解とご協力に、心より感謝申し上げます。
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
 
 
     <!-- お知らせ 4 -->
